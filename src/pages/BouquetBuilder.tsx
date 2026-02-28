@@ -142,7 +142,7 @@ const BouquetBuilder = () => {
 
             {/* 2. Color (only for classic) */}
             {!isSpecial && (
-              <Section title="Color de las Rosas" step={2}>
+              <Section key="color-section" title="Color de las Rosas" step={2}>
                 {colorCategories.map(({ key, label }) => {
                   const colors = colorOptions.filter((c) => c.category === key);
                   return (
@@ -186,7 +186,7 @@ const BouquetBuilder = () => {
 
             {/* 3. Size (only classic) */}
             {!isSpecial && (
-              <Section title="Cantidad de Rosas" step={isSpecial ? 3 : 3}>
+              <Section key="size-section" title="Cantidad de Rosas" step={3}>
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
                   {sizeOptions.map((size, idx) => (
                     <button
@@ -211,7 +211,7 @@ const BouquetBuilder = () => {
 
             {/* Special info */}
             {isSpecial && (
-              <Section title="Detalles" step={2}>
+              <Section key="special-section" title="Detalles" step={2}>
                 <div className="bg-card border border-border rounded-sm p-5">
                   <p className="font-body text-sm text-muted-foreground">
                     <span className="text-foreground font-semibold">{specialBouquetRoses} rosas</span> · Precio base:{" "}
@@ -413,12 +413,7 @@ const Section = ({
   subtitle?: string;
   children: React.ReactNode;
 }) => (
-  <motion.div
-    initial={{ opacity: 0, y: 20 }}
-    whileInView={{ opacity: 1, y: 0 }}
-    viewport={{ once: true }}
-    transition={{ duration: 0.5 }}
-  >
+  <div>
     <div className="flex items-center gap-3 mb-4">
       <span className="w-8 h-8 rounded-full bg-primary text-primary-foreground flex items-center justify-center font-display text-sm font-semibold">
         {step}
@@ -431,7 +426,7 @@ const Section = ({
       )}
     </div>
     {children}
-  </motion.div>
+  </div>
 );
 
 export default BouquetBuilder;
