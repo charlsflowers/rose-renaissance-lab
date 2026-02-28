@@ -17,8 +17,8 @@ const Navbar = () => {
         <div className="flex items-center gap-8">
           <div className="hidden md:flex items-center gap-8 font-body text-sm tracking-widest uppercase text-muted-foreground">
             <Link to="/" className="hover:text-primary transition-colors">Inicio</Link>
-            <Link to="/bouquets" className="hover:text-primary transition-colors">Bouquets</Link>
-            <Link to="/bouquets" className="hover:text-primary transition-colors">Especiales</Link>
+            <Link to="/bouquets/redondos" className="hover:text-primary transition-colors">Bouquets</Link>
+            <Link to="/bouquets/personalizar" className="hover:text-primary transition-colors">Personalizar</Link>
           </div>
           <Link to="/checkout" className="relative hover:text-primary transition-colors text-foreground">
             <BrandLogo className="w-7 h-7" />

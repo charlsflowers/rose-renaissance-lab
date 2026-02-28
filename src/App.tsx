@@ -8,6 +8,10 @@ import Index from "./pages/Index";
 import BouquetBuilder from "./pages/BouquetBuilder";
 import Checkout from "./pages/Checkout";
 import NotFound from "./pages/NotFound";
+import CategoryProducts from "./pages/CategoryProducts";
+import CategoryProductDetail from "./pages/CategoryProductDetail";
+import BouquetProducts from "./pages/BouquetProducts";
+import BouquetProductDetail from "./pages/BouquetProductDetail";
 
 const queryClient = new QueryClient();
 
@@ -20,6 +24,11 @@ const App = () => (
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<Index />} />
+            <Route path="/categoria/:slug" element={<CategoryProducts />} />
+            <Route path="/categoria/:slug/:productId" element={<CategoryProductDetail />} />
+            <Route path="/bouquets/personalizar" element={<BouquetBuilder />} />
+            <Route path="/bouquets/:type/:productId" element={<BouquetProductDetail />} />
+            <Route path="/bouquets/:type" element={<BouquetProducts />} />
             <Route path="/bouquets" element={<BouquetBuilder />} />
             <Route path="/checkout" element={<Checkout />} />
             <Route path="*" element={<NotFound />} />
