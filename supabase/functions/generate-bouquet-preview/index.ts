@@ -70,10 +70,17 @@ serve(async (req) => {
     }
 
     // Build the AI prompt from the configuration
-    const promptParts: string[] = [
-      "Edit this photo of a person holding a bouquet of roses.",
-      "Replace ONLY the bouquet they are holding with the following bouquet:",
-    ];
+    const hasBaseImage = baseImageUrl && baseImageUrl.startsWith("http");
+
+    const promptParts: string[] = hasBaseImage
+      ? [
+          "Edit this photo of a person holding a bouquet of roses.",
+          "Replace ONLY the bouquet they are holding with the following bouquet:",
+        ]
+      : [
+          "Generate a photorealistic image of a person elegantly holding a bouquet of roses.",
+          "The bouquet should be:",
+        ];
 
     if (bouquetConfig.bouquetType) {
       const typeMap: Record<string, string> = {
@@ -109,20 +116,30 @@ serve(async (req) => {
       promptParts.push(`There is a ribbon around the bouquet that says "${bouquetConfig.ribbonText}".`);
     }
 
-    promptParts.push(
-      "Keep the person, their pose, the background, and lighting exactly the same.",
-      "Only modify the bouquet. Make it look natural and realistic."
-    );
+    if (hasBaseImage) {
+      promptParts.push(
+        "Keep the person, their pose, the background, and lighting exactly the same.",
+        "Only modify the bouquet. Make it look natural and realistic."
+      );
+    } else {
+      promptParts.push(
+        "The person should be elegantly dressed, holding the bouquet in front of them.",
+        "Use soft, warm studio lighting. Make it look natural and photorealistic.",
+        "The background should be a soft, blurred neutral tone."
+      );
+    }
 
     const prompt = promptParts.join(" ");
 
-    // Use a placeholder base image if none provided
-    // When user provides real photos, they will be stored and referenced here
-    const imageUrl = baseImageUrl || "https://placehold.co/800x1000/ffefef/96103b?text=Base+Photo";
-
     console.log("Generating preview with prompt:", prompt);
 
-    // Call Lovable AI to edit the image
+    // Build message content: with or without base image
+    const messageContent: any[] = [{ type: "text", text: prompt }];
+    if (hasBaseImage) {
+      messageContent.push({ type: "image_url", image_url: { url: baseImageUrl } });
+    }
+
+    // Call Lovable AI to generate/edit the image
     const aiResponse = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
       method: "POST",
       headers: {
@@ -131,15 +148,7 @@ serve(async (req) => {
       },
       body: JSON.stringify({
         model: "google/gemini-2.5-flash-image",
-        messages: [
-          {
-            role: "user",
-            content: [
-              { type: "text", text: prompt },
-              { type: "image_url", image_url: { url: imageUrl } },
-            ],
-          },
-        ],
+        messages: [{ role: "user", content: messageContent }],
         modalities: ["image", "text"],
       }),
     });
