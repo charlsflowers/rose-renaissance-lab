@@ -1,5 +1,6 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useCallback } from "react";
 import { format, addHours, isBefore, startOfDay, isToday } from "date-fns";
+import { supabase } from "@/integrations/supabase/client";
 import { es } from "date-fns/locale";
 
 import Navbar from "@/components/Navbar";
@@ -41,12 +42,44 @@ const BouquetBuilder = () => {
   const [deliveryMethod, setDeliveryMethod] = useState<"pickup" | "delivery">("pickup");
   const [deliveryDate, setDeliveryDate] = useState<Date>();
   const [deliveryHour, setDeliveryHour] = useState<string>("");
-  const [deliveryMiles, setDeliveryMiles] = useState<number>(1);
+  const [deliveryMiles, setDeliveryMiles] = useState<number | null>(null);
   const [deliveryStreet, setDeliveryStreet] = useState("");
   const [deliveryCity, setDeliveryCity] = useState("");
   const [deliveryZip, setDeliveryZip] = useState("");
   const [deliveryEmail, setDeliveryEmail] = useState("");
   const [deliveryPhone, setDeliveryPhone] = useState("");
+  const [deliveryDuration, setDeliveryDuration] = useState("");
+  const [distanceLoading, setDistanceLoading] = useState(false);
+  const [distanceError, setDistanceError] = useState("");
+  const [distanceTooFar, setDistanceTooFar] = useState(false);
+
+  const calculateDistance = useCallback(async () => {
+    if (!deliveryStreet || !deliveryCity || !deliveryZip) return;
+    setDistanceLoading(true);
+    setDistanceError("");
+    setDistanceTooFar(false);
+    setDeliveryMiles(null);
+    try {
+      const { data, error } = await supabase.functions.invoke("calculate-distance", {
+        body: { street: deliveryStreet, city: deliveryCity, zip: deliveryZip },
+      });
+      if (error) throw new Error("Error de conexión");
+      if (data.error) {
+        setDistanceError(data.error);
+        if (data.tooFar) {
+          setDistanceTooFar(true);
+          setDeliveryMiles(data.miles);
+        }
+      } else {
+        setDeliveryMiles(data.miles);
+        setDeliveryDuration(data.duration);
+      }
+    } catch (e: any) {
+      setDistanceError(e.message || "Error al calcular distancia");
+    } finally {
+      setDistanceLoading(false);
+    }
+  }, [deliveryStreet, deliveryCity, deliveryZip]);
 
   const isRed = selectedColor.name === "Rojo";
   const isSpecial = bouquetType !== "classic";
@@ -60,7 +93,7 @@ const BouquetBuilder = () => {
     return isRed ? size.priceRed : size.priceRegular;
   }, [isSpecial, specialText, selectedSizeIdx, isRed]);
 
-  const deliveryCost = deliveryMethod === "delivery" ? deliveryMiles * 2 : 0;
+  const deliveryCost = deliveryMethod === "delivery" && deliveryMiles && !distanceTooFar ? deliveryMiles * 2 : 0;
 
   const totalPrice = useMemo(() => {
     let total = basePrice;
@@ -557,21 +590,32 @@ const BouquetBuilder = () => {
                     </div>
                   </div>
 
-                  <div className="pt-2 border-t border-border">
-                    <label className="text-xs text-muted-foreground font-body block mb-1">Distancia (millas)</label>
-                    <div className="flex items-center gap-3">
-                      <input
-                        type="number"
-                        min={1}
-                        max={100}
-                        value={deliveryMiles}
-                        onChange={(e) => setDeliveryMiles(Math.max(1, Number(e.target.value)))}
-                        className="w-24 bg-background border border-border rounded-sm px-3 py-2 font-body text-foreground focus:outline-none focus:ring-2 focus:ring-primary/30"
-                      />
-                      <span className="text-sm text-muted-foreground font-body">
-                        = <span className="text-primary font-semibold">${deliveryMiles * 2}</span> envío
-                      </span>
-                    </div>
+                  <div className="pt-3 border-t border-border space-y-3">
+                    <button
+                      onClick={calculateDistance}
+                      disabled={!deliveryStreet || !deliveryCity || !deliveryZip || distanceLoading}
+                      className="w-full md:w-auto bg-primary text-primary-foreground px-6 py-2.5 rounded-sm font-body text-sm tracking-wide uppercase hover:bg-primary/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                    >
+                      {distanceLoading ? "Calculando..." : "Calcular distancia"}
+                    </button>
+
+                    {distanceError && (
+                      <p className={`text-sm font-body ${distanceTooFar ? "text-destructive" : "text-destructive"}`}>
+                        {distanceError}
+                      </p>
+                    )}
+
+                    {deliveryMiles !== null && !distanceTooFar && (
+                      <div className="bg-primary/5 border border-primary/20 rounded-sm p-4">
+                        <p className="font-body text-sm text-foreground">
+                          📍 Distancia: <span className="font-semibold">{deliveryMiles} millas</span>
+                          {deliveryDuration && <span className="text-muted-foreground"> (~{deliveryDuration})</span>}
+                        </p>
+                        <p className="font-body text-sm text-primary font-semibold mt-1">
+                          Costo de envío: ${deliveryMiles * 2}
+                        </p>
+                      </div>
+                    )}
                   </div>
                 </div>
               )}
@@ -645,7 +689,7 @@ const BouquetBuilder = () => {
                     {addRibbon && " · Cinta"}
                     {accessory !== "none" && ` · ${accessory === "note" ? "Nota" : accessory === "card" ? "Tarjeta" : "Mariposas"}`}
                     {addGlitter && " · Brillos"}
-                    {deliveryMethod === "delivery" ? ` · Envío ${deliveryMiles}mi ($${deliveryCost})` : " · Recogida en tienda"}
+                    {deliveryMethod === "delivery" ? (deliveryMiles && !distanceTooFar ? ` · Envío ${deliveryMiles}mi ($${deliveryCost})` : " · Envío (pendiente)") : " · Recogida en tienda"}
                   </p>
                   <p className="font-display text-3xl font-bold text-foreground">
                     ${totalPrice} <span className="text-sm font-body text-muted-foreground font-normal">USD</span>
