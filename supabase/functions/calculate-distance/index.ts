@@ -75,6 +75,9 @@ serve(async (req) => {
       );
     }
 
+    // Build a static map URL showing both points
+    const mapUrl = `https://www.google.com/maps/embed/v1/directions?key=${apiKey}&origin=${encodeURIComponent(STORE_ADDRESS)}&destination=${encodeURIComponent(destination)}&mode=driving`;
+
     return new Response(
       JSON.stringify({
         miles,
@@ -82,6 +85,7 @@ serve(async (req) => {
         duration: durationText,
         destination,
         tooFar: false,
+        mapUrl,
       }),
       { status: 200, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
     );

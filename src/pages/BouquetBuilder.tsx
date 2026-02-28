@@ -1,4 +1,4 @@
-import { useState, useMemo, useCallback } from "react";
+import { useState, useMemo, useCallback, useRef, useEffect } from "react";
 import { format, addHours, isBefore, startOfDay, isToday } from "date-fns";
 import { supabase } from "@/integrations/supabase/client";
 import { es } from "date-fns/locale";
@@ -22,7 +22,7 @@ import {
   type AccessoryType,
   type BouquetType,
 } from "@/lib/productData";
-import { Heart, Sparkles, Crown, Type, Hash, Check, Bug, Star, Truck, Store, CalendarIcon, Clock } from "lucide-react";
+import { Heart, Sparkles, Crown, Type, Hash, Check, Bug, Star, Truck, Store, CalendarIcon, Clock, MapPin, Search, Loader2 } from "lucide-react";
 import { Calendar } from "@/components/ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 
@@ -52,6 +52,110 @@ const BouquetBuilder = () => {
   const [distanceLoading, setDistanceLoading] = useState(false);
   const [distanceError, setDistanceError] = useState("");
   const [distanceTooFar, setDistanceTooFar] = useState(false);
+  const [addressQuery, setAddressQuery] = useState("");
+  const [predictions, setPredictions] = useState<Array<{ placeId: string; description: string; mainText: string; secondaryText: string }>>([]);
+  const [showPredictions, setShowPredictions] = useState(false);
+  const [autocompleteLoading, setAutocompleteLoading] = useState(false);
+  const [selectedAddress, setSelectedAddress] = useState("");
+  const [mapUrl, setMapUrl] = useState("");
+  const autocompleteRef = useRef<HTMLDivElement>(null);
+  const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  // Store address for default map
+  const STORE_MAP_URL = `https://www.google.com/maps/embed/v1/place?key=&q=${encodeURIComponent("7255 NW 12th St, Miami, FL 33126")}`;
+
+  // Close predictions dropdown on outside click
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (autocompleteRef.current && !autocompleteRef.current.contains(e.target as Node)) {
+        setShowPredictions(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  // Debounced autocomplete fetch
+  const fetchPredictions = useCallback(async (input: string) => {
+    if (input.length < 3) {
+      setPredictions([]);
+      return;
+    }
+    setAutocompleteLoading(true);
+    try {
+      const { data, error } = await supabase.functions.invoke("places-autocomplete", {
+        body: { input },
+      });
+      if (!error && data?.predictions) {
+        setPredictions(data.predictions);
+        setShowPredictions(true);
+      }
+    } catch {
+      // silently fail
+    } finally {
+      setAutocompleteLoading(false);
+    }
+  }, []);
+
+  const handleAddressInput = useCallback((value: string) => {
+    setAddressQuery(value);
+    setSelectedAddress("");
+    setDeliveryMiles(null);
+    setMapUrl("");
+    setDistanceError("");
+    if (debounceRef.current) clearTimeout(debounceRef.current);
+    debounceRef.current = setTimeout(() => fetchPredictions(value), 350);
+  }, [fetchPredictions]);
+
+  const handleSelectPrediction = useCallback((prediction: { description: string; mainText: string; secondaryText: string }) => {
+    setAddressQuery(prediction.description);
+    setSelectedAddress(prediction.description);
+    setShowPredictions(false);
+    setPredictions([]);
+
+    // Parse address parts from the description
+    const parts = prediction.description.split(", ");
+    const street = prediction.mainText || parts[0] || "";
+    const city = parts[1] || "";
+    const stateZip = parts[2] || "";
+    const zipMatch = stateZip.match(/\d{5}/);
+    const zip = zipMatch ? zipMatch[0] : "";
+
+    setDeliveryStreet(street);
+    setDeliveryCity(city);
+    setDeliveryZip(zip);
+
+    // Auto-calculate distance
+    if (street && city) {
+      (async () => {
+        setDistanceLoading(true);
+        setDistanceError("");
+        setDistanceTooFar(false);
+        setDeliveryMiles(null);
+        try {
+          const { data, error } = await supabase.functions.invoke("calculate-distance", {
+            body: { street, city, zip },
+          });
+          if (error) throw new Error("Error de conexión");
+          if (data.error) {
+            setDistanceError(data.error);
+            if (data.tooFar) {
+              setDistanceTooFar(true);
+              setDeliveryMiles(data.miles);
+            }
+          } else {
+            setDeliveryMiles(data.miles);
+            setDeliveryDuration(data.duration);
+            if (data.mapUrl) setMapUrl(data.mapUrl);
+          }
+        } catch (e: any) {
+          setDistanceError(e.message || "Error al calcular distancia");
+        } finally {
+          setDistanceLoading(false);
+        }
+      })();
+    }
+  }, []);
 
   const calculateDistance = useCallback(async () => {
     if (!deliveryStreet || !deliveryCity || !deliveryZip) return;
@@ -532,40 +636,57 @@ const BouquetBuilder = () => {
                 <div className="space-y-4 mb-6 p-5 rounded-sm border border-border bg-card">
                   <p className="font-body font-semibold text-foreground text-sm">Datos de entrega</p>
 
+                  {/* Address Autocomplete */}
+                  <div ref={autocompleteRef} className="relative">
+                    <label className="text-xs text-muted-foreground font-body block mb-1">
+                      <MapPin className="w-3 h-3 inline mr-1" />
+                      Dirección de entrega *
+                    </label>
+                    <div className="relative">
+                      <input
+                        type="text"
+                        value={addressQuery}
+                        onChange={(e) => handleAddressInput(e.target.value)}
+                        onFocus={() => predictions.length > 0 && setShowPredictions(true)}
+                        placeholder="Empieza a escribir la dirección..."
+                        className="w-full bg-background border border-border rounded-sm px-3 py-2.5 pr-10 font-body text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30"
+                      />
+                      <div className="absolute right-3 top-1/2 -translate-y-1/2">
+                        {autocompleteLoading || distanceLoading ? (
+                          <Loader2 className="w-4 h-4 text-muted-foreground animate-spin" />
+                        ) : (
+                          <Search className="w-4 h-4 text-muted-foreground" />
+                        )}
+                      </div>
+                    </div>
+
+                    {/* Predictions dropdown */}
+                    {showPredictions && predictions.length > 0 && (
+                      <div className="absolute z-50 w-full mt-1 bg-card border border-border rounded-sm shadow-lg max-h-60 overflow-y-auto">
+                        {predictions.map((p) => (
+                          <button
+                            key={p.placeId}
+                            onClick={() => handleSelectPrediction(p)}
+                            className="w-full text-left px-4 py-3 hover:bg-primary/5 transition-colors border-b border-border last:border-b-0"
+                          >
+                            <p className="font-body text-sm font-medium text-foreground">{p.mainText}</p>
+                            <p className="font-body text-xs text-muted-foreground">{p.secondaryText}</p>
+                          </button>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Selected address details */}
+                  {selectedAddress && (
+                    <div className="bg-primary/5 border border-primary/20 rounded-sm p-3">
+                      <p className="font-body text-xs text-muted-foreground">Dirección seleccionada:</p>
+                      <p className="font-body text-sm text-foreground font-medium">{selectedAddress}</p>
+                    </div>
+                  )}
+
+                  {/* Contact fields */}
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div>
-                      <label className="text-xs text-muted-foreground font-body block mb-1">Calle y número *</label>
-                      <input
-                        type="text"
-                        value={deliveryStreet}
-                        onChange={(e) => setDeliveryStreet(e.target.value)}
-                        placeholder="Ej: 123 Main St, Apt 4B"
-                        className="w-full bg-background border border-border rounded-sm px-3 py-2.5 font-body text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30"
-                        maxLength={200}
-                      />
-                    </div>
-                    <div>
-                      <label className="text-xs text-muted-foreground font-body block mb-1">Ciudad *</label>
-                      <input
-                        type="text"
-                        value={deliveryCity}
-                        onChange={(e) => setDeliveryCity(e.target.value)}
-                        placeholder="Ej: Miami"
-                        className="w-full bg-background border border-border rounded-sm px-3 py-2.5 font-body text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30"
-                        maxLength={100}
-                      />
-                    </div>
-                    <div>
-                      <label className="text-xs text-muted-foreground font-body block mb-1">Código postal *</label>
-                      <input
-                        type="text"
-                        value={deliveryZip}
-                        onChange={(e) => setDeliveryZip(e.target.value.replace(/[^0-9]/g, ""))}
-                        placeholder="Ej: 33101"
-                        className="w-full bg-background border border-border rounded-sm px-3 py-2.5 font-body text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30"
-                        maxLength={10}
-                      />
-                    </div>
                     <div>
                       <label className="text-xs text-muted-foreground font-body block mb-1">Teléfono *</label>
                       <input
@@ -577,7 +698,7 @@ const BouquetBuilder = () => {
                         maxLength={20}
                       />
                     </div>
-                    <div className="md:col-span-2">
+                    <div>
                       <label className="text-xs text-muted-foreground font-body block mb-1">Email *</label>
                       <input
                         type="email"
@@ -590,33 +711,47 @@ const BouquetBuilder = () => {
                     </div>
                   </div>
 
-                  <div className="pt-3 border-t border-border space-y-3">
-                    <button
-                      onClick={calculateDistance}
-                      disabled={!deliveryStreet || !deliveryCity || !deliveryZip || distanceLoading}
-                      className="w-full md:w-auto bg-primary text-primary-foreground px-6 py-2.5 rounded-sm font-body text-sm tracking-wide uppercase hover:bg-primary/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-                    >
-                      {distanceLoading ? "Calculando..." : "Calcular distancia"}
-                    </button>
+                  {/* Distance result */}
+                  {distanceError && (
+                    <p className="text-sm font-body text-destructive">{distanceError}</p>
+                  )}
 
-                    {distanceError && (
-                      <p className={`text-sm font-body ${distanceTooFar ? "text-destructive" : "text-destructive"}`}>
-                        {distanceError}
+                  {deliveryMiles !== null && !distanceTooFar && (
+                    <div className="bg-primary/5 border border-primary/20 rounded-sm p-4">
+                      <p className="font-body text-sm text-foreground">
+                        📍 Distancia: <span className="font-semibold">{deliveryMiles} millas</span>
+                        {deliveryDuration && <span className="text-muted-foreground"> (~{deliveryDuration})</span>}
                       </p>
-                    )}
+                      <p className="font-body text-sm text-primary font-semibold mt-1">
+                        Costo de envío: ${deliveryMiles * 2}
+                      </p>
+                    </div>
+                  )}
 
-                    {deliveryMiles !== null && !distanceTooFar && (
-                      <div className="bg-primary/5 border border-primary/20 rounded-sm p-4">
-                        <p className="font-body text-sm text-foreground">
-                          📍 Distancia: <span className="font-semibold">{deliveryMiles} millas</span>
-                          {deliveryDuration && <span className="text-muted-foreground"> (~{deliveryDuration})</span>}
-                        </p>
-                        <p className="font-body text-sm text-primary font-semibold mt-1">
-                          Costo de envío: ${deliveryMiles * 2}
+                  {/* Map */}
+                  {mapUrl ? (
+                    <div className="rounded-sm overflow-hidden border border-border">
+                      <iframe
+                        src={mapUrl}
+                        width="100%"
+                        height="300"
+                        style={{ border: 0 }}
+                        allowFullScreen
+                        loading="lazy"
+                        referrerPolicy="no-referrer-when-downgrade"
+                        title="Ruta de entrega"
+                      />
+                    </div>
+                  ) : deliveryMethod === "delivery" && (
+                    <div className="rounded-sm overflow-hidden border border-border bg-muted flex items-center justify-center h-48">
+                      <div className="text-center">
+                        <MapPin className="w-8 h-8 text-muted-foreground mx-auto mb-2" />
+                        <p className="font-body text-sm text-muted-foreground">
+                          Ingresa una dirección para ver el mapa
                         </p>
                       </div>
-                    )}
-                  </div>
+                    </div>
+                  )}
                 </div>
               )}
 
