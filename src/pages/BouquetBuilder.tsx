@@ -25,7 +25,7 @@ import {
   type AccessoryType,
   type BouquetType,
 } from "@/lib/productData";
-import { Heart, Sparkles, Crown, Type, Hash, Check, Bug, Star, Truck, Store, CalendarIcon, Clock, MapPin, Search, Loader2 } from "lucide-react";
+import { Heart, Sparkles, Crown, Type, Hash, Check, Bug, Star, Truck, Store, CalendarIcon, Clock, MapPin, Search, Loader2, Eye } from "lucide-react";
 import { Calendar } from "@/components/ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 
@@ -236,6 +236,41 @@ const BouquetBuilder = () => {
   const rosesCount = isSpecial ? specialBouquetRoses : sizeOptions[selectedSizeIdx].roses;
 
   const [addGlitter, setAddGlitter] = useState(false);
+  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+  const [previewLoading, setPreviewLoading] = useState(false);
+  const [previewError, setPreviewError] = useState("");
+
+  const handleGeneratePreview = useCallback(async () => {
+    setPreviewLoading(true);
+    setPreviewError("");
+    setPreviewUrl(null);
+    try {
+      const bouquetConfig: Record<string, string> = {
+        bouquetType,
+        color: isSpecial ? (bouquetType === "heart" ? heartColor : "especial") : selectedColor.name,
+        roses: String(rosesCount),
+        glitter: String(addGlitter),
+      };
+      if (specialText) bouquetConfig.specialText = specialText;
+      if (addCrown) { bouquetConfig.crown = "true"; bouquetConfig.crownSize = crownSize; }
+      if (addRibbon && ribbonText) { bouquetConfig.ribbon = "true"; bouquetConfig.ribbonText = ribbonText; }
+
+      const { data, error } = await supabase.functions.invoke("generate-bouquet-preview", {
+        body: { bouquetConfig },
+      });
+
+      if (error) throw new Error("Error de conexión");
+      if (data?.error) {
+        setPreviewError(data.error);
+      } else if (data?.imageUrl) {
+        setPreviewUrl(data.imageUrl);
+      }
+    } catch (e: any) {
+      setPreviewError(e.message || "Error al generar la preview");
+    } finally {
+      setPreviewLoading(false);
+    }
+  }, [bouquetType, isSpecial, heartColor, selectedColor.name, rosesCount, addGlitter, specialText, addCrown, crownSize, addRibbon, ribbonText]);
 
   const colorCategories = [
     { key: "natural" as const, label: "Naturales" },
@@ -604,8 +639,55 @@ const BouquetBuilder = () => {
               </div>
             </Section>
 
+            {/* AI Preview */}
+            <Section title="Vista Previa" step={isSpecial ? 6 : 7} subtitle="Opcional">
+              <div className="space-y-4">
+                <p className="text-sm text-muted-foreground font-body">
+                  Genera una imagen aproximada de cómo quedará tu ramo con las opciones que has elegido.
+                </p>
+                <button
+                  onClick={handleGeneratePreview}
+                  disabled={previewLoading}
+                  className="inline-flex items-center gap-3 bg-primary text-primary-foreground px-6 py-3 font-body text-sm tracking-widest uppercase hover:bg-primary/90 transition-colors rounded-sm disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  {previewLoading ? (
+                    <>
+                      <Loader2 className="w-4 h-4 animate-spin" />
+                      Generando...
+                    </>
+                  ) : (
+                    <>
+                      <Eye className="w-4 h-4" />
+                      Ver preview de mi ramo
+                    </>
+                  )}
+                </button>
+
+                {previewError && (
+                  <div className="bg-destructive/10 border border-destructive/20 rounded-sm p-4">
+                    <p className="text-sm font-body text-destructive">{previewError}</p>
+                  </div>
+                )}
+
+                {previewUrl && (
+                  <div className="space-y-2">
+                    <div className="relative overflow-hidden rounded-sm border border-border">
+                      <img
+                        src={previewUrl}
+                        alt="Vista previa de tu bouquet personalizado"
+                        className="w-full h-auto object-contain max-h-[500px]"
+                      />
+                    </div>
+                    <p className="text-xs text-muted-foreground font-body text-center italic">
+                      * Imagen orientativa. El resultado final puede variar ligeramente.
+                    </p>
+                  </div>
+                )}
+              </div>
+            </Section>
+
             {/* Delivery */}
-            <Section title="Envío" step={isSpecial ? 6 : 7}>
+            <Section title="Envío" step={isSpecial ? 7 : 8}>
               <div className="grid grid-cols-2 gap-3 mb-6">
                 <button
                   onClick={() => setDeliveryMethod("pickup")}
