@@ -18,12 +18,6 @@ export const colorOptions: ColorOption[] = [
   { name: 'Negro', hex: '#1A1A1A', category: 'painted' },
   { name: 'Azul', hex: '#3A6BC5', category: 'painted' },
   { name: 'Gris', hex: '#9E9E9E', category: 'painted' },
-  // Glitter
-  { name: 'Blanco Brillos', hex: '#FEFEFE', category: 'glitter' },
-  { name: 'Rosa Brillos', hex: '#F4A0B0', category: 'glitter' },
-  { name: 'Amarillo Brillos', hex: '#F5D547', category: 'glitter' },
-  { name: 'Naranja Brillos', hex: '#F0913A', category: 'glitter' },
-  { name: 'Morado Brillos', hex: '#8B5EA0', category: 'glitter' },
 ];
 
 export interface SizeOption {

@@ -19,7 +19,7 @@ import {
   type AccessoryType,
   type BouquetType,
 } from "@/lib/productData";
-import { Heart, Sparkles, Crown, Type, Hash, Check, Bug } from "lucide-react";
+import { Heart, Sparkles, Crown, Type, Hash, Check, Bug, Star } from "lucide-react";
 
 const BouquetBuilder = () => {
   const [bouquetType, setBouquetType] = useState<BouquetType>("classic");
@@ -56,10 +56,11 @@ const BouquetBuilder = () => {
 
   const rosesCount = isSpecial ? specialBouquetRoses : sizeOptions[selectedSizeIdx].roses;
 
+  const [addGlitter, setAddGlitter] = useState(false);
+
   const colorCategories = [
     { key: "natural" as const, label: "Naturales" },
     { key: "painted" as const, label: "Pintados" },
-    { key: "glitter" as const, label: "Brillos ✨" },
   ];
 
   return (
@@ -244,8 +245,45 @@ const BouquetBuilder = () => {
               </Section>
             )}
 
-            {/* 4. Accessories */}
-            <Section title="Accesorios" step={isSpecial ? 3 : 4} subtitle="Gratis">
+            {/* Glitter option */}
+            <Section title="Acabado Brillante" step={isSpecial ? 3 : 4}>
+              <button
+                onClick={() => setAddGlitter(!addGlitter)}
+                className={`relative w-full p-6 rounded-sm border-2 transition-all overflow-hidden ${
+                  addGlitter
+                    ? "border-primary bg-primary/5"
+                    : "border-border hover:border-primary/30"
+                }`}
+              >
+                {addGlitter && (
+                  <div className="absolute inset-0 pointer-events-none">
+                    <div className="absolute inset-0 bg-gradient-to-br from-yellow-200/20 via-white/30 to-pink-200/20 animate-pulse" />
+                    <div className="absolute top-2 left-6 w-1.5 h-1.5 bg-yellow-300 rounded-full animate-ping" style={{ animationDelay: '0s' }} />
+                    <div className="absolute top-8 right-10 w-1 h-1 bg-white rounded-full animate-ping" style={{ animationDelay: '0.3s' }} />
+                    <div className="absolute bottom-4 left-1/3 w-1.5 h-1.5 bg-pink-300 rounded-full animate-ping" style={{ animationDelay: '0.6s' }} />
+                    <div className="absolute top-1/2 right-1/4 w-1 h-1 bg-yellow-200 rounded-full animate-ping" style={{ animationDelay: '0.9s' }} />
+                    <div className="absolute bottom-6 right-8 w-1.5 h-1.5 bg-white rounded-full animate-ping" style={{ animationDelay: '1.2s' }} />
+                  </div>
+                )}
+                <div className="flex items-center gap-4 relative z-10">
+                  <Star className={`w-6 h-6 transition-colors ${addGlitter ? "text-yellow-400 fill-yellow-400" : "text-muted-foreground"}`} />
+                  <div className="text-left">
+                    <p className="font-body font-semibold text-foreground">
+                      ✨ Añadir Brillos ✨
+                    </p>
+                    <p className="text-xs text-muted-foreground font-body">
+                      Dale un toque mágico con acabado brillante
+                    </p>
+                  </div>
+                  {addGlitter && (
+                    <Check className="w-5 h-5 text-primary ml-auto" />
+                  )}
+                </div>
+              </button>
+            </Section>
+
+            {/* 5. Accessories */}
+            <Section title="Accesorios" step={isSpecial ? 4 : 5} subtitle="Gratis">
               <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
                 {([
                   { type: "none" as const, label: "Sin accesorio", icon: null },
@@ -280,7 +318,7 @@ const BouquetBuilder = () => {
             </Section>
 
             {/* 5. Upsells */}
-            <Section title="Extras" step={isSpecial ? 4 : 5}>
+            <Section title="Extras" step={isSpecial ? 5 : 6}>
               {/* Crown */}
               <div className={`p-5 rounded-sm border-2 transition-all mb-4 ${
                 addCrown ? "border-primary bg-primary/5" : "border-border"
