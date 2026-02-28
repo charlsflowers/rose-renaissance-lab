@@ -27,7 +27,7 @@ const Index = () => {
       {/* Hero */}
       <section className="relative h-screen flex items-center overflow-hidden">
         <div className="absolute inset-0">
-          <img src={heroBouquet} alt="Luxury rose bouquet" className="w-full h-full object-cover" />
+          <img src={heroBouquet} alt="Bouquet de rosas frescas" className="w-full h-full object-cover" />
           <div className="absolute inset-0 bg-gradient-to-r from-foreground/80 via-foreground/50 to-transparent" />
         </div>
         <div className="container relative z-10 mx-auto px-6">
@@ -37,12 +37,12 @@ const Index = () => {
             transition={{ duration: 1, ease: "easeOut" }}
             className="max-w-xl"
           >
-            <p className="text-gold font-body text-sm tracking-[0.3em] uppercase mb-4">Bouquets de lujo</p>
+            <p className="text-gold font-body text-sm tracking-[0.3em] uppercase mb-4">Hechos a mano con amor</p>
             <h1 className="font-display text-5xl md:text-7xl font-bold text-primary-foreground leading-tight mb-6">
-              Rosas que cuentan historias
+              Rosas frescas y naturales
             </h1>
             <p className="text-primary-foreground/80 font-body text-lg mb-8 leading-relaxed">
-              Bouquets artesanales de 50 a 200 rosas. Naturales, pintadas o con brillos.
+              Bouquets hechos a mano de 50 a 200 rosas. Naturales, pintadas o con brillos.
             </p>
             <Link to="/bouquets/redondos"
               className="inline-flex items-center gap-3 bg-primary text-primary-foreground px-8 py-4 font-body text-sm tracking-widest uppercase hover:bg-primary/90 transition-colors rounded-sm">
@@ -149,7 +149,7 @@ const Index = () => {
         <div className="container mx-auto px-6 text-center">
           <Flower2 className="w-6 h-6 text-primary mx-auto mb-3 fill-primary" />
           <p className="font-display text-lg text-primary-foreground mb-2">Charl's Flowers</p>
-          <p className="text-primary-foreground/50 font-body text-xs tracking-widest uppercase">Bouquets de lujo artesanales</p>
+          <p className="text-primary-foreground/50 font-body text-xs tracking-widest uppercase">Ramos hechos a mano con flores frescas</p>
         </div>
       </footer>
     </div>
