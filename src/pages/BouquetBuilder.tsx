@@ -1,7 +1,10 @@
 import { useState, useMemo, useCallback, useRef, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { format, addHours, isBefore, startOfDay, isToday } from "date-fns";
 import { supabase } from "@/integrations/supabase/client";
 import { es } from "date-fns/locale";
+import { useCart } from "@/contexts/CartContext";
+import { toast } from "sonner";
 
 import Navbar from "@/components/Navbar";
 import heroBouquet from "@/assets/hero-bouquet.jpg";
@@ -27,6 +30,8 @@ import { Calendar } from "@/components/ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 
 const BouquetBuilder = () => {
+  const { addItem } = useCart();
+  const navigate = useNavigate();
   const [bouquetType, setBouquetType] = useState<BouquetType>("classic");
   const [selectedColor, setSelectedColor] = useState<ColorOption>(colorOptions[5]); // Red default
   const [selectedSizeIdx, setSelectedSizeIdx] = useState(0);
@@ -874,7 +879,63 @@ const BouquetBuilder = () => {
                     ${totalPrice} <span className="text-sm font-body text-muted-foreground font-normal">USD</span>
                   </p>
                 </div>
-                <button className="w-full md:w-auto bg-primary text-primary-foreground px-10 py-4 font-body text-sm tracking-widest uppercase hover:bg-primary/90 transition-colors rounded-sm">
+                <button
+                  onClick={() => {
+                    // Validate required fields
+                    if (!deliveryName || !deliveryPhone || !deliveryEmail) {
+                      toast.error("Completa los campos obligatorios: nombre, teléfono y email.");
+                      return;
+                    }
+                    if (deliveryMethod === "delivery" && (!selectedAddress || !deliveryZip)) {
+                      toast.error("Completa la dirección y código postal para envío a domicilio.");
+                      return;
+                    }
+                    if (deliveryMethod === "delivery" && (distanceTooFar || deliveryMiles === null)) {
+                      toast.error("La dirección no es válida o está fuera de rango.");
+                      return;
+                    }
+                    if (!deliveryDate || !deliveryHour) {
+                      toast.error("Selecciona fecha y hora de entrega.");
+                      return;
+                    }
+
+                    const addons: string[] = [];
+                    if (addCrown) addons.push(`Corona (${crownSize})`);
+                    if (addRibbon) addons.push("Cinta");
+                    if (addGlitter) addons.push("Brillos");
+
+                    addItem({
+                      id: "",
+                      bouquetType,
+                      color: isSpecial ? (bouquetType === "heart" ? heartColor : "Especial") : selectedColor.name,
+                      roses: rosesCount,
+                      price: basePrice + (addCrown ? 15 : 0) + (addRibbon ? 10 : 0),
+                      deliveryCost,
+                      totalPrice,
+                      addons,
+                      accessory,
+                      accessoryText,
+                      ribbonText,
+                      crownSize: addCrown ? crownSize : "",
+                      specialText,
+                      heartColor: bouquetType === "heart" ? heartColor : "",
+                      glitter: addGlitter,
+                      deliveryMethod,
+                      deliveryName,
+                      deliveryPhone,
+                      deliveryEmail,
+                      deliveryAddress: deliveryMethod === "delivery" ? selectedAddress : "Recoger en tienda",
+                      deliveryZip: deliveryMethod === "delivery" ? deliveryZip : "",
+                      deliveryDate: deliveryDate ? format(deliveryDate, "PPP", { locale: es }) : "",
+                      deliveryHour,
+                      deliveryMiles: deliveryMethod === "delivery" ? deliveryMiles : null,
+                    });
+
+                    toast.success("¡Bouquet añadido al carrito!");
+                    navigate("/checkout");
+                  }}
+                  className="w-full md:w-auto bg-primary text-primary-foreground px-10 py-4 font-body text-sm tracking-widest uppercase hover:bg-primary/90 transition-colors rounded-sm"
+                >
                   Añadir al carrito
                 </button>
               </div>
