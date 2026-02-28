@@ -1,5 +1,5 @@
 import { useState, useMemo } from "react";
-import { motion } from "framer-motion";
+
 import Navbar from "@/components/Navbar";
 import heroBouquet from "@/assets/hero-bouquet.jpg";
 import heartBouquet from "@/assets/heart-bouquet.jpg";
@@ -67,16 +67,12 @@ const BouquetBuilder = () => {
       <Navbar />
       <div className="pt-24 pb-16">
         <div className="container mx-auto px-6">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="text-center mb-12"
-          >
+          <div className="text-center mb-12">
             <p className="text-gold font-body text-sm tracking-[0.3em] uppercase mb-2">Personaliza</p>
             <h1 className="font-display text-4xl md:text-5xl font-semibold text-foreground">
               Crea tu Bouquet
             </h1>
-          </motion.div>
+          </div>
 
           <div className="max-w-4xl mx-auto space-y-10">
             {/* Product Image */}
@@ -392,11 +388,7 @@ const BouquetBuilder = () => {
             </Section>
 
             {/* Summary */}
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              className="sticky bottom-0 bg-card/95 backdrop-blur-md border border-border rounded-sm p-6 shadow-xl"
-            >
+            <div className="sticky bottom-0 bg-card/95 backdrop-blur-md border border-border rounded-sm p-6 shadow-xl">
               <div className="flex flex-col md:flex-row items-center justify-between gap-4">
                 <div>
                   <p className="font-body text-sm text-muted-foreground">
@@ -413,7 +405,7 @@ const BouquetBuilder = () => {
                   Añadir al carrito
                 </button>
               </div>
-            </motion.div>
+            </div>
           </div>
         </div>
       </div>
