@@ -1,4 +1,6 @@
 import { useState, useMemo } from "react";
+import { format, addHours, isBefore, startOfDay, isToday } from "date-fns";
+import { es } from "date-fns/locale";
 
 import Navbar from "@/components/Navbar";
 import heroBouquet from "@/assets/hero-bouquet.jpg";
@@ -19,7 +21,9 @@ import {
   type AccessoryType,
   type BouquetType,
 } from "@/lib/productData";
-import { Heart, Sparkles, Crown, Type, Hash, Check, Bug, Star } from "lucide-react";
+import { Heart, Sparkles, Crown, Type, Hash, Check, Bug, Star, Truck, Store, CalendarIcon, Clock } from "lucide-react";
+import { Calendar } from "@/components/ui/calendar";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 
 const BouquetBuilder = () => {
   const [bouquetType, setBouquetType] = useState<BouquetType>("classic");
@@ -34,6 +38,10 @@ const BouquetBuilder = () => {
   const [ribbonText, setRibbonText] = useState("");
   const [specialText, setSpecialText] = useState("");
   const [heartColor, setHeartColor] = useState<"pink" | "red">("red");
+  const [deliveryMethod, setDeliveryMethod] = useState<"pickup" | "delivery">("pickup");
+  const [deliveryDate, setDeliveryDate] = useState<Date>();
+  const [deliveryHour, setDeliveryHour] = useState<string>("");
+  const [deliveryMiles, setDeliveryMiles] = useState<number>(1);
 
   const isRed = selectedColor.name === "Rojo";
   const isSpecial = bouquetType !== "classic";
@@ -47,12 +55,34 @@ const BouquetBuilder = () => {
     return isRed ? size.priceRed : size.priceRegular;
   }, [isSpecial, specialText, selectedSizeIdx, isRed]);
 
+  const deliveryCost = deliveryMethod === "delivery" ? deliveryMiles * 2 : 0;
+
   const totalPrice = useMemo(() => {
     let total = basePrice;
     if (addCrown) total += crownPrice;
     if (addRibbon) total += ribbonPrice;
+    total += deliveryCost;
     return total;
-  }, [basePrice, addCrown, addRibbon]);
+  }, [basePrice, addCrown, addRibbon, deliveryCost]);
+
+  const minDeliveryTime = addHours(new Date(), 2);
+
+  const getAvailableHours = (date: Date | undefined) => {
+    if (!date) return [];
+    const hours: string[] = [];
+    const now = new Date();
+    for (let h = 8; h <= 20; h++) {
+      const slotTime = new Date(date);
+      slotTime.setHours(h, 0, 0, 0);
+      if (isToday(date)) {
+        if (isBefore(slotTime, minDeliveryTime)) continue;
+      }
+      hours.push(`${h.toString().padStart(2, "0")}:00`);
+    }
+    return hours;
+  };
+
+  const availableHours = getAvailableHours(deliveryDate);
 
   const rosesCount = isSpecial ? specialBouquetRoses : sizeOptions[selectedSizeIdx].roses;
 
@@ -425,6 +455,121 @@ const BouquetBuilder = () => {
               </div>
             </Section>
 
+            {/* Delivery */}
+            <Section title="Envío" step={isSpecial ? 6 : 7}>
+              <div className="grid grid-cols-2 gap-3 mb-6">
+                <button
+                  onClick={() => setDeliveryMethod("pickup")}
+                  className={`flex flex-col items-center gap-3 p-5 rounded-sm border-2 transition-all font-body ${
+                    deliveryMethod === "pickup"
+                      ? "border-primary bg-primary/5"
+                      : "border-border hover:border-primary/30"
+                  }`}
+                >
+                  <Store className="w-6 h-6" />
+                  <div className="text-center">
+                    <p className="font-semibold text-sm text-foreground">Recoger en tienda</p>
+                    <p className="text-xs text-muted-foreground mt-1">Gratis</p>
+                  </div>
+                  {deliveryMethod === "pickup" && <Check className="w-4 h-4 text-primary" />}
+                </button>
+                <button
+                  onClick={() => setDeliveryMethod("delivery")}
+                  className={`flex flex-col items-center gap-3 p-5 rounded-sm border-2 transition-all font-body ${
+                    deliveryMethod === "delivery"
+                      ? "border-primary bg-primary/5"
+                      : "border-border hover:border-primary/30"
+                  }`}
+                >
+                  <Truck className="w-6 h-6" />
+                  <div className="text-center">
+                    <p className="font-semibold text-sm text-foreground">Entrega a domicilio</p>
+                    <p className="text-xs text-muted-foreground mt-1">$2 / milla</p>
+                  </div>
+                  {deliveryMethod === "delivery" && <Check className="w-4 h-4 text-primary" />}
+                </button>
+              </div>
+
+              {deliveryMethod === "delivery" && (
+                <div className="mb-6 p-4 rounded-sm border border-border bg-card">
+                  <label className="text-sm font-body font-semibold text-foreground block mb-2">
+                    Distancia (millas)
+                  </label>
+                  <div className="flex items-center gap-3">
+                    <input
+                      type="number"
+                      min={1}
+                      max={100}
+                      value={deliveryMiles}
+                      onChange={(e) => setDeliveryMiles(Math.max(1, Number(e.target.value)))}
+                      className="w-24 bg-background border border-border rounded-sm px-3 py-2 font-body text-foreground focus:outline-none focus:ring-2 focus:ring-primary/30"
+                    />
+                    <span className="text-sm text-muted-foreground font-body">
+                      = <span className="text-primary font-semibold">${deliveryMiles * 2}</span> envío
+                    </span>
+                  </div>
+                </div>
+              )}
+
+              {/* Date picker */}
+              <div className="mb-4">
+                <label className="text-sm font-body font-semibold text-foreground block mb-2">
+                  <CalendarIcon className="w-4 h-4 inline mr-1" /> Fecha de {deliveryMethod === "pickup" ? "recogida" : "entrega"}
+                </label>
+                <Popover>
+                  <PopoverTrigger asChild>
+                    <button className="w-full md:w-auto flex items-center gap-2 px-4 py-3 rounded-sm border border-border bg-card font-body text-sm text-foreground hover:border-primary/30 transition-all">
+                      <CalendarIcon className="w-4 h-4 text-muted-foreground" />
+                      {deliveryDate ? format(deliveryDate, "PPP", { locale: es }) : "Selecciona una fecha"}
+                    </button>
+                  </PopoverTrigger>
+                  <PopoverContent className="w-auto p-0" align="start">
+                    <Calendar
+                      mode="single"
+                      selected={deliveryDate}
+                      onSelect={(date) => {
+                        setDeliveryDate(date);
+                        setDeliveryHour("");
+                      }}
+                      disabled={(date) => isBefore(startOfDay(date), startOfDay(new Date()))}
+                      className="p-3 pointer-events-auto"
+                      locale={es}
+                    />
+                  </PopoverContent>
+                </Popover>
+              </div>
+
+              {/* Time picker */}
+              {deliveryDate && (
+                <div>
+                  <label className="text-sm font-body font-semibold text-foreground block mb-2">
+                    <Clock className="w-4 h-4 inline mr-1" /> Hora de {deliveryMethod === "pickup" ? "recogida" : "entrega"}
+                  </label>
+                  {availableHours.length > 0 ? (
+                    <div className="flex flex-wrap gap-2">
+                      {availableHours.map((hour) => (
+                        <button
+                          key={hour}
+                          onClick={() => setDeliveryHour(hour)}
+                          className={`px-4 py-2 rounded-sm border-2 text-sm font-body transition-all ${
+                            deliveryHour === hour
+                              ? "border-primary bg-primary/5 text-primary"
+                              : "border-border text-muted-foreground hover:border-primary/30"
+                          }`}
+                        >
+                          {hour}
+                        </button>
+                      ))}
+                    </div>
+                  ) : (
+                    <p className="text-sm text-muted-foreground font-body">
+                      No hay horarios disponibles para hoy (mínimo 2 horas de anticipación). Selecciona otro día.
+                    </p>
+                  )}
+                </div>
+              )}
+            </Section>
+
             {/* Summary */}
             <div className="sticky bottom-0 bg-card/95 backdrop-blur-md border border-border rounded-sm p-6 shadow-xl">
               <div className="flex flex-col md:flex-row items-center justify-between gap-4">
@@ -434,6 +579,8 @@ const BouquetBuilder = () => {
                     {addCrown && " · Corona"}
                     {addRibbon && " · Cinta"}
                     {accessory !== "none" && ` · ${accessory === "note" ? "Nota" : accessory === "card" ? "Tarjeta" : "Mariposas"}`}
+                    {addGlitter && " · Brillos"}
+                    {deliveryMethod === "delivery" ? ` · Envío ${deliveryMiles}mi ($${deliveryCost})` : " · Recogida en tienda"}
                   </p>
                   <p className="font-display text-3xl font-bold text-foreground">
                     ${totalPrice} <span className="text-sm font-body text-muted-foreground font-normal">USD</span>
