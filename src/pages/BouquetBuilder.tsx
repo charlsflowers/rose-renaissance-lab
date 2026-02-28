@@ -118,13 +118,14 @@ const BouquetBuilder = () => {
     const parts = prediction.description.split(", ");
     const street = prediction.mainText || parts[0] || "";
     const city = parts[1] || "";
-    const stateZip = parts[2] || "";
-    const zipMatch = stateZip.match(/\d{5}/);
-    const zip = zipMatch ? zipMatch[0] : "";
+    // Search for zip code across all parts of the address
+    const fullText = prediction.description + " " + (prediction.secondaryText || "");
+    const zipMatch = fullText.match(/\b(\d{5})\b/);
+    const zip = zipMatch ? zipMatch[1] : "";
 
     setDeliveryStreet(street);
     setDeliveryCity(city);
-    setDeliveryZip(zip);
+    if (zip) setDeliveryZip(zip);
 
     // Auto-calculate distance
     if (street && city) {
