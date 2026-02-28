@@ -42,6 +42,11 @@ const BouquetBuilder = () => {
   const [deliveryDate, setDeliveryDate] = useState<Date>();
   const [deliveryHour, setDeliveryHour] = useState<string>("");
   const [deliveryMiles, setDeliveryMiles] = useState<number>(1);
+  const [deliveryStreet, setDeliveryStreet] = useState("");
+  const [deliveryCity, setDeliveryCity] = useState("");
+  const [deliveryZip, setDeliveryZip] = useState("");
+  const [deliveryEmail, setDeliveryEmail] = useState("");
+  const [deliveryPhone, setDeliveryPhone] = useState("");
 
   const isRed = selectedColor.name === "Rojo";
   const isSpecial = bouquetType !== "classic";
@@ -491,22 +496,82 @@ const BouquetBuilder = () => {
               </div>
 
               {deliveryMethod === "delivery" && (
-                <div className="mb-6 p-4 rounded-sm border border-border bg-card">
-                  <label className="text-sm font-body font-semibold text-foreground block mb-2">
-                    Distancia (millas)
-                  </label>
-                  <div className="flex items-center gap-3">
-                    <input
-                      type="number"
-                      min={1}
-                      max={100}
-                      value={deliveryMiles}
-                      onChange={(e) => setDeliveryMiles(Math.max(1, Number(e.target.value)))}
-                      className="w-24 bg-background border border-border rounded-sm px-3 py-2 font-body text-foreground focus:outline-none focus:ring-2 focus:ring-primary/30"
-                    />
-                    <span className="text-sm text-muted-foreground font-body">
-                      = <span className="text-primary font-semibold">${deliveryMiles * 2}</span> envío
-                    </span>
+                <div className="space-y-4 mb-6 p-5 rounded-sm border border-border bg-card">
+                  <p className="font-body font-semibold text-foreground text-sm">Datos de entrega</p>
+
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                      <label className="text-xs text-muted-foreground font-body block mb-1">Calle y número *</label>
+                      <input
+                        type="text"
+                        value={deliveryStreet}
+                        onChange={(e) => setDeliveryStreet(e.target.value)}
+                        placeholder="Ej: 123 Main St, Apt 4B"
+                        className="w-full bg-background border border-border rounded-sm px-3 py-2.5 font-body text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30"
+                        maxLength={200}
+                      />
+                    </div>
+                    <div>
+                      <label className="text-xs text-muted-foreground font-body block mb-1">Ciudad *</label>
+                      <input
+                        type="text"
+                        value={deliveryCity}
+                        onChange={(e) => setDeliveryCity(e.target.value)}
+                        placeholder="Ej: Miami"
+                        className="w-full bg-background border border-border rounded-sm px-3 py-2.5 font-body text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30"
+                        maxLength={100}
+                      />
+                    </div>
+                    <div>
+                      <label className="text-xs text-muted-foreground font-body block mb-1">Código postal *</label>
+                      <input
+                        type="text"
+                        value={deliveryZip}
+                        onChange={(e) => setDeliveryZip(e.target.value.replace(/[^0-9]/g, ""))}
+                        placeholder="Ej: 33101"
+                        className="w-full bg-background border border-border rounded-sm px-3 py-2.5 font-body text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30"
+                        maxLength={10}
+                      />
+                    </div>
+                    <div>
+                      <label className="text-xs text-muted-foreground font-body block mb-1">Teléfono *</label>
+                      <input
+                        type="tel"
+                        value={deliveryPhone}
+                        onChange={(e) => setDeliveryPhone(e.target.value.replace(/[^0-9+\-() ]/g, ""))}
+                        placeholder="Ej: (305) 555-1234"
+                        className="w-full bg-background border border-border rounded-sm px-3 py-2.5 font-body text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30"
+                        maxLength={20}
+                      />
+                    </div>
+                    <div className="md:col-span-2">
+                      <label className="text-xs text-muted-foreground font-body block mb-1">Email *</label>
+                      <input
+                        type="email"
+                        value={deliveryEmail}
+                        onChange={(e) => setDeliveryEmail(e.target.value)}
+                        placeholder="Ej: cliente@email.com"
+                        className="w-full bg-background border border-border rounded-sm px-3 py-2.5 font-body text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30"
+                        maxLength={255}
+                      />
+                    </div>
+                  </div>
+
+                  <div className="pt-2 border-t border-border">
+                    <label className="text-xs text-muted-foreground font-body block mb-1">Distancia (millas)</label>
+                    <div className="flex items-center gap-3">
+                      <input
+                        type="number"
+                        min={1}
+                        max={100}
+                        value={deliveryMiles}
+                        onChange={(e) => setDeliveryMiles(Math.max(1, Number(e.target.value)))}
+                        className="w-24 bg-background border border-border rounded-sm px-3 py-2 font-body text-foreground focus:outline-none focus:ring-2 focus:ring-primary/30"
+                      />
+                      <span className="text-sm text-muted-foreground font-body">
+                        = <span className="text-primary font-semibold">${deliveryMiles * 2}</span> envío
+                      </span>
+                    </div>
                   </div>
                 </div>
               )}
