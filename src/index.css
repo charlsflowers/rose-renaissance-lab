@@ -6,42 +6,42 @@
 
 @layer base {
   :root {
-    --background: 261 100% 97%;
-    --foreground: 259 25% 18%;
+    --background: 0 100% 97%;
+    --foreground: 341 40% 15%;
 
-    --card: 261 60% 98%;
-    --card-foreground: 259 25% 18%;
+    --card: 0 60% 98%;
+    --card-foreground: 341 40% 15%;
 
-    --popover: 261 60% 98%;
-    --popover-foreground: 259 25% 18%;
+    --popover: 0 60% 98%;
+    --popover-foreground: 341 40% 15%;
 
-    --primary: 259 32% 61%;
-    --primary-foreground: 261 100% 97%;
+    --primary: 341 81% 33%;
+    --primary-foreground: 0 100% 97%;
 
-    --secondary: 259 20% 45%;
-    --secondary-foreground: 261 100% 97%;
+    --secondary: 341 46% 57%;
+    --secondary-foreground: 0 100% 97%;
 
-    --muted: 261 25% 92%;
-    --muted-foreground: 259 15% 45%;
+    --muted: 0 30% 92%;
+    --muted-foreground: 341 15% 45%;
 
-    --accent: 259 35% 75%;
-    --accent-foreground: 259 25% 18%;
+    --accent: 341 46% 57%;
+    --accent-foreground: 0 100% 97%;
 
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
 
-    --border: 261 20% 88%;
-    --input: 261 20% 88%;
-    --ring: 259 32% 61%;
+    --border: 0 25% 88%;
+    --input: 0 25% 88%;
+    --ring: 341 81% 33%;
 
     --radius: 0.375rem;
 
-    --gold: 259 28% 70%;
-    --gold-foreground: 259 25% 18%;
-    --wine: 259 35% 35%;
-    --wine-foreground: 261 100% 97%;
-    --cream: 261 50% 95%;
-    --rose: 280 40% 75%;
+    --gold: 38 70% 55%;
+    --gold-foreground: 341 40% 15%;
+    --wine: 341 81% 25%;
+    --wine-foreground: 0 100% 97%;
+    --cream: 0 50% 95%;
+    --rose: 341 46% 57%;
 
     --sidebar-background: 0 0% 98%;
     --sidebar-foreground: 240 5.3% 26.1%;
@@ -54,23 +54,23 @@
   }
 
   .dark {
-    --background: 259 20% 10%;
-    --foreground: 261 100% 97%;
-    --card: 259 18% 14%;
-    --card-foreground: 261 100% 97%;
-    --popover: 259 18% 14%;
-    --popover-foreground: 261 100% 97%;
-    --primary: 259 35% 55%;
-    --primary-foreground: 261 100% 97%;
-    --secondary: 259 15% 40%;
-    --secondary-foreground: 261 100% 97%;
-    --muted: 259 12% 20%;
-    --muted-foreground: 261 15% 60%;
-    --accent: 259 30% 50%;
-    --accent-foreground: 261 100% 97%;
-    --border: 259 12% 22%;
-    --input: 259 12% 22%;
-    --ring: 259 35% 55%;
+    --background: 341 20% 8%;
+    --foreground: 0 100% 97%;
+    --card: 341 18% 12%;
+    --card-foreground: 0 100% 97%;
+    --popover: 341 18% 12%;
+    --popover-foreground: 0 100% 97%;
+    --primary: 341 70% 42%;
+    --primary-foreground: 0 100% 97%;
+    --secondary: 341 40% 50%;
+    --secondary-foreground: 0 100% 97%;
+    --muted: 341 12% 18%;
+    --muted-foreground: 0 15% 60%;
+    --accent: 341 40% 50%;
+    --accent-foreground: 0 100% 97%;
+    --border: 341 12% 20%;
+    --input: 341 12% 20%;
+    --ring: 341 70% 42%;
     --sidebar-background: 240 5.9% 10%;
     --sidebar-foreground: 240 4.8% 95.9%;
     --sidebar-primary: 224.3 76.3% 48%;
@@ -98,7 +98,7 @@
 
 @layer utilities {
   .text-gradient-gold {
-    background: linear-gradient(135deg, hsl(259 32% 61%), hsl(259 35% 75%));
+    background: linear-gradient(135deg, hsl(38 70% 55%), hsl(38 70% 70%));
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
