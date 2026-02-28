@@ -1,13 +1,26 @@
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { ArrowRight, Heart, Sparkles, Crown } from "lucide-react";
+import { ArrowRight, Heart, Sparkles, Crown, Package, ShoppingBag, Flower2 } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import heroBouquet from "@/assets/hero-bouquet.jpg";
 import heartBouquet from "@/assets/heart-bouquet.jpg";
 import letterBouquet from "@/assets/letter-bouquet.jpg";
 import numberBouquet from "@/assets/number-bouquet.jpg";
+import arreglosImg from "@/assets/arreglos.jpg";
+import cajasImg from "@/assets/cajas.jpg";
+import cestasImg from "@/assets/cestas.jpg";
+import jarronesImg from "@/assets/jarrones.jpg";
+import ososImg from "@/assets/osos.jpg";
 
 const Index = () => {
+  const products = [
+    { img: arreglosImg, title: "Arreglos", desc: "Arreglos florales únicos para cada ocasión" },
+    { img: cajasImg, title: "Cajas", desc: "Rosas elegantes presentadas en cajas de lujo" },
+    { img: cestasImg, title: "Cestas", desc: "Cestas artesanales repletas de flores frescas" },
+    { img: jarronesImg, title: "Jarrones", desc: "Arreglos en jarrones de cristal premium" },
+    { img: ososImg, title: "Osos", desc: "Adorables osos hechos completamente de rosas" },
+  ];
+
   return (
     <div className="min-h-screen bg-background">
       <Navbar />
@@ -32,7 +45,7 @@ const Index = () => {
               Rosas que cuentan historias
             </h1>
             <p className="text-primary-foreground/80 font-body text-lg mb-8 leading-relaxed">
-              Bouquets artesanales de 50 a 200 rosas. Naturales, pintadas o con brillos. 
+              Bouquets artesanales de 50 a 200 rosas. Naturales, pintadas o con brillos.
               Cada ramo es una obra de arte.
             </p>
             <Link
@@ -46,7 +59,7 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Featured Types */}
+      {/* Products Grid */}
       <section className="py-24 bg-background">
         <div className="container mx-auto px-6">
           <motion.div
@@ -56,9 +69,52 @@ const Index = () => {
             transition={{ duration: 0.8 }}
             className="text-center mb-16"
           >
-            <p className="text-gold font-body text-sm tracking-[0.3em] uppercase mb-3">Colección</p>
+            <p className="text-gold font-body text-sm tracking-[0.3em] uppercase mb-3">Nuestros productos</p>
             <h2 className="font-display text-4xl md:text-5xl font-semibold text-foreground">
-              Bouquets Especiales
+              Categorías
+            </h2>
+          </motion.div>
+
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-5">
+            {products.map((item, i) => (
+              <motion.div
+                key={item.title}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: i * 0.1 }}
+              >
+                <Link to="/bouquets" className="group block">
+                  <div className="relative overflow-hidden rounded-sm mb-4 aspect-square">
+                    <img
+                      src={item.img}
+                      alt={item.title}
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                    />
+                    <div className="absolute inset-0 bg-foreground/10 group-hover:bg-foreground/25 transition-colors" />
+                  </div>
+                  <h3 className="font-display text-lg font-semibold text-foreground text-center">{item.title}</h3>
+                  <p className="text-muted-foreground font-body text-xs text-center mt-1">{item.desc}</p>
+                </Link>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Bouquets Especiales */}
+      <section className="py-24 bg-cream">
+        <div className="container mx-auto px-6">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+            className="text-center mb-16"
+          >
+            <p className="text-gold font-body text-sm tracking-[0.3em] uppercase mb-3">Colección premium</p>
+            <h2 className="font-display text-4xl md:text-5xl font-semibold text-foreground">
+              Bouquets
             </h2>
           </motion.div>
 
