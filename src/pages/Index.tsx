@@ -147,8 +147,8 @@ const Index = () => {
       {/* Footer */}
       <footer className="py-12 bg-foreground">
         <div className="container mx-auto px-6 text-center">
-          <Heart className="w-6 h-6 text-primary mx-auto mb-3 fill-primary" />
-          <p className="font-display text-lg text-primary-foreground mb-2">Bloom & Petal</p>
+          <Flower2 className="w-6 h-6 text-primary mx-auto mb-3 fill-primary" />
+          <p className="font-display text-lg text-primary-foreground mb-2">Charl's Flowers</p>
           <p className="text-primary-foreground/50 font-body text-xs tracking-widest uppercase">Bouquets de lujo artesanales</p>
         </div>
       </footer>
