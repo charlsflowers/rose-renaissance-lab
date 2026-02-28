@@ -43,6 +43,7 @@ const BouquetBuilder = () => {
   const [deliveryDate, setDeliveryDate] = useState<Date>();
   const [deliveryHour, setDeliveryHour] = useState<string>("");
   const [deliveryMiles, setDeliveryMiles] = useState<number | null>(null);
+  const [deliveryName, setDeliveryName] = useState("");
   const [deliveryStreet, setDeliveryStreet] = useState("");
   const [deliveryCity, setDeliveryCity] = useState("");
   const [deliveryZip, setDeliveryZip] = useState("");
@@ -632,128 +633,170 @@ const BouquetBuilder = () => {
                 </button>
               </div>
 
-              {deliveryMethod === "delivery" && (
-                <div className="space-y-4 mb-6 p-5 rounded-sm border border-border bg-card">
-                  <p className="font-body font-semibold text-foreground text-sm">Datos de entrega</p>
+              {/* Contact & Delivery Data — always visible */}
+              <div className="space-y-4 p-5 rounded-sm border border-border bg-card mb-6">
+                <p className="font-body font-semibold text-foreground text-sm">Datos de entrega</p>
 
-                  {/* Address Autocomplete */}
-                  <div ref={autocompleteRef} className="relative">
+                {/* Name */}
+                <div>
+                  <label className="text-xs text-muted-foreground font-body block mb-1">
+                    Nombre completo <span className="text-destructive">*</span>
+                  </label>
+                  <input
+                    type="text"
+                    value={deliveryName}
+                    onChange={(e) => setDeliveryName(e.target.value)}
+                    placeholder="Ej: Juan Pérez"
+                    className="w-full bg-background border border-border rounded-sm px-3 py-2.5 font-body text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30"
+                    maxLength={100}
+                    required
+                  />
+                </div>
+
+                {/* Phone & Email */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div>
                     <label className="text-xs text-muted-foreground font-body block mb-1">
-                      <MapPin className="w-3 h-3 inline mr-1" />
-                      Dirección de entrega *
+                      Teléfono <span className="text-destructive">*</span>
                     </label>
-                    <div className="relative">
-                      <input
-                        type="text"
-                        value={addressQuery}
-                        onChange={(e) => handleAddressInput(e.target.value)}
-                        onFocus={() => predictions.length > 0 && setShowPredictions(true)}
-                        placeholder="Empieza a escribir la dirección..."
-                        className="w-full bg-background border border-border rounded-sm px-3 py-2.5 pr-10 font-body text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30"
-                      />
-                      <div className="absolute right-3 top-1/2 -translate-y-1/2">
-                        {autocompleteLoading || distanceLoading ? (
-                          <Loader2 className="w-4 h-4 text-muted-foreground animate-spin" />
-                        ) : (
-                          <Search className="w-4 h-4 text-muted-foreground" />
-                        )}
+                    <input
+                      type="tel"
+                      value={deliveryPhone}
+                      onChange={(e) => setDeliveryPhone(e.target.value.replace(/[^0-9+\-() ]/g, ""))}
+                      placeholder="Ej: (305) 555-1234"
+                      className="w-full bg-background border border-border rounded-sm px-3 py-2.5 font-body text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30"
+                      maxLength={20}
+                      required
+                    />
+                  </div>
+                  <div>
+                    <label className="text-xs text-muted-foreground font-body block mb-1">
+                      Email <span className="text-destructive">*</span>
+                    </label>
+                    <input
+                      type="email"
+                      value={deliveryEmail}
+                      onChange={(e) => setDeliveryEmail(e.target.value)}
+                      placeholder="Ej: cliente@email.com"
+                      className="w-full bg-background border border-border rounded-sm px-3 py-2.5 font-body text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30"
+                      maxLength={255}
+                      required
+                    />
+                  </div>
+                </div>
+
+                {/* Address Autocomplete — only for delivery */}
+                {deliveryMethod === "delivery" && (
+                  <>
+                    <div ref={autocompleteRef} className="relative">
+                      <label className="text-xs text-muted-foreground font-body block mb-1">
+                        <MapPin className="w-3 h-3 inline mr-1" />
+                        Dirección de entrega <span className="text-destructive">*</span>
+                      </label>
+                      <div className="relative">
+                        <input
+                          type="text"
+                          value={addressQuery}
+                          onChange={(e) => handleAddressInput(e.target.value)}
+                          onFocus={() => predictions.length > 0 && setShowPredictions(true)}
+                          placeholder="Empieza a escribir la dirección..."
+                          className="w-full bg-background border border-border rounded-sm px-3 py-2.5 pr-10 font-body text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30"
+                          required
+                        />
+                        <div className="absolute right-3 top-1/2 -translate-y-1/2">
+                          {autocompleteLoading || distanceLoading ? (
+                            <Loader2 className="w-4 h-4 text-muted-foreground animate-spin" />
+                          ) : (
+                            <Search className="w-4 h-4 text-muted-foreground" />
+                          )}
+                        </div>
                       </div>
+
+                      {/* Predictions dropdown */}
+                      {showPredictions && predictions.length > 0 && (
+                        <div className="absolute z-50 w-full mt-1 bg-card border border-border rounded-sm shadow-lg max-h-60 overflow-y-auto">
+                          {predictions.map((p) => (
+                            <button
+                              key={p.placeId}
+                              onClick={() => handleSelectPrediction(p)}
+                              className="w-full text-left px-4 py-3 hover:bg-primary/5 transition-colors border-b border-border last:border-b-0"
+                            >
+                              <p className="font-body text-sm font-medium text-foreground">{p.mainText}</p>
+                              <p className="font-body text-xs text-muted-foreground">{p.secondaryText}</p>
+                            </button>
+                          ))}
+                        </div>
+                      )}
                     </div>
 
-                    {/* Predictions dropdown */}
-                    {showPredictions && predictions.length > 0 && (
-                      <div className="absolute z-50 w-full mt-1 bg-card border border-border rounded-sm shadow-lg max-h-60 overflow-y-auto">
-                        {predictions.map((p) => (
-                          <button
-                            key={p.placeId}
-                            onClick={() => handleSelectPrediction(p)}
-                            className="w-full text-left px-4 py-3 hover:bg-primary/5 transition-colors border-b border-border last:border-b-0"
-                          >
-                            <p className="font-body text-sm font-medium text-foreground">{p.mainText}</p>
-                            <p className="font-body text-xs text-muted-foreground">{p.secondaryText}</p>
-                          </button>
-                        ))}
+                    {/* Selected address details */}
+                    {selectedAddress && (
+                      <div className="bg-primary/5 border border-primary/20 rounded-sm p-3">
+                        <p className="font-body text-xs text-muted-foreground">Dirección seleccionada:</p>
+                        <p className="font-body text-sm text-foreground font-medium">{selectedAddress}</p>
                       </div>
                     )}
-                  </div>
 
-                  {/* Selected address details */}
-                  {selectedAddress && (
-                    <div className="bg-primary/5 border border-primary/20 rounded-sm p-3">
-                      <p className="font-body text-xs text-muted-foreground">Dirección seleccionada:</p>
-                      <p className="font-body text-sm text-foreground font-medium">{selectedAddress}</p>
-                    </div>
-                  )}
-
-                  {/* Contact fields */}
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div>
-                      <label className="text-xs text-muted-foreground font-body block mb-1">Teléfono *</label>
+                    {/* Zip code */}
+                    <div className="max-w-xs">
+                      <label className="text-xs text-muted-foreground font-body block mb-1">
+                        Código Postal <span className="text-destructive">*</span>
+                      </label>
                       <input
-                        type="tel"
-                        value={deliveryPhone}
-                        onChange={(e) => setDeliveryPhone(e.target.value.replace(/[^0-9+\-() ]/g, ""))}
-                        placeholder="Ej: (305) 555-1234"
+                        type="text"
+                        value={deliveryZip}
+                        onChange={(e) => setDeliveryZip(e.target.value.replace(/[^0-9]/g, ""))}
+                        placeholder="Ej: 33126"
                         className="w-full bg-background border border-border rounded-sm px-3 py-2.5 font-body text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30"
-                        maxLength={20}
+                        maxLength={10}
+                        required
                       />
                     </div>
-                    <div>
-                      <label className="text-xs text-muted-foreground font-body block mb-1">Email *</label>
-                      <input
-                        type="email"
-                        value={deliveryEmail}
-                        onChange={(e) => setDeliveryEmail(e.target.value)}
-                        placeholder="Ej: cliente@email.com"
-                        className="w-full bg-background border border-border rounded-sm px-3 py-2.5 font-body text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30"
-                        maxLength={255}
-                      />
-                    </div>
-                  </div>
 
-                  {/* Distance result */}
-                  {distanceError && (
-                    <p className="text-sm font-body text-destructive">{distanceError}</p>
-                  )}
+                    {/* Distance result */}
+                    {distanceError && (
+                      <p className="text-sm font-body text-destructive">{distanceError}</p>
+                    )}
 
-                  {deliveryMiles !== null && !distanceTooFar && (
-                    <div className="bg-primary/5 border border-primary/20 rounded-sm p-4">
-                      <p className="font-body text-sm text-foreground">
-                        📍 Distancia: <span className="font-semibold">{deliveryMiles} millas</span>
-                        {deliveryDuration && <span className="text-muted-foreground"> (~{deliveryDuration})</span>}
-                      </p>
-                      <p className="font-body text-sm text-primary font-semibold mt-1">
-                        Costo de envío: ${deliveryMiles * 2}
-                      </p>
-                    </div>
-                  )}
-
-                  {/* Map */}
-                  {mapUrl ? (
-                    <div className="rounded-sm overflow-hidden border border-border">
-                      <iframe
-                        src={mapUrl}
-                        width="100%"
-                        height="300"
-                        style={{ border: 0 }}
-                        allowFullScreen
-                        loading="lazy"
-                        referrerPolicy="no-referrer-when-downgrade"
-                        title="Ruta de entrega"
-                      />
-                    </div>
-                  ) : deliveryMethod === "delivery" && (
-                    <div className="rounded-sm overflow-hidden border border-border bg-muted flex items-center justify-center h-48">
-                      <div className="text-center">
-                        <MapPin className="w-8 h-8 text-muted-foreground mx-auto mb-2" />
-                        <p className="font-body text-sm text-muted-foreground">
-                          Ingresa una dirección para ver el mapa
+                    {deliveryMiles !== null && !distanceTooFar && (
+                      <div className="bg-primary/5 border border-primary/20 rounded-sm p-4">
+                        <p className="font-body text-sm text-foreground">
+                          📍 Distancia: <span className="font-semibold">{deliveryMiles} millas</span>
+                          {deliveryDuration && <span className="text-muted-foreground"> (~{deliveryDuration})</span>}
+                        </p>
+                        <p className="font-body text-sm text-primary font-semibold mt-1">
+                          Costo de envío: ${deliveryMiles * 2}
                         </p>
                       </div>
-                    </div>
-                  )}
-                </div>
-              )}
+                    )}
+
+                    {/* Map */}
+                    {mapUrl ? (
+                      <div className="rounded-sm overflow-hidden border border-border">
+                        <iframe
+                          src={mapUrl}
+                          width="100%"
+                          height="300"
+                          style={{ border: 0 }}
+                          allowFullScreen
+                          loading="lazy"
+                          referrerPolicy="no-referrer-when-downgrade"
+                          title="Ruta de entrega"
+                        />
+                      </div>
+                    ) : (
+                      <div className="rounded-sm overflow-hidden border border-border bg-muted flex items-center justify-center h-48">
+                        <div className="text-center">
+                          <MapPin className="w-8 h-8 text-muted-foreground mx-auto mb-2" />
+                          <p className="font-body text-sm text-muted-foreground">
+                            Ingresa una dirección para ver el mapa
+                          </p>
+                        </div>
+                      </div>
+                    )}
+                  </>
+                )}
+              </div>
 
               {/* Date picker */}
               <div className="mb-4">
