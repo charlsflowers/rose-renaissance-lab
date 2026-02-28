@@ -1,5 +1,4 @@
 import { Link } from "react-router-dom";
-import { ShoppingBag } from "lucide-react";
 import BrandLogo from "@/components/BrandLogo";
 import { useCart } from "@/contexts/CartContext";
 
@@ -22,7 +21,7 @@ const Navbar = () => {
             <Link to="/bouquets" className="hover:text-primary transition-colors">Especiales</Link>
           </div>
           <Link to="/checkout" className="relative hover:text-primary transition-colors text-foreground">
-            <ShoppingBag className="w-6 h-6" />
+            <BrandLogo className="w-7 h-7" />
             {totalItems > 0 && (
               <span className="absolute -top-2 -right-2 w-5 h-5 bg-primary text-primary-foreground text-xs rounded-full flex items-center justify-center font-body font-semibold">
                 {totalItems}
