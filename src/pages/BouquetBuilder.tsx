@@ -602,7 +602,7 @@ const BouquetBuilder = () => {
                       {(["names", "congratulations"] as const).map((t) => (
                         <button
                           key={t}
-                          onClick={() => setRibbonType(t)}
+                          onClick={() => { setRibbonType(t); setRibbonText(""); }}
                           className={`px-4 py-2 rounded-sm border-2 text-sm font-body transition-all ${
                             ribbonType === t ? "border-primary bg-primary/5" : "border-border"
                           }`}
@@ -611,26 +611,28 @@ const BouquetBuilder = () => {
                         </button>
                       ))}
                     </div>
-                    <div className="flex flex-wrap gap-2">
-                      {ribbonPresets.map((preset) => (
-                        <button
-                          key={preset}
-                          onClick={() => setRibbonText(preset)}
-                          className={`px-3 py-1.5 rounded-full text-xs font-body transition-all ${
-                            ribbonText === preset
-                              ? "bg-primary text-primary-foreground"
-                              : "bg-muted text-muted-foreground hover:bg-primary/10"
-                          }`}
-                        >
-                          {preset}
-                        </button>
-                      ))}
-                    </div>
+                    {ribbonType === "congratulations" && (
+                      <div className="flex flex-wrap gap-2">
+                        {ribbonPresets.map((preset) => (
+                          <button
+                            key={preset}
+                            onClick={() => setRibbonText(preset)}
+                            className={`px-3 py-1.5 rounded-full text-xs font-body transition-all ${
+                              ribbonText === preset
+                                ? "bg-primary text-primary-foreground"
+                                : "bg-muted text-muted-foreground hover:bg-primary/10"
+                            }`}
+                          >
+                            {preset}
+                          </button>
+                        ))}
+                      </div>
+                    )}
                     <input
                       type="text"
                       value={ribbonText}
                       onChange={(e) => setRibbonText(e.target.value)}
-                      placeholder="O escribe tu texto personalizado..."
+                      placeholder={ribbonType === "names" ? "Escribe los nombres..." : "O escribe tu texto personalizado..."}
                       className="w-full bg-card border border-border rounded-sm px-4 py-3 font-body text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30"
                       maxLength={50}
                     />
