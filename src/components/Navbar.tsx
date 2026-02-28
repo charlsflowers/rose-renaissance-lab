@@ -1,18 +1,16 @@
 import { Link } from "react-router-dom";
-import BrandLogo from "@/components/BrandLogo";
 import { useCart } from "@/contexts/CartContext";
+import { ShoppingBag } from "lucide-react";
+import charlsLogo from "@/assets/charls-logo.png";
 
 const Navbar = () => {
   const { totalItems } = useCart();
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-md border-b border-border">
-      <div className="container mx-auto px-6 py-4 flex items-center justify-between">
+      <div className="container mx-auto px-6 py-3 flex items-center justify-between">
         <Link to="/" className="flex items-center gap-2">
-          <BrandLogo className="w-8 h-8" />
-          <span className="font-display text-2xl font-semibold text-foreground tracking-wide">
-            Bloom & Petal
-          </span>
+          <img src={charlsLogo} alt="Charl's Flowers" className="h-10 w-auto" />
         </Link>
         <div className="flex items-center gap-8">
           <div className="hidden md:flex items-center gap-8 font-body text-sm tracking-widest uppercase text-muted-foreground">
@@ -21,7 +19,7 @@ const Navbar = () => {
             <Link to="/bouquets/personalizar" className="hover:text-primary transition-colors">Personalizar</Link>
           </div>
           <Link to="/checkout" className="relative hover:text-primary transition-colors text-foreground">
-            <BrandLogo className="w-7 h-7" />
+            <ShoppingBag className="w-6 h-6" />
             {totalItems > 0 && (
               <span className="absolute -top-2 -right-2 w-5 h-5 bg-primary text-primary-foreground text-xs rounded-full flex items-center justify-center font-body font-semibold">
                 {totalItems}
