@@ -134,7 +134,7 @@ const BouquetBuilder = () => {
         setDeliveryMiles(null);
         try {
           const { data, error } = await supabase.functions.invoke("calculate-distance", {
-            body: { street, city, zip },
+            body: { fullAddress: prediction.description },
           });
           if (error) throw new Error("Error de conexión");
           if (data.error) {

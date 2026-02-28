@@ -15,16 +15,17 @@ serve(async (req) => {
   }
 
   try {
-    const { street, city, zip } = await req.json();
+    const { street, city, zip, fullAddress } = await req.json();
 
-    if (!street || !city || !zip) {
+    // Accept either fullAddress or street+city combo
+    const destination = fullAddress || (street && city ? `${street}, ${city}, FL ${zip || ""}`.trim() : null);
+
+    if (!destination) {
       return new Response(
-        JSON.stringify({ error: "Faltan campos de dirección (street, city, zip)" }),
+        JSON.stringify({ error: "Faltan campos de dirección" }),
         { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
       );
     }
-
-    const destination = `${street}, ${city}, FL ${zip}`;
     const apiKey = Deno.env.get("GOOGLE_MAPS_API_KEY");
 
     if (!apiKey) {
