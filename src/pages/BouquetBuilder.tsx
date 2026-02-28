@@ -1,6 +1,10 @@
 import { useState, useMemo } from "react";
 import { motion } from "framer-motion";
 import Navbar from "@/components/Navbar";
+import heroBouquet from "@/assets/hero-bouquet.jpg";
+import heartBouquet from "@/assets/heart-bouquet.jpg";
+import letterBouquet from "@/assets/letter-bouquet.jpg";
+import numberBouquet from "@/assets/number-bouquet.jpg";
 import {
   colorOptions,
   sizeOptions,
@@ -75,6 +79,21 @@ const BouquetBuilder = () => {
           </motion.div>
 
           <div className="max-w-4xl mx-auto space-y-10">
+            {/* Product Image */}
+            <div className="relative overflow-hidden rounded-sm aspect-[16/9] mb-2">
+              <img
+                src={
+                  bouquetType === "heart" ? heartBouquet
+                    : bouquetType === "letters" ? letterBouquet
+                    : bouquetType === "numbers" ? numberBouquet
+                    : heroBouquet
+                }
+                alt={`Bouquet ${bouquetType}`}
+                className="w-full h-full object-cover transition-opacity duration-500"
+                key={bouquetType}
+              />
+            </div>
+
             {/* 1. Bouquet Type */}
             <Section title="Tipo de Bouquet" step={1}>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
