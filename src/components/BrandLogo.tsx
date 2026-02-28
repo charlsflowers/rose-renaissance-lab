@@ -5,56 +5,47 @@ const BrandLogo = ({ className = "w-8 h-8" }: { className?: string }) => (
     xmlns="http://www.w3.org/2000/svg"
     className={className}
   >
-    {/* Shopping bag body */}
+    {/* Cart basket */}
     <path
-      d="M14 24h36l-3 30H17L14 24Z"
+      d="M10 28h44l-4 20H14L10 28Z"
       fill="hsl(var(--primary))"
-      opacity="0.15"
+      opacity="0.12"
       stroke="hsl(var(--primary))"
       strokeWidth="2"
       strokeLinejoin="round"
     />
-    {/* Bag handles */}
+    {/* Cart wheel left */}
+    <circle cx="20" cy="52" r="3" stroke="hsl(var(--primary))" strokeWidth="2" fill="hsl(var(--primary))" opacity="0.3" />
+    {/* Cart wheel right */}
+    <circle cx="44" cy="52" r="3" stroke="hsl(var(--primary))" strokeWidth="2" fill="hsl(var(--primary))" opacity="0.3" />
+    {/* Cart handle */}
     <path
-      d="M22 24c0-6 4-10 10-10s10 4 10 10"
+      d="M10 28L6 20H2"
       stroke="hsl(var(--primary))"
       strokeWidth="2.5"
       strokeLinecap="round"
+      strokeLinejoin="round"
       fill="none"
     />
-    {/* Flower center */}
-    <circle cx="32" cy="34" r="3" fill="hsl(var(--gold))" />
-    {/* Flower petals */}
-    {[0, 60, 120, 180, 240, 300].map((angle) => (
-      <ellipse
-        key={angle}
-        cx="32"
-        cy="28"
-        rx="4"
-        ry="7"
-        fill="hsl(var(--primary))"
-        opacity="0.8"
-        transform={`rotate(${angle} 32 34)`}
-      />
-    ))}
-    {/* Leaf left */}
-    <path
-      d="M24 42c-3 2-5 5-4 7 2 0 5-1 7-4"
-      stroke="hsl(var(--secondary))"
-      strokeWidth="1.5"
-      fill="hsl(var(--secondary))"
-      opacity="0.5"
-      strokeLinecap="round"
-    />
-    {/* Leaf right */}
-    <path
-      d="M40 42c3 2 5 5 4 7-2 0-5-1-7-4"
-      stroke="hsl(var(--secondary))"
-      strokeWidth="1.5"
-      fill="hsl(var(--secondary))"
-      opacity="0.5"
-      strokeLinecap="round"
-    />
+    {/* Stems */}
+    <line x1="24" y1="28" x2="22" y2="18" stroke="hsl(var(--secondary))" strokeWidth="1.5" strokeLinecap="round" />
+    <line x1="32" y1="28" x2="32" y2="14" stroke="hsl(var(--secondary))" strokeWidth="1.5" strokeLinecap="round" />
+    <line x1="40" y1="28" x2="42" y2="18" stroke="hsl(var(--secondary))" strokeWidth="1.5" strokeLinecap="round" />
+    {/* Rose left */}
+    <circle cx="22" cy="15" r="5" fill="hsl(var(--primary))" opacity="0.85" />
+    <circle cx="22" cy="15" r="2.5" fill="hsl(var(--primary))" />
+    <circle cx="22" cy="15" r="1" fill="hsl(var(--gold))" />
+    {/* Rose center (taller) */}
+    <circle cx="32" cy="11" r="6" fill="hsl(var(--primary))" opacity="0.9" />
+    <circle cx="32" cy="11" r="3" fill="hsl(var(--primary))" />
+    <circle cx="32" cy="11" r="1.2" fill="hsl(var(--gold))" />
+    {/* Rose right */}
+    <circle cx="42" cy="15" r="5" fill="hsl(var(--primary))" opacity="0.85" />
+    <circle cx="42" cy="15" r="2.5" fill="hsl(var(--primary))" />
+    <circle cx="42" cy="15" r="1" fill="hsl(var(--gold))" />
+    {/* Small leaves */}
+    <path d="M18 22c-2-1-4 0-4 2 1 1 3 0 4-2Z" fill="hsl(var(--secondary))" opacity="0.5" />
+    <path d="M46 22c2-1 4 0 4 2-1 1-3 0-4-2Z" fill="hsl(var(--secondary))" opacity="0.5" />
   </svg>
 );
 
