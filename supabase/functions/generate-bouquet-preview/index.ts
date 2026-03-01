@@ -74,26 +74,18 @@ serve(async (req) => {
 
     const promptParts: string[] = hasBaseImage
       ? [
-          "Edit this photo of a person holding a bouquet of roses.",
-          "Replace ONLY the bouquet they are holding with the following bouquet:",
+          "Edit this photo. The person is holding a bouquet of roses.",
+          "Replace ONLY the color and appearance of the roses in the bouquet.",
+          "Do NOT change the person, their clothes, pose, hair, hands, the wrapping paper, the background, or anything else.",
+          "The new bouquet should have:",
         ]
       : [
           "Generate a photorealistic image of a person elegantly holding a bouquet of roses.",
           "The bouquet should be:",
         ];
 
-    if (bouquetConfig.bouquetType) {
-      const typeMap: Record<string, string> = {
-        classic: "a classic round bouquet",
-        heart: "a heart-shaped bouquet",
-        letters: "a bouquet with decorative letters",
-        numbers: "a bouquet with decorative numbers",
-      };
-      promptParts.push(typeMap[bouquetConfig.bouquetType] || "a bouquet");
-    }
-
     if (bouquetConfig.color) {
-      promptParts.push(`The roses are ${bouquetConfig.color} colored.`);
+      promptParts.push(`All roses should be ${bouquetConfig.color} colored.`);
     }
 
     if (bouquetConfig.roses) {
@@ -118,8 +110,8 @@ serve(async (req) => {
 
     if (hasBaseImage) {
       promptParts.push(
-        "Keep the person, their pose, the background, and lighting exactly the same.",
-        "Only modify the bouquet. Make it look natural and realistic."
+        "IMPORTANT: Keep the person, their pose, clothes, the wrapping paper, the background, and lighting EXACTLY the same.",
+        "Only change the roses themselves. Make the result look natural and photorealistic."
       );
     } else {
       promptParts.push(
