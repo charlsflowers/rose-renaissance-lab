@@ -726,59 +726,17 @@ const BouquetBuilder = () => {
                 </button>
               </div>
 
-              {/* Contact & Delivery Data — always visible */}
+              {/* Delivery Data */}
               <div className="space-y-4 p-5 rounded-sm border border-border bg-card mb-6">
-                <p className="font-body font-semibold text-foreground text-sm">Datos de entrega</p>
+                {deliveryMethod === "pickup" ? (
+                  <p className="font-body text-sm text-muted-foreground">
+                    📍 Recogida en: <span className="font-semibold text-foreground">7255 NW 12th St, Miami, FL 33126</span>
+                  </p>
+                ) : (
+                  <>
+                <p className="font-body font-semibold text-foreground text-sm">Dirección de entrega</p>
 
-                {/* Name */}
-                <div>
-                  <label className="text-xs text-muted-foreground font-body block mb-1">
-                    Nombre completo <span className="text-destructive">*</span>
-                  </label>
-                  <input
-                    type="text"
-                    value={deliveryName}
-                    onChange={(e) => setDeliveryName(e.target.value)}
-                    placeholder="Ej: Juan Pérez"
-                    className="w-full bg-background border border-border rounded-sm px-3 py-2.5 font-body text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30"
-                    maxLength={100}
-                    required
-                  />
-                </div>
-
-                {/* Phone & Email */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div>
-                    <label className="text-xs text-muted-foreground font-body block mb-1">
-                      Teléfono <span className="text-destructive">*</span>
-                    </label>
-                    <input
-                      type="tel"
-                      value={deliveryPhone}
-                      onChange={(e) => setDeliveryPhone(e.target.value.replace(/[^0-9+\-() ]/g, ""))}
-                      placeholder="Ej: (305) 555-1234"
-                      className="w-full bg-background border border-border rounded-sm px-3 py-2.5 font-body text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30"
-                      maxLength={20}
-                      required
-                    />
-                  </div>
-                  <div>
-                    <label className="text-xs text-muted-foreground font-body block mb-1">
-                      Email <span className="text-destructive">*</span>
-                    </label>
-                    <input
-                      type="email"
-                      value={deliveryEmail}
-                      onChange={(e) => setDeliveryEmail(e.target.value)}
-                      placeholder="Ej: cliente@email.com"
-                      className="w-full bg-background border border-border rounded-sm px-3 py-2.5 font-body text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30"
-                      maxLength={255}
-                      required
-                    />
-                  </div>
-                </div>
-
-                {/* Address Autocomplete — only for delivery */}
+                {/* Address Autocomplete */}
                 {deliveryMethod === "delivery" && (
                   <>
                     <div ref={autocompleteRef} className="relative">
@@ -889,6 +847,8 @@ const BouquetBuilder = () => {
                     )}
                   </>
                 )}
+                  </>
+                )}
               </div>
 
               {/* Date picker */}
@@ -969,10 +929,6 @@ const BouquetBuilder = () => {
                 <button
                   onClick={() => {
                     // Validate required fields
-                    if (!deliveryName || !deliveryPhone || !deliveryEmail) {
-                      toast.error("Completa los campos obligatorios: nombre, teléfono y email.");
-                      return;
-                    }
                     if (deliveryMethod === "delivery" && (!selectedAddress || !deliveryZip)) {
                       toast.error("Completa la dirección y código postal para envío a domicilio.");
                       return;
@@ -1008,9 +964,9 @@ const BouquetBuilder = () => {
                       heartColor: bouquetType === "heart" ? heartColor : "",
                       glitter: addGlitter,
                       deliveryMethod,
-                      deliveryName,
-                      deliveryPhone,
-                      deliveryEmail,
+                      deliveryName: "",
+                      deliveryPhone: "",
+                      deliveryEmail: "",
                       deliveryAddress: deliveryMethod === "delivery" ? selectedAddress : "Recoger en tienda",
                       deliveryZip: deliveryMethod === "delivery" ? deliveryZip : "",
                       deliveryDate: deliveryDate ? format(deliveryDate, "PPP", { locale: es }) : "",
