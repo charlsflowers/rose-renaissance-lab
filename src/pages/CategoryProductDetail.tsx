@@ -114,8 +114,8 @@ const CategoryProductDetail = () => {
   const totalPrice = selectedSize.price + deliveryCost;
 
   const handleAddToCart = () => {
-    if (!deliveryName || !deliveryPhone || !deliveryEmail) { toast.error("Completa nombre, teléfono y email."); return; }
-    if (deliveryMethod === "delivery" && (!selectedAddress || !deliveryZip)) { toast.error("Completa la dirección y código postal."); return; }
+    if (deliveryMethod === "delivery" && !selectedAddress) { toast.error("Selecciona una dirección de entrega."); return; }
+    if (deliveryMethod === "delivery" && (distanceTooFar || deliveryMiles === null)) { toast.error("La dirección no es válida o está fuera de rango."); return; }
     if (deliveryMethod === "delivery" && (distanceTooFar || deliveryMiles === null)) { toast.error("La dirección no es válida o está fuera de rango."); return; }
     if (!deliveryDate || !deliveryHour) { toast.error("Selecciona fecha y hora."); return; }
 
@@ -136,9 +136,9 @@ const CategoryProductDetail = () => {
       heartColor: "",
       glitter: false,
       deliveryMethod,
-      deliveryName,
-      deliveryPhone,
-      deliveryEmail,
+      deliveryName: "",
+      deliveryPhone: "",
+      deliveryEmail: "",
       deliveryAddress: deliveryMethod === "delivery" ? selectedAddress : "Recoger en tienda",
       deliveryZip: deliveryMethod === "delivery" ? deliveryZip : "",
       deliveryDate: deliveryDate ? format(deliveryDate, "PPP", { locale: es }) : "",
@@ -217,29 +217,14 @@ const CategoryProductDetail = () => {
                 </button>
               </div>
 
-              {/* Contact */}
               <div className="space-y-4 p-5 rounded-sm border border-border bg-card mb-6">
-                <p className="font-body font-semibold text-foreground text-sm">Datos de entrega</p>
-                <div>
-                  <label className="text-xs text-muted-foreground font-body block mb-1">Nombre completo <span className="text-destructive">*</span></label>
-                  <input type="text" value={deliveryName} onChange={(e) => setDeliveryName(e.target.value)} placeholder="Ej: Juan Pérez"
-                    className="w-full bg-background border border-border rounded-sm px-3 py-2.5 font-body text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30" />
-                </div>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div>
-                    <label className="text-xs text-muted-foreground font-body block mb-1">Teléfono <span className="text-destructive">*</span></label>
-                    <input type="tel" value={deliveryPhone} onChange={(e) => setDeliveryPhone(e.target.value.replace(/[^0-9+\-() ]/g, ""))} placeholder="(305) 555-1234"
-                      className="w-full bg-background border border-border rounded-sm px-3 py-2.5 font-body text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30" />
-                  </div>
-                  <div>
-                    <label className="text-xs text-muted-foreground font-body block mb-1">Email <span className="text-destructive">*</span></label>
-                    <input type="email" value={deliveryEmail} onChange={(e) => setDeliveryEmail(e.target.value)} placeholder="cliente@email.com"
-                      className="w-full bg-background border border-border rounded-sm px-3 py-2.5 font-body text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30" />
-                  </div>
-                </div>
-
-                {deliveryMethod === "delivery" && (
+                {deliveryMethod === "pickup" ? (
+                  <p className="font-body text-sm text-muted-foreground">
+                    📍 Recogida en: <span className="font-semibold text-foreground">7255 NW 12th St, Miami, FL 33126</span>
+                  </p>
+                ) : (
                   <>
+                    <p className="font-body font-semibold text-foreground text-sm">Dirección de entrega</p>
                     <div ref={autocompleteRef} className="relative">
                       <label className="text-xs text-muted-foreground font-body block mb-1"><MapPin className="w-3 h-3 inline mr-1" />Dirección <span className="text-destructive">*</span></label>
                       <div className="relative">
@@ -267,11 +252,6 @@ const CategoryProductDetail = () => {
                         <p className="font-body text-sm text-foreground font-medium">{selectedAddress}</p>
                       </div>
                     )}
-                    <div className="max-w-xs">
-                      <label className="text-xs text-muted-foreground font-body block mb-1">Código Postal <span className="text-destructive">*</span></label>
-                      <input type="text" value={deliveryZip} onChange={(e) => setDeliveryZip(e.target.value.replace(/[^0-9]/g, ""))} placeholder="33126"
-                        className="w-full bg-background border border-border rounded-sm px-3 py-2.5 font-body text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30" maxLength={10} />
-                    </div>
                     {distanceError && <p className="text-sm font-body text-destructive">{distanceError}</p>}
                     {deliveryMiles !== null && !distanceTooFar && (
                       <div className="bg-primary/5 border border-primary/20 rounded-sm p-4">
