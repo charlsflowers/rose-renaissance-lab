@@ -239,6 +239,7 @@ const BouquetBuilder = () => {
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const [previewLoading, setPreviewLoading] = useState(false);
   const [previewError, setPreviewError] = useState("");
+  const [hasGeneratedPreview, setHasGeneratedPreview] = useState(false);
 
   const handleGeneratePreview = useCallback(async () => {
     setPreviewLoading(true);
@@ -267,6 +268,7 @@ const BouquetBuilder = () => {
         setPreviewError(data.error);
       } else if (data?.imageUrl) {
         setPreviewUrl(data.imageUrl);
+        setHasGeneratedPreview(true);
       }
     } catch (e: any) {
       setPreviewError(e.message || "Error al generar la preview");
@@ -652,13 +654,18 @@ const BouquetBuilder = () => {
                 </p>
                 <button
                   onClick={handleGeneratePreview}
-                  disabled={previewLoading}
+                  disabled={previewLoading || hasGeneratedPreview}
                   className="inline-flex items-center gap-3 bg-primary text-primary-foreground px-6 py-3 font-body text-sm tracking-widest uppercase hover:bg-primary/90 transition-colors rounded-sm disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   {previewLoading ? (
                     <>
                       <Loader2 className="w-4 h-4 animate-spin" />
                       Generando...
+                    </>
+                  ) : hasGeneratedPreview ? (
+                    <>
+                      <Eye className="w-4 h-4" />
+                      Preview generado
                     </>
                   ) : (
                     <>
@@ -667,6 +674,9 @@ const BouquetBuilder = () => {
                     </>
                   )}
                 </button>
+                {hasGeneratedPreview && (
+                  <p className="text-xs text-muted-foreground">Solo se permite una previsualización por personalización.</p>
+                )}
 
                 {previewError && (
                   <div className="bg-destructive/10 border border-destructive/20 rounded-sm p-4">
