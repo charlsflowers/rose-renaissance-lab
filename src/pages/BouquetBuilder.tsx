@@ -312,10 +312,9 @@ const BouquetBuilder = () => {
 
             {/* 1. Bouquet Type */}
             <Section title="Tipo de Bouquet" step={1}>
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+              <div className="grid grid-cols-3 gap-3">
                 {([
                   { type: "classic" as const, label: "Clásico", icon: Sparkles },
-                  { type: "heart" as const, label: "Corazón", icon: Heart },
                   { type: "letters" as const, label: "Con Letras", icon: Type },
                   { type: "numbers" as const, label: "Con Números", icon: Hash },
                 ]).map(({ type, label, icon: Icon }) => (
@@ -334,43 +333,28 @@ const BouquetBuilder = () => {
                 ))}
               </div>
 
-              {/* Heart color */}
-              {bouquetType === "heart" && (
-                <div className="mt-4 flex gap-3">
-                  <p className="text-sm text-muted-foreground font-body mr-2 self-center">Color:</p>
-                  {(["red", "pink"] as const).map((c) => (
-                    <button
-                      key={c}
-                      onClick={() => setHeartColor(c)}
-                      className={`px-4 py-2 rounded-sm border-2 text-sm font-body transition-all ${
-                        heartColor === c ? "border-primary bg-primary/5" : "border-border"
-                      }`}
-                    >
-                      {c === "red" ? "Rojo" : "Rosa"}
-                    </button>
-                  ))}
-                </div>
-              )}
-
               {/* Letters/Numbers input */}
               {(bouquetType === "letters" || bouquetType === "numbers") && (
                 <div className="mt-4">
                   <label className="text-sm text-muted-foreground font-body block mb-2">
-                    {bouquetType === "letters" ? "Escribe las letras" : "Escribe los números"}{" "}
+                    {bouquetType === "letters" ? "Escribe las letras (máx. 3)" : "Escribe los números"}{" "}
                     <span className="text-primary">(+${letterNumberExtraPrice} c/u)</span>
                   </label>
                   <input
-                    type={bouquetType === "numbers" ? "text" : "text"}
+                    type="text"
                     value={specialText}
                     onChange={(e) => setSpecialText(
                       bouquetType === "numbers"
                         ? e.target.value.replace(/[^0-9]/g, "")
                         : e.target.value.toUpperCase().replace(/[^A-Z]/g, "")
                     )}
-                    placeholder={bouquetType === "letters" ? "Ej: LOVE" : "Ej: 25"}
+                    placeholder={bouquetType === "letters" ? "Ej: ABC" : "Ej: 25"}
                     className="w-full max-w-xs bg-card border border-border rounded-sm px-4 py-3 font-body text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30"
-                    maxLength={10}
+                    maxLength={bouquetType === "letters" ? 3 : 10}
                   />
+                  {bouquetType === "letters" && (
+                    <p className="text-xs text-muted-foreground font-body mt-2">Disponible a partir de ramos de 100 rosas.</p>
+                  )}
                 </div>
               )}
             </Section>
