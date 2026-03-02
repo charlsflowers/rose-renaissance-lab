@@ -196,12 +196,13 @@ const BouquetBuilder = () => {
   const isSpecial = bouquetType !== "classic";
 
   const basePrice = useMemo(() => {
+    const size = sizeOptions[selectedSizeIdx];
+    const sizePrice = isRed ? size.priceRed : size.priceRegular;
     if (isSpecial) {
       const charCount = specialText.length;
-      return specialBouquetPrice + charCount * letterNumberExtraPrice;
+      return sizePrice + charCount * letterNumberExtraPrice;
     }
-    const size = sizeOptions[selectedSizeIdx];
-    return isRed ? size.priceRed : size.priceRegular;
+    return sizePrice;
   }, [isSpecial, specialText, selectedSizeIdx, isRed]);
 
   const deliveryCost = deliveryMethod === "delivery" && deliveryMiles && !distanceTooFar ? deliveryMiles * 2 : 0;
@@ -233,7 +234,7 @@ const BouquetBuilder = () => {
 
   const availableHours = getAvailableHours(deliveryDate);
 
-  const rosesCount = isSpecial ? specialBouquetRoses : sizeOptions[selectedSizeIdx].roses;
+  const rosesCount = sizeOptions[selectedSizeIdx].roses;
 
   const [addGlitter, setAddGlitter] = useState(false);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
@@ -337,23 +338,28 @@ const BouquetBuilder = () => {
               {(bouquetType === "letters" || bouquetType === "numbers") && (
                 <div className="mt-4">
                   <label className="text-sm text-muted-foreground font-body block mb-2">
-                    {bouquetType === "letters" ? "Escribe las letras (máx. 3)" : "Escribe los números"}{" "}
+                    {bouquetType === "letters" ? "Escribe las letras (máx. 4)" : "Escribe los números (máx. 4)"}{" "}
                     <span className="text-primary">(+${letterNumberExtraPrice} c/u)</span>
                   </label>
                   <input
                     type="text"
                     value={specialText}
-                    onChange={(e) => setSpecialText(
-                      bouquetType === "numbers"
+                    onChange={(e) => {
+                      const val = bouquetType === "numbers"
                         ? e.target.value.replace(/[^0-9]/g, "")
-                        : e.target.value.toUpperCase().replace(/[^A-Z]/g, "")
-                    )}
-                    placeholder={bouquetType === "letters" ? "Ej: ABC" : "Ej: 25"}
+                        : e.target.value.toUpperCase().replace(/[^A-Z]/g, "");
+                      setSpecialText(val);
+                      if (bouquetType === "letters" && val.length >= 3) {
+                        const minIdx = sizeOptions.findIndex(s => s.roses >= 100);
+                        if (selectedSizeIdx < minIdx) setSelectedSizeIdx(minIdx);
+                      }
+                    }}
+                    placeholder={bouquetType === "letters" ? "Ej: LOVE" : "Ej: 2025"}
                     className="w-full max-w-xs bg-card border border-border rounded-sm px-4 py-3 font-body text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30"
-                    maxLength={bouquetType === "letters" ? 3 : 10}
+                    maxLength={4}
                   />
                   {bouquetType === "letters" && (
-                    <p className="text-xs text-muted-foreground font-body mt-2">Disponible a partir de ramos de 100 rosas.</p>
+                    <p className="text-xs text-muted-foreground font-body mt-2">A partir de 3 letras, el mínimo es de 100 rosas.</p>
                   )}
                 </div>
               )}
@@ -403,17 +409,21 @@ const BouquetBuilder = () => {
               </Section>
             )}
 
-            {/* 3. Size (only classic) */}
-            {!isSpecial && (
-              <Section key="size-section" title="Cantidad de Rosas" step={3}>
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-                  {sizeOptions.map((size, idx) => (
+            {/* 3. Size */}
+            <Section key="size-section" title="Cantidad de Rosas" step={isSpecial ? 2 : 3}>
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+                {sizeOptions.map((size, idx) => {
+                  const disabled = bouquetType === "letters" && specialText.length >= 3 && size.roses < 100;
+                  return (
                     <button
                       key={size.roses}
-                      onClick={() => setSelectedSizeIdx(idx)}
+                      onClick={() => !disabled && setSelectedSizeIdx(idx)}
+                      disabled={disabled}
                       className={`p-4 rounded-sm border-2 text-center transition-all ${
                         selectedSizeIdx === idx
                           ? "border-primary bg-primary/5"
+                          : disabled
+                          ? "border-border opacity-40 cursor-not-allowed"
                           : "border-border hover:border-primary/30"
                       }`}
                     >
@@ -423,30 +433,19 @@ const BouquetBuilder = () => {
                         ${isRed ? size.priceRed : size.priceRegular}
                       </p>
                     </button>
-                  ))}
-                </div>
-              </Section>
-            )}
-
-            {/* Special info */}
-            {isSpecial && (
-              <Section key="special-section" title="Detalles" step={2}>
-                <div className="bg-card border border-border rounded-sm p-5">
+                  );
+                })}
+              </div>
+              {isSpecial && specialText.length > 0 && (
+                <div className="mt-3 bg-card border border-border rounded-sm p-4">
                   <p className="font-body text-sm text-muted-foreground">
-                    <span className="text-foreground font-semibold">{specialBouquetRoses} rosas</span> · Precio base:{" "}
-                    <span className="text-primary font-semibold">${specialBouquetPrice}</span>
-                    {specialText.length > 0 && (
-                      <>
-                        {" "}+ {specialText.length} {bouquetType === "letters" ? "letras" : "números"} × ${letterNumberExtraPrice} ={" "}
-                        <span className="text-primary font-semibold">
-                          ${specialBouquetPrice + specialText.length * letterNumberExtraPrice}
-                        </span>
-                      </>
-                    )}
+                    Precio base: <span className="text-primary font-semibold">${isRed ? sizeOptions[selectedSizeIdx].priceRed : sizeOptions[selectedSizeIdx].priceRegular}</span>
+                    {" "}+ {specialText.length} {bouquetType === "letters" ? "letras" : "números"} × ${letterNumberExtraPrice} ={" "}
+                    <span className="text-primary font-semibold">${basePrice}</span>
                   </p>
                 </div>
-              </Section>
-            )}
+              )}
+            </Section>
 
             {/* Glitter option */}
             <Section title="Acabado Brillante" step={isSpecial ? 3 : 4}>
