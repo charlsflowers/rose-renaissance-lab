@@ -122,11 +122,6 @@ const Checkout = () => {
                     )}
                   </div>
 
-                  {/* Contact */}
-                  <div className="md:col-span-2 pt-3 border-t border-border">
-                    <p className="text-muted-foreground mb-1">Contacto:</p>
-                    <p className="text-foreground">{item.deliveryName} · {item.deliveryPhone} · {item.deliveryEmail}</p>
-                  </div>
                 </div>
 
                 {/* Item price */}
