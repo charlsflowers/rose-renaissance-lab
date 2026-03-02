@@ -98,7 +98,8 @@ const BouquetProductDetail = () => {
     })();
   }, []);
 
-  const minDeliveryTime = addHours(new Date(), 2);
+  const minLeadHours = deliveryMethod === "delivery" ? 1.5 : 2;
+  const minDeliveryTime = new Date(Date.now() + minLeadHours * 60 * 60 * 1000);
   const getAvailableHours = (date: Date | undefined) => {
     if (!date) return [];
     const hours: string[] = [];
