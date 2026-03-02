@@ -788,21 +788,6 @@ const BouquetBuilder = () => {
                       </div>
                     )}
 
-                    {/* Zip code */}
-                    <div className="max-w-xs">
-                      <label className="text-xs text-muted-foreground font-body block mb-1">
-                        Código Postal <span className="text-destructive">*</span>
-                      </label>
-                      <input
-                        type="text"
-                        value={deliveryZip}
-                        onChange={(e) => setDeliveryZip(e.target.value.replace(/[^0-9]/g, ""))}
-                        placeholder="Ej: 33126"
-                        className="w-full bg-background border border-border rounded-sm px-3 py-2.5 font-body text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30"
-                        maxLength={10}
-                        required
-                      />
-                    </div>
 
                     {/* Distance result */}
                     {distanceError && (
@@ -929,8 +914,8 @@ const BouquetBuilder = () => {
                 <button
                   onClick={() => {
                     // Validate required fields
-                    if (deliveryMethod === "delivery" && (!selectedAddress || !deliveryZip)) {
-                      toast.error("Completa la dirección y código postal para envío a domicilio.");
+                    if (deliveryMethod === "delivery" && !selectedAddress) {
+                      toast.error("Selecciona una dirección de entrega.");
                       return;
                     }
                     if (deliveryMethod === "delivery" && (distanceTooFar || deliveryMiles === null)) {
