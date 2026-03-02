@@ -207,13 +207,7 @@ const BouquetBuilder = () => {
 
   const deliveryCost = deliveryMethod === "delivery" && deliveryMiles && !distanceTooFar ? deliveryMiles * 2 : 0;
 
-  const totalPrice = useMemo(() => {
-    let total = basePrice;
-    if (addCrown) total += crownPrice;
-    if (addRibbon) total += ribbonPrice;
-    total += deliveryCost;
-    return total;
-  }, [basePrice, addCrown, addRibbon, deliveryCost]);
+  
 
   const minDeliveryTime = addHours(new Date(), 2);
 
@@ -237,6 +231,16 @@ const BouquetBuilder = () => {
   const rosesCount = sizeOptions[selectedSizeIdx].roses;
 
   const [addGlitter, setAddGlitter] = useState(false);
+  const glitterCost = addGlitter ? Math.ceil(rosesCount / 25) * 8 : 0;
+
+  const totalPrice = useMemo(() => {
+    let total = basePrice;
+    if (addCrown) total += crownPrice;
+    if (addRibbon) total += ribbonPrice;
+    total += glitterCost;
+    total += deliveryCost;
+    return total;
+  }, [basePrice, addCrown, addRibbon, glitterCost, deliveryCost]);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const [previewLoading, setPreviewLoading] = useState(false);
   const [previewError, setPreviewError] = useState("");
@@ -280,7 +284,6 @@ const BouquetBuilder = () => {
 
   const colorCategories = [
     { key: "natural" as const, label: "Naturales" },
-    { key: "painted" as const, label: "Pintados" },
   ];
 
   return (
@@ -474,7 +477,7 @@ const BouquetBuilder = () => {
                       ✨ Añadir Brillos ✨
                     </p>
                     <p className="text-xs text-muted-foreground font-body">
-                      Dale un toque mágico con acabado brillante
+                      $8 por cada 25 rosas · <span className="text-primary font-semibold">+${glitterCost}</span> para {rosesCount} rosas
                     </p>
                   </div>
                   {addGlitter && (
