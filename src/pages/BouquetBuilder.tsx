@@ -8,32 +8,25 @@ import { toast } from "sonner";
 
 import Navbar from "@/components/Navbar";
 import heroBouquet from "@/assets/hero-bouquet.jpg";
-import heartBouquet from "@/assets/heart-bouquet.jpg";
-import letterBouquet from "@/assets/letter-bouquet.jpg";
-import numberBouquet from "@/assets/number-bouquet.jpg";
 import {
   colorOptions,
   sizeOptions,
   crownOptions,
   ribbonPresets,
-  specialBouquetPrice,
-  specialBouquetRoses,
   letterNumberExtraPrice,
   crownPrice,
   ribbonPrice,
   vaseOptions,
   type ColorOption,
   type AccessoryType,
-  type BouquetType,
 } from "@/lib/productData";
-import { Heart, Sparkles, Crown, Type, Hash, Check, Bug, Star, Truck, Store, CalendarIcon, Clock, MapPin, Search, Loader2, Eye } from "lucide-react";
+import { Sparkles, Crown, Type, Hash, Check, Bug, Star, Truck, Store, CalendarIcon, Clock, MapPin, Search, Loader2, Eye } from "lucide-react";
 import { Calendar } from "@/components/ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 
 const BouquetBuilder = () => {
   const { addItem } = useCart();
   const navigate = useNavigate();
-  const [bouquetType, setBouquetType] = useState<BouquetType>("classic");
   const [selectedColors, setSelectedColors] = useState<ColorOption[]>([colorOptions[6]]); // Red default
   const [selectedSizeIdx, setSelectedSizeIdx] = useState(0);
   const [accessory, setAccessory] = useState<AccessoryType>("none");
@@ -43,8 +36,9 @@ const BouquetBuilder = () => {
   const [addRibbon, setAddRibbon] = useState(false);
   const [ribbonType, setRibbonType] = useState<"names" | "congratulations">("names");
   const [ribbonText, setRibbonText] = useState("");
+  const [addLettersNumbers, setAddLettersNumbers] = useState(false);
+  const [lettersNumbersType, setLettersNumbersType] = useState<"letters" | "numbers">("letters");
   const [specialText, setSpecialText] = useState("");
-  const [heartColor, setHeartColor] = useState<"pink" | "red">("red");
   const [addVase, setAddVase] = useState(false);
   const [selectedVaseIdx, setSelectedVaseIdx] = useState(0);
   const [deliveryMethod, setDeliveryMethod] = useState<"pickup" | "delivery">("pickup");
@@ -70,10 +64,8 @@ const BouquetBuilder = () => {
   const autocompleteRef = useRef<HTMLDivElement>(null);
   const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  // Store address for default map
   const STORE_MAP_URL = `https://www.google.com/maps/embed/v1/place?key=&q=${encodeURIComponent("7255 NW 12th St, Miami, FL 33126")}`;
 
-  // Close predictions dropdown on outside click
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
       if (autocompleteRef.current && !autocompleteRef.current.contains(e.target as Node)) {
@@ -84,7 +76,6 @@ const BouquetBuilder = () => {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  // Debounced autocomplete fetch
   const fetchPredictions = useCallback(async (input: string) => {
     if (input.length < 3) {
       setPredictions([]);
@@ -122,11 +113,9 @@ const BouquetBuilder = () => {
     setShowPredictions(false);
     setPredictions([]);
 
-    // Parse address parts from the description
     const parts = prediction.description.split(", ");
     const street = prediction.mainText || parts[0] || "";
     const city = parts[1] || "";
-    // Search for zip code across all parts of the address
     const fullText = prediction.description + " " + (prediction.secondaryText || "");
     const zipMatch = fullText.match(/\b(\d{5})\b/);
     const zip = zipMatch ? zipMatch[1] : "";
@@ -135,7 +124,6 @@ const BouquetBuilder = () => {
     setDeliveryCity(city);
     if (zip) setDeliveryZip(zip);
 
-    // Auto-calculate distance
     if (street && city) {
       (async () => {
         setDistanceLoading(true);
@@ -167,58 +155,24 @@ const BouquetBuilder = () => {
     }
   }, []);
 
-  const calculateDistance = useCallback(async () => {
-    if (!deliveryStreet || !deliveryCity || !deliveryZip) return;
-    setDistanceLoading(true);
-    setDistanceError("");
-    setDistanceTooFar(false);
-    setDeliveryMiles(null);
-    try {
-      const { data, error } = await supabase.functions.invoke("calculate-distance", {
-        body: { street: deliveryStreet, city: deliveryCity, zip: deliveryZip },
-      });
-      if (error) throw new Error("Error de conexión");
-      if (data.error) {
-        setDistanceError(data.error);
-        if (data.tooFar) {
-          setDistanceTooFar(true);
-          setDeliveryMiles(data.miles);
-        }
-      } else {
-        setDeliveryMiles(data.miles);
-        setDeliveryDuration(data.duration);
-      }
-    } catch (e: any) {
-      setDistanceError(e.message || "Error al calcular distancia");
-    } finally {
-      setDistanceLoading(false);
-    }
-  }, [deliveryStreet, deliveryCity, deliveryZip]);
-
   const isRed = selectedColors.some(c => c.name === "Rojo");
-  const isSpecial = bouquetType !== "classic";
+
+  const lettersNumbersCost = addLettersNumbers ? specialText.length * letterNumberExtraPrice : 0;
 
   const basePrice = useMemo(() => {
     const size = sizeOptions[selectedSizeIdx];
-    const sizePrice = isRed ? size.priceRed : size.priceRegular;
-    if (isSpecial) {
-      const charCount = specialText.length;
-      return sizePrice + charCount * letterNumberExtraPrice;
-    }
-    return sizePrice;
-  }, [isSpecial, specialText, selectedSizeIdx, isRed]);
+    return isRed ? size.priceRed : size.priceRegular;
+  }, [selectedSizeIdx, isRed]);
 
   const deliveryCost = deliveryMethod === "delivery" && deliveryMiles && !distanceTooFar ? deliveryMiles * 2 : 0;
-
-  
 
   const minLeadHours = deliveryMethod === "delivery" ? 1.5 : 2;
   const minDeliveryTime = new Date(Date.now() + minLeadHours * 60 * 60 * 1000);
 
   const getAvailableHours = (date: Date | undefined) => {
     if (!date) return [];
-    const day = date.getDay(); // 0=Dom, 6=Sáb
-    const closeHour = day === 0 ? 16 : day === 6 ? 17 : 19; // Dom 4pm, Sáb 5pm, L-V 7pm
+    const day = date.getDay();
+    const closeHour = day === 0 ? 16 : day === 6 ? 17 : 19;
     const hours: string[] = [];
     for (let h = 8; h <= closeHour; h++) {
       const slotTime = new Date(date);
@@ -238,14 +192,15 @@ const BouquetBuilder = () => {
   const vaseCost = addVase ? vaseOptions[selectedVaseIdx].price : 0;
 
   const totalPrice = useMemo(() => {
-    let total = basePrice;
+    let total = basePrice + lettersNumbersCost;
     if (addCrown) total += crownPrice;
     if (addRibbon) total += ribbonPrice;
     total += glitterCost;
     total += vaseCost;
     total += deliveryCost;
     return total;
-  }, [basePrice, addCrown, addRibbon, glitterCost, vaseCost, deliveryCost]);
+  }, [basePrice, lettersNumbersCost, addCrown, addRibbon, glitterCost, vaseCost, deliveryCost]);
+
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const [previewLoading, setPreviewLoading] = useState(false);
   const [previewError, setPreviewError] = useState("");
@@ -257,16 +212,15 @@ const BouquetBuilder = () => {
     setPreviewUrl(null);
     try {
       const bouquetConfig: Record<string, string> = {
-        bouquetType,
-        color: isSpecial ? (bouquetType === "heart" ? heartColor : "especial") : selectedColors.map(c => c.name).join(", "),
+        bouquetType: "classic",
+        color: selectedColors.map(c => c.name).join(", "),
         roses: String(rosesCount),
         glitter: String(addGlitter),
       };
-      if (specialText) bouquetConfig.specialText = specialText;
+      if (addLettersNumbers && specialText) bouquetConfig.specialText = specialText;
       if (addCrown) { bouquetConfig.crown = "true"; bouquetConfig.crownSize = crownSize; }
       if (addRibbon && ribbonText) { bouquetConfig.ribbon = "true"; bouquetConfig.ribbonText = ribbonText; }
 
-      // Use a real base photo so AI only changes the roses
       const baseImageUrl = "https://urcocghysdjfawmfitzj.supabase.co/storage/v1/object/public/bouquet-previews/test/redandwhite.jpg";
 
       const { data, error } = await supabase.functions.invoke("generate-bouquet-preview", {
@@ -285,7 +239,7 @@ const BouquetBuilder = () => {
     } finally {
       setPreviewLoading(false);
     }
-  }, [bouquetType, isSpecial, heartColor, selectedColors, rosesCount, addGlitter, specialText, addCrown, crownSize, addRibbon, ribbonText]);
+  }, [selectedColors, rosesCount, addGlitter, addLettersNumbers, specialText, addCrown, crownSize, addRibbon, ribbonText]);
 
   const colorCategories = [
     { key: "natural" as const, label: "Naturales" },
@@ -307,137 +261,71 @@ const BouquetBuilder = () => {
             {/* Product Image */}
             <div className="relative overflow-hidden rounded-sm aspect-[16/9] mb-2">
               <img
-                src={
-                  bouquetType === "heart" ? heartBouquet
-                    : bouquetType === "letters" ? letterBouquet
-                    : bouquetType === "numbers" ? numberBouquet
-                    : heroBouquet
-                }
-                alt={`Bouquet ${bouquetType}`}
-                className="w-full h-full object-cover transition-opacity duration-500"
-                key={bouquetType}
+                src={heroBouquet}
+                alt="Bouquet personalizado"
+                className="w-full h-full object-cover"
               />
             </div>
 
-            {/* 1. Bouquet Type */}
-            <Section title="Tipo de Bouquet" step={1}>
-              <div className="grid grid-cols-3 gap-3">
-                {([
-                  { type: "classic" as const, label: "Clásico", icon: Sparkles },
-                  { type: "letters" as const, label: "Con Letras", icon: Type },
-                  { type: "numbers" as const, label: "Con Números", icon: Hash },
-                ]).map(({ type, label, icon: Icon }) => (
-                  <button
-                    key={type}
-                    onClick={() => setBouquetType(type)}
-                    className={`flex flex-col items-center gap-2 p-5 rounded-sm border-2 transition-all font-body text-sm ${
-                      bouquetType === type
-                        ? "border-primary bg-primary/5 text-primary"
-                        : "border-border text-muted-foreground hover:border-primary/30"
-                    }`}
-                  >
-                    <Icon className="w-5 h-5" />
-                    {label}
-                  </button>
-                ))}
-              </div>
-
-              {/* Letters/Numbers input */}
-              {(bouquetType === "letters" || bouquetType === "numbers") && (
-                <div className="mt-4">
-                  <label className="text-sm text-muted-foreground font-body block mb-2">
-                    {bouquetType === "letters" ? "Escribe las letras (máx. 4)" : "Escribe los números (máx. 4)"}{" "}
-                    <span className="text-primary">(+${letterNumberExtraPrice} c/u)</span>
-                  </label>
-                  <input
-                    type="text"
-                    value={specialText}
-                    onChange={(e) => {
-                      const val = bouquetType === "numbers"
-                        ? e.target.value.replace(/[^0-9]/g, "")
-                        : e.target.value.toUpperCase().replace(/[^A-Z]/g, "");
-                      setSpecialText(val);
-                      if (bouquetType === "letters" && val.length >= 3) {
-                        const minIdx = sizeOptions.findIndex(s => s.roses >= 100);
-                        if (selectedSizeIdx < minIdx) setSelectedSizeIdx(minIdx);
-                      }
-                    }}
-                    placeholder={bouquetType === "letters" ? "Ej: LOVE" : "Ej: 2025"}
-                    className="w-full max-w-xs bg-card border border-border rounded-sm px-4 py-3 font-body text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30"
-                    maxLength={4}
-                  />
-                  {bouquetType === "letters" && (
-                    <p className="text-xs text-muted-foreground font-body mt-2">A partir de 3 letras, el mínimo es de 100 rosas.</p>
-                  )}
-                </div>
-              )}
+            {/* 1. Color */}
+            <Section title="Color de las Rosas" step={1}>
+              <p className="text-xs text-muted-foreground font-body mb-4">Selecciona hasta 3 colores para tu bouquet</p>
+              {colorCategories.map(({ key, label }) => {
+                const colors = colorOptions.filter((c) => c.category === key);
+                return (
+                  <div key={key} className="mb-5">
+                    <p className="text-xs uppercase tracking-widest text-muted-foreground font-body mb-3">
+                      {label}
+                    </p>
+                    <div className="flex flex-wrap gap-3">
+                      {colors.map((color) => {
+                        const isSelected = selectedColors.some(c => c.name === color.name);
+                        return (
+                          <button
+                            key={color.name}
+                            onClick={() => {
+                              if (isSelected) {
+                                if (selectedColors.length > 1) {
+                                  setSelectedColors(prev => prev.filter(c => c.name !== color.name));
+                                }
+                              } else if (selectedColors.length < 3) {
+                                setSelectedColors(prev => [...prev, color]);
+                              }
+                            }}
+                            className={`relative w-12 h-12 rounded-full border-2 transition-all ${
+                              isSelected
+                                ? "border-primary scale-110 shadow-lg"
+                                : selectedColors.length >= 3
+                                  ? "border-border opacity-40 cursor-not-allowed"
+                                  : "border-border hover:scale-105"
+                            }`}
+                            style={{ backgroundColor: color.hex }}
+                            title={color.name}
+                            disabled={!isSelected && selectedColors.length >= 3}
+                          >
+                            {isSelected && (
+                              <Check className={`w-4 h-4 absolute inset-0 m-auto ${
+                                ["Negro", "Azul", "Morado"].includes(color.name) ? "text-primary-foreground" : "text-foreground"
+                              }`} />
+                            )}
+                          </button>
+                        );
+                      })}
+                    </div>
+                  </div>
+                );
+              })}
+              <p className="text-sm font-body text-muted-foreground">
+                Seleccionado{selectedColors.length > 1 ? 's' : ''}: <span className="text-foreground font-semibold">{selectedColors.map(c => c.name).join(', ')}</span>
+                {isRed && <span className="text-primary ml-2">(Precio especial rojo)</span>}
+              </p>
             </Section>
 
-            {/* 2. Color (only for classic) */}
-            {!isSpecial && (
-              <Section key="color-section" title="Color de las Rosas" step={2}>
-                <p className="text-xs text-muted-foreground font-body mb-4">Selecciona hasta 3 colores para tu bouquet</p>
-                {colorCategories.map(({ key, label }) => {
-                  const colors = colorOptions.filter((c) => c.category === key);
-                  return (
-                    <div key={key} className="mb-5">
-                      <p className="text-xs uppercase tracking-widest text-muted-foreground font-body mb-3">
-                        {label}
-                      </p>
-                      <div className="flex flex-wrap gap-3">
-                        {colors.map((color) => {
-                          const isSelected = selectedColors.some(c => c.name === color.name);
-                          return (
-                            <button
-                              key={color.name}
-                              onClick={() => {
-                                if (isSelected) {
-                                  // Don't allow deselecting the last color
-                                  if (selectedColors.length > 1) {
-                                    setSelectedColors(prev => prev.filter(c => c.name !== color.name));
-                                  }
-                                } else if (selectedColors.length < 3) {
-                                  setSelectedColors(prev => [...prev, color]);
-                                }
-                              }}
-                              className={`relative w-12 h-12 rounded-full border-2 transition-all ${
-                                isSelected
-                                  ? "border-primary scale-110 shadow-lg"
-                                  : selectedColors.length >= 3
-                                    ? "border-border opacity-40 cursor-not-allowed"
-                                    : "border-border hover:scale-105"
-                              } ${color.category === "glitter" ? "overflow-hidden" : ""}`}
-                              style={{ backgroundColor: color.hex }}
-                              title={color.name}
-                              disabled={!isSelected && selectedColors.length >= 3}
-                            >
-                              {color.category === "glitter" && (
-                                <div className="absolute inset-0 bg-gradient-to-br from-transparent via-white/40 to-transparent animate-pulse" />
-                              )}
-                              {isSelected && (
-                                <Check className={`w-4 h-4 absolute inset-0 m-auto ${
-                                  ["Negro", "Azul", "Morado", "Morado Brillos"].includes(color.name) ? "text-primary-foreground" : "text-foreground"
-                                }`} />
-                              )}
-                            </button>
-                          );
-                        })}
-                      </div>
-                    </div>
-                  );
-                })}
-                <p className="text-sm font-body text-muted-foreground">
-                  Seleccionado{selectedColors.length > 1 ? 's' : ''}: <span className="text-foreground font-semibold">{selectedColors.map(c => c.name).join(', ')}</span>
-                  {isRed && <span className="text-primary ml-2">(Precio especial rojo)</span>}
-                </p>
-              </Section>
-            )}
-
-            {/* 3. Size */}
-            <Section key="size-section" title="Cantidad de Rosas" step={isSpecial ? 2 : 3}>
+            {/* 2. Size */}
+            <Section title="Cantidad de Rosas" step={2}>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
                 {sizeOptions.map((size, idx) => {
-                  const disabled = bouquetType === "letters" && specialText.length >= 3 && size.roses < 100;
+                  const disabled = addLettersNumbers && specialText.length >= 3 && lettersNumbersType === "letters" && size.roses < 100;
                   return (
                     <button
                       key={size.roses}
@@ -460,19 +348,10 @@ const BouquetBuilder = () => {
                   );
                 })}
               </div>
-              {isSpecial && specialText.length > 0 && (
-                <div className="mt-3 bg-card border border-border rounded-sm p-4">
-                  <p className="font-body text-sm text-muted-foreground">
-                    Precio base: <span className="text-primary font-semibold">${isRed ? sizeOptions[selectedSizeIdx].priceRed : sizeOptions[selectedSizeIdx].priceRegular}</span>
-                    {" "}+ {specialText.length} {bouquetType === "letters" ? "letras" : "números"} × ${letterNumberExtraPrice} ={" "}
-                    <span className="text-primary font-semibold">${basePrice}</span>
-                  </p>
-                </div>
-              )}
             </Section>
 
-            {/* Glitter option */}
-            <Section title="Acabado Brillante" step={isSpecial ? 3 : 4}>
+            {/* 3. Glitter */}
+            <Section title="Acabado Brillante" step={3}>
               <button
                 onClick={() => setAddGlitter(!addGlitter)}
                 className={`relative w-full p-6 rounded-sm border-2 transition-all overflow-hidden ${
@@ -508,8 +387,8 @@ const BouquetBuilder = () => {
               </button>
             </Section>
 
-            {/* 5. Accessories */}
-            <Section title="Accesorios" step={isSpecial ? 4 : 5} subtitle="Gratis">
+            {/* 4. Accessories */}
+            <Section title="Accesorios" step={4} subtitle="Gratis">
               <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
                 {([
                   { type: "none" as const, label: "Sin accesorio", icon: null },
@@ -543,8 +422,76 @@ const BouquetBuilder = () => {
               )}
             </Section>
 
-            {/* Vase */}
-            <Section title="Jarrón" step={isSpecial ? 5 : 6} subtitle="Opcional">
+            {/* 5. Letras o Números */}
+            <Section title="Letras o Números" step={5} subtitle="Opcional">
+              <div className={`p-5 rounded-sm border-2 transition-all ${addLettersNumbers ? "border-primary bg-primary/5" : "border-border"}`}>
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-3">
+                    <Type className="w-5 h-5 text-primary" />
+                    <div>
+                      <p className="font-body font-semibold text-foreground">Añadir Letras o Números</p>
+                      <p className="text-xs text-muted-foreground font-body">${letterNumberExtraPrice} por cada letra/número · Máx. 4</p>
+                    </div>
+                  </div>
+                  <button onClick={() => { setAddLettersNumbers(!addLettersNumbers); if (addLettersNumbers) setSpecialText(""); }} className={`w-12 h-7 rounded-full transition-all relative ${addLettersNumbers ? "bg-primary" : "bg-muted"}`}>
+                    <div className={`w-5 h-5 rounded-full bg-primary-foreground absolute top-1 transition-all ${addLettersNumbers ? "left-6" : "left-1"}`} />
+                  </button>
+                </div>
+                {addLettersNumbers && (
+                  <div className="mt-4 space-y-4">
+                    <div className="flex gap-3">
+                      <button
+                        onClick={() => { setLettersNumbersType("letters"); setSpecialText(""); }}
+                        className={`flex items-center gap-2 px-4 py-2 rounded-sm border-2 text-sm font-body transition-all ${
+                          lettersNumbersType === "letters" ? "border-primary bg-primary/5 text-primary" : "border-border text-muted-foreground hover:border-primary/30"
+                        }`}
+                      >
+                        <Type className="w-4 h-4" /> Letras
+                      </button>
+                      <button
+                        onClick={() => { setLettersNumbersType("numbers"); setSpecialText(""); }}
+                        className={`flex items-center gap-2 px-4 py-2 rounded-sm border-2 text-sm font-body transition-all ${
+                          lettersNumbersType === "numbers" ? "border-primary bg-primary/5 text-primary" : "border-border text-muted-foreground hover:border-primary/30"
+                        }`}
+                      >
+                        <Hash className="w-4 h-4" /> Números
+                      </button>
+                    </div>
+                    <input
+                      type="text"
+                      value={specialText}
+                      onChange={(e) => {
+                        const val = lettersNumbersType === "numbers"
+                          ? e.target.value.replace(/[^0-9]/g, "")
+                          : e.target.value.toUpperCase().replace(/[^A-Z]/g, "");
+                        setSpecialText(val);
+                        if (lettersNumbersType === "letters" && val.length >= 3) {
+                          const minIdx = sizeOptions.findIndex(s => s.roses >= 100);
+                          if (selectedSizeIdx < minIdx) setSelectedSizeIdx(minIdx);
+                        }
+                      }}
+                      placeholder={lettersNumbersType === "letters" ? "Ej: LOVE" : "Ej: 2025"}
+                      className="w-full max-w-xs bg-card border border-border rounded-sm px-4 py-3 font-body text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30"
+                      maxLength={4}
+                    />
+                    {lettersNumbersType === "letters" && (
+                      <p className="text-xs text-muted-foreground font-body">A partir de 3 letras, el mínimo es de 100 rosas.</p>
+                    )}
+                    {specialText.length > 0 && (
+                      <div className="bg-card border border-border rounded-sm p-4">
+                        <p className="font-body text-sm text-muted-foreground">
+                          {specialText.length} {lettersNumbersType === "letters" ? "letras" : "números"} × ${letterNumberExtraPrice} ={" "}
+                          <span className="text-primary font-semibold">+${lettersNumbersCost}</span>
+                        </p>
+                      </div>
+                    )}
+                  </div>
+                )}
+              </div>
+            </Section>
+
+            {/* 6. Vase */}
+            <Section title="Jarrón" step={6} subtitle="Opcional">
               <div className={`p-5 rounded-sm border-2 transition-all ${addVase ? "border-primary bg-primary/5" : "border-border"}`}>
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-3">
@@ -573,8 +520,8 @@ const BouquetBuilder = () => {
               </div>
             </Section>
 
-            {/* 5. Upsells */}
-            <Section title="Extras" step={isSpecial ? 6 : 7}>
+            {/* 7. Extras */}
+            <Section title="Extras" step={7}>
               {/* Crown */}
               <div className={`p-5 rounded-sm border-2 transition-all mb-4 ${
                 addCrown ? "border-primary bg-primary/5" : "border-border"
@@ -683,8 +630,8 @@ const BouquetBuilder = () => {
               </div>
             </Section>
 
-            {/* AI Preview */}
-            <Section title="Vista Previa" step={isSpecial ? 7 : 8} subtitle="Opcional">
+            {/* 8. AI Preview */}
+            <Section title="Vista Previa" step={8} subtitle="Opcional">
               <div className="space-y-4">
                 <p className="text-sm text-muted-foreground font-body">
                   Genera una imagen aproximada de cómo quedará tu ramo con las opciones que has elegido.
@@ -738,8 +685,8 @@ const BouquetBuilder = () => {
               </div>
             </Section>
 
-            {/* Delivery */}
-            <Section title="Envío" step={isSpecial ? 8 : 9}>
+            {/* 9. Delivery */}
+            <Section title="Envío" step={9}>
               <div className="grid grid-cols-2 gap-3 mb-6">
                 <button
                   onClick={() => setDeliveryMethod("pickup")}
@@ -783,7 +730,6 @@ const BouquetBuilder = () => {
                   <>
                 <p className="font-body font-semibold text-foreground text-sm">Dirección de entrega</p>
 
-                {/* Address Autocomplete */}
                 {deliveryMethod === "delivery" && (
                   <>
                     <div ref={autocompleteRef} className="relative">
@@ -810,7 +756,6 @@ const BouquetBuilder = () => {
                         </div>
                       </div>
 
-                      {/* Predictions dropdown */}
                       {showPredictions && predictions.length > 0 && (
                         <div className="absolute z-50 w-full mt-1 bg-card border border-border rounded-sm shadow-lg max-h-60 overflow-y-auto">
                           {predictions.map((p) => (
@@ -827,7 +772,6 @@ const BouquetBuilder = () => {
                       )}
                     </div>
 
-                    {/* Selected address details */}
                     {selectedAddress && (
                       <div className="bg-primary/5 border border-primary/20 rounded-sm p-3">
                         <p className="font-body text-xs text-muted-foreground">Dirección seleccionada:</p>
@@ -835,8 +779,6 @@ const BouquetBuilder = () => {
                       </div>
                     )}
 
-
-                    {/* Distance result */}
                     {distanceError && (
                       <p className="text-sm font-body text-destructive">{distanceError}</p>
                     )}
@@ -853,7 +795,6 @@ const BouquetBuilder = () => {
                       </div>
                     )}
 
-                    {/* Map */}
                     {mapUrl ? (
                       <div className="rounded-sm overflow-hidden border border-border">
                         <iframe
@@ -948,7 +889,8 @@ const BouquetBuilder = () => {
               <div className="flex flex-col md:flex-row items-center justify-between gap-4">
                 <div>
                   <p className="font-body text-sm text-muted-foreground">
-                    {rosesCount} rosas · {isSpecial ? (bouquetType === "heart" ? "Corazón" : bouquetType === "letters" ? "Letras" : "Números") : selectedColors.map(c => c.name).join(', ')}
+                    {rosesCount} rosas · {selectedColors.map(c => c.name).join(', ')}
+                    {addLettersNumbers && specialText && ` · ${lettersNumbersType === "letters" ? "Letras" : "Números"}: ${specialText}`}
                     {addCrown && " · Corona"}
                     {addRibbon && " · Cinta"}
                     {accessory !== "none" && ` · ${accessory === "note" ? "Nota" : accessory === "card" ? "Tarjeta" : "Mariposas"}`}
@@ -962,7 +904,6 @@ const BouquetBuilder = () => {
                 </div>
                 <button
                   onClick={() => {
-                    // Validate required fields
                     if (deliveryMethod === "delivery" && !selectedAddress) {
                       toast.error("Selecciona una dirección de entrega.");
                       return;
@@ -981,13 +922,14 @@ const BouquetBuilder = () => {
                     if (addRibbon) addons.push("Cinta");
                     if (addGlitter) addons.push("Brillos");
                     if (addVase) addons.push(`Jarrón (${vaseOptions[selectedVaseIdx].label})`);
+                    if (addLettersNumbers && specialText) addons.push(`${lettersNumbersType === "letters" ? "Letras" : "Números"}: ${specialText}`);
 
                     addItem({
                       id: "",
-                      bouquetType,
-                      color: isSpecial ? (bouquetType === "heart" ? heartColor : "Especial") : selectedColors.map(c => c.name).join(', '),
+                      bouquetType: "classic",
+                      color: selectedColors.map(c => c.name).join(', '),
                       roses: rosesCount,
-                      price: basePrice + (addCrown ? 15 : 0) + (addRibbon ? 10 : 0),
+                      price: basePrice + lettersNumbersCost + (addCrown ? crownPrice : 0) + (addRibbon ? ribbonPrice : 0),
                       deliveryCost,
                       totalPrice,
                       addons,
@@ -995,8 +937,8 @@ const BouquetBuilder = () => {
                       accessoryText,
                       ribbonText,
                       crownSize: addCrown ? crownSize : "",
-                      specialText,
-                      heartColor: bouquetType === "heart" ? heartColor : "",
+                      specialText: addLettersNumbers ? specialText : "",
+                      heartColor: "",
                       glitter: addGlitter,
                       deliveryMethod,
                       deliveryName: "",

@@ -52,7 +52,7 @@ export const crownOptions: CrownOption[] = [
 
 export const ribbonPresets = ['Happy Birthday', 'Congratulations', 'I Love You'];
 
-export type BouquetType = 'classic' | 'heart' | 'letters' | 'numbers';
+export type BouquetType = 'classic' | 'letters' | 'numbers';
 
 export const specialBouquetPrice = 285;
 export const specialBouquetRoses = 125;
