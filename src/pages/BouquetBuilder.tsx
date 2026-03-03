@@ -892,7 +892,8 @@ const BouquetBuilder = () => {
             </Section>
 
             {/* Summary */}
-            <div className="sticky bottom-0 bg-card/95 backdrop-blur-md border border-border rounded-sm p-6 shadow-xl">
+            <div className="pb-4" />
+            <div className="sticky bottom-0 bg-card/95 backdrop-blur-md border border-border rounded-sm p-6 shadow-xl z-10">
               <div className="flex flex-col md:flex-row items-center justify-between gap-4">
                 <div>
                   <p className="font-body text-sm text-muted-foreground">

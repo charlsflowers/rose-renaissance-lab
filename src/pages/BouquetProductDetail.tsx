@@ -128,8 +128,9 @@ const BouquetProductDetail = () => {
   const selectedSize = bouquetSizeOptions[selectedSizeIdx];
   const lettersExtra = addLetters ? specialText.replace(/[^A-Z]/gi, "").length * letterNumberExtraPrice : 0;
   const numbersExtra = addNumbers ? specialText.replace(/[^0-9]/g, "").length * letterNumberExtraPrice : 0;
+  const glitterCost = addGlitter ? Math.ceil(selectedSize.roses / 25) * 8 : 0;
   const deliveryCost = deliveryMethod === "delivery" && deliveryMiles && !distanceTooFar ? deliveryMiles * 2 : 0;
-  const basePrice = selectedSize.price + (addCrown ? crownPrice : 0) + (addRibbon ? ribbonPrice : 0) + lettersExtra + numbersExtra;
+  const basePrice = selectedSize.price + (addCrown ? crownPrice : 0) + (addRibbon ? ribbonPrice : 0) + lettersExtra + numbersExtra + glitterCost;
   const totalPrice = basePrice + deliveryCost;
 
   let step = 1;
@@ -217,19 +218,14 @@ const BouquetProductDetail = () => {
             </Section>
 
             {/* 2. Glitter */}
-            <Section title="Acabado Brillante" step={step++}>
+            <Section title="Acabado Brillante" step={step++} subtitle={`+$${Math.ceil(selectedSize.roses / 25) * 8}`}>
               <button onClick={() => setAddGlitter(!addGlitter)}
                 className={`relative w-full p-6 rounded-sm border-2 transition-all overflow-hidden ${addGlitter ? "border-primary bg-primary/5" : "border-border hover:border-primary/30"}`}>
-                {addGlitter && (
-                  <div className="absolute inset-0 pointer-events-none">
-                    <div className="absolute inset-0 bg-gradient-to-br from-yellow-200/20 via-white/30 to-pink-200/20 animate-pulse" />
-                  </div>
-                )}
                 <div className="flex items-center gap-4 relative z-10">
-                  <Star className={`w-6 h-6 transition-colors ${addGlitter ? "text-yellow-400 fill-yellow-400" : "text-muted-foreground"}`} />
+                  <Star className={`w-6 h-6 transition-colors ${addGlitter ? "text-gold fill-gold" : "text-muted-foreground"}`} />
                   <div className="text-left">
                     <p className="font-body font-semibold text-foreground">✨ Añadir Brillos ✨</p>
-                    <p className="text-xs text-muted-foreground font-body">Dale un toque mágico con acabado brillante</p>
+                    <p className="text-xs text-muted-foreground font-body">$8 cada 25 rosas · {selectedSize.roses} rosas = +${Math.ceil(selectedSize.roses / 25) * 8}</p>
                   </div>
                   {addGlitter && <Check className="w-5 h-5 text-primary ml-auto" />}
                 </div>
@@ -433,7 +429,8 @@ const BouquetProductDetail = () => {
             </Section>
 
             {/* Summary */}
-            <div className="sticky bottom-0 bg-card/95 backdrop-blur-md border border-border rounded-sm p-6 shadow-xl">
+            <div className="pb-4" />
+            <div className="sticky bottom-0 bg-card/95 backdrop-blur-md border border-border rounded-sm p-6 shadow-xl z-10">
               <div className="flex flex-col md:flex-row items-center justify-between gap-4">
                 <div>
                   <p className="font-body text-sm text-muted-foreground">
