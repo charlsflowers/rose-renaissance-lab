@@ -59,3 +59,15 @@ export const specialBouquetRoses = 125;
 export const letterNumberExtraPrice = 40;
 export const crownPrice = 10;
 export const ribbonPrice = 25;
+
+export interface VaseOption {
+  roses: number;
+  label: string;
+  price: number;
+}
+
+export const vaseOptions: VaseOption[] = [
+  { roses: 50, label: 'Jarrón 50', price: 25 },
+  { roses: 75, label: 'Jarrón 75', price: 30 },
+  { roses: 100, label: 'Jarrón 100', price: 35 },
+];
