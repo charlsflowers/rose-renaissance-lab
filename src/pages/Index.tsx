@@ -77,6 +77,33 @@ const Index = () => {
         </div>
       </section>
 
+      {/* Ticker */}
+      <div className="bg-primary py-4 overflow-hidden">
+        <motion.div
+          className="flex whitespace-nowrap"
+          animate={{ x: ["0%", "-50%"] }}
+          transition={{ duration: 30, ease: "linear", repeat: Infinity }}
+        >
+          {[...Array(2)].map((_, loop) => (
+            <div key={loop} className="flex items-center gap-12 px-6">
+              {[
+                "La mejor florería calidad-precio de Miami",
+                "Precios imbatibles en rosas frescas",
+                "Ramos 100% artesanales hechos a mano",
+                "Entrega el mismo día en Miami",
+                "De 50 a 200 rosas por bouquet",
+                "Flores naturales, pintadas o con brillos",
+              ].map((text, i) => (
+                <span key={i} className="font-body text-sm tracking-widest uppercase text-primary-foreground flex items-center gap-12">
+                  {text}
+                  <Star className="w-3 h-3 fill-primary-foreground text-primary-foreground" />
+                </span>
+              ))}
+            </div>
+          ))}
+        </motion.div>
+      </div>
+
       {/* Bouquets */}
       <section className="py-24 bg-cream">
         <div className="container mx-auto px-6">
