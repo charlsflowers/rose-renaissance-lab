@@ -1,6 +1,15 @@
-import { Link } from "react-router-dom";
-import { Star, ShoppingBag } from "lucide-react";
+import { useNavigate } from "react-router-dom";
+import { Star, ShoppingBag, CreditCard } from "lucide-react";
 import { motion } from "framer-motion";
+import { useCart, type CartItem } from "@/contexts/CartContext";
+import { toast } from "sonner";
+
+export interface ReviewCartData {
+  bouquetType: string;
+  color: string;
+  roses: number;
+  price: number;
+}
 
 export interface ReviewData {
   id: string;
@@ -8,11 +17,53 @@ export interface ReviewData {
   rating: number;
   text: string;
   image: string;
-  productLink: string;
   productLabel: string;
+  cartData: ReviewCartData;
 }
 
 const ReviewCard = ({ review, index }: { review: ReviewData; index: number }) => {
+  const { addItem } = useCart();
+  const navigate = useNavigate();
+
+  const buildCartItem = (): CartItem => ({
+    id: "",
+    bouquetType: review.cartData.bouquetType,
+    color: review.cartData.color,
+    roses: review.cartData.roses,
+    price: review.cartData.price,
+    deliveryCost: 0,
+    totalPrice: review.cartData.price,
+    addons: [],
+    accessory: "",
+    accessoryText: "",
+    ribbonText: "",
+    crownSize: "",
+    specialText: "",
+    heartColor: "",
+    glitter: false,
+    deliveryMethod: "pickup",
+    deliveryName: "",
+    deliveryPhone: "",
+    deliveryEmail: "",
+    deliveryAddress: "",
+    deliveryZip: "",
+    deliveryDate: "",
+    deliveryHour: "",
+    deliveryMiles: null,
+  });
+
+  const handleAddToCart = () => {
+    addItem(buildCartItem());
+    toast.success("¡Añadido al carrito!", {
+      description: `${review.productLabel} — ${review.cartData.roses} rosas`,
+    });
+  };
+
+  const handleBuyNow = () => {
+    addItem(buildCartItem());
+    navigate("/checkout");
+  };
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 30 }}
@@ -22,7 +73,6 @@ const ReviewCard = ({ review, index }: { review: ReviewData; index: number }) =>
       className="group"
     >
       <div className="bg-card rounded-sm overflow-hidden border border-border">
-        {/* Review image */}
         <div className="relative aspect-square overflow-hidden">
           <img
             src={review.image}
@@ -32,9 +82,7 @@ const ReviewCard = ({ review, index }: { review: ReviewData; index: number }) =>
           <div className="absolute inset-0 bg-foreground/5 group-hover:bg-foreground/15 transition-colors" />
         </div>
 
-        {/* Review content */}
         <div className="p-5">
-          {/* Stars */}
           <div className="flex gap-0.5 mb-2">
             {Array.from({ length: 5 }).map((_, i) => (
               <Star
@@ -48,18 +96,29 @@ const ReviewCard = ({ review, index }: { review: ReviewData; index: number }) =>
             "{review.text}"
           </p>
 
-          <p className="font-display text-sm font-semibold text-foreground mb-4">
+          <p className="font-display text-sm font-semibold text-foreground mb-1">
             — {review.name}
           </p>
+          <p className="font-body text-xs text-muted-foreground mb-4">
+            {review.productLabel} · {review.cartData.roses} rosas · ${review.cartData.price}
+          </p>
 
-          {/* CTA */}
-          <Link
-            to={review.productLink}
-            className="inline-flex items-center gap-2 w-full justify-center bg-primary text-primary-foreground px-4 py-3 font-body text-xs tracking-widest uppercase hover:bg-primary/90 transition-colors rounded-sm"
-          >
-            <ShoppingBag className="w-3.5 h-3.5" />
-            Pedir uno igual
-          </Link>
+          <div className="flex flex-col gap-2">
+            <button
+              onClick={handleAddToCart}
+              className="inline-flex items-center gap-2 w-full justify-center bg-primary text-primary-foreground px-4 py-3 font-body text-xs tracking-widest uppercase hover:bg-primary/90 transition-colors rounded-sm"
+            >
+              <ShoppingBag className="w-3.5 h-3.5" />
+              Pedir uno igual
+            </button>
+            <button
+              onClick={handleBuyNow}
+              className="inline-flex items-center gap-2 w-full justify-center border border-primary text-primary px-4 py-3 font-body text-xs tracking-widest uppercase hover:bg-primary/10 transition-colors rounded-sm"
+            >
+              <CreditCard className="w-3.5 h-3.5" />
+              Pedir y pagar
+            </button>
+          </div>
         </div>
       </div>
     </motion.div>

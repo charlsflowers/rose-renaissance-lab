@@ -20,8 +20,8 @@ const Index = () => {
       rating: 5,
       text: 'Pedí un bouquet de 100 rosas rojas y blancas para mi aniversario. ¡Quedó espectacular! Mi esposa lloró de la emoción.',
       image: '/placeholder.svg',
-      productLink: '/bouquets/redondos/bq-round-1',
       productLabel: 'Elegancia Roja y Blanca',
+      cartData: { bouquetType: 'round', color: 'Rojo y Blanco', roses: 100, price: 176 },
     },
     {
       id: 'rev-2',
@@ -29,8 +29,8 @@ const Index = () => {
       rating: 5,
       text: 'El bouquet corazón de rosas hot pink fue perfecto para el cumpleaños de mi novia. Calidad increíble y entrega puntual.',
       image: '/placeholder.svg',
-      productLink: '/bouquets/corazones/bq-heart-2',
       productLabel: 'Corazón Rosa Intenso',
+      cartData: { bouquetType: 'heart', color: 'Rojo y Hot Pink', roses: 75, price: 116 },
     },
     {
       id: 'rev-3',
@@ -38,8 +38,8 @@ const Index = () => {
       rating: 5,
       text: 'Compré el arreglo de rosas negras y rojas para decorar un evento. Todos me preguntaron dónde lo conseguí. ¡Hermoso!',
       image: '/placeholder.svg',
-      productLink: '/bouquets/redondos/bq-round-3',
       productLabel: 'Misterio Nocturno',
+      cartData: { bouquetType: 'round', color: 'Rojo y Negro', roses: 50, price: 91 },
     },
     {
       id: 'rev-4',
@@ -47,8 +47,8 @@ const Index = () => {
       rating: 5,
       text: 'Las rosas light pink con blancas son un sueño. Pedí 150 rosas y el resultado superó todas mis expectativas.',
       image: '/placeholder.svg',
-      productLink: '/bouquets/corazones/bq-heart-4',
       productLabel: 'Corazón Suave',
+      cartData: { bouquetType: 'heart', color: 'Light Pink y Blanco', roses: 150, price: 271 },
     },
   ];
 
