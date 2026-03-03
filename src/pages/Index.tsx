@@ -7,6 +7,7 @@ import type { ReviewCategory } from "@/components/ReviewCard";
 import ReviewFilters from "@/components/ReviewFilters";
 import { reviews } from "@/lib/reviewsData";
 import Navbar from "@/components/Navbar";
+import ClientVideos from "@/components/ClientVideos";
 import heroBouquet from "@/assets/hero-bouquet.jpg";
 import arreglosImg from "@/assets/arreglos.jpg";
 import cajasImg from "@/assets/cajas.jpg";
@@ -177,6 +178,9 @@ const Index = () => {
           </motion.div>
         </div>
       </section>
+
+      {/* Videos de clientes */}
+      <ClientVideos />
 
       {/* Reseñas */}
       <section className="py-24 bg-cream">
