@@ -41,9 +41,9 @@ export const categoryProducts: Record<string, CatalogProduct[]> = {
     { id: 'arr-3', name: 'Arreglo Romántico', description: 'Rosas rojas y blancas en armonía perfecta', image: '', sizes: [{ label: 'Pequeño', price: 50 }, { label: 'Mediano', price: 80 }, { label: 'Grande', price: 120 }] },
   ],
   cajas: [
-    { id: 'caj-1', name: 'Caja Clásica', description: 'Rosas frescas en caja negra', image: '', sizes: [{ label: 'Pequeño', price: 65 }, { label: 'Mediano', price: 95 }, { label: 'Grande', price: 140 }] },
-    { id: 'caj-2', name: 'Caja Corazón', description: 'Caja en forma de corazón con rosas', image: '', sizes: [{ label: 'Pequeño', price: 75 }, { label: 'Mediano', price: 110 }, { label: 'Grande', price: 160 }] },
-    { id: 'caj-3', name: 'Caja Especial', description: 'Caja con rosas preservadas', image: '', sizes: [{ label: 'Pequeño', price: 85 }, { label: 'Mediano', price: 125 }, { label: 'Grande', price: 180 }] },
+    { id: 'caj-1', name: 'Caja Clásica', description: 'Rosas frescas en caja negra', image: '', sizes: [{ label: '50 Rosas', price: 65 }, { label: '75 Rosas', price: 95 }, { label: '100 Rosas', price: 140 }] },
+    { id: 'caj-2', name: 'Caja Corazón', description: 'Caja en forma de corazón con rosas', image: '', sizes: [{ label: '50 Rosas', price: 75 }, { label: '75 Rosas', price: 110 }, { label: '100 Rosas', price: 160 }] },
+    { id: 'caj-3', name: 'Caja Especial', description: 'Caja con rosas preservadas', image: '', sizes: [{ label: '50 Rosas', price: 85 }, { label: '75 Rosas', price: 125 }, { label: '100 Rosas', price: 180 }] },
   ],
   cestas: [
     { id: 'ces-1', name: 'Cesta Campestre', description: 'Cesta rústica con flores silvestres', image: '', sizes: [{ label: 'Pequeño', price: 55 }, { label: 'Mediano', price: 85 }, { label: 'Grande', price: 125 }] },
