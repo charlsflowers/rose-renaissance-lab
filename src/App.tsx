@@ -28,8 +28,7 @@ const App = () => (
             <Route path="/categoria/:slug/:productId" element={<CategoryProductDetail />} />
             <Route path="/bouquets/personalizar" element={<BouquetBuilder />} />
             <Route path="/bouquets/:type/:productId" element={<BouquetProductDetail />} />
-            <Route path="/bouquets/:type" element={<BouquetProducts />} />
-            <Route path="/bouquets" element={<BouquetBuilder />} />
+            <Route path="/bouquets" element={<BouquetProducts />} />
             <Route path="/checkout" element={<Checkout />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
