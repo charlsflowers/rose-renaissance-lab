@@ -1,7 +1,10 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { ArrowRight, Heart, Sparkles, Flower2, Star } from "lucide-react";
 import ReviewCard from "@/components/ReviewCard";
+import type { ReviewCategory } from "@/components/ReviewCard";
+import ReviewFilters from "@/components/ReviewFilters";
 import { reviews } from "@/lib/reviewsData";
 import Navbar from "@/components/Navbar";
 import heroBouquet from "@/assets/hero-bouquet.jpg";
@@ -14,6 +17,7 @@ import heartBouquet from "@/assets/heart-bouquet.jpg";
 import numberBouquet from "@/assets/number-bouquet.jpg";
 
 const Index = () => {
+  const [reviewCategory, setReviewCategory] = useState<ReviewCategory>("bouquets");
   const categories = [
     { img: arreglosImg, title: "Arreglos", slug: "arreglos" },
     { img: cajasImg, title: "Cajas", slug: "cajas" },
@@ -191,8 +195,10 @@ const Index = () => {
             <p className="text-muted-foreground font-body max-w-lg mx-auto">¿Te gusta alguno? Pídelo directamente desde aquí.</p>
           </motion.div>
 
+          <ReviewFilters active={reviewCategory} onChange={setReviewCategory} />
+
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
-            {reviews.map((review, i) => (
+            {reviews.filter((r) => r.category === reviewCategory).map((review, i) => (
               <ReviewCard key={review.id} review={review} index={i} />
             ))}
           </div>
