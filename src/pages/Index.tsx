@@ -50,10 +50,16 @@ const Index = () => {
             <p className="text-primary-foreground/80 font-body text-lg mb-8 leading-relaxed">
               Bouquets hechos a mano de 50 a 200 rosas. Naturales, pintadas o con brillos.
             </p>
-            <Link to="/bouquets/redondos"
-              className="inline-flex items-center gap-3 bg-primary text-primary-foreground px-8 py-4 font-body text-sm tracking-widest uppercase hover:bg-primary/90 transition-colors rounded-sm">
-              Ver bouquets <ArrowRight className="w-4 h-4" />
-            </Link>
+            <div className="flex flex-col sm:flex-row gap-4">
+              <Link to="/bouquets/redondos"
+                className="inline-flex items-center gap-3 bg-primary text-primary-foreground px-8 py-4 font-body text-sm tracking-widest uppercase hover:bg-primary/90 transition-colors rounded-sm">
+                Ver bouquets <ArrowRight className="w-4 h-4" />
+              </Link>
+              <Link to="/bouquets/personalizar"
+                className="inline-flex items-center gap-3 border border-primary-foreground/50 text-primary-foreground px-8 py-4 font-body text-sm tracking-widest uppercase hover:bg-primary-foreground/10 transition-colors rounded-sm">
+                Crea tu bouquet a medida <Sparkles className="w-4 h-4" />
+              </Link>
+            </div>
           </motion.div>
         </div>
       </section>
