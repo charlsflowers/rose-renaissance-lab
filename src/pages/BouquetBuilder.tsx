@@ -33,7 +33,7 @@ const BouquetBuilder = () => {
   const { addItem } = useCart();
   const navigate = useNavigate();
   const [bouquetType, setBouquetType] = useState<BouquetType>("classic");
-  const [selectedColor, setSelectedColor] = useState<ColorOption>(colorOptions[5]); // Red default
+  const [selectedColors, setSelectedColors] = useState<ColorOption[]>([colorOptions[6]]); // Red default
   const [selectedSizeIdx, setSelectedSizeIdx] = useState(0);
   const [accessory, setAccessory] = useState<AccessoryType>("none");
   const [accessoryText, setAccessoryText] = useState("");
@@ -192,7 +192,7 @@ const BouquetBuilder = () => {
     }
   }, [deliveryStreet, deliveryCity, deliveryZip]);
 
-  const isRed = selectedColor.name === "Rojo";
+  const isRed = selectedColors.some(c => c.name === "Rojo");
   const isSpecial = bouquetType !== "classic";
 
   const basePrice = useMemo(() => {
@@ -253,7 +253,7 @@ const BouquetBuilder = () => {
     try {
       const bouquetConfig: Record<string, string> = {
         bouquetType,
-        color: isSpecial ? (bouquetType === "heart" ? heartColor : "especial") : selectedColor.name,
+        color: isSpecial ? (bouquetType === "heart" ? heartColor : "especial") : selectedColors.map(c => c.name).join(", "),
         roses: String(rosesCount),
         glitter: String(addGlitter),
       };
@@ -280,7 +280,7 @@ const BouquetBuilder = () => {
     } finally {
       setPreviewLoading(false);
     }
-  }, [bouquetType, isSpecial, heartColor, selectedColor.name, rosesCount, addGlitter, specialText, addCrown, crownSize, addRibbon, ribbonText]);
+  }, [bouquetType, isSpecial, heartColor, selectedColors, rosesCount, addGlitter, specialText, addCrown, crownSize, addRibbon, ribbonText]);
 
   const colorCategories = [
     { key: "natural" as const, label: "Naturales" },
@@ -371,6 +371,7 @@ const BouquetBuilder = () => {
             {/* 2. Color (only for classic) */}
             {!isSpecial && (
               <Section key="color-section" title="Color de las Rosas" step={2}>
+                <p className="text-xs text-muted-foreground font-body mb-4">Selecciona hasta 3 colores para tu bouquet</p>
                 {colorCategories.map(({ key, label }) => {
                   const colors = colorOptions.filter((c) => c.category === key);
                   return (
@@ -379,34 +380,49 @@ const BouquetBuilder = () => {
                         {label}
                       </p>
                       <div className="flex flex-wrap gap-3">
-                        {colors.map((color) => (
-                          <button
-                            key={color.name}
-                            onClick={() => setSelectedColor(color)}
-                            className={`relative w-12 h-12 rounded-full border-2 transition-all ${
-                              selectedColor.name === color.name
-                                ? "border-primary scale-110 shadow-lg"
-                                : "border-border hover:scale-105"
-                            } ${color.category === "glitter" ? "overflow-hidden" : ""}`}
-                            style={{ backgroundColor: color.hex }}
-                            title={color.name}
-                          >
-                            {color.category === "glitter" && (
-                              <div className="absolute inset-0 bg-gradient-to-br from-transparent via-white/40 to-transparent animate-pulse" />
-                            )}
-                            {selectedColor.name === color.name && (
-                              <Check className={`w-4 h-4 absolute inset-0 m-auto ${
-                                ["Negro", "Azul", "Morado", "Morado Brillos"].includes(color.name) ? "text-primary-foreground" : "text-foreground"
-                              }`} />
-                            )}
-                          </button>
-                        ))}
+                        {colors.map((color) => {
+                          const isSelected = selectedColors.some(c => c.name === color.name);
+                          return (
+                            <button
+                              key={color.name}
+                              onClick={() => {
+                                if (isSelected) {
+                                  // Don't allow deselecting the last color
+                                  if (selectedColors.length > 1) {
+                                    setSelectedColors(prev => prev.filter(c => c.name !== color.name));
+                                  }
+                                } else if (selectedColors.length < 3) {
+                                  setSelectedColors(prev => [...prev, color]);
+                                }
+                              }}
+                              className={`relative w-12 h-12 rounded-full border-2 transition-all ${
+                                isSelected
+                                  ? "border-primary scale-110 shadow-lg"
+                                  : selectedColors.length >= 3
+                                    ? "border-border opacity-40 cursor-not-allowed"
+                                    : "border-border hover:scale-105"
+                              } ${color.category === "glitter" ? "overflow-hidden" : ""}`}
+                              style={{ backgroundColor: color.hex }}
+                              title={color.name}
+                              disabled={!isSelected && selectedColors.length >= 3}
+                            >
+                              {color.category === "glitter" && (
+                                <div className="absolute inset-0 bg-gradient-to-br from-transparent via-white/40 to-transparent animate-pulse" />
+                              )}
+                              {isSelected && (
+                                <Check className={`w-4 h-4 absolute inset-0 m-auto ${
+                                  ["Negro", "Azul", "Morado", "Morado Brillos"].includes(color.name) ? "text-primary-foreground" : "text-foreground"
+                                }`} />
+                              )}
+                            </button>
+                          );
+                        })}
                       </div>
                     </div>
                   );
                 })}
                 <p className="text-sm font-body text-muted-foreground">
-                  Seleccionado: <span className="text-foreground font-semibold">{selectedColor.name}</span>
+                  Seleccionado{selectedColors.length > 1 ? 's' : ''}: <span className="text-foreground font-semibold">{selectedColors.map(c => c.name).join(', ')}</span>
                   {isRed && <span className="text-primary ml-2">(Precio especial rojo)</span>}
                 </p>
               </Section>
@@ -897,7 +913,7 @@ const BouquetBuilder = () => {
               <div className="flex flex-col md:flex-row items-center justify-between gap-4">
                 <div>
                   <p className="font-body text-sm text-muted-foreground">
-                    {rosesCount} rosas · {isSpecial ? (bouquetType === "heart" ? "Corazón" : bouquetType === "letters" ? "Letras" : "Números") : selectedColor.name}
+                    {rosesCount} rosas · {isSpecial ? (bouquetType === "heart" ? "Corazón" : bouquetType === "letters" ? "Letras" : "Números") : selectedColors.map(c => c.name).join(', ')}
                     {addCrown && " · Corona"}
                     {addRibbon && " · Cinta"}
                     {accessory !== "none" && ` · ${accessory === "note" ? "Nota" : accessory === "card" ? "Tarjeta" : "Mariposas"}`}
@@ -932,7 +948,7 @@ const BouquetBuilder = () => {
                     addItem({
                       id: "",
                       bouquetType,
-                      color: isSpecial ? (bouquetType === "heart" ? heartColor : "Especial") : selectedColor.name,
+                      color: isSpecial ? (bouquetType === "heart" ? heartColor : "Especial") : selectedColors.map(c => c.name).join(', '),
                       roses: rosesCount,
                       price: basePrice + (addCrown ? 15 : 0) + (addRibbon ? 10 : 0),
                       deliveryCost,
