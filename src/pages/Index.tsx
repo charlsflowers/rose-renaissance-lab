@@ -79,15 +79,29 @@ const Index = () => {
 
       {/* Ticker */}
       <div className="relative mt-[-1px]">
-        <div className="absolute -top-[14px] left-0 w-[200%] h-4 z-10 overflow-hidden">
+        <div className="absolute -top-[18px] left-0 w-[200%] h-5 z-10 overflow-hidden">
           <motion.svg
             className="w-full h-full text-primary"
-            viewBox="0 0 2880 24"
+            viewBox="0 0 3600 30"
             preserveAspectRatio="none"
             animate={{ x: ["0%", "-50%"] }}
-            transition={{ duration: 8, ease: "linear", repeat: Infinity }}
+            transition={{ duration: 10, ease: "linear", repeat: Infinity }}
           >
-            <path d="M0,24 C120,4 240,4 360,24 C480,44 600,4 720,24 C840,4 960,4 1080,24 C1200,44 1320,4 1440,24 C1560,4 1680,4 1800,24 C1920,44 2040,4 2160,24 C2280,4 2400,4 2520,24 C2640,44 2760,4 2880,24 L2880,24 L0,24 Z" fill="currentColor" />
+            {/* Repeating rose silhouette pattern */}
+            {[...Array(18)].map((_, i) => {
+              const x = i * 200;
+              return (
+                <g key={i} transform={`translate(${x}, 0)`}>
+                  {/* Rose petals - simplified top-down rose */}
+                  <path d={`M100,30 Q90,18 85,22 Q80,12 90,8 Q85,2 100,0 Q115,2 110,8 Q120,12 115,22 Q110,18 100,30 Z`} fill="currentColor" />
+                  {/* Small leaves on sides */}
+                  <path d={`M78,28 Q72,20 80,24 Z`} fill="currentColor" />
+                  <path d={`M122,28 Q128,20 120,24 Z`} fill="currentColor" />
+                  {/* Fill base */}
+                  <rect x="0" y="26" width="200" height="4" fill="currentColor" />
+                </g>
+              );
+            })}
           </motion.svg>
         </div>
         <div className="bg-primary py-4 overflow-hidden">
@@ -115,15 +129,25 @@ const Index = () => {
             ))}
           </motion.div>
         </div>
-        <div className="absolute -bottom-[14px] left-0 w-[200%] h-4 z-10 overflow-hidden">
+        <div className="absolute -bottom-[18px] left-0 w-[200%] h-5 z-10 overflow-hidden">
           <motion.svg
             className="w-full h-full text-primary"
-            viewBox="0 0 2880 24"
+            viewBox="0 0 3600 30"
             preserveAspectRatio="none"
             animate={{ x: ["-50%", "0%"] }}
-            transition={{ duration: 8, ease: "linear", repeat: Infinity }}
+            transition={{ duration: 10, ease: "linear", repeat: Infinity }}
           >
-            <path d="M0,0 C120,20 240,20 360,0 C480,-20 600,20 720,0 C840,20 960,20 1080,0 C1200,-20 1320,20 1440,0 C1560,20 1680,20 1800,0 C1920,-20 2040,20 2160,0 C2280,20 2400,20 2520,0 C2640,-20 2760,20 2880,0 L2880,0 L0,0 Z" fill="currentColor" />
+            {[...Array(18)].map((_, i) => {
+              const x = i * 200;
+              return (
+                <g key={i} transform={`translate(${x}, 0) scale(1,-1) translate(0,-30)`}>
+                  <path d={`M100,30 Q90,18 85,22 Q80,12 90,8 Q85,2 100,0 Q115,2 110,8 Q120,12 115,22 Q110,18 100,30 Z`} fill="currentColor" />
+                  <path d={`M78,28 Q72,20 80,24 Z`} fill="currentColor" />
+                  <path d={`M122,28 Q128,20 120,24 Z`} fill="currentColor" />
+                  <rect x="0" y="26" width="200" height="4" fill="currentColor" />
+                </g>
+              );
+            })}
           </motion.svg>
         </div>
       </div>
