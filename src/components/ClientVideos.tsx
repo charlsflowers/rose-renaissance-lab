@@ -1,13 +1,13 @@
 import { useRef, useState, useEffect, useCallback } from "react";
 import { motion } from "framer-motion";
-import { ChevronLeft, ChevronRight, Play } from "lucide-react";
+import { ChevronLeft, ChevronRight, Play, ShoppingBag } from "lucide-react";
 
 const placeholderVideos = [
-  { id: 1, title: "Cliente feliz con su bouquet", src: "/videos/video_1.mp4" },
-  { id: 2, title: "Entrega sorpresa de rosas", src: "/videos/video_2.mp4" },
-  { id: 3, title: "Bouquet personalizado de 100 rosas", src: "/videos/video_3.mp4" },
-  { id: 4, title: "Arreglo especial para aniversario", src: "/videos/video_4.mp4" },
-  { id: 5, title: "Rosas pintadas con brillos", src: "/videos/video_5.mp4" },
+  { id: 1, title: "Cliente feliz con su bouquet", src: "/videos/video_1.mp4", productLink: "" },
+  { id: 2, title: "Entrega sorpresa de rosas", src: "/videos/video_2.mp4", productLink: "" },
+  { id: 3, title: "Bouquet personalizado de 100 rosas", src: "/videos/video_3.mp4", productLink: "" },
+  { id: 4, title: "Arreglo especial para aniversario", src: "/videos/video_4.mp4", productLink: "" },
+  { id: 5, title: "Rosas pintadas con brillos", src: "/videos/video_5.mp4", productLink: "" },
 ];
 
 const VideoCard = ({ video, index }: { video: typeof placeholderVideos[0]; index: number }) => {
@@ -66,6 +66,13 @@ const VideoCard = ({ video, index }: { video: typeof placeholderVideos[0]; index
           <p className="font-body text-sm text-primary-foreground">{video.title}</p>
         </div>
       </div>
+      <button
+        disabled={!video.productLink}
+        className="mt-3 w-full inline-flex items-center justify-center gap-2 bg-primary text-primary-foreground px-4 py-2.5 font-body text-xs tracking-widest uppercase rounded-sm hover:bg-primary/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+      >
+        <ShoppingBag className="w-3.5 h-3.5" />
+        Pedir el mismo
+      </button>
     </motion.div>
   );
 };
