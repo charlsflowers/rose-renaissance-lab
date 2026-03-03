@@ -8,7 +8,7 @@ import { toast } from "sonner";
 import Navbar from "@/components/Navbar";
 import { bouquetProducts, bouquetSizeOptions } from "@/lib/catalogData";
 import {
-  crownOptions, ribbonPresets, crownPrice, ribbonPrice, letterNumberExtraPrice,
+  crownOptions, ribbonPresets, crownPrice, ribbonPrice, letterNumberExtraPrice, vaseOptions,
 } from "@/lib/productData";
 import {
   ArrowLeft, Check, Store, Truck, CalendarIcon, Clock, MapPin, Search, Loader2,
@@ -35,6 +35,8 @@ const BouquetProductDetail = () => {
   const [addLetters, setAddLetters] = useState(false);
   const [addNumbers, setAddNumbers] = useState(false);
   const [specialText, setSpecialText] = useState("");
+  const [addVase, setAddVase] = useState(false);
+  const [selectedVaseIdx, setSelectedVaseIdx] = useState(0);
 
   // Delivery state
   const [deliveryMethod, setDeliveryMethod] = useState<"pickup" | "delivery">("pickup");
@@ -129,8 +131,9 @@ const BouquetProductDetail = () => {
   const lettersExtra = addLetters ? specialText.replace(/[^A-Z]/gi, "").length * letterNumberExtraPrice : 0;
   const numbersExtra = addNumbers ? specialText.replace(/[^0-9]/g, "").length * letterNumberExtraPrice : 0;
   const glitterCost = addGlitter ? Math.ceil(selectedSize.roses / 25) * 8 : 0;
+  const vaseCost = addVase ? vaseOptions[selectedVaseIdx].price : 0;
   const deliveryCost = deliveryMethod === "delivery" && deliveryMiles && !distanceTooFar ? deliveryMiles * 2 : 0;
-  const basePrice = selectedSize.price + (addCrown ? crownPrice : 0) + (addRibbon ? ribbonPrice : 0) + lettersExtra + numbersExtra + glitterCost;
+  const basePrice = selectedSize.price + (addCrown ? crownPrice : 0) + (addRibbon ? ribbonPrice : 0) + lettersExtra + numbersExtra + glitterCost + vaseCost;
   const totalPrice = basePrice + deliveryCost;
 
   let step = 1;
@@ -146,6 +149,7 @@ const BouquetProductDetail = () => {
     if (addRibbon) addons.push("Cinta");
     if (addGlitter) addons.push("Brillos");
     if (addLetters || addNumbers) addons.push(`Texto: ${specialText}`);
+    if (addVase) addons.push(`Jarrón (${vaseOptions[selectedVaseIdx].label})`);
 
     addItem({
       id: "",
@@ -273,6 +277,36 @@ const BouquetProductDetail = () => {
                 <textarea value={accessoryText} onChange={(e) => setAccessoryText(e.target.value)} placeholder={`Escribe tu ${accessory === "note" ? "nota" : "tarjeta"}...`}
                   className="w-full mt-4 bg-card border border-border rounded-sm px-4 py-3 font-body text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30 min-h-[100px] resize-none" maxLength={200} />
               )}
+            </Section>
+
+            {/* Vase */}
+            <Section title="Jarrón" step={step++} subtitle="Opcional">
+              <div className={`p-5 rounded-sm border-2 transition-all ${addVase ? "border-primary bg-primary/5" : "border-border"}`}>
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-3">
+                    <span className="text-xl">🏺</span>
+                    <div>
+                      <p className="font-body font-semibold text-foreground">Añadir Jarrón</p>
+                      <p className="text-xs text-muted-foreground font-body">Para poner tu ramo</p>
+                    </div>
+                  </div>
+                  <button onClick={() => setAddVase(!addVase)} className={`w-12 h-7 rounded-full transition-all relative ${addVase ? "bg-primary" : "bg-muted"}`}>
+                    <div className={`w-5 h-5 rounded-full bg-primary-foreground absolute top-1 transition-all ${addVase ? "left-6" : "left-1"}`} />
+                  </button>
+                </div>
+                {addVase && (
+                  <div className="mt-4 grid grid-cols-3 gap-3">
+                    {vaseOptions.map((v, idx) => (
+                      <button key={v.roses} onClick={() => setSelectedVaseIdx(idx)}
+                        className={`p-4 rounded-sm border-2 text-center transition-all ${selectedVaseIdx === idx ? "border-primary bg-primary/5" : "border-border hover:border-primary/30"}`}>
+                        <p className="font-display text-lg font-semibold text-foreground">{v.roses}</p>
+                        <p className="text-xs text-muted-foreground font-body">rosas</p>
+                        <p className="text-sm font-body font-semibold text-primary mt-1">${v.price}</p>
+                      </button>
+                    ))}
+                  </div>
+                )}
+              </div>
             </Section>
 
             {/* 5. Extras */}
@@ -435,7 +469,7 @@ const BouquetProductDetail = () => {
                 <div>
                   <p className="font-body text-sm text-muted-foreground">
                     {product.name} · {selectedSize.roses} rosas
-                    {addCrown && " · Corona"}{addRibbon && " · Cinta"}{addGlitter && " · Brillos"}
+                    {addCrown && " · Corona"}{addRibbon && " · Cinta"}{addGlitter && " · Brillos"}{addVase && ` · Jarrón (${vaseOptions[selectedVaseIdx].label})`}
                     {(addLetters || addNumbers) && specialText && ` · ${specialText}`}
                     {accessory !== "none" && ` · ${accessory === "note" ? "Nota" : accessory === "card" ? "Tarjeta" : "Mariposas"}`}
                     {deliveryMethod === "delivery" ? (deliveryMiles && !distanceTooFar ? ` · Envío ($${deliveryCost})` : " · Envío (pendiente)") : " · Recogida"}

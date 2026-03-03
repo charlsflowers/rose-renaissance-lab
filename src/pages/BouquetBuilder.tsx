@@ -21,6 +21,7 @@ import {
   letterNumberExtraPrice,
   crownPrice,
   ribbonPrice,
+  vaseOptions,
   type ColorOption,
   type AccessoryType,
   type BouquetType,
@@ -44,6 +45,8 @@ const BouquetBuilder = () => {
   const [ribbonText, setRibbonText] = useState("");
   const [specialText, setSpecialText] = useState("");
   const [heartColor, setHeartColor] = useState<"pink" | "red">("red");
+  const [addVase, setAddVase] = useState(false);
+  const [selectedVaseIdx, setSelectedVaseIdx] = useState(0);
   const [deliveryMethod, setDeliveryMethod] = useState<"pickup" | "delivery">("pickup");
   const [deliveryDate, setDeliveryDate] = useState<Date>();
   const [deliveryHour, setDeliveryHour] = useState<string>("");
@@ -232,15 +235,17 @@ const BouquetBuilder = () => {
 
   const [addGlitter, setAddGlitter] = useState(false);
   const glitterCost = addGlitter ? Math.ceil(rosesCount / 25) * 8 : 0;
+  const vaseCost = addVase ? vaseOptions[selectedVaseIdx].price : 0;
 
   const totalPrice = useMemo(() => {
     let total = basePrice;
     if (addCrown) total += crownPrice;
     if (addRibbon) total += ribbonPrice;
     total += glitterCost;
+    total += vaseCost;
     total += deliveryCost;
     return total;
-  }, [basePrice, addCrown, addRibbon, glitterCost, deliveryCost]);
+  }, [basePrice, addCrown, addRibbon, glitterCost, vaseCost, deliveryCost]);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const [previewLoading, setPreviewLoading] = useState(false);
   const [previewError, setPreviewError] = useState("");
@@ -538,8 +543,38 @@ const BouquetBuilder = () => {
               )}
             </Section>
 
+            {/* Vase */}
+            <Section title="Jarrón" step={isSpecial ? 5 : 6} subtitle="Opcional">
+              <div className={`p-5 rounded-sm border-2 transition-all ${addVase ? "border-primary bg-primary/5" : "border-border"}`}>
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-3">
+                    <span className="text-xl">🏺</span>
+                    <div>
+                      <p className="font-body font-semibold text-foreground">Añadir Jarrón</p>
+                      <p className="text-xs text-muted-foreground font-body">Para poner tu ramo</p>
+                    </div>
+                  </div>
+                  <button onClick={() => setAddVase(!addVase)} className={`w-12 h-7 rounded-full transition-all relative ${addVase ? "bg-primary" : "bg-muted"}`}>
+                    <div className={`w-5 h-5 rounded-full bg-primary-foreground absolute top-1 transition-all ${addVase ? "left-6" : "left-1"}`} />
+                  </button>
+                </div>
+                {addVase && (
+                  <div className="mt-4 grid grid-cols-3 gap-3">
+                    {vaseOptions.map((v, idx) => (
+                      <button key={v.roses} onClick={() => setSelectedVaseIdx(idx)}
+                        className={`p-4 rounded-sm border-2 text-center transition-all ${selectedVaseIdx === idx ? "border-primary bg-primary/5" : "border-border hover:border-primary/30"}`}>
+                        <p className="font-display text-lg font-semibold text-foreground">{v.roses}</p>
+                        <p className="text-xs text-muted-foreground font-body">rosas</p>
+                        <p className="text-sm font-body font-semibold text-primary mt-1">${v.price}</p>
+                      </button>
+                    ))}
+                  </div>
+                )}
+              </div>
+            </Section>
+
             {/* 5. Upsells */}
-            <Section title="Extras" step={isSpecial ? 5 : 6}>
+            <Section title="Extras" step={isSpecial ? 6 : 7}>
               {/* Crown */}
               <div className={`p-5 rounded-sm border-2 transition-all mb-4 ${
                 addCrown ? "border-primary bg-primary/5" : "border-border"
@@ -649,7 +684,7 @@ const BouquetBuilder = () => {
             </Section>
 
             {/* AI Preview */}
-            <Section title="Vista Previa" step={isSpecial ? 6 : 7} subtitle="Opcional">
+            <Section title="Vista Previa" step={isSpecial ? 7 : 8} subtitle="Opcional">
               <div className="space-y-4">
                 <p className="text-sm text-muted-foreground font-body">
                   Genera una imagen aproximada de cómo quedará tu ramo con las opciones que has elegido.
@@ -704,7 +739,7 @@ const BouquetBuilder = () => {
             </Section>
 
             {/* Delivery */}
-            <Section title="Envío" step={isSpecial ? 7 : 8}>
+            <Section title="Envío" step={isSpecial ? 8 : 9}>
               <div className="grid grid-cols-2 gap-3 mb-6">
                 <button
                   onClick={() => setDeliveryMethod("pickup")}
@@ -918,6 +953,7 @@ const BouquetBuilder = () => {
                     {addRibbon && " · Cinta"}
                     {accessory !== "none" && ` · ${accessory === "note" ? "Nota" : accessory === "card" ? "Tarjeta" : "Mariposas"}`}
                     {addGlitter && " · Brillos"}
+                    {addVase && ` · Jarrón (${vaseOptions[selectedVaseIdx].label})`}
                     {deliveryMethod === "delivery" ? (deliveryMiles && !distanceTooFar ? ` · Envío ${deliveryMiles}mi ($${deliveryCost})` : " · Envío (pendiente)") : " · Recogida en tienda"}
                   </p>
                   <p className="font-display text-3xl font-bold text-foreground">
@@ -944,6 +980,7 @@ const BouquetBuilder = () => {
                     if (addCrown) addons.push(`Corona (${crownSize})`);
                     if (addRibbon) addons.push("Cinta");
                     if (addGlitter) addons.push("Brillos");
+                    if (addVase) addons.push(`Jarrón (${vaseOptions[selectedVaseIdx].label})`);
 
                     addItem({
                       id: "",
