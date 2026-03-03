@@ -78,30 +78,38 @@ const Index = () => {
       </section>
 
       {/* Ticker */}
-      <div className="bg-primary py-4 overflow-hidden">
-        <motion.div
-          className="flex whitespace-nowrap"
-          animate={{ x: ["0%", "-50%"] }}
-          transition={{ duration: 30, ease: "linear", repeat: Infinity }}
-        >
-          {[...Array(2)].map((_, loop) => (
-            <div key={loop} className="flex items-center gap-12 px-6">
-              {[
-                "La mejor florería calidad-precio de Miami",
-                "Precios imbatibles en rosas frescas",
-                "Ramos 100% artesanales hechos a mano",
-                "Entrega el mismo día en Miami",
-                "De 50 a 200 rosas por bouquet",
-                "Flores naturales, pintadas o con brillos",
-              ].map((text, i) => (
-                <span key={i} className="font-body text-sm tracking-widest uppercase text-primary-foreground flex items-center gap-12">
-                  {text}
-                  <Star className="w-3 h-3 fill-primary-foreground text-primary-foreground" />
-                </span>
-              ))}
-            </div>
-          ))}
-        </motion.div>
+      <div className="relative">
+        <svg className="absolute -top-4 left-0 w-full h-4 text-primary z-10" viewBox="0 0 1440 24" preserveAspectRatio="none">
+          <path d="M0,24 C240,0 480,0 720,24 C960,48 1200,0 1440,24 L1440,24 L0,24 Z" fill="currentColor" />
+        </svg>
+        <div className="bg-primary py-4 overflow-hidden">
+          <motion.div
+            className="flex whitespace-nowrap"
+            animate={{ x: ["0%", "-50%"] }}
+            transition={{ duration: 15, ease: "linear", repeat: Infinity }}
+          >
+            {[...Array(2)].map((_, loop) => (
+              <div key={loop} className="flex items-center gap-12 px-6">
+                {[
+                  "La mejor florería calidad-precio de Miami",
+                  "Precios imbatibles en rosas frescas",
+                  "Ramos 100% artesanales hechos a mano",
+                  "Entrega el mismo día en Miami",
+                  "De 50 a 200 rosas por bouquet",
+                  "Flores naturales, pintadas o con brillos",
+                ].map((text, i) => (
+                  <span key={i} className="font-body text-sm tracking-widest uppercase text-primary-foreground flex items-center gap-12">
+                    {text}
+                    <Star className="w-3 h-3 fill-primary-foreground text-primary-foreground" />
+                  </span>
+                ))}
+              </div>
+            ))}
+          </motion.div>
+        </div>
+        <svg className="absolute -bottom-4 left-0 w-full h-4 text-primary z-10" viewBox="0 0 1440 24" preserveAspectRatio="none">
+          <path d="M0,0 C240,24 480,24 720,0 C960,-24 1200,24 1440,0 L1440,0 L0,0 Z" fill="currentColor" />
+        </svg>
       </div>
 
       {/* Bouquets */}
