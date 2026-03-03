@@ -77,6 +77,43 @@ const Index = () => {
         </div>
       </section>
 
+      {/* Bouquets */}
+      <section className="py-24 bg-cream">
+        <div className="container mx-auto px-6">
+          <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.8 }} className="text-center mb-16">
+            <h2 className="font-display text-4xl md:text-5xl font-semibold text-primary">Bouquets</h2>
+          </motion.div>
+
+          <div className="grid md:grid-cols-2 gap-8 max-w-3xl mx-auto">
+            <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }}>
+              <Link to="/bouquets/redondos" className="group block">
+                <div className="relative overflow-hidden rounded-sm mb-5 aspect-square">
+                  <img src={numberBouquet} alt="Bouquets Redondos" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
+                  <div className="absolute inset-0 bg-foreground/10 group-hover:bg-foreground/20 transition-colors" />
+                </div>
+                <div className="flex items-center justify-center gap-2 mb-2">
+                  <Sparkles className="w-4 h-4 text-primary" />
+                  <h3 className="font-display text-xl font-semibold text-foreground uppercase tracking-wide">Redondos</h3>
+                </div>
+              </Link>
+            </motion.div>
+
+            <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6, delay: 0.2 }}>
+              <Link to="/bouquets/corazones" className="group block">
+                <div className="relative overflow-hidden rounded-sm mb-5 aspect-square">
+                  <img src={heartBouquet} alt="Bouquets Corazón" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
+                  <div className="absolute inset-0 bg-foreground/10 group-hover:bg-foreground/20 transition-colors" />
+                </div>
+                <div className="flex items-center justify-center gap-2 mb-2">
+                  <Heart className="w-4 h-4 text-primary" />
+                  <h3 className="font-display text-xl font-semibold text-foreground uppercase tracking-wide">Corazones</h3>
+                </div>
+              </Link>
+            </motion.div>
+          </div>
+        </div>
+      </section>
+
       {/* Ticker */}
       <div className="relative mt-[-1px]">
         <div className="absolute -top-[14px] left-0 w-[200%] h-4 z-10 overflow-hidden">
@@ -127,43 +164,6 @@ const Index = () => {
           </motion.svg>
         </div>
       </div>
-
-      {/* Bouquets */}
-      <section className="py-24 bg-cream">
-        <div className="container mx-auto px-6">
-          <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.8 }} className="text-center mb-16">
-            <h2 className="font-display text-4xl md:text-5xl font-semibold text-primary">Bouquets</h2>
-          </motion.div>
-
-          <div className="grid md:grid-cols-2 gap-8 max-w-3xl mx-auto">
-            <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }}>
-              <Link to="/bouquets/redondos" className="group block">
-                <div className="relative overflow-hidden rounded-sm mb-5 aspect-square">
-                  <img src={numberBouquet} alt="Bouquets Redondos" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
-                  <div className="absolute inset-0 bg-foreground/10 group-hover:bg-foreground/20 transition-colors" />
-                </div>
-                <div className="flex items-center justify-center gap-2 mb-2">
-                  <Sparkles className="w-4 h-4 text-primary" />
-                  <h3 className="font-display text-xl font-semibold text-foreground uppercase tracking-wide">Redondos</h3>
-                </div>
-              </Link>
-            </motion.div>
-
-            <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6, delay: 0.2 }}>
-              <Link to="/bouquets/corazones" className="group block">
-                <div className="relative overflow-hidden rounded-sm mb-5 aspect-square">
-                  <img src={heartBouquet} alt="Bouquets Corazón" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
-                  <div className="absolute inset-0 bg-foreground/10 group-hover:bg-foreground/20 transition-colors" />
-                </div>
-                <div className="flex items-center justify-center gap-2 mb-2">
-                  <Heart className="w-4 h-4 text-primary" />
-                  <h3 className="font-display text-xl font-semibold text-foreground uppercase tracking-wide">Corazones</h3>
-                </div>
-              </Link>
-            </motion.div>
-          </div>
-        </div>
-      </section>
 
       {/* Personaliza tu Bouquet */}
       <section className="py-24 bg-background">
