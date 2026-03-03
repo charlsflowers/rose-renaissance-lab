@@ -1,7 +1,8 @@
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { ArrowRight, Heart, Sparkles, Flower2, Star } from "lucide-react";
-import ReviewCard, { type ReviewData } from "@/components/ReviewCard";
+import ReviewCard from "@/components/ReviewCard";
+import { reviews } from "@/lib/reviewsData";
 import Navbar from "@/components/Navbar";
 import heroBouquet from "@/assets/hero-bouquet.jpg";
 import arreglosImg from "@/assets/arreglos.jpg";
@@ -13,45 +14,6 @@ import heartBouquet from "@/assets/heart-bouquet.jpg";
 import numberBouquet from "@/assets/number-bouquet.jpg";
 
 const Index = () => {
-  const reviews: ReviewData[] = [
-    {
-      id: 'rev-1',
-      name: 'María G.',
-      rating: 5,
-      text: 'Pedí un bouquet de 100 rosas rojas y blancas para mi aniversario. ¡Quedó espectacular! Mi esposa lloró de la emoción.',
-      image: '/placeholder.svg',
-      productLabel: 'Elegancia Roja y Blanca',
-      cartData: { bouquetType: 'round', color: 'Rojo y Blanco', roses: 100, price: 176 },
-    },
-    {
-      id: 'rev-2',
-      name: 'Carlos R.',
-      rating: 5,
-      text: 'El bouquet corazón de rosas hot pink fue perfecto para el cumpleaños de mi novia. Calidad increíble y entrega puntual.',
-      image: '/placeholder.svg',
-      productLabel: 'Corazón Rosa Intenso',
-      cartData: { bouquetType: 'heart', color: 'Rojo y Hot Pink', roses: 75, price: 116 },
-    },
-    {
-      id: 'rev-3',
-      name: 'Ana P.',
-      rating: 5,
-      text: 'Compré el arreglo de rosas negras y rojas para decorar un evento. Todos me preguntaron dónde lo conseguí. ¡Hermoso!',
-      image: '/placeholder.svg',
-      productLabel: 'Misterio Nocturno',
-      cartData: { bouquetType: 'round', color: 'Rojo y Negro', roses: 50, price: 91 },
-    },
-    {
-      id: 'rev-4',
-      name: 'Laura M.',
-      rating: 5,
-      text: 'Las rosas light pink con blancas son un sueño. Pedí 150 rosas y el resultado superó todas mis expectativas.',
-      image: '/placeholder.svg',
-      productLabel: 'Corazón Suave',
-      cartData: { bouquetType: 'heart', color: 'Light Pink y Blanco', roses: 150, price: 271 },
-    },
-  ];
-
   const categories = [
     { img: arreglosImg, title: "Arreglos", slug: "arreglos" },
     { img: cajasImg, title: "Cajas", slug: "cajas" },
