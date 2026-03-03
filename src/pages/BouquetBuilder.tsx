@@ -214,14 +214,13 @@ const BouquetBuilder = () => {
 
   const getAvailableHours = (date: Date | undefined) => {
     if (!date) return [];
+    const day = date.getDay(); // 0=Dom, 6=Sáb
+    const closeHour = day === 0 ? 16 : day === 6 ? 17 : 19; // Dom 4pm, Sáb 5pm, L-V 7pm
     const hours: string[] = [];
-    const now = new Date();
-    for (let h = 8; h <= 20; h++) {
+    for (let h = 8; h < closeHour; h++) {
       const slotTime = new Date(date);
       slotTime.setHours(h, 0, 0, 0);
-      if (isToday(date)) {
-        if (isBefore(slotTime, minDeliveryTime)) continue;
-      }
+      if (isToday(date) && isBefore(slotTime, minDeliveryTime)) continue;
       hours.push(`${h.toString().padStart(2, "0")}:00`);
     }
     return hours;
