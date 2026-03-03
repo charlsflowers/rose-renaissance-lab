@@ -3,12 +3,11 @@ import { motion } from "framer-motion";
 import { ChevronLeft, ChevronRight, Play } from "lucide-react";
 
 const placeholderVideos = [
-  { id: 1, title: "Cliente feliz con su bouquet", src: "" },
-  { id: 2, title: "Entrega sorpresa de rosas", src: "" },
-  { id: 3, title: "Bouquet personalizado de 100 rosas", src: "" },
-  { id: 4, title: "Arreglo especial para aniversario", src: "" },
-  { id: 5, title: "Rosas pintadas con brillos", src: "" },
-  { id: 6, title: "Bouquet gigante de 200 rosas", src: "" },
+  { id: 1, title: "Cliente feliz con su bouquet", src: "/videos/video_1.mp4" },
+  { id: 2, title: "Entrega sorpresa de rosas", src: "/videos/video_2.mp4" },
+  { id: 3, title: "Bouquet personalizado de 100 rosas", src: "/videos/video_3.mp4" },
+  { id: 4, title: "Arreglo especial para aniversario", src: "/videos/video_4.mp4" },
+  { id: 5, title: "Rosas pintadas con brillos", src: "/videos/video_5.mp4" },
 ];
 
 const VideoCard = ({ video, index }: { video: typeof placeholderVideos[0]; index: number }) => {
