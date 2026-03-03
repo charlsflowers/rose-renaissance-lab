@@ -64,21 +64,23 @@ export const categoryProducts: Record<string, CatalogProduct[]> = {
 
 export const bouquetProducts: BouquetProduct[] = [
   // Round
-  { id: 'bq-round-1', name: 'Bouquet Rojo Clásico', description: 'Ramo redondo de rosas rojas frescas', image: '', color: 'Rojo', type: 'round' },
-  { id: 'bq-round-2', name: 'Bouquet Rosa Pastel', description: 'Ramo redondo de rosas rosa suave', image: '', color: 'Rosa', type: 'round' },
-  { id: 'bq-round-3', name: 'Bouquet Blanco Puro', description: 'Ramo redondo de rosas blancas frescas', image: '', color: 'Blanco', type: 'round' },
+  { id: 'bq-round-1', name: 'Elegancia Roja y Blanca', description: 'Mix de rosas rojas y blancas en ramo redondo', image: '', color: 'Rojo y Blanco', type: 'round' },
+  { id: 'bq-round-2', name: 'Romance Hot Pink', description: 'Mix de rosas rojas y hot pink en ramo redondo', image: '', color: 'Rojo y Hot Pink', type: 'round' },
+  { id: 'bq-round-3', name: 'Misterio Nocturno', description: 'Mix de rosas rojas y negras en ramo redondo', image: '', color: 'Rojo y Negro', type: 'round' },
+  { id: 'bq-round-4', name: 'Dulzura Bicolor', description: 'Mix de rosas light pink y blancas en ramo redondo', image: '', color: 'Light Pink y Blanco', type: 'round' },
   // Heart
-  { id: 'bq-heart-1', name: 'Corazón Rojo Pasión', description: 'Bouquet en forma de corazón con rosas rojas', image: '', color: 'Rojo', type: 'heart' },
-  { id: 'bq-heart-2', name: 'Corazón Rosa Amor', description: 'Bouquet en forma de corazón con rosas rosa', image: '', color: 'Rosa', type: 'heart' },
-  { id: 'bq-heart-3', name: 'Corazón Bicolor', description: 'Bouquet corazón combinando rojo y rosa', image: '', color: 'Bicolor', type: 'heart' },
+  { id: 'bq-heart-1', name: 'Corazón Rojo y Blanco', description: 'Bouquet corazón con rosas rojas y blancas', image: '', color: 'Rojo y Blanco', type: 'heart' },
+  { id: 'bq-heart-2', name: 'Corazón Rosa Intenso', description: 'Bouquet corazón con rosas rojas y hot pink', image: '', color: 'Rojo y Hot Pink', type: 'heart' },
+  { id: 'bq-heart-3', name: 'Corazón Elegante', description: 'Bouquet corazón con rosas negras y rojas', image: '', color: 'Rojo y Negro', type: 'heart' },
+  { id: 'bq-heart-4', name: 'Corazón Suave', description: 'Bouquet corazón con rosas light pink y blancas', image: '', color: 'Light Pink y Blanco', type: 'heart' },
 ];
 
 export const bouquetSizeOptions = [
-  { roses: 50, price: 76 },
-  { roses: 75, price: 101 },
-  { roses: 100, price: 136 },
-  { roses: 125, price: 201 },
-  { roses: 150, price: 226 },
-  { roses: 175, price: 251 },
-  { roses: 200, price: 301 },
+  { roses: 50, price: 91 },
+  { roses: 75, price: 116 },
+  { roses: 100, price: 176 },
+  { roses: 125, price: 231 },
+  { roses: 150, price: 271 },
+  { roses: 175, price: 296 },
+  { roses: 200, price: 361 },
 ];
