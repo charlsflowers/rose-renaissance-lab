@@ -10,6 +10,8 @@ export interface ReviewCartData {
   price: number;
 }
 
+export type ReviewCategory = "bouquets" | "arreglos" | "cajas" | "cestas" | "jarrones" | "osos";
+
 export interface ReviewData {
   id: string;
   name: string;
@@ -17,6 +19,7 @@ export interface ReviewData {
   text: string;
   image: string;
   productLabel: string;
+  category: ReviewCategory;
   cartData: ReviewCartData;
 }
 
