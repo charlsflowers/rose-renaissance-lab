@@ -57,7 +57,7 @@ const Index = () => {
               </Link>
               <Link to="/bouquets/personalizar"
                 className="inline-flex items-center gap-3 border border-primary-foreground/50 text-primary-foreground px-8 py-4 font-body text-sm tracking-widest uppercase hover:bg-primary-foreground/10 transition-colors rounded-sm">
-                Crea tu bouquet a medida <Sparkles className="w-4 h-4" />
+                Crea tu bouquet <Sparkles className="w-4 h-4" />
               </Link>
             </div>
           </motion.div>
