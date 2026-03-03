@@ -217,7 +217,7 @@ const BouquetBuilder = () => {
     const day = date.getDay(); // 0=Dom, 6=Sáb
     const closeHour = day === 0 ? 16 : day === 6 ? 17 : 19; // Dom 4pm, Sáb 5pm, L-V 7pm
     const hours: string[] = [];
-    for (let h = 8; h < closeHour; h++) {
+    for (let h = 8; h <= closeHour; h++) {
       const slotTime = new Date(date);
       slotTime.setHours(h, 0, 0, 0);
       if (isToday(date) && isBefore(slotTime, minDeliveryTime)) continue;

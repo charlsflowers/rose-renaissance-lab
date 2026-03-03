@@ -92,7 +92,7 @@ const CategoryProductDetail = () => {
     const day = date.getDay();
     const closeHour = day === 0 ? 16 : day === 6 ? 17 : 19;
     const hours: string[] = [];
-    for (let h = 8; h < closeHour; h++) {
+    for (let h = 8; h <= closeHour; h++) {
       const slotTime = new Date(date); slotTime.setHours(h, 0, 0, 0);
       if (isToday(date) && isBefore(slotTime, minDeliveryTime)) continue;
       hours.push(`${h.toString().padStart(2, "0")}:00`);
