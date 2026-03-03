@@ -9,7 +9,8 @@ export interface ColorOption {
 export const colorOptions: ColorOption[] = [
   // Natural
   { name: 'Blanco', hex: '#FEFEFE', category: 'natural' },
-  { name: 'Rosa', hex: '#F4A0B0', category: 'natural' },
+  { name: 'Hot Pink', hex: '#FF69B4', category: 'natural' },
+  { name: 'Light Pink', hex: '#FFB6C1', category: 'natural' },
   { name: 'Amarillo', hex: '#F5D547', category: 'natural' },
   { name: 'Naranja', hex: '#F0913A', category: 'natural' },
   { name: 'Morado', hex: '#8B5EA0', category: 'natural' },
