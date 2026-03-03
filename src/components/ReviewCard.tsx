@@ -34,13 +34,7 @@ const ReviewCard = ({ review, index }: { review: ReviewData; index: number }) =>
 
   return (
     <>
-      <motion.div
-        initial={{ opacity: 0, y: 30 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.5, delay: index * 0.1 }}
-        className="group"
-      >
+      <div className="group">
         <div className="bg-card rounded-sm overflow-hidden border border-border">
           <div className="relative aspect-square overflow-hidden">
             <img
@@ -90,7 +84,7 @@ const ReviewCard = ({ review, index }: { review: ReviewData; index: number }) =>
             </div>
           </div>
         </div>
-      </motion.div>
+      </div>
 
       <ReviewUpsellDialog
         open={dialogOpen}
