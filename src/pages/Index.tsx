@@ -14,7 +14,7 @@ import cestasImg from "@/assets/cestas.jpg";
 import jarronesImg from "@/assets/jarrones.jpg";
 import ososImg from "@/assets/osos.jpg";
 import heartBouquet from "@/assets/heart-bouquet.jpg";
-import numberBouquet from "@/assets/number-bouquet.jpg";
+
 
 const Index = () => {
   const [reviewCategory, setReviewCategory] = useState<ReviewCategory>("bouquets");
@@ -51,7 +51,7 @@ const Index = () => {
               Bouquets hechos a mano de 50 a 200 rosas. Naturales, pintadas o con brillos.
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
-              <Link to="/bouquets/redondos"
+              <Link to="/bouquets"
                 className="inline-flex items-center gap-3 bg-primary text-primary-foreground px-8 py-4 font-body text-sm tracking-widest uppercase hover:bg-primary/90 transition-colors rounded-sm">
                 Ver bouquets <ArrowRight className="w-4 h-4" />
               </Link>
@@ -94,33 +94,18 @@ const Index = () => {
             <h2 className="font-display text-4xl md:text-5xl font-semibold text-primary">Bouquets</h2>
           </motion.div>
 
-          <div className="grid md:grid-cols-2 gap-8 max-w-3xl mx-auto">
-            <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }}>
-              <Link to="/bouquets/redondos" className="group block">
-                <div className="relative overflow-hidden rounded-sm mb-5 aspect-square">
-                  <img src={numberBouquet} alt="Bouquets Redondos" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
-                  <div className="absolute inset-0 bg-foreground/10 group-hover:bg-foreground/20 transition-colors" />
-                </div>
-                <div className="flex items-center justify-center gap-2 mb-2">
-                  <Sparkles className="w-4 h-4 text-primary" />
-                  <h3 className="font-display text-xl font-semibold text-foreground uppercase tracking-wide">Redondos</h3>
-                </div>
-              </Link>
-            </motion.div>
-
-            <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6, delay: 0.2 }}>
-              <Link to="/bouquets/corazones" className="group block">
-                <div className="relative overflow-hidden rounded-sm mb-5 aspect-square">
-                  <img src={heartBouquet} alt="Bouquets Corazón" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
-                  <div className="absolute inset-0 bg-foreground/10 group-hover:bg-foreground/20 transition-colors" />
-                </div>
-                <div className="flex items-center justify-center gap-2 mb-2">
-                  <Heart className="w-4 h-4 text-primary" />
-                  <h3 className="font-display text-xl font-semibold text-foreground uppercase tracking-wide">Corazones</h3>
-                </div>
-              </Link>
-            </motion.div>
-          </div>
+          <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }} className="max-w-md mx-auto">
+            <Link to="/bouquets" className="group block">
+              <div className="relative overflow-hidden rounded-sm mb-5 aspect-square">
+                <img src={heartBouquet} alt="Bouquets" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
+                <div className="absolute inset-0 bg-foreground/10 group-hover:bg-foreground/20 transition-colors" />
+              </div>
+              <div className="flex items-center justify-center gap-2 mb-2">
+                <Sparkles className="w-4 h-4 text-primary" />
+                <h3 className="font-display text-xl font-semibold text-foreground uppercase tracking-wide">Ver Bouquets</h3>
+              </div>
+            </Link>
+          </motion.div>
         </div>
       </section>
 
