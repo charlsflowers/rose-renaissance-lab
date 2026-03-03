@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { Crown, Ribbon, Store, Truck, ShoppingBag, CreditCard } from "lucide-react";
+import { Crown, Ribbon, Store, Truck, ShoppingBag, CreditCard, Star } from "lucide-react";
 import { useCart, type CartItem } from "@/contexts/CartContext";
 import { crownOptions, crownPrice, ribbonPrice, ribbonPresets } from "@/lib/productData";
 import type { ReviewCartData } from "@/components/ReviewCard";
@@ -12,7 +12,6 @@ interface Props {
   onOpenChange: (open: boolean) => void;
   cartData: ReviewCartData;
   productLabel: string;
-  /** "cart" = just add, "buy" = add + go to checkout */
   mode: "cart" | "buy";
 }
 
@@ -20,6 +19,7 @@ const ReviewUpsellDialog = ({ open, onOpenChange, cartData, productLabel, mode }
   const { addItem } = useCart();
   const navigate = useNavigate();
 
+  const [addGlitter, setAddGlitter] = useState(false);
   const [addCrown, setAddCrown] = useState(false);
   const [crownSize, setCrownSize] = useState("small");
   const [addRibbon, setAddRibbon] = useState(false);
@@ -27,11 +27,17 @@ const ReviewUpsellDialog = ({ open, onOpenChange, cartData, productLabel, mode }
   const [ribbonText, setRibbonText] = useState("");
   const [deliveryMethod, setDeliveryMethod] = useState<"pickup" | "delivery">("pickup");
 
+  const glitterCost = addGlitter ? Math.ceil(cartData.roses / 25) * 8 : 0;
   const extrasTotal =
-    (addCrown ? crownPrice : 0) + (addRibbon ? ribbonPrice : 0);
+    glitterCost + (addCrown ? crownPrice : 0) + (addRibbon ? ribbonPrice : 0);
   const finalPrice = cartData.price + extrasTotal;
 
   const handleConfirm = () => {
+    const addons: string[] = [];
+    if (addGlitter) addons.push("Brillos");
+    if (addCrown) addons.push(`Corona (${crownSize})`);
+    if (addRibbon) addons.push("Cinta");
+
     const item: CartItem = {
       id: "",
       bouquetType: cartData.bouquetType,
@@ -40,14 +46,14 @@ const ReviewUpsellDialog = ({ open, onOpenChange, cartData, productLabel, mode }
       price: cartData.price,
       deliveryCost: 0,
       totalPrice: finalPrice,
-      addons: [],
+      addons,
       accessory: "",
       accessoryText: "",
       ribbonText: addRibbon ? ribbonText : "",
       crownSize: addCrown ? crownSize : "",
       specialText: "",
       heartColor: "",
-      glitter: false,
+      glitter: addGlitter,
       deliveryMethod,
       deliveryName: "",
       deliveryPhone: "",
@@ -80,7 +86,7 @@ const ReviewUpsellDialog = ({ open, onOpenChange, cartData, productLabel, mode }
           <p className="text-sm text-muted-foreground font-body">Precio base: ${cartData.price}</p>
         </DialogHeader>
 
-        <div className="space-y-6 pt-2">
+        <div className="space-y-5 pt-2">
           {/* Delivery method */}
           <div>
             <p className="font-body text-sm font-semibold text-foreground mb-3">Método de entrega</p>
@@ -104,6 +110,23 @@ const ReviewUpsellDialog = ({ open, onOpenChange, cartData, productLabel, mode }
               ))}
             </div>
           </div>
+
+          {/* Glitter */}
+          <button
+            onClick={() => setAddGlitter(!addGlitter)}
+            className={`w-full flex items-center gap-3 p-4 rounded-sm border-2 transition-all font-body text-sm ${
+              addGlitter
+                ? "border-primary bg-primary/5 text-primary"
+                : "border-border text-muted-foreground hover:border-primary/30"
+            }`}
+          >
+            <Star className={`w-5 h-5 shrink-0 ${addGlitter ? "text-yellow-400 fill-yellow-400" : ""}`} />
+            <div className="text-left flex-1">
+              <p className="font-semibold">✨ Brillos</p>
+              <p className="text-xs">Acabado brillante en las rosas</p>
+            </div>
+            <span className="text-xs font-semibold">+${glitterCost || Math.ceil(cartData.roses / 25) * 8}</span>
+          </button>
 
           {/* Crown */}
           <div>
