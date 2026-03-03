@@ -290,7 +290,15 @@ const BouquetProductDetail = () => {
                       <p className="text-xs text-muted-foreground font-body">Para poner tu ramo</p>
                     </div>
                   </div>
-                  <button onClick={() => setAddVase(!addVase)} className={`w-12 h-7 rounded-full transition-all relative ${addVase ? "bg-primary" : "bg-muted"}`}>
+                  <button onClick={() => {
+                    const newVal = !addVase;
+                    setAddVase(newVal);
+                    if (newVal) {
+                      const roses = bouquetSizeOptions[selectedSizeIdx].roses;
+                      const bestIdx = roses <= 50 ? 0 : roses <= 75 ? 1 : 2;
+                      setSelectedVaseIdx(bestIdx);
+                    }
+                  }} className={`w-12 h-7 rounded-full transition-all relative ${addVase ? "bg-primary" : "bg-muted"}`}>
                     <div className={`w-5 h-5 rounded-full bg-primary-foreground absolute top-1 transition-all ${addVase ? "left-6" : "left-1"}`} />
                   </button>
                 </div>
