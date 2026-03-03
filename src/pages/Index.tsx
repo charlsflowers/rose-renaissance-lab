@@ -78,10 +78,18 @@ const Index = () => {
       </section>
 
       {/* Ticker */}
-      <div className="relative">
-        <svg className="absolute -top-4 left-0 w-full h-4 text-primary z-10" viewBox="0 0 1440 24" preserveAspectRatio="none">
-          <path d="M0,24 C240,0 480,0 720,24 C960,48 1200,0 1440,24 L1440,24 L0,24 Z" fill="currentColor" />
-        </svg>
+      <div className="relative mt-[-1px]">
+        <div className="absolute -top-[14px] left-0 w-[200%] h-4 z-10 overflow-hidden">
+          <motion.svg
+            className="w-full h-full text-primary"
+            viewBox="0 0 2880 24"
+            preserveAspectRatio="none"
+            animate={{ x: ["0%", "-50%"] }}
+            transition={{ duration: 8, ease: "linear", repeat: Infinity }}
+          >
+            <path d="M0,24 C120,4 240,4 360,24 C480,44 600,4 720,24 C840,4 960,4 1080,24 C1200,44 1320,4 1440,24 C1560,4 1680,4 1800,24 C1920,44 2040,4 2160,24 C2280,4 2400,4 2520,24 C2640,44 2760,4 2880,24 L2880,24 L0,24 Z" fill="currentColor" />
+          </motion.svg>
+        </div>
         <div className="bg-primary py-4 overflow-hidden">
           <motion.div
             className="flex whitespace-nowrap"
@@ -107,9 +115,17 @@ const Index = () => {
             ))}
           </motion.div>
         </div>
-        <svg className="absolute -bottom-4 left-0 w-full h-4 text-primary z-10" viewBox="0 0 1440 24" preserveAspectRatio="none">
-          <path d="M0,0 C240,24 480,24 720,0 C960,-24 1200,24 1440,0 L1440,0 L0,0 Z" fill="currentColor" />
-        </svg>
+        <div className="absolute -bottom-[14px] left-0 w-[200%] h-4 z-10 overflow-hidden">
+          <motion.svg
+            className="w-full h-full text-primary"
+            viewBox="0 0 2880 24"
+            preserveAspectRatio="none"
+            animate={{ x: ["-50%", "0%"] }}
+            transition={{ duration: 8, ease: "linear", repeat: Infinity }}
+          >
+            <path d="M0,0 C120,20 240,20 360,0 C480,-20 600,20 720,0 C840,20 960,20 1080,0 C1200,-20 1320,20 1440,0 C1560,20 1680,20 1800,0 C1920,-20 2040,20 2160,0 C2280,20 2400,20 2520,0 C2640,-20 2760,20 2880,0 L2880,0 L0,0 Z" fill="currentColor" />
+          </motion.svg>
+        </div>
       </div>
 
       {/* Bouquets */}
