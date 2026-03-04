@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { useCart } from "@/contexts/CartContext";
-import { ShoppingBag } from "lucide-react";
+import BrandLogo from "@/components/BrandLogo";
 import { motion, AnimatePresence } from "framer-motion";
 
 const FloatingCart = () => {
@@ -19,7 +19,7 @@ const FloatingCart = () => {
             to="/checkout"
             className="flex items-center gap-3 bg-primary text-primary-foreground px-6 py-3 rounded-full shadow-2xl hover:bg-primary/90 transition-colors font-body"
           >
-            <ShoppingBag className="w-5 h-5" />
+            <BrandLogo className="w-6 h-6" color="currentColor" />
             <span className="text-sm font-semibold">
               {totalItems} {totalItems === 1 ? "artículo" : "artículos"}
             </span>
