@@ -1,10 +1,24 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useCart } from "@/contexts/CartContext";
 import BrandLogo from "@/components/BrandLogo";
 import charlsLogo from "@/assets/charls-logo.png";
+import { Menu, X } from "lucide-react";
+
+const navLinks = [
+  { to: "/", label: "Inicio" },
+  { to: "/bouquets", label: "Bouquets" },
+  { to: "/bouquets/personalizar", label: "Personalizar" },
+  { to: "/categoria/arreglos", label: "Arreglos" },
+  { to: "/categoria/cajas", label: "Cajas" },
+  { to: "/categoria/cestas", label: "Cestas" },
+  { to: "/categoria/jarrones", label: "Jarrones" },
+  { to: "/categoria/osos", label: "Osos" },
+];
 
 const Navbar = () => {
   const { totalItems } = useCart();
+  const [mobileOpen, setMobileOpen] = useState(false);
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-md border-b border-border">
@@ -12,12 +26,17 @@ const Navbar = () => {
         <Link to="/" className="flex items-center gap-2">
           <img src={charlsLogo} alt="Charl's Flowers" className="h-10 w-auto" />
         </Link>
-        <div className="flex items-center gap-8">
-          <div className="hidden md:flex items-center gap-8 font-body text-sm tracking-widest uppercase text-muted-foreground">
-            <Link to="/" className="hover:text-primary transition-colors">Inicio</Link>
-            <Link to="/bouquets/redondos" className="hover:text-primary transition-colors">Bouquets</Link>
-            <Link to="/bouquets/personalizar" className="hover:text-primary transition-colors">Personalizar</Link>
-          </div>
+
+        {/* Desktop nav */}
+        <div className="hidden lg:flex items-center gap-6 font-body text-xs tracking-widest uppercase text-muted-foreground">
+          {navLinks.map((link) => (
+            <Link key={link.to} to={link.to} className="hover:text-primary transition-colors whitespace-nowrap">
+              {link.label}
+            </Link>
+          ))}
+        </div>
+
+        <div className="flex items-center gap-4">
           <Link to="/checkout" className="relative hover:text-primary transition-colors text-foreground">
             <BrandLogo className="w-7 h-7" />
             {totalItems > 0 && (
@@ -26,8 +45,34 @@ const Navbar = () => {
               </span>
             )}
           </Link>
+
+          {/* Mobile hamburger */}
+          <button
+            onClick={() => setMobileOpen(!mobileOpen)}
+            className="lg:hidden text-foreground hover:text-primary transition-colors"
+          >
+            {mobileOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+          </button>
         </div>
       </div>
+
+      {/* Mobile menu */}
+      {mobileOpen && (
+        <div className="lg:hidden border-t border-border bg-background/95 backdrop-blur-md">
+          <div className="container mx-auto px-6 py-4 flex flex-col gap-3 font-body text-sm tracking-widest uppercase text-muted-foreground">
+            {navLinks.map((link) => (
+              <Link
+                key={link.to}
+                to={link.to}
+                onClick={() => setMobileOpen(false)}
+                className="hover:text-primary transition-colors py-2 border-b border-border last:border-b-0"
+              >
+                {link.label}
+              </Link>
+            ))}
+          </div>
+        </div>
+      )}
     </nav>
   );
 };
