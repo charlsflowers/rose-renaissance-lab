@@ -138,14 +138,13 @@ const BouquetProductDetail = () => {
 
   let step = 1;
 
-  const handleAddToCart = () => {
-    if (deliveryMethod === "delivery" && !selectedAddress) { toast.error("Selecciona una dirección de entrega."); return; }
-    if (deliveryMethod === "delivery" && (distanceTooFar || deliveryMiles === null)) { toast.error("La dirección no es válida o fuera de rango."); return; }
-    if (deliveryMethod === "delivery" && (distanceTooFar || deliveryMiles === null)) { toast.error("La dirección no es válida o fuera de rango."); return; }
-    if (!deliveryDate || !deliveryHour) { toast.error("Selecciona fecha y hora."); return; }
+  const handleAddToCart = (): boolean => {
+    if (deliveryMethod === "delivery" && !selectedAddress) { toast.error("Selecciona una dirección de entrega."); return false; }
+    if (deliveryMethod === "delivery" && (distanceTooFar || deliveryMiles === null)) { toast.error("La dirección no es válida o fuera de rango."); return false; }
+    if (!deliveryDate || !deliveryHour) { toast.error("Selecciona fecha y hora."); return false; }
 
     const addons: string[] = [];
-    if (addCrown) addons.push(`Corona (${crownSize})`);
+    if (addCrown) addons.push(`Corona Tiara (${crownSize})`);
     if (addRibbon) addons.push("Cinta");
     if (addGlitter) addons.push("Brillos");
     if (addLetters || addNumbers) addons.push(`Texto: ${specialText}`);
@@ -178,7 +177,11 @@ const BouquetProductDetail = () => {
       deliveryMiles: deliveryMethod === "delivery" ? deliveryMiles : null,
     });
     toast.success("¡Bouquet añadido al carrito!");
-    navigate("/checkout");
+    return true;
+  };
+
+  const handlePayNow = () => {
+    if (handleAddToCart()) navigate("/checkout");
   };
 
   return (
@@ -237,7 +240,7 @@ const BouquetProductDetail = () => {
             </Section>
 
             {/* 3. Letters/Numbers */}
-            <Section title="Letras o Números" step={step++} subtitle={`+$${letterNumberExtraPrice} c/u`}>
+            <Section title="Letras o Números (Baby Breath)" step={step++} subtitle={`+$${letterNumberExtraPrice} c/u`}>
               <div className="flex gap-3 mb-4">
                 <button onClick={() => { setAddLetters(!addLetters); if (addNumbers) setAddNumbers(false); setSpecialText(""); }}
                   className={`flex items-center gap-2 px-4 py-3 rounded-sm border-2 font-body text-sm transition-all ${addLetters ? "border-primary bg-primary/5 text-primary" : "border-border text-muted-foreground hover:border-primary/30"}`}>
@@ -324,7 +327,7 @@ const BouquetProductDetail = () => {
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-3">
                     <Crown className="w-5 h-5 text-gold" />
-                    <div><p className="font-body font-semibold text-foreground">Corona</p><p className="text-xs text-muted-foreground font-body">+${crownPrice}</p></div>
+                    <div><p className="font-body font-semibold text-foreground">Corona Tiara</p><p className="text-xs text-muted-foreground font-body">+${crownPrice}</p></div>
                   </div>
                   <button onClick={() => setAddCrown(!addCrown)} className={`w-12 h-7 rounded-full transition-all relative ${addCrown ? "bg-primary" : "bg-muted"}`}>
                     <div className={`w-5 h-5 rounded-full bg-primary-foreground absolute top-1 transition-all ${addCrown ? "left-6" : "left-1"}`} />
@@ -487,6 +490,10 @@ const BouquetProductDetail = () => {
                 <button onClick={handleAddToCart}
                   className="w-full md:w-auto bg-primary text-primary-foreground px-10 py-4 font-body text-sm tracking-widest uppercase hover:bg-primary/90 transition-colors rounded-sm">
                   Añadir al carrito
+                </button>
+                <button onClick={handlePayNow}
+                  className="w-full md:w-auto border-2 border-primary text-primary px-10 py-4 font-body text-sm tracking-widest uppercase hover:bg-primary/10 transition-colors rounded-sm">
+                  Pagar ahora
                 </button>
               </div>
             </div>

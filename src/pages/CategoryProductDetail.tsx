@@ -7,7 +7,7 @@ import { useCart } from "@/contexts/CartContext";
 import { toast } from "sonner";
 import Navbar from "@/components/Navbar";
 import { categoryProducts } from "@/lib/catalogData";
-import { ArrowLeft, Check, Store, Truck, CalendarIcon, Clock, MapPin, Search, Loader2, Type } from "lucide-react";
+import { ArrowLeft, Check, Store, Truck, CalendarIcon, Clock, MapPin, Search, Loader2, Type, Sparkles } from "lucide-react";
 import { Calendar } from "@/components/ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 
@@ -19,9 +19,11 @@ const CategoryProductDetail = () => {
   const products = slug ? categoryProducts[slug] || [] : [];
   const product = products.find((p) => p.id === productId);
 
-  const [selectedSizeIdx, setSelectedSizeIdx] = useState(0);
+  const [selectedSizeIdx] = useState(0);
   const [noteText, setNoteText] = useState("");
   const [addNote, setAddNote] = useState(false);
+  const [addCard, setAddCard] = useState(false);
+  const [cardText, setCardText] = useState("");
 
   // Delivery state (reused from BouquetBuilder)
   const [deliveryMethod, setDeliveryMethod] = useState<"pickup" | "delivery">("pickup");
@@ -116,11 +118,10 @@ const CategoryProductDetail = () => {
   const deliveryCost = deliveryMethod === "delivery" && deliveryMiles && !distanceTooFar ? deliveryMiles * 2 : 0;
   const totalPrice = selectedSize.price + deliveryCost;
 
-  const handleAddToCart = () => {
-    if (deliveryMethod === "delivery" && !selectedAddress) { toast.error("Selecciona una dirección de entrega."); return; }
-    if (deliveryMethod === "delivery" && (distanceTooFar || deliveryMiles === null)) { toast.error("La dirección no es válida o está fuera de rango."); return; }
-    if (deliveryMethod === "delivery" && (distanceTooFar || deliveryMiles === null)) { toast.error("La dirección no es válida o está fuera de rango."); return; }
-    if (!deliveryDate || !deliveryHour) { toast.error("Selecciona fecha y hora."); return; }
+  const handleAddToCart = (): boolean => {
+    if (deliveryMethod === "delivery" && !selectedAddress) { toast.error("Selecciona una dirección de entrega."); return false; }
+    if (deliveryMethod === "delivery" && (distanceTooFar || deliveryMiles === null)) { toast.error("La dirección no es válida o está fuera de rango."); return false; }
+    if (!deliveryDate || !deliveryHour) { toast.error("Selecciona fecha y hora."); return false; }
 
     addItem({
       id: "",
@@ -131,8 +132,8 @@ const CategoryProductDetail = () => {
       deliveryCost,
       totalPrice,
       addons: [],
-      accessory: addNote ? "note" : "none",
-      accessoryText: noteText,
+      accessory: addNote ? "note" : addCard ? "card" : "none",
+      accessoryText: addNote ? noteText : addCard ? cardText : "",
       ribbonText: "",
       crownSize: "",
       specialText: "",
@@ -149,7 +150,11 @@ const CategoryProductDetail = () => {
       deliveryMiles: deliveryMethod === "delivery" ? deliveryMiles : null,
     });
     toast.success("¡Producto añadido al carrito!");
-    navigate("/checkout");
+    return true;
+  };
+
+  const handlePayNow = () => {
+    if (handleAddToCart()) navigate("/checkout");
   };
 
   return (
@@ -178,35 +183,34 @@ const CategoryProductDetail = () => {
               <p className="text-muted-foreground font-body mt-2">{product.description}</p>
             </div>
 
-            {/* Size Selection */}
-            <Section title="Tamaño" step={1}>
-              <div className="grid grid-cols-3 gap-3">
-                {product.sizes.map((size, idx) => (
-                  <button key={size.label} onClick={() => setSelectedSizeIdx(idx)}
-                    className={`p-4 rounded-sm border-2 text-center transition-all ${selectedSizeIdx === idx ? "border-primary bg-primary/5" : "border-border hover:border-primary/30"}`}>
-                    <p className="font-display text-lg font-semibold text-foreground">{size.label}</p>
-                    <p className="text-sm font-body font-semibold text-primary mt-1">${size.price}</p>
-                  </button>
-                ))}
+            {/* Note & Card */}
+            <Section title="Accesorios" step={1} subtitle="Gratis">
+              <div className="grid grid-cols-2 gap-3 mb-4">
+                <button onClick={() => { setAddNote(!addNote); if (!addNote) setAddCard(false); }}
+                  className={`flex items-center justify-center gap-3 p-4 rounded-sm border-2 transition-all font-body text-sm ${addNote ? "border-primary bg-primary/5 text-primary" : "border-border text-muted-foreground hover:border-primary/30"}`}>
+                  <Type className="w-4 h-4" />
+                  <span>Nota</span>
+                  {addNote && <Check className="w-4 h-4 ml-auto" />}
+                </button>
+                <button onClick={() => { setAddCard(!addCard); if (!addCard) setAddNote(false); }}
+                  className={`flex items-center justify-center gap-3 p-4 rounded-sm border-2 transition-all font-body text-sm ${addCard ? "border-primary bg-primary/5 text-primary" : "border-border text-muted-foreground hover:border-primary/30"}`}>
+                  <Sparkles className="w-4 h-4" />
+                  <span>Tarjeta</span>
+                  {addCard && <Check className="w-4 h-4 ml-auto" />}
+                </button>
               </div>
-            </Section>
-
-            {/* Note */}
-            <Section title="Nota" step={2} subtitle="Gratis">
-              <button onClick={() => setAddNote(!addNote)}
-                className={`flex items-center gap-3 p-4 rounded-sm border-2 transition-all font-body text-sm w-full ${addNote ? "border-primary bg-primary/5 text-primary" : "border-border text-muted-foreground hover:border-primary/30"}`}>
-                <Type className="w-4 h-4" />
-                <span>Añadir una nota</span>
-                {addNote && <Check className="w-4 h-4 ml-auto" />}
-              </button>
               {addNote && (
                 <textarea value={noteText} onChange={(e) => setNoteText(e.target.value)} placeholder="Escribe tu nota..."
-                  className="w-full mt-4 bg-card border border-border rounded-sm px-4 py-3 font-body text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30 min-h-[100px] resize-none" maxLength={200} />
+                  className="w-full mt-2 bg-card border border-border rounded-sm px-4 py-3 font-body text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30 min-h-[100px] resize-none" maxLength={200} />
+              )}
+              {addCard && (
+                <textarea value={cardText} onChange={(e) => setCardText(e.target.value)} placeholder="Escribe tu tarjeta..."
+                  className="w-full mt-2 bg-card border border-border rounded-sm px-4 py-3 font-body text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30 min-h-[100px] resize-none" maxLength={200} />
               )}
             </Section>
 
             {/* Delivery */}
-            <Section title="Envío" step={3}>
+            <Section title="Envío" step={2}>
               <div className="grid grid-cols-2 gap-3 mb-6">
                 <button onClick={() => setDeliveryMethod("pickup")}
                   className={`flex flex-col items-center gap-3 p-5 rounded-sm border-2 transition-all font-body ${deliveryMethod === "pickup" ? "border-primary bg-primary/5" : "border-border hover:border-primary/30"}`}>
@@ -310,7 +314,7 @@ const CategoryProductDetail = () => {
                 <div>
                   <p className="font-body text-sm text-muted-foreground">
                     {product.name} · {selectedSize.label}
-                    {addNote && " · Nota"}
+                    {addNote && " · Nota"}{addCard && " · Tarjeta"}
                     {deliveryMethod === "delivery" ? (deliveryMiles && !distanceTooFar ? ` · Envío ($${deliveryCost})` : " · Envío (pendiente)") : " · Recogida"}
                   </p>
                   <p className="font-display text-3xl font-bold text-foreground">${totalPrice} <span className="text-sm font-body text-muted-foreground font-normal">USD</span></p>
@@ -318,6 +322,10 @@ const CategoryProductDetail = () => {
                 <button onClick={handleAddToCart}
                   className="w-full md:w-auto bg-primary text-primary-foreground px-10 py-4 font-body text-sm tracking-widest uppercase hover:bg-primary/90 transition-colors rounded-sm">
                   Añadir al carrito
+                </button>
+                <button onClick={handlePayNow}
+                  className="w-full md:w-auto border-2 border-primary text-primary px-10 py-4 font-body text-sm tracking-widest uppercase hover:bg-primary/10 transition-colors rounded-sm">
+                  Pagar ahora
                 </button>
               </div>
             </div>

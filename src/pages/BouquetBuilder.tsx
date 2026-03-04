@@ -423,7 +423,7 @@ const BouquetBuilder = () => {
             </Section>
 
             {/* 5. Letras o Números */}
-            <Section title="Letras o Números" step={5} subtitle="Opcional">
+            <Section title="Letras o Números (Baby Breath)" step={5} subtitle="Opcional">
               <div className={`p-5 rounded-sm border-2 transition-all ${addLettersNumbers ? "border-primary bg-primary/5" : "border-border"}`}>
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-3">
@@ -538,7 +538,7 @@ const BouquetBuilder = () => {
                   <div className="flex items-center gap-3">
                     <Crown className="w-5 h-5 text-gold" />
                     <div>
-                      <p className="font-body font-semibold text-foreground">Corona</p>
+                      <p className="font-body font-semibold text-foreground">Corona Tiara</p>
                       <p className="text-xs text-muted-foreground font-body">+${crownPrice}</p>
                     </div>
                   </div>
@@ -926,7 +926,62 @@ const BouquetBuilder = () => {
                     }
 
                     const addons: string[] = [];
-                    if (addCrown) addons.push(`Corona (${crownSize})`);
+                    if (addCrown) addons.push(`Corona Tiara (${crownSize})`);
+                    if (addRibbon) addons.push("Cinta");
+                    if (addGlitter) addons.push("Brillos");
+                    if (addVase) addons.push(`Jarrón (${vaseOptions[selectedVaseIdx].label})`);
+                    if (addLettersNumbers && specialText) addons.push(`${lettersNumbersType === "letters" ? "Letras" : "Números"}: ${specialText}`);
+
+                    addItem({
+                      id: "",
+                      bouquetType: "classic",
+                      color: selectedColors.map(c => c.name).join(', '),
+                      roses: rosesCount,
+                      price: basePrice + lettersNumbersCost + (addCrown ? crownPrice : 0) + (addRibbon ? ribbonPrice : 0),
+                      deliveryCost,
+                      totalPrice,
+                      addons,
+                      accessory,
+                      accessoryText,
+                      ribbonText,
+                      crownSize: addCrown ? crownSize : "",
+                      specialText: addLettersNumbers ? specialText : "",
+                      heartColor: "",
+                      glitter: addGlitter,
+                      deliveryMethod,
+                      deliveryName: "",
+                      deliveryPhone: "",
+                      deliveryEmail: "",
+                      deliveryAddress: deliveryMethod === "delivery" ? selectedAddress : "Recoger en tienda",
+                      deliveryZip: deliveryMethod === "delivery" ? deliveryZip : "",
+                      deliveryDate: deliveryDate ? format(deliveryDate, "PPP", { locale: es }) : "",
+                      deliveryHour,
+                      deliveryMiles: deliveryMethod === "delivery" ? deliveryMiles : null,
+                    });
+
+                    toast.success("¡Bouquet añadido al carrito!");
+                  }}
+                  className="w-full md:w-auto bg-primary text-primary-foreground px-10 py-4 font-body text-sm tracking-widest uppercase hover:bg-primary/90 transition-colors rounded-sm"
+                >
+                  Añadir al carrito
+                </button>
+                <button
+                  onClick={() => {
+                    if (deliveryMethod === "delivery" && !selectedAddress) {
+                      toast.error("Selecciona una dirección de entrega.");
+                      return;
+                    }
+                    if (deliveryMethod === "delivery" && (distanceTooFar || deliveryMiles === null)) {
+                      toast.error("La dirección no es válida o está fuera de rango.");
+                      return;
+                    }
+                    if (!deliveryDate || !deliveryHour) {
+                      toast.error("Selecciona fecha y hora de entrega.");
+                      return;
+                    }
+
+                    const addons: string[] = [];
+                    if (addCrown) addons.push(`Corona Tiara (${crownSize})`);
                     if (addRibbon) addons.push("Cinta");
                     if (addGlitter) addons.push("Brillos");
                     if (addVase) addons.push(`Jarrón (${vaseOptions[selectedVaseIdx].label})`);
@@ -962,9 +1017,9 @@ const BouquetBuilder = () => {
                     toast.success("¡Bouquet añadido al carrito!");
                     navigate("/checkout");
                   }}
-                  className="w-full md:w-auto bg-primary text-primary-foreground px-10 py-4 font-body text-sm tracking-widest uppercase hover:bg-primary/90 transition-colors rounded-sm"
+                  className="w-full md:w-auto border-2 border-primary text-primary px-10 py-4 font-body text-sm tracking-widest uppercase hover:bg-primary/10 transition-colors rounded-sm"
                 >
-                  Añadir al carrito
+                  Pagar ahora
                 </button>
               </div>
             </div>

@@ -45,9 +45,8 @@ export interface CrownOption {
 }
 
 export const crownOptions: CrownOption[] = [
-  { size: 'small', label: 'Pequeña' },
-  { size: 'medium', label: 'Mediana' },
-  { size: 'large', label: 'Grande' },
+  { size: 'silver', label: 'Plateado' },
+  { size: 'gold', label: 'Dorado' },
 ];
 
 export const ribbonPresets = ['Happy Birthday', 'Congratulations', 'I Love You'];
