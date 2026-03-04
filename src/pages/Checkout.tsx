@@ -10,7 +10,9 @@ const Checkout = () => {
   const { items, removeItem, clearCart, cartTotal } = useCart();
   const navigate = useNavigate();
 
-  const hasDeliveryItems = items.some((i) => i.deliveryMethod === "delivery");
+  const [checkoutDeliveryMethod, setCheckoutDeliveryMethod] = useState<"pickup" | "delivery">(
+    items.some((i) => i.deliveryMethod === "delivery") ? "delivery" : "pickup"
+  );
 
   const [deliveryResult, setDeliveryResult] = useState<{
     miles: number;
@@ -19,9 +21,10 @@ const Checkout = () => {
     duration?: string;
   } | null>(null);
 
-  const deliveryCost = hasDeliveryItems && deliveryResult ? deliveryResult.cost : 0;
+  const needsAddress = checkoutDeliveryMethod === "delivery";
+  const deliveryCost = needsAddress && deliveryResult ? deliveryResult.cost : 0;
   const grandTotal = cartTotal + deliveryCost;
-  const canCheckout = !hasDeliveryItems || deliveryResult !== null;
+  const canCheckout = !needsAddress || deliveryResult !== null;
 
   if (items.length === 0) {
     return (
@@ -152,16 +155,48 @@ const Checkout = () => {
               </motion.div>
             ))}
 
-            {/* Delivery calculator for delivery items */}
-            {hasDeliveryItems && (
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                className="bg-card border-2 border-primary/20 rounded-sm p-6"
-              >
+            {/* Delivery method selector */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="bg-card border-2 border-primary/20 rounded-sm p-6 space-y-5"
+            >
+              <p className="font-body font-semibold text-foreground text-sm">Método de entrega</p>
+              <div className="grid grid-cols-2 gap-3">
+                <button
+                  onClick={() => { setCheckoutDeliveryMethod("pickup"); setDeliveryResult(null); }}
+                  className={`flex flex-col items-center gap-2 p-4 rounded-sm border-2 transition-all font-body text-xs ${
+                    checkoutDeliveryMethod === "pickup"
+                      ? "border-primary bg-primary/5 text-primary"
+                      : "border-border text-muted-foreground hover:border-primary/30"
+                  }`}
+                >
+                  <Store className="w-5 h-5" />
+                  Recoger en tienda
+                </button>
+                <button
+                  onClick={() => { setCheckoutDeliveryMethod("delivery"); setDeliveryResult(null); }}
+                  className={`flex flex-col items-center gap-2 p-4 rounded-sm border-2 transition-all font-body text-xs ${
+                    checkoutDeliveryMethod === "delivery"
+                      ? "border-primary bg-primary/5 text-primary"
+                      : "border-border text-muted-foreground hover:border-primary/30"
+                  }`}
+                >
+                  <Truck className="w-5 h-5" />
+                  Entrega a domicilio
+                </button>
+              </div>
+
+              {checkoutDeliveryMethod === "pickup" && (
+                <p className="font-body text-sm text-muted-foreground">
+                  📍 Recogida en: <span className="font-semibold text-foreground">7255 NW 12th St, Miami, FL 33126</span>
+                </p>
+              )}
+
+              {checkoutDeliveryMethod === "delivery" && (
                 <DeliveryCalculator onResult={setDeliveryResult} />
-              </motion.div>
-            )}
+              )}
+            </motion.div>
 
             {/* Total + CTA */}
             <div className="bg-card border-2 border-primary/30 rounded-sm p-6">
@@ -174,7 +209,7 @@ const Checkout = () => {
                     <p className="font-body text-sm text-muted-foreground">
                       Subtotal: <span className="text-foreground font-semibold">${cartTotal}</span>
                     </p>
-                    {hasDeliveryItems && (
+                    {needsAddress && (
                       <p className="font-body text-sm text-muted-foreground">
                         Envío: <span className="text-foreground font-semibold">
                           {deliveryResult ? `$${deliveryCost}` : "Pendiente"}
