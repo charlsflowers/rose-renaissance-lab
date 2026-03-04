@@ -1,12 +1,27 @@
+import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useCart } from "@/contexts/CartContext";
 import Navbar from "@/components/Navbar";
-import { Trash2, ArrowLeft, ShoppingBag } from "lucide-react";
+import DeliveryCalculator from "@/components/DeliveryCalculator";
+import { Trash2, ArrowLeft, ShoppingBag, Truck, Store } from "lucide-react";
 import { motion } from "framer-motion";
 
 const Checkout = () => {
   const { items, removeItem, clearCart, cartTotal } = useCart();
   const navigate = useNavigate();
+
+  const hasDeliveryItems = items.some((i) => i.deliveryMethod === "delivery");
+
+  const [deliveryResult, setDeliveryResult] = useState<{
+    miles: number;
+    cost: number;
+    address: string;
+    duration?: string;
+  } | null>(null);
+
+  const deliveryCost = hasDeliveryItems && deliveryResult ? deliveryResult.cost : 0;
+  const grandTotal = cartTotal + deliveryCost;
+  const canCheckout = !hasDeliveryItems || deliveryResult !== null;
 
   if (items.length === 0) {
     return (
@@ -77,7 +92,6 @@ const Checkout = () => {
 
                 {/* Details grid */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm font-body">
-                  {/* Addons */}
                   {item.addons.length > 0 && (
                     <div>
                       <p className="text-muted-foreground mb-1">Extras:</p>
@@ -92,7 +106,7 @@ const Checkout = () => {
                     </div>
                   )}
 
-                  {item.accessory !== "none" && (
+                  {item.accessory !== "none" && item.accessory !== "" && (
                     <div>
                       <p className="text-muted-foreground mb-1">Accesorio:</p>
                       <p className="text-foreground">
@@ -109,61 +123,85 @@ const Checkout = () => {
                     </div>
                   )}
 
-                  {/* Delivery info */}
+                  {/* Delivery method indicator */}
                   <div className="md:col-span-2 pt-3 border-t border-border mt-2">
                     <p className="text-muted-foreground mb-1">Entrega:</p>
-                    <p className="text-foreground">
-                      {item.deliveryMethod === "pickup" ? "Recoger en tienda" : `Domicilio — ${item.deliveryAddress}`}
+                    <p className="text-foreground inline-flex items-center gap-2">
+                      {item.deliveryMethod === "pickup" ? (
+                        <>
+                          <Store className="w-4 h-4" />
+                          Recoger en tienda
+                        </>
+                      ) : (
+                        <>
+                          <Truck className="w-4 h-4" />
+                          Entrega a domicilio
+                        </>
+                      )}
                     </p>
-                    {item.deliveryDate && (
-                      <p className="text-foreground mt-1">
-                        📅 {item.deliveryDate} {item.deliveryHour && `a las ${item.deliveryHour}`}
-                      </p>
-                    )}
                   </div>
-
                 </div>
 
                 {/* Item price */}
                 <div className="flex justify-end mt-4 pt-3 border-t border-border">
                   <div className="text-right">
-                    <p className="text-sm text-muted-foreground font-body">Subtotal bouquet</p>
+                    <p className="text-sm text-muted-foreground font-body">Subtotal</p>
                     <p className="font-display text-2xl font-bold text-foreground">${item.price}</p>
-                    {item.deliveryCost > 0 && (
-                      <p className="text-sm text-muted-foreground font-body">+ ${item.deliveryCost} envío</p>
-                    )}
                   </div>
                 </div>
               </motion.div>
             ))}
 
-            {/* Total */}
+            {/* Delivery calculator for delivery items */}
+            {hasDeliveryItems && (
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="bg-card border-2 border-primary/20 rounded-sm p-6"
+              >
+                <DeliveryCalculator onResult={setDeliveryResult} />
+              </motion.div>
+            )}
+
+            {/* Total + CTA */}
             <div className="bg-card border-2 border-primary/30 rounded-sm p-6">
-              <div className="flex items-center justify-between">
+              <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
                 <div>
-                  <p className="font-body text-sm text-muted-foreground">{items.length} {items.length === 1 ? "artículo" : "artículos"}</p>
-                  <p className="font-display text-3xl font-bold text-foreground">
-                    ${cartTotal} <span className="text-sm font-body text-muted-foreground font-normal">USD</span>
+                  <p className="font-body text-sm text-muted-foreground">
+                    {items.length} {items.length === 1 ? "artículo" : "artículos"}
                   </p>
+                  <div className="space-y-1">
+                    <p className="font-body text-sm text-muted-foreground">
+                      Subtotal: <span className="text-foreground font-semibold">${cartTotal}</span>
+                    </p>
+                    {hasDeliveryItems && (
+                      <p className="font-body text-sm text-muted-foreground">
+                        Envío: <span className="text-foreground font-semibold">
+                          {deliveryResult ? `$${deliveryCost}` : "Pendiente"}
+                        </span>
+                      </p>
+                    )}
+                    <p className="font-display text-3xl font-bold text-foreground">
+                      ${grandTotal} <span className="text-sm font-body text-muted-foreground font-normal">USD</span>
+                    </p>
+                  </div>
                 </div>
-                <div className="flex flex-col gap-2">
-                  <button
-                    className="bg-primary text-primary-foreground px-10 py-4 font-body text-sm tracking-widest uppercase hover:bg-primary/90 transition-colors rounded-sm"
-                    onClick={() => {
-                      // Future: Shopify checkout integration
-                      alert("¡Próximamente integración con Shopify para completar el pago!");
-                    }}
-                  >
-                    Completar pedido
-                  </button>
-                  <button
-                    onClick={clearCart}
-                    className="text-sm font-body text-muted-foreground hover:text-destructive transition-colors"
-                  >
-                    Vaciar carrito
-                  </button>
-                </div>
+                <button
+                  disabled={!canCheckout}
+                  className="bg-primary text-primary-foreground px-10 py-4 font-body text-sm tracking-widest uppercase hover:bg-primary/90 transition-colors rounded-sm disabled:opacity-50 disabled:cursor-not-allowed"
+                  onClick={() => {
+                    alert("¡Próximamente integración con Shopify para completar el pago!");
+                  }}
+                >
+                  Completar pedido
+                </button>
               </div>
+
+              {!canCheckout && (
+                <p className="text-xs font-body text-muted-foreground mt-3">
+                  ⚠️ Introduce una dirección de entrega válida para continuar.
+                </p>
+              )}
             </div>
 
             {/* Continue shopping */}
