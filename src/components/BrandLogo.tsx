@@ -3,6 +3,8 @@ const BrandLogo = ({ className = "w-8 h-8", color }: { className?: string; color
   const gold = color || "hsl(var(--gold))";
   const secondary = color || "hsl(var(--secondary))";
   const mono = !!color;
+  const white = mono ? color : "#fff";
+  const whiteStroke = mono ? color : "#e8d8d8";
 
   return (
     <svg
@@ -13,7 +15,7 @@ const BrandLogo = ({ className = "w-8 h-8", color }: { className?: string; color
     >
       {/* Cart basket */}
       <path
-        d="M12 30h40l-3.5 18H15.5L12 30Z"
+        d="M12 32h40l-3.5 16H15.5L12 32Z"
         fill={c}
         opacity={mono ? 0.2 : 0.1}
         stroke={c}
@@ -22,7 +24,7 @@ const BrandLogo = ({ className = "w-8 h-8", color }: { className?: string; color
       />
       {/* Cart handle */}
       <path
-        d="M12 30L8 22H4"
+        d="M12 32L8 24H4"
         stroke={c}
         strokeWidth="2.2"
         strokeLinecap="round"
@@ -34,56 +36,105 @@ const BrandLogo = ({ className = "w-8 h-8", color }: { className?: string; color
       {/* Cart wheel right */}
       <circle cx="44" cy="52" r="2.5" stroke={c} strokeWidth="1.8" fill={c} opacity={mono ? 0.6 : 0.25} />
 
-      {/* Bouquet wrapping / cone */}
+      {/* White wrapping paper — layered petals fanning out */}
       <path
-        d="M22 30 L26 12 h12 L42 30"
-        fill={secondary}
-        opacity={mono ? 0.25 : 0.15}
-        stroke={secondary}
-        strokeWidth="1.2"
+        d="M16 28 Q14 20 18 14 L22 10 Q24 16 22 24Z"
+        fill={white}
+        stroke={whiteStroke}
+        strokeWidth="0.6"
+        opacity={mono ? 0.3 : 0.85}
+      />
+      <path
+        d="M48 28 Q50 20 46 14 L42 10 Q40 16 42 24Z"
+        fill={white}
+        stroke={whiteStroke}
+        strokeWidth="0.6"
+        opacity={mono ? 0.3 : 0.85}
+      />
+      <path
+        d="M14 26 Q10 18 16 10 L20 7 Q20 14 18 22Z"
+        fill={white}
+        stroke={whiteStroke}
+        strokeWidth="0.5"
+        opacity={mono ? 0.25 : 0.7}
+      />
+      <path
+        d="M50 26 Q54 18 48 10 L44 7 Q44 14 46 22Z"
+        fill={white}
+        stroke={whiteStroke}
+        strokeWidth="0.5"
+        opacity={mono ? 0.25 : 0.7}
+      />
+      {/* Center wrapping cone */}
+      <path
+        d="M24 32 L28 14 h8 L40 32"
+        fill={white}
+        stroke={whiteStroke}
+        strokeWidth="0.8"
+        opacity={mono ? 0.3 : 0.8}
         strokeLinejoin="round"
       />
-      {/* Wrapping ribbon */}
+
+      {/* Ribbon bow */}
       <path
-        d="M25 24 Q32 21 39 24"
-        stroke={gold}
-        strokeWidth="1.5"
+        d="M29 28 Q32 25 35 28"
+        stroke={c}
+        strokeWidth="1.8"
         fill="none"
         strokeLinecap="round"
-        opacity={mono ? 0.7 : 0.6}
+        opacity={mono ? 0.8 : 1}
+      />
+      <path
+        d="M30 28 Q28 31 27 33"
+        stroke={c}
+        strokeWidth="1.2"
+        fill="none"
+        strokeLinecap="round"
+        opacity={mono ? 0.6 : 0.8}
+      />
+      <path
+        d="M34 28 Q36 31 37 33"
+        stroke={c}
+        strokeWidth="1.2"
+        fill="none"
+        strokeLinecap="round"
+        opacity={mono ? 0.6 : 0.8}
       />
 
-      {/* Stems */}
-      <line x1="28" y1="22" x2="26" y2="14" stroke={secondary} strokeWidth="1.2" strokeLinecap="round" opacity={mono ? 0.7 : 0.5} />
-      <line x1="32" y1="22" x2="32" y2="10" stroke={secondary} strokeWidth="1.2" strokeLinecap="round" opacity={mono ? 0.7 : 0.5} />
-      <line x1="36" y1="22" x2="38" y2="14" stroke={secondary} strokeWidth="1.2" strokeLinecap="round" opacity={mono ? 0.7 : 0.5} />
+      {/* Rose cluster — dense round dome */}
+      {/* Row 1 — top */}
+      <circle cx="32" cy="6" r="3.8" fill={c} opacity={mono ? 0.95 : 0.85} />
+      <circle cx="32" cy="6" r="2" fill={c} opacity={mono ? 1 : 0.95} />
+      {/* Row 2 */}
+      <circle cx="26" cy="9" r="3.5" fill={c} opacity={mono ? 0.9 : 0.8} />
+      <circle cx="26" cy="9" r="1.8" fill={c} opacity={mono ? 1 : 0.92} />
+      <circle cx="38" cy="9" r="3.5" fill={c} opacity={mono ? 0.9 : 0.8} />
+      <circle cx="38" cy="9" r="1.8" fill={c} opacity={mono ? 1 : 0.92} />
+      {/* Row 3 — widest */}
+      <circle cx="21" cy="14" r="3.8" fill={c} opacity={mono ? 0.85 : 0.75} />
+      <circle cx="21" cy="14" r="2" fill={c} opacity={mono ? 0.95 : 0.88} />
+      <circle cx="32" cy="13" r="4" fill={c} opacity={mono ? 0.95 : 0.85} />
+      <circle cx="32" cy="13" r="2.2" fill={c} opacity={mono ? 1 : 0.95} />
+      <circle cx="43" cy="14" r="3.8" fill={c} opacity={mono ? 0.85 : 0.75} />
+      <circle cx="43" cy="14" r="2" fill={c} opacity={mono ? 0.95 : 0.88} />
+      {/* Row 4 */}
+      <circle cx="25" cy="18" r="3.2" fill={c} opacity={mono ? 0.85 : 0.7} />
+      <circle cx="25" cy="18" r="1.6" fill={c} opacity={mono ? 0.95 : 0.85} />
+      <circle cx="39" cy="18" r="3.2" fill={c} opacity={mono ? 0.85 : 0.7} />
+      <circle cx="39" cy="18" r="1.6" fill={c} opacity={mono ? 0.95 : 0.85} />
+      {/* Fill gaps */}
+      <circle cx="29" cy="10" r="2.8" fill={c} opacity={mono ? 0.88 : 0.78} />
+      <circle cx="35" cy="10" r="2.8" fill={c} opacity={mono ? 0.88 : 0.78} />
+      <circle cx="27" cy="14" r="2.5" fill={c} opacity={mono ? 0.82 : 0.72} />
+      <circle cx="37" cy="14" r="2.5" fill={c} opacity={mono ? 0.82 : 0.72} />
+      <circle cx="32" cy="18" r="3" fill={c} opacity={mono ? 0.9 : 0.8} />
+      <circle cx="32" cy="18" r="1.5" fill={c} opacity={mono ? 1 : 0.9} />
 
-      {/* Rose left — layered petals */}
-      <circle cx="25" cy="12" r="4.5" fill={c} opacity={mono ? 0.9 : 0.75} />
-      <circle cx="25" cy="12" r="2.8" fill={c} opacity={mono ? 1 : 0.9} />
-      <circle cx="25" cy="12" r="1.2" fill={gold} opacity={0.7} />
-
-      {/* Rose center — larger */}
-      <circle cx="32" cy="7" r="5.5" fill={c} opacity={mono ? 0.95 : 0.8} />
-      <circle cx="32" cy="7" r="3.5" fill={c} opacity={mono ? 1 : 0.95} />
-      <circle cx="32" cy="7" r="1.5" fill={gold} opacity={0.7} />
-
-      {/* Rose right */}
-      <circle cx="39" cy="12" r="4.5" fill={c} opacity={mono ? 0.9 : 0.75} />
-      <circle cx="39" cy="12" r="2.8" fill={c} opacity={mono ? 1 : 0.9} />
-      <circle cx="39" cy="12" r="1.2" fill={gold} opacity={0.7} />
-
-      {/* Small bud top-left */}
-      <circle cx="23" cy="7" r="2.5" fill={c} opacity={mono ? 0.7 : 0.55} />
-      <circle cx="23" cy="7" r="1" fill={c} opacity={mono ? 0.9 : 0.75} />
-
-      {/* Small bud top-right */}
-      <circle cx="41" cy="7" r="2.5" fill={c} opacity={mono ? 0.7 : 0.55} />
-      <circle cx="41" cy="7" r="1" fill={c} opacity={mono ? 0.9 : 0.75} />
-
-      {/* Leaves */}
-      <path d="M20 18c-3-1-5 1-4 3 1.5 0.5 3.5-1 4-3Z" fill={secondary} opacity={mono ? 0.6 : 0.4} />
-      <path d="M44 18c3-1 5 1 4 3-1.5 0.5-3.5-1-4-3Z" fill={secondary} opacity={mono ? 0.6 : 0.4} />
+      {/* Rose centers — gold dots */}
+      <circle cx="32" cy="6" r="0.9" fill={gold} opacity={0.5} />
+      <circle cx="26" cy="9" r="0.8" fill={gold} opacity={0.5} />
+      <circle cx="38" cy="9" r="0.8" fill={gold} opacity={0.5} />
+      <circle cx="32" cy="13" r="0.9" fill={gold} opacity={0.5} />
     </svg>
   );
 };
