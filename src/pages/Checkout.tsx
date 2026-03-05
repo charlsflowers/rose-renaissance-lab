@@ -3,7 +3,8 @@ import { Link, useNavigate } from "react-router-dom";
 import { useCart } from "@/contexts/CartContext";
 import Navbar from "@/components/Navbar";
 import DeliveryCalculator from "@/components/DeliveryCalculator";
-import { Trash2, ArrowLeft, ShoppingBag, Truck, Store } from "lucide-react";
+import { Trash2, ArrowLeft, Truck, Store } from "lucide-react";
+import BrandLogo from "@/components/BrandLogo";
 import { motion } from "framer-motion";
 
 const Checkout = () => {
