@@ -113,13 +113,19 @@ const Index = () => {
 
       {/* Ticker */}
       <div className="relative mt-[-1px]">
-        {/* Top converging ribbons — bands converge to left, fan out right */}
-        <div className="absolute -top-[60px] left-0 w-full h-[65px] z-10 overflow-hidden">
-          <svg className="w-full h-full" viewBox="0 0 1440 70" preserveAspectRatio="none">
-            <polygon points="0,70 0,64 1440,0 1440,70" fill="hsl(var(--primary))" opacity="0.15" />
-            <polygon points="0,70 0,58 1440,18 1440,70" fill="hsl(var(--primary))" opacity="0.25" />
-            <polygon points="0,70 0,52 1440,38 1440,70" fill="hsl(var(--primary))" opacity="0.45" />
-          </svg>
+        {/* Top converging ribbons — animated, same color as ticker */}
+        <div className="absolute -top-[60px] left-0 w-[200%] h-[65px] z-10 overflow-hidden">
+          <motion.svg
+            className="w-full h-full"
+            viewBox="0 0 2880 70"
+            preserveAspectRatio="none"
+            animate={{ x: ["0%", "-50%"] }}
+            transition={{ duration: 12, ease: "linear", repeat: Infinity }}
+          >
+            <polygon points="0,70 0,64 1440,0 1440,70 1440,70 1440,64 2880,0 2880,70" fill="hsl(var(--primary))" opacity="0.3" />
+            <polygon points="0,70 0,58 1440,18 1440,70 1440,70 1440,58 2880,18 2880,70" fill="hsl(var(--primary))" opacity="0.5" />
+            <polygon points="0,70 0,52 1440,38 1440,70 1440,70 1440,52 2880,38 2880,70" fill="hsl(var(--primary))" opacity="0.75" />
+          </motion.svg>
         </div>
         <div className="bg-primary py-4 overflow-hidden">
           <motion.div
@@ -146,13 +152,22 @@ const Index = () => {
             ))}
           </motion.div>
         </div>
-        {/* Bottom converging ribbons — bands converge to right, fan out left */}
-        <div className="absolute -bottom-[60px] left-0 w-full h-[65px] z-10 overflow-hidden">
-          <svg className="w-full h-full" viewBox="0 0 1440 70" preserveAspectRatio="none">
-            <polygon points="0,0 1440,0 1440,6 0,70" fill="hsl(var(--primary))" opacity="0.15" />
-            <polygon points="0,0 1440,0 1440,12 0,52" fill="hsl(var(--primary))" opacity="0.25" />
-            <polygon points="0,0 1440,0 1440,18 0,32" fill="hsl(var(--primary))" opacity="0.45" />
-          </svg>
+        {/* Bottom converging ribbons — animated, same color as ticker */}
+        <div className="absolute -bottom-[60px] left-0 w-[200%] h-[65px] z-10 overflow-hidden">
+          <motion.svg
+            className="w-full h-full"
+            viewBox="0 0 2880 70"
+            preserveAspectRatio="none"
+            animate={{ x: ["-50%", "0%"] }}
+            transition={{ duration: 12, ease: "linear", repeat: Infinity }}
+          >
+            <polygon points="0,0 1440,0 1440,6 0,70 0,0 0,0" fill="hsl(var(--primary))" opacity="0.3" />
+            <polygon points="0,0 1440,0 1440,12 0,52" fill="hsl(var(--primary))" opacity="0.5" />
+            <polygon points="0,0 1440,0 1440,18 0,32" fill="hsl(var(--primary))" opacity="0.75" />
+            <polygon points="1440,0 2880,0 2880,6 1440,70" fill="hsl(var(--primary))" opacity="0.3" />
+            <polygon points="1440,0 2880,0 2880,12 1440,52" fill="hsl(var(--primary))" opacity="0.5" />
+            <polygon points="1440,0 2880,0 2880,18 1440,32" fill="hsl(var(--primary))" opacity="0.75" />
+          </motion.svg>
         </div>
       </div>
 
