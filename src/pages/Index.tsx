@@ -146,12 +146,12 @@ const Index = () => {
             ))}
           </motion.div>
         </div>
-        {/* Bottom converging ribbons — fan from right origin point */}
-        <div className="absolute -bottom-[40px] left-0 w-full h-[44px] z-10 overflow-hidden">
-          <svg className="w-full h-full" viewBox="0 0 1440 50" preserveAspectRatio="none">
-            <polygon points="0,0 1440,0 1440,4 0,40" fill="hsl(var(--primary))" opacity="0.2" />
-            <polygon points="0,0 1440,0 1440,8 0,32" fill="hsl(var(--primary))" opacity="0.35" />
-            <polygon points="0,0 1440,0 1440,12 0,22" fill="hsl(var(--primary))" opacity="0.55" />
+        {/* Bottom converging ribbons — bands converge to right, fan out left */}
+        <div className="absolute -bottom-[60px] left-0 w-full h-[65px] z-10 overflow-hidden">
+          <svg className="w-full h-full" viewBox="0 0 1440 70" preserveAspectRatio="none">
+            <polygon points="0,0 1440,0 1440,6 0,70" fill="hsl(var(--primary))" opacity="0.15" />
+            <polygon points="0,0 1440,0 1440,12 0,52" fill="hsl(var(--primary))" opacity="0.25" />
+            <polygon points="0,0 1440,0 1440,18 0,32" fill="hsl(var(--primary))" opacity="0.45" />
           </svg>
         </div>
       </div>
