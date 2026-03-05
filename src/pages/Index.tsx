@@ -163,7 +163,7 @@ const Index = () => {
       </div>
 
       {/* Personaliza tu Bouquet */}
-      <section className="py-24 bg-background">
+      <section className="py-16 md:py-20 bg-background">
         <div className="container mx-auto px-6 text-center">
           <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.8 }}>
             <h2 className="font-display text-4xl md:text-5xl font-semibold text-primary mb-6">
