@@ -66,20 +66,20 @@ const ReviewCard = ({ review, index }: { review: ReviewData; index: number }) =>
               {review.productLabel} · {review.cartData.roses} rosas · ${review.cartData.price}
             </p>
 
-            <div className="flex gap-2">
+            <div className="flex flex-col sm:flex-row gap-2">
               <button
                 onClick={() => openDialog("cart")}
-                className="inline-flex items-center gap-1.5 flex-1 justify-center bg-primary text-primary-foreground px-2 py-2.5 font-body text-[10px] tracking-wider uppercase hover:bg-primary/90 transition-colors rounded-sm"
+                className="inline-flex items-center gap-1.5 flex-1 justify-center bg-primary text-primary-foreground px-3 py-2.5 font-body text-[9px] sm:text-xs tracking-wider sm:tracking-widest uppercase hover:bg-primary/90 transition-colors rounded-sm"
               >
                 <ShoppingBag className="w-3 h-3 shrink-0" />
-                Añadir
+                Añadir al carrito
               </button>
               <button
                 onClick={() => openDialog("buy")}
-                className="inline-flex items-center gap-1.5 flex-1 justify-center border border-primary text-primary px-2 py-2.5 font-body text-[10px] tracking-wider uppercase hover:bg-primary/10 transition-colors rounded-sm"
+                className="inline-flex items-center gap-1.5 flex-1 justify-center border border-primary text-primary px-3 py-2.5 font-body text-[9px] sm:text-xs tracking-wider sm:tracking-widest uppercase hover:bg-primary/10 transition-colors rounded-sm"
               >
                 <CreditCard className="w-3 h-3 shrink-0" />
-                Pedir
+                Pedir y pagar
               </button>
             </div>
           </div>
