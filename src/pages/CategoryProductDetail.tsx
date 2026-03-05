@@ -1,6 +1,7 @@
 import { useState, useMemo, useCallback, useRef, useEffect } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
-import { format, addHours, isBefore, startOfDay, isToday } from "date-fns";
+import { format, addHours, isBefore, startOfDay } from "date-fns";
+import { nowInMiami, todayInMiami, isTodayInMiami } from "@/lib/miamiTime";
 import { es } from "date-fns/locale";
 import { supabase } from "@/integrations/supabase/client";
 import { useCart } from "@/contexts/CartContext";
