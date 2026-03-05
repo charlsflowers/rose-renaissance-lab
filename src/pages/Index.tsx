@@ -20,6 +20,7 @@ import heartBouquet from "@/assets/heart-bouquet.jpg";
 const Index = () => {
   const [reviewCategory, setReviewCategory] = useState<ReviewCategory>("bouquets");
   const categories = [
+    { img: heartBouquet, title: "Bouquets", slug: "bouquets", isRoute: true },
     { img: arreglosImg, title: "Arreglos", slug: "arreglos" },
     { img: cajasImg, title: "Cajas", slug: "cajas" },
     { img: cestasImg, title: "Cestas", slug: "cestas" },
@@ -34,7 +35,7 @@ const Index = () => {
       {/* Hero */}
       <section className="relative h-screen flex items-center overflow-hidden">
         <div className="absolute inset-0">
-          <img src={heroBouquet} alt="Bouquet de rosas frescas" className="w-full h-full object-cover" />
+          <img src={heroBouquet} alt="Bouquet de rosas frescas" className="w-full h-full object-cover object-center max-sm:object-[70%_center]" />
           <div className="absolute inset-0 bg-gradient-to-r from-foreground/80 via-foreground/50 to-transparent" />
         </div>
         <div className="container relative z-10 mx-auto px-6">
@@ -66,16 +67,16 @@ const Index = () => {
       </section>
 
       {/* Categories */}
-      <section className="py-24 bg-background">
+      <section className="py-16 md:py-20 bg-background">
         <div className="container mx-auto px-6">
-          <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.8 }} className="text-center mb-16">
+          <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.8 }} className="text-center mb-10">
             <h2 className="font-display text-4xl md:text-5xl font-semibold text-primary">Categorías</h2>
           </motion.div>
 
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-5">
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-7 gap-5">
             {categories.map((item, i) => (
               <motion.div key={item.title} initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5, delay: i * 0.1 }}>
-                <Link to={`/categoria/${item.slug}`} className="group block">
+                <Link to={item.isRoute ? `/${item.slug}` : `/categoria/${item.slug}`} className="group block">
                   <div className="relative overflow-hidden rounded-sm mb-4 aspect-square">
                     <img src={item.img} alt={item.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
                     <div className="absolute inset-0 bg-foreground/10 group-hover:bg-foreground/25 transition-colors" />
@@ -89,9 +90,9 @@ const Index = () => {
       </section>
 
       {/* Bouquets */}
-      <section className="py-24 bg-cream">
+      <section className="py-16 md:py-20 bg-cream">
         <div className="container mx-auto px-6">
-          <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.8 }} className="text-center mb-16">
+          <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.8 }} className="text-center mb-10">
             <h2 className="font-display text-4xl md:text-5xl font-semibold text-primary">Bouquets</h2>
           </motion.div>
 
@@ -162,7 +163,7 @@ const Index = () => {
       </div>
 
       {/* Personaliza tu Bouquet */}
-      <section className="py-24 bg-background">
+      <section className="py-16 md:py-20 bg-background">
         <div className="container mx-auto px-6 text-center">
           <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.8 }}>
             <h2 className="font-display text-4xl md:text-5xl font-semibold text-primary mb-6">
@@ -183,16 +184,16 @@ const Index = () => {
       <ClientVideos />
 
       {/* Reseñas */}
-      <section className="py-24 bg-cream">
+      <section className="py-16 md:py-20 bg-cream">
         <div className="container mx-auto px-6">
-          <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.8 }} className="text-center mb-16">
+          <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.8 }} className="text-center mb-10">
             <h2 className="font-display text-4xl md:text-5xl font-semibold text-primary mb-4">Lo que dicen nuestros clientes</h2>
             <p className="text-muted-foreground font-body max-w-lg mx-auto">¿Te gusta alguno? Pídelo directamente desde aquí.</p>
           </motion.div>
 
           <ReviewFilters active={reviewCategory} onChange={setReviewCategory} />
 
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 max-w-6xl mx-auto">
             {reviews.filter((r) => r.category === reviewCategory).map((review, i) => (
               <ReviewCard key={review.id} review={review} index={i} />
             ))}

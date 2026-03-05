@@ -2,6 +2,7 @@ import type { ReviewCategory } from "@/components/ReviewCard";
 
 const filters: { label: string; value: ReviewCategory }[] = [
   { label: "Bouquets", value: "bouquets" },
+  { label: "Personalizados", value: "personalizados" },
   { label: "Arreglos", value: "arreglos" },
   { label: "Cajas", value: "cajas" },
   { label: "Cestas", value: "cestas" },

@@ -3,7 +3,8 @@ import { Link, useNavigate } from "react-router-dom";
 import { useCart } from "@/contexts/CartContext";
 import Navbar from "@/components/Navbar";
 import DeliveryCalculator from "@/components/DeliveryCalculator";
-import { Trash2, ArrowLeft, ShoppingBag, Truck, Store } from "lucide-react";
+import { Trash2, ArrowLeft, Truck, Store } from "lucide-react";
+import BrandLogo from "@/components/BrandLogo";
 import { motion } from "framer-motion";
 
 const Checkout = () => {
@@ -36,18 +37,18 @@ const Checkout = () => {
             animate={{ opacity: 1, y: 0 }}
             className="max-w-md mx-auto px-6"
           >
-            <ShoppingBag className="w-16 h-16 text-muted-foreground mx-auto mb-6" />
+            <BrandLogo className="w-20 h-20 mx-auto mb-6" />
             <h1 className="font-display text-3xl font-semibold text-foreground mb-3">Tu carrito está vacío</h1>
             <p className="text-muted-foreground font-body mb-8">
               Añade un bouquet personalizado para continuar.
             </p>
-            <Link
-              to="/bouquets"
+            <button
+              onClick={() => navigate(-1)}
               className="inline-flex items-center gap-2 bg-primary text-primary-foreground px-8 py-4 font-body text-sm tracking-widest uppercase hover:bg-primary/90 transition-colors rounded-sm"
             >
               <ArrowLeft className="w-4 h-4" />
-              Crear bouquet
-            </Link>
+              Volver
+            </button>
           </motion.div>
         </div>
       </div>

@@ -10,7 +10,7 @@ export interface ReviewCartData {
   price: number;
 }
 
-export type ReviewCategory = "bouquets" | "arreglos" | "cajas" | "cestas" | "jarrones" | "osos";
+export type ReviewCategory = "bouquets" | "arreglos" | "cajas" | "cestas" | "jarrones" | "osos" | "personalizados";
 
 export interface ReviewData {
   id: string;

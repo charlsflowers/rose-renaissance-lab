@@ -42,7 +42,7 @@ const VideoCard = ({ video, index }: { video: typeof placeholderVideos[0]; index
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ duration: 0.5, delay: index * 0.1 }}
-      className="min-w-[calc(33.333%-11px)] snap-start flex-shrink-0 max-md:min-w-[calc(50%-8px)] max-sm:min-w-[80%]"
+      className="min-w-[calc(33.333%-11px)] snap-start flex-shrink-0 max-md:min-w-[calc(50%-8px)] max-sm:min-w-[calc(50%-8px)]"
     >
       <div className="relative aspect-[9/16] max-h-[400px] rounded-lg overflow-hidden bg-muted group">
         {video.src ? (
@@ -99,7 +99,7 @@ const ClientVideos = () => {
   };
 
   return (
-    <section className="py-24 bg-background">
+    <section className="py-16 md:py-20 bg-background">
       <div className="container mx-auto px-6 max-w-4xl">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
