@@ -1,6 +1,7 @@
 import { useState, useMemo, useCallback, useRef, useEffect } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
-import { format, addHours, isBefore, startOfDay, isToday } from "date-fns";
+import { format, addHours, isBefore, startOfDay } from "date-fns";
+import { nowInMiami, todayInMiami, isTodayInMiami } from "@/lib/miamiTime";
 import { es } from "date-fns/locale";
 import { supabase } from "@/integrations/supabase/client";
 import { useCart } from "@/contexts/CartContext";
@@ -88,7 +89,7 @@ const CategoryProductDetail = () => {
   }, []);
 
   const minLeadHours = deliveryMethod === "delivery" ? 1.5 : 2;
-  const minDeliveryTime = new Date(Date.now() + minLeadHours * 60 * 60 * 1000);
+  const minDeliveryTime = new Date(nowInMiami().getTime() + minLeadHours * 60 * 60 * 1000);
   const getAvailableHours = (date: Date | undefined) => {
     if (!date) return [];
     const day = date.getDay();
@@ -96,7 +97,7 @@ const CategoryProductDetail = () => {
     const hours: string[] = [];
     for (let h = 8; h <= closeHour; h++) {
       const slotTime = new Date(date); slotTime.setHours(h, 0, 0, 0);
-      if (isToday(date) && isBefore(slotTime, minDeliveryTime)) continue;
+      if (isTodayInMiami(date) && isBefore(slotTime, minDeliveryTime)) continue;
       hours.push(`${h.toString().padStart(2, "0")}:00`);
     }
     return hours;
@@ -289,7 +290,7 @@ const CategoryProductDetail = () => {
                   </PopoverTrigger>
                   <PopoverContent className="w-auto p-0" align="start">
                     <Calendar mode="single" selected={deliveryDate} onSelect={(d) => { setDeliveryDate(d); setDeliveryHour(""); }}
-                      disabled={(date) => isBefore(startOfDay(date), startOfDay(new Date()))} className="p-3 pointer-events-auto" locale={es} />
+                      disabled={(date) => isBefore(startOfDay(date), startOfDay(todayInMiami()))} className="p-3 pointer-events-auto" locale={es} />
                   </PopoverContent>
                 </Popover>
               </div>
