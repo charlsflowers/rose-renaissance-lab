@@ -146,16 +146,13 @@ const Index = () => {
             ))}
           </motion.div>
         </div>
-        <div className="absolute -bottom-[14px] left-0 w-[200%] h-4 z-10 overflow-hidden">
-          <motion.svg
-            className="w-full h-full text-primary"
-            viewBox="0 0 2880 24"
-            preserveAspectRatio="none"
-            animate={{ x: ["-50%", "0%"] }}
-            transition={{ duration: 8, ease: "linear", repeat: Infinity }}
-          >
-            <path d="M0,0 C120,20 240,20 360,0 C480,-20 600,20 720,0 C840,20 960,20 1080,0 C1200,-20 1320,20 1440,0 C1560,20 1680,20 1800,0 C1920,-20 2040,20 2160,0 C2280,20 2400,20 2520,0 C2640,-20 2760,20 2880,0 L2880,0 L0,0 Z" fill="currentColor" />
-          </motion.svg>
+        {/* Bottom converging ribbons */}
+        <div className="absolute -bottom-[30px] left-0 w-full h-[34px] z-10 overflow-hidden">
+          <svg className="w-full h-full" viewBox="0 0 1440 40" preserveAspectRatio="none">
+            <polygon points="0,0 1440,0 1440,32 0,10" fill="hsl(var(--primary))" opacity="0.3" />
+            <polygon points="0,0 1440,0 1440,22 0,18" fill="hsl(var(--primary))" opacity="0.4" />
+            <polygon points="0,0 1440,0 1440,10 0,28" fill="hsl(var(--primary))" opacity="0.6" />
+          </svg>
         </div>
       </div>
 
