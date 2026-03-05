@@ -113,12 +113,12 @@ const Index = () => {
 
       {/* Ticker */}
       <div className="relative mt-[-1px]">
-        {/* Top converging ribbons */}
-        <div className="absolute -top-[30px] left-0 w-full h-[34px] z-10 overflow-hidden">
-          <svg className="w-full h-full" viewBox="0 0 1440 40" preserveAspectRatio="none">
-            <polygon points="0,40 1440,40 1440,28 0,8" fill="hsl(var(--primary))" opacity="0.3" />
-            <polygon points="0,40 1440,40 1440,22 0,18" fill="hsl(var(--primary))" opacity="0.4" />
-            <polygon points="0,40 1440,40 1440,14 0,30" fill="hsl(var(--primary))" opacity="0.6" />
+        {/* Top converging ribbons — fan from left origin point */}
+        <div className="absolute -top-[40px] left-0 w-full h-[44px] z-10 overflow-hidden">
+          <svg className="w-full h-full" viewBox="0 0 1440 50" preserveAspectRatio="none">
+            <polygon points="0,50 0,46 1440,10 1440,50" fill="hsl(var(--primary))" opacity="0.2" />
+            <polygon points="0,50 0,42 1440,20 1440,50" fill="hsl(var(--primary))" opacity="0.35" />
+            <polygon points="0,50 0,38 1440,32 1440,50" fill="hsl(var(--primary))" opacity="0.55" />
           </svg>
         </div>
         <div className="bg-primary py-4 overflow-hidden">
