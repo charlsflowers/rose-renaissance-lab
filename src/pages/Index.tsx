@@ -113,12 +113,12 @@ const Index = () => {
 
       {/* Ticker */}
       <div className="relative mt-[-1px]">
-        {/* Top converging ribbons */}
-        <div className="absolute -top-[30px] left-0 w-full h-[34px] z-10 overflow-hidden">
-          <svg className="w-full h-full" viewBox="0 0 1440 40" preserveAspectRatio="none">
-            <polygon points="0,40 1440,40 1440,28 0,8" fill="hsl(var(--primary))" opacity="0.3" />
-            <polygon points="0,40 1440,40 1440,22 0,18" fill="hsl(var(--primary))" opacity="0.4" />
-            <polygon points="0,40 1440,40 1440,14 0,30" fill="hsl(var(--primary))" opacity="0.6" />
+        {/* Top converging ribbons — bands converge to left, fan out right */}
+        <div className="absolute -top-[60px] left-0 w-full h-[65px] z-10 overflow-hidden">
+          <svg className="w-full h-full" viewBox="0 0 1440 70" preserveAspectRatio="none">
+            <polygon points="0,70 0,64 1440,0 1440,70" fill="hsl(var(--primary))" opacity="0.15" />
+            <polygon points="0,70 0,58 1440,18 1440,70" fill="hsl(var(--primary))" opacity="0.25" />
+            <polygon points="0,70 0,52 1440,38 1440,70" fill="hsl(var(--primary))" opacity="0.45" />
           </svg>
         </div>
         <div className="bg-primary py-4 overflow-hidden">
@@ -146,12 +146,12 @@ const Index = () => {
             ))}
           </motion.div>
         </div>
-        {/* Bottom converging ribbons */}
-        <div className="absolute -bottom-[30px] left-0 w-full h-[34px] z-10 overflow-hidden">
-          <svg className="w-full h-full" viewBox="0 0 1440 40" preserveAspectRatio="none">
-            <polygon points="0,0 1440,0 1440,32 0,10" fill="hsl(var(--primary))" opacity="0.3" />
-            <polygon points="0,0 1440,0 1440,22 0,18" fill="hsl(var(--primary))" opacity="0.4" />
-            <polygon points="0,0 1440,0 1440,10 0,28" fill="hsl(var(--primary))" opacity="0.6" />
+        {/* Bottom converging ribbons — bands converge to right, fan out left */}
+        <div className="absolute -bottom-[60px] left-0 w-full h-[65px] z-10 overflow-hidden">
+          <svg className="w-full h-full" viewBox="0 0 1440 70" preserveAspectRatio="none">
+            <polygon points="0,0 1440,0 1440,6 0,70" fill="hsl(var(--primary))" opacity="0.15" />
+            <polygon points="0,0 1440,0 1440,12 0,52" fill="hsl(var(--primary))" opacity="0.25" />
+            <polygon points="0,0 1440,0 1440,18 0,32" fill="hsl(var(--primary))" opacity="0.45" />
           </svg>
         </div>
       </div>
