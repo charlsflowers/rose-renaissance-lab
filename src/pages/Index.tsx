@@ -92,7 +92,7 @@ const Index = () => {
       {/* Bouquets */}
       <section className="py-16 md:py-20 bg-cream">
         <div className="container mx-auto px-6">
-          <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.8 }} className="text-center mb-16">
+          <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.8 }} className="text-center mb-10">
             <h2 className="font-display text-4xl md:text-5xl font-semibold text-primary">Bouquets</h2>
           </motion.div>
 
