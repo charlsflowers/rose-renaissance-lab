@@ -168,7 +168,7 @@ const BouquetBuilder = () => {
   const deliveryCost = deliveryMethod === "delivery" && deliveryMiles && !distanceTooFar ? deliveryMiles * 2 : 0;
 
   const minLeadHours = deliveryMethod === "delivery" ? 1.5 : 2;
-  const minDeliveryTime = new Date(Date.now() + minLeadHours * 60 * 60 * 1000);
+  const minDeliveryTime = new Date(nowInMiami().getTime() + minLeadHours * 60 * 60 * 1000);
 
   const getAvailableHours = (date: Date | undefined) => {
     if (!date) return [];
