@@ -66,19 +66,19 @@ const ReviewCard = ({ review, index }: { review: ReviewData; index: number }) =>
               {review.productLabel} · {review.cartData.roses} rosas · ${review.cartData.price}
             </p>
 
-            <div className="flex gap-2">
+            <div className="flex gap-1.5 sm:gap-2">
               <button
                 onClick={() => openDialog("cart")}
-                className="inline-flex items-center gap-1.5 flex-1 justify-center bg-primary text-primary-foreground px-3 py-2.5 font-body text-[9px] sm:text-xs tracking-wider sm:tracking-widest uppercase hover:bg-primary/90 transition-colors rounded-sm"
+                className="inline-flex items-center gap-1 sm:gap-1.5 flex-1 justify-center bg-primary text-primary-foreground px-1.5 sm:px-3 py-2 sm:py-2.5 font-body text-[7px] sm:text-xs tracking-wide sm:tracking-widest uppercase hover:bg-primary/90 transition-colors rounded-sm whitespace-nowrap"
               >
-                <ShoppingBag className="w-3 h-3 shrink-0" />
+                <ShoppingBag className="w-2.5 h-2.5 sm:w-3 sm:h-3 shrink-0" />
                 Añadir al carrito
               </button>
               <button
                 onClick={() => openDialog("buy")}
-                className="inline-flex items-center gap-1.5 flex-1 justify-center border border-primary text-primary px-3 py-2.5 font-body text-[9px] sm:text-xs tracking-wider sm:tracking-widest uppercase hover:bg-primary/10 transition-colors rounded-sm"
+                className="inline-flex items-center gap-1 sm:gap-1.5 flex-1 justify-center border border-primary text-primary px-1.5 sm:px-3 py-2 sm:py-2.5 font-body text-[7px] sm:text-xs tracking-wide sm:tracking-widest uppercase hover:bg-primary/10 transition-colors rounded-sm whitespace-nowrap"
               >
-                <CreditCard className="w-3 h-3 shrink-0" />
+                <CreditCard className="w-2.5 h-2.5 sm:w-3 sm:h-3 shrink-0" />
                 Pedir y pagar
               </button>
             </div>
