@@ -178,7 +178,7 @@ const BouquetBuilder = () => {
     for (let h = 8; h <= closeHour; h++) {
       const slotTime = new Date(date);
       slotTime.setHours(h, 0, 0, 0);
-      if (isToday(date) && isBefore(slotTime, minDeliveryTime)) continue;
+      if (isTodayInMiami(date) && isBefore(slotTime, minDeliveryTime)) continue;
       hours.push(`${h.toString().padStart(2, "0")}:00`);
     }
     return hours;
