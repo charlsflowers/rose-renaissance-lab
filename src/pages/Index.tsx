@@ -193,7 +193,7 @@ const Index = () => {
 
           <ReviewFilters active={reviewCategory} onChange={setReviewCategory} />
 
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 max-w-6xl mx-auto">
             {reviews.filter((r) => r.category === reviewCategory).map((review, i) => (
               <ReviewCard key={review.id} review={review} index={i} />
             ))}
