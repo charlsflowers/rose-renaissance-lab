@@ -42,7 +42,7 @@ const VideoCard = ({ video, index }: { video: typeof placeholderVideos[0]; index
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ duration: 0.5, delay: index * 0.1 }}
-      className="min-w-[calc(33.333%-11px)] snap-start flex-shrink-0 max-md:min-w-[calc(50%-8px)] max-sm:min-w-[80%]"
+      className="min-w-[calc(33.333%-11px)] snap-start flex-shrink-0 max-md:min-w-[calc(50%-8px)] max-sm:min-w-[calc(50%-8px)]"
     >
       <div className="relative aspect-[9/16] max-h-[400px] rounded-lg overflow-hidden bg-muted group">
         {video.src ? (

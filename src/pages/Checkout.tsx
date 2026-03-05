@@ -36,7 +36,7 @@ const Checkout = () => {
             animate={{ opacity: 1, y: 0 }}
             className="max-w-md mx-auto px-6"
           >
-            <ShoppingBag className="w-16 h-16 text-muted-foreground mx-auto mb-6" />
+            <BrandLogo className="w-20 h-20 mx-auto mb-6" />
             <h1 className="font-display text-3xl font-semibold text-foreground mb-3">Tu carrito está vacío</h1>
             <p className="text-muted-foreground font-body mb-8">
               Añade un bouquet personalizado para continuar.
