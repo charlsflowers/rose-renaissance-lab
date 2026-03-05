@@ -73,7 +73,7 @@ const Index = () => {
             <h2 className="font-display text-4xl md:text-5xl font-semibold text-primary">Categorías</h2>
           </motion.div>
 
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-5">
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-7 gap-5">
             {categories.map((item, i) => (
               <motion.div key={item.title} initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5, delay: i * 0.1 }}>
                 <Link to={`/categoria/${item.slug}`} className="group block">
