@@ -1,7 +1,7 @@
 import { useState, useMemo, useCallback, useRef, useEffect } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import { format, addHours, isBefore, startOfDay } from "date-fns";
-import { nowInMiami, todayInMiami, isTodayInMiami } from "@/lib/miamiTime";
+import { miamiHourNow, todayInMiami, isTodayInMiami } from "@/lib/miamiTime";
 import { es } from "date-fns/locale";
 import { supabase } from "@/integrations/supabase/client";
 import { useCart } from "@/contexts/CartContext";
@@ -102,15 +102,14 @@ const BouquetProductDetail = () => {
   }, []);
 
   const minLeadHours = deliveryMethod === "delivery" ? 1.5 : 2;
-  const minDeliveryTime = new Date(nowInMiami().getTime() + minLeadHours * 60 * 60 * 1000);
+  const minMiamiHour = miamiHourNow() + minLeadHours;
   const getAvailableHours = (date: Date | undefined) => {
     if (!date) return [];
     const day = date.getDay();
     const closeHour = day === 0 ? 16 : day === 6 ? 17 : 19;
     const hours: string[] = [];
     for (let h = 8; h <= closeHour; h++) {
-      const slotTime = new Date(date); slotTime.setHours(h, 0, 0, 0);
-      if (isTodayInMiami(date) && isBefore(slotTime, minDeliveryTime)) continue;
+      if (isTodayInMiami(date) && h < minMiamiHour) continue;
       hours.push(`${h.toString().padStart(2, "0")}:00`);
     }
     return hours;
