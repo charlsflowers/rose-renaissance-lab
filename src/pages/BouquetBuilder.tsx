@@ -853,7 +853,7 @@ const BouquetBuilder = () => {
                         setDeliveryDate(date);
                         setDeliveryHour("");
                       }}
-                      disabled={(date) => isBefore(startOfDay(date), startOfDay(new Date()))}
+                      disabled={(date) => isBefore(startOfDay(date), startOfDay(todayInMiami()))}
                       className="p-3 pointer-events-auto"
                       locale={es}
                     />

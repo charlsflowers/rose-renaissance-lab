@@ -290,7 +290,7 @@ const CategoryProductDetail = () => {
                   </PopoverTrigger>
                   <PopoverContent className="w-auto p-0" align="start">
                     <Calendar mode="single" selected={deliveryDate} onSelect={(d) => { setDeliveryDate(d); setDeliveryHour(""); }}
-                      disabled={(date) => isBefore(startOfDay(date), startOfDay(new Date()))} className="p-3 pointer-events-auto" locale={es} />
+                      disabled={(date) => isBefore(startOfDay(date), startOfDay(todayInMiami()))} className="p-3 pointer-events-auto" locale={es} />
                   </PopoverContent>
                 </Popover>
               </div>
