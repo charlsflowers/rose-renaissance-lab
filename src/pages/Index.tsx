@@ -20,6 +20,7 @@ import heartBouquet from "@/assets/heart-bouquet.jpg";
 const Index = () => {
   const [reviewCategory, setReviewCategory] = useState<ReviewCategory>("bouquets");
   const categories = [
+    { img: heartBouquet, title: "Bouquets", slug: "bouquets", isRoute: true },
     { img: arreglosImg, title: "Arreglos", slug: "arreglos" },
     { img: cajasImg, title: "Cajas", slug: "cajas" },
     { img: cestasImg, title: "Cestas", slug: "cestas" },
