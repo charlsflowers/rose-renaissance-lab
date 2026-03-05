@@ -42,13 +42,13 @@ const Checkout = () => {
             <p className="text-muted-foreground font-body mb-8">
               Añade un bouquet personalizado para continuar.
             </p>
-            <Link
-              to="/bouquets"
+            <button
+              onClick={() => navigate(-1)}
               className="inline-flex items-center gap-2 bg-primary text-primary-foreground px-8 py-4 font-body text-sm tracking-widest uppercase hover:bg-primary/90 transition-colors rounded-sm"
             >
               <ArrowLeft className="w-4 h-4" />
-              Crear bouquet
-            </Link>
+              Volver
+            </button>
           </motion.div>
         </div>
       </div>

@@ -76,7 +76,7 @@ const Index = () => {
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-7 gap-5">
             {categories.map((item, i) => (
               <motion.div key={item.title} initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5, delay: i * 0.1 }}>
-                <Link to={`/categoria/${item.slug}`} className="group block">
+                <Link to={item.isRoute ? `/${item.slug}` : `/categoria/${item.slug}`} className="group block">
                   <div className="relative overflow-hidden rounded-sm mb-4 aspect-square">
                     <img src={item.img} alt={item.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
                     <div className="absolute inset-0 bg-foreground/10 group-hover:bg-foreground/25 transition-colors" />
