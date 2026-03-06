@@ -14,8 +14,10 @@ export interface PaperColorOption {
 export const paperColorOptions: PaperColorOption[] = [
   { name: "Blanco", image: paperBlanco },
   { name: "Rosa Light", image: paperRosaLight },
-  { name: "Marrón", image: paperMarron },
+  { name: "Rosado", image: paperMarron },
   { name: "Morado", image: paperMorado },
+  { name: "Morado Light", image: "" },
+  { name: "Marrón", image: "" },
   { name: "Azul", image: paperAzul },
   { name: "Negro", image: paperNegro },
 ];
@@ -40,11 +42,17 @@ const PaperColorPicker = ({ selected, onChange }: PaperColorPickerProps) => {
             }`}
           >
             <div className="w-16 h-16 rounded-sm overflow-hidden">
-              <img
-                src={paper.image}
-                alt={`Papel ${paper.name}`}
-                className="w-full h-full object-cover"
-              />
+              {paper.image ? (
+                <img
+                  src={paper.image}
+                  alt={`Papel ${paper.name}`}
+                  className="w-full h-full object-cover"
+                />
+              ) : (
+                <div className="w-full h-full bg-muted flex items-center justify-center">
+                  <span className="text-[10px] text-muted-foreground text-center leading-tight">Próximamente</span>
+                </div>
+              )}
             </div>
             <span className="text-xs font-body text-foreground">{paper.name}</span>
             {selected === paper.name && (
