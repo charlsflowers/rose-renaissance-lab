@@ -15,6 +15,7 @@ export type ReviewCategory = "bouquets" | "arreglos" | "cajas" | "cestas" | "jar
 export interface ReviewData {
   id: string;
   name: string;
+  avatar?: string;
   rating: number;
   text: string;
   image: string;
@@ -59,9 +60,20 @@ const ReviewCard = ({ review, index }: { review: ReviewData; index: number }) =>
               "{review.text}"
             </p>
 
-            <p className="font-display text-sm font-semibold text-foreground mb-1">
-              — {review.name}
-            </p>
+            <div className="flex items-center gap-2.5 mb-1">
+              <div className="w-8 h-8 rounded-full overflow-hidden bg-muted flex-shrink-0 border border-border">
+                {review.avatar ? (
+                  <img src={review.avatar} alt={review.name} className="w-full h-full object-cover" />
+                ) : (
+                  <div className="w-full h-full flex items-center justify-center bg-primary/10 text-primary font-display text-xs font-semibold">
+                    {review.name.charAt(0)}
+                  </div>
+                )}
+              </div>
+              <p className="font-display text-sm font-semibold text-foreground">
+                {review.name}
+              </p>
+            </div>
             <p className="font-body text-xs text-muted-foreground mb-4">
               {review.productLabel} · {review.cartData.roses} rosas · ${review.cartData.price}
             </p>
