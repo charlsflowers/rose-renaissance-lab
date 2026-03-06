@@ -501,7 +501,7 @@ const BouquetBuilder = () => {
             </Section>
 
             {/* 6. Vase */}
-            <Section title="Jarrón" step={6} subtitle="Opcional">
+            <Section title="Jarrón" step={7} subtitle="Opcional">
               <div className={`p-5 rounded-sm border-2 transition-all ${addVase ? "border-primary bg-primary/5" : "border-border"}`}>
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-3">
