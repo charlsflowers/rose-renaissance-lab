@@ -148,7 +148,7 @@ const Index = () => {
         </div>
         {/* Bottom wave — same color as ticker */}
         <div className="absolute -bottom-[50px] left-0 w-full h-[55px] z-10 overflow-hidden">
-          <svg className="w-[200%] h-full animate-[wave-reverse_8s_ease-in-out_infinite]" viewBox="0 0 2880 60" preserveAspectRatio="none">
+          <svg className="w-[200%] h-full animate-wave-reverse" viewBox="0 0 2880 60" preserveAspectRatio="none">
             <path d="M0,0 C360,40 720,10 1080,30 C1440,50 1800,10 2160,35 C2520,55 2880,20 2880,20 L2880,0 Z" fill="hsl(var(--primary))" opacity="0.3" />
             <path d="M0,0 C480,25 960,5 1440,20 C1920,35 2400,10 2880,25 L2880,0 Z" fill="hsl(var(--primary))" opacity="0.55" />
             <path d="M0,0 C320,12 640,4 960,10 C1280,16 1600,6 1920,12 C2240,18 2560,8 2880,14 L2880,0 Z" fill="hsl(var(--primary))" opacity="0.8" />
