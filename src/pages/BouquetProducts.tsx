@@ -1,11 +1,22 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Navbar from "@/components/Navbar";
 import { bouquetProducts, bouquetSizeOptions } from "@/lib/catalogData";
 import { ArrowLeft, Sparkles } from "lucide-react";
 
+type FilterType = "todos" | "un-color" | "mezclas";
+
 const BouquetProducts = () => {
+  const [filter, setFilter] = useState<FilterType>("todos");
+
   useEffect(() => { window.scrollTo(0, 0); }, []);
+
+  const filteredProducts = bouquetProducts.filter((product) => {
+    if (filter === "todos") return true;
+    const isMix = product.color.includes(" y ") || product.color.includes(", ");
+    return filter === "mezclas" ? isMix : !isMix;
+  });
+
   return (
     <div className="min-h-screen bg-background">
       <Navbar />
@@ -15,7 +26,7 @@ const BouquetProducts = () => {
             <ArrowLeft className="w-4 h-4" /> Volver
           </Link>
 
-          <div className="text-center mb-12">
+          <div className="text-center mb-8">
             <div className="flex items-center justify-center gap-2 mb-2">
               <Sparkles className="w-5 h-5 text-primary" />
               <p className="text-gold font-body text-sm tracking-[0.3em] uppercase">Ramos hechos a mano</p>
@@ -23,8 +34,28 @@ const BouquetProducts = () => {
             <h1 className="font-display text-4xl md:text-5xl font-semibold text-foreground">Bouquets</h1>
           </div>
 
+          <div className="flex justify-center gap-3 mb-12">
+            {([
+              { key: "todos", label: "Todos" },
+              { key: "un-color", label: "Un solo color" },
+              { key: "mezclas", label: "Mezclas" },
+            ] as { key: FilterType; label: string }[]).map(({ key, label }) => (
+              <button
+                key={key}
+                onClick={() => setFilter(key)}
+                className={`px-5 py-2 rounded-full font-body text-sm transition-all ${
+                  filter === key
+                    ? "bg-primary text-primary-foreground shadow-sm"
+                    : "bg-muted text-muted-foreground hover:bg-accent"
+                }`}
+              >
+                {label}
+              </button>
+            ))}
+          </div>
+
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
-            {bouquetProducts.map((product) => (
+            {filteredProducts.map((product) => (
               <div key={product.id}>
                 <Link to={`/bouquets/all/${product.id}`} className="group block">
                   <div className="relative overflow-hidden rounded-sm mb-4 aspect-square bg-muted">
