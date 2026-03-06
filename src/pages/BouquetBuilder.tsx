@@ -8,6 +8,7 @@ import { useCart } from "@/contexts/CartContext";
 import { toast } from "sonner";
 
 import Navbar from "@/components/Navbar";
+import PaperColorPicker from "@/components/PaperColorPicker";
 import heroBouquet from "@/assets/hero-bouquet.jpg";
 import {
   colorOptions,
@@ -64,6 +65,7 @@ const BouquetBuilder = () => {
   const [mapUrl, setMapUrl] = useState("");
   const autocompleteRef = useRef<HTMLDivElement>(null);
   const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const [paperColor, setPaperColor] = useState("Blanco");
 
   const STORE_MAP_URL = `https://www.google.com/maps/embed/v1/place?key=&q=${encodeURIComponent("7255 NW 12th St, Miami, FL 33126")}`;
 
@@ -320,8 +322,17 @@ const BouquetBuilder = () => {
               </p>
             </Section>
 
+            {/* Paper Color */}
+            <Section title="Color del Papel" step={2}>
+              <p className="text-xs text-muted-foreground font-body mb-4">Elige el color del papel de envoltura</p>
+              <PaperColorPicker selected={paperColor} onChange={setPaperColor} />
+              <p className="text-sm font-body text-muted-foreground mt-3">
+                Seleccionado: <span className="text-foreground font-semibold">{paperColor}</span>
+              </p>
+            </Section>
+
             {/* 2. Size */}
-            <Section title="Cantidad de Rosas" step={2}>
+            <Section title="Cantidad de Rosas" step={3}>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
                 {sizeOptions.map((size, idx) => {
                   const disabled = addLettersNumbers && specialText.length >= 3 && lettersNumbersType === "letters" && size.roses < 100;
@@ -350,7 +361,7 @@ const BouquetBuilder = () => {
             </Section>
 
             {/* 3. Glitter */}
-            <Section title="Acabado Brillante" step={3}>
+            <Section title="Acabado Brillante" step={4}>
               <button
                 onClick={() => setAddGlitter(!addGlitter)}
                 className={`relative w-full p-6 rounded-sm border-2 transition-all overflow-hidden ${
@@ -387,7 +398,7 @@ const BouquetBuilder = () => {
             </Section>
 
             {/* 4. Accessories */}
-            <Section title="Accesorios" step={4} subtitle="Gratis">
+            <Section title="Accesorios" step={5} subtitle="Gratis">
               <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
                 {([
                   { type: "none" as const, label: "Sin accesorio", icon: null },
@@ -422,7 +433,7 @@ const BouquetBuilder = () => {
             </Section>
 
             {/* 5. Letras o Números */}
-            <Section title="Letras o Números (Baby Breath)" step={5} subtitle="Opcional">
+            <Section title="Letras o Números (Baby Breath)" step={6} subtitle="Opcional">
               <div className={`p-5 rounded-sm border-2 transition-all ${addLettersNumbers ? "border-primary bg-primary/5" : "border-border"}`}>
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-3">
@@ -490,7 +501,7 @@ const BouquetBuilder = () => {
             </Section>
 
             {/* 6. Vase */}
-            <Section title="Jarrón" step={6} subtitle="Opcional">
+            <Section title="Jarrón" step={7} subtitle="Opcional">
               <div className={`p-5 rounded-sm border-2 transition-all ${addVase ? "border-primary bg-primary/5" : "border-border"}`}>
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-3">
@@ -528,7 +539,7 @@ const BouquetBuilder = () => {
             </Section>
 
             {/* 7. Extras */}
-            <Section title="Extras" step={7}>
+            <Section title="Extras" step={8}>
               {/* Crown */}
               <div className={`p-5 rounded-sm border-2 transition-all mb-4 ${
                 addCrown ? "border-primary bg-primary/5" : "border-border"
@@ -638,7 +649,7 @@ const BouquetBuilder = () => {
             </Section>
 
             {/* 8. AI Preview */}
-            <Section title="Vista Previa" step={8} subtitle="Opcional">
+            <Section title="Vista Previa" step={9} subtitle="Opcional">
               <div className="space-y-4">
                 <p className="text-sm text-muted-foreground font-body">
                   Genera una imagen aproximada de cómo quedará tu ramo con las opciones que has elegido.
@@ -693,7 +704,7 @@ const BouquetBuilder = () => {
             </Section>
 
             {/* 9. Delivery */}
-            <Section title="Envío" step={9}>
+            <Section title="Envío" step={10}>
               <div className="grid grid-cols-2 gap-3 mb-6">
                 <button
                   onClick={() => setDeliveryMethod("pickup")}
@@ -956,6 +967,7 @@ const BouquetBuilder = () => {
                       deliveryDate: deliveryDate ? format(deliveryDate, "PPP", { locale: es }) : "",
                       deliveryHour,
                       deliveryMiles: deliveryMethod === "delivery" ? deliveryMiles : null,
+                      paperColor,
                     });
 
                     toast.success("¡Bouquet añadido al carrito!");
@@ -1011,6 +1023,7 @@ const BouquetBuilder = () => {
                       deliveryDate: deliveryDate ? format(deliveryDate, "PPP", { locale: es }) : "",
                       deliveryHour,
                       deliveryMiles: deliveryMethod === "delivery" ? deliveryMiles : null,
+                      paperColor,
                     });
 
                     toast.success("¡Bouquet añadido al carrito!");

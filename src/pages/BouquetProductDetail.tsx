@@ -7,6 +7,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { useCart } from "@/contexts/CartContext";
 import { toast } from "sonner";
 import Navbar from "@/components/Navbar";
+import PaperColorPicker from "@/components/PaperColorPicker";
 import { bouquetProducts, bouquetSizeOptions } from "@/lib/catalogData";
 import {
   crownOptions, ribbonPresets, crownPrice, ribbonPrice, letterNumberExtraPrice, vaseOptions,
@@ -38,6 +39,7 @@ const BouquetProductDetail = () => {
   const [specialText, setSpecialText] = useState("");
   const [addVase, setAddVase] = useState(false);
   const [selectedVaseIdx, setSelectedVaseIdx] = useState(0);
+  const [paperColor, setPaperColor] = useState("Blanco");
 
   // Delivery state
   const [deliveryMethod, setDeliveryMethod] = useState<"pickup" | "delivery">("pickup");
@@ -175,6 +177,7 @@ const BouquetProductDetail = () => {
       deliveryDate: deliveryDate ? format(deliveryDate, "PPP", { locale: es }) : "",
       deliveryHour,
       deliveryMiles: deliveryMethod === "delivery" ? deliveryMiles : null,
+      paperColor,
     });
     toast.success("¡Bouquet añadido al carrito!");
     return true;
@@ -209,6 +212,13 @@ const BouquetProductDetail = () => {
               <h1 className="font-display text-3xl md:text-4xl font-semibold text-foreground">{product.name}</h1>
               <p className="text-muted-foreground font-body mt-2">{product.description}</p>
             </div>
+
+            {/* Paper Color */}
+            <Section title="Color del Papel" step={step++}>
+              <p className="text-xs text-muted-foreground font-body mb-4">Elige el color del papel de envoltura</p>
+              <PaperColorPicker selected={paperColor} onChange={setPaperColor} />
+            </Section>
+
 
             {/* 1. Size */}
             <Section title="Cantidad de Rosas" step={step++}>
