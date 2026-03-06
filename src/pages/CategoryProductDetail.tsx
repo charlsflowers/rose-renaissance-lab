@@ -168,9 +168,9 @@ const CategoryProductDetail = () => {
 
           <div className="max-w-4xl mx-auto space-y-10">
             {/* Product Image */}
-            <div className="relative overflow-hidden rounded-sm aspect-[16/9] bg-muted">
+            <div className="relative overflow-hidden rounded-sm bg-muted flex items-center justify-center">
               {product.image ? (
-                <img src={product.image} alt={product.name} className="w-full h-full object-cover" />
+                <img src={product.image} alt={product.name} className="w-full h-auto object-contain" />
               ) : (
                 <div className="w-full h-full flex items-center justify-center">
                   <span className="font-display text-6xl text-muted-foreground/20">🌹</span>

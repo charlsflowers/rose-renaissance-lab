@@ -1,10 +1,11 @@
+import { useEffect } from "react";
 import { Link } from "react-router-dom";
-import { motion } from "framer-motion";
 import Navbar from "@/components/Navbar";
 import { bouquetProducts, bouquetSizeOptions } from "@/lib/catalogData";
 import { ArrowLeft, Sparkles } from "lucide-react";
 
 const BouquetProducts = () => {
+  useEffect(() => { window.scrollTo(0, 0); }, []);
   return (
     <div className="min-h-screen bg-background">
       <Navbar />
@@ -23,8 +24,8 @@ const BouquetProducts = () => {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
-            {bouquetProducts.map((product, i) => (
-              <motion.div key={product.id} initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: i * 0.05 }}>
+            {bouquetProducts.map((product) => (
+              <div key={product.id}>
                 <Link to={`/bouquets/all/${product.id}`} className="group block">
                   <div className="relative overflow-hidden rounded-sm mb-4 aspect-square bg-muted">
                     {product.image ? (
@@ -40,7 +41,7 @@ const BouquetProducts = () => {
                   <p className="text-muted-foreground font-body text-xs text-center mt-1">{product.description}</p>
                   <p className="text-primary font-body text-sm font-semibold text-center mt-2">Desde ${bouquetSizeOptions[0].price}</p>
                 </Link>
-              </motion.div>
+              </div>
             ))}
           </div>
         </div>

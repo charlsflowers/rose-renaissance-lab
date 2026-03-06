@@ -1,10 +1,11 @@
+import { useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
-import { motion } from "framer-motion";
 import Navbar from "@/components/Navbar";
 import { categories, categoryProducts } from "@/lib/catalogData";
 import { ArrowLeft } from "lucide-react";
 
 const CategoryProducts = () => {
+  useEffect(() => { window.scrollTo(0, 0); }, []);
   const { slug } = useParams<{ slug: string }>();
   const category = categories.find((c) => c.slug === slug);
   const products = slug ? categoryProducts[slug] || [] : [];
@@ -37,13 +38,8 @@ const CategoryProducts = () => {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
-            {products.map((product, i) => (
-              <motion.div
-                key={product.id}
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: i * 0.1 }}
-              >
+            {products.map((product) => (
+              <div key={product.id}>
                 <Link to={`/categoria/${slug}/${product.id}`} className="group block">
                   <div className="relative overflow-hidden rounded-sm mb-4 aspect-square bg-muted">
                     {product.image ? (
@@ -61,7 +57,7 @@ const CategoryProducts = () => {
                     Desde ${product.sizes[0].price}
                   </p>
                 </Link>
-              </motion.div>
+              </div>
             ))}
           </div>
         </div>
