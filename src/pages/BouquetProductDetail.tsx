@@ -219,8 +219,6 @@ const BouquetProductDetail = () => {
               <PaperColorPicker selected={paperColor} onChange={setPaperColor} />
             </Section>
 
-            <div className="hidden">
-            </div>
 
             {/* 1. Size */}
             <Section title="Cantidad de Rosas" step={step++}>
