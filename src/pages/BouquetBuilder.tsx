@@ -649,7 +649,7 @@ const BouquetBuilder = () => {
             </Section>
 
             {/* 8. AI Preview */}
-            <Section title="Vista Previa" step={8} subtitle="Opcional">
+            <Section title="Vista Previa" step={9} subtitle="Opcional">
               <div className="space-y-4">
                 <p className="text-sm text-muted-foreground font-body">
                   Genera una imagen aproximada de cómo quedará tu ramo con las opciones que has elegido.
