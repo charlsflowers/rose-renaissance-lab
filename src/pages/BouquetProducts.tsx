@@ -41,7 +41,7 @@ const BouquetProducts = () => {
                   <p className="text-muted-foreground font-body text-xs text-center mt-1">{product.description}</p>
                   <p className="text-primary font-body text-sm font-semibold text-center mt-2">Desde ${bouquetSizeOptions[0].price}</p>
                 </Link>
-              </motion.div>
+              </div>
             ))}
           </div>
         </div>

@@ -57,7 +57,7 @@ const CategoryProducts = () => {
                     Desde ${product.sizes[0].price}
                   </p>
                 </Link>
-              </motion.div>
+              </div>
             ))}
           </div>
         </div>
