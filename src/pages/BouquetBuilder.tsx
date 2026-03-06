@@ -398,7 +398,7 @@ const BouquetBuilder = () => {
             </Section>
 
             {/* 4. Accessories */}
-            <Section title="Accesorios" step={4} subtitle="Gratis">
+            <Section title="Accesorios" step={5} subtitle="Gratis">
               <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
                 {([
                   { type: "none" as const, label: "Sin accesorio", icon: null },
