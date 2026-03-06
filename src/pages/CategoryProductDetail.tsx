@@ -219,7 +219,7 @@ const CategoryProductDetail = () => {
             </Section>
 
             {/* Delivery */}
-            <Section title="Envío" step={2}>
+            <Section title="Envío" step={3}>
               <div className="grid grid-cols-2 gap-3 mb-6">
                 <button onClick={() => setDeliveryMethod("pickup")}
                   className={`flex flex-col items-center gap-3 p-5 rounded-sm border-2 transition-all font-body ${deliveryMethod === "pickup" ? "border-primary bg-primary/5" : "border-border hover:border-primary/30"}`}>
