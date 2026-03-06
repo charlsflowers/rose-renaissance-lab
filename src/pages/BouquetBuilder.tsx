@@ -967,6 +967,7 @@ const BouquetBuilder = () => {
                       deliveryDate: deliveryDate ? format(deliveryDate, "PPP", { locale: es }) : "",
                       deliveryHour,
                       deliveryMiles: deliveryMethod === "delivery" ? deliveryMiles : null,
+                      paperColor,
                     });
 
                     toast.success("¡Bouquet añadido al carrito!");
