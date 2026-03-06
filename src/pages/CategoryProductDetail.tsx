@@ -26,6 +26,7 @@ const CategoryProductDetail = () => {
   const [addNote, setAddNote] = useState(false);
   const [addCard, setAddCard] = useState(false);
   const [cardText, setCardText] = useState("");
+  const [paperColor, setPaperColor] = useState("Blanco");
 
   // Delivery state (reused from BouquetBuilder)
   const [deliveryMethod, setDeliveryMethod] = useState<"pickup" | "delivery">("pickup");
