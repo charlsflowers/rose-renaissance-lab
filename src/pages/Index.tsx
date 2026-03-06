@@ -115,7 +115,7 @@ const Index = () => {
       <div className="relative mt-[-1px]">
         {/* Top wave — same color as ticker */}
         <div className="absolute -top-[50px] left-0 w-full h-[55px] z-10 overflow-hidden">
-          <svg className="w-[200%] h-full animate-[wave_8s_ease-in-out_infinite]" viewBox="0 0 2880 60" preserveAspectRatio="none">
+          <svg className="w-[200%] h-full animate-wave" viewBox="0 0 2880 60" preserveAspectRatio="none">
             <path d="M0,60 C360,20 720,50 1080,30 C1440,10 1800,50 2160,25 C2520,5 2880,40 2880,40 L2880,60 Z" fill="hsl(var(--primary))" opacity="0.3" />
             <path d="M0,60 C480,35 960,55 1440,40 C1920,25 2400,50 2880,35 L2880,60 Z" fill="hsl(var(--primary))" opacity="0.55" />
             <path d="M0,60 C320,48 640,56 960,50 C1280,44 1600,54 1920,48 C2240,42 2560,52 2880,46 L2880,60 Z" fill="hsl(var(--primary))" opacity="0.8" />
