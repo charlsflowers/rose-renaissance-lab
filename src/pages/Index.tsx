@@ -113,19 +113,13 @@ const Index = () => {
 
       {/* Ticker */}
       <div className="relative mt-[-1px]">
-        {/* Top converging ribbons — animated, same color as ticker */}
-        <div className="absolute -top-[60px] left-0 w-[200%] h-[65px] z-10 overflow-hidden">
-          <motion.svg
-            className="w-full h-full"
-            viewBox="0 0 2880 70"
-            preserveAspectRatio="none"
-            animate={{ x: ["0%", "-50%"] }}
-            transition={{ duration: 12, ease: "linear", repeat: Infinity }}
-          >
-            <polygon points="0,70 0,64 1440,0 1440,70 1440,70 1440,64 2880,0 2880,70" fill="hsl(var(--primary))" opacity="0.3" />
-            <polygon points="0,70 0,58 1440,18 1440,70 1440,70 1440,58 2880,18 2880,70" fill="hsl(var(--primary))" opacity="0.5" />
-            <polygon points="0,70 0,52 1440,38 1440,70 1440,70 1440,52 2880,38 2880,70" fill="hsl(var(--primary))" opacity="0.75" />
-          </motion.svg>
+        {/* Top wave — same color as ticker */}
+        <div className="absolute -top-[50px] left-0 w-full h-[55px] z-10 overflow-hidden">
+          <svg className="w-[200%] h-full animate-wave" viewBox="0 0 2880 60" preserveAspectRatio="none">
+            <path d="M0,60 C360,20 720,50 1080,30 C1440,10 1800,50 2160,25 C2520,5 2880,40 2880,40 L2880,60 Z" fill="hsl(var(--primary))" opacity="0.3" />
+            <path d="M0,60 C480,35 960,55 1440,40 C1920,25 2400,50 2880,35 L2880,60 Z" fill="hsl(var(--primary))" opacity="0.55" />
+            <path d="M0,60 C320,48 640,56 960,50 C1280,44 1600,54 1920,48 C2240,42 2560,52 2880,46 L2880,60 Z" fill="hsl(var(--primary))" opacity="0.8" />
+          </svg>
         </div>
         <div className="bg-primary py-4 overflow-hidden">
           <motion.div
@@ -152,22 +146,13 @@ const Index = () => {
             ))}
           </motion.div>
         </div>
-        {/* Bottom converging ribbons — animated, same color as ticker */}
-        <div className="absolute -bottom-[60px] left-0 w-[200%] h-[65px] z-10 overflow-hidden">
-          <motion.svg
-            className="w-full h-full"
-            viewBox="0 0 2880 70"
-            preserveAspectRatio="none"
-            animate={{ x: ["-50%", "0%"] }}
-            transition={{ duration: 12, ease: "linear", repeat: Infinity }}
-          >
-            <polygon points="0,0 1440,0 1440,6 0,70 0,0 0,0" fill="hsl(var(--primary))" opacity="0.3" />
-            <polygon points="0,0 1440,0 1440,12 0,52" fill="hsl(var(--primary))" opacity="0.5" />
-            <polygon points="0,0 1440,0 1440,18 0,32" fill="hsl(var(--primary))" opacity="0.75" />
-            <polygon points="1440,0 2880,0 2880,6 1440,70" fill="hsl(var(--primary))" opacity="0.3" />
-            <polygon points="1440,0 2880,0 2880,12 1440,52" fill="hsl(var(--primary))" opacity="0.5" />
-            <polygon points="1440,0 2880,0 2880,18 1440,32" fill="hsl(var(--primary))" opacity="0.75" />
-          </motion.svg>
+        {/* Bottom wave — same color as ticker */}
+        <div className="absolute -bottom-[50px] left-0 w-full h-[55px] z-10 overflow-hidden">
+          <svg className="w-[200%] h-full animate-wave-reverse" viewBox="0 0 2880 60" preserveAspectRatio="none">
+            <path d="M0,0 C360,40 720,10 1080,30 C1440,50 1800,10 2160,35 C2520,55 2880,20 2880,20 L2880,0 Z" fill="hsl(var(--primary))" opacity="0.3" />
+            <path d="M0,0 C480,25 960,5 1440,20 C1920,35 2400,10 2880,25 L2880,0 Z" fill="hsl(var(--primary))" opacity="0.55" />
+            <path d="M0,0 C320,12 640,4 960,10 C1280,16 1600,6 1920,12 C2240,18 2560,8 2880,14 L2880,0 Z" fill="hsl(var(--primary))" opacity="0.8" />
+          </svg>
         </div>
       </div>
 

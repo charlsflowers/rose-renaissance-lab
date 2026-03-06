@@ -4,15 +4,14 @@ import Navbar from "@/components/Navbar";
 import { bouquetProducts, bouquetSizeOptions } from "@/lib/catalogData";
 import { ArrowLeft, Sparkles } from "lucide-react";
 
-type FilterType = "todos" | "un-color" | "mezclas";
+type FilterType = "un-color" | "mezclas";
 
 const BouquetProducts = () => {
-  const [filter, setFilter] = useState<FilterType>("todos");
+  const [filter, setFilter] = useState<FilterType>("un-color");
 
   useEffect(() => { window.scrollTo(0, 0); }, []);
 
   const filteredProducts = bouquetProducts.filter((product) => {
-    if (filter === "todos") return true;
     const isMix = product.color.includes(" y ") || product.color.includes(", ");
     return filter === "mezclas" ? isMix : !isMix;
   });
@@ -36,7 +35,6 @@ const BouquetProducts = () => {
 
           <div className="flex justify-center gap-3 mb-12">
             {([
-              { key: "todos", label: "Todos" },
               { key: "un-color", label: "Un solo color" },
               { key: "mezclas", label: "Mezclas" },
             ] as { key: FilterType; label: string }[]).map(({ key, label }) => (
