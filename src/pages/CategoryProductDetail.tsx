@@ -7,6 +7,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { useCart } from "@/contexts/CartContext";
 import { toast } from "sonner";
 import Navbar from "@/components/Navbar";
+import PaperColorPicker from "@/components/PaperColorPicker";
 import { categoryProducts } from "@/lib/catalogData";
 import { ArrowLeft, Check, Store, Truck, CalendarIcon, Clock, MapPin, Search, Loader2, Type, Sparkles } from "lucide-react";
 import { Calendar } from "@/components/ui/calendar";
