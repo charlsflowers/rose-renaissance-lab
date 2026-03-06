@@ -186,8 +186,14 @@ const CategoryProductDetail = () => {
               <p className="text-muted-foreground font-body mt-2">{product.description}</p>
             </div>
 
+            {/* Paper Color */}
+            <Section title="Color del Papel" step={1} subtitle="">
+              <p className="text-xs text-muted-foreground font-body mb-4">Elige el color del papel de envoltura</p>
+              <PaperColorPicker selected={paperColor} onChange={setPaperColor} />
+            </Section>
+
             {/* Note & Card */}
-            <Section title="Accesorios" step={1} subtitle="Gratis">
+            <Section title="Accesorios" step={2} subtitle="Gratis">
               <div className="grid grid-cols-2 gap-3 mb-4">
                 <button onClick={() => { setAddNote(!addNote); if (!addNote) setAddCard(false); }}
                   className={`flex items-center justify-center gap-3 p-4 rounded-sm border-2 transition-all font-body text-sm ${addNote ? "border-primary bg-primary/5 text-primary" : "border-border text-muted-foreground hover:border-primary/30"}`}>
