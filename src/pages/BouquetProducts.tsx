@@ -35,7 +35,6 @@ const BouquetProducts = () => {
 
           <div className="flex justify-center gap-3 mb-12">
             {([
-              { key: "todos", label: "Todos" },
               { key: "un-color", label: "Un solo color" },
               { key: "mezclas", label: "Mezclas" },
             ] as { key: FilterType; label: string }[]).map(({ key, label }) => (
