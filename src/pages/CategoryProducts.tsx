@@ -38,13 +38,8 @@ const CategoryProducts = () => {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
-            {products.map((product, i) => (
-              <motion.div
-                key={product.id}
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: i * 0.1 }}
-              >
+            {products.map((product) => (
+              <div key={product.id}>
                 <Link to={`/categoria/${slug}/${product.id}`} className="group block">
                   <div className="relative overflow-hidden rounded-sm mb-4 aspect-square bg-muted">
                     {product.image ? (
