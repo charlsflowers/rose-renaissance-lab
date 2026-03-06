@@ -1,5 +1,5 @@
+import { useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
-import { motion } from "framer-motion";
 import Navbar from "@/components/Navbar";
 import { categories, categoryProducts } from "@/lib/catalogData";
 import { ArrowLeft } from "lucide-react";
