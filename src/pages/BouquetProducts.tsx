@@ -5,6 +5,7 @@ import { bouquetProducts, bouquetSizeOptions } from "@/lib/catalogData";
 import { ArrowLeft, Sparkles } from "lucide-react";
 
 const BouquetProducts = () => {
+  useEffect(() => { window.scrollTo(0, 0); }, []);
   return (
     <div className="min-h-screen bg-background">
       <Navbar />
