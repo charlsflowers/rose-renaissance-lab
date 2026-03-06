@@ -539,7 +539,7 @@ const BouquetBuilder = () => {
             </Section>
 
             {/* 7. Extras */}
-            <Section title="Extras" step={7}>
+            <Section title="Extras" step={8}>
               {/* Crown */}
               <div className={`p-5 rounded-sm border-2 transition-all mb-4 ${
                 addCrown ? "border-primary bg-primary/5" : "border-border"
