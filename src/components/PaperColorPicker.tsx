@@ -53,6 +53,7 @@ const PaperColorPicker = ({ selected, onChange }: PaperColorPickerProps) => {
                   <span className="text-[10px] text-muted-foreground text-center leading-tight">Próximamente</span>
                 </div>
               )}
+            </div>
             <span className="text-xs font-body text-foreground">{paper.name}</span>
             {selected === paper.name && (
               <div className="absolute -top-1.5 -right-1.5 w-5 h-5 bg-primary rounded-full flex items-center justify-center">
