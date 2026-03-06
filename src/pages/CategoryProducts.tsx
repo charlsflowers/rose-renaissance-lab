@@ -5,6 +5,7 @@ import { categories, categoryProducts } from "@/lib/catalogData";
 import { ArrowLeft } from "lucide-react";
 
 const CategoryProducts = () => {
+  useEffect(() => { window.scrollTo(0, 0); }, []);
   const { slug } = useParams<{ slug: string }>();
   const category = categories.find((c) => c.slug === slug);
   const products = slug ? categoryProducts[slug] || [] : [];
