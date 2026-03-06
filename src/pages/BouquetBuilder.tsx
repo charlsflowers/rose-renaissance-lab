@@ -8,6 +8,7 @@ import { useCart } from "@/contexts/CartContext";
 import { toast } from "sonner";
 
 import Navbar from "@/components/Navbar";
+import PaperColorPicker from "@/components/PaperColorPicker";
 import heroBouquet from "@/assets/hero-bouquet.jpg";
 import {
   colorOptions,
