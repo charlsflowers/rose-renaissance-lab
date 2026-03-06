@@ -15,6 +15,7 @@ export type ReviewCategory = "bouquets" | "arreglos" | "cajas" | "cestas" | "jar
 export interface ReviewData {
   id: string;
   name: string;
+  avatar?: string;
   rating: number;
   text: string;
   image: string;
