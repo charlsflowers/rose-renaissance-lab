@@ -39,7 +39,7 @@ const PaperColorPicker = ({ selected, onChange }: PaperColorPickerProps) => {
                 : "border-border hover:border-primary/30 hover:scale-105"
             }`}
           >
-            <div className="w-16 h-16 rounded-sm overflow-hidden bg-muted">
+            <div className="w-16 h-16 rounded-sm overflow-hidden">
               <img
                 src={paper.image}
                 alt={`Papel ${paper.name}`}
