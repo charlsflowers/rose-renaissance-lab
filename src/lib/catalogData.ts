@@ -1,3 +1,5 @@
+import bqRound1Img from '@/assets/bq-round-1.png';
+
 export interface ProductSize {
   label: string;
   price: number;
