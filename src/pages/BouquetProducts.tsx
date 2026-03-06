@@ -1,5 +1,5 @@
+import { useEffect } from "react";
 import { Link } from "react-router-dom";
-import { motion } from "framer-motion";
 import Navbar from "@/components/Navbar";
 import { bouquetProducts, bouquetSizeOptions } from "@/lib/catalogData";
 import { ArrowLeft, Sparkles } from "lucide-react";
