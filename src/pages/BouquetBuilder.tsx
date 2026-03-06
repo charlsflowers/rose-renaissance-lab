@@ -322,6 +322,15 @@ const BouquetBuilder = () => {
               </p>
             </Section>
 
+            {/* Paper Color */}
+            <Section title="Color del Papel" step={2}>
+              <p className="text-xs text-muted-foreground font-body mb-4">Elige el color del papel de envoltura</p>
+              <PaperColorPicker selected={paperColor} onChange={setPaperColor} />
+              <p className="text-sm font-body text-muted-foreground mt-3">
+                Seleccionado: <span className="text-foreground font-semibold">{paperColor}</span>
+              </p>
+            </Section>
+
             {/* 2. Size */}
             <Section title="Cantidad de Rosas" step={2}>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
