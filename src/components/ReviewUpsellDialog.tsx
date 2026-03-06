@@ -63,6 +63,7 @@ const ReviewUpsellDialog = ({ open, onOpenChange, cartData, productLabel, mode }
       deliveryDate: "",
       deliveryHour: "",
       deliveryMiles: null,
+      paperColor: "Blanco",
     };
     addItem(item);
     onOpenChange(false);

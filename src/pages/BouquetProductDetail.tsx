@@ -213,6 +213,15 @@ const BouquetProductDetail = () => {
               <p className="text-muted-foreground font-body mt-2">{product.description}</p>
             </div>
 
+            {/* Paper Color */}
+            <Section title="Color del Papel" step={step++}>
+              <p className="text-xs text-muted-foreground font-body mb-4">Elige el color del papel de envoltura</p>
+              <PaperColorPicker selected={paperColor} onChange={setPaperColor} />
+            </Section>
+
+            <div className="hidden">
+            </div>
+
             {/* 1. Size */}
             <Section title="Cantidad de Rosas" step={step++}>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
