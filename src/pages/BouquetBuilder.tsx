@@ -332,7 +332,7 @@ const BouquetBuilder = () => {
             </Section>
 
             {/* 2. Size */}
-            <Section title="Cantidad de Rosas" step={2}>
+            <Section title="Cantidad de Rosas" step={3}>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
                 {sizeOptions.map((size, idx) => {
                   const disabled = addLettersNumbers && specialText.length >= 3 && lettersNumbersType === "letters" && size.roses < 100;
