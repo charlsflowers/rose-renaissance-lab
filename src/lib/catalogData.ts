@@ -68,6 +68,7 @@ export interface BouquetProduct {
   name: string;
   description: string;
   image: string;
+  image2?: string;
   color: string;
   type: 'round' | 'heart';
 }
