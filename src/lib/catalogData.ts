@@ -128,7 +128,7 @@ export const categoryProducts: Record<string, CatalogProduct[]> = {
 
 export const bouquetProducts: BouquetProduct[] = [
   // Round (Filled with imported images)
-  { id: 'bq-round-1', name: 'Elegancia Roja y Blanca', description: 'Mix de rosas rojas y blancas en ramo redondo', image: bqRound1Img, color: 'Rojo y Blanco', type: 'round' },
+  
   { id: 'bq-round-5', name: 'Pasión Total', description: 'Ramo redondo de rosas rojas puras', image: bqRojoImg, color: 'Rojo', type: 'round' },
   { id: 'bq-round-6', name: 'Pureza Blanca', description: 'Ramo redondo de rosas blancas', image: bqBlancoImg, color: 'Blanco', type: 'round' },
   { id: 'bq-round-7', name: 'Rosa Intenso', description: 'Ramo redondo de rosas hot pink vibrantes', image: bqHotpinkImg, color: 'Hot Pink', type: 'round' },
@@ -141,7 +141,7 @@ export const bouquetProducts: BouquetProduct[] = [
   { id: 'bq-round-18', name: 'Tricolor Clásico', description: 'Mix de rosas rojas, blancas y light pink', image: bqMixRojoPinkLightpinkImg, color: 'Rojo, Blanco y Light Pink', type: 'round' },
   { id: 'bq-round-19', name: 'Ocaso Naranja', description: 'Ramo redondo de rosas naranjas vibrantes', image: bqNaranjaImg, color: 'Naranja', type: 'round' },
   { id: 'bq-round-20', name: 'Sol Radiante', description: 'Ramo redondo de rosas amarillas luminosas', image: bqAmarilloImg, color: 'Amarillo', type: 'round' },
-  { id: 'bq-round-21', name: 'Pink Elegante', description: 'Ramo redondo de rosas pink vibrantes', image: bqPinkImg, color: 'Pink', type: 'round' },
+  
   { id: 'bq-round-22', name: 'Frescura Verde', description: 'Ramo redondo de rosas verdes pintadas', image: bqVerdeImg, color: 'Verde', type: 'round' },
   { id: 'bq-round-23', name: 'Pastel Mágico', description: 'Mix de rosas moradas, light pink y blancas', image: bqMixPastelImg, color: 'Morado, Light Pink y Blanco', type: 'round' },
   { id: 'bq-round-24', name: 'Atardecer Cálido', description: 'Mix vibrante de rosas naranjas, hot pink y blancas', image: bqMixCalidoImg, color: 'Naranja, Hot Pink y Blanco', type: 'round' },
@@ -167,11 +167,6 @@ export const bouquetProducts: BouquetProduct[] = [
   { id: 'bq-round-44', name: 'Ternura Infinita', description: 'Mix de rosas light pink y blancas', image: bqMixLightpinkBlancoImg, color: 'Light Pink y Blanco', type: 'round' },
   { id: 'bq-round-45', name: 'Pasión Elegante', description: 'Mix de rosas rojas, blancas y negras', image: bqMixRojoBlancoNegroImg, color: 'Rojo, Blanco y Negro', type: 'round' },
   { id: 'bq-round-46', name: 'Amor Tricolor', description: 'Mix de rosas rojas, pink y blancas', image: bqMixRojoPinkBlancoImg, color: 'Rojo, Pink y Blanco', type: 'round' },
-  // Heart
-  { id: 'bq-heart-1', name: 'Corazón Rojo y Blanco', description: 'Bouquet corazón con rosas rojas y blancas', image: '', color: 'Rojo y Blanco', type: 'heart' },
-  { id: 'bq-heart-2', name: 'Corazón Rosa Intenso', description: 'Bouquet corazón con rosas rojas y hot pink', image: '', color: 'Rojo y Hot Pink', type: 'heart' },
-  { id: 'bq-heart-3', name: 'Corazón Elegante', description: 'Bouquet corazón con rosas negras y rojas', image: '', color: 'Rojo y Negro', type: 'heart' },
-  { id: 'bq-heart-4', name: 'Corazón Suave', description: 'Bouquet corazón con rosas light pink y blancas', image: '', color: 'Light Pink y Blanco', type: 'heart' },
 ];
 
 export const bouquetSizeOptions = [
