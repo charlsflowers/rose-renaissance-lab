@@ -72,6 +72,7 @@ import bqMixRojoBlanco2Img from '@/assets/bq-mix-rojo-blanco-2.png';
 import bqMixAzulBlanco2Img from '@/assets/bq-mix-azul-blanco-2.png';
 import bqMixNaranjaAmarillo2SecImg from '@/assets/bq-mix-naranja-amarillo-2-sec.png';
 import bqMixPinkAmarilloBlanco2Img from '@/assets/bq-mix-pink-amarillo-blanco-2.png';
+import bqMixRojoHotpink2Img from '@/assets/bq-mix-rojo-hotpink-2.png';
 
 export interface ProductSize {
   label: string;
