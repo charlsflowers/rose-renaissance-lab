@@ -9,6 +9,7 @@ import bqNegroImg from '@/assets/bq-negro.png';
 import bqAzulImg from '@/assets/bq-azul.png';
 import bqAmarilloImg from '@/assets/bq-amarillo.png';
 import bqPinkImg from '@/assets/bq-pink.png';
+import bqMoradoImg from '@/assets/bq-morado.png';
 
 export interface ProductSize {
   label: string;
@@ -111,7 +112,7 @@ export const bouquetProducts: BouquetProduct[] = [
   { id: 'bq-round-9', name: 'Atardecer Dorado', description: 'Mix de rosas amarillas y naranjas', image: '', color: 'Amarillo y Naranja', type: 'round' },
   { id: 'bq-round-10', name: 'Cielo Azul', description: 'Ramo redondo de rosas azules pintadas', image: bqAzulImg, color: 'Azul', type: 'round' },
   { id: 'bq-round-11', name: 'Noche Profunda', description: 'Ramo redondo de rosas negras elegantes', image: bqNegroImg, color: 'Negro', type: 'round' },
-  { id: 'bq-round-12', name: 'Encanto Morado', description: 'Ramo redondo de rosas moradas', image: '', color: 'Morado', type: 'round' },
+  { id: 'bq-round-12', name: 'Encanto Morado', description: 'Ramo redondo de rosas moradas', image: bqMoradoImg, color: 'Morado', type: 'round' },
   { id: 'bq-round-13', name: 'Amanecer Rosa y Blanco', description: 'Mix delicado de rosas hot pink y blancas', image: '', color: 'Hot Pink y Blanco', type: 'round' },
   { id: 'bq-round-14', name: 'Fuego y Hielo', description: 'Contraste de rosas rojas y azules', image: '', color: 'Rojo y Azul', type: 'round' },
   { id: 'bq-round-15', name: 'Jardín Primaveral', description: 'Mix de rosas amarillas y blancas', image: '', color: 'Amarillo y Blanco', type: 'round' },
