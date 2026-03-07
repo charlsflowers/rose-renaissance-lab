@@ -270,7 +270,7 @@ const BouquetProductDetail = () => {
                       className={`p-4 rounded-sm border-2 text-center transition-all ${disabled ? "opacity-40 cursor-not-allowed border-border" : effectiveSizeIdx === idx ? "border-primary bg-primary/5" : "border-border hover:border-primary/30"}`}>
                       <p className="font-display text-2xl font-semibold text-foreground">{size.roses}</p>
                       <p className="text-xs text-muted-foreground font-body">rosas</p>
-                      <p className="text-sm font-body font-semibold text-primary mt-1">${size.price}</p>
+                      <p className="text-sm font-body font-semibold text-primary mt-1">${getPrice(product.pricingTier, size.roses)}</p>
                       {disabled && <p className="text-[10px] text-destructive font-body mt-1">Mín. {bouquetSizeOptions[minSizeIdx].roses} para {colorCount} colores</p>}
                     </button>
                   );
