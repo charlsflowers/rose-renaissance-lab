@@ -191,7 +191,7 @@ export const bouquetProducts: BouquetProduct[] = [
   { id: 'bq-round-31', name: 'Contraste Elegante', description: 'Mix de rosas negras, hot pink y blancas', image: bqMixNegroRosaImg, color: 'Negro, Hot Pink y Blanco', type: 'round' },
   { id: 'bq-round-32', name: 'Cítrico Refrescante', description: 'Mix de rosas naranjas y amarillas', image: bqMixNaranjaAmarilloImg, color: 'Naranja y Amarillo', type: 'round' },
   { id: 'bq-round-33', name: 'Cítrico Claro', description: 'Mix de rosas naranjas, amarillas y blancas', image: bqMixNaranjaAmarillo2Img, color: 'Naranja, Amarillo y Blanco', type: 'round' },
-  { id: 'bq-round-34', name: 'Dulzura Roja', description: 'Mix de rosas rojas y light pink', image: bqMixRojoLightpinkImg, image2: bqMixRojoLightpinkSecImg, color: 'Rojo y Light Pink', type: 'round' },
+  { id: 'bq-round-34', name: 'Dulzura Roja', description: 'Mix de rosas rojas y light pink', image: bqMixRojoLightpinkImg, image2: bqMixRojoPinkLightpink2Img, color: 'Rojo y Light Pink', type: 'round' },
   { id: 'bq-round-35', name: 'Naranja Cítrico', description: 'Mix de rosas naranjas y blancas', image: bqMixNaranjaBlancoImg, image2: bqMixNaranjaBlanco2Img, color: 'Naranja y Blanco', type: 'round' },
   { id: 'bq-round-36', name: 'Abeja Imperial', description: 'Mix de rosas amarillas, negras y blancas', image: bqMixAmarilloNegroBlancoImg, image2: bqMixAmarilloNegroBlanco2Img, color: 'Amarillo, Negro y Blanco', type: 'round' },
   { id: 'bq-round-37', name: 'Pasión Bicolor', description: 'Mix de rosas rojas y blancas', image: bqMixRojoBlancoImg, image2: bqMixRojoBlanco2Img, color: 'Rojo y Blanco', type: 'round' },
