@@ -475,6 +475,8 @@ const BouquetBuilder = () => {
                           ? e.target.value.replace(/[^0-9]/g, "")
                           : e.target.value.toUpperCase().replace(/[^A-Z]/g, "");
                         setSpecialText(val);
+                        const minRoses75Idx = sizeOptions.findIndex(s => s.roses >= 75);
+                        if (selectedSizeIdx < minRoses75Idx) setSelectedSizeIdx(minRoses75Idx);
                         if (lettersNumbersType === "letters" && val.length >= 3) {
                           const minIdx = sizeOptions.findIndex(s => s.roses >= 100);
                           if (selectedSizeIdx < minIdx) setSelectedSizeIdx(minIdx);
