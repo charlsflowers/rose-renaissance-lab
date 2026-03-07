@@ -1,3 +1,4 @@
+import { pricingTable } from '@/lib/productData';
 import bqRound1Img from '@/assets/bq-round-1.png';
 import bqRojoImg from '@/assets/bq-rojo.png';
 import bqHotpinkImg from '@/assets/bq-hotpink.png';
