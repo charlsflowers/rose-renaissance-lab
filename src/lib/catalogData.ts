@@ -188,7 +188,7 @@ export const bouquetProducts: BouquetProduct[] = [
   { id: 'bq-round-28', name: 'Girasoles y Pasión', description: 'Ramo de girasoles y rosas rojas', image: bqMixGirasolesImg, image2: bqMixGirasoles2Img, color: 'Girasoles y Rojo', type: 'round' },
   { id: 'bq-round-29', name: 'Lila Suave', description: 'Mix de rosas lilas y blancas', image: bqMixLilaBlancoImg, image2: bqMixLilaBlanco2Img, color: 'Lila y Blanco', type: 'round' },
   { id: 'bq-round-30', name: 'Noche y Día', description: 'Mix de rosas negras y blancas', image: bqMixNegroBlancoImg, image2: bqMixNegroBlanco2Img, color: 'Negro y Blanco', type: 'round' },
-  { id: 'bq-round-31', name: 'Contraste Elegante', description: 'Mix de rosas negras, hot pink y blancas', image: bqMixNegroRosaImg, image2: bqMixNegroRosa2Img, color: 'Negro, Hot Pink y Blanco', type: 'round' },
+  { id: 'bq-round-31', name: 'Contraste Elegante', description: 'Mix de rosas negras, hot pink y blancas', image: bqMixNegroRosaImg, color: 'Negro, Hot Pink y Blanco', type: 'round' },
   { id: 'bq-round-32', name: 'Cítrico Refrescante', description: 'Mix de rosas naranjas y amarillas', image: bqMixNaranjaAmarilloImg, image2: bqMixNaranjaAmarilloSecImg, color: 'Naranja y Amarillo', type: 'round' },
   { id: 'bq-round-33', name: 'Cítrico Claro', description: 'Mix de rosas naranjas, amarillas y blancas', image: bqMixNaranjaAmarillo2Img, image2: bqMixNaranjaAmarillo2SecImg, color: 'Naranja, Amarillo y Blanco', type: 'round' },
   { id: 'bq-round-34', name: 'Dulzura Roja', description: 'Mix de rosas rojas y light pink', image: bqMixRojoLightpinkImg, image2: bqMixRojoLightpinkSecImg, color: 'Rojo y Light Pink', type: 'round' },
