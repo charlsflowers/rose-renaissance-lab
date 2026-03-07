@@ -167,11 +167,6 @@ export const bouquetProducts: BouquetProduct[] = [
   { id: 'bq-round-44', name: 'Ternura Infinita', description: 'Mix de rosas light pink y blancas', image: bqMixLightpinkBlancoImg, color: 'Light Pink y Blanco', type: 'round' },
   { id: 'bq-round-45', name: 'Pasión Elegante', description: 'Mix de rosas rojas, blancas y negras', image: bqMixRojoBlancoNegroImg, color: 'Rojo, Blanco y Negro', type: 'round' },
   { id: 'bq-round-46', name: 'Amor Tricolor', description: 'Mix de rosas rojas, pink y blancas', image: bqMixRojoPinkBlancoImg, color: 'Rojo, Pink y Blanco', type: 'round' },
-  // Heart
-  { id: 'bq-heart-1', name: 'Corazón Rojo y Blanco', description: 'Bouquet corazón con rosas rojas y blancas', image: '', color: 'Rojo y Blanco', type: 'heart' },
-  { id: 'bq-heart-2', name: 'Corazón Rosa Intenso', description: 'Bouquet corazón con rosas rojas y hot pink', image: '', color: 'Rojo y Hot Pink', type: 'heart' },
-  { id: 'bq-heart-3', name: 'Corazón Elegante', description: 'Bouquet corazón con rosas negras y rojas', image: '', color: 'Rojo y Negro', type: 'heart' },
-  { id: 'bq-heart-4', name: 'Corazón Suave', description: 'Bouquet corazón con rosas light pink y blancas', image: '', color: 'Light Pink y Blanco', type: 'heart' },
 ];
 
 export const bouquetSizeOptions = [
