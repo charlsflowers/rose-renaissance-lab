@@ -197,7 +197,7 @@ export const bouquetProducts: BouquetProduct[] = [
   { id: 'bq-round-37', name: 'Pasión Bicolor', description: 'Mix de rosas rojas y blancas', image: bqMixRojoBlancoImg, image2: bqMixRojoBlanco2Img, color: 'Rojo y Blanco', type: 'round' },
   { id: 'bq-round-38', name: 'Océano Blanco', description: 'Mix de rosas azules y blancas', image: bqMixAzulBlancoImg, image2: bqMixAzulBlanco2Img, color: 'Azul y Blanco', type: 'round' },
   { id: 'bq-round-39', name: 'Primavera Suave', description: 'Mix de rosas pink, amarillas y blancas', image: bqMixPinkAmarilloBlancoImg, image2: bqMixPinkAmarilloBlanco2Img, color: 'Pink, Amarillo y Blanco', type: 'round' },
-  { id: 'bq-round-40', name: 'Romance Oscuro', description: 'Mix de rosas rojas y hot pink', image: bqMixRojoHotpinkImg, color: 'Rojo y Hot Pink', type: 'round' },
+  { id: 'bq-round-40', name: 'Romance Oscuro', description: 'Mix de rosas rojas y hot pink', image: bqMixRojoHotpinkImg, image2: bqMixRojoHotpink2Img, color: 'Rojo y Hot Pink', type: 'round' },
   { id: 'bq-round-41', name: 'Lila Brillante', description: 'Mix de rosas amarillas, lilas y blancas', image: bqMixAmarilloLilaBlancoImg, color: 'Amarillo, Lila y Blanco', type: 'round' },
   { id: 'bq-round-42', name: 'Elegancia Rosa Oscuro', description: 'Mix de rosas light pink y negras', image: bqMixLightpinkNegroImg, color: 'Light Pink y Negro', type: 'round' },
   { id: 'bq-round-43', name: 'Amor Apasionado', description: 'Mix de rosas rojas y light pink', image: bqMixRojoLightpink2Img, color: 'Rojo y Light Pink', type: 'round' },
