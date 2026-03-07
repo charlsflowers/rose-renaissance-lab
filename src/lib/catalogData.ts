@@ -50,6 +50,18 @@ import bqAzul2Img from '@/assets/bq-azul-2.png';
 import bqAmarillo2Img from '@/assets/bq-amarillo-2.png';
 import bqMorado2Img from '@/assets/bq-morado-2.png';
 
+// Secondary images for mixes
+import bqMixPastel2Img from '@/assets/bq-mix-pastel-2.png';
+import bqMixCalido2Img from '@/assets/bq-mix-calido-2.png';
+import bqMixAmarilloBlanco2Img from '@/assets/bq-mix-amarillo-blanco-2.png';
+import bqMixRomantico2Img from '@/assets/bq-mix-romantico-2.png';
+import bqMixAlegria2Img from '@/assets/bq-mix-alegria-2.png';
+import bqMixEspana2Img from '@/assets/bq-mix-espana-2.png';
+import bqMixGirasoles2Img from '@/assets/bq-mix-girasoles-2.png';
+import bqMixLilaBlanco2Img from '@/assets/bq-mix-lila-blanco-2.png';
+import bqMixNegroBlanco2Img from '@/assets/bq-mix-negro-blanco-2.png';
+import bqMixNegroRosa2Img from '@/assets/bq-mix-negro-rosa-2.png';
+
 export interface ProductSize {
   label: string;
   price: number;
