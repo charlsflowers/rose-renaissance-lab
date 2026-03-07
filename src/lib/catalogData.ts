@@ -128,7 +128,7 @@ export const categoryProducts: Record<string, CatalogProduct[]> = {
 
 export const bouquetProducts: BouquetProduct[] = [
   // Round (Filled with imported images)
-  { id: 'bq-round-1', name: 'Elegancia Roja y Blanca', description: 'Mix de rosas rojas y blancas en ramo redondo', image: bqRound1Img, color: 'Rojo y Blanco', type: 'round' },
+  
   { id: 'bq-round-5', name: 'Pasión Total', description: 'Ramo redondo de rosas rojas puras', image: bqRojoImg, color: 'Rojo', type: 'round' },
   { id: 'bq-round-6', name: 'Pureza Blanca', description: 'Ramo redondo de rosas blancas', image: bqBlancoImg, color: 'Blanco', type: 'round' },
   { id: 'bq-round-7', name: 'Rosa Intenso', description: 'Ramo redondo de rosas hot pink vibrantes', image: bqHotpinkImg, color: 'Hot Pink', type: 'round' },
