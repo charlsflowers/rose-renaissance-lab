@@ -443,7 +443,7 @@ const BouquetBuilder = () => {
                       <p className="text-xs text-muted-foreground font-body">${letterNumberExtraPrice} por cada letra/número · Máx. 4 · Mínimo 75 rosas</p>
                     </div>
                   </div>
-                  <button onClick={() => { setAddLettersNumbers(!addLettersNumbers); if (addLettersNumbers) setSpecialText(""); }} className={`w-12 h-7 rounded-full transition-all relative ${addLettersNumbers ? "bg-primary" : "bg-muted"}`}>
+                  <button onClick={() => { if (!addLettersNumbers) { const minIdx = sizeOptions.findIndex(s => s.roses >= 75); if (selectedSizeIdx < minIdx) setSelectedSizeIdx(minIdx); } else { setSpecialText(""); } setAddLettersNumbers(!addLettersNumbers); }} className={`w-12 h-7 rounded-full transition-all relative ${addLettersNumbers ? "bg-primary" : "bg-muted"}`}>
                     <div className={`w-5 h-5 rounded-full bg-primary-foreground absolute top-1 transition-all ${addLettersNumbers ? "left-6" : "left-1"}`} />
                   </button>
                 </div>
