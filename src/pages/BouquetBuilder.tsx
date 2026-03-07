@@ -190,7 +190,7 @@ const BouquetBuilder = () => {
 
   const availableHours = getAvailableHours(deliveryDate);
 
-  const rosesCount = sizeOptions[selectedSizeIdx].roses;
+  const rosesCount = pricingTable[selectedSizeIdx].roses;
 
   const [addGlitter, setAddGlitter] = useState(false);
   const glitterCost = addGlitter ? Math.ceil(rosesCount / 25) * 8 : 0;
