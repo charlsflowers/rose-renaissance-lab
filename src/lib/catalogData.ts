@@ -9,6 +9,7 @@ import bqNegroImg from '@/assets/bq-negro.png';
 import bqAzulImg from '@/assets/bq-azul.png';
 import bqAmarilloImg from '@/assets/bq-amarillo.png';
 import bqPinkImg from '@/assets/bq-pink.png';
+import bqMoradoImg from '@/assets/bq-morado.png';
 
 export interface ProductSize {
   label: string;
