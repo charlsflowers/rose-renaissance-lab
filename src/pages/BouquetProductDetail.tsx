@@ -10,7 +10,7 @@ import Navbar from "@/components/Navbar";
 import PaperColorPicker from "@/components/PaperColorPicker";
 import { bouquetProducts, bouquetSizeOptions } from "@/lib/catalogData";
 import {
-  crownOptions, ribbonPresets, crownPrice, ribbonPrice, letterNumberExtraPrice, vaseOptions,
+  crownOptions, ribbonPresets, crownPrice, ribbonPrice, letterNumberExtraPrice, vaseOptions, getPrice,
 } from "@/lib/productData";
 import {
   ArrowLeft, Check, Store, Truck, CalendarIcon, Clock, MapPin, Search, Loader2,
