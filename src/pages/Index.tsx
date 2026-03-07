@@ -33,33 +33,33 @@ const Index = () => {
       <Navbar />
 
       {/* Hero */}
-      <section className="relative h-screen flex items-center overflow-hidden">
+      <section className="relative h-[70vh] md:h-screen flex items-end md:items-center overflow-hidden">
         <div className="absolute inset-0">
-          <img src={heroBouquet} alt="Bouquet de rosas frescas" className="w-full h-full object-cover object-center max-sm:object-[70%_center]" />
-          <div className="absolute inset-0 bg-gradient-to-r from-foreground/80 via-foreground/50 to-transparent" />
+          <img src={heroBouquet} alt="Bouquet de rosas frescas" className="w-full h-full object-cover object-center" />
+          <div className="absolute inset-0 bg-gradient-to-t md:bg-gradient-to-r from-foreground/85 via-foreground/50 to-transparent" />
         </div>
-        <div className="container relative z-10 mx-auto px-6">
+        <div className="container relative z-10 mx-auto px-4 md:px-6 pb-10 md:pb-0">
           <motion.div
             initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1, ease: "easeOut" }}
             className="max-w-xl"
           >
-            <p className="text-gold font-body text-sm tracking-[0.3em] uppercase mb-4">Hechos a mano con amor</p>
-            <h1 className="font-display text-5xl md:text-7xl font-bold text-primary-foreground leading-tight mb-6">
+            <p className="text-gold font-body text-xs md:text-sm tracking-[0.3em] uppercase mb-2 md:mb-4">Hechos a mano con amor</p>
+            <h1 className="font-display text-3xl md:text-7xl font-bold text-primary-foreground leading-tight mb-3 md:mb-6">
               Rosas frescas y naturales
             </h1>
-            <p className="text-primary-foreground/80 font-body text-lg mb-8 leading-relaxed">
+            <p className="text-primary-foreground/80 font-body text-sm md:text-lg mb-5 md:mb-8 leading-relaxed">
               Bouquets hechos a mano de 50 a 200 rosas. Naturales, pintadas o con brillos.
             </p>
-            <div className="flex flex-col sm:flex-row gap-4">
+            <div className="flex flex-col sm:flex-row gap-3 md:gap-4">
               <Link to="/bouquets"
-                className="inline-flex items-center gap-3 bg-primary text-primary-foreground px-8 py-4 font-body text-sm tracking-widest uppercase hover:bg-primary/90 transition-colors rounded-sm">
-                Ver bouquets <ArrowRight className="w-4 h-4" />
+                className="inline-flex items-center justify-center gap-2 bg-primary text-primary-foreground px-5 md:px-8 py-3 md:py-4 font-body text-xs md:text-sm tracking-widest uppercase hover:bg-primary/90 transition-colors rounded-sm">
+                Ver bouquets <ArrowRight className="w-3.5 h-3.5 md:w-4 md:h-4" />
               </Link>
               <Link to="/bouquets/personalizar"
-                className="inline-flex items-center gap-3 border border-primary-foreground/50 text-primary-foreground px-8 py-4 font-body text-sm tracking-widest uppercase hover:bg-primary-foreground/10 transition-colors rounded-sm">
-                Crea tu bouquet <Sparkles className="w-4 h-4" />
+                className="inline-flex items-center justify-center gap-2 border border-primary-foreground/50 text-primary-foreground px-5 md:px-8 py-3 md:py-4 font-body text-xs md:text-sm tracking-widest uppercase hover:bg-primary-foreground/10 transition-colors rounded-sm">
+                Crea tu bouquet <Sparkles className="w-3.5 h-3.5 md:w-4 md:h-4" />
               </Link>
             </div>
           </motion.div>
