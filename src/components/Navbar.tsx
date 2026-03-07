@@ -22,8 +22,22 @@ const Navbar = () => {
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-md border-b border-border">
-      <div className="container mx-auto px-6 py-3 flex items-center justify-between">
-        <Link to="/" className="flex items-center gap-2">
+      <div className="container mx-auto px-4 md:px-6 py-3 flex items-center justify-between relative">
+        {/* Mobile: hamburger left */}
+        <button
+          onClick={() => setMobileOpen(!mobileOpen)}
+          className="lg:hidden text-foreground hover:text-primary transition-colors"
+        >
+          {mobileOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+        </button>
+
+        {/* Desktop: logo left */}
+        <Link to="/" className="hidden lg:flex items-center gap-2">
+          <img src={charlsLogo} alt="Charl's Flowers" className="h-10 w-auto" />
+        </Link>
+
+        {/* Mobile/Tablet: logo center */}
+        <Link to="/" className="lg:hidden absolute left-1/2 -translate-x-1/2 flex items-center">
           <img src={charlsLogo} alt="Charl's Flowers" className="h-10 w-auto" />
         </Link>
 
@@ -36,24 +50,15 @@ const Navbar = () => {
           ))}
         </div>
 
-        <div className="flex items-center gap-4">
-          <Link to="/checkout" className="relative hover:text-primary transition-colors text-foreground">
-            <BrandLogo className="w-7 h-7" />
-            {totalItems > 0 && (
-              <span className="absolute -top-2 -right-2 w-5 h-5 bg-primary text-primary-foreground text-xs rounded-full flex items-center justify-center font-body font-semibold">
-                {totalItems}
-              </span>
-            )}
-          </Link>
-
-          {/* Mobile hamburger */}
-          <button
-            onClick={() => setMobileOpen(!mobileOpen)}
-            className="lg:hidden text-foreground hover:text-primary transition-colors"
-          >
-            {mobileOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-          </button>
-        </div>
+        {/* Cart: right */}
+        <Link to="/checkout" className="relative hover:text-primary transition-colors text-foreground">
+          <BrandLogo className="w-7 h-7" />
+          {totalItems > 0 && (
+            <span className="absolute -top-2 -right-2 w-5 h-5 bg-primary text-primary-foreground text-xs rounded-full flex items-center justify-center font-body font-semibold">
+              {totalItems}
+            </span>
+          )}
+        </Link>
       </div>
 
       {/* Mobile menu */}
