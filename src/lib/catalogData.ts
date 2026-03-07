@@ -175,7 +175,7 @@ export const bouquetProducts: BouquetProduct[] = [
   { id: 'bq-round-12', name: 'Encanto Morado', description: 'Ramo redondo de rosas moradas', image: bqMoradoImg, image2: bqMorado2Img, color: 'Morado', type: 'round' },
   { id: 'bq-round-13', name: 'Amanecer Rosa y Blanco', description: 'Mix delicado de rosas hot pink y blancas', image: bqMixHotpinkBlancoImg, image2: bqMixHotpinkBlanco2Img, color: 'Hot Pink y Blanco', type: 'round' },
   { id: 'bq-round-15', name: 'Jardín Primaveral', description: 'Mix de rosas amarillas y blancas', image: bqMixAmarilloBlancoImg, image2: bqMixAmarilloBlanco2Img, color: 'Amarillo y Blanco', type: 'round' },
-  { id: 'bq-round-18', name: 'Tricolor Clásico', description: 'Mix de rosas rojas, blancas y light pink', image: bqMixRojoPinkLightpinkImg, image2: bqMixRojoPinkLightpink2Img, color: 'Rojo, Blanco y Light Pink', type: 'round' },
+  { id: 'bq-round-18', name: 'Tricolor Clásico', description: 'Mix de rosas rojas, blancas y light pink', image: bqMixRojoPinkLightpinkImg, image2: bqMixAzulBlanco2Img, color: 'Rojo, Blanco y Light Pink', type: 'round' },
   { id: 'bq-round-19', name: 'Ocaso Naranja', description: 'Ramo redondo de rosas naranjas vibrantes', image: bqNaranjaImg, image2: bqNaranja2Img, color: 'Naranja', type: 'round' },
   { id: 'bq-round-20', name: 'Sol Radiante', description: 'Ramo redondo de rosas amarillas luminosas', image: bqAmarilloImg, image2: bqAmarillo2Img, color: 'Amarillo', type: 'round' },
   
