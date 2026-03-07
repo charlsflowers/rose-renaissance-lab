@@ -30,6 +30,13 @@ import bqMixRojoBlancoImg from '@/assets/bq-mix-rojo-blanco.png';
 import bqMixAzulBlancoImg from '@/assets/bq-mix-azul-blanco.png';
 import bqMixNaranjaAmarillo2Img from '@/assets/bq-mix-naranja-amarillo-2.png';
 import bqMixPinkAmarilloBlancoImg from '@/assets/bq-mix-pink-amarillo-blanco.png';
+import bqMixRojoHotpinkImg from '@/assets/bq-mix-rojo-hotpink.png';
+import bqMixAmarilloLilaBlancoImg from '@/assets/bq-mix-amarillo-lila-blanco.png';
+import bqMixLightpinkNegroImg from '@/assets/bq-mix-lightpink-negro.png';
+import bqMixRojoLightpink2Img from '@/assets/bq-mix-rojo-lightpink-2.png';
+import bqMixLightpinkBlancoImg from '@/assets/bq-mix-lightpink-blanco.png';
+import bqMixRojoBlancoNegroImg from '@/assets/bq-mix-rojo-blanco-negro.png';
+import bqMixRojoPinkBlancoImg from '@/assets/bq-mix-rojo-pink-blanco.png';
 
 export interface ProductSize {
   label: string;
