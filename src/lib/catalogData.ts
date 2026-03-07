@@ -1,4 +1,14 @@
 import bqRound1Img from '@/assets/bq-round-1.png';
+import bqRojoImg from '@/assets/bq-rojo.png';
+import bqHotpinkImg from '@/assets/bq-hotpink.png';
+import bqNaranjaImg from '@/assets/bq-naranja.png';
+import bqLightpinkImg from '@/assets/bq-lightpink.png';
+import bqVerdeImg from '@/assets/bq-verde.png';
+import bqBlancoImg from '@/assets/bq-blanco.png';
+import bqNegroImg from '@/assets/bq-negro.png';
+import bqAzulImg from '@/assets/bq-azul.png';
+import bqAmarilloImg from '@/assets/bq-amarillo.png';
+import bqPinkImg from '@/assets/bq-pink.png';
 
 export interface ProductSize {
   label: string;
