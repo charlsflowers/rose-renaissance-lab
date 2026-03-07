@@ -529,8 +529,23 @@ const BouquetProductDetail = () => {
             {/* Summary */}
             <div className="pb-4" />
             <div className="sticky bottom-0 bg-card/95 backdrop-blur-md border border-border rounded-sm p-4 shadow-xl z-10">
-              <div className="flex flex-col md:flex-row items-center justify-between gap-2 md:gap-4">
-                <div>
+              <div className="flex flex-col md:flex-row md:items-center justify-between gap-3 md:gap-4">
+                {/* Description and Price - Mobile Layout (Row 1) */}
+                <div className="flex md:hidden justify-between items-start gap-4">
+                  <p className="font-body text-xs text-muted-foreground leading-tight flex-1">
+                    {product.name} · {selectedSize.roses} rosas
+                    {addCrown && " · Corona"}{addRibbon && " · Cinta"}{addGlitter && " · Brillos"}{addVase && ` · Jarrón (${vaseOptions[selectedVaseIdx].label})`}
+                    {(addLetters || addNumbers) && specialText && ` · ${specialText}`}
+                    {accessory !== "none" && ` · ${accessory === "note" ? "Nota" : accessory === "card" ? "Tarjeta" : "Mariposas"}`}
+                    {deliveryMethod === "delivery" ? (deliveryMiles && !distanceTooFar ? ` · Envío ($${deliveryCost})` : " · Envío (pdte)") : " · Recogida"}
+                  </p>
+                  <p className="font-display text-xl font-bold text-foreground whitespace-nowrap">
+                    ${totalPrice} <span className="text-[10px] font-body text-muted-foreground font-normal">USD</span>
+                  </p>
+                </div>
+
+                {/* Description - Desktop (Left side) */}
+                <div className="hidden md:block flex-1 pr-4">
                   <p className="font-body text-xs text-muted-foreground leading-tight">
                     {product.name} · {selectedSize.roses} rosas
                     {addCrown && " · Corona"}{addRibbon && " · Cinta"}{addGlitter && " · Brillos"}{addVase && ` · Jarrón (${vaseOptions[selectedVaseIdx].label})`}
@@ -538,17 +553,23 @@ const BouquetProductDetail = () => {
                     {accessory !== "none" && ` · ${accessory === "note" ? "Nota" : accessory === "card" ? "Tarjeta" : "Mariposas"}`}
                     {deliveryMethod === "delivery" ? (deliveryMiles && !distanceTooFar ? ` · Envío ($${deliveryCost})` : " · Envío (pendiente)") : " · Recogida"}
                   </p>
-                  <p className="font-display text-2xl md:text-3xl font-bold text-foreground">${totalPrice} <span className="text-xs font-body text-muted-foreground font-normal">USD</span></p>
                 </div>
-                <div className="flex w-full md:w-auto gap-2">
-                  <button onClick={handleAddToCart}
-                    className="flex-1 md:flex-none bg-primary text-primary-foreground px-6 py-3 font-body text-xs tracking-widest uppercase hover:bg-primary/90 transition-colors rounded-sm">
-                    Añadir al carrito
-                  </button>
-                  <button onClick={handlePayNow}
-                    className="flex-1 md:flex-none border-2 border-primary text-primary px-6 py-3 font-body text-xs tracking-widest uppercase hover:bg-primary/10 transition-colors rounded-sm">
-                    Pagar ahora
-                  </button>
+
+                {/* Price and Buttons - Desktop (Right side) / Buttons - Mobile (Row 2) */}
+                <div className="flex flex-row items-center gap-4 w-full md:w-auto">
+                  <p className="hidden md:block font-display text-2xl font-bold text-foreground whitespace-nowrap">
+                    ${totalPrice} <span className="text-xs font-body text-muted-foreground font-normal">USD</span>
+                  </p>
+                  <div className="flex w-full md:w-auto gap-2">
+                    <button onClick={handleAddToCart}
+                      className="flex-1 md:flex-none bg-primary text-primary-foreground px-6 py-3 font-body text-xs tracking-widest uppercase hover:bg-primary/90 transition-colors rounded-sm">
+                      Añadir al carrito
+                    </button>
+                    <button onClick={handlePayNow}
+                      className="flex-1 md:flex-none border-2 border-primary text-primary px-6 py-3 font-body text-xs tracking-widest uppercase hover:bg-primary/10 transition-colors rounded-sm whitespace-nowrap">
+                      Pagar ahora
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
