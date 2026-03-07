@@ -337,8 +337,11 @@ const BouquetBuilder = () => {
             {/* 2. Size */}
             <Section title="Cantidad de Rosas" step={3}>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-                {sizeOptions.map((size, idx) => {
-                  const disabled = addLettersNumbers && (size.roses < 75 || (specialText.length >= 3 && lettersNumbersType === "letters" && size.roses < 100));
+                {pricingTable.map((size, idx) => {
+                  const tooFewRoses = size.roses < minRoses;
+                  const letterDisabled = addLettersNumbers && (size.roses < 75 || (specialText.length >= 3 && lettersNumbersType === "letters" && size.roses < 100));
+                  const disabled = tooFewRoses || letterDisabled;
+                  const price = getPrice(pricingTier, size.roses);
                   return (
                     <button
                       key={size.roses}
@@ -355,8 +358,9 @@ const BouquetBuilder = () => {
                       <p className="font-display text-2xl font-semibold text-foreground">{size.roses}</p>
                       <p className="text-xs text-muted-foreground font-body">rosas</p>
                       <p className="text-sm font-body font-semibold text-primary mt-1">
-                        ${isRed ? size.priceRed : size.priceRegular}
+                        ${price}
                       </p>
+                      {tooFewRoses && <p className="text-[10px] text-destructive font-body mt-1">Mín. {minRoses} rosas</p>}
                     </button>
                   );
                 })}
