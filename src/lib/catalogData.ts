@@ -101,6 +101,7 @@ export interface BouquetProduct {
   image2?: string;
   color: string;
   type: 'round' | 'heart';
+  pricingTier: import('@/lib/productData').PricingTier;
 }
 
 export interface CategoryInfo {
