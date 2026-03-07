@@ -125,7 +125,7 @@ const Index = () => {
           <motion.div
             className="flex whitespace-nowrap will-change-transform"
             animate={{ x: ["0%", "-50%"] }}
-            transition={{ duration: 15, ease: "linear", repeat: Infinity }}
+            transition={{ duration: 30, ease: "linear", repeat: Infinity }}
             style={{ width: "max-content" }}
           >
             {[...Array(2)].map((_, loop) => (
