@@ -203,13 +203,20 @@ const BouquetProductDetail = () => {
           </Link>
 
           <div className="max-w-4xl mx-auto space-y-10">
-            {/* Product Image */}
-            <div className="relative overflow-hidden rounded-sm bg-muted flex items-center justify-center">
-              {product.image ? (
-                <img src={product.image} alt={product.name} className="w-full h-auto object-contain" />
-              ) : (
-                <div className="w-full h-full flex items-center justify-center">
-                  <span className="font-display text-6xl text-muted-foreground/20">{product.type === "heart" ? "💐" : "🌹"}</span>
+            {/* Product Images */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3 max-w-3xl mx-auto">
+              <div className="relative overflow-hidden rounded-sm bg-muted flex items-center justify-center aspect-square">
+                {product.image ? (
+                  <img src={product.image} alt={product.name} className="w-full h-full object-contain" />
+                ) : (
+                  <div className="w-full h-full flex items-center justify-center">
+                    <span className="font-display text-6xl text-muted-foreground/20">🌹</span>
+                  </div>
+                )}
+              </div>
+              {product.image2 && (
+                <div className="relative overflow-hidden rounded-sm bg-muted flex items-center justify-center aspect-square">
+                  <img src={product.image2} alt={`${product.name} - vista 2`} className="w-full h-full object-cover" />
                 </div>
               )}
             </div>
