@@ -62,6 +62,17 @@ import bqMixLilaBlanco2Img from '@/assets/bq-mix-lila-blanco-2.png';
 import bqMixNegroBlanco2Img from '@/assets/bq-mix-negro-blanco-2.png';
 import bqMixNegroRosa2Img from '@/assets/bq-mix-negro-rosa-2.png';
 
+import bqMixHotpinkBlanco2Img from '@/assets/bq-mix-hotpink-blanco-2.png';
+import bqMixNaranjaAmarilloSecImg from '@/assets/bq-mix-naranja-amarillo-sec.png';
+import bqMixRojoPinkLightpink2Img from '@/assets/bq-mix-rojo-pink-lightpink-2.png';
+import bqMixRojoLightpinkSecImg from '@/assets/bq-mix-rojo-lightpink-sec.png';
+import bqMixNaranjaBlanco2Img from '@/assets/bq-mix-naranja-blanco-2.png';
+import bqMixAmarilloNegroBlanco2Img from '@/assets/bq-mix-amarillo-negro-blanco-2.png';
+import bqMixRojoBlanco2Img from '@/assets/bq-mix-rojo-blanco-2.png';
+import bqMixAzulBlanco2Img from '@/assets/bq-mix-azul-blanco-2.png';
+import bqMixNaranjaAmarillo2SecImg from '@/assets/bq-mix-naranja-amarillo-2-sec.png';
+import bqMixPinkAmarilloBlanco2Img from '@/assets/bq-mix-pink-amarillo-blanco-2.png';
+
 export interface ProductSize {
   label: string;
   price: number;
