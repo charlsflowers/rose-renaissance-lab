@@ -203,13 +203,20 @@ const BouquetProductDetail = () => {
           </Link>
 
           <div className="max-w-4xl mx-auto space-y-10">
-            {/* Product Image */}
-            <div className="relative overflow-hidden rounded-sm bg-muted flex items-center justify-center">
-              {product.image ? (
-                <img src={product.image} alt={product.name} className="w-full h-auto object-contain" />
-              ) : (
-                <div className="w-full h-full flex items-center justify-center">
-                  <span className="font-display text-6xl text-muted-foreground/20">{product.type === "heart" ? "💐" : "🌹"}</span>
+            {/* Product Images */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3 max-w-3xl mx-auto">
+              <div className="relative overflow-hidden rounded-sm bg-muted flex items-center justify-center aspect-square">
+                {product.image ? (
+                  <img src={product.image} alt={product.name} className="w-full h-full object-contain" />
+                ) : (
+                  <div className="w-full h-full flex items-center justify-center">
+                    <span className="font-display text-6xl text-muted-foreground/20">🌹</span>
+                  </div>
+                )}
+              </div>
+              {product.image2 && (
+                <div className="relative overflow-hidden rounded-sm bg-muted flex items-center justify-center aspect-square">
+                  <img src={product.image2} alt={`${product.name} - vista 2`} className="w-full h-full object-cover" />
                 </div>
               )}
             </div>
@@ -496,26 +503,28 @@ const BouquetProductDetail = () => {
 
             {/* Summary */}
             <div className="pb-4" />
-            <div className="sticky bottom-0 bg-card/95 backdrop-blur-md border border-border rounded-sm p-6 shadow-xl z-10">
-              <div className="flex flex-col md:flex-row items-center justify-between gap-4">
+            <div className="sticky bottom-0 bg-card/95 backdrop-blur-md border border-border rounded-sm p-4 shadow-xl z-10">
+              <div className="flex flex-col md:flex-row items-center justify-between gap-2 md:gap-4">
                 <div>
-                  <p className="font-body text-sm text-muted-foreground">
+                  <p className="font-body text-xs text-muted-foreground leading-tight">
                     {product.name} · {selectedSize.roses} rosas
                     {addCrown && " · Corona"}{addRibbon && " · Cinta"}{addGlitter && " · Brillos"}{addVase && ` · Jarrón (${vaseOptions[selectedVaseIdx].label})`}
                     {(addLetters || addNumbers) && specialText && ` · ${specialText}`}
                     {accessory !== "none" && ` · ${accessory === "note" ? "Nota" : accessory === "card" ? "Tarjeta" : "Mariposas"}`}
                     {deliveryMethod === "delivery" ? (deliveryMiles && !distanceTooFar ? ` · Envío ($${deliveryCost})` : " · Envío (pendiente)") : " · Recogida"}
                   </p>
-                  <p className="font-display text-3xl font-bold text-foreground">${totalPrice} <span className="text-sm font-body text-muted-foreground font-normal">USD</span></p>
+                  <p className="font-display text-2xl md:text-3xl font-bold text-foreground">${totalPrice} <span className="text-xs font-body text-muted-foreground font-normal">USD</span></p>
                 </div>
-                <button onClick={handleAddToCart}
-                  className="w-full md:w-auto bg-primary text-primary-foreground px-10 py-4 font-body text-sm tracking-widest uppercase hover:bg-primary/90 transition-colors rounded-sm">
-                  Añadir al carrito
-                </button>
-                <button onClick={handlePayNow}
-                  className="w-full md:w-auto border-2 border-primary text-primary px-10 py-4 font-body text-sm tracking-widest uppercase hover:bg-primary/10 transition-colors rounded-sm">
-                  Pagar ahora
-                </button>
+                <div className="flex w-full md:w-auto gap-2">
+                  <button onClick={handleAddToCart}
+                    className="flex-1 md:flex-none bg-primary text-primary-foreground px-6 py-3 font-body text-xs tracking-widest uppercase hover:bg-primary/90 transition-colors rounded-sm">
+                    Añadir al carrito
+                  </button>
+                  <button onClick={handlePayNow}
+                    className="flex-1 md:flex-none border-2 border-primary text-primary px-6 py-3 font-body text-xs tracking-widest uppercase hover:bg-primary/10 transition-colors rounded-sm">
+                    Pagar ahora
+                  </button>
+                </div>
               </div>
             </div>
           </div>
