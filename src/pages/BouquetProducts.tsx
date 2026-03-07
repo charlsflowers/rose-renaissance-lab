@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Navbar from "@/components/Navbar";
 import { bouquetProducts, bouquetSizeOptions } from "@/lib/catalogData";
+import { getPrice } from "@/lib/productData";
 import { ArrowLeft, Sparkles } from "lucide-react";
 
 type FilterType = "un-color" | "mezclas";
@@ -82,7 +83,7 @@ const BouquetProducts = () => {
                   </div>
                   <h3 className="font-display text-lg font-semibold text-foreground text-center">{product.name}</h3>
                   <p className="text-muted-foreground font-body text-xs text-center mt-1">{product.description}</p>
-                  <p className="text-primary font-body text-sm font-semibold text-center mt-2">Desde ${bouquetSizeOptions[0].price}</p>
+                  <p className="text-primary font-body text-sm font-semibold text-center mt-2">Desde ${getPrice(product.pricingTier, product.pricingTier === 'mix3red' ? 75 : 50)}</p>
                 </Link>
               </div>
             ))}

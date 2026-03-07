@@ -10,7 +10,7 @@ import Navbar from "@/components/Navbar";
 import PaperColorPicker from "@/components/PaperColorPicker";
 import { bouquetProducts, bouquetSizeOptions } from "@/lib/catalogData";
 import {
-  crownOptions, ribbonPresets, crownPrice, ribbonPrice, letterNumberExtraPrice, vaseOptions,
+  crownOptions, ribbonPresets, crownPrice, ribbonPrice, letterNumberExtraPrice, vaseOptions, getPrice,
 } from "@/lib/productData";
 import {
   ArrowLeft, Check, Store, Truck, CalendarIcon, Clock, MapPin, Search, Loader2,
@@ -136,12 +136,13 @@ const BouquetProductDetail = () => {
   // If current selection is below minimum, bump it up
   const effectiveSizeIdx = selectedSizeIdx < minSizeIdx ? minSizeIdx : selectedSizeIdx;
   const selectedSize = bouquetSizeOptions[effectiveSizeIdx];
+  const sizePrice = getPrice(product.pricingTier, selectedSize.roses);
   const lettersExtra = addLetters ? specialText.replace(/[^A-Z]/gi, "").length * letterNumberExtraPrice : 0;
   const numbersExtra = addNumbers ? specialText.replace(/[^0-9]/g, "").length * letterNumberExtraPrice : 0;
   const glitterCost = addGlitter ? Math.ceil(selectedSize.roses / 25) * 8 : 0;
   const vaseCost = addVase ? vaseOptions[selectedVaseIdx].price : 0;
   const deliveryCost = deliveryMethod === "delivery" && deliveryMiles && !distanceTooFar ? deliveryMiles * 2 : 0;
-  const basePrice = selectedSize.price + (addCrown ? crownPrice : 0) + (addRibbon ? ribbonPrice : 0) + lettersExtra + numbersExtra + glitterCost + vaseCost;
+  const basePrice = sizePrice + (addCrown ? crownPrice : 0) + (addRibbon ? ribbonPrice : 0) + lettersExtra + numbersExtra + glitterCost + vaseCost;
   const totalPrice = basePrice + deliveryCost;
 
   let step = 1;
@@ -269,7 +270,7 @@ const BouquetProductDetail = () => {
                       className={`p-4 rounded-sm border-2 text-center transition-all ${disabled ? "opacity-40 cursor-not-allowed border-border" : effectiveSizeIdx === idx ? "border-primary bg-primary/5" : "border-border hover:border-primary/30"}`}>
                       <p className="font-display text-2xl font-semibold text-foreground">{size.roses}</p>
                       <p className="text-xs text-muted-foreground font-body">rosas</p>
-                      <p className="text-sm font-body font-semibold text-primary mt-1">${size.price}</p>
+                      <p className="text-sm font-body font-semibold text-primary mt-1">${getPrice(product.pricingTier, size.roses)}</p>
                       {disabled && <p className="text-[10px] text-destructive font-body mt-1">Mín. {bouquetSizeOptions[minSizeIdx].roses} para {colorCount} colores</p>}
                     </button>
                   );
