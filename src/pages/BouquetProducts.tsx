@@ -63,13 +63,13 @@ const BouquetProducts = () => {
                         <img 
                           src={product.image} 
                           alt={product.name} 
-                          className={`w-full h-full object-cover transition-all duration-700 ${product.image2 ? 'group-hover:opacity-0 md:group-hover:scale-105' : 'group-hover:scale-105'}`} 
+                          className={`w-full h-full object-cover transition-all duration-700 group-hover:scale-105 ${product.image2 ? 'md:group-hover:opacity-0' : ''}`} 
                         />
                         {product.image2 && (
                           <img 
                             src={product.image2} 
                             alt={`${product.name} - vista alternativa`} 
-                            className="absolute inset-0 w-full h-full object-cover opacity-0 group-hover:opacity-100 transition-all duration-700 md:group-hover:scale-105 hidden md:block" 
+                            className="absolute inset-0 w-full h-full object-cover opacity-0 md:group-hover:opacity-100 transition-all duration-700 md:group-hover:scale-105 hidden md:block" 
                           />
                         )}
                       </>
