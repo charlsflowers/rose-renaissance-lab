@@ -129,7 +129,13 @@ const BouquetProductDetail = () => {
     );
   }
 
-  const selectedSize = bouquetSizeOptions[selectedSizeIdx];
+  // Count how many distinct colors this bouquet has
+  const colorCount = product.color.split(/,\s*|\s+y\s+/).length;
+  const minSizeIdx = colorCount >= 3 ? 1 : 0; // 3+ colors → minimum 75 roses (index 1)
+
+  // If current selection is below minimum, bump it up
+  const effectiveSizeIdx = selectedSizeIdx < minSizeIdx ? minSizeIdx : selectedSizeIdx;
+  const selectedSize = bouquetSizeOptions[effectiveSizeIdx];
   const lettersExtra = addLetters ? specialText.replace(/[^A-Z]/gi, "").length * letterNumberExtraPrice : 0;
   const numbersExtra = addNumbers ? specialText.replace(/[^0-9]/g, "").length * letterNumberExtraPrice : 0;
   const glitterCost = addGlitter ? Math.ceil(selectedSize.roses / 25) * 8 : 0;
