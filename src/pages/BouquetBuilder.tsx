@@ -322,7 +322,6 @@ const BouquetBuilder = () => {
               })}
               <p className="text-sm font-body text-muted-foreground">
                 Seleccionado{selectedColors.length > 1 ? 's' : ''}: <span className="text-foreground font-semibold">{selectedColors.map(c => c.name).join(', ')}</span>
-                {isRed && <span className="text-primary ml-2">(Precio especial rojo)</span>}
               </p>
             </Section>
 
