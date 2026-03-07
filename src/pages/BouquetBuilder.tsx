@@ -161,14 +161,15 @@ const BouquetBuilder = () => {
     }
   }, []);
 
-  const isRed = selectedColors.some(c => c.name === "Rojo");
+  const pricingTier = useMemo(() => determinePricingTier(selectedColors), [selectedColors]);
+  const minRoses = pricingTier === 'mix3red' ? 75 : 50;
 
   const lettersNumbersCost = addLettersNumbers ? specialText.length * letterNumberExtraPrice : 0;
 
   const basePrice = useMemo(() => {
-    const size = sizeOptions[selectedSizeIdx];
-    return isRed ? size.priceRed : size.priceRegular;
-  }, [selectedSizeIdx, isRed]);
+    const size = pricingTable[selectedSizeIdx];
+    return getPrice(pricingTier, size.roses);
+  }, [selectedSizeIdx, pricingTier]);
 
   const deliveryCost = deliveryMethod === "delivery" && deliveryMiles && !distanceTooFar ? deliveryMiles * 2 : 0;
 
