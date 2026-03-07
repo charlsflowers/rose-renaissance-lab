@@ -248,6 +248,7 @@ const BouquetBuilder = () => {
 
   const colorCategories = [
     { key: "natural" as const, label: "Naturales" },
+    { key: "painted" as const, label: "Pintados" },
   ];
 
   return (
