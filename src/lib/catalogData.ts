@@ -172,9 +172,9 @@ export const bouquetProducts: BouquetProduct[] = [
   { id: 'bq-round-10', name: 'Cielo Azul', description: 'Ramo redondo de rosas azules pintadas', image: bqAzulImg, image2: bqAzul2Img, color: 'Azul', type: 'round' },
   { id: 'bq-round-11', name: 'Noche Profunda', description: 'Ramo redondo de rosas negras elegantes', image: bqNegroImg, image2: bqNegro2Img, color: 'Negro', type: 'round' },
   { id: 'bq-round-12', name: 'Encanto Morado', description: 'Ramo redondo de rosas moradas', image: bqMoradoImg, image2: bqMorado2Img, color: 'Morado', type: 'round' },
-  { id: 'bq-round-13', name: 'Amanecer Rosa y Blanco', description: 'Mix delicado de rosas hot pink y blancas', image: bqMixHotpinkBlancoImg, color: 'Hot Pink y Blanco', type: 'round' },
+  { id: 'bq-round-13', name: 'Amanecer Rosa y Blanco', description: 'Mix delicado de rosas hot pink y blancas', image: bqMixHotpinkBlancoImg, image2: bqMixHotpinkBlanco2Img, color: 'Hot Pink y Blanco', type: 'round' },
   { id: 'bq-round-15', name: 'Jardín Primaveral', description: 'Mix de rosas amarillas y blancas', image: bqMixAmarilloBlancoImg, image2: bqMixAmarilloBlanco2Img, color: 'Amarillo y Blanco', type: 'round' },
-  { id: 'bq-round-18', name: 'Tricolor Clásico', description: 'Mix de rosas rojas, blancas y light pink', image: bqMixRojoPinkLightpinkImg, color: 'Rojo, Blanco y Light Pink', type: 'round' },
+  { id: 'bq-round-18', name: 'Tricolor Clásico', description: 'Mix de rosas rojas, blancas y light pink', image: bqMixRojoPinkLightpinkImg, image2: bqMixRojoPinkLightpink2Img, color: 'Rojo, Blanco y Light Pink', type: 'round' },
   { id: 'bq-round-19', name: 'Ocaso Naranja', description: 'Ramo redondo de rosas naranjas vibrantes', image: bqNaranjaImg, image2: bqNaranja2Img, color: 'Naranja', type: 'round' },
   { id: 'bq-round-20', name: 'Sol Radiante', description: 'Ramo redondo de rosas amarillas luminosas', image: bqAmarilloImg, image2: bqAmarillo2Img, color: 'Amarillo', type: 'round' },
   
