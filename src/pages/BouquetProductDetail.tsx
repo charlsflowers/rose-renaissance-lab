@@ -318,7 +318,7 @@ const BouquetProductDetail = () => {
                     const newVal = !addVase;
                     setAddVase(newVal);
                     if (newVal) {
-                      const roses = bouquetSizeOptions[selectedSizeIdx].roses;
+                      const roses = bouquetSizeOptions[effectiveSizeIdx].roses;
                       const bestIdx = roses <= 50 ? 0 : roses <= 75 ? 1 : 2;
                       setSelectedVaseIdx(bestIdx);
                     }
