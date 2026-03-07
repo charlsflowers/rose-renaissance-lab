@@ -127,24 +127,17 @@ export const categoryProducts: Record<string, CatalogProduct[]> = {
 };
 
 export const bouquetProducts: BouquetProduct[] = [
-  // Round (20 products)
+  // Round (Filled with imported images)
   { id: 'bq-round-1', name: 'Elegancia Roja y Blanca', description: 'Mix de rosas rojas y blancas en ramo redondo', image: bqRound1Img, color: 'Rojo y Blanco', type: 'round' },
-  { id: 'bq-round-2', name: 'Romance Hot Pink', description: 'Mix de rosas rojas y hot pink en ramo redondo', image: '', color: 'Rojo y Hot Pink', type: 'round' },
-  { id: 'bq-round-3', name: 'Misterio Nocturno', description: 'Mix de rosas rojas y negras en ramo redondo', image: '', color: 'Rojo y Negro', type: 'round' },
-  { id: 'bq-round-4', name: 'Dulzura Bicolor', description: 'Mix de rosas light pink y blancas en ramo redondo', image: '', color: 'Light Pink y Blanco', type: 'round' },
   { id: 'bq-round-5', name: 'Pasión Total', description: 'Ramo redondo de rosas rojas puras', image: bqRojoImg, color: 'Rojo', type: 'round' },
   { id: 'bq-round-6', name: 'Pureza Blanca', description: 'Ramo redondo de rosas blancas', image: bqBlancoImg, color: 'Blanco', type: 'round' },
   { id: 'bq-round-7', name: 'Rosa Intenso', description: 'Ramo redondo de rosas hot pink vibrantes', image: bqHotpinkImg, color: 'Hot Pink', type: 'round' },
   { id: 'bq-round-8', name: 'Ternura Rosa', description: 'Ramo redondo de rosas light pink suaves', image: bqLightpinkImg, color: 'Light Pink', type: 'round' },
-  { id: 'bq-round-9', name: 'Atardecer Dorado', description: 'Mix de rosas amarillas y naranjas', image: '', color: 'Amarillo y Naranja', type: 'round' },
   { id: 'bq-round-10', name: 'Cielo Azul', description: 'Ramo redondo de rosas azules pintadas', image: bqAzulImg, color: 'Azul', type: 'round' },
   { id: 'bq-round-11', name: 'Noche Profunda', description: 'Ramo redondo de rosas negras elegantes', image: bqNegroImg, color: 'Negro', type: 'round' },
   { id: 'bq-round-12', name: 'Encanto Morado', description: 'Ramo redondo de rosas moradas', image: bqMoradoImg, color: 'Morado', type: 'round' },
   { id: 'bq-round-13', name: 'Amanecer Rosa y Blanco', description: 'Mix delicado de rosas hot pink y blancas', image: bqMixHotpinkBlancoImg, color: 'Hot Pink y Blanco', type: 'round' },
-  { id: 'bq-round-14', name: 'Fuego y Hielo', description: 'Contraste de rosas rojas y azules', image: '', color: 'Rojo y Azul', type: 'round' },
   { id: 'bq-round-15', name: 'Jardín Primaveral', description: 'Mix de rosas amarillas y blancas', image: bqMixAmarilloBlancoImg, color: 'Amarillo y Blanco', type: 'round' },
-  { id: 'bq-round-16', name: 'Luna de Plata', description: 'Ramo redondo de rosas grises y blancas', image: '', color: 'Gris y Blanco', type: 'round' },
-  { id: 'bq-round-17', name: 'Seducción Bicolor', description: 'Mix de rosas moradas y hot pink', image: '', color: 'Morado y Hot Pink', type: 'round' },
   { id: 'bq-round-18', name: 'Tricolor Clásico', description: 'Mix de rosas rojas, blancas y light pink', image: bqMixRojoPinkLightpinkImg, color: 'Rojo, Blanco y Light Pink', type: 'round' },
   { id: 'bq-round-19', name: 'Ocaso Naranja', description: 'Ramo redondo de rosas naranjas vibrantes', image: bqNaranjaImg, color: 'Naranja', type: 'round' },
   { id: 'bq-round-20', name: 'Sol Radiante', description: 'Ramo redondo de rosas amarillas luminosas', image: bqAmarilloImg, color: 'Amarillo', type: 'round' },
@@ -167,6 +160,13 @@ export const bouquetProducts: BouquetProduct[] = [
   { id: 'bq-round-37', name: 'Pasión Bicolor', description: 'Mix de rosas rojas y blancas', image: bqMixRojoBlancoImg, color: 'Rojo y Blanco', type: 'round' },
   { id: 'bq-round-38', name: 'Océano Blanco', description: 'Mix de rosas azules y blancas', image: bqMixAzulBlancoImg, color: 'Azul y Blanco', type: 'round' },
   { id: 'bq-round-39', name: 'Primavera Suave', description: 'Mix de rosas pink, amarillas y blancas', image: bqMixPinkAmarilloBlancoImg, color: 'Pink, Amarillo y Blanco', type: 'round' },
+  { id: 'bq-round-40', name: 'Romance Oscuro', description: 'Mix de rosas rojas y hot pink', image: bqMixRojoHotpinkImg, color: 'Rojo y Hot Pink', type: 'round' },
+  { id: 'bq-round-41', name: 'Lila Brillante', description: 'Mix de rosas amarillas, lilas y blancas', image: bqMixAmarilloLilaBlancoImg, color: 'Amarillo, Lila y Blanco', type: 'round' },
+  { id: 'bq-round-42', name: 'Elegancia Rosa Oscuro', description: 'Mix de rosas light pink y negras', image: bqMixLightpinkNegroImg, color: 'Light Pink y Negro', type: 'round' },
+  { id: 'bq-round-43', name: 'Amor Apasionado', description: 'Mix de rosas rojas y light pink', image: bqMixRojoLightpink2Img, color: 'Rojo y Light Pink', type: 'round' },
+  { id: 'bq-round-44', name: 'Ternura Infinita', description: 'Mix de rosas light pink y blancas', image: bqMixLightpinkBlancoImg, color: 'Light Pink y Blanco', type: 'round' },
+  { id: 'bq-round-45', name: 'Pasión Elegante', description: 'Mix de rosas rojas, blancas y negras', image: bqMixRojoBlancoNegroImg, color: 'Rojo, Blanco y Negro', type: 'round' },
+  { id: 'bq-round-46', name: 'Amor Tricolor', description: 'Mix de rosas rojas, pink y blancas', image: bqMixRojoPinkBlancoImg, color: 'Rojo, Pink y Blanco', type: 'round' },
   // Heart
   { id: 'bq-heart-1', name: 'Corazón Rojo y Blanco', description: 'Bouquet corazón con rosas rojas y blancas', image: '', color: 'Rojo y Blanco', type: 'heart' },
   { id: 'bq-heart-2', name: 'Corazón Rosa Intenso', description: 'Bouquet corazón con rosas rojas y hot pink', image: '', color: 'Rojo y Hot Pink', type: 'heart' },
