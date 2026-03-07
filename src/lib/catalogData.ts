@@ -193,7 +193,7 @@ export const bouquetProducts: BouquetProduct[] = [
   { id: 'bq-round-33', name: 'Cítrico Claro', description: 'Mix de rosas naranjas, amarillas y blancas', image: bqMixNaranjaAmarillo2Img, color: 'Naranja, Amarillo y Blanco', type: 'round' },
   { id: 'bq-round-34', name: 'Dulzura Roja', description: 'Mix de rosas rojas y light pink', image: bqMixRojoLightpinkImg, image2: bqMixRojoPinkLightpink2Img, color: 'Rojo y Light Pink', type: 'round' },
   { id: 'bq-round-35', name: 'Naranja Cítrico', description: 'Mix de rosas naranjas y blancas', image: bqMixNaranjaBlancoImg, image2: bqMixNaranjaBlanco2Img, color: 'Naranja y Blanco', type: 'round' },
-  { id: 'bq-round-36', name: 'Abeja Imperial', description: 'Mix de rosas amarillas, negras y blancas', image: bqMixAmarilloNegroBlancoImg, image2: bqMixAmarilloNegroBlanco2Img, color: 'Amarillo, Negro y Blanco', type: 'round' },
+  { id: 'bq-round-36', name: 'Abeja Imperial', description: 'Mix de rosas amarillas, negras y blancas', image: bqMixAmarilloNegroBlancoImg, color: 'Amarillo, Negro y Blanco', type: 'round' },
   { id: 'bq-round-37', name: 'Pasión Bicolor', description: 'Mix de rosas rojas y blancas', image: bqMixRojoBlancoImg, image2: bqMixRojoBlanco2Img, color: 'Rojo y Blanco', type: 'round' },
   { id: 'bq-round-38', name: 'Océano Blanco', description: 'Mix de rosas azules y blancas', image: bqMixAzulBlancoImg, image2: bqMixAzulBlanco2Img, color: 'Azul y Blanco', type: 'round' },
   { id: 'bq-round-39', name: 'Primavera Suave', description: 'Mix de rosas pink, amarillas y blancas', image: bqMixPinkAmarilloBlancoImg, image2: bqMixPinkAmarilloBlanco2Img, color: 'Pink, Amarillo y Blanco', type: 'round' },
