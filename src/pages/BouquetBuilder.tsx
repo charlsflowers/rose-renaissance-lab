@@ -335,7 +335,7 @@ const BouquetBuilder = () => {
             <Section title="Cantidad de Rosas" step={3}>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
                 {sizeOptions.map((size, idx) => {
-                  const disabled = addLettersNumbers && specialText.length >= 3 && lettersNumbersType === "letters" && size.roses < 100;
+                  const disabled = addLettersNumbers && (size.roses < 75 || (specialText.length >= 3 && lettersNumbersType === "letters" && size.roses < 100));
                   return (
                     <button
                       key={size.roses}
@@ -439,11 +439,11 @@ const BouquetBuilder = () => {
                   <div className="flex items-center gap-3">
                     <Type className="w-5 h-5 text-primary" />
                     <div>
-                      <p className="font-body font-semibold text-foreground">Añadir Letras o Números</p>
-                      <p className="text-xs text-muted-foreground font-body">${letterNumberExtraPrice} por cada letra/número · Máx. 4</p>
+                      <p className="font-body font-semibold text-foreground">Añadir Letras o Números en Baby Breath</p>
+                      <p className="text-xs text-muted-foreground font-body">${letterNumberExtraPrice} por cada letra/número · Máx. 4 · Mínimo 75 rosas</p>
                     </div>
                   </div>
-                  <button onClick={() => { setAddLettersNumbers(!addLettersNumbers); if (addLettersNumbers) setSpecialText(""); }} className={`w-12 h-7 rounded-full transition-all relative ${addLettersNumbers ? "bg-primary" : "bg-muted"}`}>
+                  <button onClick={() => { if (!addLettersNumbers) { const minIdx = sizeOptions.findIndex(s => s.roses >= 75); if (selectedSizeIdx < minIdx) setSelectedSizeIdx(minIdx); } else { setSpecialText(""); } setAddLettersNumbers(!addLettersNumbers); }} className={`w-12 h-7 rounded-full transition-all relative ${addLettersNumbers ? "bg-primary" : "bg-muted"}`}>
                     <div className={`w-5 h-5 rounded-full bg-primary-foreground absolute top-1 transition-all ${addLettersNumbers ? "left-6" : "left-1"}`} />
                   </button>
                 </div>
@@ -475,6 +475,8 @@ const BouquetBuilder = () => {
                           ? e.target.value.replace(/[^0-9]/g, "")
                           : e.target.value.toUpperCase().replace(/[^A-Z]/g, "");
                         setSpecialText(val);
+                        const minRoses75Idx = sizeOptions.findIndex(s => s.roses >= 75);
+                        if (selectedSizeIdx < minRoses75Idx) setSelectedSizeIdx(minRoses75Idx);
                         if (lettersNumbersType === "letters" && val.length >= 3) {
                           const minIdx = sizeOptions.findIndex(s => s.roses >= 100);
                           if (selectedSizeIdx < minIdx) setSelectedSizeIdx(minIdx);
@@ -484,6 +486,7 @@ const BouquetBuilder = () => {
                       className="w-full max-w-xs bg-card border border-border rounded-sm px-4 py-3 font-body text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30"
                       maxLength={4}
                     />
+                    <p className="text-xs text-muted-foreground font-body">Mínimo 75 rosas para añadir letras o números.</p>
                     {lettersNumbersType === "letters" && (
                       <p className="text-xs text-muted-foreground font-body">A partir de 3 letras, el mínimo es de 100 rosas.</p>
                     )}
