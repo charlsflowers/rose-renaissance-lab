@@ -123,12 +123,13 @@ const Index = () => {
         </div>
         <div className="bg-primary py-4 overflow-hidden">
           <motion.div
-            className="flex whitespace-nowrap"
+            className="flex whitespace-nowrap will-change-transform"
             animate={{ x: ["0%", "-50%"] }}
             transition={{ duration: 15, ease: "linear", repeat: Infinity }}
+            style={{ width: "max-content" }}
           >
             {[...Array(2)].map((_, loop) => (
-              <div key={loop} className="flex items-center gap-12 px-6">
+              <div key={loop} className="flex items-center gap-8 md:gap-12 px-4 md:px-6 shrink-0">
                 {[
                   "La mejor florería calidad-precio de Miami",
                   "Precios imbatibles en rosas frescas",
@@ -137,9 +138,9 @@ const Index = () => {
                   "De 50 a 200 rosas por bouquet",
                   "Flores naturales, pintadas o con brillos",
                 ].map((text, i) => (
-                  <span key={i} className="font-body text-sm tracking-widest uppercase text-primary-foreground flex items-center gap-12">
+                  <span key={i} className="font-body text-xs md:text-sm tracking-widest uppercase text-primary-foreground flex items-center gap-8 md:gap-12 shrink-0">
                     {text}
-                    <Star className="w-3 h-3 fill-primary-foreground text-primary-foreground" />
+                    <Star className="w-3 h-3 fill-primary-foreground text-primary-foreground shrink-0" />
                   </span>
                 ))}
               </div>
