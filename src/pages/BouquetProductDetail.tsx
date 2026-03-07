@@ -129,7 +129,13 @@ const BouquetProductDetail = () => {
     );
   }
 
-  const selectedSize = bouquetSizeOptions[selectedSizeIdx];
+  // Count how many distinct colors this bouquet has
+  const colorCount = product.color.split(/,\s*|\s+y\s+/).length;
+  const minSizeIdx = colorCount >= 3 ? 1 : 0; // 3+ colors → minimum 75 roses (index 1)
+
+  // If current selection is below minimum, bump it up
+  const effectiveSizeIdx = selectedSizeIdx < minSizeIdx ? minSizeIdx : selectedSizeIdx;
+  const selectedSize = bouquetSizeOptions[effectiveSizeIdx];
   const lettersExtra = addLetters ? specialText.replace(/[^A-Z]/gi, "").length * letterNumberExtraPrice : 0;
   const numbersExtra = addNumbers ? specialText.replace(/[^0-9]/g, "").length * letterNumberExtraPrice : 0;
   const glitterCost = addGlitter ? Math.ceil(selectedSize.roses / 25) * 8 : 0;
@@ -223,14 +229,19 @@ const BouquetProductDetail = () => {
             {/* 1. Size */}
             <Section title="Cantidad de Rosas" step={step++}>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-                {bouquetSizeOptions.map((size, idx) => (
-                  <button key={size.roses} onClick={() => setSelectedSizeIdx(idx)}
-                    className={`p-4 rounded-sm border-2 text-center transition-all ${selectedSizeIdx === idx ? "border-primary bg-primary/5" : "border-border hover:border-primary/30"}`}>
-                    <p className="font-display text-2xl font-semibold text-foreground">{size.roses}</p>
-                    <p className="text-xs text-muted-foreground font-body">rosas</p>
-                    <p className="text-sm font-body font-semibold text-primary mt-1">${size.price}</p>
-                  </button>
-                ))}
+                {bouquetSizeOptions.map((size, idx) => {
+                  const disabled = idx < minSizeIdx;
+                  return (
+                    <button key={size.roses} onClick={() => !disabled && setSelectedSizeIdx(idx)}
+                      disabled={disabled}
+                      className={`p-4 rounded-sm border-2 text-center transition-all ${disabled ? "opacity-40 cursor-not-allowed border-border" : effectiveSizeIdx === idx ? "border-primary bg-primary/5" : "border-border hover:border-primary/30"}`}>
+                      <p className="font-display text-2xl font-semibold text-foreground">{size.roses}</p>
+                      <p className="text-xs text-muted-foreground font-body">rosas</p>
+                      <p className="text-sm font-body font-semibold text-primary mt-1">${size.price}</p>
+                      {disabled && <p className="text-[10px] text-destructive font-body mt-1">Mín. {bouquetSizeOptions[minSizeIdx].roses} para {colorCount} colores</p>}
+                    </button>
+                  );
+                })}
               </div>
             </Section>
 
@@ -307,7 +318,7 @@ const BouquetProductDetail = () => {
                     const newVal = !addVase;
                     setAddVase(newVal);
                     if (newVal) {
-                      const roses = bouquetSizeOptions[selectedSizeIdx].roses;
+                      const roses = bouquetSizeOptions[effectiveSizeIdx].roses;
                       const bestIdx = roses <= 50 ? 0 : roses <= 75 ? 1 : 2;
                       setSelectedVaseIdx(bestIdx);
                     }
