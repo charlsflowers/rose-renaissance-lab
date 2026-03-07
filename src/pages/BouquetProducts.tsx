@@ -12,7 +12,8 @@ const BouquetProducts = () => {
   useEffect(() => { window.scrollTo(0, 0); }, []);
 
   const filteredProducts = bouquetProducts.filter((product) => {
-    const isMix = product.color.includes(" y ") || product.color.includes(", ");
+    // Check both "y" and "," and " y " to be sure it captures all mixes
+    const isMix = product.color.includes(" y ") || product.color.includes(", ") || product.color.includes(" y");
     return filter === "mezclas" ? isMix : !isMix;
   });
 
