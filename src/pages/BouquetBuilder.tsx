@@ -13,6 +13,9 @@ import heroBouquet from "@/assets/hero-bouquet.jpg";
 import {
   colorOptions,
   sizeOptions,
+  pricingTable,
+  determinePricingTier,
+  getPrice,
   crownOptions,
   ribbonPresets,
   letterNumberExtraPrice,
