@@ -73,25 +73,37 @@ serve(async (req) => {
     const hasBaseImage = baseImageUrl && baseImageUrl.startsWith("http");
 
     const promptParts: string[] = [];
+    const colorCount = bouquetConfig.color ? bouquetConfig.color.split(",").map((c: string) => c.trim()).length : 1;
+    const hasMix = colorCount >= 2;
 
-    // Core instruction: edit the base image only
-    promptParts.push(
-      "Edit this photo. This is the ONLY image I am providing — it is the BASE PHOTO you must modify.",
-      "The photo shows a woman holding a bouquet of roses wrapped in paper.",
-      "You MUST keep the woman, her pose, her clothes, her hair, her hands, the background, and the lighting EXACTLY as they are.",
-      "You MUST keep the shape, structure, and size of the bouquet EXACTLY the same.",
-      "Change ONLY these two things:",
-      "1. The COLOR of the rose petals.",
-      "2. The COLOR of the wrapping paper.",
-      "Everything else must remain IDENTICAL to the original photo."
-    );
+    if (hasMix) {
+      // When mixing colors, we send: text + base image + mix pattern reference
+      promptParts.push(
+        "I am providing TWO images.",
+        "IMAGE 1 is the BASE PHOTO you must edit. It shows a woman holding a bouquet of roses.",
+        "IMAGE 2 is a PATTERN REFERENCE — it shows HOW the colors should be distributed and mixed across the bouquet. IGNORE the specific colors in this pattern image. IGNORE the background, vase, paper, logo, and everything else. Use it ONLY to understand the mixing pattern: how different colored roses are interspersed and distributed evenly throughout the bouquet.",
+        "You MUST keep the woman, her pose, clothes, hair, hands, background, and lighting from IMAGE 1 EXACTLY as they are.",
+        "Change ONLY the rose petal colors and the wrapping paper color."
+      );
+    } else {
+      promptParts.push(
+        "Edit this photo. This is the BASE PHOTO you must modify.",
+        "The photo shows a woman holding a bouquet of roses wrapped in paper.",
+        "You MUST keep the woman, her pose, her clothes, her hair, her hands, the background, and the lighting EXACTLY as they are.",
+        "You MUST keep the shape, structure, and size of the bouquet EXACTLY the same.",
+        "Change ONLY these two things:",
+        "1. The COLOR of the rose petals.",
+        "2. The COLOR of the wrapping paper.",
+        "Everything else must remain IDENTICAL to the original photo."
+      );
+    }
 
     if (bouquetConfig.color) {
       const colors = bouquetConfig.color.split(",").map((c: string) => c.trim());
       if (colors.length === 1) {
         promptParts.push(`Change ALL the roses to ${colors[0]} color.`);
       } else {
-        promptParts.push(`Change the roses to a MIX of: ${colors.join(", ")}. Distribute colors evenly across the bouquet.`);
+        promptParts.push(`Change the roses to a MIX of: ${colors.join(", ")}. Distribute the colors evenly and randomly across the entire bouquet, following the mixing pattern from IMAGE 2. Each rose should be one solid color, but alternate between the chosen colors throughout.`);
       }
     }
 
@@ -124,10 +136,18 @@ serve(async (req) => {
 
     console.log("Generating preview with prompt:", prompt);
 
-    // Build message content: text + base image only (no color reference images)
+    // Build message content: base image first, then optionally mix pattern
     const messageContent: any[] = [{ type: "text", text: prompt }];
     if (hasBaseImage) {
       messageContent.push({ type: "image_url", image_url: { url: baseImageUrl } });
+    }
+
+    // Add mix pattern reference for multi-color bouquets
+    if (hasMix) {
+      const patternUrl = colorCount === 2
+        ? "https://urcocghysdjfawmfitzj.supabase.co/storage/v1/object/public/bouquet-previews/patterns/mix-2colors.png"
+        : "https://urcocghysdjfawmfitzj.supabase.co/storage/v1/object/public/bouquet-previews/patterns/mix-3colors.png";
+      messageContent.push({ type: "image_url", image_url: { url: patternUrl } });
     }
 
     // Call Lovable AI to generate/edit the image using the higher quality model
