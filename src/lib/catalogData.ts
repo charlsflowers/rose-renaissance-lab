@@ -94,6 +94,12 @@ export interface CatalogProduct {
   sizes: ProductSize[];
 }
 
+export interface CustomSize {
+  roses: number;
+  price: number;
+  label?: string;
+}
+
 export interface BouquetProduct {
   id: string;
   name: string;
@@ -103,6 +109,7 @@ export interface BouquetProduct {
   color: string;
   type: 'round' | 'heart';
   pricingTier: import('@/lib/productData').PricingTier;
+  customSizes?: CustomSize[];
 }
 
 export interface CategoryInfo {
@@ -207,7 +214,7 @@ export const bouquetProducts: BouquetProduct[] = [
   { id: 'bq-round-42', name: 'Elegancia Rosa Oscuro', description: 'Mix de rosas pink y negras', image: bqMixLightpinkNegroImg, image2: bqMixNaranjaAmarillo2SecImg, color: 'Pink y Negro', type: 'round', pricingTier: 'mix2painted' },
 
   // 2 colors - Girasoles (mix2)
-  { id: 'bq-round-28', name: 'Girasoles y Pasión', description: 'Ramo de girasoles y rosas rojas', image: bqMixGirasolesImg, image2: bqMixGirasoles2Img, color: 'Girasoles y Rojo', type: 'round', pricingTier: 'mix2' },
+  { id: 'bq-round-28', name: 'Girasoles y Pasión', description: 'Ramo de girasoles y rosas rojas', image: bqMixGirasolesImg, image2: bqMixGirasoles2Img, color: 'Girasoles y Rojo', type: 'round', pricingTier: 'mix2', customSizes: [{ roses: 50, price: 91, label: '50 rosas rojas + 8 girasoles' }, { roses: 100, price: 166, label: '100 rosas rojas + 22 girasoles' }, { roses: 150, price: 256, label: '150 rosas rojas + 22 girasoles' }] },
 
   // 3 colors - With Red (mix3red, min 75)
   { id: 'bq-round-18', name: 'Tricolor Clásico', description: 'Mix de rosas rojas, blancas y pink', image: bqMixRojoPinkLightpinkImg, image2: bqMixAzulBlanco2Img, color: 'Rojo, Blanco y Pink', type: 'round', pricingTier: 'mix3red' },
@@ -223,7 +230,7 @@ export const bouquetProducts: BouquetProduct[] = [
   { id: 'bq-round-41', name: 'Lila Brillante', description: 'Mix de rosas amarillas, lilas y blancas', image: bqMixAmarilloLilaBlancoImg, image2: bqMixNaranjaAmarilloSecImg, color: 'Amarillo, Lila y Blanco', type: 'round', pricingTier: 'mix3red' },
 
   // 3 colors - With Painted (mix2painted pricing)
-  { id: 'bq-round-31', name: 'Contraste Elegante', description: 'Mix de rosas negras, hot pink y blancas', image: bqMixNegroRosaImg, image2: bqMixNegroRosa2Img, color: 'Negro, Hot Pink y Blanco', type: 'round', pricingTier: 'mix2painted' },
+  { id: 'bq-round-31', name: 'Contraste Elegante', description: 'Mix de rosas negras, hot pink y blancas', image: bqMixNegroRosaImg, image2: bqMixNegroRosa2Img, color: 'Negro, Hot Pink y Blanco', type: 'round', pricingTier: 'mix2painted', customSizes: [{ roses: 75, price: 131 }, { roses: 100, price: 166 }, { roses: 125, price: 231 }, { roses: 150, price: 286 }, { roses: 175, price: 311 }, { roses: 200, price: 361 }] },
   { id: 'bq-round-36', name: 'Abeja Imperial', description: 'Mix de rosas amarillas, negras y blancas', image: bqMixAmarilloNegroBlancoImg, image2: bqMixAmarilloNegroBlanco3Img, color: 'Amarillo, Negro y Blanco', type: 'round', pricingTier: 'mix2painted' },
   { id: 'bq-round-45', name: 'Pasión Elegante', description: 'Mix de rosas rojas, blancas y negras', image: bqMixRojoBlancoNegroImg, image2: bqMixRojoHotpink2Img, color: 'Rojo, Blanco y Negro', type: 'round', pricingTier: 'mix2painted' },
 ];
