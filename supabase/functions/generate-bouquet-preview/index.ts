@@ -74,11 +74,10 @@ serve(async (req) => {
 
     const promptParts: string[] = hasBaseImage
       ? [
-          "I am providing multiple images. The FIRST image is the base photo to edit.",
-          "The subsequent images are EXACT color references for the roses.",
+          "I am providing multiple images. The FIRST image is the base photo to edit. The subsequent images are EXACT color references for the roses.",
           "Edit the FIRST photo. The person is holding a bouquet of roses.",
-          "Replace ONLY the color and appearance of the roses in the bouquet to match the reference colors.",
-          "Do NOT change the person, their clothes, pose, hair, hands, the wrapping paper, the background, or anything else.",
+          "Replace ONLY the color of the roses and the color of the wrapping paper.",
+          "Do NOT change the person, their clothes, pose, hair, hands, the background, or the lighting. Keep the original structure of the bouquet.",
           "The new bouquet should have:",
         ]
       : [
@@ -89,7 +88,11 @@ serve(async (req) => {
         ];
 
     if (bouquetConfig.color) {
-      promptParts.push(`All roses should be ${bouquetConfig.color} colored.`);
+      promptParts.push(`The roses must be exactly ${bouquetConfig.color} colored, matching the provided reference images.`);
+    }
+
+    if (bouquetConfig.paperColor) {
+      promptParts.push(`The wrapping paper MUST BE ${bouquetConfig.paperColor} colored.`);
     }
 
     if (bouquetConfig.roses) {
@@ -114,8 +117,8 @@ serve(async (req) => {
 
     if (hasBaseImage) {
       promptParts.push(
-        "IMPORTANT: Keep the person, their pose, clothes, the wrapping paper, the background, and lighting EXACTLY the same.",
-        "Only change the roses themselves. Make the result look natural and photorealistic."
+        "IMPORTANT: Keep the person, their pose, clothes, the background, and lighting EXACTLY the same.",
+        "Change the roses colors and the wrapping paper color to match the instructions. Make the result look natural and photorealistic."
       );
     } else {
       promptParts.push(
