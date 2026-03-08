@@ -10,6 +10,16 @@ import reviewJardinPrimaveral from "@/assets/review-jardin-primaveral.png";
 import reviewRomanceIntenso from "@/assets/review-romance-intenso.png";
 import reviewFuegoSol from "@/assets/review-fuego-sol.png";
 import reviewPasionIberica from "@/assets/review-pasion-iberica.png";
+import reviewGirasolesPasion from "@/assets/review-girasoles-pasion.png";
+import reviewLilaSuave from "@/assets/review-lila-suave.png";
+import reviewNocheDia from "@/assets/review-noche-dia.png";
+import reviewContrasteElegante from "@/assets/review-contraste-elegante.png";
+import reviewTernuraInfinita2 from "@/assets/review-ternura-infinita-2.png";
+import reviewCitricoRefrescante from "@/assets/review-citrico-refrescante.png";
+import reviewFrescuraVerde from "@/assets/review-frescura-verde.png";
+import reviewDulzuraRoja from "@/assets/review-dulzura-roja.png";
+import reviewPurezaBlanca from "@/assets/review-pureza-blanca.png";
+import reviewAmorTricolor from "@/assets/review-amor-tricolor.png";
 
 export const reviews: ReviewData[] = [
   // === BOUQUETS ===
