@@ -74,30 +74,29 @@ serve(async (req) => {
 
     const promptParts: string[] = [];
 
-    // Core instruction: always edit the base image
+    // Core instruction: edit the base image only
     promptParts.push(
-      "I am providing multiple images.",
-      "IMAGE 1 (the FIRST image) is the BASE PHOTO. This is the photo you MUST edit. Keep the woman, her pose, her clothes, her hair, the background, and the lighting EXACTLY as they are. Do NOT change anything about the person or the environment.",
-      "IMAGES 2+ are COLOR REFERENCE swatches. Each one shows a single rose. Use these images ONLY to identify the exact color/shade of the roses. IGNORE everything else in these reference images (background, vase, paper, stems — ignore all of it). Extract ONLY the petal color.",
-      "",
-      "YOUR TASK: In the BASE PHOTO (image 1), replace ONLY two things:",
-      "1. The COLOR of the roses in the bouquet — change them to match the exact colors from the reference swatches.",
-      "2. The COLOR of the wrapping paper around the bouquet.",
-      "Do NOT change ANYTHING else. The woman, her hands, pose, clothes, hair, the background, lighting, bouquet shape, and number of roses must remain identical.",
-      ""
+      "Edit this photo. This is the ONLY image I am providing — it is the BASE PHOTO you must modify.",
+      "The photo shows a woman holding a bouquet of roses wrapped in paper.",
+      "You MUST keep the woman, her pose, her clothes, her hair, her hands, the background, and the lighting EXACTLY as they are.",
+      "You MUST keep the shape, structure, and size of the bouquet EXACTLY the same.",
+      "Change ONLY these two things:",
+      "1. The COLOR of the rose petals.",
+      "2. The COLOR of the wrapping paper.",
+      "Everything else must remain IDENTICAL to the original photo."
     );
 
     if (bouquetConfig.color) {
       const colors = bouquetConfig.color.split(",").map((c: string) => c.trim());
       if (colors.length === 1) {
-        promptParts.push(`All roses must be ${colors[0]} colored, matching the reference swatch exactly.`);
+        promptParts.push(`Change ALL the roses to ${colors[0]} color.`);
       } else {
-        promptParts.push(`The roses must be a MIX of these colors: ${colors.join(", ")}. Distribute the colors evenly throughout the bouquet. Match each color exactly to its reference swatch.`);
+        promptParts.push(`Change the roses to a MIX of: ${colors.join(", ")}. Distribute colors evenly across the bouquet.`);
       }
     }
 
     if (bouquetConfig.paperColor) {
-      promptParts.push(`Change the wrapping paper to ${bouquetConfig.paperColor} color. The paper must be clearly ${bouquetConfig.paperColor}.`);
+      promptParts.push(`Change the wrapping paper to ${bouquetConfig.paperColor} color.`);
     }
 
     if (bouquetConfig.glitter === "true") {
@@ -116,45 +115,22 @@ serve(async (req) => {
       promptParts.push(`Add a ribbon around the bouquet that says "${bouquetConfig.ribbonText}".`);
     }
 
-    promptParts.push("Make the result look natural and photorealistic. The edited bouquet must blend seamlessly with the original photo.");
+    promptParts.push(
+      "CRITICAL: Do NOT generate a new person or new background. Edit the existing photo only.",
+      "The result must look like a natural, photorealistic edit of the original photo."
+    );
 
-    const prompt = promptParts.join(" ");
+    const prompt = promptParts.join("\n");
 
     console.log("Generating preview with prompt:", prompt);
 
-    // Build message content: with or without base image
+    // Build message content: text + base image only (no color reference images)
     const messageContent: any[] = [{ type: "text", text: prompt }];
     if (hasBaseImage) {
       messageContent.push({ type: "image_url", image_url: { url: baseImageUrl } });
     }
 
-    const colorImageMap: Record<string, string> = {
-      "rojo": "rojo",
-      "hot pink": "hot-pink",
-      "naranja": "naranja",
-      "pink": "pink",
-      "verde": "verde",
-      "blanco": "blanco",
-      "negro": "negro",
-      "azul": "azul",
-      "amarillo": "amarillo",
-      "morado": "morado",
-    };
-
-    const selectedColors = bouquetConfig.color ? bouquetConfig.color.split(",").map((c: string) => c.trim().toLowerCase()) : [];
-    if (selectedColors.length > 0) {
-      for (const color of selectedColors) {
-        // Handle "y" if present (e.g. "rojo y blanco")
-        const cleanColor = color.replace(/^y\s+/, "");
-        const imageName = colorImageMap[cleanColor];
-        if (imageName) {
-          const colorUrl = `https://urcocghysdjfawmfitzj.supabase.co/storage/v1/object/public/bouquet-previews/colors/${imageName}.png`;
-          messageContent.push({ type: "image_url", image_url: { url: colorUrl } });
-        }
-      }
-    }
-
-    // Call Lovable AI to generate/edit the image
+    // Call Lovable AI to generate/edit the image using the higher quality model
     const aiResponse = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
       method: "POST",
       headers: {
@@ -162,7 +138,7 @@ serve(async (req) => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        model: "google/gemini-2.5-flash-image",
+        model: "google/gemini-3-pro-image-preview",
         messages: [{ role: "user", content: messageContent }],
         modalities: ["image", "text"],
       }),
