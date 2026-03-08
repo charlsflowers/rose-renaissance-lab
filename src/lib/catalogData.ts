@@ -218,7 +218,7 @@ export const bouquetProducts: BouquetProduct[] = [
   { id: 'bq-round-42', name: 'Elegancia Rosa Oscuro', description: 'Mix de rosas pink y negras', image: bqMixLightpinkNegroImg, image2: bqMixNaranjaAmarillo2SecImg, color: 'Pink y Negro', type: 'round', pricingTier: 'mix2painted' },
 
   // 2 colors - Girasoles (mix2)
-  { id: 'bq-round-28', name: 'Girasoles y Pasión', description: 'Ramo de girasoles y rosas rojas', image: bqMixGirasolesImg, image2: bqMixGirasoles2Img, color: 'Girasoles y Rojo', type: 'round', pricingTier: 'mix2', customSizes: [{ roses: 50, price: 91, label: '50 rosas rojas + 8 girasoles' }, { roses: 100, price: 166, label: '100 rosas rojas + 22 girasoles' }, { roses: 150, price: 256, label: '150 rosas rojas + 22 girasoles' }] },
+  { id: 'bq-round-28', name: 'Girasoles y Pasión', description: 'Ramo de girasoles y rosas rojas', image: bqMixGirasolesImg, image2: bqMixGirasoles2Img, color: 'Girasoles y Rojo', type: 'round', pricingTier: 'mix2', customSizes: [{ roses: 50, price: 146, label: '50 rosas rojas + 8 girasoles' }, { roses: 100, price: 306, label: '100 rosas rojas + 22 girasoles' }, { roses: 150, price: 426, label: '150 rosas rojas + 22 girasoles' }] },
 
   // 3 colors - With Red (mix3red, min 75)
   { id: 'bq-round-18', name: 'Tricolor Clásico', description: 'Mix de rosas rojas, blancas y pink', image: bqMixRojoPinkLightpinkImg, image2: reviewTricolorClasicoImg, color: 'Rojo, Blanco y Pink', type: 'round', pricingTier: 'mix3red' },
