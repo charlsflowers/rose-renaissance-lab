@@ -81,6 +81,9 @@ import bqMixRojoHotpink3Img from '@/assets/bq-mix-rojo-hotpink-3.png';
 import bqMixAzulBlanco3Img from '@/assets/bq-mix-azul-blanco-3.png';
 import bqMixPinkAmarilloBlanco3Img from '@/assets/bq-mix-pink-amarillo-blanco-3.png';
 import bqMixRojoPinkBlanco2Img from '@/assets/bq-mix-rojo-pink-blanco-2.png';
+import bqMixRojoPinkBlanco3Img from '@/assets/bq-mix-rojo-pink-blanco-3.png';
+import bqMixRojoBlanco3Img from '@/assets/bq-mix-rojo-blanco-3.png';
+import bqMixRojoBlanco4Img from '@/assets/bq-mix-rojo-blanco-4.png';
 import reviewTricolorClasicoImg from '@/assets/review-tricolor-clasico.png';
 
 export interface ProductSize {
@@ -224,7 +227,7 @@ export const bouquetProducts: BouquetProduct[] = [
   { id: 'bq-round-18', name: 'Tricolor Clásico', description: 'Mix de rosas rojas, blancas y pink', image: bqMixRojoPinkLightpinkImg, image2: reviewTricolorClasicoImg, color: 'Rojo, Blanco y Pink', type: 'round', pricingTier: 'mix3red' },
   { id: 'bq-round-25', name: 'Romance Intenso', description: 'Mix de rosas rojas, moradas y blancas', image: bqMixRomanticoImg, image2: bqMixRomantico2Img, color: 'Rojo, Morado y Blanco', type: 'round', pricingTier: 'mix3red' },
   { id: 'bq-round-26', name: 'Fuego y Sol', description: 'Mix alegre de rosas rojas, amarillas y pink', image: bqMixAlegriaImg, image2: bqMixAlegria2Img, color: 'Rojo, Amarillo y Pink', type: 'round', pricingTier: 'mix3red' },
-  { id: 'bq-round-46', name: 'Amor Tricolor', description: 'Mix de rosas rojas, pink y blancas', image: bqMixRojoPinkBlanco2Img, image2: bqMixRojoPinkBlancoImg, color: 'Rojo, Pink y Blanco', type: 'round', pricingTier: 'mix3red' },
+  { id: 'bq-round-46', name: 'Amor Tricolor', description: 'Mix de rosas rojas, pink y blancas', image: bqMixRojoPinkBlanco2Img, image2: bqMixRojoPinkBlanco3Img, color: 'Rojo, Pink y Blanco', type: 'round', pricingTier: 'mix3red' },
 
   // 3 colors - Natural without red (standard pricing)
   { id: 'bq-round-23', name: 'Pastel Mágico', description: 'Mix de rosas moradas, pink y blancas', image: bqMixPastelImg, image2: bqMixPastel2Img, color: 'Morado, Pink y Blanco', type: 'round', pricingTier: 'standard' },
@@ -232,11 +235,12 @@ export const bouquetProducts: BouquetProduct[] = [
   { id: 'bq-round-33', name: 'Cítrico Claro', description: 'Mix de rosas naranjas, amarillas y blancas', image: bqMixNaranjaAmarillo2Img, image2: bqMixNaranjaAmarillo23Img, color: 'Naranja, Amarillo y Blanco', type: 'round', pricingTier: 'standard' },
   { id: 'bq-round-39', name: 'Primavera Suave', description: 'Mix de rosas pink, amarillas y blancas', image: bqMixPinkAmarilloBlancoImg, image2: bqMixPinkAmarilloBlanco3Img, color: 'Pink, Amarillo y Blanco', type: 'round', pricingTier: 'standard' },
   { id: 'bq-round-41', name: 'Lila Brillante', description: 'Mix de rosas amarillas, lilas y blancas', image: bqMixAmarilloLilaBlancoImg, image2: bqMixNaranjaAmarilloSecImg, color: 'Amarillo, Lila y Blanco', type: 'round', pricingTier: 'standard' },
+  { id: 'bq-round-47', name: 'Sinfonía Rosa', description: 'Mix de rosas hot pink, pink y blancas', image: bqMixRojoBlanco3Img, image2: bqMixRojoBlanco4Img, color: 'Hot Pink, Pink y Blanco', type: 'round', pricingTier: 'standard' },
 
   // 3 colors - With Painted (mix2painted pricing)
   { id: 'bq-round-31', name: 'Contraste Elegante', description: 'Mix de rosas negras, hot pink y blancas', image: bqMixNegroRosaImg, image2: bqMixNegroRosa2Img, color: 'Negro, Hot Pink y Blanco', type: 'round', pricingTier: 'mix2painted', customSizes: [{ roses: 75, price: 131 }, { roses: 100, price: 166 }, { roses: 125, price: 231 }, { roses: 150, price: 286 }, { roses: 175, price: 311 }, { roses: 200, price: 361 }] },
   { id: 'bq-round-36', name: 'Abeja Imperial', description: 'Mix de rosas amarillas, negras y blancas', image: bqMixAmarilloNegroBlancoImg, image2: bqMixAmarilloNegroBlanco3Img, color: 'Amarillo, Negro y Blanco', type: 'round', pricingTier: 'mix2painted' },
-  { id: 'bq-round-45', name: 'Pasión Elegante', description: 'Mix de rosas rojas, blancas y negras', image: bqMixRojoBlancoNegroImg, image2: bqMixRojoHotpink2Img, color: 'Rojo, Blanco y Negro', type: 'round', pricingTier: 'mix2painted' },
+  { id: 'bq-round-45', name: 'Pasión Elegante', description: 'Mix de rosas rojas y blancas', image: bqMixRojoBlancoNegroImg, image2: bqMixRojoHotpink2Img, color: 'Rojo y Blanco', type: 'round', pricingTier: 'mix2' },
 ];
 
 export const bouquetSizeOptions = pricingTable;
