@@ -135,6 +135,32 @@ serve(async (req) => {
       messageContent.push({ type: "image_url", image_url: { url: baseImageUrl } });
     }
 
+    const colorImageMap: Record<string, string> = {
+      "rojo": "rojo",
+      "hot pink": "hot-pink",
+      "naranja": "naranja",
+      "pink": "pink",
+      "verde": "verde",
+      "blanco": "blanco",
+      "negro": "negro",
+      "azul": "azul",
+      "amarillo": "amarillo",
+      "morado": "morado",
+    };
+
+    const selectedColors = bouquetConfig.color ? bouquetConfig.color.split(",").map((c: string) => c.trim().toLowerCase()) : [];
+    if (selectedColors.length > 0) {
+      for (const color of selectedColors) {
+        // Handle "y" if present (e.g. "rojo y blanco")
+        const cleanColor = color.replace(/^y\s+/, "");
+        const imageName = colorImageMap[cleanColor];
+        if (imageName) {
+          const colorUrl = `https://urcocghysdjfawmfitzj.supabase.co/storage/v1/object/public/bouquet-previews/colors/${imageName}.png`;
+          messageContent.push({ type: "image_url", image_url: { url: colorUrl } });
+        }
+      }
+    }
+
     // Call Lovable AI to generate/edit the image
     const aiResponse = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
       method: "POST",
