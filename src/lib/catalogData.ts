@@ -94,6 +94,12 @@ export interface CatalogProduct {
   sizes: ProductSize[];
 }
 
+export interface CustomSize {
+  roses: number;
+  price: number;
+  label?: string;
+}
+
 export interface BouquetProduct {
   id: string;
   name: string;
@@ -103,6 +109,7 @@ export interface BouquetProduct {
   color: string;
   type: 'round' | 'heart';
   pricingTier: import('@/lib/productData').PricingTier;
+  customSizes?: CustomSize[];
 }
 
 export interface CategoryInfo {
