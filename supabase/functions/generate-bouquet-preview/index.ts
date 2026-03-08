@@ -74,13 +74,17 @@ serve(async (req) => {
 
     const promptParts: string[] = hasBaseImage
       ? [
-          "Edit this photo. The person is holding a bouquet of roses.",
-          "Replace ONLY the color and appearance of the roses in the bouquet.",
+          "I am providing multiple images. The FIRST image is the base photo to edit.",
+          "The subsequent images are EXACT color references for the roses.",
+          "Edit the FIRST photo. The person is holding a bouquet of roses.",
+          "Replace ONLY the color and appearance of the roses in the bouquet to match the reference colors.",
           "Do NOT change the person, their clothes, pose, hair, hands, the wrapping paper, the background, or anything else.",
           "The new bouquet should have:",
         ]
       : [
+          "I am providing reference images for the EXACT colors of the roses.",
           "Generate a photorealistic image of a person elegantly holding a bouquet of roses.",
+          "The roses must match the colors in the provided reference images exactly.",
           "The bouquet should be:",
         ];
 
@@ -129,6 +133,32 @@ serve(async (req) => {
     const messageContent: any[] = [{ type: "text", text: prompt }];
     if (hasBaseImage) {
       messageContent.push({ type: "image_url", image_url: { url: baseImageUrl } });
+    }
+
+    const colorImageMap: Record<string, string> = {
+      "rojo": "rojo",
+      "hot pink": "hot-pink",
+      "naranja": "naranja",
+      "pink": "pink",
+      "verde": "verde",
+      "blanco": "blanco",
+      "negro": "negro",
+      "azul": "azul",
+      "amarillo": "amarillo",
+      "morado": "morado",
+    };
+
+    const selectedColors = bouquetConfig.color ? bouquetConfig.color.split(",").map((c: string) => c.trim().toLowerCase()) : [];
+    if (selectedColors.length > 0) {
+      for (const color of selectedColors) {
+        // Handle "y" if present (e.g. "rojo y blanco")
+        const cleanColor = color.replace(/^y\s+/, "");
+        const imageName = colorImageMap[cleanColor];
+        if (imageName) {
+          const colorUrl = `https://urcocghysdjfawmfitzj.supabase.co/storage/v1/object/public/bouquet-previews/colors/${imageName}.png`;
+          messageContent.push({ type: "image_url", image_url: { url: colorUrl } });
+        }
+      }
     }
 
     // Call Lovable AI to generate/edit the image
