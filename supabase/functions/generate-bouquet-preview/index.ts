@@ -72,61 +72,51 @@ serve(async (req) => {
     // Build the AI prompt from the configuration
     const hasBaseImage = baseImageUrl && baseImageUrl.startsWith("http");
 
-    const promptParts: string[] = hasBaseImage
-      ? [
-          "I am providing multiple images. The FIRST image is the base photo to edit. The subsequent images are EXACT color references for the roses.",
-          "Edit the FIRST photo. The person is holding a bouquet of roses.",
-          "Replace ONLY the color of the roses and the color of the wrapping paper.",
-          "Do NOT change the person, their clothes, pose, hair, hands, the background, or the lighting. Keep the original structure of the bouquet.",
-          "The new bouquet should have:",
-        ]
-      : [
-          "I am providing reference images for the EXACT colors of the roses.",
-          "Generate a photorealistic image of a person elegantly holding a bouquet of roses.",
-          "The roses must match the colors in the provided reference images exactly.",
-          "The bouquet should be:",
-        ];
+    const promptParts: string[] = [];
+
+    // Core instruction: always edit the base image
+    promptParts.push(
+      "I am providing multiple images.",
+      "IMAGE 1 (the FIRST image) is the BASE PHOTO. This is the photo you MUST edit. Keep the woman, her pose, her clothes, her hair, the background, and the lighting EXACTLY as they are. Do NOT change anything about the person or the environment.",
+      "IMAGES 2+ are COLOR REFERENCE swatches. Each one shows a single rose. Use these images ONLY to identify the exact color/shade of the roses. IGNORE everything else in these reference images (background, vase, paper, stems — ignore all of it). Extract ONLY the petal color.",
+      "",
+      "YOUR TASK: In the BASE PHOTO (image 1), replace ONLY two things:",
+      "1. The COLOR of the roses in the bouquet — change them to match the exact colors from the reference swatches.",
+      "2. The COLOR of the wrapping paper around the bouquet.",
+      "Do NOT change ANYTHING else. The woman, her hands, pose, clothes, hair, the background, lighting, bouquet shape, and number of roses must remain identical.",
+      ""
+    );
 
     if (bouquetConfig.color) {
-      promptParts.push(`The roses must be exactly ${bouquetConfig.color} colored, matching the provided reference images.`);
+      const colors = bouquetConfig.color.split(",").map((c: string) => c.trim());
+      if (colors.length === 1) {
+        promptParts.push(`All roses must be ${colors[0]} colored, matching the reference swatch exactly.`);
+      } else {
+        promptParts.push(`The roses must be a MIX of these colors: ${colors.join(", ")}. Distribute the colors evenly throughout the bouquet. Match each color exactly to its reference swatch.`);
+      }
     }
 
     if (bouquetConfig.paperColor) {
-      promptParts.push(`The wrapping paper MUST BE ${bouquetConfig.paperColor} colored.`);
-    }
-
-    if (bouquetConfig.roses) {
-      promptParts.push(`The bouquet has approximately ${bouquetConfig.roses} roses.`);
+      promptParts.push(`Change the wrapping paper to ${bouquetConfig.paperColor} color. The paper must be clearly ${bouquetConfig.paperColor}.`);
     }
 
     if (bouquetConfig.glitter === "true") {
-      promptParts.push("The roses have a glittery, sparkly finish.");
+      promptParts.push("Add a subtle glittery, sparkly finish to the rose petals.");
     }
 
     if (bouquetConfig.specialText) {
-      promptParts.push(`The bouquet features the text "${bouquetConfig.specialText}" made of roses or decorative elements.`);
+      promptParts.push(`Include the text "${bouquetConfig.specialText}" made of decorative elements within the bouquet.`);
     }
 
     if (bouquetConfig.crown === "true") {
-      promptParts.push("There is a small decorative crown on top of the bouquet.");
+      promptParts.push("Add a small decorative crown on top of the bouquet.");
     }
 
     if (bouquetConfig.ribbon === "true" && bouquetConfig.ribbonText) {
-      promptParts.push(`There is a ribbon around the bouquet that says "${bouquetConfig.ribbonText}".`);
+      promptParts.push(`Add a ribbon around the bouquet that says "${bouquetConfig.ribbonText}".`);
     }
 
-    if (hasBaseImage) {
-      promptParts.push(
-        "IMPORTANT: Keep the person, their pose, clothes, the background, and lighting EXACTLY the same.",
-        "Change the roses colors and the wrapping paper color to match the instructions. Make the result look natural and photorealistic."
-      );
-    } else {
-      promptParts.push(
-        "The person should be elegantly dressed, holding the bouquet in front of them.",
-        "Use soft, warm studio lighting. Make it look natural and photorealistic.",
-        "The background should be a soft, blurred neutral tone."
-      );
-    }
+    promptParts.push("Make the result look natural and photorealistic. The edited bouquet must blend seamlessly with the original photo.");
 
     const prompt = promptParts.join(" ");
 
