@@ -112,6 +112,26 @@ export const reviews: ReviewData[] = [
   { id: "rev-43", name: "Mariana T.", rating: 5, text: "El bouquet de rosas blancas puras es la elegancia en su máxima expresión. Perfecto para cualquier ocasión.", image: reviewPurezaBlanca, productLabel: "Pureza Blanca", category: "bouquets", cartData: { bouquetType: "round", color: "Blanco", roses: 100, price: 136 } },
   // Amor Tricolor → mix3red: 150=$256
   { id: "rev-44", name: "Juliana P.", rating: 5, text: "Las rosas rojas, pink y blancas combinan de forma increíble. Lo pedí para San Valentín y fue un éxito total.", image: reviewAmorTricolor, productLabel: "Amor Tricolor", category: "bouquets", cartData: { bouquetType: "round", color: "Rojo, Pink y Blanco", roses: 150, price: 256 } },
+  // Noche Profunda → painted: 100=$256
+  { id: "rev-45", name: "Diego G.", rating: 5, text: "Un bouquet completamente negro, súper elegante y exclusivo. Quedó espectacular.", image: reviewNocheProfunda, productLabel: "Noche Profunda", category: "bouquets", cartData: { bouquetType: "round", color: "Negro", roses: 100, price: 256 } },
+  // Cielo Azul → painted: 100=$256
+  { id: "rev-46", name: "Mateo S.", rating: 5, text: "El azul de las rosas es muy intenso. Un detalle único que sorprendió a todos.", image: reviewCieloAzul, productLabel: "Cielo Azul", category: "bouquets", cartData: { bouquetType: "round", color: "Azul", roses: 100, price: 256 } },
+  // Naranja Cítrico → standard: 100=$136
+  { id: "rev-47", name: "Carla L.", rating: 5, text: "Hermoso bouquet en tonos naranja y blanco. Llegó a tiempo y las flores se ven muy frescas.", image: reviewNaranjaCitrico, productLabel: "Naranja Cítrico", category: "bouquets", cartData: { bouquetType: "round", color: "Naranja y Blanco", roses: 100, price: 136 } },
+  // Abeja Imperial → mix2painted: 100=$196
+  { id: "rev-48", name: "Andrés V.", rating: 5, text: "Una combinación atrevida y muy bonita de amarillo, negro y blanco. Excelente calidad.", image: reviewAbejaImperial, productLabel: "Abeja Imperial", category: "bouquets", cartData: { bouquetType: "round", color: "Amarillo, Negro y Blanco", roses: 100, price: 196 } },
+  // Pasión Bicolor → mix2: 100=$166
+  { id: "rev-49", name: "Fernanda O.", rating: 5, text: "Las rosas rojas y blancas son un clásico que nunca falla. El arreglo estuvo perfecto.", image: reviewPasionBicolor, productLabel: "Pasión Bicolor", category: "bouquets", cartData: { bouquetType: "round", color: "Rojo y Blanco", roses: 100, price: 166 } },
+  // Sol Radiante → standard: 100=$136
+  { id: "rev-50", name: "Roberto E.", rating: 5, text: "Compré el de rosas amarillas y le dio un toque muy alegre a la habitación. 100% recomendado.", image: reviewSolRadiante, productLabel: "Sol Radiante", category: "bouquets", cartData: { bouquetType: "round", color: "Amarillo", roses: 100, price: 136 } },
+  // Océano Blanco → mix2painted: 100=$196
+  { id: "rev-51", name: "Valentina R.", rating: 5, text: "Increíble la mezcla de rosas azules y blancas. Se ve muy fino y la presentación es top.", image: reviewOceanoBlanco, productLabel: "Océano Blanco", category: "bouquets", cartData: { bouquetType: "round", color: "Azul y Blanco", roses: 100, price: 196 } },
+  // Cítrico Claro → standard: 150=$226
+  { id: "rev-52", name: "Emilia M.", rating: 5, text: "Pedí 150 rosas naranjas, amarillas y blancas. El tamaño es enorme y huele delicioso.", image: reviewCitricoClaro, productLabel: "Cítrico Claro", category: "bouquets", cartData: { bouquetType: "round", color: "Naranja, Amarillo y Blanco", roses: 150, price: 226 } },
+  // Primavera Suave → standard: 150=$226
+  { id: "rev-53", name: "Luciana D.", rating: 5, text: "Un bouquet soñado. Tonos pink, amarillo y blanco que encantan a cualquiera.", image: reviewPrimaveraSuave, productLabel: "Primavera Suave", category: "bouquets", cartData: { bouquetType: "round", color: "Pink, Amarillo y Blanco", roses: 150, price: 226 } },
+  // Romance Oscuro → mix2: 100=$166
+  { id: "rev-54", name: "Juan P.", rating: 5, text: "La combinación de rojo y hot pink es fantástica. Todo llegó en excelentes condiciones.", image: reviewRomanceOscuro, productLabel: "Romance Oscuro", category: "bouquets", cartData: { bouquetType: "round", color: "Rojo y Hot Pink", roses: 100, price: 166 } },
 
   // === ARREGLOS ===
   { id: "rev-arr-1", name: "Verónica T.", rating: 5, text: "El arreglo de rosas para la mesa del comedor quedó precioso. Duró casi dos semanas fresco.", image: "/placeholder.svg", productLabel: "Arreglo Clásico", category: "arreglos", cartData: { bouquetType: "round", color: "Rojo y Blanco", roses: 50, price: 91 } },
