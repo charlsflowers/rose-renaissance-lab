@@ -216,6 +216,7 @@ const BouquetBuilder = () => {
     setPreviewError("");
     setPreviewUrl(null);
     try {
+      const rosesCount = pricingTable[selectedSizeIdx].roses;
       const bouquetConfig: Record<string, string> = {
         bouquetType: "classic",
         color: selectedColors.map(c => c.name).join(", "),
@@ -226,7 +227,6 @@ const BouquetBuilder = () => {
       if (addCrown) { bouquetConfig.crown = "true"; bouquetConfig.crownSize = crownSize; }
       if (addRibbon && ribbonText) { bouquetConfig.ribbon = "true"; bouquetConfig.ribbonText = ribbonText; }
 
-      const rosesCount = pricingTable[selectedSizeIdx].roses;
       const baseImageUrl = `https://urcocghysdjfawmfitzj.supabase.co/storage/v1/object/public/bouquet-previews/reference/ref-${rosesCount}.png`;
 
       const { data, error } = await supabase.functions.invoke("generate-bouquet-preview", {
