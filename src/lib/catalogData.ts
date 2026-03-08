@@ -197,18 +197,20 @@ export const bouquetProducts: BouquetProduct[] = [
   { id: 'bq-round-11', name: 'Noche Profunda', description: 'Ramo redondo de rosas negras elegantes', image: bqNegroImg, image2: bqNegro2Img, color: 'Negro', type: 'round', pricingTier: 'painted' },
   { id: 'bq-round-22', name: 'Frescura Verde', description: 'Ramo redondo de rosas verdes pintadas', image: bqVerdeImg, image2: bqVerde2Img, color: 'Verde', type: 'round', pricingTier: 'painted' },
 
-  // 2 colors - Natural (mix2)
-  { id: 'bq-round-13', name: 'Amanecer Rosa y Blanco', description: 'Mix delicado de rosas hot pink y blancas', image: bqMixHotpinkBlancoImg, image2: bqMixHotpinkBlanco2Img, color: 'Hot Pink y Blanco', type: 'round', pricingTier: 'mix2' },
-  { id: 'bq-round-15', name: 'Jardín Primaveral', description: 'Mix de rosas amarillas y blancas', image: bqMixAmarilloBlancoImg, image2: bqMixAmarilloBlanco2Img, color: 'Amarillo y Blanco', type: 'round', pricingTier: 'mix2' },
+  // 2 colors - Natural without red (standard pricing)
+  { id: 'bq-round-13', name: 'Amanecer Rosa y Blanco', description: 'Mix delicado de rosas hot pink y blancas', image: bqMixHotpinkBlancoImg, image2: bqMixHotpinkBlanco2Img, color: 'Hot Pink y Blanco', type: 'round', pricingTier: 'standard' },
+  { id: 'bq-round-15', name: 'Jardín Primaveral', description: 'Mix de rosas amarillas y blancas', image: bqMixAmarilloBlancoImg, image2: bqMixAmarilloBlanco2Img, color: 'Amarillo y Blanco', type: 'round', pricingTier: 'standard' },
+  { id: 'bq-round-29', name: 'Lila Suave', description: 'Mix de rosas lilas y blancas', image: bqMixLilaBlancoImg, image2: bqMixLilaBlanco2Img, color: 'Lila y Blanco', type: 'round', pricingTier: 'standard' },
+  { id: 'bq-round-32', name: 'Cítrico Refrescante', description: 'Mix de rosas naranjas y amarillas', image: bqMixNaranjaAmarilloImg, image2: bqMixNaranjaAmarillo3Img, color: 'Naranja y Amarillo', type: 'round', pricingTier: 'standard' },
+  { id: 'bq-round-35', name: 'Naranja Cítrico', description: 'Mix de rosas naranjas y blancas', image: bqMixNaranjaBlancoImg, image2: bqMixNaranjaBlanco2Img, color: 'Naranja y Blanco', type: 'round', pricingTier: 'standard' },
+  { id: 'bq-round-44', name: 'Ternura Infinita', description: 'Mix de rosas pink y blancas', image: bqMixLightpinkBlancoImg, image2: bqMixPinkAmarilloBlanco2Img, color: 'Pink y Blanco', type: 'round', pricingTier: 'standard' },
+
+  // 2 colors - With Red (mix2 pricing)
   { id: 'bq-round-27', name: 'Pasión Ibérica', description: 'Mix de rosas rojas y amarillas', image: bqMixEspanaImg, image2: bqMixEspana2Img, color: 'Rojo y Amarillo', type: 'round', pricingTier: 'mix2' },
-  { id: 'bq-round-29', name: 'Lila Suave', description: 'Mix de rosas lilas y blancas', image: bqMixLilaBlancoImg, image2: bqMixLilaBlanco2Img, color: 'Lila y Blanco', type: 'round', pricingTier: 'mix2' },
-  { id: 'bq-round-32', name: 'Cítrico Refrescante', description: 'Mix de rosas naranjas y amarillas', image: bqMixNaranjaAmarilloImg, image2: bqMixNaranjaAmarillo3Img, color: 'Naranja y Amarillo', type: 'round', pricingTier: 'mix2' },
   { id: 'bq-round-34', name: 'Dulzura Roja', description: 'Mix de rosas rojas y pink', image: bqMixRojoLightpinkImg, image2: bqMixRojoPinkLightpink2Img, color: 'Rojo y Pink', type: 'round', pricingTier: 'mix2' },
-  { id: 'bq-round-35', name: 'Naranja Cítrico', description: 'Mix de rosas naranjas y blancas', image: bqMixNaranjaBlancoImg, image2: bqMixNaranjaBlanco2Img, color: 'Naranja y Blanco', type: 'round', pricingTier: 'mix2' },
   { id: 'bq-round-37', name: 'Pasión Bicolor', description: 'Mix de rosas rojas y blancas', image: bqMixRojoBlancoImg, image2: bqMixRojoBlanco2Img, color: 'Rojo y Blanco', type: 'round', pricingTier: 'mix2' },
   { id: 'bq-round-40', name: 'Romance Oscuro', description: 'Mix de rosas rojas y hot pink', image: bqMixRojoHotpinkImg, image2: bqMixRojoHotpink3Img, color: 'Rojo y Hot Pink', type: 'round', pricingTier: 'mix2' },
   { id: 'bq-round-43', name: 'Amor Apasionado', description: 'Mix de rosas rojas y pink', image: bqMixRojoLightpink2Img, image2: bqMixRojoLightpinkSecImg, color: 'Rojo y Pink', type: 'round', pricingTier: 'mix2' },
-  { id: 'bq-round-44', name: 'Ternura Infinita', description: 'Mix de rosas pink y blancas', image: bqMixLightpinkBlancoImg, image2: bqMixPinkAmarilloBlanco2Img, color: 'Pink y Blanco', type: 'round', pricingTier: 'mix2' },
 
   // 2 colors - Natural + Painted (mix2painted)
   { id: 'bq-round-30', name: 'Noche y Día', description: 'Mix de rosas negras y blancas', image: bqMixNegroBlancoImg, image2: bqMixNegroBlanco2Img, color: 'Negro y Blanco', type: 'round', pricingTier: 'mix2painted' },
