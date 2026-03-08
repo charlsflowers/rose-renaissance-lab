@@ -57,13 +57,15 @@ export function determinePricingTier(colors: ColorOption[]): PricingTier {
 
   if (count === 2) {
     if (hasPainted && hasNatural) return 'mix2painted';
-    return 'mix2';
+    if (hasPainted) return 'painted'; // 2 painted colors
+    if (hasRed) return 'mix2'; // 2 colors, one is red
+    return 'standard'; // 2 natural colors, no red
   }
 
   // 3 colors
-  if (hasPainted && hasNatural) return 'mix2painted'; // natural+painted mix uses this tier
+  if (hasPainted && hasNatural) return 'mix2painted';
   if (hasRed) return 'mix3red';
-  return 'mix3red'; // 3 colors without red: use same tier
+  return 'standard'; // 3 natural colors without red = standard pricing
 }
 
 export function getPrice(tier: PricingTier, rosesCount: number): number {
