@@ -117,8 +117,8 @@ serve(async (req) => {
 
     if (hasBaseImage) {
       promptParts.push(
-        "IMPORTANT: Keep the person, their pose, clothes, the wrapping paper, the background, and lighting EXACTLY the same.",
-        "Only change the roses themselves. Make the result look natural and photorealistic."
+        "IMPORTANT: Keep the person, their pose, clothes, the background, and lighting EXACTLY the same.",
+        "Change the roses colors and the wrapping paper color to match the instructions. Make the result look natural and photorealistic."
       );
     } else {
       promptParts.push(

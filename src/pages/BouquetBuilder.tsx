@@ -220,6 +220,7 @@ const BouquetBuilder = () => {
       const bouquetConfig: Record<string, string> = {
         bouquetType: "classic",
         color: selectedColors.map(c => c.name).join(", "),
+        paperColor: paperColor,
         roses: String(rosesCount),
         glitter: String(addGlitter),
       };
