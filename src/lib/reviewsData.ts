@@ -21,6 +21,17 @@ import reviewDulzuraRoja from "@/assets/review-dulzura-roja.png";
 import reviewPurezaBlanca from "@/assets/review-pureza-blanca.png";
 import reviewAmorTricolor from "@/assets/review-amor-tricolor.png";
 
+import reviewNocheProfunda from "@/assets/review-noche-profunda.png";
+import reviewCieloAzul from "@/assets/review-cielo-azul.png";
+import reviewNaranjaCitrico from "@/assets/review-naranja-citrico.png";
+import reviewAbejaImperial from "@/assets/review-abeja-imperial.png";
+import reviewPasionBicolor from "@/assets/review-pasion-bicolor.png";
+import reviewSolRadiante from "@/assets/review-sol-radiante.png";
+import reviewOceanoBlanco from "@/assets/review-oceano-blanco.png";
+import reviewCitricoClaro from "@/assets/review-citrico-claro.png";
+import reviewPrimaveraSuave from "@/assets/review-primavera-suave.png";
+import reviewRomanceOscuro from "@/assets/review-romance-oscuro.png";
+
 export const reviews: ReviewData[] = [
   // === BOUQUETS ===
   // Pasión Total (Rojo) → red tier: 50=$106, 75=$146, 100=$196, 125=$276, 150=$226, 175=$251, 200=$301
