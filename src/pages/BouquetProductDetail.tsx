@@ -131,12 +131,14 @@ const BouquetProductDetail = () => {
 
   // Count how many distinct colors this bouquet has
   const colorCount = product.color.split(/,\s*|\s+y\s+/).length;
-  const minSizeIdx = colorCount >= 3 ? 1 : 0; // 3+ colors → minimum 75 roses (index 1)
+  const hasCustomSizes = product.customSizes && product.customSizes.length > 0;
+  const sizeOptions = hasCustomSizes ? product.customSizes! : bouquetSizeOptions;
+  const minSizeIdx = hasCustomSizes ? 0 : (colorCount >= 3 ? 1 : 0); // 3+ colors → minimum 75 roses (index 1)
 
   // If current selection is below minimum, bump it up
-  const effectiveSizeIdx = selectedSizeIdx < minSizeIdx ? minSizeIdx : selectedSizeIdx;
-  const selectedSize = bouquetSizeOptions[effectiveSizeIdx];
-  const sizePrice = getPrice(product.pricingTier, selectedSize.roses);
+  const effectiveSizeIdx = selectedSizeIdx < minSizeIdx ? minSizeIdx : (selectedSizeIdx >= sizeOptions.length ? sizeOptions.length - 1 : selectedSizeIdx);
+  const selectedSize = hasCustomSizes ? { roses: sizeOptions[effectiveSizeIdx].roses } : bouquetSizeOptions[effectiveSizeIdx];
+  const sizePrice = hasCustomSizes ? (product.customSizes![effectiveSizeIdx]?.price || 0) : getPrice(product.pricingTier, selectedSize.roses);
   const lettersExtra = addLetters ? specialText.replace(/[^A-Z]/gi, "").length * letterNumberExtraPrice : 0;
   const numbersExtra = addNumbers ? specialText.replace(/[^0-9]/g, "").length * letterNumberExtraPrice : 0;
   const glitterCost = addGlitter ? Math.ceil(selectedSize.roses / 25) * 8 : 0;
