@@ -15,10 +15,9 @@ export interface PaperColorOption {
 export const paperColorOptions: PaperColorOption[] = [
   { name: "Blanco", image: paperBlanco },
   { name: "Rosa Light", image: paperRosaLight },
-  { name: "Rosado", image: paperMarron },
+  { name: "Beige", image: paperBeige },
   { name: "Morado", image: paperMorado },
-  { name: "Morado Light", image: "" },
-  { name: "Marrón", image: "" },
+  { name: "Purple", image: paperPurple },
   { name: "Azul", image: paperAzul },
   { name: "Negro", image: paperNegro },
 ];
