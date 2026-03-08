@@ -15,6 +15,7 @@ import cestasImg from "@/assets/cestas.jpg";
 import jarronesImg from "@/assets/jarrones.jpg";
 import ososImg from "@/assets/osos.jpg";
 import heartBouquet from "@/assets/heart-bouquet.jpg";
+import purezaBlancaImg from "@/assets/review-pureza-blanca.png";
 
 
 const Index = () => {
