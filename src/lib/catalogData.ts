@@ -235,6 +235,7 @@ export const bouquetProducts: BouquetProduct[] = [
   { id: 'bq-round-33', name: 'Cítrico Claro', description: 'Mix de rosas naranjas, amarillas y blancas', image: bqMixNaranjaAmarillo2Img, image2: bqMixNaranjaAmarillo23Img, color: 'Naranja, Amarillo y Blanco', type: 'round', pricingTier: 'standard' },
   { id: 'bq-round-39', name: 'Primavera Suave', description: 'Mix de rosas pink, amarillas y blancas', image: bqMixPinkAmarilloBlancoImg, image2: bqMixPinkAmarilloBlanco3Img, color: 'Pink, Amarillo y Blanco', type: 'round', pricingTier: 'standard' },
   { id: 'bq-round-41', name: 'Lila Brillante', description: 'Mix de rosas amarillas, lilas y blancas', image: bqMixAmarilloLilaBlancoImg, image2: bqMixNaranjaAmarilloSecImg, color: 'Amarillo, Lila y Blanco', type: 'round', pricingTier: 'standard' },
+  { id: 'bq-round-47', name: 'Sinfonía Rosa', description: 'Mix de rosas hot pink, pink y blancas', image: bqMixRojoBlanco3Img, image2: bqMixRojoBlanco4Img, color: 'Hot Pink, Pink y Blanco', type: 'round', pricingTier: 'standard' },
 
   // 3 colors - With Painted (mix2painted pricing)
   { id: 'bq-round-31', name: 'Contraste Elegante', description: 'Mix de rosas negras, hot pink y blancas', image: bqMixNegroRosaImg, image2: bqMixNegroRosa2Img, color: 'Negro, Hot Pink y Blanco', type: 'round', pricingTier: 'mix2painted', customSizes: [{ roses: 75, price: 131 }, { roses: 100, price: 166 }, { roses: 125, price: 231 }, { roses: 150, price: 286 }, { roses: 175, price: 311 }, { roses: 200, price: 361 }] },
