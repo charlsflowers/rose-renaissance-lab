@@ -88,7 +88,11 @@ serve(async (req) => {
         ];
 
     if (bouquetConfig.color) {
-      promptParts.push(`All roses should be ${bouquetConfig.color} colored.`);
+      promptParts.push(`The roses must be exactly ${bouquetConfig.color} colored, matching the provided reference images.`);
+    }
+
+    if (bouquetConfig.paperColor) {
+      promptParts.push(`The wrapping paper MUST BE ${bouquetConfig.paperColor} colored.`);
     }
 
     if (bouquetConfig.roses) {
