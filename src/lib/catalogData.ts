@@ -81,6 +81,9 @@ import bqMixRojoHotpink3Img from '@/assets/bq-mix-rojo-hotpink-3.png';
 import bqMixAzulBlanco3Img from '@/assets/bq-mix-azul-blanco-3.png';
 import bqMixPinkAmarilloBlanco3Img from '@/assets/bq-mix-pink-amarillo-blanco-3.png';
 import bqMixRojoPinkBlanco2Img from '@/assets/bq-mix-rojo-pink-blanco-2.png';
+import bqMixRojoPinkBlanco3Img from '@/assets/bq-mix-rojo-pink-blanco-3.png';
+import bqMixRojoBlanco3Img from '@/assets/bq-mix-rojo-blanco-3.png';
+import bqMixRojoBlanco4Img from '@/assets/bq-mix-rojo-blanco-4.png';
 import reviewTricolorClasicoImg from '@/assets/review-tricolor-clasico.png';
 
 export interface ProductSize {
