@@ -230,7 +230,7 @@ export const bouquetProducts: BouquetProduct[] = [
   { id: 'bq-round-41', name: 'Lila Brillante', description: 'Mix de rosas amarillas, lilas y blancas', image: bqMixAmarilloLilaBlancoImg, image2: bqMixNaranjaAmarilloSecImg, color: 'Amarillo, Lila y Blanco', type: 'round', pricingTier: 'mix3red' },
 
   // 3 colors - With Painted (mix2painted pricing)
-  { id: 'bq-round-31', name: 'Contraste Elegante', description: 'Mix de rosas negras, hot pink y blancas', image: bqMixNegroRosaImg, image2: bqMixNegroRosa2Img, color: 'Negro, Hot Pink y Blanco', type: 'round', pricingTier: 'mix2painted' },
+  { id: 'bq-round-31', name: 'Contraste Elegante', description: 'Mix de rosas negras, hot pink y blancas', image: bqMixNegroRosaImg, image2: bqMixNegroRosa2Img, color: 'Negro, Hot Pink y Blanco', type: 'round', pricingTier: 'mix2painted', customSizes: [{ roses: 75, price: 131 }, { roses: 100, price: 166 }, { roses: 125, price: 231 }, { roses: 150, price: 286 }, { roses: 175, price: 311 }, { roses: 200, price: 361 }] },
   { id: 'bq-round-36', name: 'Abeja Imperial', description: 'Mix de rosas amarillas, negras y blancas', image: bqMixAmarilloNegroBlancoImg, image2: bqMixAmarilloNegroBlanco3Img, color: 'Amarillo, Negro y Blanco', type: 'round', pricingTier: 'mix2painted' },
   { id: 'bq-round-45', name: 'Pasión Elegante', description: 'Mix de rosas rojas, blancas y negras', image: bqMixRojoBlancoNegroImg, image2: bqMixRojoHotpink2Img, color: 'Rojo, Blanco y Negro', type: 'round', pricingTier: 'mix2painted' },
 ];
