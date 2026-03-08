@@ -80,6 +80,8 @@ import bqMixAmarilloNegroBlanco3Img from '@/assets/bq-mix-amarillo-negro-blanco-
 import bqMixRojoHotpink3Img from '@/assets/bq-mix-rojo-hotpink-3.png';
 import bqMixAzulBlanco3Img from '@/assets/bq-mix-azul-blanco-3.png';
 import bqMixPinkAmarilloBlanco3Img from '@/assets/bq-mix-pink-amarillo-blanco-3.png';
+import bqMixRojoPinkBlanco2Img from '@/assets/bq-mix-rojo-pink-blanco-2.png';
+import reviewTricolorClasicoImg from '@/assets/review-tricolor-clasico.png';
 
 export interface ProductSize {
   label: string;
