@@ -74,11 +74,10 @@ serve(async (req) => {
 
     const promptParts: string[] = hasBaseImage
       ? [
-          "I am providing multiple images. The FIRST image is the base photo to edit.",
-          "The subsequent images are EXACT color references for the roses.",
+          "I am providing multiple images. The FIRST image is the base photo to edit. The subsequent images are EXACT color references for the roses.",
           "Edit the FIRST photo. The person is holding a bouquet of roses.",
-          "Replace ONLY the color and appearance of the roses in the bouquet to match the reference colors.",
-          "Do NOT change the person, their clothes, pose, hair, hands, the wrapping paper, the background, or anything else.",
+          "Replace ONLY the color of the roses and the color of the wrapping paper.",
+          "Do NOT change the person, their clothes, pose, hair, hands, the background, or the lighting. Keep the original structure of the bouquet.",
           "The new bouquet should have:",
         ]
       : [
