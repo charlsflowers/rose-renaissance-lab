@@ -1,10 +1,11 @@
 import { Check } from "lucide-react";
 import paperAzul from "@/assets/paper-azul.png";
 import paperBlanco from "@/assets/paper-blanco.png";
-import paperMarron from "@/assets/paper-marron.png";
+import paperBeige from "@/assets/paper-beige.png";
 import paperMorado from "@/assets/paper-morado.png";
 import paperNegro from "@/assets/paper-negro.png";
 import paperRosaLight from "@/assets/paper-rosa-light.png";
+import paperPurple from "@/assets/paper-purple.png";
 
 export interface PaperColorOption {
   name: string;
