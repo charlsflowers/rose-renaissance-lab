@@ -264,16 +264,18 @@ const BouquetProductDetail = () => {
             {/* 1. Size */}
             <Section title="Cantidad de Rosas" step={step++}>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-                {bouquetSizeOptions.map((size, idx) => {
+                {sizeOptions.map((size, idx) => {
                   const disabled = idx < minSizeIdx;
+                  const price = hasCustomSizes ? (size as any).price : getPrice(product.pricingTier, size.roses);
+                  const label = hasCustomSizes && (size as any).label ? (size as any).label : `${size.roses} rosas`;
                   return (
                     <button key={size.roses} onClick={() => !disabled && setSelectedSizeIdx(idx)}
                       disabled={disabled}
                       className={`p-4 rounded-sm border-2 text-center transition-all ${disabled ? "opacity-40 cursor-not-allowed border-border" : effectiveSizeIdx === idx ? "border-primary bg-primary/5" : "border-border hover:border-primary/30"}`}>
                       <p className="font-display text-2xl font-semibold text-foreground">{size.roses}</p>
-                      <p className="text-xs text-muted-foreground font-body">rosas</p>
-                      <p className="text-sm font-body font-semibold text-primary mt-1">${getPrice(product.pricingTier, size.roses)}</p>
-                      {disabled && <p className="text-[10px] text-destructive font-body mt-1">Mín. {bouquetSizeOptions[minSizeIdx].roses} para {colorCount} colores</p>}
+                      <p className="text-xs text-muted-foreground font-body">{hasCustomSizes && (size as any).label ? (size as any).label : 'rosas'}</p>
+                      <p className="text-sm font-body font-semibold text-primary mt-1">${price}</p>
+                      {disabled && <p className="text-[10px] text-destructive font-body mt-1">Mín. {sizeOptions[minSizeIdx].roses} para {colorCount} colores</p>}
                     </button>
                   );
                 })}
