@@ -7,10 +7,11 @@ import { supabase } from "@/integrations/supabase/client";
 import { useCart } from "@/contexts/CartContext";
 import { toast } from "sonner";
 import Navbar from "@/components/Navbar";
-import PaperColorPicker from "@/components/PaperColorPicker";
+import PaperColorPicker from "@/components/PaperColorPicker"; // keep import but won't use for standard bouquets
 import { bouquetProducts, bouquetSizeOptions } from "@/lib/catalogData";
 import {
   crownOptions, ribbonPresets, crownPrice, ribbonPrice, letterNumberExtraPrice, vaseOptions, getPrice,
+// Note: crown, ribbon, letters, vase are used for custom bouquets only; standard bouquets won't show them
 } from "@/lib/productData";
 import {
   ArrowLeft, Check, Store, Truck, CalendarIcon, Clock, MapPin, Search, Loader2,
@@ -155,11 +156,7 @@ const BouquetProductDetail = () => {
     if (!deliveryDate || !deliveryHour) { toast.error("Selecciona fecha y hora."); return false; }
 
     const addons: string[] = [];
-    if (addCrown) addons.push(`Corona Tiara (${crownSize})`);
-    if (addRibbon) addons.push("Cinta");
-    if (addGlitter) addons.push("Brillos");
-    if (addLetters || addNumbers) addons.push(`Texto: ${specialText}`);
-    if (addVase) addons.push(`Jarrón (${vaseOptions[selectedVaseIdx].label})`);
+    if (addGlitter) addons.push("Glitter");
 
     addItem({
       id: "",
@@ -254,11 +251,13 @@ const BouquetProductDetail = () => {
               <p className="text-muted-foreground font-body mt-2">{product.description}</p>
             </div>
 
-            {/* Paper Color */}
+            {/* Paper Color - hidden for standard bouquets, shown only for custom */}
+            {/* 
             <Section title="Color del Papel" step={step++}>
               <p className="text-xs text-muted-foreground font-body mb-4">Elige el color del papel de envoltura</p>
               <PaperColorPicker selected={paperColor} onChange={setPaperColor} />
             </Section>
+            */}
 
 
             {/* 1. Size */}
@@ -283,7 +282,7 @@ const BouquetProductDetail = () => {
             </Section>
 
             {/* 2. Glitter */}
-            <Section title="Acabado Brillante" step={step++} subtitle={`+$${Math.ceil(selectedSize.roses / 25) * 8}`}>
+            <Section title="Acabado Glitter" step={step++} subtitle={`+$${Math.ceil(selectedSize.roses / 25) * 8}`}>
               <button onClick={() => setAddGlitter(!addGlitter)}
                 className={`relative w-full p-6 rounded-sm border-2 transition-all overflow-hidden ${addGlitter ? "border-primary bg-primary/5" : "border-border hover:border-primary/30"}`}>
                 <div className="flex items-center gap-4 relative z-10">
@@ -297,34 +296,16 @@ const BouquetProductDetail = () => {
               </button>
             </Section>
 
-            {/* 3. Letters/Numbers */}
-            <Section title="Letras o Números (Baby Breath)" step={step++} subtitle={`+$${letterNumberExtraPrice} c/u`}>
-              <div className="flex gap-3 mb-4">
-                <button onClick={() => { setAddLetters(!addLetters); if (addNumbers) setAddNumbers(false); setSpecialText(""); }}
-                  className={`flex items-center gap-2 px-4 py-3 rounded-sm border-2 font-body text-sm transition-all ${addLetters ? "border-primary bg-primary/5 text-primary" : "border-border text-muted-foreground hover:border-primary/30"}`}>
-                  <Type className="w-4 h-4" /> Letras
-                </button>
-                <button onClick={() => { setAddNumbers(!addNumbers); if (addLetters) setAddLetters(false); setSpecialText(""); }}
-                  className={`flex items-center gap-2 px-4 py-3 rounded-sm border-2 font-body text-sm transition-all ${addNumbers ? "border-primary bg-primary/5 text-primary" : "border-border text-muted-foreground hover:border-primary/30"}`}>
-                  <Hash className="w-4 h-4" /> Números
-                </button>
-              </div>
-              {(addLetters || addNumbers) && (
-                <input type="text" value={specialText}
-                  onChange={(e) => setSpecialText(addNumbers ? e.target.value.replace(/[^0-9]/g, "") : e.target.value.toUpperCase().replace(/[^A-Z]/g, ""))}
-                  placeholder={addLetters ? "Ej: LOVE" : "Ej: 25"}
-                  className="w-full max-w-xs bg-card border border-border rounded-sm px-4 py-3 font-body text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30" maxLength={10} />
-              )}
-            </Section>
+            {/* Letters/Numbers - only for custom bouquets */}
+
 
             {/* 4. Accessories */}
             <Section title="Accesorios" step={step++} subtitle="Gratis">
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+              <div className="grid grid-cols-3 gap-3">
                 {([
                   { type: "none" as const, label: "Sin accesorio", icon: null },
                   { type: "note" as const, label: "Nota", icon: Type },
                   { type: "card" as const, label: "Tarjeta", icon: Sparkles },
-                  { type: "butterfly" as const, label: "Mariposas", icon: Bug },
                 ]).map(({ type: t, label, icon: Icon }) => (
                   <button key={t} onClick={() => setAccessory(t)}
                     className={`flex flex-col items-center gap-2 p-4 rounded-sm border-2 transition-all font-body text-sm ${accessory === t ? "border-primary bg-primary/5 text-primary" : "border-border text-muted-foreground hover:border-primary/30"}`}>
@@ -340,99 +321,7 @@ const BouquetProductDetail = () => {
               )}
             </Section>
 
-            {/* Vase */}
-            <Section title="Jarrón" step={step++} subtitle="Opcional">
-              <div className={`p-5 rounded-sm border-2 transition-all ${addVase ? "border-primary bg-primary/5" : "border-border"}`}>
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-3">
-                    <span className="text-xl">🏺</span>
-                    <div>
-                      <p className="font-body font-semibold text-foreground">Añadir Jarrón</p>
-                      <p className="text-xs text-muted-foreground font-body">Para poner tu ramo</p>
-                    </div>
-                  </div>
-                  <button onClick={() => {
-                    const newVal = !addVase;
-                    setAddVase(newVal);
-                    if (newVal) {
-                      const roses = bouquetSizeOptions[effectiveSizeIdx].roses;
-                      const bestIdx = roses <= 50 ? 0 : roses <= 75 ? 1 : 2;
-                      setSelectedVaseIdx(bestIdx);
-                    }
-                  }} className={`w-12 h-7 rounded-full transition-all relative ${addVase ? "bg-primary" : "bg-muted"}`}>
-                    <div className={`w-5 h-5 rounded-full bg-primary-foreground absolute top-1 transition-all ${addVase ? "left-6" : "left-1"}`} />
-                  </button>
-                </div>
-                {addVase && (
-                  <div className="mt-4 grid grid-cols-3 gap-3">
-                    {vaseOptions.map((v, idx) => (
-                      <button key={v.roses} onClick={() => setSelectedVaseIdx(idx)}
-                        className={`p-4 rounded-sm border-2 text-center transition-all ${selectedVaseIdx === idx ? "border-primary bg-primary/5" : "border-border hover:border-primary/30"}`}>
-                        <p className="font-display text-lg font-semibold text-foreground">{v.roses}</p>
-                        <p className="text-xs text-muted-foreground font-body">rosas</p>
-                        <p className="text-sm font-body font-semibold text-primary mt-1">${v.price}</p>
-                      </button>
-                    ))}
-                  </div>
-                )}
-              </div>
-            </Section>
 
-            {/* 5. Extras */}
-            <Section title="Extras" step={step++}>
-              {/* Crown */}
-              <div className={`p-5 rounded-sm border-2 transition-all mb-4 ${addCrown ? "border-primary bg-primary/5" : "border-border"}`}>
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-3">
-                    <Crown className="w-5 h-5 text-gold" />
-                    <div><p className="font-body font-semibold text-foreground">Corona Tiara</p><p className="text-xs text-muted-foreground font-body">+${crownPrice}</p></div>
-                  </div>
-                  <button onClick={() => setAddCrown(!addCrown)} className={`w-12 h-7 rounded-full transition-all relative ${addCrown ? "bg-primary" : "bg-muted"}`}>
-                    <div className={`w-5 h-5 rounded-full bg-primary-foreground absolute top-1 transition-all ${addCrown ? "left-6" : "left-1"}`} />
-                  </button>
-                </div>
-                {addCrown && (
-                  <div className="mt-4 flex gap-3">
-                    {crownOptions.map((c) => (
-                      <button key={c.size} onClick={() => setCrownSize(c.size)}
-                        className={`px-4 py-2 rounded-sm border-2 text-sm font-body transition-all ${crownSize === c.size ? "border-primary bg-primary/5" : "border-border"}`}>{c.label}</button>
-                    ))}
-                  </div>
-                )}
-              </div>
-              {/* Ribbon */}
-              <div className={`p-5 rounded-sm border-2 transition-all ${addRibbon ? "border-primary bg-primary/5" : "border-border"}`}>
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-3">
-                    <Sparkles className="w-5 h-5 text-gold" />
-                    <div><p className="font-body font-semibold text-foreground">Cinta Personalizada</p><p className="text-xs text-muted-foreground font-body">+${ribbonPrice}</p></div>
-                  </div>
-                  <button onClick={() => setAddRibbon(!addRibbon)} className={`w-12 h-7 rounded-full transition-all relative ${addRibbon ? "bg-primary" : "bg-muted"}`}>
-                    <div className={`w-5 h-5 rounded-full bg-primary-foreground absolute top-1 transition-all ${addRibbon ? "left-6" : "left-1"}`} />
-                  </button>
-                </div>
-                {addRibbon && (
-                  <div className="mt-4 space-y-4">
-                    <div className="flex gap-3">
-                      {(["names", "congratulations"] as const).map((t) => (
-                        <button key={t} onClick={() => setRibbonType(t)}
-                          className={`px-4 py-2 rounded-sm border-2 text-sm font-body transition-all ${ribbonType === t ? "border-primary bg-primary/5" : "border-border"}`}>
-                          {t === "names" ? "Nombres" : "Felicitaciones"}
-                        </button>
-                      ))}
-                    </div>
-                    <div className="flex flex-wrap gap-2">
-                      {ribbonPresets.map((preset) => (
-                        <button key={preset} onClick={() => setRibbonText(preset)}
-                          className={`px-3 py-1.5 rounded-full text-xs font-body transition-all ${ribbonText === preset ? "bg-primary text-primary-foreground" : "bg-muted text-muted-foreground hover:bg-primary/10"}`}>{preset}</button>
-                      ))}
-                    </div>
-                    <input type="text" value={ribbonText} onChange={(e) => setRibbonText(e.target.value)} placeholder="O escribe tu texto personalizado..."
-                      className="w-full bg-card border border-border rounded-sm px-4 py-3 font-body text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30" maxLength={50} />
-                  </div>
-                )}
-              </div>
-            </Section>
 
             {/* 6. Delivery */}
             <Section title="Envío" step={step++}>
@@ -539,9 +428,8 @@ const BouquetProductDetail = () => {
                 <div className="flex md:hidden justify-between items-start gap-4">
                   <p className="font-body text-xs text-muted-foreground leading-tight flex-1">
                     {product.name} · {selectedSize.roses} rosas
-                    {addCrown && " · Corona"}{addRibbon && " · Cinta"}{addGlitter && " · Brillos"}{addVase && ` · Jarrón (${vaseOptions[selectedVaseIdx].label})`}
-                    {(addLetters || addNumbers) && specialText && ` · ${specialText}`}
-                    {accessory !== "none" && ` · ${accessory === "note" ? "Nota" : accessory === "card" ? "Tarjeta" : "Mariposas"}`}
+                    {addGlitter && " · Glitter"}
+                    {accessory !== "none" && ` · ${accessory === "note" ? "Nota" : "Tarjeta"}`}
                     {deliveryMethod === "delivery" ? (deliveryMiles && !distanceTooFar ? ` · Envío ($${deliveryCost})` : " · Envío (pdte)") : " · Recogida"}
                   </p>
                   <p className="font-display text-xl font-bold text-foreground whitespace-nowrap">
@@ -553,9 +441,8 @@ const BouquetProductDetail = () => {
                 <div className="hidden md:block flex-1 pr-4">
                   <p className="font-body text-xs text-muted-foreground leading-tight">
                     {product.name} · {selectedSize.roses} rosas
-                    {addCrown && " · Corona"}{addRibbon && " · Cinta"}{addGlitter && " · Brillos"}{addVase && ` · Jarrón (${vaseOptions[selectedVaseIdx].label})`}
-                    {(addLetters || addNumbers) && specialText && ` · ${specialText}`}
-                    {accessory !== "none" && ` · ${accessory === "note" ? "Nota" : accessory === "card" ? "Tarjeta" : "Mariposas"}`}
+                    {addGlitter && " · Glitter"}
+                    {accessory !== "none" && ` · ${accessory === "note" ? "Nota" : "Tarjeta"}`}
                     {deliveryMethod === "delivery" ? (deliveryMiles && !distanceTooFar ? ` · Envío ($${deliveryCost})` : " · Envío (pendiente)") : " · Recogida"}
                   </p>
                 </div>
