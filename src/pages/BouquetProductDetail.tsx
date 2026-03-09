@@ -445,9 +445,8 @@ const BouquetProductDetail = () => {
                 <div className="hidden md:block flex-1 pr-4">
                   <p className="font-body text-xs text-muted-foreground leading-tight">
                     {product.name} · {selectedSize.roses} rosas
-                    {addCrown && " · Corona"}{addRibbon && " · Cinta"}{addGlitter && " · Brillos"}{addVase && ` · Jarrón (${vaseOptions[selectedVaseIdx].label})`}
-                    {(addLetters || addNumbers) && specialText && ` · ${specialText}`}
-                    {accessory !== "none" && ` · ${accessory === "note" ? "Nota" : accessory === "card" ? "Tarjeta" : "Mariposas"}`}
+                    {addGlitter && " · Glitter"}
+                    {accessory !== "none" && ` · ${accessory === "note" ? "Nota" : "Tarjeta"}`}
                     {deliveryMethod === "delivery" ? (deliveryMiles && !distanceTooFar ? ` · Envío ($${deliveryCost})` : " · Envío (pendiente)") : " · Recogida"}
                   </p>
                 </div>
