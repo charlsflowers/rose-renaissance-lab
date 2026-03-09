@@ -90,6 +90,27 @@ const BouquetProducts = () => {
           </div>
         </div>
       </div>
+
+      {/* CTA Personalizar */}
+      <section className="py-20 bg-primary">
+        <div className="container mx-auto px-6 text-center">
+          <h2 className="font-display text-3xl md:text-4xl font-semibold text-primary-foreground mb-4">¿No encuentras lo que buscas?</h2>
+          <p className="text-primary-foreground/80 font-body mb-8 max-w-md mx-auto">Personaliza cada detalle: color, tamaño, accesorios y más. Desde $76 USD.</p>
+          <Link to="/bouquets/personalizar"
+            className="inline-flex items-center gap-3 bg-background text-foreground px-8 py-4 font-body text-sm tracking-widest uppercase hover:bg-background/90 transition-colors rounded-sm">
+            Personalizar ahora <ArrowRight className="w-4 h-4" />
+          </Link>
+        </div>
+      </section>
+
+      {/* Footer */}
+      <footer className="py-12 bg-foreground">
+        <div className="container mx-auto px-6 text-center">
+          <Flower2 className="w-6 h-6 text-primary mx-auto mb-3 fill-primary" />
+          <p className="font-display text-lg text-primary-foreground mb-2">Charl's Flowers</p>
+          <p className="text-primary-foreground/50 font-body text-xs tracking-widest uppercase">Ramos hechos a mano con flores frescas</p>
+        </div>
+      </footer>
     </div>
   );
 };
