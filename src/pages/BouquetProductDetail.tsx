@@ -286,7 +286,7 @@ const BouquetProductDetail = () => {
             </Section>
 
             {/* 2. Glitter */}
-            <Section title="Acabado Brillante" step={step++} subtitle={`+$${Math.ceil(selectedSize.roses / 25) * 8}`}>
+            <Section title="Acabado Glitter" step={step++} subtitle={`+$${Math.ceil(selectedSize.roses / 25) * 8}`}>
               <button onClick={() => setAddGlitter(!addGlitter)}
                 className={`relative w-full p-6 rounded-sm border-2 transition-all overflow-hidden ${addGlitter ? "border-primary bg-primary/5" : "border-border hover:border-primary/30"}`}>
                 <div className="flex items-center gap-4 relative z-10">
