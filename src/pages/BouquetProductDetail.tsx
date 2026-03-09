@@ -156,11 +156,7 @@ const BouquetProductDetail = () => {
     if (!deliveryDate || !deliveryHour) { toast.error("Selecciona fecha y hora."); return false; }
 
     const addons: string[] = [];
-    if (addCrown) addons.push(`Corona Tiara (${crownSize})`);
-    if (addRibbon) addons.push("Cinta");
-    if (addGlitter) addons.push("Brillos");
-    if (addLetters || addNumbers) addons.push(`Texto: ${specialText}`);
-    if (addVase) addons.push(`Jarrón (${vaseOptions[selectedVaseIdx].label})`);
+    if (addGlitter) addons.push("Glitter");
 
     addItem({
       id: "",
