@@ -300,25 +300,8 @@ const BouquetProductDetail = () => {
               </button>
             </Section>
 
-            {/* 3. Letters/Numbers */}
-            <Section title="Letras o Números (Baby Breath)" step={step++} subtitle={`+$${letterNumberExtraPrice} c/u`}>
-              <div className="flex gap-3 mb-4">
-                <button onClick={() => { setAddLetters(!addLetters); if (addNumbers) setAddNumbers(false); setSpecialText(""); }}
-                  className={`flex items-center gap-2 px-4 py-3 rounded-sm border-2 font-body text-sm transition-all ${addLetters ? "border-primary bg-primary/5 text-primary" : "border-border text-muted-foreground hover:border-primary/30"}`}>
-                  <Type className="w-4 h-4" /> Letras
-                </button>
-                <button onClick={() => { setAddNumbers(!addNumbers); if (addLetters) setAddLetters(false); setSpecialText(""); }}
-                  className={`flex items-center gap-2 px-4 py-3 rounded-sm border-2 font-body text-sm transition-all ${addNumbers ? "border-primary bg-primary/5 text-primary" : "border-border text-muted-foreground hover:border-primary/30"}`}>
-                  <Hash className="w-4 h-4" /> Números
-                </button>
-              </div>
-              {(addLetters || addNumbers) && (
-                <input type="text" value={specialText}
-                  onChange={(e) => setSpecialText(addNumbers ? e.target.value.replace(/[^0-9]/g, "") : e.target.value.toUpperCase().replace(/[^A-Z]/g, ""))}
-                  placeholder={addLetters ? "Ej: LOVE" : "Ej: 25"}
-                  className="w-full max-w-xs bg-card border border-border rounded-sm px-4 py-3 font-body text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30" maxLength={10} />
-              )}
-            </Section>
+            {/* Letters/Numbers - only for custom bouquets */}
+
 
             {/* 4. Accessories */}
             <Section title="Accesorios" step={step++} subtitle="Gratis">
