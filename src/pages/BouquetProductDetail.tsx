@@ -432,9 +432,8 @@ const BouquetProductDetail = () => {
                 <div className="flex md:hidden justify-between items-start gap-4">
                   <p className="font-body text-xs text-muted-foreground leading-tight flex-1">
                     {product.name} · {selectedSize.roses} rosas
-                    {addCrown && " · Corona"}{addRibbon && " · Cinta"}{addGlitter && " · Brillos"}{addVase && ` · Jarrón (${vaseOptions[selectedVaseIdx].label})`}
-                    {(addLetters || addNumbers) && specialText && ` · ${specialText}`}
-                    {accessory !== "none" && ` · ${accessory === "note" ? "Nota" : accessory === "card" ? "Tarjeta" : "Mariposas"}`}
+                    {addGlitter && " · Glitter"}
+                    {accessory !== "none" && ` · ${accessory === "note" ? "Nota" : "Tarjeta"}`}
                     {deliveryMethod === "delivery" ? (deliveryMiles && !distanceTooFar ? ` · Envío ($${deliveryCost})` : " · Envío (pdte)") : " · Recogida"}
                   </p>
                   <p className="font-display text-xl font-bold text-foreground whitespace-nowrap">
