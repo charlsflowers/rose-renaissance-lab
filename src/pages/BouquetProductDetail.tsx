@@ -11,6 +11,7 @@ import PaperColorPicker from "@/components/PaperColorPicker"; // keep import but
 import { bouquetProducts, bouquetSizeOptions } from "@/lib/catalogData";
 import {
   crownOptions, ribbonPresets, crownPrice, ribbonPrice, letterNumberExtraPrice, vaseOptions, getPrice,
+// Note: crown, ribbon, letters, vase are used for custom bouquets only; standard bouquets won't show them
 } from "@/lib/productData";
 import {
   ArrowLeft, Check, Store, Truck, CalendarIcon, Clock, MapPin, Search, Loader2,
