@@ -305,12 +305,11 @@ const BouquetProductDetail = () => {
 
             {/* 4. Accessories */}
             <Section title="Accesorios" step={step++} subtitle="Gratis">
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+              <div className="grid grid-cols-3 gap-3">
                 {([
                   { type: "none" as const, label: "Sin accesorio", icon: null },
                   { type: "note" as const, label: "Nota", icon: Type },
                   { type: "card" as const, label: "Tarjeta", icon: Sparkles },
-                  { type: "butterfly" as const, label: "Mariposas", icon: Bug },
                 ]).map(({ type: t, label, icon: Icon }) => (
                   <button key={t} onClick={() => setAccessory(t)}
                     className={`flex flex-col items-center gap-2 p-4 rounded-sm border-2 transition-all font-body text-sm ${accessory === t ? "border-primary bg-primary/5 text-primary" : "border-border text-muted-foreground hover:border-primary/30"}`}>
