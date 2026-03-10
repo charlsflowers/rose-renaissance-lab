@@ -6,6 +6,13 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import VideoOrderDialog from "@/components/VideoOrderDialog";
 
+// Product images for cart
+import bqRojoImg from '@/assets/bq-rojo.png';
+import bqLightpinkImg from '@/assets/bq-lightpink.png';
+import bqMoradoImg from '@/assets/bq-morado.png';
+import bqBlancoImg from '@/assets/bq-blanco.png';
+import bqMixLightpinkBlancoImg from '@/assets/bq-mix-lightpink-blanco.png';
+
 export interface VideoProduct {
   id: number;
   title: string;
@@ -17,22 +24,23 @@ export interface VideoProduct {
   glitter?: boolean;
   paperColor?: string;
   basePrice: number;
+  productImage?: string;
 }
 
 const videoProducts: VideoProduct[] = [
-  { id: 2, title: "Surprise delivery", src: "/videos/video_2.mp4", roses: 100, color: "Rojo", basePrice: 196 },
-  { id: 4, title: "Anniversary love", src: "/videos/video_4.mp4", roses: 100, color: "Rojo", basePrice: 196 },
-  { id: 5, title: "Pink elegance", src: "/videos/video_5.mp4", roses: 200, color: "Pink", basePrice: 301 },
-  { id: 6, title: "Red & black passion", src: "/videos/video_6.mov", roses: 75, color: "Rojo", basePrice: 146, paperColor: "Negro", hasCustomText: true, customFields: [{ label: "Letter (1 character)", placeholder: "e.g. M" }] },
-  { id: 7, title: "Personalized detail", src: "/videos/video_7.mov", roses: 75, color: "Rojo", basePrice: 146, paperColor: "Blanco", hasCustomText: true, customFields: [{ label: "Letter (1 character)", placeholder: "e.g. A" }, { label: "Ribbon text", placeholder: "e.g. Happy Birthday" }] },
-  { id: 8, title: "Glitter sparkle", src: "/videos/video_8.mov", roses: 75, color: "Rojo", basePrice: 146, paperColor: "Negro", glitter: true, hasCustomText: true, customFields: [{ label: "Numbers (2 digits)", placeholder: "e.g. 25" }] },
-  { id: 9, title: "Pink glitter", src: "/videos/video_9.mov", roses: 100, color: "Pink", basePrice: 136, paperColor: "Blanco", glitter: true },
-  { id: 10, title: "Personalized tenderness", src: "/videos/video_10.mov", roses: 100, color: "Pink", basePrice: 136, paperColor: "Blanco", hasCustomText: true, customFields: [{ label: "Letter (1 character)", placeholder: "e.g. P" }, { label: "Ribbon text", placeholder: "e.g. I Love You" }] },
-  { id: 11, title: "Purple dedication", src: "/videos/video_11.mov", roses: 100, color: "Morado", basePrice: 136, paperColor: "Blanco", hasCustomText: true, customFields: [{ label: "Letter (1 character)", placeholder: "e.g. L" }, { label: "Ribbon text", placeholder: "e.g. Congratulations" }] },
-  { id: 12, title: "Intense classic red", src: "/videos/video_12.mov", roses: 100, color: "Rojo", basePrice: 196, paperColor: "Negro", hasCustomText: true, customFields: [{ label: "Letter (1 character)", placeholder: "e.g. R" }] },
-  { id: 13, title: "Special date", src: "/videos/video_13.mov", roses: 100, color: "Rojo", basePrice: 196, paperColor: "Blanco", hasCustomText: true, customFields: [{ label: "Numbers (2 digits)", placeholder: "e.g. 15" }] },
-  { id: 14, title: "Grand celebration", src: "/videos/video_14.mov", roses: 125, color: "Rojo", basePrice: 276, paperColor: "Blanco", hasCustomText: true, customFields: [{ label: "Numbers (2 digits)", placeholder: "e.g. 30" }] },
-  { id: 15, title: "White & pink fantasy", src: "/videos/video_15.mov", roses: 200, color: "Blanco, Pink", basePrice: 301, paperColor: "Rosa Light", glitter: true, hasCustomText: true, customFields: [{ label: "Ribbon text", placeholder: "e.g. Happy Anniversary" }] },
+  { id: 2, title: "Surprise delivery", src: "/videos/video_2.mp4", roses: 100, color: "Rojo", basePrice: 196, productImage: bqRojoImg },
+  { id: 4, title: "Anniversary love", src: "/videos/video_4.mp4", roses: 100, color: "Rojo", basePrice: 196, productImage: bqRojoImg },
+  { id: 5, title: "Pink elegance", src: "/videos/video_5.mp4", roses: 200, color: "Pink", basePrice: 301, productImage: bqLightpinkImg },
+  { id: 6, title: "Red & black passion", src: "/videos/video_6.mov", roses: 75, color: "Rojo", basePrice: 146, paperColor: "Black", hasCustomText: true, customFields: [{ label: "Letter (1 character)", placeholder: "e.g. M" }], productImage: bqRojoImg },
+  { id: 7, title: "Personalized detail", src: "/videos/video_7.mov", roses: 75, color: "Rojo", basePrice: 146, paperColor: "White", hasCustomText: true, customFields: [{ label: "Letter (1 character)", placeholder: "e.g. A" }, { label: "Ribbon text", placeholder: "e.g. Happy Birthday" }], productImage: bqRojoImg },
+  { id: 8, title: "Glitter sparkle", src: "/videos/video_8.mov", roses: 75, color: "Rojo", basePrice: 146, paperColor: "Black", glitter: true, hasCustomText: true, customFields: [{ label: "Numbers (2 digits)", placeholder: "e.g. 25" }], productImage: bqRojoImg },
+  { id: 9, title: "Pink glitter", src: "/videos/video_9.mov", roses: 100, color: "Pink", basePrice: 136, paperColor: "White", glitter: true, productImage: bqLightpinkImg },
+  { id: 10, title: "Personalized tenderness", src: "/videos/video_10.mov", roses: 100, color: "Pink", basePrice: 136, paperColor: "White", hasCustomText: true, customFields: [{ label: "Letter (1 character)", placeholder: "e.g. P" }, { label: "Ribbon text", placeholder: "e.g. I Love You" }], productImage: bqLightpinkImg },
+  { id: 11, title: "Purple dedication", src: "/videos/video_11.mov", roses: 100, color: "Morado", basePrice: 136, paperColor: "White", hasCustomText: true, customFields: [{ label: "Letter (1 character)", placeholder: "e.g. L" }, { label: "Ribbon text", placeholder: "e.g. Congratulations" }], productImage: bqMoradoImg },
+  { id: 12, title: "Intense classic red", src: "/videos/video_12.mov", roses: 100, color: "Rojo", basePrice: 196, paperColor: "Black", hasCustomText: true, customFields: [{ label: "Letter (1 character)", placeholder: "e.g. R" }], productImage: bqRojoImg },
+  { id: 13, title: "Special date", src: "/videos/video_13.mov", roses: 100, color: "Rojo", basePrice: 196, paperColor: "White", hasCustomText: true, customFields: [{ label: "Numbers (2 digits)", placeholder: "e.g. 15" }], productImage: bqRojoImg },
+  { id: 14, title: "Grand celebration", src: "/videos/video_14.mov", roses: 125, color: "Rojo", basePrice: 276, paperColor: "White", hasCustomText: true, customFields: [{ label: "Numbers (2 digits)", placeholder: "e.g. 30" }], productImage: bqRojoImg },
+  { id: 15, title: "White & pink fantasy", src: "/videos/video_15.mov", roses: 200, color: "Blanco, Pink", basePrice: 301, paperColor: "Light Pink", glitter: true, hasCustomText: true, customFields: [{ label: "Ribbon text", placeholder: "e.g. Happy Anniversary" }], productImage: bqMixLightpinkBlancoImg },
 ];
 
 const VideoCard = ({ video, index, onOrder }: { video: VideoProduct; index: number; onOrder: (v: VideoProduct) => void }) => {

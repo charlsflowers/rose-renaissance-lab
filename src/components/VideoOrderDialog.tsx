@@ -81,7 +81,8 @@ const VideoOrderDialog = ({ video, open, onOpenChange }: Props) => {
       deliveryDate: "",
       deliveryHour: "",
       deliveryMiles: null,
-      paperColor: video.paperColor || "Blanco",
+      paperColor: video.paperColor || "White",
+      image: video.productImage,
     };
 
     addItem(item);
