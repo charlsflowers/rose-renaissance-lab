@@ -393,12 +393,12 @@ const BouquetBuilder = () => {
                 <div className="flex items-center gap-4 relative z-10">
                   <Star className={`w-6 h-6 transition-colors ${addGlitter ? "text-yellow-400 fill-yellow-400" : "text-muted-foreground"}`} />
                   <div className="text-left">
-                    <p className="font-body font-semibold text-foreground">
-                      ✨ Acabado Glitter ✨
-                    </p>
-                    <p className="text-xs text-muted-foreground font-body">
-                      $8 por cada 25 rosas · <span className="text-primary font-semibold">+${glitterCost}</span> para {rosesCount} rosas
-                    </p>
+                     <p className="font-body font-semibold text-foreground">
+                       ✨ Glitter Finish ✨
+                     </p>
+                     <p className="text-xs text-muted-foreground font-body">
+                       $8 per 25 roses · <span className="text-primary font-semibold">+${glitterCost}</span> for {rosesCount} roses
+                     </p>
                   </div>
                   {addGlitter && (
                     <Check className="w-5 h-5 text-primary ml-auto" />
