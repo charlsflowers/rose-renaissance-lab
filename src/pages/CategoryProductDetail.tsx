@@ -145,7 +145,7 @@ const CategoryProductDetail = () => {
       deliveryName: "",
       deliveryPhone: "",
       deliveryEmail: "",
-      deliveryAddress: deliveryMethod === "delivery" ? selectedAddress : "Recoger en tienda",
+      deliveryAddress: deliveryMethod === "delivery" ? selectedAddress : "Store pickup",
       deliveryZip: deliveryMethod === "delivery" ? deliveryZip : "",
       deliveryDate: deliveryDate ? format(deliveryDate, "PPP", { locale: es }) : "",
       deliveryHour,
