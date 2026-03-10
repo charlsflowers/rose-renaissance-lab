@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { ArrowRight, Heart, Sparkles, Flower2, Star } from "lucide-react";
+import { ArrowRight, Heart, Sparkles, Flower2, Star, Lock, Store, Truck, Globe } from "lucide-react";
 import ReviewCard from "@/components/ReviewCard";
 import type { ReviewCategory } from "@/components/ReviewCard";
 import ReviewFilters from "@/components/ReviewFilters";
@@ -16,6 +16,8 @@ import jarronesImg from "@/assets/jarrones.jpg";
 import ososImg from "@/assets/osos.jpg";
 import heartBouquet from "@/assets/heart-bouquet.jpg";
 import purezaBlancaImg from "@/assets/bq-blanco.png";
+
+const comingSoonSlugs = ["arreglos", "cajas", "cestas", "jarrones", "osos"];
 
 
 const Index = () => {
