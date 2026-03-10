@@ -323,8 +323,8 @@ const CategoryProductDetail = () => {
                 <div>
                   <p className="font-body text-sm text-muted-foreground">
                     {product.name} · {selectedSize.label}
-                    {addNote && " · Nota"}{addCard && " · Tarjeta"}
-                    {deliveryMethod === "delivery" ? (deliveryMiles && !distanceTooFar ? ` · Envío ($${deliveryCost})` : " · Envío (pendiente)") : " · Recogida"}
+                    {addNote && " · Note"}{addCard && " · Card"}
+                    {deliveryMethod === "delivery" ? (deliveryMiles && !distanceTooFar ? ` · Shipping ($${deliveryCost})` : " · Shipping (pending)") : " · Pickup"}
                   </p>
                   <p className="font-display text-3xl font-bold text-foreground">${totalPrice} <span className="text-sm font-body text-muted-foreground font-normal">USD</span></p>
                 </div>
