@@ -270,7 +270,7 @@ const BouquetBuilder = () => {
             <div className="relative overflow-hidden rounded-sm aspect-[16/9] mb-2">
               <img
                 src={heroBouquet}
-                alt="Bouquet personalizado"
+                alt="Custom bouquet"
                 className="w-full h-full object-cover"
               />
             </div>
