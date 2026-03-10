@@ -69,6 +69,26 @@ const Index = () => {
         </div>
       </section>
 
+      {/* Shipping Options Bar */}
+      <section className="py-6 md:py-8 bg-card border-b border-border">
+        <div className="container mx-auto px-6">
+          <div className="grid grid-cols-3 gap-3 md:gap-6 max-w-3xl mx-auto">
+            <div className="flex flex-col items-center gap-2 py-4 px-2 bg-background rounded-sm border border-border">
+              <Store className="w-6 h-6 md:w-7 md:h-7 text-foreground" />
+              <span className="font-body text-[10px] md:text-xs tracking-wider text-foreground text-center">Recogida en tienda</span>
+            </div>
+            <div className="flex flex-col items-center gap-2 py-4 px-2 bg-background rounded-sm border border-border">
+              <Truck className="w-6 h-6 md:w-7 md:h-7 text-foreground" />
+              <span className="font-body text-[10px] md:text-xs tracking-wider text-foreground text-center">Entrega a domicilio</span>
+            </div>
+            <div className="flex flex-col items-center gap-2 py-4 px-2 bg-primary rounded-sm">
+              <Globe className="w-6 h-6 md:w-7 md:h-7 text-primary-foreground" />
+              <span className="font-body text-[10px] md:text-xs tracking-wider text-primary-foreground text-center">Envío nacional</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Categories */}
       <section className="py-16 md:py-20 bg-background">
         <div className="container mx-auto px-6">
@@ -77,17 +97,35 @@ const Index = () => {
           </motion.div>
 
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-7 gap-5">
-            {categories.map((item, i) => (
-              <motion.div key={item.title} initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5, delay: i * 0.1 }}>
-                <Link to={item.isRoute ? `/${item.slug}` : `/categoria/${item.slug}`} className="group block">
-                  <div className="relative overflow-hidden rounded-sm mb-4 aspect-square">
-                    <img src={item.img} alt={item.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
-                    <div className="absolute inset-0 bg-foreground/10 group-hover:bg-foreground/25 transition-colors" />
-                  </div>
-                  <h3 className="font-display text-lg font-semibold text-foreground text-center uppercase tracking-wide">{item.title}</h3>
-                </Link>
-              </motion.div>
-            ))}
+            {categories.map((item, i) => {
+              const isComingSoon = comingSoonSlugs.includes(item.slug);
+              return (
+                <motion.div key={item.title} initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5, delay: i * 0.1 }}>
+                  {isComingSoon ? (
+                    <div className="block opacity-50 cursor-not-allowed">
+                      <div className="relative overflow-hidden rounded-sm mb-4 aspect-square">
+                        <img src={item.img} alt={item.title} className="w-full h-full object-cover grayscale" />
+                        <div className="absolute inset-0 bg-foreground/30 flex items-center justify-center">
+                          <div className="bg-foreground/70 px-3 py-1.5 rounded-sm flex items-center gap-1.5">
+                            <Lock className="w-3.5 h-3.5 text-primary-foreground" />
+                            <span className="font-body text-[10px] text-primary-foreground tracking-widest uppercase">Coming Soon</span>
+                          </div>
+                        </div>
+                      </div>
+                      <h3 className="font-display text-lg font-semibold text-muted-foreground text-center uppercase tracking-wide">{item.title}</h3>
+                    </div>
+                  ) : (
+                    <Link to={item.isRoute ? `/${item.slug}` : `/categoria/${item.slug}`} className="group block">
+                      <div className="relative overflow-hidden rounded-sm mb-4 aspect-square">
+                        <img src={item.img} alt={item.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
+                        <div className="absolute inset-0 bg-foreground/10 group-hover:bg-foreground/25 transition-colors" />
+                      </div>
+                      <h3 className="font-display text-lg font-semibold text-foreground text-center uppercase tracking-wide">{item.title}</h3>
+                    </Link>
+                  )}
+                </motion.div>
+              );
+            })}
           </div>
         </div>
       </section>

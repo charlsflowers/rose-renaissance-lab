@@ -371,7 +371,7 @@ const BouquetBuilder = () => {
             </Section>
 
             {/* 3. Glitter */}
-            <Section title="Acabado Brillante" step={4}>
+            <Section title="Acabado Glitter" step={4}>
               <button
                 onClick={() => setAddGlitter(!addGlitter)}
                 className={`relative w-full p-6 rounded-sm border-2 transition-all overflow-hidden ${
@@ -394,7 +394,7 @@ const BouquetBuilder = () => {
                   <Star className={`w-6 h-6 transition-colors ${addGlitter ? "text-yellow-400 fill-yellow-400" : "text-muted-foreground"}`} />
                   <div className="text-left">
                     <p className="font-body font-semibold text-foreground">
-                      ✨ Añadir Brillos ✨
+                      ✨ Acabado Glitter ✨
                     </p>
                     <p className="text-xs text-muted-foreground font-body">
                       $8 por cada 25 rosas · <span className="text-primary font-semibold">+${glitterCost}</span> para {rosesCount} rosas
