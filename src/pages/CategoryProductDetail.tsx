@@ -204,7 +204,7 @@ const CategoryProductDetail = () => {
                 <button onClick={() => { setAddCard(!addCard); if (!addCard) setAddNote(false); }}
                   className={`flex items-center justify-center gap-3 p-4 rounded-sm border-2 transition-all font-body text-sm ${addCard ? "border-primary bg-primary/5 text-primary" : "border-border text-muted-foreground hover:border-primary/30"}`}>
                   <Sparkles className="w-4 h-4" />
-                  <span>Tarjeta</span>
+                  <span>Card</span>
                   {addCard && <Check className="w-4 h-4 ml-auto" />}
                 </button>
               </div>
