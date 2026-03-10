@@ -287,7 +287,7 @@ const CategoryProductDetail = () => {
               {/* Date */}
               <div className="mb-4">
                 <label className="text-sm font-body font-semibold text-foreground block mb-2">
-                  <CalendarIcon className="w-4 h-4 inline mr-1" /> Fecha
+                  <CalendarIcon className="w-4 h-4 inline mr-1" /> Date
                 </label>
                 <Popover>
                   <PopoverTrigger asChild>
