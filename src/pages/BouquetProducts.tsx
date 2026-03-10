@@ -5,7 +5,9 @@ import { bouquetProducts, bouquetSizeOptions } from "@/lib/catalogData";
 import { getPrice } from "@/lib/productData";
 import { ArrowLeft, ArrowRight, Sparkles, Flower2 } from "lucide-react";
 
-type FilterType = "un-color" | "mezclas";
+import { Lock } from "lucide-react";
+
+type FilterType = "un-color" | "mezclas" | "aniversarios";
 
 const BouquetProducts = () => {
   const [filter, setFilter] = useState<FilterType>("un-color");
@@ -13,7 +15,6 @@ const BouquetProducts = () => {
   useEffect(() => { window.scrollTo(0, 0); }, []);
 
   const filteredProducts = bouquetProducts.filter((product) => {
-    // Check both "y" and "," and " y " to be sure it captures all mixes
     const isMix = product.color.includes(" y ") || product.color.includes(", ") || product.color.includes(" y");
     return filter === "mezclas" ? isMix : !isMix;
   });
@@ -37,19 +38,25 @@ const BouquetProducts = () => {
 
           <div className="flex justify-center gap-3 mb-12">
             {([
-              { key: "un-color", label: "Un solo color" },
-              { key: "mezclas", label: "Mezclas" },
-            ] as { key: FilterType; label: string }[]).map(({ key, label }) => (
+              { key: "un-color", label: "Un solo color", locked: false },
+              { key: "mezclas", label: "Mezclas", locked: false },
+              { key: "aniversarios", label: "Aniversarios", locked: true },
+            ] as { key: FilterType; label: string; locked: boolean }[]).map(({ key, label, locked }) => (
               <button
                 key={key}
-                onClick={() => setFilter(key)}
-                className={`px-5 py-2 rounded-full font-body text-sm transition-all ${
-                  filter === key
-                    ? "bg-primary text-primary-foreground shadow-sm"
-                    : "bg-muted text-muted-foreground hover:bg-accent"
+                onClick={() => !locked && setFilter(key)}
+                disabled={locked}
+                className={`px-5 py-2 rounded-full font-body text-sm transition-all inline-flex items-center gap-1.5 ${
+                  locked
+                    ? "bg-muted text-muted-foreground/50 cursor-not-allowed"
+                    : filter === key
+                      ? "bg-primary text-primary-foreground shadow-sm"
+                      : "bg-muted text-muted-foreground hover:bg-accent"
                 }`}
               >
+                {locked && <Lock className="w-3 h-3" />}
                 {label}
+                {locked && <span className="text-[9px] uppercase tracking-wider ml-0.5">Soon</span>}
               </button>
             ))}
           </div>
