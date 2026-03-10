@@ -515,9 +515,6 @@ const BouquetBuilder = () => {
               <div className="grid grid-cols-3 gap-3">
                 {vaseOptions.map((v) => (
                   <div key={v.roses} className="flex flex-col items-center gap-2 p-4 rounded-sm border-2 border-border">
-                    <div className="w-16 h-16 rounded-sm bg-muted flex items-center justify-center">
-                      <span className="text-[10px] text-muted-foreground text-center leading-tight font-body">Coming soon</span>
-                    </div>
                     <p className="font-display text-lg font-semibold text-foreground">{v.roses}</p>
                     <p className="text-xs text-muted-foreground font-body">roses</p>
                     <p className="text-sm font-body font-semibold text-primary">${v.price}</p>
@@ -531,9 +528,6 @@ const BouquetBuilder = () => {
               <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
                 {/* Crown */}
                 <div className="flex flex-col items-center gap-2 p-4 rounded-sm border-2 border-border">
-                  <div className="w-16 h-16 rounded-sm bg-muted flex items-center justify-center">
-                    <span className="text-[10px] text-muted-foreground text-center leading-tight font-body">Coming soon</span>
-                  </div>
                   <Crown className="w-5 h-5 text-gold" />
                   <p className="font-body font-semibold text-foreground text-sm text-center">Crown Tiara</p>
                   <p className="text-xs text-muted-foreground font-body">+${crownPrice}</p>
@@ -541,9 +535,6 @@ const BouquetBuilder = () => {
 
                 {/* Ribbon */}
                 <div className="flex flex-col items-center gap-2 p-4 rounded-sm border-2 border-border">
-                  <div className="w-16 h-16 rounded-sm bg-muted flex items-center justify-center">
-                    <span className="text-[10px] text-muted-foreground text-center leading-tight font-body">Coming soon</span>
-                  </div>
                   <Sparkles className="w-5 h-5 text-gold" />
                   <p className="font-body font-semibold text-foreground text-sm text-center">Custom Ribbon</p>
                   <p className="text-xs text-muted-foreground font-body">+${ribbonPrice}</p>
