@@ -459,7 +459,7 @@ const BouquetProductDetail = () => {
                     </button>
                     <button onClick={handlePayNow}
                       className="flex-1 md:flex-none border-2 border-primary text-primary px-6 py-3 font-body text-xs tracking-widest uppercase hover:bg-primary/10 transition-colors rounded-sm whitespace-nowrap">
-                      Pagar ahora
+                      Pay now
                     </button>
                   </div>
                 </div>
