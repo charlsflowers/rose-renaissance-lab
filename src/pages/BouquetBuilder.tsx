@@ -759,7 +759,7 @@ const BouquetBuilder = () => {
                   </p>
                 ) : (
                   <>
-                <p className="font-body font-semibold text-foreground text-sm">Dirección de entrega</p>
+                <p className="font-body font-semibold text-foreground text-sm">Delivery address</p>
 
                 {deliveryMethod === "delivery" && (
                   <>
