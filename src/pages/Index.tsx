@@ -29,6 +29,7 @@ const Index = () => {
     { img: cestasImg, title: "Baskets", slug: "cestas" },
     { img: jarronesImg, title: "Vases", slug: "jarrones" },
     { img: ososImg, title: "Bears", slug: "osos" },
+    { img: roomDecorImg, title: "Room Decors", slug: "room-decors" },
   ];
 
   return (
