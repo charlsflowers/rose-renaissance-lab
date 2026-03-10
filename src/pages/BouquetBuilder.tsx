@@ -940,7 +940,7 @@ const BouquetBuilder = () => {
                       return;
                     }
                     if (deliveryMethod === "delivery" && (distanceTooFar || deliveryMiles === null)) {
-                      toast.error("La dirección no es válida o está fuera de rango.");
+                      toast.error("The address is invalid or out of range.");
                       return;
                     }
                     if (!deliveryDate || !deliveryHour) {
