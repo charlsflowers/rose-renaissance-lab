@@ -99,7 +99,7 @@ const BouquetProductDetail = () => {
         if (error) throw new Error("Error de conexión");
         if (data.error) { setDistanceError(data.error); if (data.tooFar) { setDistanceTooFar(true); setDeliveryMiles(data.miles); } }
         else { setDeliveryMiles(data.miles); setDeliveryDuration(data.duration); if (data.mapUrl) setMapUrl(data.mapUrl); }
-      } catch (e: any) { setDistanceError(e.message || "Error al calcular distancia"); }
+      } catch (e: any) { setDistanceError(e.message || "Error calculating distance"); }
       finally { setDistanceLoading(false); }
     })();
   }, []);
