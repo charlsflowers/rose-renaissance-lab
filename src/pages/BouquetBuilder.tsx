@@ -427,7 +427,7 @@ const BouquetBuilder = () => {
                   >
                     {Icon && <Icon className="w-4 h-4" />}
                     {label}
-                    <span className="text-xs text-secondary">Gratis</span>
+                    <span className="text-xs text-secondary">Free</span>
                   </button>
                 ))}
               </div>
