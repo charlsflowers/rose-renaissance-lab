@@ -152,47 +152,62 @@ const BouquetProductDetail = () => {
 
   let step = 1;
 
-  const handleAddToCart = (): boolean => {
+  const handleAddToCart = async (): Promise<boolean> => {
     if (deliveryMethod === "delivery" && !selectedAddress) { toast.error("Please select a delivery address."); return false; }
     if (deliveryMethod === "delivery" && (distanceTooFar || deliveryMiles === null)) { toast.error("The address is invalid or out of range."); return false; }
     if (!deliveryDate || !deliveryHour) { toast.error("Please select a date and time."); return false; }
 
-    const addons: string[] = [];
-    if (addGlitter) addons.push("Glitter");
+    setIsAdding(true);
+    try {
+      const variant = await resolveVariantId(product.pricingTier, selectedSize.roses);
+      if (!variant) {
+        toast.error("Could not resolve product variant. Please try again.");
+        return false;
+      }
 
-    addItem({
-      id: "",
-      bouquetType: product.type === "heart" ? "heart" : "classic",
-      color: product.color,
-      roses: selectedSize.roses,
-      price: basePrice,
-      deliveryCost,
-      totalPrice,
-      addons,
-      accessory,
-      accessoryText,
-      ribbonText,
-      crownSize: addCrown ? crownSize : "",
-      specialText,
-      heartColor: product.type === "heart" ? (product.color === "Rosa" ? "pink" : "red") : "",
-      glitter: addGlitter,
-      deliveryMethod,
-      deliveryName: "",
-      deliveryPhone: "",
-      deliveryEmail: "",
-      deliveryAddress: deliveryMethod === "delivery" ? selectedAddress : "Store pickup",
-      deliveryZip: deliveryMethod === "delivery" ? deliveryZip : "",
-      deliveryDate: deliveryDate ? format(deliveryDate, "PPP", { locale: enUS }) : "",
-      deliveryHour,
-      deliveryMiles: deliveryMethod === "delivery" ? deliveryMiles : null,
-      paperColor,
-    });
-    toast.success("Bouquet added to cart!");
-    return true;
+      const addons: string[] = [];
+      if (addGlitter) addons.push("Glitter");
+
+      await addItem({
+        id: "",
+        bouquetType: product.type === "heart" ? "heart" : "classic",
+        color: product.color,
+        roses: selectedSize.roses,
+        price: basePrice,
+        deliveryCost,
+        totalPrice,
+        addons,
+        accessory,
+        accessoryText,
+        ribbonText,
+        crownSize: addCrown ? crownSize : "",
+        specialText,
+        heartColor: product.type === "heart" ? (product.color === "Rosa" ? "pink" : "red") : "",
+        glitter: addGlitter,
+        deliveryMethod,
+        deliveryName: "",
+        deliveryPhone: "",
+        deliveryEmail: "",
+        deliveryAddress: deliveryMethod === "delivery" ? selectedAddress : "Store pickup",
+        deliveryZip: deliveryMethod === "delivery" ? deliveryZip : "",
+        deliveryDate: deliveryDate ? format(deliveryDate, "PPP", { locale: enUS }) : "",
+        deliveryHour,
+        deliveryMiles: deliveryMethod === "delivery" ? deliveryMiles : null,
+        paperColor,
+        shopifyVariantId: variant.id,
+      });
+      toast.success("Bouquet added to cart!");
+      return true;
+    } catch (error) {
+      toast.error("Failed to add to cart.");
+      return false;
+    } finally {
+      setIsAdding(false);
+    }
   };
 
-  const handlePayNow = () => {
-    if (handleAddToCart()) navigate("/checkout");
+  const handlePayNow = async () => {
+    if (await handleAddToCart()) navigate("/checkout");
   };
 
   return (
