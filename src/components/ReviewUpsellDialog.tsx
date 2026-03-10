@@ -5,6 +5,7 @@ import { Crown, Ribbon, Store, Truck, ShoppingBag, CreditCard, Star, Loader2 } f
 import { useCartStore, type CartItem } from "@/stores/cartStore";
 import { crownOptions, crownPrice, ribbonPrice, ribbonPresets } from "@/lib/productData";
 import { resolveVariantId } from "@/lib/shopify";
+import { inferTierFromColor } from "@/lib/tierUtils";
 import type { ReviewCartData } from "@/components/ReviewCard";
 import { toast } from "sonner";
 
