@@ -440,10 +440,10 @@ const BouquetProductDetail = () => {
                 {/* Description - Desktop (Left side) */}
                 <div className="hidden md:block flex-1 pr-4">
                   <p className="font-body text-xs text-muted-foreground leading-tight">
-                    {product.name} · {selectedSize.roses} rosas
+                    {product.name} · {selectedSize.roses} roses
                     {addGlitter && " · Glitter"}
-                    {accessory !== "none" && ` · ${accessory === "note" ? "Nota" : "Tarjeta"}`}
-                    {deliveryMethod === "delivery" ? (deliveryMiles && !distanceTooFar ? ` · Envío ($${deliveryCost})` : " · Envío (pendiente)") : " · Recogida"}
+                    {accessory !== "none" && ` · ${accessory === "note" ? "Note" : "Card"}`}
+                    {deliveryMethod === "delivery" ? (deliveryMiles && !distanceTooFar ? ` · Shipping ($${deliveryCost})` : " · Shipping (pending)") : " · Pickup"}
                   </p>
                 </div>
 
