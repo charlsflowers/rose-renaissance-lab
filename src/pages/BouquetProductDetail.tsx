@@ -42,6 +42,7 @@ const BouquetProductDetail = () => {
   const [addVase, setAddVase] = useState(false);
   const [selectedVaseIdx, setSelectedVaseIdx] = useState(0);
   const [paperColor, setPaperColor] = useState("Blanco");
+  const [isAdding, setIsAdding] = useState(false);
 
   // Delivery state
   const [deliveryMethod, setDeliveryMethod] = useState<"pickup" | "delivery">("pickup");
