@@ -208,7 +208,7 @@ const BouquetBuilder = () => {
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const [previewLoading, setPreviewLoading] = useState(false);
   const [previewError, setPreviewError] = useState("");
-  const [hasGeneratedPreview, setHasGeneratedPreview] = useState(false);
+  const [isAdding, setIsAdding] = useState(false);
 
   const handleGeneratePreview = useCallback(async () => {
     setPreviewLoading(true);
