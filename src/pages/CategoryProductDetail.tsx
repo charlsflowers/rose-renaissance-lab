@@ -312,7 +312,7 @@ const CategoryProductDetail = () => {
                           className={`px-4 py-2 rounded-sm border-2 text-sm font-body transition-all ${deliveryHour === hour ? "border-primary bg-primary/5 text-primary" : "border-border text-muted-foreground hover:border-primary/30"}`}>{hour}</button>
                       ))}
                     </div>
-                  ) : <p className="text-sm text-muted-foreground font-body">No hay horarios disponibles. Selecciona otro día.</p>}
+                  ) : <p className="text-sm text-muted-foreground font-body">No available hours. Select another day.</p>}
                 </div>
               )}
             </Section>
