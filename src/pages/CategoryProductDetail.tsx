@@ -209,7 +209,7 @@ const CategoryProductDetail = () => {
                 </button>
               </div>
               {addNote && (
-                <textarea value={noteText} onChange={(e) => setNoteText(e.target.value)} placeholder="Escribe tu nota..."
+                <textarea value={noteText} onChange={(e) => setNoteText(e.target.value)} placeholder="Write your note..."
                   className="w-full mt-2 bg-card border border-border rounded-sm px-4 py-3 font-body text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30 min-h-[100px] resize-none" maxLength={200} />
               )}
               {addCard && (
