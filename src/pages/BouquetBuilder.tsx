@@ -992,7 +992,7 @@ const BouquetBuilder = () => {
                 <button
                   onClick={() => {
                     if (deliveryMethod === "delivery" && !selectedAddress) {
-                      toast.error("Selecciona una dirección de entrega.");
+                      toast.error("Please select a delivery address.");
                       return;
                     }
                     if (deliveryMethod === "delivery" && (distanceTooFar || deliveryMiles === null)) {
