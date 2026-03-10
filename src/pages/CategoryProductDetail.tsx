@@ -151,6 +151,7 @@ const CategoryProductDetail = () => {
       deliveryHour,
       deliveryMiles: deliveryMethod === "delivery" ? deliveryMiles : null,
       paperColor,
+      shopifyVariantId: "", // Coming Soon categories - no Shopify product yet
     });
     toast.success("Product added to cart!");
     return true;
