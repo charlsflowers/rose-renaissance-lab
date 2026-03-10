@@ -1,15 +1,23 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { useCart } from "@/contexts/CartContext";
+import { useCartStore } from "@/stores/cartStore";
 import Navbar from "@/components/Navbar";
 import DeliveryCalculator from "@/components/DeliveryCalculator";
-import { Trash2, ArrowLeft, Truck, Store, Globe } from "lucide-react";
+import { Trash2, ArrowLeft, Truck, Store, Globe, ExternalLink, Loader2 } from "lucide-react";
 import BrandLogo from "@/components/BrandLogo";
 import { motion } from "framer-motion";
 
 const Checkout = () => {
-  const { items, removeItem, clearCart, cartTotal } = useCart();
+  const items = useCartStore(state => state.items);
+  const removeItem = useCartStore(state => state.removeItem);
+  const clearCart = useCartStore(state => state.clearCart);
+  const checkoutUrl = useCartStore(state => state.checkoutUrl);
+  const isLoading = useCartStore(state => state.isLoading);
+  const isSyncing = useCartStore(state => state.isSyncing);
+  const syncCart = useCartStore(state => state.syncCart);
   const navigate = useNavigate();
+
+  const cartTotal = items.reduce((sum, i) => sum + i.totalPrice, 0);
 
   const [checkoutDeliveryMethod, setCheckoutDeliveryMethod] = useState<"pickup" | "delivery">(
     items.some((i) => i.deliveryMethod === "delivery") ? "delivery" : "pickup"
@@ -26,6 +34,12 @@ const Checkout = () => {
   const deliveryCost = needsAddress && deliveryResult ? deliveryResult.cost : 0;
   const grandTotal = cartTotal + deliveryCost;
   const canCheckout = !needsAddress || deliveryResult !== null;
+
+  const handleCheckout = () => {
+    if (checkoutUrl) {
+      window.open(checkoutUrl, '_blank');
+    }
+  };
 
   if (items.length === 0) {
     return (
@@ -76,7 +90,6 @@ const Checkout = () => {
                 transition={{ delay: idx * 0.1 }}
                 className="bg-card border border-border rounded-sm p-6"
               >
-                {/* Product image */}
                 {item.image && (
                   <div className="mb-4 flex justify-center">
                     <img
@@ -170,7 +183,6 @@ const Checkout = () => {
               animate={{ opacity: 1, y: 0 }}
               className="bg-card border-2 border-primary/20 rounded-sm p-6 space-y-5"
             >
-              {/* Nationwide shipping badge */}
               <div className="flex items-center justify-center">
                 <div className="inline-flex items-center gap-2 bg-primary text-primary-foreground px-4 py-2 rounded-full font-body text-xs tracking-widest uppercase">
                   <Globe className="w-3.5 h-3.5" />
@@ -240,13 +252,18 @@ const Checkout = () => {
                   </div>
                 </div>
                 <button
-                  disabled={!canCheckout}
-                  className="bg-primary text-primary-foreground px-10 py-4 font-body text-sm tracking-widest uppercase hover:bg-primary/90 transition-colors rounded-sm disabled:opacity-50 disabled:cursor-not-allowed"
-                  onClick={() => {
-                    alert("Shopify integration coming soon!");
-                  }}
+                  disabled={!canCheckout || isLoading || isSyncing || !checkoutUrl}
+                  className="inline-flex items-center gap-2 bg-primary text-primary-foreground px-10 py-4 font-body text-sm tracking-widest uppercase hover:bg-primary/90 transition-colors rounded-sm disabled:opacity-50 disabled:cursor-not-allowed"
+                  onClick={handleCheckout}
                 >
-                  Complete order
+                  {isLoading || isSyncing ? (
+                    <Loader2 className="w-4 h-4 animate-spin" />
+                  ) : (
+                    <>
+                      <ExternalLink className="w-4 h-4" />
+                      Complete order
+                    </>
+                  )}
                 </button>
               </div>
 

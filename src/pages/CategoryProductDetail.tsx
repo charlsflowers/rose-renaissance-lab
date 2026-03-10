@@ -4,7 +4,7 @@ import { format, addHours, isBefore, startOfDay } from "date-fns";
 import { miamiHourNow, todayInMiami, isTodayInMiami } from "@/lib/miamiTime";
 import { enUS } from "date-fns/locale";
 import { supabase } from "@/integrations/supabase/client";
-import { useCart } from "@/contexts/CartContext";
+import { useCartStore } from "@/stores/cartStore";
 import { toast } from "sonner";
 import Navbar from "@/components/Navbar";
 import PaperColorPicker from "@/components/PaperColorPicker";
@@ -16,7 +16,7 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 const CategoryProductDetail = () => {
   const { slug, productId } = useParams<{ slug: string; productId: string }>();
   const navigate = useNavigate();
-  const { addItem } = useCart();
+  const addItem = useCartStore(state => state.addItem);
 
   const products = slug ? categoryProducts[slug] || [] : [];
   const product = products.find((p) => p.id === productId);
@@ -151,6 +151,7 @@ const CategoryProductDetail = () => {
       deliveryHour,
       deliveryMiles: deliveryMethod === "delivery" ? deliveryMiles : null,
       paperColor,
+      shopifyVariantId: "", // Coming Soon categories - no Shopify product yet
     });
     toast.success("Product added to cart!");
     return true;

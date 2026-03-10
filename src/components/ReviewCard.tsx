@@ -9,6 +9,7 @@ export interface ReviewCartData {
   roses: number;
   price: number;
   productImage?: string;
+  pricingTier?: import('@/lib/productData').PricingTier;
 }
 
 export type ReviewCategory = "bouquets" | "arreglos" | "cajas" | "cestas" | "jarrones" | "osos" | "personalizados";

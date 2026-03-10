@@ -1,9 +1,11 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { Crown, Ribbon, Store, Truck, ShoppingBag, CreditCard, Star } from "lucide-react";
-import { useCart, type CartItem } from "@/contexts/CartContext";
+import { Crown, Ribbon, Store, Truck, ShoppingBag, CreditCard, Star, Loader2 } from "lucide-react";
+import { useCartStore, type CartItem } from "@/stores/cartStore";
 import { crownOptions, crownPrice, ribbonPrice, ribbonPresets } from "@/lib/productData";
+import { resolveVariantId } from "@/lib/shopify";
+import { inferTierFromColor } from "@/lib/tierUtils";
 import type { ReviewCartData } from "@/components/ReviewCard";
 import { toast } from "sonner";
 
@@ -16,7 +18,7 @@ interface Props {
 }
 
 const ReviewUpsellDialog = ({ open, onOpenChange, cartData, productLabel, mode }: Props) => {
-  const { addItem } = useCart();
+  const addItem = useCartStore(state => state.addItem);
   const navigate = useNavigate();
 
   const [addGlitter, setAddGlitter] = useState(false);
@@ -26,55 +28,73 @@ const ReviewUpsellDialog = ({ open, onOpenChange, cartData, productLabel, mode }
   const [ribbonType, setRibbonType] = useState<"names" | "congratulations">("names");
   const [ribbonText, setRibbonText] = useState("");
   const [deliveryMethod, setDeliveryMethod] = useState<"pickup" | "delivery">("pickup");
+  const [isAdding, setIsAdding] = useState(false);
 
   const glitterCost = addGlitter ? Math.ceil(cartData.roses / 25) * 8 : 0;
   const extrasTotal =
     glitterCost + (addCrown ? crownPrice : 0) + (addRibbon ? ribbonPrice : 0);
   const finalPrice = cartData.price + extrasTotal;
 
-  const handleConfirm = () => {
-    const addons: string[] = [];
-    if (addGlitter) addons.push("Glitter");
-    if (addCrown) addons.push(`Crown (${crownSize})`);
-    if (addRibbon) addons.push("Ribbon");
+  const handleConfirm = async () => {
+    setIsAdding(true);
+    try {
+      // Infer tier from color if not provided
+      const tier = cartData.pricingTier || inferTierFromColor(cartData.color);
+      const variant = await resolveVariantId(tier, cartData.roses);
+      if (!variant) {
+        toast.error("Could not resolve product. Please try again.");
+        setIsAdding(false);
+        return;
+      }
 
-    const item: CartItem = {
-      id: "",
-      bouquetType: cartData.bouquetType,
-      color: cartData.color,
-      roses: cartData.roses,
-      price: cartData.price,
-      deliveryCost: 0,
-      totalPrice: finalPrice,
-      addons,
-      accessory: "",
-      accessoryText: "",
-      ribbonText: addRibbon ? ribbonText : "",
-      crownSize: addCrown ? crownSize : "",
-      specialText: "",
-      heartColor: "",
-      glitter: addGlitter,
-      deliveryMethod,
-      deliveryName: "",
-      deliveryPhone: "",
-      deliveryEmail: "",
-      deliveryAddress: "",
-      deliveryZip: "",
-      deliveryDate: "",
-      deliveryHour: "",
-      deliveryMiles: null,
-      paperColor: "Blanco",
-      image: cartData.productImage,
-    };
-    addItem(item);
-    onOpenChange(false);
+      const addons: string[] = [];
+      if (addGlitter) addons.push("Glitter");
+      if (addCrown) addons.push(`Crown (${crownSize})`);
+      if (addRibbon) addons.push("Ribbon");
 
-    if (mode === "buy") {
-      navigate("/checkout");
-    } else {
-      toast.success("Added to cart!", {
-        description: `${productLabel} — ${cartData.roses} roses`,
-      });
+      const item: Omit<CartItem, 'shopifyLineId'> = {
+        id: "",
+        bouquetType: cartData.bouquetType,
+        color: cartData.color,
+        roses: cartData.roses,
+        price: cartData.price,
+        deliveryCost: 0,
+        totalPrice: finalPrice,
+        addons,
+        accessory: "",
+        accessoryText: "",
+        ribbonText: addRibbon ? ribbonText : "",
+        crownSize: addCrown ? crownSize : "",
+        specialText: "",
+        heartColor: "",
+        glitter: addGlitter,
+        deliveryMethod,
+        deliveryName: "",
+        deliveryPhone: "",
+        deliveryEmail: "",
+        deliveryAddress: "",
+        deliveryZip: "",
+        deliveryDate: "",
+        deliveryHour: "",
+        deliveryMiles: null,
+        paperColor: "Blanco",
+        image: cartData.productImage,
+        shopifyVariantId: variant.id,
+      };
+      await addItem(item);
+      onOpenChange(false);
+
+      if (mode === "buy") {
+        navigate("/checkout");
+      } else {
+        toast.success("Added to cart!", {
+          description: `${productLabel} — ${cartData.roses} roses`,
+        });
+      }
+    } catch (error) {
+      toast.error("Failed to add to cart.");
+    } finally {
+      setIsAdding(false);
     }
   };
 
@@ -244,9 +264,12 @@ const ReviewUpsellDialog = ({ open, onOpenChange, cartData, productLabel, mode }
 
             <button
               onClick={handleConfirm}
-              className="inline-flex items-center gap-2 w-full justify-center bg-primary text-primary-foreground px-4 py-3 font-body text-sm tracking-widest uppercase hover:bg-primary/90 transition-colors rounded-sm"
+              disabled={isAdding}
+              className="inline-flex items-center gap-2 w-full justify-center bg-primary text-primary-foreground px-4 py-3 font-body text-sm tracking-widest uppercase hover:bg-primary/90 transition-colors rounded-sm disabled:opacity-50"
             >
-              {mode === "buy" ? (
+              {isAdding ? (
+                <Loader2 className="w-4 h-4 animate-spin" />
+              ) : mode === "buy" ? (
                 <>
                   <CreditCard className="w-4 h-4" />
                   Order & pay

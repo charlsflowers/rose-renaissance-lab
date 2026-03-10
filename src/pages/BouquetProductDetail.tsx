@@ -4,7 +4,8 @@ import { format, addHours, isBefore, startOfDay } from "date-fns";
 import { miamiHourNow, todayInMiami, isTodayInMiami } from "@/lib/miamiTime";
 import { enUS } from "date-fns/locale";
 import { supabase } from "@/integrations/supabase/client";
-import { useCart } from "@/contexts/CartContext";
+import { useCartStore, type CartItem } from "@/stores/cartStore";
+import { resolveVariantId } from "@/lib/shopify";
 import { toast } from "sonner";
 import Navbar from "@/components/Navbar";
 import PaperColorPicker from "@/components/PaperColorPicker"; // keep import but won't use for standard bouquets
@@ -23,7 +24,7 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 const BouquetProductDetail = () => {
   const { type, productId } = useParams<{ type: string; productId: string }>();
   const navigate = useNavigate();
-  const { addItem } = useCart();
+  const addItem = useCartStore(state => state.addItem);
   const product = bouquetProducts.find((b) => b.id === productId);
 
   const [selectedSizeIdx, setSelectedSizeIdx] = useState(0);
@@ -41,6 +42,7 @@ const BouquetProductDetail = () => {
   const [addVase, setAddVase] = useState(false);
   const [selectedVaseIdx, setSelectedVaseIdx] = useState(0);
   const [paperColor, setPaperColor] = useState("Blanco");
+  const [isAdding, setIsAdding] = useState(false);
 
   // Delivery state
   const [deliveryMethod, setDeliveryMethod] = useState<"pickup" | "delivery">("pickup");
@@ -150,47 +152,62 @@ const BouquetProductDetail = () => {
 
   let step = 1;
 
-  const handleAddToCart = (): boolean => {
+  const handleAddToCart = async (): Promise<boolean> => {
     if (deliveryMethod === "delivery" && !selectedAddress) { toast.error("Please select a delivery address."); return false; }
     if (deliveryMethod === "delivery" && (distanceTooFar || deliveryMiles === null)) { toast.error("The address is invalid or out of range."); return false; }
     if (!deliveryDate || !deliveryHour) { toast.error("Please select a date and time."); return false; }
 
-    const addons: string[] = [];
-    if (addGlitter) addons.push("Glitter");
+    setIsAdding(true);
+    try {
+      const variant = await resolveVariantId(product.pricingTier, selectedSize.roses);
+      if (!variant) {
+        toast.error("Could not resolve product variant. Please try again.");
+        return false;
+      }
 
-    addItem({
-      id: "",
-      bouquetType: product.type === "heart" ? "heart" : "classic",
-      color: product.color,
-      roses: selectedSize.roses,
-      price: basePrice,
-      deliveryCost,
-      totalPrice,
-      addons,
-      accessory,
-      accessoryText,
-      ribbonText,
-      crownSize: addCrown ? crownSize : "",
-      specialText,
-      heartColor: product.type === "heart" ? (product.color === "Rosa" ? "pink" : "red") : "",
-      glitter: addGlitter,
-      deliveryMethod,
-      deliveryName: "",
-      deliveryPhone: "",
-      deliveryEmail: "",
-      deliveryAddress: deliveryMethod === "delivery" ? selectedAddress : "Store pickup",
-      deliveryZip: deliveryMethod === "delivery" ? deliveryZip : "",
-      deliveryDate: deliveryDate ? format(deliveryDate, "PPP", { locale: enUS }) : "",
-      deliveryHour,
-      deliveryMiles: deliveryMethod === "delivery" ? deliveryMiles : null,
-      paperColor,
-    });
-    toast.success("Bouquet added to cart!");
-    return true;
+      const addons: string[] = [];
+      if (addGlitter) addons.push("Glitter");
+
+      await addItem({
+        id: "",
+        bouquetType: product.type === "heart" ? "heart" : "classic",
+        color: product.color,
+        roses: selectedSize.roses,
+        price: basePrice,
+        deliveryCost,
+        totalPrice,
+        addons,
+        accessory,
+        accessoryText,
+        ribbonText,
+        crownSize: addCrown ? crownSize : "",
+        specialText,
+        heartColor: product.type === "heart" ? (product.color === "Rosa" ? "pink" : "red") : "",
+        glitter: addGlitter,
+        deliveryMethod,
+        deliveryName: "",
+        deliveryPhone: "",
+        deliveryEmail: "",
+        deliveryAddress: deliveryMethod === "delivery" ? selectedAddress : "Store pickup",
+        deliveryZip: deliveryMethod === "delivery" ? deliveryZip : "",
+        deliveryDate: deliveryDate ? format(deliveryDate, "PPP", { locale: enUS }) : "",
+        deliveryHour,
+        deliveryMiles: deliveryMethod === "delivery" ? deliveryMiles : null,
+        paperColor,
+        shopifyVariantId: variant.id,
+      });
+      toast.success("Bouquet added to cart!");
+      return true;
+    } catch (error) {
+      toast.error("Failed to add to cart.");
+      return false;
+    } finally {
+      setIsAdding(false);
+    }
   };
 
-  const handlePayNow = () => {
-    if (handleAddToCart()) navigate("/checkout");
+  const handlePayNow = async () => {
+    if (await handleAddToCart()) navigate("/checkout");
   };
 
   return (
@@ -453,13 +470,13 @@ const BouquetProductDetail = () => {
                     ${totalPrice} <span className="text-xs font-body text-muted-foreground font-normal">USD</span>
                   </p>
                   <div className="flex w-full md:w-auto gap-2">
-                    <button onClick={handleAddToCart}
-                      className="flex-1 md:flex-none bg-primary text-primary-foreground px-6 py-3 font-body text-xs tracking-widest uppercase hover:bg-primary/90 transition-colors rounded-sm">
-                      Add to cart
+                    <button onClick={handleAddToCart} disabled={isAdding}
+                      className="flex-1 md:flex-none bg-primary text-primary-foreground px-6 py-3 font-body text-xs tracking-widest uppercase hover:bg-primary/90 transition-colors rounded-sm disabled:opacity-50">
+                      {isAdding ? "Adding..." : "Add to cart"}
                     </button>
-                    <button onClick={handlePayNow}
-                      className="flex-1 md:flex-none border-2 border-primary text-primary px-6 py-3 font-body text-xs tracking-widest uppercase hover:bg-primary/10 transition-colors rounded-sm whitespace-nowrap">
-                      Pay now
+                    <button onClick={handlePayNow} disabled={isAdding}
+                      className="flex-1 md:flex-none border-2 border-primary text-primary px-6 py-3 font-body text-xs tracking-widest uppercase hover:bg-primary/10 transition-colors rounded-sm whitespace-nowrap disabled:opacity-50">
+                      {isAdding ? "Adding..." : "Pay now"}
                     </button>
                   </div>
                 </div>
