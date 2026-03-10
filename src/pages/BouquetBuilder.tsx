@@ -249,8 +249,8 @@ const BouquetBuilder = () => {
   }, [selectedColors, rosesCount, addGlitter, addLettersNumbers, specialText, addCrown, crownSize, addRibbon, ribbonText]);
 
   const colorCategories = [
-    { key: "natural" as const, label: "Naturales" },
-    { key: "painted" as const, label: "Pintados" },
+    { key: "natural" as const, label: "Natural" },
+    { key: "painted" as const, label: "Painted" },
   ];
 
   return (
