@@ -443,7 +443,7 @@ const BouquetBuilder = () => {
             </Section>
 
             {/* 5. Letras o Números */}
-            <Section title="Letras o Números (Baby Breath)" step={6} subtitle="Opcional">
+            <Section title="Letters or Numbers (Baby Breath)" step={6} subtitle="Optional">
               <div className={`p-5 rounded-sm border-2 transition-all ${addLettersNumbers ? "border-primary bg-primary/5" : "border-border"}`}>
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-3">
