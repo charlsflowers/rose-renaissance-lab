@@ -185,7 +185,7 @@ const BouquetProductDetail = () => {
       deliveryMiles: deliveryMethod === "delivery" ? deliveryMiles : null,
       paperColor,
     });
-    toast.success("¡Bouquet añadido al carrito!");
+    toast.success("Bouquet added to cart!");
     return true;
   };
 
