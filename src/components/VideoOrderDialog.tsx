@@ -1,9 +1,10 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { ShoppingBag, CreditCard } from "lucide-react";
-import { useCart, type CartItem } from "@/contexts/CartContext";
+import { ShoppingBag, CreditCard, Loader2 } from "lucide-react";
+import { useCartStore, type CartItem } from "@/stores/cartStore";
 import { letterNumberExtraPrice, ribbonPrice } from "@/lib/productData";
+import { resolveVariantId } from "@/lib/shopify";
 import type { VideoProduct } from "@/components/ClientVideos";
 import { toast } from "sonner";
 
@@ -14,14 +15,14 @@ interface Props {
 }
 
 const VideoOrderDialog = ({ video, open, onOpenChange }: Props) => {
-  const { addItem } = useCart();
+  const addItem = useCartStore(state => state.addItem);
   const navigate = useNavigate();
   const [customValues, setCustomValues] = useState<Record<string, string>>({});
+  const [isAdding, setIsAdding] = useState(false);
 
   const hasRibbon = video.customFields?.some(f => f.label.toLowerCase().includes("ribbon"));
   const hasLetterOrNumber = video.customFields?.some(f => f.label.toLowerCase().includes("letter") || f.label.toLowerCase().includes("number"));
 
-  // Calculate extras
   let extras = 0;
   if (video.glitter) extras += Math.ceil(video.roses / 25) * 8;
   if (hasRibbon && Object.values(customValues).some(v => v)) extras += ribbonPrice;
@@ -37,63 +38,79 @@ const VideoOrderDialog = ({ video, open, onOpenChange }: Props) => {
 
   const totalPrice = video.basePrice + extras;
 
-  const handleConfirm = (mode: "cart" | "buy") => {
-    const addons: string[] = [];
-    if (video.glitter) addons.push("Glitter");
+  const handleConfirm = async (mode: "cart" | "buy") => {
+    setIsAdding(true);
+    try {
+      const tier = video.pricingTier || 'standard';
+      const variant = await resolveVariantId(tier, video.roses);
+      if (!variant) {
+        toast.error("Could not resolve product. Please try again.");
+        setIsAdding(false);
+        return;
+      }
 
-    const ribbonText = video.customFields
-      ?.filter(f => f.label.toLowerCase().includes("ribbon"))
-      .map(f => customValues[f.label] || "")
-      .filter(Boolean)
-      .join(", ") || "";
+      const addons: string[] = [];
+      if (video.glitter) addons.push("Glitter");
 
-    const specialText = video.customFields
-      ?.filter(f => f.label.toLowerCase().includes("letter") || f.label.toLowerCase().includes("number"))
-      .map(f => customValues[f.label] || "")
-      .filter(Boolean)
-      .join("") || "";
+      const ribbonText = video.customFields
+        ?.filter(f => f.label.toLowerCase().includes("ribbon"))
+        .map(f => customValues[f.label] || "")
+        .filter(Boolean)
+        .join(", ") || "";
 
-    if (ribbonText) addons.push("Custom ribbon");
-    if (specialText) addons.push(`Letters/Numbers: ${specialText}`);
+      const specialText = video.customFields
+        ?.filter(f => f.label.toLowerCase().includes("letter") || f.label.toLowerCase().includes("number"))
+        .map(f => customValues[f.label] || "")
+        .filter(Boolean)
+        .join("") || "";
 
-    const item: CartItem = {
-      id: "",
-      bouquetType: "round",
-      color: video.color,
-      roses: video.roses,
-      price: video.basePrice,
-      deliveryCost: 0,
-      totalPrice,
-      addons,
-      accessory: "",
-      accessoryText: "",
-      ribbonText,
-      crownSize: "",
-      specialText,
-      heartColor: "",
-      glitter: video.glitter || false,
-      deliveryMethod: "pickup",
-      deliveryName: "",
-      deliveryPhone: "",
-      deliveryEmail: "",
-      deliveryAddress: "",
-      deliveryZip: "",
-      deliveryDate: "",
-      deliveryHour: "",
-      deliveryMiles: null,
-      paperColor: video.paperColor || "White",
-      image: video.productImage,
-    };
+      if (ribbonText) addons.push("Custom ribbon");
+      if (specialText) addons.push(`Letters/Numbers: ${specialText}`);
 
-    addItem(item);
-    onOpenChange(false);
+      const item: Omit<CartItem, 'shopifyLineId'> = {
+        id: "",
+        bouquetType: "round",
+        color: video.color,
+        roses: video.roses,
+        price: video.basePrice,
+        deliveryCost: 0,
+        totalPrice,
+        addons,
+        accessory: "",
+        accessoryText: "",
+        ribbonText,
+        crownSize: "",
+        specialText,
+        heartColor: "",
+        glitter: video.glitter || false,
+        deliveryMethod: "pickup",
+        deliveryName: "",
+        deliveryPhone: "",
+        deliveryEmail: "",
+        deliveryAddress: "",
+        deliveryZip: "",
+        deliveryDate: "",
+        deliveryHour: "",
+        deliveryMiles: null,
+        paperColor: video.paperColor || "White",
+        image: video.productImage,
+        shopifyVariantId: variant.id,
+      };
 
-    if (mode === "buy") {
-      navigate("/checkout");
-    } else {
-      toast.success("Added to cart!", {
-        description: `${video.roses} ${video.color} roses`,
-      });
+      await addItem(item);
+      onOpenChange(false);
+
+      if (mode === "buy") {
+        navigate("/checkout");
+      } else {
+        toast.success("Added to cart!", {
+          description: `${video.roses} ${video.color} roses`,
+        });
+      }
+    } catch (error) {
+      toast.error("Failed to add to cart.");
+    } finally {
+      setIsAdding(false);
     }
   };
 
@@ -110,7 +127,6 @@ const VideoOrderDialog = ({ video, open, onOpenChange }: Props) => {
         </DialogHeader>
 
         <div className="space-y-5 pt-2">
-          {/* Customizable fields */}
           {video.hasCustomText && video.customFields && (
             <div className="space-y-4">
               <p className="font-body text-sm font-semibold text-foreground">Customize your bouquet</p>
@@ -132,7 +148,6 @@ const VideoOrderDialog = ({ video, open, onOpenChange }: Props) => {
             </div>
           )}
 
-          {/* Info badges */}
           <div className="flex flex-wrap gap-2">
             {video.glitter && (
               <span className="bg-primary/10 text-primary px-3 py-1.5 rounded-full text-xs font-body">
@@ -146,7 +161,6 @@ const VideoOrderDialog = ({ video, open, onOpenChange }: Props) => {
             )}
           </div>
 
-          {/* Total + CTA */}
           <div className="border-t border-border pt-4 space-y-3">
             <div className="flex justify-between font-body text-sm">
               <span className="text-muted-foreground">Total</span>
@@ -155,17 +169,17 @@ const VideoOrderDialog = ({ video, open, onOpenChange }: Props) => {
 
             <button
               onClick={() => handleConfirm("cart")}
-              className="inline-flex items-center gap-2 w-full justify-center bg-primary text-primary-foreground px-4 py-3 font-body text-sm tracking-widest uppercase hover:bg-primary/90 transition-colors rounded-sm"
+              disabled={isAdding}
+              className="inline-flex items-center gap-2 w-full justify-center bg-primary text-primary-foreground px-4 py-3 font-body text-sm tracking-widest uppercase hover:bg-primary/90 transition-colors rounded-sm disabled:opacity-50"
             >
-              <ShoppingBag className="w-4 h-4" />
-              Add to cart
+              {isAdding ? <Loader2 className="w-4 h-4 animate-spin" /> : <><ShoppingBag className="w-4 h-4" /> Add to cart</>}
             </button>
             <button
               onClick={() => handleConfirm("buy")}
-              className="inline-flex items-center gap-2 w-full justify-center border border-primary text-primary px-4 py-3 font-body text-sm tracking-widest uppercase hover:bg-primary/10 transition-colors rounded-sm"
+              disabled={isAdding}
+              className="inline-flex items-center gap-2 w-full justify-center border border-primary text-primary px-4 py-3 font-body text-sm tracking-widest uppercase hover:bg-primary/10 transition-colors rounded-sm disabled:opacity-50"
             >
-              <CreditCard className="w-4 h-4" />
-              Order & pay
+              {isAdding ? <Loader2 className="w-4 h-4 animate-spin" /> : <><CreditCard className="w-4 h-4" /> Order & pay</>}
             </button>
           </div>
         </div>
