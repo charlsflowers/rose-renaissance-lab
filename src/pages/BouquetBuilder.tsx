@@ -690,7 +690,7 @@ const BouquetBuilder = () => {
                   )}
                 </button>
                 {hasGeneratedPreview && (
-                  <p className="text-xs text-muted-foreground">Solo se permite una previsualización por personalización.</p>
+                  <p className="text-xs text-muted-foreground">Only one preview is allowed per customization.</p>
                 )}
 
                 {previewError && (
