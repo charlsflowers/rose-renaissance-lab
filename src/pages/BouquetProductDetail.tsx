@@ -288,8 +288,8 @@ const BouquetProductDetail = () => {
                 <div className="flex items-center gap-4 relative z-10">
                   <Star className={`w-6 h-6 transition-colors ${addGlitter ? "text-gold fill-gold" : "text-muted-foreground"}`} />
                   <div className="text-left">
-                    <p className="font-body font-semibold text-foreground">✨ Añadir Brillos ✨</p>
-                    <p className="text-xs text-muted-foreground font-body">$8 cada 25 rosas · {selectedSize.roses} rosas = +${Math.ceil(selectedSize.roses / 25) * 8}</p>
+                     <p className="font-body font-semibold text-foreground">✨ Add Glitter ✨</p>
+                     <p className="text-xs text-muted-foreground font-body">$8 per 25 roses · {selectedSize.roses} roses = +${Math.ceil(selectedSize.roses / 25) * 8}</p>
                   </div>
                   {addGlitter && <Check className="w-5 h-5 text-primary ml-auto" />}
                 </div>
