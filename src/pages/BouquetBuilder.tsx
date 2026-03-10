@@ -140,7 +140,7 @@ const BouquetBuilder = () => {
           const { data, error } = await supabase.functions.invoke("calculate-distance", {
             body: { fullAddress: prediction.description },
           });
-          if (error) throw new Error("Error de conexión");
+          if (error) throw new Error("Connection error");
           if (data.error) {
             setDistanceError(data.error);
             if (data.tooFar) {
