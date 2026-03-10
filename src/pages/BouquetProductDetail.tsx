@@ -180,7 +180,7 @@ const BouquetProductDetail = () => {
       deliveryEmail: "",
       deliveryAddress: deliveryMethod === "delivery" ? selectedAddress : "Store pickup",
       deliveryZip: deliveryMethod === "delivery" ? deliveryZip : "",
-      deliveryDate: deliveryDate ? format(deliveryDate, "PPP", { locale: es }) : "",
+      deliveryDate: deliveryDate ? format(deliveryDate, "PPP", { locale: enUS }) : "",
       deliveryHour,
       deliveryMiles: deliveryMethod === "delivery" ? deliveryMiles : null,
       paperColor,
