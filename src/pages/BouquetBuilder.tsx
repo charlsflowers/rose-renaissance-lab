@@ -492,7 +492,7 @@ const BouquetBuilder = () => {
                           if (selectedSizeIdx < minIdx) setSelectedSizeIdx(minIdx);
                         }
                       }}
-                      placeholder={lettersNumbersType === "letters" ? "Ej: LOVE" : "Ej: 2025"}
+                      placeholder={lettersNumbersType === "letters" ? "E.g.: LOVE" : "E.g.: 2025"}
                       className="w-full max-w-xs bg-card border border-border rounded-sm px-4 py-3 font-body text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30"
                       maxLength={4}
                     />
