@@ -3,11 +3,19 @@ import { motion } from "framer-motion";
 import { ChevronLeft, ChevronRight, Play, ShoppingBag } from "lucide-react";
 
 const placeholderVideos = [
-  { id: 1, title: "Cliente feliz con su bouquet", src: "/videos/video_1.mp4", productLink: "" },
   { id: 2, title: "Entrega sorpresa de rosas", src: "/videos/video_2.mp4", productLink: "" },
-  { id: 3, title: "Bouquet personalizado de 100 rosas", src: "/videos/video_3.mp4", productLink: "" },
   { id: 4, title: "Arreglo especial para aniversario", src: "/videos/video_4.mp4", productLink: "" },
-  { id: 5, title: "Rosas pintadas con brillos", src: "/videos/video_5.mp4", productLink: "" },
+  { id: 5, title: "Ramo de 200 rosas de color rosa", src: "/videos/video_5.mp4", productLink: "" },
+  { id: 6, title: "75 rosas rojas · 1 letra + 1 corazón · Papel negro", src: "/videos/video_6.mov", productLink: "" },
+  { id: 7, title: "75 rosas rojas · 1 letra + 1 corazón + cinta personalizada · Papel blanco", src: "/videos/video_7.mov", productLink: "" },
+  { id: 8, title: "75 rosas rojas glitter · 2 números + 1 corazón · Papel negro", src: "/videos/video_8.mov", productLink: "" },
+  { id: 9, title: "100 rosas rosa glitter · Papel blanco", src: "/videos/video_9.mov", productLink: "" },
+  { id: 10, title: "100 rosas rosa · 1 letra + 1 corazón + cinta personalizada · Papel blanco", src: "/videos/video_10.mov", productLink: "" },
+  { id: 11, title: "100 rosas moradas · 1 letra + 1 corazón + cinta personalizada · Papel blanco", src: "/videos/video_11.mov", productLink: "" },
+  { id: 12, title: "100 rosas rojas · 1 letra + 1 corazón · Papel negro", src: "/videos/video_12.mov", productLink: "" },
+  { id: 13, title: "100 rosas rojas · 2 números + 1 corazón · Papel blanco", src: "/videos/video_13.mov", productLink: "" },
+  { id: 14, title: "125 rosas rojas · 2 números + 1 corazón · Papel blanco", src: "/videos/video_14.mov", productLink: "" },
+  { id: 15, title: "200 rosas blancas y rosas glitter · Mariposas + cinta personalizada · Papel rosa", src: "/videos/video_15.mov", productLink: "" },
 ];
 
 const VideoCard = ({ video, index }: { video: typeof placeholderVideos[0]; index: number }) => {
@@ -55,7 +63,6 @@ const VideoCard = ({ video, index }: { video: typeof placeholderVideos[0]; index
             className="w-full h-full object-cover"
           />
         ) : (
-          /* Placeholder */
           <div className="absolute inset-0 bg-gradient-to-b from-muted to-muted-foreground/20 flex items-center justify-center">
             <div className="w-14 h-14 rounded-full bg-primary/90 flex items-center justify-center">
               <Play className="w-6 h-6 text-primary-foreground ml-0.5" />
