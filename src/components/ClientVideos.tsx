@@ -1,7 +1,7 @@
 import { useRef, useState, useEffect, useCallback } from "react";
 import { motion } from "framer-motion";
 import { ChevronLeft, ChevronRight, Play, ShoppingBag } from "lucide-react";
-import { useCart, type CartItem } from "@/contexts/CartContext";
+import { useCartStore } from "@/stores/cartStore";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import VideoOrderDialog from "@/components/VideoOrderDialog";
