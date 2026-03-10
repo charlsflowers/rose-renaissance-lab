@@ -8,6 +8,7 @@ export interface ReviewCartData {
   color: string;
   roses: number;
   price: number;
+  productImage?: string;
 }
 
 export type ReviewCategory = "bouquets" | "arreglos" | "cajas" | "cestas" | "jarrones" | "osos" | "personalizados";

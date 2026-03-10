@@ -13,13 +13,13 @@ export interface PaperColorOption {
 }
 
 export const paperColorOptions: PaperColorOption[] = [
-  { name: "Blanco", image: paperBlanco },
-  { name: "Rosa Light", image: paperRosaLight },
+  { name: "White", image: paperBlanco },
+  { name: "Light Pink", image: paperRosaLight },
   { name: "Beige", image: paperBeige },
-  { name: "Morado", image: paperMorado },
+  { name: "Mauve", image: paperMorado },
   { name: "Purple", image: paperPurple },
-  { name: "Azul", image: paperAzul },
-  { name: "Negro", image: paperNegro },
+  { name: "Blue", image: paperAzul },
+  { name: "Black", image: paperNegro },
 ];
 
 interface PaperColorPickerProps {
