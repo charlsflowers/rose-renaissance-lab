@@ -844,7 +844,7 @@ const BouquetBuilder = () => {
                         <div className="text-center">
                           <MapPin className="w-8 h-8 text-muted-foreground mx-auto mb-2" />
                           <p className="font-body text-sm text-muted-foreground">
-                            Ingresa una dirección para ver el mapa
+                            Enter an address to see the map
                           </p>
                         </div>
                       </div>
