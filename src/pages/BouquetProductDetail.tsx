@@ -333,7 +333,7 @@ const BouquetProductDetail = () => {
                 </button>
                 <button onClick={() => setDeliveryMethod("delivery")}
                   className={`flex flex-col items-center gap-3 p-5 rounded-sm border-2 transition-all font-body ${deliveryMethod === "delivery" ? "border-primary bg-primary/5" : "border-border hover:border-primary/30"}`}>
-                  <Truck className="w-6 h-6" /><p className="font-semibold text-sm text-foreground">Entrega a domicilio</p><p className="text-xs text-muted-foreground">$2 / milla</p>
+                  <Truck className="w-6 h-6" /><p className="font-semibold text-sm text-foreground">Home delivery</p><p className="text-xs text-muted-foreground">$2 / mile</p>
                   {deliveryMethod === "delivery" && <Check className="w-4 h-4 text-primary" />}
                 </button>
               </div>
