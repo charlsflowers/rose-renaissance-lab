@@ -234,7 +234,7 @@ const BouquetBuilder = () => {
         body: { bouquetConfig, baseImageUrl },
       });
 
-      if (error) throw new Error("Error de conexión");
+      if (error) throw new Error("Connection error");
       if (data?.error) {
         setPreviewError(data.error);
       } else if (data?.imageUrl) {
