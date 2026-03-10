@@ -729,9 +729,9 @@ const BouquetBuilder = () => {
                 >
                   <Store className="w-6 h-6" />
                   <div className="text-center">
-                    <p className="font-semibold text-sm text-foreground">Recoger en tienda</p>
-                    <p className="text-xs text-muted-foreground mt-1">Gratis</p>
-                  </div>
+                     <p className="font-semibold text-sm text-foreground">Store pickup</p>
+                     <p className="text-xs text-muted-foreground mt-1">Free</p>
+                   </div>
                   {deliveryMethod === "pickup" && <Check className="w-4 h-4 text-primary" />}
                 </button>
                 <button
