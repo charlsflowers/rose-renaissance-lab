@@ -151,9 +151,9 @@ const BouquetProductDetail = () => {
   let step = 1;
 
   const handleAddToCart = (): boolean => {
-    if (deliveryMethod === "delivery" && !selectedAddress) { toast.error("Selecciona una dirección de entrega."); return false; }
-    if (deliveryMethod === "delivery" && (distanceTooFar || deliveryMiles === null)) { toast.error("La dirección no es válida o fuera de rango."); return false; }
-    if (!deliveryDate || !deliveryHour) { toast.error("Selecciona fecha y hora."); return false; }
+    if (deliveryMethod === "delivery" && !selectedAddress) { toast.error("Please select a delivery address."); return false; }
+    if (deliveryMethod === "delivery" && (distanceTooFar || deliveryMiles === null)) { toast.error("The address is invalid or out of range."); return false; }
+    if (!deliveryDate || !deliveryHour) { toast.error("Please select a date and time."); return false; }
 
     const addons: string[] = [];
     if (addGlitter) addons.push("Glitter");
