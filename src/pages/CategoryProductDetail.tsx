@@ -264,7 +264,7 @@ const CategoryProductDetail = () => {
                     </div>
                     {selectedAddress && (
                       <div className="bg-primary/5 border border-primary/20 rounded-sm p-3">
-                        <p className="font-body text-xs text-muted-foreground">Dirección seleccionada:</p>
+                        <p className="font-body text-xs text-muted-foreground">Selected address:</p>
                         <p className="font-body text-sm text-foreground font-medium">{selectedAddress}</p>
                       </div>
                     )}
