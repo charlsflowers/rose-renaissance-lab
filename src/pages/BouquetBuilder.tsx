@@ -474,7 +474,7 @@ const BouquetBuilder = () => {
                           lettersNumbersType === "numbers" ? "border-primary bg-primary/5 text-primary" : "border-border text-muted-foreground hover:border-primary/30"
                         }`}
                       >
-                        <Hash className="w-4 h-4" /> Números
+                        <Hash className="w-4 h-4" /> Numbers
                       </button>
                     </div>
                     <input
