@@ -1,0 +1,39 @@
+ID,Nombre,Descripción,Color,Tipo,Nivel de Precio,Imagen Principal,Imagen Secundaria
+bq-round-6,Pure White,Round bouquet of white roses,Blanco,round,standard,bq-blanco.png,bq-blanco-2.png
+bq-round-7,Hot Pink Blush,Round bouquet of vibrant hot pink roses,Hot Pink,round,standard,bq-hotpink.png,bq-hotpink-2.png
+bq-round-8,Soft Pink,Round bouquet of soft pink roses,Pink,round,standard,bq-lightpink.png,bq-lightpink-2.png
+bq-round-12,Purple Charm,Round bouquet of purple roses,Morado,round,standard,bq-morado.png,bq-morado-2.png
+bq-round-19,Orange Sunset,Round bouquet of vibrant orange roses,Naranja,round,standard,bq-naranja.png,bq-naranja-2.png
+bq-round-20,Radiant Sun,Round bouquet of luminous yellow roses,Amarillo,round,standard,bq-amarillo.png,bq-amarillo-2.png
+bq-round-5,Total Passion,Round bouquet of pure red roses,Rojo,round,red,bq-rojo.png,bq-rojo-2.png
+bq-round-10,Blue Sky,Round bouquet of painted blue roses,Azul,round,painted,bq-azul.png,bq-azul-2.png
+bq-round-11,Deep Night,Round bouquet of elegant black roses,Negro,round,painted,bq-negro.png,bq-negro-2.png
+bq-round-22,Green Fresh,Round bouquet of painted green roses,Verde,round,painted,bq-verde.png,bq-verde-2.png
+bq-round-13,Pink & White Dawn,Delicate mix of hot pink and white roses,Hot Pink y Blanco,round,standard,bq-mix-hotpink-blanco.png,bq-mix-hotpink-blanco-2.png
+bq-round-15,Spring Garden,Mix of yellow and white roses,Amarillo y Blanco,round,standard,bq-mix-amarillo-blanco.png,bq-mix-amarillo-blanco-2.png
+bq-round-29,Soft Lilac,Mix of lilac and white roses,Lila y Blanco,round,standard,bq-mix-lila-blanco.png,bq-mix-lila-blanco-2.png
+bq-round-32,Citrus Refresh,Mix of orange and yellow roses,Naranja y Amarillo,round,standard,bq-mix-naranja-amarillo.png,bq-mix-naranja-amarillo-3.png
+bq-round-35,Orange Citrus,Mix of orange and white roses,Naranja y Blanco,round,standard,bq-mix-naranja-blanco.png,bq-mix-naranja-blanco-2.png
+bq-round-44,Infinite Tenderness,Mix of pink and white roses,Pink y Blanco,round,standard,bq-mix-lightpink-blanco.png,bq-mix-pink-amarillo-blanco-2.png
+bq-round-27,Iberian Passion,Mix of red and yellow roses,Rojo y Amarillo,round,mix2,bq-mix-espana.png,bq-mix-espana-2.png
+bq-round-34,Red Sweetness,Mix of red and pink roses,Rojo y Pink,round,mix2,bq-mix-rojo-lightpink.png,bq-mix-rojo-pink-lightpink-2.png
+bq-round-37,Bicolor Passion,Mix of red and white roses,Rojo y Blanco,round,mix2,bq-mix-rojo-blanco.png,bq-mix-rojo-blanco-2.png
+bq-round-40,Dark Romance,Mix of red and hot pink roses,Rojo y Hot Pink,round,mix2,bq-mix-rojo-hotpink.png,bq-mix-rojo-hotpink-3.png
+bq-round-43,Passionate Love,Mix of red and pink roses,Rojo y Pink,round,mix2,bq-mix-rojo-lightpink-2.png,bq-mix-rojo-lightpink-sec.png
+bq-round-30,Night & Day,Mix of black and white roses,Negro y Blanco,round,mix2painted,bq-mix-negro-blanco.png,bq-mix-negro-blanco-2.png
+bq-round-38,White Ocean,Mix of blue and white roses,Azul y Blanco,round,mix2painted,bq-mix-azul-blanco.png,bq-mix-azul-blanco-3.png
+bq-round-42,Dark Pink Elegance,Mix of pink and black roses,Pink y Negro,round,mix2painted,bq-mix-lightpink-negro.png,bq-mix-naranja-amarillo-2-sec.png
+bq-round-28,Sunflowers & Passion,Bouquet of sunflowers and red roses,Girasoles y Rojo,round,mix2,bq-mix-girasoles.png,bq-mix-girasoles-2.png
+bq-round-18,Classic Tricolor,Mix of red white and pink roses,Rojo Blanco y Pink,round,mix3red,bq-mix-rojo-pink-lightpink.png,review-tricolor-clasico.png
+bq-round-25,Intense Romance,Mix of red purple and white roses,Rojo Morado y Blanco,round,mix3red,bq-mix-romantico.png,bq-mix-romantico-2.png
+bq-round-26,Fire & Sun,Cheerful mix of red yellow and pink roses,Rojo Amarillo y Pink,round,mix3red,bq-mix-alegria.png,bq-mix-alegria-2.png
+bq-round-46,Tricolor Love,Mix of red pink and white roses,Rojo Pink y Blanco,round,mix3red,bq-mix-rojo-pink-blanco.png,bq-mix-rojo-pink-blanco-3.png
+bq-round-23,Magic Pastel,Mix of purple pink and white roses,Morado Pink y Blanco,round,standard,bq-mix-pastel.png,bq-mix-pastel-2.png
+bq-round-24,Warm Sunset,Vibrant mix of orange hot pink and white roses,Naranja Hot Pink y Blanco,round,standard,bq-mix-calido.png,bq-mix-calido-2.png
+bq-round-33,Light Citrus,Mix of orange yellow and white roses,Naranja Amarillo y Blanco,round,standard,bq-mix-naranja-amarillo-2.png,bq-mix-naranja-amarillo-2-3.png
+bq-round-39,Soft Spring,Mix of pink yellow and white roses,Pink Amarillo y Blanco,round,standard,bq-mix-pink-amarillo-blanco.png,bq-mix-pink-amarillo-blanco-3.png
+bq-round-41,Bright Lilac,Mix of yellow lilac and white roses,Amarillo Lila y Blanco,round,standard,bq-mix-amarillo-lila-blanco.png,bq-mix-naranja-amarillo-sec.png
+bq-round-47,Pink Symphony,Mix of hot pink pink and white roses,Hot Pink Pink y Blanco,round,standard,bq-mix-rojo-blanco-3.png,bq-mix-rojo-blanco-4.png
+bq-round-31,Elegant Contrast,Mix of black hot pink and white roses,Negro Hot Pink y Blanco,round,mix2painted,bq-mix-negro-rosa.png,bq-mix-negro-rosa-2.png
+bq-round-36,Imperial Bee,Mix of yellow black and white roses,Amarillo Negro y Blanco,round,mix2painted,bq-mix-amarillo-negro-blanco.png,bq-mix-amarillo-negro-blanco-3.png
+bq-round-45,Elegant Passion,Mix of red and white roses,Rojo y Blanco,round,mix2,bq-mix-rojo-blanco-negro.png,bq-mix-rojo-hotpink-2.png
