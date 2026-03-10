@@ -920,14 +920,14 @@ const BouquetBuilder = () => {
               <div className="flex flex-col md:flex-row items-center justify-between gap-4">
                 <div>
                   <p className="font-body text-sm text-muted-foreground">
-                    {rosesCount} rosas · {selectedColors.map(c => c.name).join(', ')}
-                    {addLettersNumbers && specialText && ` · ${lettersNumbersType === "letters" ? "Letras" : "Números"}: ${specialText}`}
-                    {addCrown && " · Corona"}
-                    {addRibbon && " · Cinta"}
-                    {accessory !== "none" && ` · ${accessory === "note" ? "Nota" : accessory === "card" ? "Tarjeta" : "Mariposas"}`}
-                    {addGlitter && " · Brillos"}
-                    {addVase && ` · Jarrón (${vaseOptions[selectedVaseIdx].label})`}
-                    {deliveryMethod === "delivery" ? (deliveryMiles && !distanceTooFar ? ` · Envío ${deliveryMiles}mi ($${deliveryCost})` : " · Envío (pendiente)") : " · Recogida en tienda"}
+                    {rosesCount} roses · {selectedColors.map(c => c.name).join(', ')}
+                    {addLettersNumbers && specialText && ` · ${lettersNumbersType === "letters" ? "Letters" : "Numbers"}: ${specialText}`}
+                    {addCrown && " · Crown"}
+                    {addRibbon && " · Ribbon"}
+                    {accessory !== "none" && ` · ${accessory === "note" ? "Note" : accessory === "card" ? "Card" : "Butterflies"}`}
+                    {addGlitter && " · Glitter"}
+                    {addVase && ` · Vase (${vaseOptions[selectedVaseIdx].label})`}
+                    {deliveryMethod === "delivery" ? (deliveryMiles && !distanceTooFar ? ` · Shipping ${deliveryMiles}mi ($${deliveryCost})` : " · Shipping (pending)") : " · Store pickup"}
                   </p>
                   <p className="font-display text-3xl font-bold text-foreground">
                     ${totalPrice} <span className="text-sm font-body text-muted-foreground font-normal">USD</span>
