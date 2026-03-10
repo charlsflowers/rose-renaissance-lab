@@ -198,13 +198,10 @@ const BouquetBuilder = () => {
 
   const totalPrice = useMemo(() => {
     let total = basePrice + lettersNumbersCost;
-    if (addCrown) total += crownPrice;
-    if (addRibbon) total += ribbonPrice;
     total += glitterCost;
-    total += vaseCost;
     total += deliveryCost;
     return total;
-  }, [basePrice, lettersNumbersCost, addCrown, addRibbon, glitterCost, vaseCost, deliveryCost]);
+  }, [basePrice, lettersNumbersCost, glitterCost, deliveryCost]);
 
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const [previewLoading, setPreviewLoading] = useState(false);
