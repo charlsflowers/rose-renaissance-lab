@@ -1005,11 +1005,11 @@ const BouquetBuilder = () => {
                     }
 
                     const addons: string[] = [];
-                    if (addCrown) addons.push(`Corona Tiara (${crownSize})`);
-                    if (addRibbon) addons.push("Cinta");
-                    if (addGlitter) addons.push("Brillos");
-                    if (addVase) addons.push(`Jarrón (${vaseOptions[selectedVaseIdx].label})`);
-                    if (addLettersNumbers && specialText) addons.push(`${lettersNumbersType === "letters" ? "Letras" : "Números"}: ${specialText}`);
+                    if (addCrown) addons.push(`Crown Tiara (${crownSize})`);
+                    if (addRibbon) addons.push("Ribbon");
+                    if (addGlitter) addons.push("Glitter");
+                    if (addVase) addons.push(`Vase (${vaseOptions[selectedVaseIdx].label})`);
+                    if (addLettersNumbers && specialText) addons.push(`${lettersNumbersType === "letters" ? "Letters" : "Numbers"}: ${specialText}`);
 
                     addItem({
                       id: "",
