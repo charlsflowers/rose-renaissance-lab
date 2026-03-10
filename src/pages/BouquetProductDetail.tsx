@@ -274,7 +274,7 @@ const BouquetProductDetail = () => {
                       <p className="font-display text-2xl font-semibold text-foreground">{size.roses}</p>
                       <p className="text-xs text-muted-foreground font-body">{hasCustomSizes && (size as any).label ? (size as any).label : 'roses'}</p>
                       <p className="text-sm font-body font-semibold text-primary mt-1">${price}</p>
-                      {disabled && <p className="text-[10px] text-destructive font-body mt-1">Mín. {sizeOptions[minSizeIdx].roses} para {colorCount} colores</p>}
+                      {disabled && <p className="text-[10px] text-destructive font-body mt-1">Min. {sizeOptions[minSizeIdx].roses} for {colorCount} colors</p>}
                     </button>
                   );
                 })}
