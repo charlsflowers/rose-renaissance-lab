@@ -199,7 +199,7 @@ const BouquetProductDetail = () => {
       <div className="pt-24 pb-16">
         <div className="container mx-auto px-6">
           <Link to="/bouquets" className="inline-flex items-center gap-2 text-muted-foreground font-body text-sm hover:text-primary transition-colors mb-8">
-            <ArrowLeft className="w-4 h-4" /> Volver
+            <ArrowLeft className="w-4 h-4" /> Back
           </Link>
 
           <div className="max-w-4xl mx-auto space-y-10">
