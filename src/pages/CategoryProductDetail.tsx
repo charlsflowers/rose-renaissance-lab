@@ -271,8 +271,8 @@ const CategoryProductDetail = () => {
                     {distanceError && <p className="text-sm font-body text-destructive">{distanceError}</p>}
                     {deliveryMiles !== null && !distanceTooFar && (
                       <div className="bg-primary/5 border border-primary/20 rounded-sm p-4">
-                        <p className="font-body text-sm text-foreground">📍 Distancia: <span className="font-semibold">{deliveryMiles} millas</span>{deliveryDuration && <span className="text-muted-foreground"> (~{deliveryDuration})</span>}</p>
-                        <p className="font-body text-sm text-primary font-semibold mt-1">Costo de envío: ${deliveryMiles * 2}</p>
+                         <p className="font-body text-sm text-foreground">📍 Distance: <span className="font-semibold">{deliveryMiles} miles</span>{deliveryDuration && <span className="text-muted-foreground"> (~{deliveryDuration})</span>}</p>
+                         <p className="font-body text-sm text-primary font-semibold mt-1">Shipping cost: ${deliveryMiles * 2}</p>
                       </div>
                     )}
                     {mapUrl && (
