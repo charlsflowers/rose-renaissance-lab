@@ -514,14 +514,14 @@ const BouquetBuilder = () => {
             </Section>
 
             {/* 6. Vase */}
-            <Section title="Jarrón" step={7} subtitle="Opcional">
+            <Section title="Vase" step={7} subtitle="Optional">
               <div className={`p-5 rounded-sm border-2 transition-all ${addVase ? "border-primary bg-primary/5" : "border-border"}`}>
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-3">
                     <span className="text-xl">🏺</span>
                     <div>
-                      <p className="font-body font-semibold text-foreground">Añadir Jarrón</p>
-                      <p className="text-xs text-muted-foreground font-body">Para poner tu ramo</p>
+                      <p className="font-body font-semibold text-foreground">Add Vase</p>
+                      <p className="text-xs text-muted-foreground font-body">For your bouquet</p>
                     </div>
                   </div>
                   <button onClick={() => {
