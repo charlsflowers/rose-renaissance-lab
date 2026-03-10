@@ -496,9 +496,9 @@ const BouquetBuilder = () => {
                       className="w-full max-w-xs bg-card border border-border rounded-sm px-4 py-3 font-body text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30"
                       maxLength={4}
                     />
-                    <p className="text-xs text-muted-foreground font-body">Mínimo 75 rosas para añadir letras o números.</p>
+                    <p className="text-xs text-muted-foreground font-body">Minimum 75 roses to add letters or numbers.</p>
                     {lettersNumbersType === "letters" && (
-                      <p className="text-xs text-muted-foreground font-body">A partir de 3 letras, el mínimo es de 100 rosas.</p>
+                      <p className="text-xs text-muted-foreground font-body">From 3 letters, the minimum is 100 roses.</p>
                     )}
                     {specialText.length > 0 && (
                       <div className="bg-card border border-border rounded-sm p-4">
