@@ -198,13 +198,10 @@ const BouquetBuilder = () => {
 
   const totalPrice = useMemo(() => {
     let total = basePrice + lettersNumbersCost;
-    if (addCrown) total += crownPrice;
-    if (addRibbon) total += ribbonPrice;
     total += glitterCost;
-    total += vaseCost;
     total += deliveryCost;
     return total;
-  }, [basePrice, lettersNumbersCost, addCrown, addRibbon, glitterCost, vaseCost, deliveryCost]);
+  }, [basePrice, lettersNumbersCost, glitterCost, deliveryCost]);
 
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const [previewLoading, setPreviewLoading] = useState(false);
@@ -514,150 +511,43 @@ const BouquetBuilder = () => {
             </Section>
 
             {/* 6. Vase */}
-            <Section title="Vase" step={7} subtitle="Optional">
-              <div className={`p-5 rounded-sm border-2 transition-all ${addVase ? "border-primary bg-primary/5" : "border-border"}`}>
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-3">
-                    <span className="text-xl">🏺</span>
-                    <div>
-                      <p className="font-body font-semibold text-foreground">Add Vase</p>
-                      <p className="text-xs text-muted-foreground font-body">For your bouquet</p>
+            <Section title="Vase" step={7} subtitle="Optional · Coming soon">
+              <div className="grid grid-cols-3 gap-3">
+                {vaseOptions.map((v) => (
+                  <div key={v.roses} className="flex flex-col items-center gap-2 p-4 rounded-sm border-2 border-border">
+                    <div className="w-16 h-16 rounded-sm bg-muted flex items-center justify-center">
+                      <span className="text-[10px] text-muted-foreground text-center leading-tight font-body">Coming soon</span>
                     </div>
+                    <p className="font-display text-lg font-semibold text-foreground">{v.roses}</p>
+                    <p className="text-xs text-muted-foreground font-body">roses</p>
+                    <p className="text-sm font-body font-semibold text-primary">${v.price}</p>
                   </div>
-                  <button onClick={() => {
-                    const newVal = !addVase;
-                    setAddVase(newVal);
-                    if (newVal) {
-                      const roses = sizeOptions[selectedSizeIdx].roses;
-                      const bestIdx = roses <= 50 ? 0 : roses <= 75 ? 1 : 2;
-                      setSelectedVaseIdx(bestIdx);
-                    }
-                  }} className={`w-12 h-7 rounded-full transition-all relative ${addVase ? "bg-primary" : "bg-muted"}`}>
-                    <div className={`w-5 h-5 rounded-full bg-primary-foreground absolute top-1 transition-all ${addVase ? "left-6" : "left-1"}`} />
-                  </button>
-                </div>
-                {addVase && (
-                  <div className="mt-4 grid grid-cols-3 gap-3">
-                    {vaseOptions.map((v, idx) => (
-                      <button key={v.roses} onClick={() => setSelectedVaseIdx(idx)}
-                        className={`p-4 rounded-sm border-2 text-center transition-all ${selectedVaseIdx === idx ? "border-primary bg-primary/5" : "border-border hover:border-primary/30"}`}>
-                        <p className="font-display text-lg font-semibold text-foreground">{v.roses}</p>
-                        <p className="text-xs text-muted-foreground font-body">roses</p>
-                        <p className="text-sm font-body font-semibold text-primary mt-1">${v.price}</p>
-                      </button>
-                    ))}
-                  </div>
-                )}
+                ))}
               </div>
             </Section>
 
             {/* 7. Extras */}
-            <Section title="Extras" step={8}>
-              {/* Crown */}
-              <div className={`p-5 rounded-sm border-2 transition-all mb-4 ${
-                addCrown ? "border-primary bg-primary/5" : "border-border"
-              }`}>
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-3">
-                    <Crown className="w-5 h-5 text-gold" />
-                    <div>
-                      <p className="font-body font-semibold text-foreground">Crown Tiara</p>
-                      <p className="text-xs text-muted-foreground font-body">+${crownPrice}</p>
-                    </div>
+            <Section title="Extras" step={8} subtitle="Coming soon">
+              <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+                {/* Crown */}
+                <div className="flex flex-col items-center gap-2 p-4 rounded-sm border-2 border-border">
+                  <div className="w-16 h-16 rounded-sm bg-muted flex items-center justify-center">
+                    <span className="text-[10px] text-muted-foreground text-center leading-tight font-body">Coming soon</span>
                   </div>
-                  <button
-                    onClick={() => setAddCrown(!addCrown)}
-                    className={`w-12 h-7 rounded-full transition-all relative ${
-                      addCrown ? "bg-primary" : "bg-muted"
-                    }`}
-                  >
-                    <div className={`w-5 h-5 rounded-full bg-primary-foreground absolute top-1 transition-all ${
-                      addCrown ? "left-6" : "left-1"
-                    }`} />
-                  </button>
+                  <Crown className="w-5 h-5 text-gold" />
+                  <p className="font-body font-semibold text-foreground text-sm text-center">Crown Tiara</p>
+                  <p className="text-xs text-muted-foreground font-body">+${crownPrice}</p>
                 </div>
-                {addCrown && (
-                  <div className="mt-4 flex gap-3">
-                    {crownOptions.map((c) => (
-                      <button
-                        key={c.size}
-                        onClick={() => setCrownSize(c.size)}
-                        className={`px-4 py-2 rounded-sm border-2 text-sm font-body transition-all ${
-                          crownSize === c.size ? "border-primary bg-primary/5" : "border-border"
-                        }`}
-                      >
-                        {c.label}
-                      </button>
-                    ))}
-                  </div>
-                )}
-              </div>
 
-              {/* Ribbon */}
-              <div className={`p-5 rounded-sm border-2 transition-all ${
-                addRibbon ? "border-primary bg-primary/5" : "border-border"
-              }`}>
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-3">
-                    <Sparkles className="w-5 h-5 text-gold" />
-                    <div>
-                      <p className="font-body font-semibold text-foreground">Custom Ribbon</p>
-                      <p className="text-xs text-muted-foreground font-body">+${ribbonPrice}</p>
-                    </div>
+                {/* Ribbon */}
+                <div className="flex flex-col items-center gap-2 p-4 rounded-sm border-2 border-border">
+                  <div className="w-16 h-16 rounded-sm bg-muted flex items-center justify-center">
+                    <span className="text-[10px] text-muted-foreground text-center leading-tight font-body">Coming soon</span>
                   </div>
-                  <button
-                    onClick={() => setAddRibbon(!addRibbon)}
-                    className={`w-12 h-7 rounded-full transition-all relative ${
-                      addRibbon ? "bg-primary" : "bg-muted"
-                    }`}
-                  >
-                    <div className={`w-5 h-5 rounded-full bg-primary-foreground absolute top-1 transition-all ${
-                      addRibbon ? "left-6" : "left-1"
-                    }`} />
-                  </button>
+                  <Sparkles className="w-5 h-5 text-gold" />
+                  <p className="font-body font-semibold text-foreground text-sm text-center">Custom Ribbon</p>
+                  <p className="text-xs text-muted-foreground font-body">+${ribbonPrice}</p>
                 </div>
-                {addRibbon && (
-                  <div className="mt-4 space-y-4">
-                    <div className="flex gap-3">
-                      {(["names", "congratulations"] as const).map((t) => (
-                        <button
-                          key={t}
-                          onClick={() => { setRibbonType(t); setRibbonText(""); }}
-                          className={`px-4 py-2 rounded-sm border-2 text-sm font-body transition-all ${
-                            ribbonType === t ? "border-primary bg-primary/5" : "border-border"
-                          }`}
-                        >
-                          {t === "names" ? "Names" : "Congratulations"}
-                        </button>
-                      ))}
-                    </div>
-                    {ribbonType === "congratulations" && (
-                      <div className="flex flex-wrap gap-2">
-                        {ribbonPresets.map((preset) => (
-                          <button
-                            key={preset}
-                            onClick={() => setRibbonText(preset)}
-                            className={`px-3 py-1.5 rounded-full text-xs font-body transition-all ${
-                              ribbonText === preset
-                                ? "bg-primary text-primary-foreground"
-                                : "bg-muted text-muted-foreground hover:bg-primary/10"
-                            }`}
-                          >
-                            {preset}
-                          </button>
-                        ))}
-                      </div>
-                    )}
-                    <input
-                      type="text"
-                      value={ribbonText}
-                      onChange={(e) => setRibbonText(e.target.value)}
-                      placeholder={ribbonType === "names" ? "Write the names..." : "Or write your custom text..."}
-                      className="w-full bg-card border border-border rounded-sm px-4 py-3 font-body text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30"
-                      maxLength={50}
-                    />
-                  </div>
-                )}
               </div>
             </Section>
 
