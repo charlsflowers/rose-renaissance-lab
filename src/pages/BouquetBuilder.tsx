@@ -1044,7 +1044,7 @@ const BouquetBuilder = () => {
                   }}
                   className="w-full md:w-auto border-2 border-primary text-primary px-10 py-4 font-body text-sm tracking-widest uppercase hover:bg-primary/10 transition-colors rounded-sm"
                 >
-                  Pagar ahora
+                  Pay now
                 </button>
               </div>
             </div>
