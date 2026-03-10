@@ -906,9 +906,9 @@ const BouquetBuilder = () => {
                       ))}
                     </div>
                   ) : (
-                    <p className="text-sm text-muted-foreground font-body">
-                      No hay horarios disponibles para hoy (mínimo 2 horas de anticipación). Selecciona otro día.
-                    </p>
+                     <p className="text-sm text-muted-foreground font-body">
+                       No available hours for today (minimum 2 hours in advance). Select another day.
+                     </p>
                   )}
                 </div>
               )}
