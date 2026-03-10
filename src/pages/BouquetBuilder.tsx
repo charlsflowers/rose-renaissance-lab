@@ -652,7 +652,7 @@ const BouquetBuilder = () => {
                       type="text"
                       value={ribbonText}
                       onChange={(e) => setRibbonText(e.target.value)}
-                      placeholder={ribbonType === "names" ? "Escribe los nombres..." : "O escribe tu texto personalizado..."}
+                      placeholder={ribbonType === "names" ? "Write the names..." : "Or write your custom text..."}
                       className="w-full bg-card border border-border rounded-sm px-4 py-3 font-body text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30"
                       maxLength={50}
                     />
