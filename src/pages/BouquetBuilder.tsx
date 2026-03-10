@@ -887,7 +887,7 @@ const BouquetBuilder = () => {
               {deliveryDate && (
                 <div>
                   <label className="text-sm font-body font-semibold text-foreground block mb-2">
-                    <Clock className="w-4 h-4 inline mr-1" /> Hora de {deliveryMethod === "pickup" ? "recogida" : "entrega"}
+                    <Clock className="w-4 h-4 inline mr-1" /> {deliveryMethod === "pickup" ? "Pickup" : "Delivery"} time
                   </label>
                   {availableHours.length > 0 ? (
                     <div className="flex flex-wrap gap-2">
