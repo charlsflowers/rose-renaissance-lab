@@ -152,7 +152,7 @@ const CategoryProductDetail = () => {
       deliveryMiles: deliveryMethod === "delivery" ? deliveryMiles : null,
       paperColor,
     });
-    toast.success("¡Producto añadido al carrito!");
+    toast.success("Product added to cart!");
     return true;
   };
 
