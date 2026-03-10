@@ -153,7 +153,7 @@ const BouquetBuilder = () => {
             if (data.mapUrl) setMapUrl(data.mapUrl);
           }
         } catch (e: any) {
-          setDistanceError(e.message || "Error al calcular distancia");
+          setDistanceError(e.message || "Error calculating distance");
         } finally {
           setDistanceLoading(false);
         }
