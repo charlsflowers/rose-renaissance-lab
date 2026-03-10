@@ -82,7 +82,7 @@ const CategoryProductDetail = () => {
       setDistanceLoading(true); setDistanceError(""); setDistanceTooFar(false); setDeliveryMiles(null);
       try {
         const { data, error } = await supabase.functions.invoke("calculate-distance", { body: { fullAddress: prediction.description } });
-        if (error) throw new Error("Error de conexión");
+        if (error) throw new Error("Connection error");
         if (data.error) { setDistanceError(data.error); if (data.tooFar) { setDistanceTooFar(true); setDeliveryMiles(data.miles); } }
         else { setDeliveryMiles(data.miles); setDeliveryDuration(data.duration); if (data.mapUrl) setMapUrl(data.mapUrl); }
       } catch (e: any) { setDistanceError(e.message || "Error al calcular distancia"); }
