@@ -774,7 +774,7 @@ const BouquetBuilder = () => {
                           value={addressQuery}
                           onChange={(e) => handleAddressInput(e.target.value)}
                           onFocus={() => predictions.length > 0 && setShowPredictions(true)}
-                          placeholder="Empieza a escribir la dirección..."
+                          placeholder="Start typing the address..."
                           className="w-full bg-background border border-border rounded-sm px-3 py-2.5 pr-10 font-body text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30"
                           required
                         />
