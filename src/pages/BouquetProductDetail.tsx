@@ -328,7 +328,7 @@ const BouquetProductDetail = () => {
               <div className="grid grid-cols-2 gap-3 mb-6">
                 <button onClick={() => setDeliveryMethod("pickup")}
                   className={`flex flex-col items-center gap-3 p-5 rounded-sm border-2 transition-all font-body ${deliveryMethod === "pickup" ? "border-primary bg-primary/5" : "border-border hover:border-primary/30"}`}>
-                  <Store className="w-6 h-6" /><p className="font-semibold text-sm text-foreground">Recoger en tienda</p><p className="text-xs text-muted-foreground">Gratis</p>
+                  <Store className="w-6 h-6" /><p className="font-semibold text-sm text-foreground">Store pickup</p><p className="text-xs text-muted-foreground">Free</p>
                   {deliveryMethod === "pickup" && <Check className="w-4 h-4 text-primary" />}
                 </button>
                 <button onClick={() => setDeliveryMethod("delivery")}
