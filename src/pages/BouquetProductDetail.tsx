@@ -345,7 +345,7 @@ const BouquetProductDetail = () => {
                   </p>
                 ) : (
                   <>
-                    <p className="font-body font-semibold text-foreground text-sm">Dirección de entrega</p>
+                    <p className="font-body font-semibold text-foreground text-sm">Delivery address</p>
                     <div ref={autocompleteRef} className="relative">
                       <label className="text-xs text-muted-foreground font-body block mb-1"><MapPin className="w-3 h-3 inline mr-1" />Dirección <span className="text-destructive">*</span></label>
                       <div className="relative">
