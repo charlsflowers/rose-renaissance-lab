@@ -261,7 +261,7 @@ const BouquetProductDetail = () => {
 
 
             {/* 1. Size */}
-            <Section title="Cantidad de Rosas" step={step++}>
+            <Section title="Number of Roses" step={step++}>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
                 {sizeOptions.map((size, idx) => {
                   const disabled = idx < minSizeIdx;
