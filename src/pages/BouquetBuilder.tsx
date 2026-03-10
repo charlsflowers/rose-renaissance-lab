@@ -435,7 +435,7 @@ const BouquetBuilder = () => {
                 <textarea
                   value={accessoryText}
                   onChange={(e) => setAccessoryText(e.target.value)}
-                  placeholder={`Escribe tu ${accessory === "note" ? "nota" : "tarjeta"}...`}
+                  placeholder={`Write your ${accessory === "note" ? "note" : "card"}...`}
                   className="w-full mt-4 bg-card border border-border rounded-sm px-4 py-3 font-body text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30 min-h-[100px] resize-none"
                   maxLength={200}
                 />
