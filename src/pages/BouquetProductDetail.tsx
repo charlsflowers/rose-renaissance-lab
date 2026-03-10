@@ -266,7 +266,7 @@ const BouquetProductDetail = () => {
                 {sizeOptions.map((size, idx) => {
                   const disabled = idx < minSizeIdx;
                   const price = hasCustomSizes ? (size as any).price : getPrice(product.pricingTier, size.roses);
-                  const label = hasCustomSizes && (size as any).label ? (size as any).label : `${size.roses} rosas`;
+                  const label = hasCustomSizes && (size as any).label ? (size as any).label : `${size.roses} roses`;
                   return (
                     <button key={size.roses} onClick={() => !disabled && setSelectedSizeIdx(idx)}
                       disabled={disabled}
