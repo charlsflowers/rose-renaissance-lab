@@ -836,8 +836,8 @@ const BouquetBuilder = () => {
                           allowFullScreen
                           loading="lazy"
                           referrerPolicy="no-referrer-when-downgrade"
-                          title="Ruta de entrega"
-                        />
+                           title="Delivery route"
+                         />
                       </div>
                     ) : (
                       <div className="rounded-sm overflow-hidden border border-border bg-muted flex items-center justify-center h-48">
