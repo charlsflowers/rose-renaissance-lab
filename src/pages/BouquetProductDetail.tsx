@@ -455,7 +455,7 @@ const BouquetProductDetail = () => {
                   <div className="flex w-full md:w-auto gap-2">
                     <button onClick={handleAddToCart}
                       className="flex-1 md:flex-none bg-primary text-primary-foreground px-6 py-3 font-body text-xs tracking-widest uppercase hover:bg-primary/90 transition-colors rounded-sm">
-                      Añadir al carrito
+                      Add to cart
                     </button>
                     <button onClick={handlePayNow}
                       className="flex-1 md:flex-none border-2 border-primary text-primary px-6 py-3 font-body text-xs tracking-widest uppercase hover:bg-primary/10 transition-colors rounded-sm whitespace-nowrap">
