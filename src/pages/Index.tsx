@@ -92,7 +92,10 @@ const Index = () => {
               <div className="w-9 h-9 rounded-full bg-primary/10 flex items-center justify-center">
                 <Globe className="w-4 h-4 text-primary" />
               </div>
-              <span className="font-body text-[11px] md:text-xs tracking-wider text-foreground uppercase">Nationwide shipping</span>
+              <div className="flex flex-col items-start gap-0.5">
+                <span className="font-body text-[11px] md:text-xs tracking-wider text-foreground uppercase">Nationwide shipping</span>
+                <span className="font-body text-[9px] md:text-[10px] tracking-widest uppercase text-primary-foreground bg-primary px-2 py-0.5 rounded-full">Coming Soon</span>
+              </div>
             </div>
           </div>
         </div>

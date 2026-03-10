@@ -26,6 +26,7 @@ export interface CartItem {
   deliveryHour: string;
   deliveryMiles: number | null;
   paperColor: string;
+  image?: string;
 }
 
 interface CartContextType {

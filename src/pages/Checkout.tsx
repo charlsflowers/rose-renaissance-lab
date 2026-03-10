@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useCart } from "@/contexts/CartContext";
 import Navbar from "@/components/Navbar";
 import DeliveryCalculator from "@/components/DeliveryCalculator";
-import { Trash2, ArrowLeft, Truck, Store } from "lucide-react";
+import { Trash2, ArrowLeft, Truck, Store, Globe } from "lucide-react";
 import BrandLogo from "@/components/BrandLogo";
 import { motion } from "framer-motion";
 
@@ -76,6 +76,17 @@ const Checkout = () => {
                 transition={{ delay: idx * 0.1 }}
                 className="bg-card border border-border rounded-sm p-6"
               >
+                {/* Product image */}
+                {item.image && (
+                  <div className="mb-4 flex justify-center">
+                    <img
+                      src={item.image}
+                      alt={`${item.bouquetType} bouquet`}
+                      className="w-32 h-32 md:w-40 md:h-40 object-cover rounded-sm border border-border"
+                    />
+                  </div>
+                )}
+
                 <div className="flex items-start justify-between mb-4">
                   <div>
                     <h3 className="font-display text-xl font-semibold text-foreground">
@@ -159,6 +170,14 @@ const Checkout = () => {
               animate={{ opacity: 1, y: 0 }}
               className="bg-card border-2 border-primary/20 rounded-sm p-6 space-y-5"
             >
+              {/* Nationwide shipping badge */}
+              <div className="flex items-center justify-center">
+                <div className="inline-flex items-center gap-2 bg-primary text-primary-foreground px-4 py-2 rounded-full font-body text-xs tracking-widest uppercase">
+                  <Globe className="w-3.5 h-3.5" />
+                  Nationwide shipping across the USA
+                </div>
+              </div>
+
               <p className="font-body font-semibold text-foreground text-sm">Delivery method</p>
               <div className="grid grid-cols-2 gap-3">
                 <button
@@ -181,7 +200,8 @@ const Checkout = () => {
                   }`}
                 >
                   <Truck className="w-5 h-5" />
-                  Home delivery
+                  <span>Home delivery</span>
+                  <span className="text-[10px] text-muted-foreground font-normal">$2/mile</span>
                 </button>
               </div>
 

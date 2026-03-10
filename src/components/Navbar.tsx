@@ -5,7 +5,7 @@ import BrandLogo from "@/components/BrandLogo";
 import charlsLogo from "@/assets/charls-logo.png";
 import { Menu, X } from "lucide-react";
 
-const comingSoonSlugs = ["arreglos", "cajas", "cestas", "jarrones", "osos"];
+const comingSoonSlugs = ["arreglos", "cajas", "cestas", "jarrones", "osos", "room-decors"];
 
 const navLinks = [
   { to: "/", label: "Home" },
