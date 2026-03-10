@@ -449,8 +449,8 @@ const BouquetBuilder = () => {
                   <div className="flex items-center gap-3">
                     <Type className="w-5 h-5 text-primary" />
                     <div>
-                      <p className="font-body font-semibold text-foreground">Añadir Letras o Números en Baby Breath</p>
-                      <p className="text-xs text-muted-foreground font-body">${letterNumberExtraPrice} por cada letra/número · Máx. 4 · Mínimo 75 rosas</p>
+                      <p className="font-body font-semibold text-foreground">Add Letters or Numbers in Baby Breath</p>
+                      <p className="text-xs text-muted-foreground font-body">${letterNumberExtraPrice} per letter/number · Max. 4 · Minimum 75 roses</p>
                     </div>
                   </div>
                   <button onClick={() => { if (!addLettersNumbers) { const minIdx = sizeOptions.findIndex(s => s.roses >= 75); if (selectedSizeIdx < minIdx) setSelectedSizeIdx(minIdx); } else { setSpecialText(""); } setAddLettersNumbers(!addLettersNumbers); }} className={`w-12 h-7 rounded-full transition-all relative ${addLettersNumbers ? "bg-primary" : "bg-muted"}`}>
