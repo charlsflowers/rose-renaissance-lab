@@ -121,9 +121,9 @@ const CategoryProductDetail = () => {
   const totalPrice = selectedSize.price + deliveryCost;
 
   const handleAddToCart = (): boolean => {
-    if (deliveryMethod === "delivery" && !selectedAddress) { toast.error("Selecciona una dirección de entrega."); return false; }
-    if (deliveryMethod === "delivery" && (distanceTooFar || deliveryMiles === null)) { toast.error("La dirección no es válida o está fuera de rango."); return false; }
-    if (!deliveryDate || !deliveryHour) { toast.error("Selecciona fecha y hora."); return false; }
+    if (deliveryMethod === "delivery" && !selectedAddress) { toast.error("Please select a delivery address."); return false; }
+    if (deliveryMethod === "delivery" && (distanceTooFar || deliveryMiles === null)) { toast.error("The address is invalid or out of range."); return false; }
+    if (!deliveryDate || !deliveryHour) { toast.error("Please select a date and time."); return false; }
 
     addItem({
       id: "",
