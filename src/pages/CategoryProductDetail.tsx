@@ -304,7 +304,7 @@ const CategoryProductDetail = () => {
               </div>
               {deliveryDate && (
                 <div>
-                  <label className="text-sm font-body font-semibold text-foreground block mb-2"><Clock className="w-4 h-4 inline mr-1" /> Hora</label>
+                  <label className="text-sm font-body font-semibold text-foreground block mb-2"><Clock className="w-4 h-4 inline mr-1" /> Time</label>
                   {availableHours.length > 0 ? (
                     <div className="flex flex-wrap gap-2">
                       {availableHours.map((hour) => (
