@@ -34,9 +34,9 @@ const ReviewUpsellDialog = ({ open, onOpenChange, cartData, productLabel, mode }
 
   const handleConfirm = () => {
     const addons: string[] = [];
-    if (addGlitter) addons.push("Brillos");
-    if (addCrown) addons.push(`Corona (${crownSize})`);
-    if (addRibbon) addons.push("Cinta");
+    if (addGlitter) addons.push("Glitter");
+    if (addCrown) addons.push(`Crown (${crownSize})`);
+    if (addRibbon) addons.push("Ribbon");
 
     const item: CartItem = {
       id: "",
@@ -71,8 +71,8 @@ const ReviewUpsellDialog = ({ open, onOpenChange, cartData, productLabel, mode }
     if (mode === "buy") {
       navigate("/checkout");
     } else {
-      toast.success("¡Añadido al carrito!", {
-        description: `${productLabel} — ${cartData.roses} rosas`,
+      toast.success("Added to cart!", {
+        description: `${productLabel} — ${cartData.roses} roses`,
       });
     }
   };
@@ -82,19 +82,19 @@ const ReviewUpsellDialog = ({ open, onOpenChange, cartData, productLabel, mode }
       <DialogContent className="sm:max-w-md max-h-[90vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle className="font-display text-xl">
-            {productLabel} · {cartData.roses} rosas
+            {productLabel} · {cartData.roses} roses
           </DialogTitle>
-          <p className="text-sm text-muted-foreground font-body">Precio base: ${cartData.price}</p>
+          <p className="text-sm text-muted-foreground font-body">Base price: ${cartData.price}</p>
         </DialogHeader>
 
         <div className="space-y-5 pt-2">
           {/* Delivery method */}
           <div>
-            <p className="font-body text-sm font-semibold text-foreground mb-3">Método de entrega</p>
+            <p className="font-body text-sm font-semibold text-foreground mb-3">Delivery method</p>
             <div className="grid grid-cols-2 gap-3">
               {([
-                { value: "pickup" as const, label: "Recoger en tienda", icon: Store },
-                { value: "delivery" as const, label: "Entrega a domicilio", icon: Truck },
+                { value: "pickup" as const, label: "Store pickup", icon: Store },
+                { value: "delivery" as const, label: "Home delivery", icon: Truck },
               ]).map(({ value, label, icon: Icon }) => (
                 <button
                   key={value}
@@ -123,8 +123,8 @@ const ReviewUpsellDialog = ({ open, onOpenChange, cartData, productLabel, mode }
           >
             <Star className={`w-5 h-5 shrink-0 ${addGlitter ? "text-yellow-400 fill-yellow-400" : ""}`} />
             <div className="text-left flex-1">
-              <p className="font-semibold">✨ Brillos</p>
-              <p className="text-xs">Acabado brillante en las rosas</p>
+              <p className="font-semibold">✨ Glitter</p>
+              <p className="text-xs">Glitter finish on the roses</p>
             </div>
             <span className="text-xs font-semibold">+${glitterCost || Math.ceil(cartData.roses / 25) * 8}</span>
           </button>
@@ -141,8 +141,8 @@ const ReviewUpsellDialog = ({ open, onOpenChange, cartData, productLabel, mode }
             >
               <Crown className="w-5 h-5 shrink-0" />
               <div className="text-left flex-1">
-                <p className="font-semibold">Corona</p>
-                <p className="text-xs">Añade una corona decorativa</p>
+                <p className="font-semibold">Crown</p>
+                <p className="text-xs">Add a decorative crown</p>
               </div>
               <span className="text-xs font-semibold">+${crownPrice}</span>
             </button>
@@ -181,8 +181,8 @@ const ReviewUpsellDialog = ({ open, onOpenChange, cartData, productLabel, mode }
             >
               <Ribbon className="w-5 h-5 shrink-0" />
               <div className="text-left flex-1">
-                <p className="font-semibold">Cinta personalizada</p>
-                <p className="text-xs">Con el texto que tú quieras</p>
+                <p className="font-semibold">Custom ribbon</p>
+                <p className="text-xs">With any text you want</p>
               </div>
               <span className="text-xs font-semibold">+${ribbonPrice}</span>
             </button>
@@ -200,7 +200,7 @@ const ReviewUpsellDialog = ({ open, onOpenChange, cartData, productLabel, mode }
                           : "border-border text-muted-foreground hover:border-primary/30"
                       }`}
                     >
-                      {t === "names" ? "Nombres" : "Felicitaciones"}
+                      {t === "names" ? "Names" : "Congratulations"}
                     </button>
                   ))}
                 </div>
@@ -227,7 +227,7 @@ const ReviewUpsellDialog = ({ open, onOpenChange, cartData, productLabel, mode }
                   type="text"
                   value={ribbonText}
                   onChange={(e) => setRibbonText(e.target.value)}
-                  placeholder={ribbonType === "names" ? "Ej: Ana & Carlos" : "Ej: Happy Birthday"}
+                  placeholder={ribbonType === "names" ? "e.g. Ana & Carlos" : "e.g. Happy Birthday"}
                   className="w-full bg-card border border-border rounded-sm px-4 py-3 font-body text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30"
                 />
               </div>
@@ -248,12 +248,12 @@ const ReviewUpsellDialog = ({ open, onOpenChange, cartData, productLabel, mode }
               {mode === "buy" ? (
                 <>
                   <CreditCard className="w-4 h-4" />
-                  Pedir y pagar
+                  Order & pay
                 </>
               ) : (
                 <>
                   <ShoppingBag className="w-4 h-4" />
-                  Añadir al carrito
+                  Add to cart
                 </>
               )}
             </button>
