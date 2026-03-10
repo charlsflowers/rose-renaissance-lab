@@ -3,19 +3,19 @@ import { motion } from "framer-motion";
 import { ChevronLeft, ChevronRight, Play, ShoppingBag } from "lucide-react";
 
 const placeholderVideos = [
-  { id: 2, title: "Entrega sorpresa de rosas", src: "/videos/video_2.mp4", productLink: "" },
-  { id: 4, title: "Arreglo especial para aniversario", src: "/videos/video_4.mp4", productLink: "" },
-  { id: 5, title: "Ramo de 200 rosas de color rosa", src: "/videos/video_5.mp4", productLink: "" },
-  { id: 6, title: "75 rosas rojas · 1 letra + 1 corazón · Papel negro", src: "/videos/video_6.mov", productLink: "" },
-  { id: 7, title: "75 rosas rojas · 1 letra + 1 corazón + cinta personalizada · Papel blanco", src: "/videos/video_7.mov", productLink: "" },
-  { id: 8, title: "75 rosas rojas glitter · 2 números + 1 corazón · Papel negro", src: "/videos/video_8.mov", productLink: "" },
-  { id: 9, title: "100 rosas rosa glitter · Papel blanco", src: "/videos/video_9.mov", productLink: "" },
-  { id: 10, title: "100 rosas rosa · 1 letra + 1 corazón + cinta personalizada · Papel blanco", src: "/videos/video_10.mov", productLink: "" },
-  { id: 11, title: "100 rosas moradas · 1 letra + 1 corazón + cinta personalizada · Papel blanco", src: "/videos/video_11.mov", productLink: "" },
-  { id: 12, title: "100 rosas rojas · 1 letra + 1 corazón · Papel negro", src: "/videos/video_12.mov", productLink: "" },
-  { id: 13, title: "100 rosas rojas · 2 números + 1 corazón · Papel blanco", src: "/videos/video_13.mov", productLink: "" },
-  { id: 14, title: "125 rosas rojas · 2 números + 1 corazón · Papel blanco", src: "/videos/video_14.mov", productLink: "" },
-  { id: 15, title: "200 rosas blancas y rosas glitter · Mariposas + cinta personalizada · Papel rosa", src: "/videos/video_15.mov", productLink: "" },
+  { id: 2, title: "Sorpresa inolvidable", src: "/videos/video_2.mp4", productLink: "" },
+  { id: 4, title: "Amor de aniversario", src: "/videos/video_4.mp4", productLink: "" },
+  { id: 5, title: "Elegancia en rosa", src: "/videos/video_5.mp4", productLink: "" },
+  { id: 6, title: "Pasión en rojo y negro", src: "/videos/video_6.mov", productLabel: "75 rosas rojas · 1 letra + 1 corazón · Papel negro", productLink: "" },
+  { id: 7, title: "Detalle con nombre", src: "/videos/video_7.mov", productLabel: "75 rosas rojas · 1 letra + 1 corazón + cinta personalizada · Papel blanco", productLink: "" },
+  { id: 8, title: "Brillos que enamoran", src: "/videos/video_8.mov", productLabel: "75 rosas rojas glitter · 2 números + 1 corazón · Papel negro", productLink: "" },
+  { id: 9, title: "Rosa glitter", src: "/videos/video_9.mov", productLabel: "100 rosas rosa glitter · Papel blanco", productLink: "" },
+  { id: 10, title: "Ternura personalizada", src: "/videos/video_10.mov", productLabel: "100 rosas rosa · 1 letra + 1 corazón + cinta · Papel blanco", productLink: "" },
+  { id: 11, title: "Morado con dedicatoria", src: "/videos/video_11.mov", productLabel: "100 rosas moradas · 1 letra + 1 corazón + cinta · Papel blanco", productLink: "" },
+  { id: 12, title: "Clásico rojo intenso", src: "/videos/video_12.mov", productLabel: "100 rosas rojas · 1 letra + 1 corazón · Papel negro", productLink: "" },
+  { id: 13, title: "Fecha especial", src: "/videos/video_13.mov", productLabel: "100 rosas rojas · 2 números + 1 corazón · Papel blanco", productLink: "" },
+  { id: 14, title: "Gran celebración", src: "/videos/video_14.mov", productLabel: "125 rosas rojas · 2 números + 1 corazón · Papel blanco", productLink: "" },
+  { id: 15, title: "Fantasía blanca y rosa", src: "/videos/video_15.mov", productLabel: "200 rosas blancas y rosas glitter · Mariposas + cinta · Papel rosa", productLink: "" },
 ];
 
 const VideoCard = ({ video, index }: { video: typeof placeholderVideos[0]; index: number }) => {
