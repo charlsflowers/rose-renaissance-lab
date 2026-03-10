@@ -276,8 +276,8 @@ const BouquetBuilder = () => {
             </div>
 
             {/* 1. Color */}
-            <Section title="Color de las Rosas" step={1}>
-              <p className="text-xs text-muted-foreground font-body mb-4">Selecciona hasta 3 colores para tu bouquet</p>
+            <Section title="Rose Color" step={1}>
+              <p className="text-xs text-muted-foreground font-body mb-4">Select up to 3 colors for your bouquet</p>
               {colorCategories.map(({ key, label }) => {
                 const colors = colorOptions.filter((c) => c.category === key);
                 return (
