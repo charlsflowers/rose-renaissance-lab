@@ -16,8 +16,9 @@ import jarronesImg from "@/assets/jarrones.jpg";
 import ososImg from "@/assets/osos.jpg";
 import heartBouquet from "@/assets/heart-bouquet.jpg";
 import purezaBlancaImg from "@/assets/bq-blanco.png";
+import roomDecorImg from "@/assets/room-decor.jpg";
 
-const comingSoonSlugs = ["arreglos", "cajas", "cestas", "jarrones", "osos"];
+const comingSoonSlugs = ["arreglos", "cajas", "cestas", "jarrones", "osos", "room-decors"];
 
 const Index = () => {
   const [reviewCategory, setReviewCategory] = useState<ReviewCategory>("bouquets");
