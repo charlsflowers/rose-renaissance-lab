@@ -542,7 +542,7 @@ const BouquetBuilder = () => {
                       <button key={v.roses} onClick={() => setSelectedVaseIdx(idx)}
                         className={`p-4 rounded-sm border-2 text-center transition-all ${selectedVaseIdx === idx ? "border-primary bg-primary/5" : "border-border hover:border-primary/30"}`}>
                         <p className="font-display text-lg font-semibold text-foreground">{v.roses}</p>
-                        <p className="text-xs text-muted-foreground font-body">rosas</p>
+                        <p className="text-xs text-muted-foreground font-body">roses</p>
                         <p className="text-sm font-body font-semibold text-primary mt-1">${v.price}</p>
                       </button>
                     ))}
