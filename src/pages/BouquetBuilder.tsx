@@ -674,18 +674,18 @@ const BouquetBuilder = () => {
                 >
                   {previewLoading ? (
                     <>
-                      <Loader2 className="w-4 h-4 animate-spin" />
-                      Generando...
+                     <Loader2 className="w-4 h-4 animate-spin" />
+                      Generating...
                     </>
                   ) : hasGeneratedPreview ? (
                     <>
                       <Eye className="w-4 h-4" />
-                      Preview generado
+                      Preview generated
                     </>
                   ) : (
                     <>
                       <Eye className="w-4 h-4" />
-                      Ver preview de mi ramo
+                      Preview my bouquet
                     </>
                   )}
                 </button>
