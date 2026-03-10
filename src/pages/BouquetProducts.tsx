@@ -3,9 +3,7 @@ import { Link } from "react-router-dom";
 import Navbar from "@/components/Navbar";
 import { bouquetProducts, bouquetSizeOptions } from "@/lib/catalogData";
 import { getPrice } from "@/lib/productData";
-import { ArrowLeft, ArrowRight, Sparkles, Flower2 } from "lucide-react";
-
-import { Lock } from "lucide-react";
+import { ArrowLeft, ArrowRight, Sparkles, Flower2, Lock } from "lucide-react";
 
 type FilterType = "un-color" | "mezclas" | "aniversarios";
 
@@ -25,22 +23,22 @@ const BouquetProducts = () => {
       <div className="pt-24 pb-16">
         <div className="container mx-auto px-6">
           <Link to="/" className="inline-flex items-center gap-2 text-muted-foreground font-body text-sm hover:text-primary transition-colors mb-8">
-            <ArrowLeft className="w-4 h-4" /> Volver
+            <ArrowLeft className="w-4 h-4" /> Back
           </Link>
 
           <div className="text-center mb-8">
             <div className="flex items-center justify-center gap-2 mb-2">
               <Sparkles className="w-5 h-5 text-primary" />
-              <p className="text-gold font-body text-sm tracking-[0.3em] uppercase">Ramos hechos a mano</p>
+              <p className="text-gold font-body text-sm tracking-[0.3em] uppercase">Handcrafted bouquets</p>
             </div>
             <h1 className="font-display text-4xl md:text-5xl font-semibold text-foreground">Bouquets</h1>
           </div>
 
           <div className="flex justify-center gap-3 mb-12">
             {([
-              { key: "un-color", label: "Un solo color", locked: false },
-              { key: "mezclas", label: "Mezclas", locked: false },
-              { key: "aniversarios", label: "Aniversarios", locked: true },
+              { key: "un-color", label: "Single color", locked: false },
+              { key: "mezclas", label: "Mixes", locked: false },
+              { key: "aniversarios", label: "Anniversaries", locked: true },
             ] as { key: FilterType; label: string; locked: boolean }[]).map(({ key, label, locked }) => (
               <button
                 key={key}
@@ -76,7 +74,7 @@ const BouquetProducts = () => {
                         {product.image2 && (
                           <img 
                             src={product.image2} 
-                            alt={`${product.name} - vista alternativa`} 
+                            alt={`${product.name} - alternate view`} 
                             className="absolute inset-0 w-full h-full object-cover opacity-0 md:group-hover:opacity-100 transition-all duration-700 md:group-hover:scale-105 hidden md:block" 
                           />
                         )}
@@ -90,7 +88,7 @@ const BouquetProducts = () => {
                   </div>
                   <h3 className="font-display text-lg font-semibold text-foreground text-center">{product.name}</h3>
                   <p className="text-muted-foreground font-body text-xs text-center mt-1">{product.description}</p>
-                  <p className="text-primary font-body text-sm font-semibold text-center mt-2">Desde ${product.customSizes ? product.customSizes[0].price : getPrice(product.pricingTier, (product.pricingTier === 'mix3red' || (product.color.includes(',') && product.pricingTier === 'standard')) ? 75 : 50)}</p>
+                  <p className="text-primary font-body text-sm font-semibold text-center mt-2">From ${product.customSizes ? product.customSizes[0].price : getPrice(product.pricingTier, (product.pricingTier === 'mix3red' || (product.color.includes(',') && product.pricingTier === 'standard')) ? 75 : 50)}</p>
                 </Link>
               </div>
             ))}
@@ -98,14 +96,14 @@ const BouquetProducts = () => {
         </div>
       </div>
 
-      {/* CTA Personalizar */}
+      {/* CTA */}
       <section className="py-20 bg-primary">
         <div className="container mx-auto px-6 text-center">
-          <h2 className="font-display text-3xl md:text-4xl font-semibold text-primary-foreground mb-4">¿No encuentras lo que buscas?</h2>
-          <p className="text-primary-foreground/80 font-body mb-8 max-w-md mx-auto">Personaliza cada detalle: color, tamaño, accesorios y más. Desde $76 USD.</p>
+          <h2 className="font-display text-3xl md:text-4xl font-semibold text-primary-foreground mb-4">Can't find what you're looking for?</h2>
+          <p className="text-primary-foreground/80 font-body mb-8 max-w-md mx-auto">Customize every detail: color, size, accessories, and more. From $76 USD.</p>
           <Link to="/bouquets/personalizar"
             className="inline-flex items-center gap-3 bg-background text-foreground px-8 py-4 font-body text-sm tracking-widest uppercase hover:bg-background/90 transition-colors rounded-sm">
-            Personalizar ahora <ArrowRight className="w-4 h-4" />
+            Customize now <ArrowRight className="w-4 h-4" />
           </Link>
         </div>
       </section>
@@ -115,7 +113,7 @@ const BouquetProducts = () => {
         <div className="container mx-auto px-6 text-center">
           <Flower2 className="w-6 h-6 text-primary mx-auto mb-3 fill-primary" />
           <p className="font-display text-lg text-primary-foreground mb-2">Charl's Flowers</p>
-          <p className="text-primary-foreground/50 font-body text-xs tracking-widest uppercase">Ramos hechos a mano con flores frescas</p>
+          <p className="text-primary-foreground/50 font-body text-xs tracking-widest uppercase">Handmade bouquets with fresh flowers</p>
         </div>
       </footer>
     </div>

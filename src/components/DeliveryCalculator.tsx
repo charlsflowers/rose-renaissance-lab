@@ -88,7 +88,7 @@ const DeliveryCalculator = ({ onResult }: Props) => {
         body: { fullAddress: prediction.description },
       });
       if (error) {
-        setDistanceError("Error al calcular la distancia.");
+        setDistanceError("Error calculating distance.");
       } else if (data.error) {
         setDistanceError(data.error);
         if (data.tooFar) {
@@ -107,7 +107,7 @@ const DeliveryCalculator = ({ onResult }: Props) => {
         });
       }
     } catch {
-      setDistanceError("Error de conexión.");
+      setDistanceError("Connection error.");
     } finally {
       setDistanceLoading(false);
     }
@@ -117,13 +117,13 @@ const DeliveryCalculator = ({ onResult }: Props) => {
     <div className="space-y-4">
       <p className="font-body font-semibold text-foreground text-sm flex items-center gap-2">
         <Truck className="w-4 h-4" />
-        Dirección de entrega
+        Delivery address
       </p>
 
       <div ref={autocompleteRef} className="relative">
         <label className="text-xs text-muted-foreground font-body block mb-1">
           <MapPin className="w-3 h-3 inline mr-1" />
-          Dirección <span className="text-destructive">*</span>
+          Address <span className="text-destructive">*</span>
         </label>
         <div className="relative">
           <input
@@ -131,7 +131,7 @@ const DeliveryCalculator = ({ onResult }: Props) => {
             value={addressQuery}
             onChange={(e) => handleAddressInput(e.target.value)}
             onFocus={() => predictions.length > 0 && setShowPredictions(true)}
-            placeholder="Empieza a escribir la dirección..."
+            placeholder="Start typing the address..."
             className="w-full bg-background border border-border rounded-sm px-3 py-2.5 pr-10 font-body text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30"
           />
           <div className="absolute right-3 top-1/2 -translate-y-1/2">
@@ -161,7 +161,7 @@ const DeliveryCalculator = ({ onResult }: Props) => {
 
       {selectedAddress && (
         <div className="bg-primary/5 border border-primary/20 rounded-sm p-3">
-          <p className="font-body text-xs text-muted-foreground">Dirección seleccionada:</p>
+          <p className="font-body text-xs text-muted-foreground">Selected address:</p>
           <p className="font-body text-sm text-foreground font-medium">{selectedAddress}</p>
         </div>
       )}
@@ -176,11 +176,11 @@ const DeliveryCalculator = ({ onResult }: Props) => {
       {deliveryMiles !== null && !distanceTooFar && (
         <div className="bg-primary/5 border border-primary/20 rounded-sm p-4">
           <p className="font-body text-sm text-foreground">
-            📍 Distancia: <span className="font-semibold">{deliveryMiles} millas</span>
+            📍 Distance: <span className="font-semibold">{deliveryMiles} miles</span>
             {deliveryDuration && <span className="text-muted-foreground"> (~{deliveryDuration})</span>}
           </p>
           <p className="font-body text-sm text-primary font-semibold mt-1">
-            Costo de envío: ${deliveryMiles * 2}
+            Shipping cost: ${deliveryMiles * 2}
           </p>
         </div>
       )}
@@ -195,7 +195,7 @@ const DeliveryCalculator = ({ onResult }: Props) => {
             allowFullScreen
             loading="lazy"
             referrerPolicy="no-referrer-when-downgrade"
-            title="Ruta de entrega"
+            title="Delivery route"
           />
         </div>
       )}

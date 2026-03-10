@@ -40,7 +40,7 @@ const ReviewCard = ({ review, index }: { review: ReviewData; index: number }) =>
           <div className="relative aspect-square overflow-hidden">
             <img
               src={review.image}
-              alt={`Reseña de ${review.name}`}
+              alt={`Review by ${review.name}`}
               className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
             />
             <div className="absolute inset-0 bg-foreground/5 group-hover:bg-foreground/15 transition-colors" />
@@ -75,7 +75,7 @@ const ReviewCard = ({ review, index }: { review: ReviewData; index: number }) =>
               </p>
             </div>
             <p className="font-body text-xs text-muted-foreground mb-4">
-              {review.productLabel} · {review.cartData.roses} rosas · ${review.cartData.price}
+              {review.productLabel} · {review.cartData.roses} roses · ${review.cartData.price}
             </p>
 
             <div className="flex flex-col gap-1.5 sm:gap-2">
@@ -84,14 +84,14 @@ const ReviewCard = ({ review, index }: { review: ReviewData; index: number }) =>
                 className="inline-flex items-center gap-1.5 w-full justify-center bg-primary text-primary-foreground px-3 py-2 sm:py-2.5 font-body text-[9px] sm:text-xs tracking-wider sm:tracking-widest uppercase hover:bg-primary/90 transition-colors rounded-sm"
               >
                 <ShoppingBag className="w-3 h-3 shrink-0" />
-                Añadir al carrito
+                Add to cart
               </button>
               <button
                 onClick={() => openDialog("buy")}
                 className="inline-flex items-center gap-1.5 w-full justify-center border border-primary text-primary px-3 py-2 sm:py-2.5 font-body text-[9px] sm:text-xs tracking-wider sm:tracking-widest uppercase hover:bg-primary/10 transition-colors rounded-sm"
               >
                 <CreditCard className="w-3 h-3 shrink-0" />
-                Pedir y pagar
+                Order & pay
               </button>
             </div>
           </div>

@@ -1,24 +1,41 @@
 import { useRef, useState, useEffect, useCallback } from "react";
 import { motion } from "framer-motion";
 import { ChevronLeft, ChevronRight, Play, ShoppingBag } from "lucide-react";
+import { useCart, type CartItem } from "@/contexts/CartContext";
+import { useNavigate } from "react-router-dom";
+import { toast } from "sonner";
+import VideoOrderDialog from "@/components/VideoOrderDialog";
 
-const placeholderVideos = [
-  { id: 2, title: "Sorpresa inolvidable", src: "/videos/video_2.mp4", productLink: "" },
-  { id: 4, title: "Amor de aniversario", src: "/videos/video_4.mp4", productLink: "" },
-  { id: 5, title: "Elegancia en rosa", src: "/videos/video_5.mp4", productLink: "" },
-  { id: 6, title: "Pasión en rojo y negro", src: "/videos/video_6.mov", productLabel: "75 rosas rojas · 1 letra + 1 corazón · Papel negro", productLink: "" },
-  { id: 7, title: "Detalle con nombre", src: "/videos/video_7.mov", productLabel: "75 rosas rojas · 1 letra + 1 corazón + cinta personalizada · Papel blanco", productLink: "" },
-  { id: 8, title: "Brillos que enamoran", src: "/videos/video_8.mov", productLabel: "75 rosas rojas glitter · 2 números + 1 corazón · Papel negro", productLink: "" },
-  { id: 9, title: "Rosa glitter", src: "/videos/video_9.mov", productLabel: "100 rosas rosa glitter · Papel blanco", productLink: "" },
-  { id: 10, title: "Ternura personalizada", src: "/videos/video_10.mov", productLabel: "100 rosas rosa · 1 letra + 1 corazón + cinta · Papel blanco", productLink: "" },
-  { id: 11, title: "Morado con dedicatoria", src: "/videos/video_11.mov", productLabel: "100 rosas moradas · 1 letra + 1 corazón + cinta · Papel blanco", productLink: "" },
-  { id: 12, title: "Clásico rojo intenso", src: "/videos/video_12.mov", productLabel: "100 rosas rojas · 1 letra + 1 corazón · Papel negro", productLink: "" },
-  { id: 13, title: "Fecha especial", src: "/videos/video_13.mov", productLabel: "100 rosas rojas · 2 números + 1 corazón · Papel blanco", productLink: "" },
-  { id: 14, title: "Gran celebración", src: "/videos/video_14.mov", productLabel: "125 rosas rojas · 2 números + 1 corazón · Papel blanco", productLink: "" },
-  { id: 15, title: "Fantasía blanca y rosa", src: "/videos/video_15.mov", productLabel: "200 rosas blancas y rosas glitter · Mariposas + cinta · Papel rosa", productLink: "" },
+export interface VideoProduct {
+  id: number;
+  title: string;
+  src: string;
+  roses: number;
+  color: string;
+  hasCustomText?: boolean;
+  customFields?: Array<{ label: string; placeholder: string }>;
+  glitter?: boolean;
+  paperColor?: string;
+  basePrice: number;
+}
+
+const videoProducts: VideoProduct[] = [
+  { id: 2, title: "Surprise delivery", src: "/videos/video_2.mp4", roses: 100, color: "Rojo", basePrice: 196 },
+  { id: 4, title: "Anniversary love", src: "/videos/video_4.mp4", roses: 100, color: "Rojo", basePrice: 196 },
+  { id: 5, title: "Pink elegance", src: "/videos/video_5.mp4", roses: 200, color: "Pink", basePrice: 301 },
+  { id: 6, title: "Red & black passion", src: "/videos/video_6.mov", roses: 75, color: "Rojo", basePrice: 146, paperColor: "Negro", hasCustomText: true, customFields: [{ label: "Letter (1 character)", placeholder: "e.g. M" }] },
+  { id: 7, title: "Personalized detail", src: "/videos/video_7.mov", roses: 75, color: "Rojo", basePrice: 146, paperColor: "Blanco", hasCustomText: true, customFields: [{ label: "Letter (1 character)", placeholder: "e.g. A" }, { label: "Ribbon text", placeholder: "e.g. Happy Birthday" }] },
+  { id: 8, title: "Glitter sparkle", src: "/videos/video_8.mov", roses: 75, color: "Rojo", basePrice: 146, paperColor: "Negro", glitter: true, hasCustomText: true, customFields: [{ label: "Numbers (2 digits)", placeholder: "e.g. 25" }] },
+  { id: 9, title: "Pink glitter", src: "/videos/video_9.mov", roses: 100, color: "Pink", basePrice: 136, paperColor: "Blanco", glitter: true },
+  { id: 10, title: "Personalized tenderness", src: "/videos/video_10.mov", roses: 100, color: "Pink", basePrice: 136, paperColor: "Blanco", hasCustomText: true, customFields: [{ label: "Letter (1 character)", placeholder: "e.g. P" }, { label: "Ribbon text", placeholder: "e.g. I Love You" }] },
+  { id: 11, title: "Purple dedication", src: "/videos/video_11.mov", roses: 100, color: "Morado", basePrice: 136, paperColor: "Blanco", hasCustomText: true, customFields: [{ label: "Letter (1 character)", placeholder: "e.g. L" }, { label: "Ribbon text", placeholder: "e.g. Congratulations" }] },
+  { id: 12, title: "Intense classic red", src: "/videos/video_12.mov", roses: 100, color: "Rojo", basePrice: 196, paperColor: "Negro", hasCustomText: true, customFields: [{ label: "Letter (1 character)", placeholder: "e.g. R" }] },
+  { id: 13, title: "Special date", src: "/videos/video_13.mov", roses: 100, color: "Rojo", basePrice: 196, paperColor: "Blanco", hasCustomText: true, customFields: [{ label: "Numbers (2 digits)", placeholder: "e.g. 15" }] },
+  { id: 14, title: "Grand celebration", src: "/videos/video_14.mov", roses: 125, color: "Rojo", basePrice: 276, paperColor: "Blanco", hasCustomText: true, customFields: [{ label: "Numbers (2 digits)", placeholder: "e.g. 30" }] },
+  { id: 15, title: "White & pink fantasy", src: "/videos/video_15.mov", roses: 200, color: "Blanco, Pink", basePrice: 301, paperColor: "Rosa Light", glitter: true, hasCustomText: true, customFields: [{ label: "Ribbon text", placeholder: "e.g. Happy Anniversary" }] },
 ];
 
-const VideoCard = ({ video, index }: { video: typeof placeholderVideos[0]; index: number }) => {
+const VideoCard = ({ video, index, onOrder }: { video: VideoProduct; index: number; onOrder: (v: VideoProduct) => void }) => {
   const videoRef = useRef<HTMLVideoElement>(null);
   const cardRef = useRef<HTMLDivElement>(null);
 
@@ -74,11 +91,11 @@ const VideoCard = ({ video, index }: { video: typeof placeholderVideos[0]; index
         </div>
       </div>
       <button
-        disabled={!video.productLink}
-        className="mt-3 w-full inline-flex items-center justify-center gap-2 bg-primary text-primary-foreground px-4 py-2.5 font-body text-xs tracking-widest uppercase rounded-sm hover:bg-primary/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+        onClick={() => onOrder(video)}
+        className="mt-3 w-full inline-flex items-center justify-center gap-2 bg-primary text-primary-foreground px-4 py-2.5 font-body text-xs tracking-widest uppercase rounded-sm hover:bg-primary/90 transition-colors"
       >
         <ShoppingBag className="w-3.5 h-3.5" />
-        Pedir el mismo
+        Order same
       </button>
     </motion.div>
   );
@@ -88,6 +105,7 @@ const ClientVideos = () => {
   const scrollRef = useRef<HTMLDivElement>(null);
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(true);
+  const [selectedVideo, setSelectedVideo] = useState<VideoProduct | null>(null);
 
   const checkScroll = useCallback(() => {
     if (!scrollRef.current) return;
@@ -116,10 +134,10 @@ const ClientVideos = () => {
           className="text-center mb-12"
         >
           <h2 className="font-display text-4xl md:text-5xl font-semibold text-primary mb-4">
-            Nuestros clientes
+            Our Clients
           </h2>
           <p className="text-muted-foreground font-body max-w-lg mx-auto">
-            Mira lo que opinan quienes ya recibieron sus flores.
+            See what our happy customers have to say about their flowers.
           </p>
         </motion.div>
 
@@ -139,8 +157,8 @@ const ClientVideos = () => {
             className="flex gap-4 overflow-x-auto snap-x snap-mandatory px-1"
             style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
           >
-            {placeholderVideos.map((video, i) => (
-              <VideoCard key={video.id} video={video} index={i} />
+            {videoProducts.map((video, i) => (
+              <VideoCard key={video.id} video={video} index={i} onOrder={setSelectedVideo} />
             ))}
           </div>
 
@@ -154,6 +172,14 @@ const ClientVideos = () => {
           )}
         </div>
       </div>
+
+      {selectedVideo && (
+        <VideoOrderDialog
+          video={selectedVideo}
+          open={!!selectedVideo}
+          onOpenChange={(open) => !open && setSelectedVideo(null)}
+        />
+      )}
     </section>
   );
 };

@@ -21,7 +21,7 @@ const FloatingCart = () => {
           >
             <BrandLogo className="w-6 h-6" color="hsl(var(--primary-foreground))" />
             <span className="text-sm font-semibold">
-              {totalItems} {totalItems === 1 ? "artículo" : "artículos"}
+              {totalItems} {totalItems === 1 ? "item" : "items"}
             </span>
             <span className="bg-primary-foreground/20 px-3 py-1 rounded-full text-sm font-bold">
               ${cartTotal}

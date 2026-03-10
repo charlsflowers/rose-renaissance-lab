@@ -45,12 +45,12 @@ const PaperColorPicker = ({ selected, onChange }: PaperColorPickerProps) => {
               {paper.image ? (
                 <img
                   src={paper.image}
-                  alt={`Papel ${paper.name}`}
+                  alt={`${paper.name} paper`}
                   className="w-full h-full object-cover"
                 />
               ) : (
                 <div className="w-full h-full bg-muted flex items-center justify-center">
-                  <span className="text-[10px] text-muted-foreground text-center leading-tight">Próximamente</span>
+                  <span className="text-[10px] text-muted-foreground text-center leading-tight">Coming soon</span>
                 </div>
               )}
             </div>

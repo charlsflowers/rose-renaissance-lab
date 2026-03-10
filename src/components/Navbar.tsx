@@ -5,15 +5,17 @@ import BrandLogo from "@/components/BrandLogo";
 import charlsLogo from "@/assets/charls-logo.png";
 import { Menu, X } from "lucide-react";
 
+const comingSoonSlugs = ["arreglos", "cajas", "cestas", "jarrones", "osos"];
+
 const navLinks = [
-  { to: "/", label: "Inicio" },
+  { to: "/", label: "Home" },
   { to: "/bouquets", label: "Bouquets" },
-  { to: "/bouquets/personalizar", label: "Personalizar" },
-  { to: "/categoria/arreglos", label: "Arreglos" },
-  { to: "/categoria/cajas", label: "Cajas" },
-  { to: "/categoria/cestas", label: "Cestas" },
-  { to: "/categoria/jarrones", label: "Jarrones" },
-  { to: "/categoria/osos", label: "Osos" },
+  { to: "/bouquets/personalizar", label: "Customize" },
+  { to: "/categoria/arreglos", label: "Arrangements", slug: "arreglos" },
+  { to: "/categoria/cajas", label: "Boxes", slug: "cajas" },
+  { to: "/categoria/cestas", label: "Baskets", slug: "cestas" },
+  { to: "/categoria/jarrones", label: "Vases", slug: "jarrones" },
+  { to: "/categoria/osos", label: "Bears", slug: "osos" },
 ];
 
 const Navbar = () => {
@@ -43,11 +45,21 @@ const Navbar = () => {
 
         {/* Desktop nav */}
         <div className="hidden lg:flex items-center gap-6 font-body text-xs tracking-widest uppercase text-muted-foreground">
-          {navLinks.map((link) => (
-            <Link key={link.to} to={link.to} className="hover:text-primary transition-colors whitespace-nowrap">
-              {link.label}
-            </Link>
-          ))}
+          {navLinks.map((link) => {
+            const isLocked = link.slug && comingSoonSlugs.includes(link.slug);
+            if (isLocked) {
+              return (
+                <span key={link.to} className="text-muted-foreground/40 cursor-not-allowed whitespace-nowrap">
+                  {link.label}
+                </span>
+              );
+            }
+            return (
+              <Link key={link.to} to={link.to} className="hover:text-primary transition-colors whitespace-nowrap">
+                {link.label}
+              </Link>
+            );
+          })}
         </div>
 
         {/* Cart: right */}
@@ -65,16 +77,29 @@ const Navbar = () => {
       {mobileOpen && (
         <div className="lg:hidden border-t border-border bg-background/95 backdrop-blur-md">
           <div className="container mx-auto px-6 py-4 flex flex-col gap-3 font-body text-sm tracking-widest uppercase text-muted-foreground">
-            {navLinks.map((link) => (
-              <Link
-                key={link.to}
-                to={link.to}
-                onClick={() => setMobileOpen(false)}
-                className="hover:text-primary transition-colors py-2 border-b border-border last:border-b-0"
-              >
-                {link.label}
-              </Link>
-            ))}
+            {navLinks.map((link) => {
+              const isLocked = link.slug && comingSoonSlugs.includes(link.slug);
+              if (isLocked) {
+                return (
+                  <span
+                    key={link.to}
+                    className="text-muted-foreground/40 cursor-not-allowed py-2 border-b border-border last:border-b-0"
+                  >
+                    {link.label}
+                  </span>
+                );
+              }
+              return (
+                <Link
+                  key={link.to}
+                  to={link.to}
+                  onClick={() => setMobileOpen(false)}
+                  className="hover:text-primary transition-colors py-2 border-b border-border last:border-b-0"
+                >
+                  {link.label}
+                </Link>
+              );
+            })}
           </div>
         </div>
       )}

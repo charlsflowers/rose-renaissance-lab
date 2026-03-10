@@ -15,8 +15,8 @@ const CategoryProducts = () => {
       <div className="min-h-screen bg-background">
         <Navbar />
         <div className="pt-24 text-center">
-          <p className="text-muted-foreground font-body">Categoría no encontrada</p>
-          <Link to="/" className="text-primary font-body underline mt-4 inline-block">Volver al inicio</Link>
+          <p className="text-muted-foreground font-body">Category not found</p>
+          <Link to="/" className="text-primary font-body underline mt-4 inline-block">Back to home</Link>
         </div>
       </div>
     );
@@ -29,7 +29,7 @@ const CategoryProducts = () => {
         <div className="container mx-auto px-6">
           <Link to="/" className="inline-flex items-center gap-2 text-muted-foreground font-body text-sm hover:text-primary transition-colors mb-8">
             <ArrowLeft className="w-4 h-4" />
-            Volver
+            Back
           </Link>
 
           <div className="text-center mb-12">
@@ -54,7 +54,7 @@ const CategoryProducts = () => {
                   <h3 className="font-display text-lg font-semibold text-foreground text-center">{product.name}</h3>
                   <p className="text-muted-foreground font-body text-xs text-center mt-1">{product.description}</p>
                   <p className="text-primary font-body text-sm font-semibold text-center mt-2">
-                    Desde ${product.sizes[0].price}
+                    From ${product.sizes[0].price}
                   </p>
                 </Link>
               </div>

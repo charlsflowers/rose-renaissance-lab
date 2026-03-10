@@ -5,12 +5,12 @@ const comingSoonCategories: ReviewCategory[] = ["personalizados", "arreglos", "c
 
 const filters: { label: string; value: ReviewCategory }[] = [
   { label: "Bouquets", value: "bouquets" },
-  { label: "Personalizados", value: "personalizados" },
-  { label: "Arreglos", value: "arreglos" },
-  { label: "Cajas", value: "cajas" },
-  { label: "Cestas", value: "cestas" },
-  { label: "Jarrones", value: "jarrones" },
-  { label: "Osos", value: "osos" },
+  { label: "Custom", value: "personalizados" },
+  { label: "Arrangements", value: "arreglos" },
+  { label: "Boxes", value: "cajas" },
+  { label: "Baskets", value: "cestas" },
+  { label: "Vases", value: "jarrones" },
+  { label: "Bears", value: "osos" },
 ];
 
 interface ReviewFiltersProps {

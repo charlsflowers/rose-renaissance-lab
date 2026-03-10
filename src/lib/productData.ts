@@ -57,15 +57,15 @@ export function determinePricingTier(colors: ColorOption[]): PricingTier {
 
   if (count === 2) {
     if (hasPainted && hasNatural) return 'mix2painted';
-    if (hasPainted) return 'painted'; // 2 painted colors
-    if (hasRed) return 'mix2'; // 2 colors, one is red
-    return 'standard'; // 2 natural colors, no red
+    if (hasPainted) return 'painted';
+    if (hasRed) return 'mix2';
+    return 'standard';
   }
 
   // 3 colors
   if (hasPainted && hasNatural) return 'mix2painted';
   if (hasRed) return 'mix3red';
-  return 'standard'; // 3 natural colors without red = standard pricing
+  return 'standard';
 }
 
 export function getPrice(tier: PricingTier, rosesCount: number): number {
@@ -79,7 +79,6 @@ export function getMinRoses(tier: PricingTier): number {
   return 50;
 }
 
-// Legacy exports for backward compatibility
 export interface SizeOption {
   roses: number;
   priceRegular: number;
@@ -100,8 +99,8 @@ export interface CrownOption {
 }
 
 export const crownOptions: CrownOption[] = [
-  { size: 'silver', label: 'Plateado' },
-  { size: 'gold', label: 'Dorado' },
+  { size: 'silver', label: 'Silver' },
+  { size: 'gold', label: 'Gold' },
 ];
 
 export const ribbonPresets = ['Happy Birthday', 'Congratulations', 'I Love You'];
@@ -121,7 +120,7 @@ export interface VaseOption {
 }
 
 export const vaseOptions: VaseOption[] = [
-  { roses: 50, label: 'Jarrón 50', price: 25 },
-  { roses: 75, label: 'Jarrón 75', price: 30 },
-  { roses: 100, label: 'Jarrón 100', price: 35 },
+  { roses: 50, label: 'Vase 50', price: 25 },
+  { roses: 75, label: 'Vase 75', price: 30 },
+  { roses: 100, label: 'Vase 100', price: 35 },
 ];

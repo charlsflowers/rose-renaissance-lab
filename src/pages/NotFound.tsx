@@ -12,7 +12,7 @@ const NotFound = () => {
         <div className="container mx-auto px-6 flex flex-col items-center text-center max-w-lg">
           <motion.img
             src={bouquet404}
-            alt="Bouquet de rosas"
+            alt="Rose bouquet"
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.8 }}
@@ -25,23 +25,23 @@ const NotFound = () => {
           >
             <p className="font-body text-sm tracking-[0.3em] uppercase text-primary mb-3">Error 404</p>
             <h1 className="font-display text-4xl md:text-5xl font-bold text-foreground mb-4">
-              Esta página no florece aquí
+              This page doesn't bloom here
             </h1>
             <p className="text-muted-foreground font-body text-lg mb-10 leading-relaxed">
-              Parece que te has perdido entre pétalos. Vuelve al inicio o crea un bouquet único.
+              Looks like you got lost among the petals. Go back home or create a unique bouquet.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link
                 to="/"
                 className="inline-flex items-center gap-3 bg-primary text-primary-foreground px-8 py-4 font-body text-sm tracking-widest uppercase hover:bg-primary/90 transition-colors rounded-sm"
               >
-                <Home className="w-4 h-4" /> Inicio
+                <Home className="w-4 h-4" /> Home
               </Link>
               <Link
                 to="/bouquets/personalizar"
                 className="inline-flex items-center gap-3 border border-primary text-primary px-8 py-4 font-body text-sm tracking-widest uppercase hover:bg-primary/5 transition-colors rounded-sm"
               >
-                Personalizar <Sparkles className="w-4 h-4" />
+                Customize <Sparkles className="w-4 h-4" />
               </Link>
             </div>
           </motion.div>
