@@ -123,8 +123,8 @@ const BouquetProductDetail = () => {
     return (
       <div className="min-h-screen bg-background"><Navbar />
         <div className="pt-24 text-center">
-          <p className="text-muted-foreground font-body">Producto no encontrado</p>
-          <Link to="/" className="text-primary font-body underline mt-4 inline-block">Volver</Link>
+          <p className="text-muted-foreground font-body">Product not found</p>
+          <Link to="/" className="text-primary font-body underline mt-4 inline-block">Go back</Link>
         </div>
       </div>
     );
