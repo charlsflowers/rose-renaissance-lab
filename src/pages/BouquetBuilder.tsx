@@ -259,9 +259,9 @@ const BouquetBuilder = () => {
       <div className="pt-24 pb-16">
         <div className="container mx-auto px-6">
           <div className="text-center mb-12">
-            <p className="text-gold font-body text-sm tracking-[0.3em] uppercase mb-2">Personaliza</p>
+            <p className="text-gold font-body text-sm tracking-[0.3em] uppercase mb-2">Customize</p>
             <h1 className="font-display text-4xl md:text-5xl font-semibold text-foreground">
-              Crea tu Bouquet
+              Build Your Bouquet
             </h1>
           </div>
 
