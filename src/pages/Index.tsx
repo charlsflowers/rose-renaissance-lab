@@ -16,8 +16,9 @@ import jarronesImg from "@/assets/jarrones.jpg";
 import ososImg from "@/assets/osos.jpg";
 import heartBouquet from "@/assets/heart-bouquet.jpg";
 import purezaBlancaImg from "@/assets/bq-blanco.png";
+import roomDecorImg from "@/assets/room-decor.jpg";
 
-const comingSoonSlugs = ["arreglos", "cajas", "cestas", "jarrones", "osos"];
+const comingSoonSlugs = ["arreglos", "cajas", "cestas", "jarrones", "osos", "room-decors"];
 
 const Index = () => {
   const [reviewCategory, setReviewCategory] = useState<ReviewCategory>("bouquets");
@@ -28,6 +29,7 @@ const Index = () => {
     { img: cestasImg, title: "Baskets", slug: "cestas" },
     { img: jarronesImg, title: "Vases", slug: "jarrones" },
     { img: ososImg, title: "Bears", slug: "osos" },
+    { img: roomDecorImg, title: "Room Decors", slug: "room-decors" },
   ];
 
   return (
@@ -90,7 +92,10 @@ const Index = () => {
               <div className="w-9 h-9 rounded-full bg-primary/10 flex items-center justify-center">
                 <Globe className="w-4 h-4 text-primary" />
               </div>
-              <span className="font-body text-[11px] md:text-xs tracking-wider text-foreground uppercase">Nationwide shipping</span>
+              <div className="flex flex-col items-start gap-0.5">
+                <span className="font-body text-[11px] md:text-xs tracking-wider text-foreground uppercase">Nationwide shipping</span>
+                <span className="font-body text-[9px] md:text-[10px] tracking-widest uppercase text-primary-foreground bg-primary px-2 py-0.5 rounded-full">Coming Soon</span>
+              </div>
             </div>
           </div>
         </div>
