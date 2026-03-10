@@ -503,7 +503,7 @@ const BouquetBuilder = () => {
                     {specialText.length > 0 && (
                       <div className="bg-card border border-border rounded-sm p-4">
                         <p className="font-body text-sm text-muted-foreground">
-                          {specialText.length} {lettersNumbersType === "letters" ? "letras" : "números"} × ${letterNumberExtraPrice} ={" "}
+                          {specialText.length} {lettersNumbersType === "letters" ? "letters" : "numbers"} × ${letterNumberExtraPrice} ={" "}
                           <span className="text-primary font-semibold">+${lettersNumbersCost}</span>
                         </p>
                       </div>
