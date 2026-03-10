@@ -187,8 +187,8 @@ const CategoryProductDetail = () => {
             </div>
 
             {/* Paper Color */}
-            <Section title="Color del Papel" step={1} subtitle="">
-              <p className="text-xs text-muted-foreground font-body mb-4">Elige el color del papel de envoltura</p>
+            <Section title="Paper Color" step={1} subtitle="">
+              <p className="text-xs text-muted-foreground font-body mb-4">Choose the wrapping paper color</p>
               <PaperColorPicker selected={paperColor} onChange={setPaperColor} />
             </Section>
 
