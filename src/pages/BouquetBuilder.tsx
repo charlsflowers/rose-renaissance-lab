@@ -371,7 +371,7 @@ const BouquetBuilder = () => {
             </Section>
 
             {/* 3. Glitter */}
-            <Section title="Acabado Glitter" step={4}>
+            <Section title="Glitter Finish" step={4}>
               <button
                 onClick={() => setAddGlitter(!addGlitter)}
                 className={`relative w-full p-6 rounded-sm border-2 transition-all overflow-hidden ${
