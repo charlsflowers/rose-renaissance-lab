@@ -193,7 +193,7 @@ const CategoryProductDetail = () => {
             </Section>
 
             {/* Note & Card */}
-            <Section title="Accesorios" step={2} subtitle="Gratis">
+            <Section title="Accessories" step={2} subtitle="Free">
               <div className="grid grid-cols-2 gap-3 mb-4">
                 <button onClick={() => { setAddNote(!addNote); if (!addNote) setAddCard(false); }}
                   className={`flex items-center justify-center gap-3 p-4 rounded-sm border-2 transition-all font-body text-sm ${addNote ? "border-primary bg-primary/5 text-primary" : "border-border text-muted-foreground hover:border-primary/30"}`}>
