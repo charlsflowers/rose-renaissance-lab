@@ -983,7 +983,7 @@ const BouquetBuilder = () => {
                       paperColor,
                     });
 
-                    toast.success("¡Bouquet añadido al carrito!");
+                    toast.success("Bouquet added to cart!");
                   }}
                   className="w-full md:w-auto bg-primary text-primary-foreground px-10 py-4 font-body text-sm tracking-widest uppercase hover:bg-primary/90 transition-colors rounded-sm"
                 >
