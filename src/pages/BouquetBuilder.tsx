@@ -944,7 +944,7 @@ const BouquetBuilder = () => {
                       return;
                     }
                     if (!deliveryDate || !deliveryHour) {
-                      toast.error("Selecciona fecha y hora de entrega.");
+                      toast.error("Please select a date and time.");
                       return;
                     }
 
