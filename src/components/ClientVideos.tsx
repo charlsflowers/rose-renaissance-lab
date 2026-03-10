@@ -25,6 +25,7 @@ export interface VideoProduct {
   paperColor?: string;
   basePrice: number;
   productImage?: string;
+  pricingTier?: import('@/lib/productData').PricingTier;
 }
 
 const videoProducts: VideoProduct[] = [
