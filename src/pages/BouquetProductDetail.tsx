@@ -242,7 +242,7 @@ const BouquetProductDetail = () => {
 
             {product.image2 && (
               <p className="md:hidden text-center text-[10px] text-muted-foreground mt-1 uppercase tracking-widest">
-                Desliza para ver más
+                Swipe to see more
               </p>
             )}
 
