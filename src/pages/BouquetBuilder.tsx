@@ -987,7 +987,7 @@ const BouquetBuilder = () => {
                   }}
                   className="w-full md:w-auto bg-primary text-primary-foreground px-10 py-4 font-body text-sm tracking-widest uppercase hover:bg-primary/90 transition-colors rounded-sm"
                 >
-                  Añadir al carrito
+                  Add to cart
                 </button>
                 <button
                   onClick={() => {
