@@ -338,7 +338,7 @@ const BouquetBuilder = () => {
             </Section>
 
             {/* 2. Size */}
-            <Section title="Cantidad de Rosas" step={3}>
+            <Section title="Number of Roses" step={3}>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
                 {pricingTable.map((size, idx) => {
                   const tooFewRoses = size.roses < minRoses;
