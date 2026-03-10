@@ -427,10 +427,10 @@ const BouquetProductDetail = () => {
                 {/* Description and Price - Mobile Layout (Row 1) */}
                 <div className="flex md:hidden justify-between items-start gap-4">
                   <p className="font-body text-xs text-muted-foreground leading-tight flex-1">
-                    {product.name} · {selectedSize.roses} rosas
+                    {product.name} · {selectedSize.roses} roses
                     {addGlitter && " · Glitter"}
-                    {accessory !== "none" && ` · ${accessory === "note" ? "Nota" : "Tarjeta"}`}
-                    {deliveryMethod === "delivery" ? (deliveryMiles && !distanceTooFar ? ` · Envío ($${deliveryCost})` : " · Envío (pdte)") : " · Recogida"}
+                    {accessory !== "none" && ` · ${accessory === "note" ? "Note" : "Card"}`}
+                    {deliveryMethod === "delivery" ? (deliveryMiles && !distanceTooFar ? ` · Shipping ($${deliveryCost})` : " · Shipping (pending)") : " · Pickup"}
                   </p>
                   <p className="font-display text-xl font-bold text-foreground whitespace-nowrap">
                     ${totalPrice} <span className="text-[10px] font-body text-muted-foreground font-normal">USD</span>
