@@ -329,11 +329,11 @@ const BouquetBuilder = () => {
             </Section>
 
             {/* Paper Color */}
-            <Section title="Color del Papel" step={2}>
-              <p className="text-xs text-muted-foreground font-body mb-4">Elige el color del papel de envoltura</p>
+            <Section title="Paper Color" step={2}>
+              <p className="text-xs text-muted-foreground font-body mb-4">Choose the wrapping paper color</p>
               <PaperColorPicker selected={paperColor} onChange={setPaperColor} />
               <p className="text-sm font-body text-muted-foreground mt-3">
-                Seleccionado: <span className="text-foreground font-semibold">{paperColor}</span>
+                Selected: <span className="text-foreground font-semibold">{paperColor}</span>
               </p>
             </Section>
 
