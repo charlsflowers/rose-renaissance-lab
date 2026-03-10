@@ -311,7 +311,7 @@ const BouquetProductDetail = () => {
                     className={`flex flex-col items-center gap-2 p-4 rounded-sm border-2 transition-all font-body text-sm ${accessory === t ? "border-primary bg-primary/5 text-primary" : "border-border text-muted-foreground hover:border-primary/30"}`}>
                     {Icon && <Icon className="w-4 h-4" />}
                     {label}
-                    <span className="text-xs text-secondary">Gratis</span>
+                    <span className="text-xs text-secondary">Free</span>
                   </button>
                 ))}
               </div>
