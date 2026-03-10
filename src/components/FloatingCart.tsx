@@ -1,10 +1,12 @@
 import { Link } from "react-router-dom";
-import { useCart } from "@/contexts/CartContext";
+import { useCartStore } from "@/stores/cartStore";
 import BrandLogo from "@/components/BrandLogo";
 import { motion, AnimatePresence } from "framer-motion";
 
 const FloatingCart = () => {
-  const { totalItems, cartTotal } = useCart();
+  const items = useCartStore(state => state.items);
+  const totalItems = items.length;
+  const cartTotal = items.reduce((sum, i) => sum + i.totalPrice, 0);
 
   return (
     <AnimatePresence>
