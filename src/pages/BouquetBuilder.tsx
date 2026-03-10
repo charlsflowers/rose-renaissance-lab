@@ -858,7 +858,7 @@ const BouquetBuilder = () => {
               {/* Date picker */}
               <div className="mb-4">
                 <label className="text-sm font-body font-semibold text-foreground block mb-2">
-                  <CalendarIcon className="w-4 h-4 inline mr-1" /> Fecha de {deliveryMethod === "pickup" ? "recogida" : "entrega"}
+                  <CalendarIcon className="w-4 h-4 inline mr-1" /> {deliveryMethod === "pickup" ? "Pickup" : "Delivery"} date
                 </label>
                 <Popover>
                   <PopoverTrigger asChild>
