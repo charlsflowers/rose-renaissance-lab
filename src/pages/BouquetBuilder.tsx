@@ -717,7 +717,7 @@ const BouquetBuilder = () => {
             </Section>
 
             {/* 9. Delivery */}
-            <Section title="Envío" step={10}>
+            <Section title="Shipping" step={10}>
               <div className="grid grid-cols-2 gap-3 mb-6">
                 <button
                   onClick={() => setDeliveryMethod("pickup")}
