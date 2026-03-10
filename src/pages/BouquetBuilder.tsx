@@ -704,12 +704,12 @@ const BouquetBuilder = () => {
                     <div className="relative overflow-hidden rounded-sm border border-border">
                       <img
                         src={previewUrl}
-                        alt="Vista previa de tu bouquet personalizado"
+                        alt="Preview of your custom bouquet"
                         className="w-full h-auto object-contain max-h-[500px]"
                       />
                     </div>
                     <p className="text-xs text-muted-foreground font-body text-center italic">
-                      * Imagen orientativa. El resultado final puede variar ligeramente.
+                      * Illustrative image. The final result may vary slightly.
                     </p>
                   </div>
                 )}
