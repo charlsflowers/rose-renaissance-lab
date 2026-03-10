@@ -627,7 +627,7 @@ const BouquetBuilder = () => {
                             ribbonType === t ? "border-primary bg-primary/5" : "border-border"
                           }`}
                         >
-                          {t === "names" ? "Nombres" : "Felicitaciones"}
+                          {t === "names" ? "Names" : "Congratulations"}
                         </button>
                       ))}
                     </div>
