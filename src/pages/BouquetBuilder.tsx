@@ -242,7 +242,7 @@ const BouquetBuilder = () => {
         setHasGeneratedPreview(true);
       }
     } catch (e: any) {
-      setPreviewError(e.message || "Error al generar la preview");
+      setPreviewError(e.message || "Error generating preview");
     } finally {
       setPreviewLoading(false);
     }
