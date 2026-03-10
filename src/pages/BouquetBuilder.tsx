@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { format, addHours, isBefore, startOfDay } from "date-fns";
 import { miamiHourNow, todayInMiami, isTodayInMiami } from "@/lib/miamiTime";
 import { supabase } from "@/integrations/supabase/client";
-import { es } from "date-fns/locale";
+import { enUS } from "date-fns/locale";
 import { useCart } from "@/contexts/CartContext";
 import { toast } from "sonner";
 
@@ -140,7 +140,7 @@ const BouquetBuilder = () => {
           const { data, error } = await supabase.functions.invoke("calculate-distance", {
             body: { fullAddress: prediction.description },
           });
-          if (error) throw new Error("Error de conexión");
+          if (error) throw new Error("Connection error");
           if (data.error) {
             setDistanceError(data.error);
             if (data.tooFar) {
@@ -153,7 +153,7 @@ const BouquetBuilder = () => {
             if (data.mapUrl) setMapUrl(data.mapUrl);
           }
         } catch (e: any) {
-          setDistanceError(e.message || "Error al calcular distancia");
+          setDistanceError(e.message || "Error calculating distance");
         } finally {
           setDistanceLoading(false);
         }
@@ -234,7 +234,7 @@ const BouquetBuilder = () => {
         body: { bouquetConfig, baseImageUrl },
       });
 
-      if (error) throw new Error("Error de conexión");
+      if (error) throw new Error("Connection error");
       if (data?.error) {
         setPreviewError(data.error);
       } else if (data?.imageUrl) {
@@ -242,15 +242,15 @@ const BouquetBuilder = () => {
         setHasGeneratedPreview(true);
       }
     } catch (e: any) {
-      setPreviewError(e.message || "Error al generar la preview");
+      setPreviewError(e.message || "Error generating preview");
     } finally {
       setPreviewLoading(false);
     }
   }, [selectedColors, rosesCount, addGlitter, addLettersNumbers, specialText, addCrown, crownSize, addRibbon, ribbonText]);
 
   const colorCategories = [
-    { key: "natural" as const, label: "Naturales" },
-    { key: "painted" as const, label: "Pintados" },
+    { key: "natural" as const, label: "Natural" },
+    { key: "painted" as const, label: "Painted" },
   ];
 
   return (
@@ -259,9 +259,9 @@ const BouquetBuilder = () => {
       <div className="pt-24 pb-16">
         <div className="container mx-auto px-6">
           <div className="text-center mb-12">
-            <p className="text-gold font-body text-sm tracking-[0.3em] uppercase mb-2">Personaliza</p>
+            <p className="text-gold font-body text-sm tracking-[0.3em] uppercase mb-2">Customize</p>
             <h1 className="font-display text-4xl md:text-5xl font-semibold text-foreground">
-              Crea tu Bouquet
+              Build Your Bouquet
             </h1>
           </div>
 
@@ -270,14 +270,14 @@ const BouquetBuilder = () => {
             <div className="relative overflow-hidden rounded-sm aspect-[16/9] mb-2">
               <img
                 src={heroBouquet}
-                alt="Bouquet personalizado"
+                alt="Custom bouquet"
                 className="w-full h-full object-cover"
               />
             </div>
 
             {/* 1. Color */}
-            <Section title="Color de las Rosas" step={1}>
-              <p className="text-xs text-muted-foreground font-body mb-4">Selecciona hasta 3 colores para tu bouquet</p>
+            <Section title="Rose Color" step={1}>
+              <p className="text-xs text-muted-foreground font-body mb-4">Select up to 3 colors for your bouquet</p>
               {colorCategories.map(({ key, label }) => {
                 const colors = colorOptions.filter((c) => c.category === key);
                 return (
@@ -324,21 +324,21 @@ const BouquetBuilder = () => {
                 );
               })}
               <p className="text-sm font-body text-muted-foreground">
-                Seleccionado{selectedColors.length > 1 ? 's' : ''}: <span className="text-foreground font-semibold">{selectedColors.map(c => c.name).join(', ')}</span>
+                Selected: <span className="text-foreground font-semibold">{selectedColors.map(c => c.name).join(', ')}</span>
               </p>
             </Section>
 
             {/* Paper Color */}
-            <Section title="Color del Papel" step={2}>
-              <p className="text-xs text-muted-foreground font-body mb-4">Elige el color del papel de envoltura</p>
+            <Section title="Paper Color" step={2}>
+              <p className="text-xs text-muted-foreground font-body mb-4">Choose the wrapping paper color</p>
               <PaperColorPicker selected={paperColor} onChange={setPaperColor} />
               <p className="text-sm font-body text-muted-foreground mt-3">
-                Seleccionado: <span className="text-foreground font-semibold">{paperColor}</span>
+                Selected: <span className="text-foreground font-semibold">{paperColor}</span>
               </p>
             </Section>
 
             {/* 2. Size */}
-            <Section title="Cantidad de Rosas" step={3}>
+            <Section title="Number of Roses" step={3}>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
                 {pricingTable.map((size, idx) => {
                   const tooFewRoses = size.roses < minRoses;
@@ -359,11 +359,11 @@ const BouquetBuilder = () => {
                       }`}
                     >
                       <p className="font-display text-2xl font-semibold text-foreground">{size.roses}</p>
-                      <p className="text-xs text-muted-foreground font-body">rosas</p>
+                      <p className="text-xs text-muted-foreground font-body">roses</p>
                       <p className="text-sm font-body font-semibold text-primary mt-1">
                         ${price}
                       </p>
-                      {tooFewRoses && <p className="text-[10px] text-destructive font-body mt-1">Mín. {minRoses} rosas</p>}
+                      {tooFewRoses && <p className="text-[10px] text-destructive font-body mt-1">Min. {minRoses} roses</p>}
                     </button>
                   );
                 })}
@@ -371,7 +371,7 @@ const BouquetBuilder = () => {
             </Section>
 
             {/* 3. Glitter */}
-            <Section title="Acabado Glitter" step={4}>
+            <Section title="Glitter Finish" step={4}>
               <button
                 onClick={() => setAddGlitter(!addGlitter)}
                 className={`relative w-full p-6 rounded-sm border-2 transition-all overflow-hidden ${
@@ -393,12 +393,12 @@ const BouquetBuilder = () => {
                 <div className="flex items-center gap-4 relative z-10">
                   <Star className={`w-6 h-6 transition-colors ${addGlitter ? "text-yellow-400 fill-yellow-400" : "text-muted-foreground"}`} />
                   <div className="text-left">
-                    <p className="font-body font-semibold text-foreground">
-                      ✨ Acabado Glitter ✨
-                    </p>
-                    <p className="text-xs text-muted-foreground font-body">
-                      $8 por cada 25 rosas · <span className="text-primary font-semibold">+${glitterCost}</span> para {rosesCount} rosas
-                    </p>
+                     <p className="font-body font-semibold text-foreground">
+                       ✨ Glitter Finish ✨
+                     </p>
+                     <p className="text-xs text-muted-foreground font-body">
+                       $8 per 25 roses · <span className="text-primary font-semibold">+${glitterCost}</span> for {rosesCount} roses
+                     </p>
                   </div>
                   {addGlitter && (
                     <Check className="w-5 h-5 text-primary ml-auto" />
@@ -408,13 +408,13 @@ const BouquetBuilder = () => {
             </Section>
 
             {/* 4. Accessories */}
-            <Section title="Accesorios" step={5} subtitle="Gratis">
+            <Section title="Accessories" step={5} subtitle="Free">
               <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
                 {([
-                  { type: "none" as const, label: "Sin accesorio", icon: null },
-                  { type: "note" as const, label: "Nota", icon: Type },
-                  { type: "card" as const, label: "Tarjeta", icon: Sparkles },
-                  { type: "butterfly" as const, label: "Mariposas", icon: Bug },
+                  { type: "none" as const, label: "No accessory", icon: null },
+                  { type: "note" as const, label: "Note", icon: Type },
+                  { type: "card" as const, label: "Card", icon: Sparkles },
+                  { type: "butterfly" as const, label: "Butterflies", icon: Bug },
                 ] as const).map(({ type, label, icon: Icon }) => (
                   <button
                     key={type}
@@ -427,7 +427,7 @@ const BouquetBuilder = () => {
                   >
                     {Icon && <Icon className="w-4 h-4" />}
                     {label}
-                    <span className="text-xs text-secondary">Gratis</span>
+                    <span className="text-xs text-secondary">Free</span>
                   </button>
                 ))}
               </div>
@@ -435,7 +435,7 @@ const BouquetBuilder = () => {
                 <textarea
                   value={accessoryText}
                   onChange={(e) => setAccessoryText(e.target.value)}
-                  placeholder={`Escribe tu ${accessory === "note" ? "nota" : "tarjeta"}...`}
+                  placeholder={`Write your ${accessory === "note" ? "note" : "card"}...`}
                   className="w-full mt-4 bg-card border border-border rounded-sm px-4 py-3 font-body text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30 min-h-[100px] resize-none"
                   maxLength={200}
                 />
@@ -443,14 +443,14 @@ const BouquetBuilder = () => {
             </Section>
 
             {/* 5. Letras o Números */}
-            <Section title="Letras o Números (Baby Breath)" step={6} subtitle="Opcional">
+            <Section title="Letters or Numbers (Baby Breath)" step={6} subtitle="Optional">
               <div className={`p-5 rounded-sm border-2 transition-all ${addLettersNumbers ? "border-primary bg-primary/5" : "border-border"}`}>
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-3">
                     <Type className="w-5 h-5 text-primary" />
                     <div>
-                      <p className="font-body font-semibold text-foreground">Añadir Letras o Números en Baby Breath</p>
-                      <p className="text-xs text-muted-foreground font-body">${letterNumberExtraPrice} por cada letra/número · Máx. 4 · Mínimo 75 rosas</p>
+                      <p className="font-body font-semibold text-foreground">Add Letters or Numbers in Baby Breath</p>
+                      <p className="text-xs text-muted-foreground font-body">${letterNumberExtraPrice} per letter/number · Max. 4 · Minimum 75 roses</p>
                     </div>
                   </div>
                   <button onClick={() => { if (!addLettersNumbers) { const minIdx = sizeOptions.findIndex(s => s.roses >= 75); if (selectedSizeIdx < minIdx) setSelectedSizeIdx(minIdx); } else { setSpecialText(""); } setAddLettersNumbers(!addLettersNumbers); }} className={`w-12 h-7 rounded-full transition-all relative ${addLettersNumbers ? "bg-primary" : "bg-muted"}`}>
@@ -466,7 +466,7 @@ const BouquetBuilder = () => {
                           lettersNumbersType === "letters" ? "border-primary bg-primary/5 text-primary" : "border-border text-muted-foreground hover:border-primary/30"
                         }`}
                       >
-                        <Type className="w-4 h-4" /> Letras
+                        <Type className="w-4 h-4" /> Letters
                       </button>
                       <button
                         onClick={() => { setLettersNumbersType("numbers"); setSpecialText(""); }}
@@ -474,7 +474,7 @@ const BouquetBuilder = () => {
                           lettersNumbersType === "numbers" ? "border-primary bg-primary/5 text-primary" : "border-border text-muted-foreground hover:border-primary/30"
                         }`}
                       >
-                        <Hash className="w-4 h-4" /> Números
+                        <Hash className="w-4 h-4" /> Numbers
                       </button>
                     </div>
                     <input
@@ -492,18 +492,18 @@ const BouquetBuilder = () => {
                           if (selectedSizeIdx < minIdx) setSelectedSizeIdx(minIdx);
                         }
                       }}
-                      placeholder={lettersNumbersType === "letters" ? "Ej: LOVE" : "Ej: 2025"}
+                      placeholder={lettersNumbersType === "letters" ? "E.g.: LOVE" : "E.g.: 2025"}
                       className="w-full max-w-xs bg-card border border-border rounded-sm px-4 py-3 font-body text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30"
                       maxLength={4}
                     />
-                    <p className="text-xs text-muted-foreground font-body">Mínimo 75 rosas para añadir letras o números.</p>
+                    <p className="text-xs text-muted-foreground font-body">Minimum 75 roses to add letters or numbers.</p>
                     {lettersNumbersType === "letters" && (
-                      <p className="text-xs text-muted-foreground font-body">A partir de 3 letras, el mínimo es de 100 rosas.</p>
+                      <p className="text-xs text-muted-foreground font-body">From 3 letters, the minimum is 100 roses.</p>
                     )}
                     {specialText.length > 0 && (
                       <div className="bg-card border border-border rounded-sm p-4">
                         <p className="font-body text-sm text-muted-foreground">
-                          {specialText.length} {lettersNumbersType === "letters" ? "letras" : "números"} × ${letterNumberExtraPrice} ={" "}
+                          {specialText.length} {lettersNumbersType === "letters" ? "letters" : "numbers"} × ${letterNumberExtraPrice} ={" "}
                           <span className="text-primary font-semibold">+${lettersNumbersCost}</span>
                         </p>
                       </div>
@@ -514,14 +514,14 @@ const BouquetBuilder = () => {
             </Section>
 
             {/* 6. Vase */}
-            <Section title="Jarrón" step={7} subtitle="Opcional">
+            <Section title="Vase" step={7} subtitle="Optional">
               <div className={`p-5 rounded-sm border-2 transition-all ${addVase ? "border-primary bg-primary/5" : "border-border"}`}>
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-3">
                     <span className="text-xl">🏺</span>
                     <div>
-                      <p className="font-body font-semibold text-foreground">Añadir Jarrón</p>
-                      <p className="text-xs text-muted-foreground font-body">Para poner tu ramo</p>
+                      <p className="font-body font-semibold text-foreground">Add Vase</p>
+                      <p className="text-xs text-muted-foreground font-body">For your bouquet</p>
                     </div>
                   </div>
                   <button onClick={() => {
@@ -542,7 +542,7 @@ const BouquetBuilder = () => {
                       <button key={v.roses} onClick={() => setSelectedVaseIdx(idx)}
                         className={`p-4 rounded-sm border-2 text-center transition-all ${selectedVaseIdx === idx ? "border-primary bg-primary/5" : "border-border hover:border-primary/30"}`}>
                         <p className="font-display text-lg font-semibold text-foreground">{v.roses}</p>
-                        <p className="text-xs text-muted-foreground font-body">rosas</p>
+                        <p className="text-xs text-muted-foreground font-body">roses</p>
                         <p className="text-sm font-body font-semibold text-primary mt-1">${v.price}</p>
                       </button>
                     ))}
@@ -561,7 +561,7 @@ const BouquetBuilder = () => {
                   <div className="flex items-center gap-3">
                     <Crown className="w-5 h-5 text-gold" />
                     <div>
-                      <p className="font-body font-semibold text-foreground">Corona Tiara</p>
+                      <p className="font-body font-semibold text-foreground">Crown Tiara</p>
                       <p className="text-xs text-muted-foreground font-body">+${crownPrice}</p>
                     </div>
                   </div>
@@ -601,7 +601,7 @@ const BouquetBuilder = () => {
                   <div className="flex items-center gap-3">
                     <Sparkles className="w-5 h-5 text-gold" />
                     <div>
-                      <p className="font-body font-semibold text-foreground">Cinta Personalizada</p>
+                      <p className="font-body font-semibold text-foreground">Custom Ribbon</p>
                       <p className="text-xs text-muted-foreground font-body">+${ribbonPrice}</p>
                     </div>
                   </div>
@@ -627,7 +627,7 @@ const BouquetBuilder = () => {
                             ribbonType === t ? "border-primary bg-primary/5" : "border-border"
                           }`}
                         >
-                          {t === "names" ? "Nombres" : "Felicitaciones"}
+                          {t === "names" ? "Names" : "Congratulations"}
                         </button>
                       ))}
                     </div>
@@ -652,7 +652,7 @@ const BouquetBuilder = () => {
                       type="text"
                       value={ribbonText}
                       onChange={(e) => setRibbonText(e.target.value)}
-                      placeholder={ribbonType === "names" ? "Escribe los nombres..." : "O escribe tu texto personalizado..."}
+                      placeholder={ribbonType === "names" ? "Write the names..." : "Or write your custom text..."}
                       className="w-full bg-card border border-border rounded-sm px-4 py-3 font-body text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30"
                       maxLength={50}
                     />
@@ -662,10 +662,10 @@ const BouquetBuilder = () => {
             </Section>
 
             {/* 8. AI Preview */}
-            <Section title="Vista Previa" step={9} subtitle="Opcional">
+            <Section title="Preview" step={9} subtitle="Optional">
               <div className="space-y-4">
                 <p className="text-sm text-muted-foreground font-body">
-                  Genera una imagen aproximada de cómo quedará tu ramo con las opciones que has elegido.
+                  Generate an approximate image of how your bouquet will look with your chosen options.
                 </p>
                 <button
                   onClick={handleGeneratePreview}
@@ -674,23 +674,23 @@ const BouquetBuilder = () => {
                 >
                   {previewLoading ? (
                     <>
-                      <Loader2 className="w-4 h-4 animate-spin" />
-                      Generando...
+                     <Loader2 className="w-4 h-4 animate-spin" />
+                      Generating...
                     </>
                   ) : hasGeneratedPreview ? (
                     <>
                       <Eye className="w-4 h-4" />
-                      Preview generado
+                      Preview generated
                     </>
                   ) : (
                     <>
                       <Eye className="w-4 h-4" />
-                      Ver preview de mi ramo
+                      Preview my bouquet
                     </>
                   )}
                 </button>
                 {hasGeneratedPreview && (
-                  <p className="text-xs text-muted-foreground">Solo se permite una previsualización por personalización.</p>
+                  <p className="text-xs text-muted-foreground">Only one preview is allowed per customization.</p>
                 )}
 
                 {previewError && (
@@ -704,12 +704,12 @@ const BouquetBuilder = () => {
                     <div className="relative overflow-hidden rounded-sm border border-border">
                       <img
                         src={previewUrl}
-                        alt="Vista previa de tu bouquet personalizado"
+                        alt="Preview of your custom bouquet"
                         className="w-full h-auto object-contain max-h-[500px]"
                       />
                     </div>
                     <p className="text-xs text-muted-foreground font-body text-center italic">
-                      * Imagen orientativa. El resultado final puede variar ligeramente.
+                      * Illustrative image. The final result may vary slightly.
                     </p>
                   </div>
                 )}
@@ -717,7 +717,7 @@ const BouquetBuilder = () => {
             </Section>
 
             {/* 9. Delivery */}
-            <Section title="Envío" step={10}>
+            <Section title="Shipping" step={10}>
               <div className="grid grid-cols-2 gap-3 mb-6">
                 <button
                   onClick={() => setDeliveryMethod("pickup")}
@@ -729,9 +729,9 @@ const BouquetBuilder = () => {
                 >
                   <Store className="w-6 h-6" />
                   <div className="text-center">
-                    <p className="font-semibold text-sm text-foreground">Recoger en tienda</p>
-                    <p className="text-xs text-muted-foreground mt-1">Gratis</p>
-                  </div>
+                     <p className="font-semibold text-sm text-foreground">Store pickup</p>
+                     <p className="text-xs text-muted-foreground mt-1">Free</p>
+                   </div>
                   {deliveryMethod === "pickup" && <Check className="w-4 h-4 text-primary" />}
                 </button>
                 <button
@@ -744,8 +744,8 @@ const BouquetBuilder = () => {
                 >
                   <Truck className="w-6 h-6" />
                   <div className="text-center">
-                    <p className="font-semibold text-sm text-foreground">Entrega a domicilio</p>
-                    <p className="text-xs text-muted-foreground mt-1">$2 / milla</p>
+                     <p className="font-semibold text-sm text-foreground">Home delivery</p>
+                     <p className="text-xs text-muted-foreground mt-1">$2 / mile</p>
                   </div>
                   {deliveryMethod === "delivery" && <Check className="w-4 h-4 text-primary" />}
                 </button>
@@ -755,18 +755,18 @@ const BouquetBuilder = () => {
               <div className="space-y-4 p-5 rounded-sm border border-border bg-card mb-6">
                 {deliveryMethod === "pickup" ? (
                   <p className="font-body text-sm text-muted-foreground">
-                    📍 Recogida en: <span className="font-semibold text-foreground">7255 NW 12th St, Miami, FL 33126</span>
+                    📍 Pickup at: <span className="font-semibold text-foreground">7255 NW 12th St, Miami, FL 33126</span>
                   </p>
                 ) : (
                   <>
-                <p className="font-body font-semibold text-foreground text-sm">Dirección de entrega</p>
+                <p className="font-body font-semibold text-foreground text-sm">Delivery address</p>
 
                 {deliveryMethod === "delivery" && (
                   <>
                     <div ref={autocompleteRef} className="relative">
-                      <label className="text-xs text-muted-foreground font-body block mb-1">
-                        <MapPin className="w-3 h-3 inline mr-1" />
-                        Dirección de entrega <span className="text-destructive">*</span>
+                       <label className="text-xs text-muted-foreground font-body block mb-1">
+                         <MapPin className="w-3 h-3 inline mr-1" />
+                         Delivery address <span className="text-destructive">*</span>
                       </label>
                       <div className="relative">
                         <input
@@ -774,7 +774,7 @@ const BouquetBuilder = () => {
                           value={addressQuery}
                           onChange={(e) => handleAddressInput(e.target.value)}
                           onFocus={() => predictions.length > 0 && setShowPredictions(true)}
-                          placeholder="Empieza a escribir la dirección..."
+                          placeholder="Start typing the address..."
                           className="w-full bg-background border border-border rounded-sm px-3 py-2.5 pr-10 font-body text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30"
                           required
                         />
@@ -805,7 +805,7 @@ const BouquetBuilder = () => {
 
                     {selectedAddress && (
                       <div className="bg-primary/5 border border-primary/20 rounded-sm p-3">
-                        <p className="font-body text-xs text-muted-foreground">Dirección seleccionada:</p>
+                        <p className="font-body text-xs text-muted-foreground">Selected address:</p>
                         <p className="font-body text-sm text-foreground font-medium">{selectedAddress}</p>
                       </div>
                     )}
@@ -817,12 +817,12 @@ const BouquetBuilder = () => {
                     {deliveryMiles !== null && !distanceTooFar && (
                       <div className="bg-primary/5 border border-primary/20 rounded-sm p-4">
                         <p className="font-body text-sm text-foreground">
-                          📍 Distancia: <span className="font-semibold">{deliveryMiles} millas</span>
-                          {deliveryDuration && <span className="text-muted-foreground"> (~{deliveryDuration})</span>}
-                        </p>
-                        <p className="font-body text-sm text-primary font-semibold mt-1">
-                          Costo de envío: ${deliveryMiles * 2}
-                        </p>
+                           📍 Distance: <span className="font-semibold">{deliveryMiles} miles</span>
+                           {deliveryDuration && <span className="text-muted-foreground"> (~{deliveryDuration})</span>}
+                         </p>
+                         <p className="font-body text-sm text-primary font-semibold mt-1">
+                           Shipping cost: ${deliveryMiles * 2}
+                         </p>
                       </div>
                     )}
 
@@ -836,15 +836,15 @@ const BouquetBuilder = () => {
                           allowFullScreen
                           loading="lazy"
                           referrerPolicy="no-referrer-when-downgrade"
-                          title="Ruta de entrega"
-                        />
+                           title="Delivery route"
+                         />
                       </div>
                     ) : (
                       <div className="rounded-sm overflow-hidden border border-border bg-muted flex items-center justify-center h-48">
                         <div className="text-center">
                           <MapPin className="w-8 h-8 text-muted-foreground mx-auto mb-2" />
                           <p className="font-body text-sm text-muted-foreground">
-                            Ingresa una dirección para ver el mapa
+                            Enter an address to see the map
                           </p>
                         </div>
                       </div>
@@ -858,13 +858,13 @@ const BouquetBuilder = () => {
               {/* Date picker */}
               <div className="mb-4">
                 <label className="text-sm font-body font-semibold text-foreground block mb-2">
-                  <CalendarIcon className="w-4 h-4 inline mr-1" /> Fecha de {deliveryMethod === "pickup" ? "recogida" : "entrega"}
+                  <CalendarIcon className="w-4 h-4 inline mr-1" /> {deliveryMethod === "pickup" ? "Pickup" : "Delivery"} date
                 </label>
                 <Popover>
                   <PopoverTrigger asChild>
                     <button className="w-full md:w-auto flex items-center gap-2 px-4 py-3 rounded-sm border border-border bg-card font-body text-sm text-foreground hover:border-primary/30 transition-all">
                       <CalendarIcon className="w-4 h-4 text-muted-foreground" />
-                      {deliveryDate ? format(deliveryDate, "PPP", { locale: es }) : "Selecciona una fecha"}
+                      {deliveryDate ? format(deliveryDate, "PPP", { locale: enUS }) : "Select a date"}
                     </button>
                   </PopoverTrigger>
                   <PopoverContent className="w-auto p-0" align="start">
@@ -877,7 +877,7 @@ const BouquetBuilder = () => {
                       }}
                       disabled={(date) => isBefore(startOfDay(date), startOfDay(todayInMiami()))}
                       className="p-3 pointer-events-auto"
-                      locale={es}
+                      locale={enUS}
                     />
                   </PopoverContent>
                 </Popover>
@@ -887,7 +887,7 @@ const BouquetBuilder = () => {
               {deliveryDate && (
                 <div>
                   <label className="text-sm font-body font-semibold text-foreground block mb-2">
-                    <Clock className="w-4 h-4 inline mr-1" /> Hora de {deliveryMethod === "pickup" ? "recogida" : "entrega"}
+                    <Clock className="w-4 h-4 inline mr-1" /> {deliveryMethod === "pickup" ? "Pickup" : "Delivery"} time
                   </label>
                   {availableHours.length > 0 ? (
                     <div className="flex flex-wrap gap-2">
@@ -906,9 +906,9 @@ const BouquetBuilder = () => {
                       ))}
                     </div>
                   ) : (
-                    <p className="text-sm text-muted-foreground font-body">
-                      No hay horarios disponibles para hoy (mínimo 2 horas de anticipación). Selecciona otro día.
-                    </p>
+                     <p className="text-sm text-muted-foreground font-body">
+                       No available hours for today (minimum 2 hours in advance). Select another day.
+                     </p>
                   )}
                 </div>
               )}
@@ -920,14 +920,14 @@ const BouquetBuilder = () => {
               <div className="flex flex-col md:flex-row items-center justify-between gap-4">
                 <div>
                   <p className="font-body text-sm text-muted-foreground">
-                    {rosesCount} rosas · {selectedColors.map(c => c.name).join(', ')}
-                    {addLettersNumbers && specialText && ` · ${lettersNumbersType === "letters" ? "Letras" : "Números"}: ${specialText}`}
-                    {addCrown && " · Corona"}
-                    {addRibbon && " · Cinta"}
-                    {accessory !== "none" && ` · ${accessory === "note" ? "Nota" : accessory === "card" ? "Tarjeta" : "Mariposas"}`}
-                    {addGlitter && " · Brillos"}
-                    {addVase && ` · Jarrón (${vaseOptions[selectedVaseIdx].label})`}
-                    {deliveryMethod === "delivery" ? (deliveryMiles && !distanceTooFar ? ` · Envío ${deliveryMiles}mi ($${deliveryCost})` : " · Envío (pendiente)") : " · Recogida en tienda"}
+                    {rosesCount} roses · {selectedColors.map(c => c.name).join(', ')}
+                    {addLettersNumbers && specialText && ` · ${lettersNumbersType === "letters" ? "Letters" : "Numbers"}: ${specialText}`}
+                    {addCrown && " · Crown"}
+                    {addRibbon && " · Ribbon"}
+                    {accessory !== "none" && ` · ${accessory === "note" ? "Note" : accessory === "card" ? "Card" : "Butterflies"}`}
+                    {addGlitter && " · Glitter"}
+                    {addVase && ` · Vase (${vaseOptions[selectedVaseIdx].label})`}
+                    {deliveryMethod === "delivery" ? (deliveryMiles && !distanceTooFar ? ` · Shipping ${deliveryMiles}mi ($${deliveryCost})` : " · Shipping (pending)") : " · Store pickup"}
                   </p>
                   <p className="font-display text-3xl font-bold text-foreground">
                     ${totalPrice} <span className="text-sm font-body text-muted-foreground font-normal">USD</span>
@@ -936,24 +936,24 @@ const BouquetBuilder = () => {
                 <button
                   onClick={() => {
                     if (deliveryMethod === "delivery" && !selectedAddress) {
-                      toast.error("Selecciona una dirección de entrega.");
+                     toast.error("Please select a delivery address.");
                       return;
                     }
                     if (deliveryMethod === "delivery" && (distanceTooFar || deliveryMiles === null)) {
-                      toast.error("La dirección no es válida o está fuera de rango.");
+                      toast.error("The address is invalid or out of range.");
                       return;
                     }
                     if (!deliveryDate || !deliveryHour) {
-                      toast.error("Selecciona fecha y hora de entrega.");
+                      toast.error("Please select a date and time.");
                       return;
                     }
 
                     const addons: string[] = [];
-                    if (addCrown) addons.push(`Corona Tiara (${crownSize})`);
-                    if (addRibbon) addons.push("Cinta");
-                    if (addGlitter) addons.push("Brillos");
-                    if (addVase) addons.push(`Jarrón (${vaseOptions[selectedVaseIdx].label})`);
-                    if (addLettersNumbers && specialText) addons.push(`${lettersNumbersType === "letters" ? "Letras" : "Números"}: ${specialText}`);
+                    if (addCrown) addons.push(`Crown Tiara (${crownSize})`);
+                    if (addRibbon) addons.push("Ribbon");
+                    if (addGlitter) addons.push("Glitter");
+                    if (addVase) addons.push(`Vase (${vaseOptions[selectedVaseIdx].label})`);
+                    if (addLettersNumbers && specialText) addons.push(`${lettersNumbersType === "letters" ? "Letters" : "Numbers"}: ${specialText}`);
 
                     addItem({
                       id: "",
@@ -975,41 +975,41 @@ const BouquetBuilder = () => {
                       deliveryName: "",
                       deliveryPhone: "",
                       deliveryEmail: "",
-                      deliveryAddress: deliveryMethod === "delivery" ? selectedAddress : "Recoger en tienda",
+                      deliveryAddress: deliveryMethod === "delivery" ? selectedAddress : "Store pickup",
                       deliveryZip: deliveryMethod === "delivery" ? deliveryZip : "",
-                      deliveryDate: deliveryDate ? format(deliveryDate, "PPP", { locale: es }) : "",
+                      deliveryDate: deliveryDate ? format(deliveryDate, "PPP", { locale: enUS }) : "",
                       deliveryHour,
                       deliveryMiles: deliveryMethod === "delivery" ? deliveryMiles : null,
                       paperColor,
                     });
 
-                    toast.success("¡Bouquet añadido al carrito!");
+                    toast.success("Bouquet added to cart!");
                   }}
                   className="w-full md:w-auto bg-primary text-primary-foreground px-10 py-4 font-body text-sm tracking-widest uppercase hover:bg-primary/90 transition-colors rounded-sm"
                 >
-                  Añadir al carrito
+                  Add to cart
                 </button>
                 <button
                   onClick={() => {
                     if (deliveryMethod === "delivery" && !selectedAddress) {
-                      toast.error("Selecciona una dirección de entrega.");
+                      toast.error("Please select a delivery address.");
                       return;
                     }
                     if (deliveryMethod === "delivery" && (distanceTooFar || deliveryMiles === null)) {
-                      toast.error("La dirección no es válida o está fuera de rango.");
+                      toast.error("The address is invalid or out of range.");
                       return;
                     }
                     if (!deliveryDate || !deliveryHour) {
-                      toast.error("Selecciona fecha y hora de entrega.");
+                      toast.error("Please select a date and time.");
                       return;
                     }
 
                     const addons: string[] = [];
-                    if (addCrown) addons.push(`Corona Tiara (${crownSize})`);
-                    if (addRibbon) addons.push("Cinta");
-                    if (addGlitter) addons.push("Brillos");
-                    if (addVase) addons.push(`Jarrón (${vaseOptions[selectedVaseIdx].label})`);
-                    if (addLettersNumbers && specialText) addons.push(`${lettersNumbersType === "letters" ? "Letras" : "Números"}: ${specialText}`);
+                    if (addCrown) addons.push(`Crown Tiara (${crownSize})`);
+                    if (addRibbon) addons.push("Ribbon");
+                    if (addGlitter) addons.push("Glitter");
+                    if (addVase) addons.push(`Vase (${vaseOptions[selectedVaseIdx].label})`);
+                    if (addLettersNumbers && specialText) addons.push(`${lettersNumbersType === "letters" ? "Letters" : "Numbers"}: ${specialText}`);
 
                     addItem({
                       id: "",
@@ -1031,20 +1031,20 @@ const BouquetBuilder = () => {
                       deliveryName: "",
                       deliveryPhone: "",
                       deliveryEmail: "",
-                      deliveryAddress: deliveryMethod === "delivery" ? selectedAddress : "Recoger en tienda",
+                      deliveryAddress: deliveryMethod === "delivery" ? selectedAddress : "Store pickup",
                       deliveryZip: deliveryMethod === "delivery" ? deliveryZip : "",
-                      deliveryDate: deliveryDate ? format(deliveryDate, "PPP", { locale: es }) : "",
+                      deliveryDate: deliveryDate ? format(deliveryDate, "PPP", { locale: enUS }) : "",
                       deliveryHour,
                       deliveryMiles: deliveryMethod === "delivery" ? deliveryMiles : null,
                       paperColor,
                     });
 
-                    toast.success("¡Bouquet añadido al carrito!");
+                    toast.success("Bouquet added to cart!");
                     navigate("/checkout");
                   }}
                   className="w-full md:w-auto border-2 border-primary text-primary px-10 py-4 font-body text-sm tracking-widest uppercase hover:bg-primary/10 transition-colors rounded-sm"
                 >
-                  Pagar ahora
+                  Pay now
                 </button>
               </div>
             </div>

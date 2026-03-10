@@ -2,7 +2,7 @@ import { useState, useMemo, useCallback, useRef, useEffect } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import { format, addHours, isBefore, startOfDay } from "date-fns";
 import { miamiHourNow, todayInMiami, isTodayInMiami } from "@/lib/miamiTime";
-import { es } from "date-fns/locale";
+import { enUS } from "date-fns/locale";
 import { supabase } from "@/integrations/supabase/client";
 import { useCart } from "@/contexts/CartContext";
 import { toast } from "sonner";
@@ -99,7 +99,7 @@ const BouquetProductDetail = () => {
         if (error) throw new Error("Error de conexión");
         if (data.error) { setDistanceError(data.error); if (data.tooFar) { setDistanceTooFar(true); setDeliveryMiles(data.miles); } }
         else { setDeliveryMiles(data.miles); setDeliveryDuration(data.duration); if (data.mapUrl) setMapUrl(data.mapUrl); }
-      } catch (e: any) { setDistanceError(e.message || "Error al calcular distancia"); }
+      } catch (e: any) { setDistanceError(e.message || "Error calculating distance"); }
       finally { setDistanceLoading(false); }
     })();
   }, []);
@@ -123,8 +123,8 @@ const BouquetProductDetail = () => {
     return (
       <div className="min-h-screen bg-background"><Navbar />
         <div className="pt-24 text-center">
-          <p className="text-muted-foreground font-body">Producto no encontrado</p>
-          <Link to="/" className="text-primary font-body underline mt-4 inline-block">Volver</Link>
+          <p className="text-muted-foreground font-body">Product not found</p>
+          <Link to="/" className="text-primary font-body underline mt-4 inline-block">Go back</Link>
         </div>
       </div>
     );
@@ -151,9 +151,9 @@ const BouquetProductDetail = () => {
   let step = 1;
 
   const handleAddToCart = (): boolean => {
-    if (deliveryMethod === "delivery" && !selectedAddress) { toast.error("Selecciona una dirección de entrega."); return false; }
-    if (deliveryMethod === "delivery" && (distanceTooFar || deliveryMiles === null)) { toast.error("La dirección no es válida o fuera de rango."); return false; }
-    if (!deliveryDate || !deliveryHour) { toast.error("Selecciona fecha y hora."); return false; }
+    if (deliveryMethod === "delivery" && !selectedAddress) { toast.error("Please select a delivery address."); return false; }
+    if (deliveryMethod === "delivery" && (distanceTooFar || deliveryMiles === null)) { toast.error("The address is invalid or out of range."); return false; }
+    if (!deliveryDate || !deliveryHour) { toast.error("Please select a date and time."); return false; }
 
     const addons: string[] = [];
     if (addGlitter) addons.push("Glitter");
@@ -178,14 +178,14 @@ const BouquetProductDetail = () => {
       deliveryName: "",
       deliveryPhone: "",
       deliveryEmail: "",
-      deliveryAddress: deliveryMethod === "delivery" ? selectedAddress : "Recoger en tienda",
+      deliveryAddress: deliveryMethod === "delivery" ? selectedAddress : "Store pickup",
       deliveryZip: deliveryMethod === "delivery" ? deliveryZip : "",
-      deliveryDate: deliveryDate ? format(deliveryDate, "PPP", { locale: es }) : "",
+      deliveryDate: deliveryDate ? format(deliveryDate, "PPP", { locale: enUS }) : "",
       deliveryHour,
       deliveryMiles: deliveryMethod === "delivery" ? deliveryMiles : null,
       paperColor,
     });
-    toast.success("¡Bouquet añadido al carrito!");
+    toast.success("Bouquet added to cart!");
     return true;
   };
 
@@ -199,7 +199,7 @@ const BouquetProductDetail = () => {
       <div className="pt-24 pb-16">
         <div className="container mx-auto px-6">
           <Link to="/bouquets" className="inline-flex items-center gap-2 text-muted-foreground font-body text-sm hover:text-primary transition-colors mb-8">
-            <ArrowLeft className="w-4 h-4" /> Volver
+            <ArrowLeft className="w-4 h-4" /> Back
           </Link>
 
           <div className="max-w-4xl mx-auto space-y-10">
@@ -217,7 +217,7 @@ const BouquetProductDetail = () => {
               </div>
               {product.image2 && (
                 <div className="relative overflow-hidden rounded-sm bg-muted flex items-center justify-center aspect-square">
-                  <img src={product.image2} alt={`${product.name} - vista 2`} className="w-full h-full object-cover" />
+                  <img src={product.image2} alt={`${product.name} - view 2`} className="w-full h-full object-cover" />
                 </div>
               )}
             </div>
@@ -235,14 +235,14 @@ const BouquetProductDetail = () => {
               </div>
               {product.image2 && (
                 <div className="w-full flex-none snap-center relative overflow-hidden rounded-sm bg-muted flex items-center justify-center aspect-square">
-                  <img src={product.image2} alt={`${product.name} - vista 2`} className="w-full h-full object-cover pointer-events-none" />
+                  <img src={product.image2} alt={`${product.name} - view 2`} className="w-full h-full object-cover pointer-events-none" />
                 </div>
               )}
             </div>
 
             {product.image2 && (
               <p className="md:hidden text-center text-[10px] text-muted-foreground mt-1 uppercase tracking-widest">
-                Desliza para ver más
+                Swipe to see more
               </p>
             )}
 
@@ -261,20 +261,20 @@ const BouquetProductDetail = () => {
 
 
             {/* 1. Size */}
-            <Section title="Cantidad de Rosas" step={step++}>
+            <Section title="Number of Roses" step={step++}>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
                 {sizeOptions.map((size, idx) => {
                   const disabled = idx < minSizeIdx;
                   const price = hasCustomSizes ? (size as any).price : getPrice(product.pricingTier, size.roses);
-                  const label = hasCustomSizes && (size as any).label ? (size as any).label : `${size.roses} rosas`;
+                  const label = hasCustomSizes && (size as any).label ? (size as any).label : `${size.roses} roses`;
                   return (
                     <button key={size.roses} onClick={() => !disabled && setSelectedSizeIdx(idx)}
                       disabled={disabled}
                       className={`p-4 rounded-sm border-2 text-center transition-all ${disabled ? "opacity-40 cursor-not-allowed border-border" : effectiveSizeIdx === idx ? "border-primary bg-primary/5" : "border-border hover:border-primary/30"}`}>
                       <p className="font-display text-2xl font-semibold text-foreground">{size.roses}</p>
-                      <p className="text-xs text-muted-foreground font-body">{hasCustomSizes && (size as any).label ? (size as any).label : 'rosas'}</p>
+                      <p className="text-xs text-muted-foreground font-body">{hasCustomSizes && (size as any).label ? (size as any).label : 'roses'}</p>
                       <p className="text-sm font-body font-semibold text-primary mt-1">${price}</p>
-                      {disabled && <p className="text-[10px] text-destructive font-body mt-1">Mín. {sizeOptions[minSizeIdx].roses} para {colorCount} colores</p>}
+                      {disabled && <p className="text-[10px] text-destructive font-body mt-1">Min. {sizeOptions[minSizeIdx].roses} for {colorCount} colors</p>}
                     </button>
                   );
                 })}
@@ -282,14 +282,14 @@ const BouquetProductDetail = () => {
             </Section>
 
             {/* 2. Glitter */}
-            <Section title="Acabado Glitter" step={step++} subtitle={`+$${Math.ceil(selectedSize.roses / 25) * 8}`}>
+            <Section title="Glitter Finish" step={step++} subtitle={`+$${Math.ceil(selectedSize.roses / 25) * 8}`}>
               <button onClick={() => setAddGlitter(!addGlitter)}
                 className={`relative w-full p-6 rounded-sm border-2 transition-all overflow-hidden ${addGlitter ? "border-primary bg-primary/5" : "border-border hover:border-primary/30"}`}>
                 <div className="flex items-center gap-4 relative z-10">
                   <Star className={`w-6 h-6 transition-colors ${addGlitter ? "text-gold fill-gold" : "text-muted-foreground"}`} />
                   <div className="text-left">
-                    <p className="font-body font-semibold text-foreground">✨ Añadir Brillos ✨</p>
-                    <p className="text-xs text-muted-foreground font-body">$8 cada 25 rosas · {selectedSize.roses} rosas = +${Math.ceil(selectedSize.roses / 25) * 8}</p>
+                     <p className="font-body font-semibold text-foreground">✨ Add Glitter ✨</p>
+                     <p className="text-xs text-muted-foreground font-body">$8 per 25 roses · {selectedSize.roses} roses = +${Math.ceil(selectedSize.roses / 25) * 8}</p>
                   </div>
                   {addGlitter && <Check className="w-5 h-5 text-primary ml-auto" />}
                 </div>
@@ -300,23 +300,23 @@ const BouquetProductDetail = () => {
 
 
             {/* 4. Accessories */}
-            <Section title="Accesorios" step={step++} subtitle="Gratis">
+            <Section title="Accessories" step={step++} subtitle="Free">
               <div className="grid grid-cols-3 gap-3">
                 {([
-                  { type: "none" as const, label: "Sin accesorio", icon: null },
-                  { type: "note" as const, label: "Nota", icon: Type },
-                  { type: "card" as const, label: "Tarjeta", icon: Sparkles },
+                  { type: "none" as const, label: "No accessory", icon: null },
+                  { type: "note" as const, label: "Note", icon: Type },
+                  { type: "card" as const, label: "Card", icon: Sparkles },
                 ]).map(({ type: t, label, icon: Icon }) => (
                   <button key={t} onClick={() => setAccessory(t)}
                     className={`flex flex-col items-center gap-2 p-4 rounded-sm border-2 transition-all font-body text-sm ${accessory === t ? "border-primary bg-primary/5 text-primary" : "border-border text-muted-foreground hover:border-primary/30"}`}>
                     {Icon && <Icon className="w-4 h-4" />}
                     {label}
-                    <span className="text-xs text-secondary">Gratis</span>
+                    <span className="text-xs text-secondary">Free</span>
                   </button>
                 ))}
               </div>
               {(accessory === "note" || accessory === "card") && (
-                <textarea value={accessoryText} onChange={(e) => setAccessoryText(e.target.value)} placeholder={`Escribe tu ${accessory === "note" ? "nota" : "tarjeta"}...`}
+                <textarea value={accessoryText} onChange={(e) => setAccessoryText(e.target.value)} placeholder={`Write your ${accessory === "note" ? "note" : "card"}...`}
                   className="w-full mt-4 bg-card border border-border rounded-sm px-4 py-3 font-body text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30 min-h-[100px] resize-none" maxLength={200} />
               )}
             </Section>
@@ -324,16 +324,16 @@ const BouquetProductDetail = () => {
 
 
             {/* 6. Delivery */}
-            <Section title="Envío" step={step++}>
+            <Section title="Shipping" step={step++}>
               <div className="grid grid-cols-2 gap-3 mb-6">
                 <button onClick={() => setDeliveryMethod("pickup")}
                   className={`flex flex-col items-center gap-3 p-5 rounded-sm border-2 transition-all font-body ${deliveryMethod === "pickup" ? "border-primary bg-primary/5" : "border-border hover:border-primary/30"}`}>
-                  <Store className="w-6 h-6" /><p className="font-semibold text-sm text-foreground">Recoger en tienda</p><p className="text-xs text-muted-foreground">Gratis</p>
+                  <Store className="w-6 h-6" /><p className="font-semibold text-sm text-foreground">Store pickup</p><p className="text-xs text-muted-foreground">Free</p>
                   {deliveryMethod === "pickup" && <Check className="w-4 h-4 text-primary" />}
                 </button>
                 <button onClick={() => setDeliveryMethod("delivery")}
                   className={`flex flex-col items-center gap-3 p-5 rounded-sm border-2 transition-all font-body ${deliveryMethod === "delivery" ? "border-primary bg-primary/5" : "border-border hover:border-primary/30"}`}>
-                  <Truck className="w-6 h-6" /><p className="font-semibold text-sm text-foreground">Entrega a domicilio</p><p className="text-xs text-muted-foreground">$2 / milla</p>
+                  <Truck className="w-6 h-6" /><p className="font-semibold text-sm text-foreground">Home delivery</p><p className="text-xs text-muted-foreground">$2 / mile</p>
                   {deliveryMethod === "delivery" && <Check className="w-4 h-4 text-primary" />}
                 </button>
               </div>
@@ -341,16 +341,16 @@ const BouquetProductDetail = () => {
               <div className="space-y-4 p-5 rounded-sm border border-border bg-card mb-6">
                 {deliveryMethod === "pickup" ? (
                   <p className="font-body text-sm text-muted-foreground">
-                    📍 Recogida en: <span className="font-semibold text-foreground">7255 NW 12th St, Miami, FL 33126</span>
+                    📍 Pickup at: <span className="font-semibold text-foreground">7255 NW 12th St, Miami, FL 33126</span>
                   </p>
                 ) : (
                   <>
-                    <p className="font-body font-semibold text-foreground text-sm">Dirección de entrega</p>
+                    <p className="font-body font-semibold text-foreground text-sm">Delivery address</p>
                     <div ref={autocompleteRef} className="relative">
-                      <label className="text-xs text-muted-foreground font-body block mb-1"><MapPin className="w-3 h-3 inline mr-1" />Dirección <span className="text-destructive">*</span></label>
+                      <label className="text-xs text-muted-foreground font-body block mb-1"><MapPin className="w-3 h-3 inline mr-1" />Address <span className="text-destructive">*</span></label>
                       <div className="relative">
                         <input type="text" value={addressQuery} onChange={(e) => handleAddressInput(e.target.value)} onFocus={() => predictions.length > 0 && setShowPredictions(true)}
-                          placeholder="Empieza a escribir la dirección..."
+                          placeholder="Start typing the address..."
                           className="w-full bg-background border border-border rounded-sm px-3 py-2.5 pr-10 font-body text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30" />
                         <div className="absolute right-3 top-1/2 -translate-y-1/2">
                           {autocompleteLoading || distanceLoading ? <Loader2 className="w-4 h-4 text-muted-foreground animate-spin" /> : <Search className="w-4 h-4 text-muted-foreground" />}
@@ -369,20 +369,20 @@ const BouquetProductDetail = () => {
                     </div>
                     {selectedAddress && (
                       <div className="bg-primary/5 border border-primary/20 rounded-sm p-3">
-                        <p className="font-body text-xs text-muted-foreground">Dirección seleccionada:</p>
+                        <p className="font-body text-xs text-muted-foreground">Selected address:</p>
                         <p className="font-body text-sm text-foreground font-medium">{selectedAddress}</p>
                       </div>
                     )}
                     {distanceError && <p className="text-sm font-body text-destructive">{distanceError}</p>}
                     {deliveryMiles !== null && !distanceTooFar && (
                       <div className="bg-primary/5 border border-primary/20 rounded-sm p-4">
-                        <p className="font-body text-sm text-foreground">📍 Distancia: <span className="font-semibold">{deliveryMiles} millas</span>{deliveryDuration && <span className="text-muted-foreground"> (~{deliveryDuration})</span>}</p>
-                        <p className="font-body text-sm text-primary font-semibold mt-1">Costo de envío: ${deliveryMiles * 2}</p>
+                         <p className="font-body text-sm text-foreground">📍 Distance: <span className="font-semibold">{deliveryMiles} miles</span>{deliveryDuration && <span className="text-muted-foreground"> (~{deliveryDuration})</span>}</p>
+                         <p className="font-body text-sm text-primary font-semibold mt-1">Shipping cost: ${deliveryMiles * 2}</p>
                       </div>
                     )}
                     {mapUrl && (
                       <div className="rounded-sm overflow-hidden border border-border">
-                        <iframe src={mapUrl} width="100%" height="300" style={{ border: 0 }} allowFullScreen loading="lazy" referrerPolicy="no-referrer-when-downgrade" title="Ruta" />
+                        <iframe src={mapUrl} width="100%" height="300" style={{ border: 0 }} allowFullScreen loading="lazy" referrerPolicy="no-referrer-when-downgrade" title="Route" />
                       </div>
                     )}
                   </>
@@ -391,23 +391,23 @@ const BouquetProductDetail = () => {
 
               {/* Date */}
               <div className="mb-4">
-                <label className="text-sm font-body font-semibold text-foreground block mb-2"><CalendarIcon className="w-4 h-4 inline mr-1" /> Fecha</label>
+                <label className="text-sm font-body font-semibold text-foreground block mb-2"><CalendarIcon className="w-4 h-4 inline mr-1" /> Date</label>
                 <Popover>
                   <PopoverTrigger asChild>
                     <button className="w-full md:w-auto flex items-center gap-2 px-4 py-3 rounded-sm border border-border bg-card font-body text-sm text-foreground hover:border-primary/30 transition-all">
                       <CalendarIcon className="w-4 h-4 text-muted-foreground" />
-                      {deliveryDate ? format(deliveryDate, "PPP", { locale: es }) : "Selecciona una fecha"}
+                      {deliveryDate ? format(deliveryDate, "PPP", { locale: enUS }) : "Select a date"}
                     </button>
                   </PopoverTrigger>
                   <PopoverContent className="w-auto p-0" align="start">
-                    <Calendar mode="single" selected={deliveryDate} onSelect={(d) => { setDeliveryDate(d); setDeliveryHour(""); }}
-                      disabled={(date) => isBefore(startOfDay(date), startOfDay(todayInMiami()))} className="p-3 pointer-events-auto" locale={es} />
+                     <Calendar mode="single" selected={deliveryDate} onSelect={(d) => { setDeliveryDate(d); setDeliveryHour(""); }}
+                       disabled={(date) => isBefore(startOfDay(date), startOfDay(todayInMiami()))} className="p-3 pointer-events-auto" locale={enUS} />
                   </PopoverContent>
                 </Popover>
               </div>
               {deliveryDate && (
                 <div>
-                  <label className="text-sm font-body font-semibold text-foreground block mb-2"><Clock className="w-4 h-4 inline mr-1" /> Hora</label>
+                  <label className="text-sm font-body font-semibold text-foreground block mb-2"><Clock className="w-4 h-4 inline mr-1" /> Time</label>
                   {availableHours.length > 0 ? (
                     <div className="flex flex-wrap gap-2">
                       {availableHours.map((hour) => (
@@ -415,7 +415,7 @@ const BouquetProductDetail = () => {
                           className={`px-4 py-2 rounded-sm border-2 text-sm font-body transition-all ${deliveryHour === hour ? "border-primary bg-primary/5 text-primary" : "border-border text-muted-foreground hover:border-primary/30"}`}>{hour}</button>
                       ))}
                     </div>
-                  ) : <p className="text-sm text-muted-foreground font-body">No hay horarios disponibles. Selecciona otro día.</p>}
+                  ) : <p className="text-sm text-muted-foreground font-body">No available hours. Select another day.</p>}
                 </div>
               )}
             </Section>
@@ -427,10 +427,10 @@ const BouquetProductDetail = () => {
                 {/* Description and Price - Mobile Layout (Row 1) */}
                 <div className="flex md:hidden justify-between items-start gap-4">
                   <p className="font-body text-xs text-muted-foreground leading-tight flex-1">
-                    {product.name} · {selectedSize.roses} rosas
+                    {product.name} · {selectedSize.roses} roses
                     {addGlitter && " · Glitter"}
-                    {accessory !== "none" && ` · ${accessory === "note" ? "Nota" : "Tarjeta"}`}
-                    {deliveryMethod === "delivery" ? (deliveryMiles && !distanceTooFar ? ` · Envío ($${deliveryCost})` : " · Envío (pdte)") : " · Recogida"}
+                    {accessory !== "none" && ` · ${accessory === "note" ? "Note" : "Card"}`}
+                    {deliveryMethod === "delivery" ? (deliveryMiles && !distanceTooFar ? ` · Shipping ($${deliveryCost})` : " · Shipping (pending)") : " · Pickup"}
                   </p>
                   <p className="font-display text-xl font-bold text-foreground whitespace-nowrap">
                     ${totalPrice} <span className="text-[10px] font-body text-muted-foreground font-normal">USD</span>
@@ -440,10 +440,10 @@ const BouquetProductDetail = () => {
                 {/* Description - Desktop (Left side) */}
                 <div className="hidden md:block flex-1 pr-4">
                   <p className="font-body text-xs text-muted-foreground leading-tight">
-                    {product.name} · {selectedSize.roses} rosas
+                    {product.name} · {selectedSize.roses} roses
                     {addGlitter && " · Glitter"}
-                    {accessory !== "none" && ` · ${accessory === "note" ? "Nota" : "Tarjeta"}`}
-                    {deliveryMethod === "delivery" ? (deliveryMiles && !distanceTooFar ? ` · Envío ($${deliveryCost})` : " · Envío (pendiente)") : " · Recogida"}
+                    {accessory !== "none" && ` · ${accessory === "note" ? "Note" : "Card"}`}
+                    {deliveryMethod === "delivery" ? (deliveryMiles && !distanceTooFar ? ` · Shipping ($${deliveryCost})` : " · Shipping (pending)") : " · Pickup"}
                   </p>
                 </div>
 
@@ -455,11 +455,11 @@ const BouquetProductDetail = () => {
                   <div className="flex w-full md:w-auto gap-2">
                     <button onClick={handleAddToCart}
                       className="flex-1 md:flex-none bg-primary text-primary-foreground px-6 py-3 font-body text-xs tracking-widest uppercase hover:bg-primary/90 transition-colors rounded-sm">
-                      Añadir al carrito
+                      Add to cart
                     </button>
                     <button onClick={handlePayNow}
                       className="flex-1 md:flex-none border-2 border-primary text-primary px-6 py-3 font-body text-xs tracking-widest uppercase hover:bg-primary/10 transition-colors rounded-sm whitespace-nowrap">
-                      Pagar ahora
+                      Pay now
                     </button>
                   </div>
                 </div>
