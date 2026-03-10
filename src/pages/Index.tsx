@@ -19,16 +19,15 @@ import purezaBlancaImg from "@/assets/bq-blanco.png";
 
 const comingSoonSlugs = ["arreglos", "cajas", "cestas", "jarrones", "osos"];
 
-
 const Index = () => {
   const [reviewCategory, setReviewCategory] = useState<ReviewCategory>("bouquets");
   const categories = [
     { img: purezaBlancaImg, title: "Bouquets", slug: "bouquets", isRoute: true },
-    { img: arreglosImg, title: "Arreglos", slug: "arreglos" },
-    { img: cajasImg, title: "Cajas", slug: "cajas" },
-    { img: cestasImg, title: "Cestas", slug: "cestas" },
-    { img: jarronesImg, title: "Jarrones", slug: "jarrones" },
-    { img: ososImg, title: "Osos", slug: "osos" },
+    { img: arreglosImg, title: "Arrangements", slug: "arreglos" },
+    { img: cajasImg, title: "Boxes", slug: "cajas" },
+    { img: cestasImg, title: "Baskets", slug: "cestas" },
+    { img: jarronesImg, title: "Vases", slug: "jarrones" },
+    { img: ososImg, title: "Bears", slug: "osos" },
   ];
 
   return (
@@ -38,7 +37,7 @@ const Index = () => {
       {/* Hero */}
       <section className="relative h-[70vh] md:h-screen flex items-end md:items-center overflow-hidden">
         <div className="absolute inset-0">
-          <img src={heroBouquet} alt="Bouquet de rosas frescas" className="w-full h-full object-cover object-center" />
+          <img src={heroBouquet} alt="Fresh rose bouquet" className="w-full h-full object-cover object-center" />
           <div className="absolute inset-0 bg-gradient-to-t md:bg-gradient-to-r from-foreground/85 via-foreground/50 to-transparent" />
         </div>
         <div className="container relative z-10 mx-auto px-4 md:px-6 pb-10 md:pb-0">
@@ -48,21 +47,21 @@ const Index = () => {
             transition={{ duration: 1, ease: "easeOut" }}
             className="max-w-xl"
           >
-            <p className="text-gold font-body text-xs md:text-sm tracking-[0.3em] uppercase mb-2 md:mb-4">Hechos a mano con amor</p>
+            <p className="text-gold font-body text-xs md:text-sm tracking-[0.3em] uppercase mb-2 md:mb-4">Handcrafted with love</p>
             <h1 className="font-display text-3xl md:text-7xl font-bold text-primary-foreground leading-tight mb-3 md:mb-6">
-              Rosas frescas y naturales
+              Fresh & natural roses
             </h1>
             <p className="text-primary-foreground/80 font-body text-sm md:text-lg mb-5 md:mb-8 leading-relaxed">
-              Bouquets hechos a mano de 50 a 200 rosas. Naturales, pintadas o con brillos.
+              Handmade bouquets from 50 to 200 roses. Natural, painted, or glitter finish.
             </p>
             <div className="flex flex-col sm:flex-row gap-3 md:gap-4">
               <Link to="/bouquets"
                 className="inline-flex items-center justify-center gap-2 bg-primary text-primary-foreground px-5 md:px-8 py-3 md:py-4 font-body text-xs md:text-sm tracking-widest uppercase hover:bg-primary/90 transition-colors rounded-sm">
-                Ver bouquets <ArrowRight className="w-3.5 h-3.5 md:w-4 md:h-4" />
+                View bouquets <ArrowRight className="w-3.5 h-3.5 md:w-4 md:h-4" />
               </Link>
               <Link to="/bouquets/personalizar"
                 className="inline-flex items-center justify-center gap-2 border border-primary-foreground/50 text-primary-foreground px-5 md:px-8 py-3 md:py-4 font-body text-xs md:text-sm tracking-widest uppercase hover:bg-primary-foreground/10 transition-colors rounded-sm">
-                Crea tu bouquet <Sparkles className="w-3.5 h-3.5 md:w-4 md:h-4" />
+                Build your bouquet <Sparkles className="w-3.5 h-3.5 md:w-4 md:h-4" />
               </Link>
             </div>
           </motion.div>
@@ -77,21 +76,21 @@ const Index = () => {
               <div className="w-9 h-9 rounded-full bg-primary/10 flex items-center justify-center">
                 <Store className="w-4 h-4 text-primary" />
               </div>
-              <span className="font-body text-[11px] md:text-xs tracking-wider text-foreground uppercase">Recogida en tienda</span>
+              <span className="font-body text-[11px] md:text-xs tracking-wider text-foreground uppercase">Store pickup</span>
             </div>
             <div className="w-px h-6 bg-primary/15 hidden md:block" />
             <div className="flex items-center gap-2.5">
               <div className="w-9 h-9 rounded-full bg-primary/10 flex items-center justify-center">
                 <Truck className="w-4 h-4 text-primary" />
               </div>
-              <span className="font-body text-[11px] md:text-xs tracking-wider text-foreground uppercase">Entrega a domicilio</span>
+              <span className="font-body text-[11px] md:text-xs tracking-wider text-foreground uppercase">Home delivery</span>
             </div>
             <div className="w-px h-6 bg-primary/15 hidden md:block" />
             <div className="flex items-center gap-2.5">
               <div className="w-9 h-9 rounded-full bg-primary/10 flex items-center justify-center">
                 <Globe className="w-4 h-4 text-primary" />
               </div>
-              <span className="font-body text-[11px] md:text-xs tracking-wider text-foreground uppercase">Envío nacional</span>
+              <span className="font-body text-[11px] md:text-xs tracking-wider text-foreground uppercase">Nationwide shipping</span>
             </div>
           </div>
         </div>
@@ -101,7 +100,7 @@ const Index = () => {
       <section className="py-16 md:py-20 bg-background">
         <div className="container mx-auto px-6">
           <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.8 }} className="text-center mb-10">
-            <h2 className="font-display text-4xl md:text-5xl font-semibold text-primary">Categorías</h2>
+            <h2 className="font-display text-4xl md:text-5xl font-semibold text-primary">Categories</h2>
           </motion.div>
 
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-7 gap-5">
@@ -153,7 +152,7 @@ const Index = () => {
               </div>
               <div className="flex items-center justify-center gap-2 mb-2">
                 <Sparkles className="w-4 h-4 text-primary" />
-                <h3 className="font-display text-xl font-semibold text-foreground uppercase tracking-wide">Ver Bouquets</h3>
+                <h3 className="font-display text-xl font-semibold text-foreground uppercase tracking-wide">View Bouquets</h3>
               </div>
             </Link>
           </motion.div>
@@ -162,7 +161,6 @@ const Index = () => {
 
       {/* Ticker */}
       <div className="relative mt-[-1px]">
-        {/* Top wave */}
         <div className="absolute -top-[50px] left-0 w-full h-[55px] z-10 overflow-hidden">
           <svg className="h-full animate-wave" style={{ width: "200%", minWidth: "3840px" }} viewBox="0 0 2880 60" preserveAspectRatio="none">
             <path d="M0,60 C360,20 720,50 1080,30 C1440,10 1800,50 2160,25 C2520,5 2880,40 2880,40 L2880,60 Z" fill="hsl(var(--primary))" opacity="0.3" />
@@ -180,12 +178,12 @@ const Index = () => {
             {[...Array(2)].map((_, loop) => (
               <div key={loop} className="flex items-center gap-8 md:gap-12 px-4 md:px-6 shrink-0">
                 {[
-                  "La mejor florería calidad-precio de Miami",
-                  "Precios imbatibles en rosas frescas",
-                  "Ramos 100% artesanales hechos a mano",
-                  "Entrega el mismo día en Miami",
-                  "De 50 a 200 rosas por bouquet",
-                  "Flores naturales, pintadas o con brillos",
+                  "Best quality-price flower shop in Miami",
+                  "Unbeatable prices on fresh roses",
+                  "100% handcrafted artisan bouquets",
+                  "Same-day delivery in Miami",
+                  "From 50 to 200 roses per bouquet",
+                  "Natural, painted, or glitter finish flowers",
                 ].map((text, i) => (
                   <span key={i} className="font-body text-xs md:text-sm tracking-widest uppercase text-primary-foreground flex items-center gap-8 md:gap-12 shrink-0">
                     {text}
@@ -196,7 +194,6 @@ const Index = () => {
             ))}
           </motion.div>
         </div>
-        {/* Bottom wave */}
         <div className="absolute -bottom-[50px] left-0 w-full h-[55px] z-10 overflow-hidden">
           <svg className="h-full animate-wave-reverse" style={{ width: "200%", minWidth: "3840px" }} viewBox="0 0 2880 60" preserveAspectRatio="none">
             <path d="M0,0 C360,40 720,10 1080,30 C1440,50 1800,10 2160,35 C2520,55 2880,20 2880,20 L2880,0 Z" fill="hsl(var(--primary))" opacity="0.3" />
@@ -206,33 +203,33 @@ const Index = () => {
         </div>
       </div>
 
-      {/* Personaliza tu Bouquet */}
+      {/* Customize your Bouquet */}
       <section className="py-16 md:py-20 bg-background">
         <div className="container mx-auto px-6 text-center">
           <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.8 }}>
             <h2 className="font-display text-4xl md:text-5xl font-semibold text-primary mb-6">
-              Personaliza tu Bouquet
+              Customize Your Bouquet
             </h2>
             <p className="text-muted-foreground font-body mb-8 max-w-md mx-auto">
-              Crea un ramo único eligiendo color, tamaño, accesorios y más.
+              Create a unique bouquet by choosing color, size, accessories, and more.
             </p>
             <Link to="/bouquets/personalizar"
               className="inline-flex items-center gap-3 bg-primary text-primary-foreground px-8 py-4 font-body text-sm tracking-widest uppercase hover:bg-primary/90 transition-colors rounded-sm">
-              Personalizar <ArrowRight className="w-4 h-4" />
+              Customize <ArrowRight className="w-4 h-4" />
             </Link>
           </motion.div>
         </div>
       </section>
 
-      {/* Videos de clientes */}
+      {/* Client Videos */}
       <ClientVideos />
 
-      {/* Reseñas */}
+      {/* Reviews */}
       <section className="py-16 md:py-20 bg-cream">
         <div className="container mx-auto px-6">
           <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.8 }} className="text-center mb-10">
-            <h2 className="font-display text-4xl md:text-5xl font-semibold text-primary mb-4">Lo que dicen nuestros clientes</h2>
-            <p className="text-muted-foreground font-body max-w-lg mx-auto">¿Te gusta alguno? Pídelo directamente desde aquí.</p>
+            <h2 className="font-display text-4xl md:text-5xl font-semibold text-primary mb-4">What our customers say</h2>
+            <p className="text-muted-foreground font-body max-w-lg mx-auto">Like what you see? Order it directly from here.</p>
           </motion.div>
 
           <ReviewFilters active={reviewCategory} onChange={setReviewCategory} />
@@ -249,11 +246,11 @@ const Index = () => {
       <section className="py-20 bg-primary">
         <div className="container mx-auto px-6 text-center">
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
-            <h2 className="font-display text-3xl md:text-4xl font-semibold text-primary-foreground mb-4">Desde $76 USD</h2>
-            <p className="text-primary-foreground/80 font-body mb-8 max-w-md mx-auto">Personaliza cada detalle: color, tamaño, accesorios y más.</p>
+            <h2 className="font-display text-3xl md:text-4xl font-semibold text-primary-foreground mb-4">From $76 USD</h2>
+            <p className="text-primary-foreground/80 font-body mb-8 max-w-md mx-auto">Customize every detail: color, size, accessories, and more.</p>
             <Link to="/bouquets/personalizar"
               className="inline-flex items-center gap-3 bg-background text-foreground px-8 py-4 font-body text-sm tracking-widest uppercase hover:bg-background/90 transition-colors rounded-sm">
-              Personalizar ahora <ArrowRight className="w-4 h-4" />
+              Customize now <ArrowRight className="w-4 h-4" />
             </Link>
           </motion.div>
         </div>
@@ -264,7 +261,7 @@ const Index = () => {
         <div className="container mx-auto px-6 text-center">
           <Flower2 className="w-6 h-6 text-primary mx-auto mb-3 fill-primary" />
           <p className="font-display text-lg text-primary-foreground mb-2">Charl's Flowers</p>
-          <p className="text-primary-foreground/50 font-body text-xs tracking-widest uppercase">Ramos hechos a mano con flores frescas</p>
+          <p className="text-primary-foreground/50 font-body text-xs tracking-widest uppercase">Handmade bouquets with fresh flowers</p>
         </div>
       </footer>
     </div>

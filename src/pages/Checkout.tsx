@@ -38,16 +38,16 @@ const Checkout = () => {
             className="max-w-md mx-auto px-6"
           >
             <BrandLogo className="w-20 h-20 mx-auto mb-6" />
-            <h1 className="font-display text-3xl font-semibold text-foreground mb-3">Tu carrito está vacío</h1>
+            <h1 className="font-display text-3xl font-semibold text-foreground mb-3">Your cart is empty</h1>
             <p className="text-muted-foreground font-body mb-8">
-              Añade un bouquet personalizado para continuar.
+              Add a bouquet to continue.
             </p>
             <button
               onClick={() => navigate(-1)}
               className="inline-flex items-center gap-2 bg-primary text-primary-foreground px-8 py-4 font-body text-sm tracking-widest uppercase hover:bg-primary/90 transition-colors rounded-sm"
             >
               <ArrowLeft className="w-4 h-4" />
-              Volver
+              Go back
             </button>
           </motion.div>
         </div>
@@ -63,7 +63,7 @@ const Checkout = () => {
           <div className="text-center mb-10">
             <p className="text-gold font-body text-sm tracking-[0.3em] uppercase mb-2">Checkout</p>
             <h1 className="font-display text-4xl md:text-5xl font-semibold text-foreground">
-              Tu Pedido
+              Your Order
             </h1>
           </div>
 
@@ -79,22 +79,21 @@ const Checkout = () => {
                 <div className="flex items-start justify-between mb-4">
                   <div>
                     <h3 className="font-display text-xl font-semibold text-foreground">
-                      Bouquet {item.bouquetType === "classic" ? "Clásico" : item.bouquetType === "heart" ? "Corazón" : item.bouquetType === "letters" ? "Con Letras" : "Con Números"}
+                      {item.bouquetType === "classic" ? "Classic" : item.bouquetType === "heart" ? "Heart" : item.bouquetType === "letters" ? "With Letters" : item.bouquetType === "round" ? "Round" : "With Numbers"} Bouquet
                     </h3>
                     <p className="text-sm font-body text-muted-foreground mt-1">
-                      {item.roses} rosas · {item.color}
+                      {item.roses} roses · {item.color}
                     </p>
                   </div>
                   <button
                     onClick={() => removeItem(item.id)}
                     className="text-muted-foreground hover:text-destructive transition-colors p-1"
-                    title="Eliminar"
+                    title="Remove"
                   >
                     <Trash2 className="w-5 h-5" />
                   </button>
                 </div>
 
-                {/* Details grid */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm font-body">
                   {item.addons.length > 0 && (
                     <div>
@@ -105,16 +104,16 @@ const Checkout = () => {
 
                   {item.specialText && (
                     <div>
-                      <p className="text-muted-foreground mb-1">Texto:</p>
+                      <p className="text-muted-foreground mb-1">Text:</p>
                       <p className="text-foreground font-semibold">{item.specialText}</p>
                     </div>
                   )}
 
                   {item.accessory !== "none" && item.accessory !== "" && (
                     <div>
-                      <p className="text-muted-foreground mb-1">Accesorio:</p>
+                      <p className="text-muted-foreground mb-1">Accessory:</p>
                       <p className="text-foreground">
-                        {item.accessory === "note" ? "Nota" : item.accessory === "card" ? "Tarjeta" : "Mariposas"}
+                        {item.accessory === "note" ? "Note" : item.accessory === "card" ? "Card" : "Butterflies"}
                         {item.accessoryText && `: "${item.accessoryText}"`}
                       </p>
                     </div>
@@ -122,31 +121,29 @@ const Checkout = () => {
 
                   {item.ribbonText && (
                     <div>
-                      <p className="text-muted-foreground mb-1">Cinta:</p>
+                      <p className="text-muted-foreground mb-1">Ribbon:</p>
                       <p className="text-foreground">"{item.ribbonText}"</p>
                     </div>
                   )}
 
-                  {/* Delivery method indicator */}
                   <div className="md:col-span-2 pt-3 border-t border-border mt-2">
-                    <p className="text-muted-foreground mb-1">Entrega:</p>
+                    <p className="text-muted-foreground mb-1">Delivery:</p>
                     <p className="text-foreground inline-flex items-center gap-2">
                       {item.deliveryMethod === "pickup" ? (
                         <>
                           <Store className="w-4 h-4" />
-                          Recoger en tienda
+                          Store pickup
                         </>
                       ) : (
                         <>
                           <Truck className="w-4 h-4" />
-                          Entrega a domicilio
+                          Home delivery
                         </>
                       )}
                     </p>
                   </div>
                 </div>
 
-                {/* Item price */}
                 <div className="flex justify-end mt-4 pt-3 border-t border-border">
                   <div className="text-right">
                     <p className="text-sm text-muted-foreground font-body">Subtotal</p>
@@ -162,7 +159,7 @@ const Checkout = () => {
               animate={{ opacity: 1, y: 0 }}
               className="bg-card border-2 border-primary/20 rounded-sm p-6 space-y-5"
             >
-              <p className="font-body font-semibold text-foreground text-sm">Método de entrega</p>
+              <p className="font-body font-semibold text-foreground text-sm">Delivery method</p>
               <div className="grid grid-cols-2 gap-3">
                 <button
                   onClick={() => { setCheckoutDeliveryMethod("pickup"); setDeliveryResult(null); }}
@@ -173,7 +170,7 @@ const Checkout = () => {
                   }`}
                 >
                   <Store className="w-5 h-5" />
-                  Recoger en tienda
+                  Store pickup
                 </button>
                 <button
                   onClick={() => { setCheckoutDeliveryMethod("delivery"); setDeliveryResult(null); }}
@@ -184,13 +181,13 @@ const Checkout = () => {
                   }`}
                 >
                   <Truck className="w-5 h-5" />
-                  Entrega a domicilio
+                  Home delivery
                 </button>
               </div>
 
               {checkoutDeliveryMethod === "pickup" && (
                 <p className="font-body text-sm text-muted-foreground">
-                  📍 Recogida en: <span className="font-semibold text-foreground">7255 NW 12th St, Miami, FL 33126</span>
+                  📍 Pickup at: <span className="font-semibold text-foreground">7255 NW 12th St, Miami, FL 33126</span>
                 </p>
               )}
 
@@ -204,7 +201,7 @@ const Checkout = () => {
               <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
                 <div>
                   <p className="font-body text-sm text-muted-foreground">
-                    {items.length} {items.length === 1 ? "artículo" : "artículos"}
+                    {items.length} {items.length === 1 ? "item" : "items"}
                   </p>
                   <div className="space-y-1">
                     <p className="font-body text-sm text-muted-foreground">
@@ -212,8 +209,8 @@ const Checkout = () => {
                     </p>
                     {needsAddress && (
                       <p className="font-body text-sm text-muted-foreground">
-                        Envío: <span className="text-foreground font-semibold">
-                          {deliveryResult ? `$${deliveryCost}` : "Pendiente"}
+                        Shipping: <span className="text-foreground font-semibold">
+                          {deliveryResult ? `$${deliveryCost}` : "Pending"}
                         </span>
                       </p>
                     )}
@@ -226,16 +223,16 @@ const Checkout = () => {
                   disabled={!canCheckout}
                   className="bg-primary text-primary-foreground px-10 py-4 font-body text-sm tracking-widest uppercase hover:bg-primary/90 transition-colors rounded-sm disabled:opacity-50 disabled:cursor-not-allowed"
                   onClick={() => {
-                    alert("¡Próximamente integración con Shopify para completar el pago!");
+                    alert("Shopify integration coming soon!");
                   }}
                 >
-                  Completar pedido
+                  Complete order
                 </button>
               </div>
 
               {!canCheckout && (
                 <p className="text-xs font-body text-muted-foreground mt-3">
-                  ⚠️ Introduce una dirección de entrega válida para continuar.
+                  ⚠️ Enter a valid delivery address to continue.
                 </p>
               )}
             </div>
@@ -247,7 +244,7 @@ const Checkout = () => {
                 className="inline-flex items-center gap-2 font-body text-sm text-muted-foreground hover:text-primary transition-colors"
               >
                 <ArrowLeft className="w-4 h-4" />
-                Seguir comprando
+                Continue shopping
               </Link>
             </div>
           </div>
