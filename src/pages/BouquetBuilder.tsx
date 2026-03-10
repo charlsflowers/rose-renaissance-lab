@@ -662,10 +662,10 @@ const BouquetBuilder = () => {
             </Section>
 
             {/* 8. AI Preview */}
-            <Section title="Vista Previa" step={9} subtitle="Opcional">
+            <Section title="Preview" step={9} subtitle="Optional">
               <div className="space-y-4">
                 <p className="text-sm text-muted-foreground font-body">
-                  Genera una imagen aproximada de cómo quedará tu ramo con las opciones que has elegido.
+                  Generate an approximate image of how your bouquet will look with your chosen options.
                 </p>
                 <button
                   onClick={handleGeneratePreview}
