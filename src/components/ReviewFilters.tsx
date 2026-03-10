@@ -1,7 +1,7 @@
 import { Lock } from "lucide-react";
 import type { ReviewCategory } from "@/components/ReviewCard";
 
-const comingSoonCategories: ReviewCategory[] = ["arreglos", "cajas", "cestas", "jarrones", "osos"];
+const comingSoonCategories: ReviewCategory[] = ["personalizados", "arreglos", "cajas", "cestas", "jarrones", "osos"];
 
 const filters: { label: string; value: ReviewCategory }[] = [
   { label: "Bouquets", value: "bouquets" },

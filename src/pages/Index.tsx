@@ -70,20 +70,28 @@ const Index = () => {
       </section>
 
       {/* Shipping Options Bar */}
-      <section className="py-6 md:py-8 bg-card border-b border-border">
+      <section className="py-5 md:py-6 bg-cream border-y border-primary/10">
         <div className="container mx-auto px-6">
-          <div className="grid grid-cols-3 gap-3 md:gap-6 max-w-3xl mx-auto">
-            <div className="flex flex-col items-center gap-2 py-4 px-2 bg-background rounded-sm border border-border">
-              <Store className="w-6 h-6 md:w-7 md:h-7 text-foreground" />
-              <span className="font-body text-[10px] md:text-xs tracking-wider text-foreground text-center">Recogida en tienda</span>
+          <div className="flex items-center justify-center gap-6 md:gap-12 flex-wrap">
+            <div className="flex items-center gap-2.5">
+              <div className="w-9 h-9 rounded-full bg-primary/10 flex items-center justify-center">
+                <Store className="w-4 h-4 text-primary" />
+              </div>
+              <span className="font-body text-[11px] md:text-xs tracking-wider text-foreground uppercase">Recogida en tienda</span>
             </div>
-            <div className="flex flex-col items-center gap-2 py-4 px-2 bg-background rounded-sm border border-border">
-              <Truck className="w-6 h-6 md:w-7 md:h-7 text-foreground" />
-              <span className="font-body text-[10px] md:text-xs tracking-wider text-foreground text-center">Entrega a domicilio</span>
+            <div className="w-px h-6 bg-primary/15 hidden md:block" />
+            <div className="flex items-center gap-2.5">
+              <div className="w-9 h-9 rounded-full bg-primary/10 flex items-center justify-center">
+                <Truck className="w-4 h-4 text-primary" />
+              </div>
+              <span className="font-body text-[11px] md:text-xs tracking-wider text-foreground uppercase">Entrega a domicilio</span>
             </div>
-            <div className="flex flex-col items-center gap-2 py-4 px-2 bg-primary rounded-sm">
-              <Globe className="w-6 h-6 md:w-7 md:h-7 text-primary-foreground" />
-              <span className="font-body text-[10px] md:text-xs tracking-wider text-primary-foreground text-center">Envío nacional</span>
+            <div className="w-px h-6 bg-primary/15 hidden md:block" />
+            <div className="flex items-center gap-2.5">
+              <div className="w-9 h-9 rounded-full bg-primary/10 flex items-center justify-center">
+                <Globe className="w-4 h-4 text-primary" />
+              </div>
+              <span className="font-body text-[11px] md:text-xs tracking-wider text-foreground uppercase">Envío nacional</span>
             </div>
           </div>
         </div>
