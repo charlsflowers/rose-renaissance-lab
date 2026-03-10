@@ -877,7 +877,7 @@ const BouquetBuilder = () => {
                       }}
                       disabled={(date) => isBefore(startOfDay(date), startOfDay(todayInMiami()))}
                       className="p-3 pointer-events-auto"
-                      locale={es}
+                      locale={enUS}
                     />
                   </PopoverContent>
                 </Popover>
