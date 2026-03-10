@@ -466,7 +466,7 @@ const BouquetBuilder = () => {
                           lettersNumbersType === "letters" ? "border-primary bg-primary/5 text-primary" : "border-border text-muted-foreground hover:border-primary/30"
                         }`}
                       >
-                        <Type className="w-4 h-4" /> Letras
+                        <Type className="w-4 h-4" /> Letters
                       </button>
                       <button
                         onClick={() => { setLettersNumbersType("numbers"); setSpecialText(""); }}
