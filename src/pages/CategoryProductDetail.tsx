@@ -198,7 +198,7 @@ const CategoryProductDetail = () => {
                 <button onClick={() => { setAddNote(!addNote); if (!addNote) setAddCard(false); }}
                   className={`flex items-center justify-center gap-3 p-4 rounded-sm border-2 transition-all font-body text-sm ${addNote ? "border-primary bg-primary/5 text-primary" : "border-border text-muted-foreground hover:border-primary/30"}`}>
                   <Type className="w-4 h-4" />
-                  <span>Nota</span>
+                  <span>Note</span>
                   {addNote && <Check className="w-4 h-4 ml-auto" />}
                 </button>
                 <button onClick={() => { setAddCard(!addCard); if (!addCard) setAddNote(false); }}
