@@ -228,7 +228,7 @@ export const bouquetProducts: BouquetProduct[] = [
   { id: 'bq-round-18', name: 'Classic Tricolor', description: 'Mix of red, white, and pink roses', image: bqMixRojoPinkLightpinkImg, image2: reviewTricolorClasicoImg, color: 'Rojo, Blanco y Pink', type: 'round', pricingTier: 'mix3red' },
   { id: 'bq-round-25', name: 'Intense Romance', description: 'Mix of red, purple, and white roses', image: bqMixRomanticoImg, image2: bqMixRomantico2Img, color: 'Rojo, Morado y Blanco', type: 'round', pricingTier: 'mix3red' },
   { id: 'bq-round-26', name: 'Fire & Sun', description: 'Cheerful mix of red, yellow, and pink roses', image: bqMixAlegriaImg, image2: bqMixAlegria2Img, color: 'Rojo, Amarillo y Pink', type: 'round', pricingTier: 'mix3red' },
-  { id: 'bq-round-46', name: 'Tricolor Love', description: 'Mix of red, pink, and white roses', image: bqMixRojoPinkBlancoImg, image2: bqMixRojoPinkBlanco3Img, color: 'Rojo, Pink y Blanco', type: 'round', pricingTier: 'mix3red' },
+  { id: 'bq-round-46', name: 'Tricolor Love', description: 'Mix of red, pink, and white roses', image: bqMixRojoPinkBlancoNewImg, image2: bqMixRojoPinkBlancoImg, color: 'Rojo, Pink y Blanco', type: 'round', pricingTier: 'mix3red' },
 
   // 3 colors - Natural without red (standard pricing)
   { id: 'bq-round-23', name: 'Magic Pastel', description: 'Mix of purple, pink, and white roses', image: bqMixPastelImg, image2: bqMixPastel2Img, color: 'Morado, Pink y Blanco', type: 'round', pricingTier: 'standard' },
