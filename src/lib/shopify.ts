@@ -6,25 +6,6 @@ const SHOPIFY_STORE_PERMANENT_DOMAIN = 'ztdjk5-wn.myshopify.com';
 const SHOPIFY_STOREFRONT_URL = `https://${SHOPIFY_STORE_PERMANENT_DOMAIN}/api/${SHOPIFY_API_VERSION}/graphql.json`;
 const SHOPIFY_STOREFRONT_TOKEN = '4e7516581c2c609bb77d69b5f1786a9b';
 
-// Map pricing tiers to Shopify product tags
-const TIER_TAG_MAP: Record<PricingTier, string> = {
-  standard: 'bouquet, standard',
-  red: 'bouquet, red',
-  painted: 'bouquet, painted',
-  mix2: 'bouquet, mix2',
-  mix2painted: 'bouquet, mix2painted',
-  mix3red: 'bouquet, mix3red',
-};
-
-// Shopify product titles by tier (for tag-based lookup)
-const TIER_PRODUCT_TITLE: Record<PricingTier, string> = {
-  standard: 'Standard Bouquet',
-  red: 'Red Rose Bouquet',
-  painted: 'Painted Rose Bouquet',
-  mix2: 'Two-Color Mix Bouquet',
-  mix2painted: 'Painted Mix Bouquet',
-  mix3red: 'Three-Color Red Mix Bouquet',
-};
 
 export interface ShopifyVariant {
   id: string; // GID
