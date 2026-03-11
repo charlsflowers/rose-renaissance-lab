@@ -236,7 +236,7 @@ export const bouquetProducts: BouquetProduct[] = [
   { id: 'bq-round-33', name: 'Light Citrus', description: 'Mix of orange, yellow, and white roses', image: bqMixNaranjaAmarillo2Img, image2: bqMixNaranjaAmarillo23Img, color: 'Naranja, Amarillo y Blanco', type: 'round', pricingTier: 'standard' },
   { id: 'bq-round-39', name: 'Soft Spring', description: 'Mix of pink, yellow, and white roses', image: bqMixPinkAmarilloBlancoImg, image2: bqMixPinkAmarilloBlanco3Img, color: 'Pink, Amarillo y Blanco', type: 'round', pricingTier: 'standard' },
   { id: 'bq-round-41', name: 'Bright Lilac', description: 'Mix of yellow, lilac, and white roses', image: bqMixAmarilloLilaBlancoImg, image2: bqMixNaranjaAmarilloSecImg, color: 'Amarillo, Lila y Blanco', type: 'round', pricingTier: 'standard' },
-  { id: 'bq-round-47', name: 'Pink Symphony', description: 'Mix of hot pink, pink, and white roses', image: bqMixRojoBlanco3Img, image2: bqMixRojoBlanco4Img, color: 'Hot Pink, Pink y Blanco', type: 'round', pricingTier: 'standard' },
+  { id: 'bq-round-47', name: 'Bright Lilac', description: 'Mix of pink, hot pink, yellow, and white roses', image: bqMixRojoBlanco3Img, image2: bqMixRojoBlanco4Img, color: 'Pink, Hot Pink, Amarillo y Blanco', type: 'round', pricingTier: 'standard' },
 
   // 3 colors - With Painted (mix2painted pricing)
   { id: 'bq-round-31', name: 'Elegant Contrast', description: 'Mix of black, hot pink, and white roses', image: bqMixNegroRosaImg, image2: bqMixNegroRosa2Img, color: 'Negro, Hot Pink y Blanco', type: 'round', pricingTier: 'mix2painted', customSizes: [{ roses: 75, price: 131 }, { roses: 100, price: 166 }, { roses: 125, price: 231 }, { roses: 150, price: 286 }, { roses: 175, price: 311 }, { roses: 200, price: 361 }] },
