@@ -234,7 +234,7 @@ export const bouquetProducts: BouquetProduct[] = [
   { id: 'bq-round-23', name: 'Magic Pastel', description: 'Mix of purple, pink, and white roses', image: bqMixPastelImg, image2: bqMixPastel2Img, color: 'Morado, Pink y Blanco', type: 'round', pricingTier: 'standard' },
   { id: 'bq-round-24', name: 'Warm Sunset', description: 'Vibrant mix of orange, hot pink, and white roses', image: bqMixCalidoImg, image2: bqMixCalido2Img, color: 'Naranja, Hot Pink y Blanco', type: 'round', pricingTier: 'standard' },
   { id: 'bq-round-33', name: 'Light Citrus', description: 'Mix of orange, yellow, and white roses', image: bqMixNaranjaAmarillo2Img, image2: bqMixNaranjaAmarillo23Img, color: 'Naranja, Amarillo y Blanco', type: 'round', pricingTier: 'standard' },
-  { id: 'bq-round-39', name: 'Soft Spring', description: 'Mix of pink, yellow, and white roses', image: bqMixPinkAmarilloBlancoImg, image2: bqMixPinkAmarilloBlanco3Img, color: 'Pink, Amarillo y Blanco', type: 'round', pricingTier: 'standard' },
+  { id: 'bq-round-39', name: 'Soft Spring', description: 'Mix of yellow, pink, and white roses', image: bqMixPinkAmarilloBlancoImg, image2: bqMixPinkAmarilloBlanco3Img, color: 'Amarillo, Pink y Blanco', type: 'round', pricingTier: 'standard' },
   { id: 'bq-round-41', name: 'Bright Lilac', description: 'Mix of yellow, lilac, and white roses', image: bqMixAmarilloLilaBlancoImg, image2: bqMixNaranjaAmarilloSecImg, color: 'Amarillo, Lila y Blanco', type: 'round', pricingTier: 'standard' },
   { id: 'bq-round-47', name: 'Bright Lilac', description: 'Mix of pink, hot pink, yellow, and white roses', image: bqMixRojoBlanco3Img, image2: bqMixRojoBlanco4Img, color: 'Pink, Hot Pink, Amarillo y Blanco', type: 'round', pricingTier: 'standard' },
 
