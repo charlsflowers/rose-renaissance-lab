@@ -81,28 +81,27 @@ const PRODUCTS_BY_TITLE_QUERY = `
 `;
 
 /**
- * Resolve the Shopify variant GID for a given pricing tier and roses count.
+ * Resolve the Shopify variant GID for a given product name and roses count.
  */
 export async function resolveVariantId(
-  tier: PricingTier,
+  productName: string,
   rosesCount: number
 ): Promise<ShopifyVariant | null> {
-  const cacheKey = `${tier}-${rosesCount}`;
+  const cacheKey = `${productName}-${rosesCount}`;
   if (variantCache.has(cacheKey)) {
     return variantCache.get(cacheKey)!;
   }
 
   try {
-    const productTitle = TIER_PRODUCT_TITLE[tier];
     const data = await storefrontApiRequest(PRODUCTS_BY_TITLE_QUERY, {
-      query: `title:"${productTitle}"`,
+      query: `title:"${productName}"`,
     });
 
     if (!data) return null;
 
     const product = data.data?.products?.edges?.[0]?.node as ShopifyProductNode | undefined;
     if (!product) {
-      console.error(`No Shopify product found for tier "${tier}" (title: "${productTitle}")`);
+      console.error(`No Shopify product found with title "${productName}"`);
       return null;
     }
 
@@ -113,14 +112,14 @@ export async function resolveVariantId(
     )?.node;
 
     if (!variant) {
-      console.error(`No variant found for ${rosesCount} roses in product "${productTitle}"`);
+      console.error(`No variant found for ${rosesCount} roses in product "${productName}"`);
       return null;
     }
 
     // Cache all variants from this product
     product.variants.edges.forEach((v) => {
       const roses = v.node.selectedOptions.find(o => o.name === 'Roses')?.value || v.node.title;
-      variantCache.set(`${tier}-${roses}`, v.node);
+      variantCache.set(`${productName}-${roses}`, v.node);
     });
 
     return variant;
