@@ -44,7 +44,7 @@ const BouquetProducts = () => {
                 key={key}
                 onClick={() => !locked && setFilter(key)}
                 disabled={locked}
-                className={`px-5 py-2 rounded-full font-body text-sm transition-all inline-flex items-center gap-1.5 ${
+                className={`px-3 md:px-5 py-1.5 md:py-2 rounded-full font-body text-xs md:text-sm transition-all inline-flex items-center gap-1 md:gap-1.5 ${
                   locked
                     ? "bg-muted text-muted-foreground/50 cursor-not-allowed"
                     : filter === key

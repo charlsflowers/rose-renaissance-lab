@@ -43,7 +43,7 @@ const VideoOrderDialog = ({ video, open, onOpenChange }: Props) => {
     setIsAdding(true);
     try {
       const tier = video.pricingTier || inferTierFromColor(video.color);
-      const variant = await resolveVariantId(tier, video.roses);
+      const variant = await resolveVariantId(video.title, video.roses);
       if (!variant) {
         toast.error("Could not resolve product. Please try again.");
         setIsAdding(false);
