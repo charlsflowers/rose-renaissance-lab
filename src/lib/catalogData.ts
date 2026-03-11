@@ -38,6 +38,7 @@ import bqMixRojoLightpink2Img from '@/assets/bq-mix-rojo-lightpink-2.png';
 import bqMixLightpinkBlancoImg from '@/assets/bq-mix-lightpink-blanco.png';
 import bqMixRojoBlancoNegroImg from '@/assets/bq-mix-rojo-blanco-negro.png';
 import bqMixRojoPinkBlancoImg from '@/assets/bq-mix-rojo-pink-blanco.png';
+import bqMixRojoPinkBlancoNewImg from '@/assets/bq-mix-rojo-pink-blanco-new.png';
 
 // Secondary images
 import bqRojo2Img from '@/assets/bq-rojo-2.png';
