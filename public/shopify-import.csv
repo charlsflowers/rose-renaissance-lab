@@ -1,0 +1,258 @@
+Handle,Title,Body (HTML),Vendor,Type,Tags,Published,Option1 Name,Option1 Value,Variant Price,Variant SKU,Variant Inventory Qty,Variant Inventory Policy,Variant Fulfillment Service,Variant Requires Shipping,Variant Taxable,Status
+pure-white,Pure White,Round bouquet of white roses,Charl's Flowers,Bouquet,single-color,TRUE,Roses,50,76.00,bq-round-6-50,999,deny,manual,TRUE,TRUE,active
+pure-white,Pure White,,,,,,Roses,75,101.00,bq-round-6-75,999,deny,manual,TRUE,TRUE,active
+pure-white,Pure White,,,,,,Roses,100,136.00,bq-round-6-100,999,deny,manual,TRUE,TRUE,active
+pure-white,Pure White,,,,,,Roses,125,201.00,bq-round-6-125,999,deny,manual,TRUE,TRUE,active
+pure-white,Pure White,,,,,,Roses,150,226.00,bq-round-6-150,999,deny,manual,TRUE,TRUE,active
+pure-white,Pure White,,,,,,Roses,175,251.00,bq-round-6-175,999,deny,manual,TRUE,TRUE,active
+pure-white,Pure White,,,,,,Roses,200,301.00,bq-round-6-200,999,deny,manual,TRUE,TRUE,active
+hot-pink-blush,Hot Pink Blush,Round bouquet of vibrant hot pink roses,Charl's Flowers,Bouquet,single-color,TRUE,Roses,50,76.00,bq-round-7-50,999,deny,manual,TRUE,TRUE,active
+hot-pink-blush,Hot Pink Blush,,,,,,Roses,75,101.00,bq-round-7-75,999,deny,manual,TRUE,TRUE,active
+hot-pink-blush,Hot Pink Blush,,,,,,Roses,100,136.00,bq-round-7-100,999,deny,manual,TRUE,TRUE,active
+hot-pink-blush,Hot Pink Blush,,,,,,Roses,125,201.00,bq-round-7-125,999,deny,manual,TRUE,TRUE,active
+hot-pink-blush,Hot Pink Blush,,,,,,Roses,150,226.00,bq-round-7-150,999,deny,manual,TRUE,TRUE,active
+hot-pink-blush,Hot Pink Blush,,,,,,Roses,175,251.00,bq-round-7-175,999,deny,manual,TRUE,TRUE,active
+hot-pink-blush,Hot Pink Blush,,,,,,Roses,200,301.00,bq-round-7-200,999,deny,manual,TRUE,TRUE,active
+soft-pink,Soft Pink,Round bouquet of soft pink roses,Charl's Flowers,Bouquet,single-color,TRUE,Roses,50,76.00,bq-round-8-50,999,deny,manual,TRUE,TRUE,active
+soft-pink,Soft Pink,,,,,,Roses,75,101.00,bq-round-8-75,999,deny,manual,TRUE,TRUE,active
+soft-pink,Soft Pink,,,,,,Roses,100,136.00,bq-round-8-100,999,deny,manual,TRUE,TRUE,active
+soft-pink,Soft Pink,,,,,,Roses,125,201.00,bq-round-8-125,999,deny,manual,TRUE,TRUE,active
+soft-pink,Soft Pink,,,,,,Roses,150,226.00,bq-round-8-150,999,deny,manual,TRUE,TRUE,active
+soft-pink,Soft Pink,,,,,,Roses,175,251.00,bq-round-8-175,999,deny,manual,TRUE,TRUE,active
+soft-pink,Soft Pink,,,,,,Roses,200,301.00,bq-round-8-200,999,deny,manual,TRUE,TRUE,active
+purple-charm,Purple Charm,Round bouquet of purple roses,Charl's Flowers,Bouquet,single-color,TRUE,Roses,50,76.00,bq-round-12-50,999,deny,manual,TRUE,TRUE,active
+purple-charm,Purple Charm,,,,,,Roses,75,101.00,bq-round-12-75,999,deny,manual,TRUE,TRUE,active
+purple-charm,Purple Charm,,,,,,Roses,100,136.00,bq-round-12-100,999,deny,manual,TRUE,TRUE,active
+purple-charm,Purple Charm,,,,,,Roses,125,201.00,bq-round-12-125,999,deny,manual,TRUE,TRUE,active
+purple-charm,Purple Charm,,,,,,Roses,150,226.00,bq-round-12-150,999,deny,manual,TRUE,TRUE,active
+purple-charm,Purple Charm,,,,,,Roses,175,251.00,bq-round-12-175,999,deny,manual,TRUE,TRUE,active
+purple-charm,Purple Charm,,,,,,Roses,200,301.00,bq-round-12-200,999,deny,manual,TRUE,TRUE,active
+orange-sunset,Orange Sunset,Round bouquet of vibrant orange roses,Charl's Flowers,Bouquet,single-color,TRUE,Roses,50,76.00,bq-round-19-50,999,deny,manual,TRUE,TRUE,active
+orange-sunset,Orange Sunset,,,,,,Roses,75,101.00,bq-round-19-75,999,deny,manual,TRUE,TRUE,active
+orange-sunset,Orange Sunset,,,,,,Roses,100,136.00,bq-round-19-100,999,deny,manual,TRUE,TRUE,active
+orange-sunset,Orange Sunset,,,,,,Roses,125,201.00,bq-round-19-125,999,deny,manual,TRUE,TRUE,active
+orange-sunset,Orange Sunset,,,,,,Roses,150,226.00,bq-round-19-150,999,deny,manual,TRUE,TRUE,active
+orange-sunset,Orange Sunset,,,,,,Roses,175,251.00,bq-round-19-175,999,deny,manual,TRUE,TRUE,active
+orange-sunset,Orange Sunset,,,,,,Roses,200,301.00,bq-round-19-200,999,deny,manual,TRUE,TRUE,active
+radiant-sun,Radiant Sun,Round bouquet of luminous yellow roses,Charl's Flowers,Bouquet,single-color,TRUE,Roses,50,76.00,bq-round-20-50,999,deny,manual,TRUE,TRUE,active
+radiant-sun,Radiant Sun,,,,,,Roses,75,101.00,bq-round-20-75,999,deny,manual,TRUE,TRUE,active
+radiant-sun,Radiant Sun,,,,,,Roses,100,136.00,bq-round-20-100,999,deny,manual,TRUE,TRUE,active
+radiant-sun,Radiant Sun,,,,,,Roses,125,201.00,bq-round-20-125,999,deny,manual,TRUE,TRUE,active
+radiant-sun,Radiant Sun,,,,,,Roses,150,226.00,bq-round-20-150,999,deny,manual,TRUE,TRUE,active
+radiant-sun,Radiant Sun,,,,,,Roses,175,251.00,bq-round-20-175,999,deny,manual,TRUE,TRUE,active
+radiant-sun,Radiant Sun,,,,,,Roses,200,301.00,bq-round-20-200,999,deny,manual,TRUE,TRUE,active
+total-passion,Total Passion,Round bouquet of pure red roses,Charl's Flowers,Bouquet,single-color,TRUE,Roses,50,106.00,bq-round-5-50,999,deny,manual,TRUE,TRUE,active
+total-passion,Total Passion,,,,,,Roses,75,146.00,bq-round-5-75,999,deny,manual,TRUE,TRUE,active
+total-passion,Total Passion,,,,,,Roses,100,196.00,bq-round-5-100,999,deny,manual,TRUE,TRUE,active
+total-passion,Total Passion,,,,,,Roses,125,276.00,bq-round-5-125,999,deny,manual,TRUE,TRUE,active
+total-passion,Total Passion,,,,,,Roses,150,226.00,bq-round-5-150,999,deny,manual,TRUE,TRUE,active
+total-passion,Total Passion,,,,,,Roses,175,251.00,bq-round-5-175,999,deny,manual,TRUE,TRUE,active
+total-passion,Total Passion,,,,,,Roses,200,301.00,bq-round-5-200,999,deny,manual,TRUE,TRUE,active
+blue-sky,Blue Sky,Round bouquet of painted blue roses,Charl's Flowers,Bouquet,single-color;painted,TRUE,Roses,50,136.00,bq-round-10-50,999,deny,manual,TRUE,TRUE,active
+blue-sky,Blue Sky,,,,,,Roses,75,191.00,bq-round-10-75,999,deny,manual,TRUE,TRUE,active
+blue-sky,Blue Sky,,,,,,Roses,100,256.00,bq-round-10-100,999,deny,manual,TRUE,TRUE,active
+blue-sky,Blue Sky,,,,,,Roses,125,351.00,bq-round-10-125,999,deny,manual,TRUE,TRUE,active
+blue-sky,Blue Sky,,,,,,Roses,150,406.00,bq-round-10-150,999,deny,manual,TRUE,TRUE,active
+blue-sky,Blue Sky,,,,,,Roses,175,461.00,bq-round-10-175,999,deny,manual,TRUE,TRUE,active
+blue-sky,Blue Sky,,,,,,Roses,200,541.00,bq-round-10-200,999,deny,manual,TRUE,TRUE,active
+deep-night,Deep Night,Round bouquet of elegant black roses,Charl's Flowers,Bouquet,single-color;painted,TRUE,Roses,50,136.00,bq-round-11-50,999,deny,manual,TRUE,TRUE,active
+deep-night,Deep Night,,,,,,Roses,75,191.00,bq-round-11-75,999,deny,manual,TRUE,TRUE,active
+deep-night,Deep Night,,,,,,Roses,100,256.00,bq-round-11-100,999,deny,manual,TRUE,TRUE,active
+deep-night,Deep Night,,,,,,Roses,125,351.00,bq-round-11-125,999,deny,manual,TRUE,TRUE,active
+deep-night,Deep Night,,,,,,Roses,150,406.00,bq-round-11-150,999,deny,manual,TRUE,TRUE,active
+deep-night,Deep Night,,,,,,Roses,175,461.00,bq-round-11-175,999,deny,manual,TRUE,TRUE,active
+deep-night,Deep Night,,,,,,Roses,200,541.00,bq-round-11-200,999,deny,manual,TRUE,TRUE,active
+green-fresh,Green Fresh,Round bouquet of painted green roses,Charl's Flowers,Bouquet,single-color;painted,TRUE,Roses,50,136.00,bq-round-22-50,999,deny,manual,TRUE,TRUE,active
+green-fresh,Green Fresh,,,,,,Roses,75,191.00,bq-round-22-75,999,deny,manual,TRUE,TRUE,active
+green-fresh,Green Fresh,,,,,,Roses,100,256.00,bq-round-22-100,999,deny,manual,TRUE,TRUE,active
+green-fresh,Green Fresh,,,,,,Roses,125,351.00,bq-round-22-125,999,deny,manual,TRUE,TRUE,active
+green-fresh,Green Fresh,,,,,,Roses,150,406.00,bq-round-22-150,999,deny,manual,TRUE,TRUE,active
+green-fresh,Green Fresh,,,,,,Roses,175,461.00,bq-round-22-175,999,deny,manual,TRUE,TRUE,active
+green-fresh,Green Fresh,,,,,,Roses,200,541.00,bq-round-22-200,999,deny,manual,TRUE,TRUE,active
+pink-white-dawn,Pink & White Dawn,Delicate mix of hot pink and white roses,Charl's Flowers,Bouquet,mix,TRUE,Roses,50,76.00,bq-round-13-50,999,deny,manual,TRUE,TRUE,active
+pink-white-dawn,Pink & White Dawn,,,,,,Roses,75,101.00,bq-round-13-75,999,deny,manual,TRUE,TRUE,active
+pink-white-dawn,Pink & White Dawn,,,,,,Roses,100,136.00,bq-round-13-100,999,deny,manual,TRUE,TRUE,active
+pink-white-dawn,Pink & White Dawn,,,,,,Roses,125,201.00,bq-round-13-125,999,deny,manual,TRUE,TRUE,active
+pink-white-dawn,Pink & White Dawn,,,,,,Roses,150,226.00,bq-round-13-150,999,deny,manual,TRUE,TRUE,active
+pink-white-dawn,Pink & White Dawn,,,,,,Roses,175,251.00,bq-round-13-175,999,deny,manual,TRUE,TRUE,active
+pink-white-dawn,Pink & White Dawn,,,,,,Roses,200,301.00,bq-round-13-200,999,deny,manual,TRUE,TRUE,active
+spring-garden,Spring Garden,Mix of yellow and white roses,Charl's Flowers,Bouquet,mix,TRUE,Roses,50,76.00,bq-round-15-50,999,deny,manual,TRUE,TRUE,active
+spring-garden,Spring Garden,,,,,,Roses,75,101.00,bq-round-15-75,999,deny,manual,TRUE,TRUE,active
+spring-garden,Spring Garden,,,,,,Roses,100,136.00,bq-round-15-100,999,deny,manual,TRUE,TRUE,active
+spring-garden,Spring Garden,,,,,,Roses,125,201.00,bq-round-15-125,999,deny,manual,TRUE,TRUE,active
+spring-garden,Spring Garden,,,,,,Roses,150,226.00,bq-round-15-150,999,deny,manual,TRUE,TRUE,active
+spring-garden,Spring Garden,,,,,,Roses,175,251.00,bq-round-15-175,999,deny,manual,TRUE,TRUE,active
+spring-garden,Spring Garden,,,,,,Roses,200,301.00,bq-round-15-200,999,deny,manual,TRUE,TRUE,active
+soft-lilac,Soft Lilac,Mix of lilac and white roses,Charl's Flowers,Bouquet,mix,TRUE,Roses,50,76.00,bq-round-29-50,999,deny,manual,TRUE,TRUE,active
+soft-lilac,Soft Lilac,,,,,,Roses,75,101.00,bq-round-29-75,999,deny,manual,TRUE,TRUE,active
+soft-lilac,Soft Lilac,,,,,,Roses,100,136.00,bq-round-29-100,999,deny,manual,TRUE,TRUE,active
+soft-lilac,Soft Lilac,,,,,,Roses,125,201.00,bq-round-29-125,999,deny,manual,TRUE,TRUE,active
+soft-lilac,Soft Lilac,,,,,,Roses,150,226.00,bq-round-29-150,999,deny,manual,TRUE,TRUE,active
+soft-lilac,Soft Lilac,,,,,,Roses,175,251.00,bq-round-29-175,999,deny,manual,TRUE,TRUE,active
+soft-lilac,Soft Lilac,,,,,,Roses,200,301.00,bq-round-29-200,999,deny,manual,TRUE,TRUE,active
+citrus-refresh,Citrus Refresh,Mix of orange and yellow roses,Charl's Flowers,Bouquet,mix,TRUE,Roses,50,76.00,bq-round-32-50,999,deny,manual,TRUE,TRUE,active
+citrus-refresh,Citrus Refresh,,,,,,Roses,75,101.00,bq-round-32-75,999,deny,manual,TRUE,TRUE,active
+citrus-refresh,Citrus Refresh,,,,,,Roses,100,136.00,bq-round-32-100,999,deny,manual,TRUE,TRUE,active
+citrus-refresh,Citrus Refresh,,,,,,Roses,125,201.00,bq-round-32-125,999,deny,manual,TRUE,TRUE,active
+citrus-refresh,Citrus Refresh,,,,,,Roses,150,226.00,bq-round-32-150,999,deny,manual,TRUE,TRUE,active
+citrus-refresh,Citrus Refresh,,,,,,Roses,175,251.00,bq-round-32-175,999,deny,manual,TRUE,TRUE,active
+citrus-refresh,Citrus Refresh,,,,,,Roses,200,301.00,bq-round-32-200,999,deny,manual,TRUE,TRUE,active
+orange-citrus,Orange Citrus,Mix of orange and white roses,Charl's Flowers,Bouquet,mix,TRUE,Roses,50,76.00,bq-round-35-50,999,deny,manual,TRUE,TRUE,active
+orange-citrus,Orange Citrus,,,,,,Roses,75,101.00,bq-round-35-75,999,deny,manual,TRUE,TRUE,active
+orange-citrus,Orange Citrus,,,,,,Roses,100,136.00,bq-round-35-100,999,deny,manual,TRUE,TRUE,active
+orange-citrus,Orange Citrus,,,,,,Roses,125,201.00,bq-round-35-125,999,deny,manual,TRUE,TRUE,active
+orange-citrus,Orange Citrus,,,,,,Roses,150,226.00,bq-round-35-150,999,deny,manual,TRUE,TRUE,active
+orange-citrus,Orange Citrus,,,,,,Roses,175,251.00,bq-round-35-175,999,deny,manual,TRUE,TRUE,active
+orange-citrus,Orange Citrus,,,,,,Roses,200,301.00,bq-round-35-200,999,deny,manual,TRUE,TRUE,active
+infinite-tenderness,Infinite Tenderness,Mix of pink and white roses,Charl's Flowers,Bouquet,mix,TRUE,Roses,50,76.00,bq-round-44-50,999,deny,manual,TRUE,TRUE,active
+infinite-tenderness,Infinite Tenderness,,,,,,Roses,75,101.00,bq-round-44-75,999,deny,manual,TRUE,TRUE,active
+infinite-tenderness,Infinite Tenderness,,,,,,Roses,100,136.00,bq-round-44-100,999,deny,manual,TRUE,TRUE,active
+infinite-tenderness,Infinite Tenderness,,,,,,Roses,125,201.00,bq-round-44-125,999,deny,manual,TRUE,TRUE,active
+infinite-tenderness,Infinite Tenderness,,,,,,Roses,150,226.00,bq-round-44-150,999,deny,manual,TRUE,TRUE,active
+infinite-tenderness,Infinite Tenderness,,,,,,Roses,175,251.00,bq-round-44-175,999,deny,manual,TRUE,TRUE,active
+infinite-tenderness,Infinite Tenderness,,,,,,Roses,200,301.00,bq-round-44-200,999,deny,manual,TRUE,TRUE,active
+iberian-passion,Iberian Passion,Mix of red and yellow roses,Charl's Flowers,Bouquet,mix,TRUE,Roses,50,91.00,bq-round-27-50,999,deny,manual,TRUE,TRUE,active
+iberian-passion,Iberian Passion,,,,,,Roses,75,116.00,bq-round-27-75,999,deny,manual,TRUE,TRUE,active
+iberian-passion,Iberian Passion,,,,,,Roses,100,166.00,bq-round-27-100,999,deny,manual,TRUE,TRUE,active
+iberian-passion,Iberian Passion,,,,,,Roses,125,231.00,bq-round-27-125,999,deny,manual,TRUE,TRUE,active
+iberian-passion,Iberian Passion,,,,,,Roses,150,256.00,bq-round-27-150,999,deny,manual,TRUE,TRUE,active
+iberian-passion,Iberian Passion,,,,,,Roses,175,296.00,bq-round-27-175,999,deny,manual,TRUE,TRUE,active
+iberian-passion,Iberian Passion,,,,,,Roses,200,361.00,bq-round-27-200,999,deny,manual,TRUE,TRUE,active
+red-sweetness,Red Sweetness,Mix of red and pink roses,Charl's Flowers,Bouquet,mix,TRUE,Roses,50,91.00,bq-round-34-50,999,deny,manual,TRUE,TRUE,active
+red-sweetness,Red Sweetness,,,,,,Roses,75,116.00,bq-round-34-75,999,deny,manual,TRUE,TRUE,active
+red-sweetness,Red Sweetness,,,,,,Roses,100,166.00,bq-round-34-100,999,deny,manual,TRUE,TRUE,active
+red-sweetness,Red Sweetness,,,,,,Roses,125,231.00,bq-round-34-125,999,deny,manual,TRUE,TRUE,active
+red-sweetness,Red Sweetness,,,,,,Roses,150,256.00,bq-round-34-150,999,deny,manual,TRUE,TRUE,active
+red-sweetness,Red Sweetness,,,,,,Roses,175,296.00,bq-round-34-175,999,deny,manual,TRUE,TRUE,active
+red-sweetness,Red Sweetness,,,,,,Roses,200,361.00,bq-round-34-200,999,deny,manual,TRUE,TRUE,active
+bicolor-passion,Bicolor Passion,Mix of red and white roses,Charl's Flowers,Bouquet,mix,TRUE,Roses,50,91.00,bq-round-37-50,999,deny,manual,TRUE,TRUE,active
+bicolor-passion,Bicolor Passion,,,,,,Roses,75,116.00,bq-round-37-75,999,deny,manual,TRUE,TRUE,active
+bicolor-passion,Bicolor Passion,,,,,,Roses,100,166.00,bq-round-37-100,999,deny,manual,TRUE,TRUE,active
+bicolor-passion,Bicolor Passion,,,,,,Roses,125,231.00,bq-round-37-125,999,deny,manual,TRUE,TRUE,active
+bicolor-passion,Bicolor Passion,,,,,,Roses,150,256.00,bq-round-37-150,999,deny,manual,TRUE,TRUE,active
+bicolor-passion,Bicolor Passion,,,,,,Roses,175,296.00,bq-round-37-175,999,deny,manual,TRUE,TRUE,active
+bicolor-passion,Bicolor Passion,,,,,,Roses,200,361.00,bq-round-37-200,999,deny,manual,TRUE,TRUE,active
+dark-romance,Dark Romance,Mix of red and hot pink roses,Charl's Flowers,Bouquet,mix,TRUE,Roses,50,91.00,bq-round-40-50,999,deny,manual,TRUE,TRUE,active
+dark-romance,Dark Romance,,,,,,Roses,75,116.00,bq-round-40-75,999,deny,manual,TRUE,TRUE,active
+dark-romance,Dark Romance,,,,,,Roses,100,166.00,bq-round-40-100,999,deny,manual,TRUE,TRUE,active
+dark-romance,Dark Romance,,,,,,Roses,125,231.00,bq-round-40-125,999,deny,manual,TRUE,TRUE,active
+dark-romance,Dark Romance,,,,,,Roses,150,256.00,bq-round-40-150,999,deny,manual,TRUE,TRUE,active
+dark-romance,Dark Romance,,,,,,Roses,175,296.00,bq-round-40-175,999,deny,manual,TRUE,TRUE,active
+dark-romance,Dark Romance,,,,,,Roses,200,361.00,bq-round-40-200,999,deny,manual,TRUE,TRUE,active
+passionate-love,Passionate Love,Mix of red and pink roses,Charl's Flowers,Bouquet,mix,TRUE,Roses,50,91.00,bq-round-43-50,999,deny,manual,TRUE,TRUE,active
+passionate-love,Passionate Love,,,,,,Roses,75,116.00,bq-round-43-75,999,deny,manual,TRUE,TRUE,active
+passionate-love,Passionate Love,,,,,,Roses,100,166.00,bq-round-43-100,999,deny,manual,TRUE,TRUE,active
+passionate-love,Passionate Love,,,,,,Roses,125,231.00,bq-round-43-125,999,deny,manual,TRUE,TRUE,active
+passionate-love,Passionate Love,,,,,,Roses,150,256.00,bq-round-43-150,999,deny,manual,TRUE,TRUE,active
+passionate-love,Passionate Love,,,,,,Roses,175,296.00,bq-round-43-175,999,deny,manual,TRUE,TRUE,active
+passionate-love,Passionate Love,,,,,,Roses,200,361.00,bq-round-43-200,999,deny,manual,TRUE,TRUE,active
+night-day,Night & Day,Mix of black and white roses,Charl's Flowers,Bouquet,mix;painted,TRUE,Roses,50,106.00,bq-round-30-50,999,deny,manual,TRUE,TRUE,active
+night-day,Night & Day,,,,,,Roses,75,131.00,bq-round-30-75,999,deny,manual,TRUE,TRUE,active
+night-day,Night & Day,,,,,,Roses,100,196.00,bq-round-30-100,999,deny,manual,TRUE,TRUE,active
+night-day,Night & Day,,,,,,Roses,125,261.00,bq-round-30-125,999,deny,manual,TRUE,TRUE,active
+night-day,Night & Day,,,,,,Roses,150,316.00,bq-round-30-150,999,deny,manual,TRUE,TRUE,active
+night-day,Night & Day,,,,,,Roses,175,341.00,bq-round-30-175,999,deny,manual,TRUE,TRUE,active
+night-day,Night & Day,,,,,,Roses,200,421.00,bq-round-30-200,999,deny,manual,TRUE,TRUE,active
+white-ocean,White Ocean,Mix of blue and white roses,Charl's Flowers,Bouquet,mix;painted,TRUE,Roses,50,106.00,bq-round-38-50,999,deny,manual,TRUE,TRUE,active
+white-ocean,White Ocean,,,,,,Roses,75,131.00,bq-round-38-75,999,deny,manual,TRUE,TRUE,active
+white-ocean,White Ocean,,,,,,Roses,100,196.00,bq-round-38-100,999,deny,manual,TRUE,TRUE,active
+white-ocean,White Ocean,,,,,,Roses,125,261.00,bq-round-38-125,999,deny,manual,TRUE,TRUE,active
+white-ocean,White Ocean,,,,,,Roses,150,316.00,bq-round-38-150,999,deny,manual,TRUE,TRUE,active
+white-ocean,White Ocean,,,,,,Roses,175,341.00,bq-round-38-175,999,deny,manual,TRUE,TRUE,active
+white-ocean,White Ocean,,,,,,Roses,200,421.00,bq-round-38-200,999,deny,manual,TRUE,TRUE,active
+dark-pink-elegance,Dark Pink Elegance,Mix of pink and black roses,Charl's Flowers,Bouquet,mix;painted,TRUE,Roses,50,106.00,bq-round-42-50,999,deny,manual,TRUE,TRUE,active
+dark-pink-elegance,Dark Pink Elegance,,,,,,Roses,75,131.00,bq-round-42-75,999,deny,manual,TRUE,TRUE,active
+dark-pink-elegance,Dark Pink Elegance,,,,,,Roses,100,196.00,bq-round-42-100,999,deny,manual,TRUE,TRUE,active
+dark-pink-elegance,Dark Pink Elegance,,,,,,Roses,125,261.00,bq-round-42-125,999,deny,manual,TRUE,TRUE,active
+dark-pink-elegance,Dark Pink Elegance,,,,,,Roses,150,316.00,bq-round-42-150,999,deny,manual,TRUE,TRUE,active
+dark-pink-elegance,Dark Pink Elegance,,,,,,Roses,175,341.00,bq-round-42-175,999,deny,manual,TRUE,TRUE,active
+dark-pink-elegance,Dark Pink Elegance,,,,,,Roses,200,421.00,bq-round-42-200,999,deny,manual,TRUE,TRUE,active
+sunflowers-passion,Sunflowers & Passion,Bouquet of sunflowers and red roses,Charl's Flowers,Bouquet,mix;sunflowers,TRUE,Roses,50 roses + 8 sunflowers,146.00,bq-round-28-50,999,deny,manual,TRUE,TRUE,active
+sunflowers-passion,Sunflowers & Passion,,,,,,Roses,100 roses + 22 sunflowers,306.00,bq-round-28-100,999,deny,manual,TRUE,TRUE,active
+sunflowers-passion,Sunflowers & Passion,,,,,,Roses,150 roses + 22 sunflowers,426.00,bq-round-28-150,999,deny,manual,TRUE,TRUE,active
+classic-tricolor,Classic Tricolor,"Mix of red, white, and pink roses",Charl's Flowers,Bouquet,mix,TRUE,Roses,75,116.00,bq-round-18-75,999,deny,manual,TRUE,TRUE,active
+classic-tricolor,Classic Tricolor,,,,,,Roses,100,151.00,bq-round-18-100,999,deny,manual,TRUE,TRUE,active
+classic-tricolor,Classic Tricolor,,,,,,Roses,125,216.00,bq-round-18-125,999,deny,manual,TRUE,TRUE,active
+classic-tricolor,Classic Tricolor,,,,,,Roses,150,256.00,bq-round-18-150,999,deny,manual,TRUE,TRUE,active
+classic-tricolor,Classic Tricolor,,,,,,Roses,175,281.00,bq-round-18-175,999,deny,manual,TRUE,TRUE,active
+classic-tricolor,Classic Tricolor,,,,,,Roses,200,346.00,bq-round-18-200,999,deny,manual,TRUE,TRUE,active
+intense-romance,Intense Romance,"Mix of red, purple, and white roses",Charl's Flowers,Bouquet,mix,TRUE,Roses,75,116.00,bq-round-25-75,999,deny,manual,TRUE,TRUE,active
+intense-romance,Intense Romance,,,,,,Roses,100,151.00,bq-round-25-100,999,deny,manual,TRUE,TRUE,active
+intense-romance,Intense Romance,,,,,,Roses,125,216.00,bq-round-25-125,999,deny,manual,TRUE,TRUE,active
+intense-romance,Intense Romance,,,,,,Roses,150,256.00,bq-round-25-150,999,deny,manual,TRUE,TRUE,active
+intense-romance,Intense Romance,,,,,,Roses,175,281.00,bq-round-25-175,999,deny,manual,TRUE,TRUE,active
+intense-romance,Intense Romance,,,,,,Roses,200,346.00,bq-round-25-200,999,deny,manual,TRUE,TRUE,active
+fire-sun,Fire & Sun,"Cheerful mix of red, yellow, and pink roses",Charl's Flowers,Bouquet,mix,TRUE,Roses,75,116.00,bq-round-26-75,999,deny,manual,TRUE,TRUE,active
+fire-sun,Fire & Sun,,,,,,Roses,100,151.00,bq-round-26-100,999,deny,manual,TRUE,TRUE,active
+fire-sun,Fire & Sun,,,,,,Roses,125,216.00,bq-round-26-125,999,deny,manual,TRUE,TRUE,active
+fire-sun,Fire & Sun,,,,,,Roses,150,256.00,bq-round-26-150,999,deny,manual,TRUE,TRUE,active
+fire-sun,Fire & Sun,,,,,,Roses,175,281.00,bq-round-26-175,999,deny,manual,TRUE,TRUE,active
+fire-sun,Fire & Sun,,,,,,Roses,200,346.00,bq-round-26-200,999,deny,manual,TRUE,TRUE,active
+tricolor-love,Tricolor Love,"Mix of red, pink, and white roses",Charl's Flowers,Bouquet,mix,TRUE,Roses,75,116.00,bq-round-46-75,999,deny,manual,TRUE,TRUE,active
+tricolor-love,Tricolor Love,,,,,,Roses,100,151.00,bq-round-46-100,999,deny,manual,TRUE,TRUE,active
+tricolor-love,Tricolor Love,,,,,,Roses,125,216.00,bq-round-46-125,999,deny,manual,TRUE,TRUE,active
+tricolor-love,Tricolor Love,,,,,,Roses,150,256.00,bq-round-46-150,999,deny,manual,TRUE,TRUE,active
+tricolor-love,Tricolor Love,,,,,,Roses,175,281.00,bq-round-46-175,999,deny,manual,TRUE,TRUE,active
+tricolor-love,Tricolor Love,,,,,,Roses,200,346.00,bq-round-46-200,999,deny,manual,TRUE,TRUE,active
+magic-pastel,Magic Pastel,"Mix of purple, pink, and white roses",Charl's Flowers,Bouquet,mix,TRUE,Roses,50,76.00,bq-round-23-50,999,deny,manual,TRUE,TRUE,active
+magic-pastel,Magic Pastel,,,,,,Roses,75,101.00,bq-round-23-75,999,deny,manual,TRUE,TRUE,active
+magic-pastel,Magic Pastel,,,,,,Roses,100,136.00,bq-round-23-100,999,deny,manual,TRUE,TRUE,active
+magic-pastel,Magic Pastel,,,,,,Roses,125,201.00,bq-round-23-125,999,deny,manual,TRUE,TRUE,active
+magic-pastel,Magic Pastel,,,,,,Roses,150,226.00,bq-round-23-150,999,deny,manual,TRUE,TRUE,active
+magic-pastel,Magic Pastel,,,,,,Roses,175,251.00,bq-round-23-175,999,deny,manual,TRUE,TRUE,active
+magic-pastel,Magic Pastel,,,,,,Roses,200,301.00,bq-round-23-200,999,deny,manual,TRUE,TRUE,active
+warm-sunset,Warm Sunset,"Vibrant mix of orange, hot pink, and white roses",Charl's Flowers,Bouquet,mix,TRUE,Roses,50,76.00,bq-round-24-50,999,deny,manual,TRUE,TRUE,active
+warm-sunset,Warm Sunset,,,,,,Roses,75,101.00,bq-round-24-75,999,deny,manual,TRUE,TRUE,active
+warm-sunset,Warm Sunset,,,,,,Roses,100,136.00,bq-round-24-100,999,deny,manual,TRUE,TRUE,active
+warm-sunset,Warm Sunset,,,,,,Roses,125,201.00,bq-round-24-125,999,deny,manual,TRUE,TRUE,active
+warm-sunset,Warm Sunset,,,,,,Roses,150,226.00,bq-round-24-150,999,deny,manual,TRUE,TRUE,active
+warm-sunset,Warm Sunset,,,,,,Roses,175,251.00,bq-round-24-175,999,deny,manual,TRUE,TRUE,active
+warm-sunset,Warm Sunset,,,,,,Roses,200,301.00,bq-round-24-200,999,deny,manual,TRUE,TRUE,active
+light-citrus,Light Citrus,"Mix of orange, yellow, and white roses",Charl's Flowers,Bouquet,mix,TRUE,Roses,50,76.00,bq-round-33-50,999,deny,manual,TRUE,TRUE,active
+light-citrus,Light Citrus,,,,,,Roses,75,101.00,bq-round-33-75,999,deny,manual,TRUE,TRUE,active
+light-citrus,Light Citrus,,,,,,Roses,100,136.00,bq-round-33-100,999,deny,manual,TRUE,TRUE,active
+light-citrus,Light Citrus,,,,,,Roses,125,201.00,bq-round-33-125,999,deny,manual,TRUE,TRUE,active
+light-citrus,Light Citrus,,,,,,Roses,150,226.00,bq-round-33-150,999,deny,manual,TRUE,TRUE,active
+light-citrus,Light Citrus,,,,,,Roses,175,251.00,bq-round-33-175,999,deny,manual,TRUE,TRUE,active
+light-citrus,Light Citrus,,,,,,Roses,200,301.00,bq-round-33-200,999,deny,manual,TRUE,TRUE,active
+soft-spring,Soft Spring,"Mix of pink, yellow, and white roses",Charl's Flowers,Bouquet,mix,TRUE,Roses,50,76.00,bq-round-39-50,999,deny,manual,TRUE,TRUE,active
+soft-spring,Soft Spring,,,,,,Roses,75,101.00,bq-round-39-75,999,deny,manual,TRUE,TRUE,active
+soft-spring,Soft Spring,,,,,,Roses,100,136.00,bq-round-39-100,999,deny,manual,TRUE,TRUE,active
+soft-spring,Soft Spring,,,,,,Roses,125,201.00,bq-round-39-125,999,deny,manual,TRUE,TRUE,active
+soft-spring,Soft Spring,,,,,,Roses,150,226.00,bq-round-39-150,999,deny,manual,TRUE,TRUE,active
+soft-spring,Soft Spring,,,,,,Roses,175,251.00,bq-round-39-175,999,deny,manual,TRUE,TRUE,active
+soft-spring,Soft Spring,,,,,,Roses,200,301.00,bq-round-39-200,999,deny,manual,TRUE,TRUE,active
+bright-lilac,Bright Lilac,"Mix of yellow, lilac, and white roses",Charl's Flowers,Bouquet,mix,TRUE,Roses,50,76.00,bq-round-41-50,999,deny,manual,TRUE,TRUE,active
+bright-lilac,Bright Lilac,,,,,,Roses,75,101.00,bq-round-41-75,999,deny,manual,TRUE,TRUE,active
+bright-lilac,Bright Lilac,,,,,,Roses,100,136.00,bq-round-41-100,999,deny,manual,TRUE,TRUE,active
+bright-lilac,Bright Lilac,,,,,,Roses,125,201.00,bq-round-41-125,999,deny,manual,TRUE,TRUE,active
+bright-lilac,Bright Lilac,,,,,,Roses,150,226.00,bq-round-41-150,999,deny,manual,TRUE,TRUE,active
+bright-lilac,Bright Lilac,,,,,,Roses,175,251.00,bq-round-41-175,999,deny,manual,TRUE,TRUE,active
+bright-lilac,Bright Lilac,,,,,,Roses,200,301.00,bq-round-41-200,999,deny,manual,TRUE,TRUE,active
+pink-symphony,Pink Symphony,"Mix of hot pink, pink, and white roses",Charl's Flowers,Bouquet,mix,TRUE,Roses,50,76.00,bq-round-47-50,999,deny,manual,TRUE,TRUE,active
+pink-symphony,Pink Symphony,,,,,,Roses,75,101.00,bq-round-47-75,999,deny,manual,TRUE,TRUE,active
+pink-symphony,Pink Symphony,,,,,,Roses,100,136.00,bq-round-47-100,999,deny,manual,TRUE,TRUE,active
+pink-symphony,Pink Symphony,,,,,,Roses,125,201.00,bq-round-47-125,999,deny,manual,TRUE,TRUE,active
+pink-symphony,Pink Symphony,,,,,,Roses,150,226.00,bq-round-47-150,999,deny,manual,TRUE,TRUE,active
+pink-symphony,Pink Symphony,,,,,,Roses,175,251.00,bq-round-47-175,999,deny,manual,TRUE,TRUE,active
+pink-symphony,Pink Symphony,,,,,,Roses,200,301.00,bq-round-47-200,999,deny,manual,TRUE,TRUE,active
+elegant-contrast,Elegant Contrast,"Mix of black, hot pink, and white roses",Charl's Flowers,Bouquet,mix;painted,TRUE,Roses,75,131.00,bq-round-31-75,999,deny,manual,TRUE,TRUE,active
+elegant-contrast,Elegant Contrast,,,,,,Roses,100,166.00,bq-round-31-100,999,deny,manual,TRUE,TRUE,active
+elegant-contrast,Elegant Contrast,,,,,,Roses,125,231.00,bq-round-31-125,999,deny,manual,TRUE,TRUE,active
+elegant-contrast,Elegant Contrast,,,,,,Roses,150,286.00,bq-round-31-150,999,deny,manual,TRUE,TRUE,active
+elegant-contrast,Elegant Contrast,,,,,,Roses,175,311.00,bq-round-31-175,999,deny,manual,TRUE,TRUE,active
+elegant-contrast,Elegant Contrast,,,,,,Roses,200,361.00,bq-round-31-200,999,deny,manual,TRUE,TRUE,active
+imperial-bee,Imperial Bee,"Mix of yellow, black, and white roses",Charl's Flowers,Bouquet,mix;painted,TRUE,Roses,50,106.00,bq-round-36-50,999,deny,manual,TRUE,TRUE,active
+imperial-bee,Imperial Bee,,,,,,Roses,75,131.00,bq-round-36-75,999,deny,manual,TRUE,TRUE,active
+imperial-bee,Imperial Bee,,,,,,Roses,100,196.00,bq-round-36-100,999,deny,manual,TRUE,TRUE,active
+imperial-bee,Imperial Bee,,,,,,Roses,125,261.00,bq-round-36-125,999,deny,manual,TRUE,TRUE,active
+imperial-bee,Imperial Bee,,,,,,Roses,150,316.00,bq-round-36-150,999,deny,manual,TRUE,TRUE,active
+imperial-bee,Imperial Bee,,,,,,Roses,175,341.00,bq-round-36-175,999,deny,manual,TRUE,TRUE,active
+imperial-bee,Imperial Bee,,,,,,Roses,200,421.00,bq-round-36-200,999,deny,manual,TRUE,TRUE,active
+elegant-passion,Elegant Passion,Mix of red and white roses,Charl's Flowers,Bouquet,mix,TRUE,Roses,50,91.00,bq-round-45-50,999,deny,manual,TRUE,TRUE,active
+elegant-passion,Elegant Passion,,,,,,Roses,75,116.00,bq-round-45-75,999,deny,manual,TRUE,TRUE,active
+elegant-passion,Elegant Passion,,,,,,Roses,100,166.00,bq-round-45-100,999,deny,manual,TRUE,TRUE,active
+elegant-passion,Elegant Passion,,,,,,Roses,125,231.00,bq-round-45-125,999,deny,manual,TRUE,TRUE,active
+elegant-passion,Elegant Passion,,,,,,Roses,150,256.00,bq-round-45-150,999,deny,manual,TRUE,TRUE,active
+elegant-passion,Elegant Passion,,,,,,Roses,175,296.00,bq-round-45-175,999,deny,manual,TRUE,TRUE,active
+elegant-passion,Elegant Passion,,,,,,Roses,200,361.00,bq-round-45-200,999,deny,manual,TRUE,TRUE,active
