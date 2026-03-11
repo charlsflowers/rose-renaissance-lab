@@ -1,30 +1,10 @@
 import { toast } from "sonner";
-import type { PricingTier } from "@/lib/productData";
 
 const SHOPIFY_API_VERSION = '2025-07';
 const SHOPIFY_STORE_PERMANENT_DOMAIN = 'ztdjk5-wn.myshopify.com';
 const SHOPIFY_STOREFRONT_URL = `https://${SHOPIFY_STORE_PERMANENT_DOMAIN}/api/${SHOPIFY_API_VERSION}/graphql.json`;
 const SHOPIFY_STOREFRONT_TOKEN = '4e7516581c2c609bb77d69b5f1786a9b';
 
-// Map pricing tiers to Shopify product tags
-const TIER_TAG_MAP: Record<PricingTier, string> = {
-  standard: 'bouquet, standard',
-  red: 'bouquet, red',
-  painted: 'bouquet, painted',
-  mix2: 'bouquet, mix2',
-  mix2painted: 'bouquet, mix2painted',
-  mix3red: 'bouquet, mix3red',
-};
-
-// Shopify product titles by tier (for tag-based lookup)
-const TIER_PRODUCT_TITLE: Record<PricingTier, string> = {
-  standard: 'Standard Bouquet',
-  red: 'Red Rose Bouquet',
-  painted: 'Painted Rose Bouquet',
-  mix2: 'Two-Color Mix Bouquet',
-  mix2painted: 'Painted Mix Bouquet',
-  mix3red: 'Three-Color Red Mix Bouquet',
-};
 
 export interface ShopifyVariant {
   id: string; // GID
@@ -100,28 +80,27 @@ const PRODUCTS_BY_TITLE_QUERY = `
 `;
 
 /**
- * Resolve the Shopify variant GID for a given pricing tier and roses count.
+ * Resolve the Shopify variant GID for a given product name and roses count.
  */
 export async function resolveVariantId(
-  tier: PricingTier,
+  productName: string,
   rosesCount: number
 ): Promise<ShopifyVariant | null> {
-  const cacheKey = `${tier}-${rosesCount}`;
+  const cacheKey = `${productName}-${rosesCount}`;
   if (variantCache.has(cacheKey)) {
     return variantCache.get(cacheKey)!;
   }
 
   try {
-    const productTitle = TIER_PRODUCT_TITLE[tier];
     const data = await storefrontApiRequest(PRODUCTS_BY_TITLE_QUERY, {
-      query: `title:"${productTitle}"`,
+      query: `title:"${productName}"`,
     });
 
     if (!data) return null;
 
     const product = data.data?.products?.edges?.[0]?.node as ShopifyProductNode | undefined;
     if (!product) {
-      console.error(`No Shopify product found for tier "${tier}" (title: "${productTitle}")`);
+      console.error(`No Shopify product found with title "${productName}"`);
       return null;
     }
 
@@ -132,14 +111,14 @@ export async function resolveVariantId(
     )?.node;
 
     if (!variant) {
-      console.error(`No variant found for ${rosesCount} roses in product "${productTitle}"`);
+      console.error(`No variant found for ${rosesCount} roses in product "${productName}"`);
       return null;
     }
 
     // Cache all variants from this product
     product.variants.edges.forEach((v) => {
       const roses = v.node.selectedOptions.find(o => o.name === 'Roses')?.value || v.node.title;
-      variantCache.set(`${tier}-${roses}`, v.node);
+      variantCache.set(`${productName}-${roses}`, v.node);
     });
 
     return variant;
