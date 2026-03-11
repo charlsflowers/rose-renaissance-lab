@@ -345,14 +345,22 @@ const BouquetProductDetail = () => {
             <Section title="Shipping" step={step++}>
               <div className="grid grid-cols-2 gap-3 mb-6">
                 <button onClick={() => setDeliveryMethod("pickup")}
-                  className={`flex flex-col items-center gap-3 p-5 rounded-sm border-2 transition-all font-body ${deliveryMethod === "pickup" ? "border-primary bg-primary/5" : "border-border hover:border-primary/30"}`}>
-                  <Store className="w-6 h-6" /><p className="font-semibold text-sm text-foreground">Store pickup</p><p className="text-xs text-muted-foreground">Free</p>
-                  {deliveryMethod === "pickup" && <Check className="w-4 h-4 text-primary" />}
+                  className={`flex items-center gap-3 p-5 rounded-sm border-2 transition-all font-body ${deliveryMethod === "pickup" ? "border-primary bg-primary/5" : "border-border hover:border-primary/30"}`}>
+                  <Store className="w-5 h-5 flex-shrink-0" />
+                  <div className="text-left flex-1">
+                    <p className="font-semibold text-sm text-foreground">Store pickup</p>
+                    <p className="text-xs text-muted-foreground">Free</p>
+                  </div>
+                  {deliveryMethod === "pickup" && <Check className="w-4 h-4 text-primary flex-shrink-0" />}
                 </button>
                 <button onClick={() => setDeliveryMethod("delivery")}
-                  className={`flex flex-col items-center gap-3 p-5 rounded-sm border-2 transition-all font-body ${deliveryMethod === "delivery" ? "border-primary bg-primary/5" : "border-border hover:border-primary/30"}`}>
-                  <Truck className="w-6 h-6" /><p className="font-semibold text-sm text-foreground">Home delivery</p><p className="text-xs text-muted-foreground">$2 / mile</p>
-                  {deliveryMethod === "delivery" && <Check className="w-4 h-4 text-primary" />}
+                  className={`flex items-center gap-3 p-5 rounded-sm border-2 transition-all font-body ${deliveryMethod === "delivery" ? "border-primary bg-primary/5" : "border-border hover:border-primary/30"}`}>
+                  <Truck className="w-5 h-5 flex-shrink-0" />
+                  <div className="text-left flex-1">
+                    <p className="font-semibold text-sm text-foreground">Home delivery</p>
+                    <p className="text-xs text-muted-foreground">$2 / mile</p>
+                  </div>
+                  {deliveryMethod === "delivery" && <Check className="w-4 h-4 text-primary flex-shrink-0" />}
                 </button>
               </div>
 
