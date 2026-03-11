@@ -1,5 +1,4 @@
 import { toast } from "sonner";
-import type { PricingTier } from "@/lib/productData";
 
 const SHOPIFY_API_VERSION = '2025-07';
 const SHOPIFY_STORE_PERMANENT_DOMAIN = 'ztdjk5-wn.myshopify.com';
