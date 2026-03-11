@@ -38,6 +38,7 @@ import bqMixRojoLightpink2Img from '@/assets/bq-mix-rojo-lightpink-2.png';
 import bqMixLightpinkBlancoImg from '@/assets/bq-mix-lightpink-blanco.png';
 import bqMixRojoBlancoNegroImg from '@/assets/bq-mix-rojo-blanco-negro.png';
 import bqMixRojoPinkBlancoImg from '@/assets/bq-mix-rojo-pink-blanco.png';
+import bqMixRojoPinkBlancoNewImg from '@/assets/bq-mix-rojo-pink-blanco-new.png';
 
 // Secondary images
 import bqRojo2Img from '@/assets/bq-rojo-2.png';
@@ -227,7 +228,7 @@ export const bouquetProducts: BouquetProduct[] = [
   { id: 'bq-round-18', name: 'Classic Tricolor', description: 'Mix of red, white, and pink roses', image: bqMixRojoPinkLightpinkImg, image2: reviewTricolorClasicoImg, color: 'Rojo, Blanco y Pink', type: 'round', pricingTier: 'mix3red' },
   { id: 'bq-round-25', name: 'Intense Romance', description: 'Mix of red, purple, and white roses', image: bqMixRomanticoImg, image2: bqMixRomantico2Img, color: 'Rojo, Morado y Blanco', type: 'round', pricingTier: 'mix3red' },
   { id: 'bq-round-26', name: 'Fire & Sun', description: 'Cheerful mix of red, yellow, and pink roses', image: bqMixAlegriaImg, image2: bqMixAlegria2Img, color: 'Rojo, Amarillo y Pink', type: 'round', pricingTier: 'mix3red' },
-  { id: 'bq-round-46', name: 'Tricolor Love', description: 'Mix of red, pink, and white roses', image: bqMixRojoPinkBlancoImg, image2: bqMixRojoPinkBlanco3Img, color: 'Rojo, Pink y Blanco', type: 'round', pricingTier: 'mix3red' },
+  { id: 'bq-round-46', name: 'Tricolor Love', description: 'Mix of red, pink, and white roses', image: bqMixRojoPinkBlancoNewImg, image2: bqMixRojoPinkBlancoImg, color: 'Rojo, Pink y Blanco', type: 'round', pricingTier: 'mix3red' },
 
   // 3 colors - Natural without red (standard pricing)
   { id: 'bq-round-23', name: 'Magic Pastel', description: 'Mix of purple, pink, and white roses', image: bqMixPastelImg, image2: bqMixPastel2Img, color: 'Morado, Pink y Blanco', type: 'round', pricingTier: 'standard' },
@@ -235,7 +236,7 @@ export const bouquetProducts: BouquetProduct[] = [
   { id: 'bq-round-33', name: 'Light Citrus', description: 'Mix of orange, yellow, and white roses', image: bqMixNaranjaAmarillo2Img, image2: bqMixNaranjaAmarillo23Img, color: 'Naranja, Amarillo y Blanco', type: 'round', pricingTier: 'standard' },
   { id: 'bq-round-39', name: 'Soft Spring', description: 'Mix of pink, yellow, and white roses', image: bqMixPinkAmarilloBlancoImg, image2: bqMixPinkAmarilloBlanco3Img, color: 'Pink, Amarillo y Blanco', type: 'round', pricingTier: 'standard' },
   { id: 'bq-round-41', name: 'Bright Lilac', description: 'Mix of yellow, lilac, and white roses', image: bqMixAmarilloLilaBlancoImg, image2: bqMixNaranjaAmarilloSecImg, color: 'Amarillo, Lila y Blanco', type: 'round', pricingTier: 'standard' },
-  { id: 'bq-round-47', name: 'Pink Symphony', description: 'Mix of hot pink, pink, and white roses', image: bqMixRojoBlanco3Img, image2: bqMixRojoBlanco4Img, color: 'Hot Pink, Pink y Blanco', type: 'round', pricingTier: 'standard' },
+  { id: 'bq-round-47', name: 'Bright Lilac', description: 'Mix of pink, hot pink, yellow, and white roses', image: bqMixRojoBlanco3Img, image2: bqMixRojoBlanco4Img, color: 'Pink, Hot Pink, Amarillo y Blanco', type: 'round', pricingTier: 'standard' },
 
   // 3 colors - With Painted (mix2painted pricing)
   { id: 'bq-round-31', name: 'Elegant Contrast', description: 'Mix of black, hot pink, and white roses', image: bqMixNegroRosaImg, image2: bqMixNegroRosa2Img, color: 'Negro, Hot Pink y Blanco', type: 'round', pricingTier: 'mix2painted', customSizes: [{ roses: 75, price: 131 }, { roses: 100, price: 166 }, { roses: 125, price: 231 }, { roses: 150, price: 286 }, { roses: 175, price: 311 }, { roses: 200, price: 361 }] },
