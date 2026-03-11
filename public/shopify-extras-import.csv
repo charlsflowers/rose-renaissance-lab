@@ -1,0 +1,22 @@
+Handle,Title,Body (HTML),Vendor,Type,Tags,Published,Option1 Name,Option1 Value,Variant SKU,Variant Price,Variant Requires Shipping,Variant Taxable,Status
+glitter-finish,Glitter Finish,"<p>Sparkling glitter finish for your bouquet roses. $8 per 25 roses.</p>",Charls Flowers,Extra,extra,TRUE,Roses,50,GLITTER-50,16.00,FALSE,TRUE,active
+glitter-finish,Glitter Finish,,Charls Flowers,Extra,extra,TRUE,Roses,75,GLITTER-75,24.00,FALSE,TRUE,active
+glitter-finish,Glitter Finish,,Charls Flowers,Extra,extra,TRUE,Roses,100,GLITTER-100,32.00,FALSE,TRUE,active
+glitter-finish,Glitter Finish,,Charls Flowers,Extra,extra,TRUE,Roses,125,GLITTER-125,40.00,FALSE,TRUE,active
+glitter-finish,Glitter Finish,,Charls Flowers,Extra,extra,TRUE,Roses,150,GLITTER-150,48.00,FALSE,TRUE,active
+glitter-finish,Glitter Finish,,Charls Flowers,Extra,extra,TRUE,Roses,175,GLITTER-175,56.00,FALSE,TRUE,active
+glitter-finish,Glitter Finish,,Charls Flowers,Extra,extra,TRUE,Roses,200,GLITTER-200,64.00,FALSE,TRUE,active
+baby-breath-letters,Baby Breath Letters,"<p>Custom letters made of Baby Breath flowers. $40 per letter. Max 4 letters. Minimum 75 roses required.</p>",Charls Flowers,Extra,extra,TRUE,Quantity,1,BBL-1,40.00,FALSE,TRUE,active
+baby-breath-letters,Baby Breath Letters,,Charls Flowers,Extra,extra,TRUE,Quantity,2,BBL-2,80.00,FALSE,TRUE,active
+baby-breath-letters,Baby Breath Letters,,Charls Flowers,Extra,extra,TRUE,Quantity,3,BBL-3,120.00,FALSE,TRUE,active
+baby-breath-letters,Baby Breath Letters,,Charls Flowers,Extra,extra,TRUE,Quantity,4,BBL-4,160.00,FALSE,TRUE,active
+baby-breath-numbers,Baby Breath Numbers,"<p>Custom numbers made of Baby Breath flowers. $40 per number. Max 4 digits. Minimum 75 roses required.</p>",Charls Flowers,Extra,extra,TRUE,Quantity,1,BBN-1,40.00,FALSE,TRUE,active
+baby-breath-numbers,Baby Breath Numbers,,Charls Flowers,Extra,extra,TRUE,Quantity,2,BBN-2,80.00,FALSE,TRUE,active
+baby-breath-numbers,Baby Breath Numbers,,Charls Flowers,Extra,extra,TRUE,Quantity,3,BBN-3,120.00,FALSE,TRUE,active
+baby-breath-numbers,Baby Breath Numbers,,Charls Flowers,Extra,extra,TRUE,Quantity,4,BBN-4,160.00,FALSE,TRUE,active
+vase,Vase,"<p>Glass vase for your bouquet. Size matched to rose count.</p>",Charls Flowers,Extra,extra,TRUE,Size,50 Roses,VASE-50,25.00,TRUE,TRUE,active
+vase,Vase,,Charls Flowers,Extra,extra,TRUE,Size,75 Roses,VASE-75,30.00,TRUE,TRUE,active
+vase,Vase,,Charls Flowers,Extra,extra,TRUE,Size,100 Roses,VASE-100,35.00,TRUE,TRUE,active
+crown-tiara,Crown Tiara,"<p>Decorative crown tiara for your bouquet.</p>",Charls Flowers,Extra,extra,TRUE,Color,Silver,CROWN-SILVER,10.00,FALSE,TRUE,active
+crown-tiara,Crown Tiara,,Charls Flowers,Extra,extra,TRUE,Color,Gold,CROWN-GOLD,10.00,FALSE,TRUE,active
+custom-ribbon,Custom Ribbon,"<p>Personalized ribbon with your custom text wrapped around the bouquet.</p>",Charls Flowers,Extra,extra,TRUE,Title,Default Title,RIBBON,25.00,FALSE,TRUE,active
