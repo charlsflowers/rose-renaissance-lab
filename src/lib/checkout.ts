@@ -1,19 +1,10 @@
-import { useCartStore } from "@/stores/cartStore";
-
 /**
- * Build a Shopify cart permalink from all items in the cart.
- * Format: https://charls-flowers.myshopify.com/cart/VARIANT_ID:QTY,VARIANT_ID:QTY,...
+ * Build a Shopify cart permalink from a known variant GID.
+ * Format: https://charls-flowers.myshopify.com/cart/NUMERIC_ID:1
  */
-export function buildCheckoutUrl(): string | null {
-  const items = useCartStore.getState().items;
-  if (items.length === 0) return null;
-
-  const lineItems = items.map((item) => {
-    const numericId = item.shopifyVariantId.split("/").pop();
-    return `${numericId}:1`;
-  });
-
-  return `https://charls-flowers.myshopify.com/cart/${lineItems.join(",")}`;
+export function buildCheckoutUrl(variantId: string): string {
+  const numericId = variantId.split("/").pop();
+  return `https://charls-flowers.myshopify.com/cart/${numericId}:1`;
 }
 
 export function openCheckoutInNewTab(checkoutUrl: string) {
