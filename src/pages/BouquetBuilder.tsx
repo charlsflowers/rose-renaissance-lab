@@ -4,7 +4,7 @@ import { miamiHourNow, todayInMiami, isTodayInMiami } from "@/lib/miamiTime";
 import { supabase } from "@/integrations/supabase/client";
 import { enUS } from "date-fns/locale";
 import { useCartStore } from "@/stores/cartStore";
-import { resolveVariantId } from "@/lib/shopify";
+import { fetchVariantsByHandle, findVariantByRoses, toShopifyHandle, type ShopifyHandleVariant } from "@/lib/shopifyVariants";
 import { toast } from "sonner";
 import { calculateDeliveryCost, formatDeliveryCost } from "@/lib/deliveryPricing";
 
