@@ -182,7 +182,7 @@ const BouquetProductDetail = () => {
 
   let step = 1;
 
-  const handleAddToCart = async (): Promise<boolean> => {
+  const handleAddToCart = async (): Promise<string | null> => {
     if (deliveryMethod === "delivery" && !selectedAddress) { toast.error("Please select a delivery address."); return false; }
     if (deliveryMethod === "delivery" && (distanceTooFar || deliveryMiles === null)) { toast.error("The address is invalid or out of range."); return false; }
     if (!deliveryDate || !deliveryHour) { toast.error("Please select a date and time."); return false; }
