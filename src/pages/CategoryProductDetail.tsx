@@ -6,6 +6,7 @@ import { enUS } from "date-fns/locale";
 import { supabase } from "@/integrations/supabase/client";
 import { useCartStore } from "@/stores/cartStore";
 import { toast } from "sonner";
+import { calculateDeliveryCost, formatDeliveryCost } from "@/lib/deliveryPricing";
 import Navbar from "@/components/Navbar";
 import PaperColorPicker from "@/components/PaperColorPicker";
 import { categoryProducts } from "@/lib/catalogData";
@@ -117,7 +118,7 @@ const CategoryProductDetail = () => {
   }
 
   const selectedSize = product.sizes[selectedSizeIdx];
-  const deliveryCost = deliveryMethod === "delivery" && deliveryMiles && !distanceTooFar ? deliveryMiles * 2 : 0;
+  const deliveryCost = deliveryMethod === "delivery" && deliveryMiles && !distanceTooFar ? calculateDeliveryCost(deliveryMiles) : 0;
   const totalPrice = selectedSize.price + deliveryCost;
 
   const handleAddToCart = (): boolean => {
@@ -158,7 +159,20 @@ const CategoryProductDetail = () => {
   };
 
   const handlePayNow = () => {
-    if (handleAddToCart()) navigate("/checkout");
+    if (handleAddToCart()) {
+      const checkoutUrl = useCartStore.getState().checkoutUrl;
+      if (checkoutUrl) {
+        const link = document.createElement('a');
+        link.href = checkoutUrl;
+        link.target = '_blank';
+        link.rel = 'noopener noreferrer';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+      } else {
+        navigate("/checkout");
+      }
+    }
   };
 
   return (
@@ -229,7 +243,7 @@ const CategoryProductDetail = () => {
                 </button>
                 <button onClick={() => setDeliveryMethod("delivery")}
                   className={`flex flex-col items-center gap-3 p-5 rounded-sm border-2 transition-all font-body ${deliveryMethod === "delivery" ? "border-primary bg-primary/5" : "border-border hover:border-primary/30"}`}>
-                  <Truck className="w-6 h-6" /><p className="font-semibold text-sm text-foreground">Home delivery</p><p className="text-xs text-muted-foreground">$2 / mile</p>
+                  <Truck className="w-6 h-6" /><p className="font-semibold text-sm text-foreground">Home delivery</p><p className="text-xs text-muted-foreground">From $20</p>
                   {deliveryMethod === "delivery" && <Check className="w-4 h-4 text-primary" />}
                 </button>
               </div>
@@ -273,7 +287,7 @@ const CategoryProductDetail = () => {
                     {deliveryMiles !== null && !distanceTooFar && (
                       <div className="bg-primary/5 border border-primary/20 rounded-sm p-4">
                          <p className="font-body text-sm text-foreground">📍 Distance: <span className="font-semibold">{deliveryMiles} miles</span>{deliveryDuration && <span className="text-muted-foreground"> (~{deliveryDuration})</span>}</p>
-                         <p className="font-body text-sm text-primary font-semibold mt-1">Shipping cost: ${deliveryMiles * 2}</p>
+                         <p className="font-body text-sm text-primary font-semibold mt-1">Shipping cost: {formatDeliveryCost(deliveryCost)}</p>
                       </div>
                     )}
                     {mapUrl && (

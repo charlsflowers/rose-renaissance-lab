@@ -1,59 +1,38 @@
-import { useState, useMemo, useCallback, useRef, useEffect } from "react";
+import { useState, useCallback, useRef, useEffect } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
-import { format, addHours, isBefore, startOfDay } from "date-fns";
+import { format, isBefore, startOfDay } from "date-fns";
 import { miamiHourNow, todayInMiami, isTodayInMiami } from "@/lib/miamiTime";
 import { enUS } from "date-fns/locale";
 import { supabase } from "@/integrations/supabase/client";
-import { useCartStore, type CartItem } from "@/stores/cartStore";
-import { resolveVariantId } from "@/lib/shopify";
-import { calculateDeliveryCost, formatDeliveryCost } from "@/lib/deliveryPricing";
+import { useCartStore } from "@/stores/cartStore";
 import { toast } from "sonner";
 import Navbar from "@/components/Navbar";
-import PaperColorPicker from "@/components/PaperColorPicker"; // keep import but won't use for standard bouquets
-import { bouquetProducts, bouquetSizeOptions } from "@/lib/catalogData";
+import { roomDecorPackages, roomDecorBouquetColors } from "@/lib/roomDecorData";
+import { calculateRoomDecorDeliveryCost, formatDeliveryCost } from "@/lib/deliveryPricing";
 import {
-  crownOptions, ribbonPresets, crownPrice, ribbonPrice, letterNumberExtraPrice, vaseOptions, getPrice,
-// Note: crown, ribbon, letters, vase are used for custom bouquets only; standard bouquets won't show them
-} from "@/lib/productData";
-import {
-  ArrowLeft, Check, Store, Truck, CalendarIcon, Clock, MapPin, Search, Loader2,
-  Type, Sparkles, Bug, Crown, Star, Hash,
+  ArrowLeft, Check, Store, Truck, CalendarIcon, Clock, MapPin, Search, Loader2, Heart,
 } from "lucide-react";
 import { Calendar } from "@/components/ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 
-const BouquetProductDetail = () => {
-  const { type, productId } = useParams<{ type: string; productId: string }>();
+const RoomDecorDetail = () => {
+  const { packageId } = useParams<{ packageId: string }>();
   const navigate = useNavigate();
   const addItem = useCartStore(state => state.addItem);
-  const product = bouquetProducts.find((b) => b.id === productId);
+  const pkg = roomDecorPackages.find(p => p.id === packageId);
 
-  const [selectedSizeIdx, setSelectedSizeIdx] = useState(0);
-  const [accessory, setAccessory] = useState<"none" | "note" | "card" | "butterfly">("none");
-  const [accessoryText, setAccessoryText] = useState("");
-  const [addCrown, setAddCrown] = useState(false);
-  const [crownSize, setCrownSize] = useState("small");
+  const [selectedBouquetColor, setSelectedBouquetColor] = useState(roomDecorBouquetColors[0]);
+  const [selectedAddons, setSelectedAddons] = useState<number[]>([]);
   const [addRibbon, setAddRibbon] = useState(false);
-  const [ribbonType, setRibbonType] = useState<"names" | "congratulations">("names");
   const [ribbonText, setRibbonText] = useState("");
-  const [addGlitter, setAddGlitter] = useState(false);
-  const [addLetters, setAddLetters] = useState(false);
-  const [addNumbers, setAddNumbers] = useState(false);
-  const [specialText, setSpecialText] = useState("");
-  const [addVase, setAddVase] = useState(false);
-  const [selectedVaseIdx, setSelectedVaseIdx] = useState(0);
-  const [paperColor, setPaperColor] = useState("Blanco");
   const [isAdding, setIsAdding] = useState(false);
 
   // Delivery state
-  const [deliveryMethod, setDeliveryMethod] = useState<"pickup" | "delivery">("pickup");
+  const [deliveryMethod, setDeliveryMethod] = useState<"pickup" | "delivery">("delivery");
   const [deliveryDate, setDeliveryDate] = useState<Date>();
   const [deliveryHour, setDeliveryHour] = useState("");
   const [deliveryMiles, setDeliveryMiles] = useState<number | null>(null);
-  const [deliveryName, setDeliveryName] = useState("");
   const [deliveryZip, setDeliveryZip] = useState("");
-  const [deliveryEmail, setDeliveryEmail] = useState("");
-  const [deliveryPhone, setDeliveryPhone] = useState("");
   const [deliveryDuration, setDeliveryDuration] = useState("");
   const [distanceLoading, setDistanceLoading] = useState(false);
   const [distanceError, setDistanceError] = useState("");
@@ -67,12 +46,14 @@ const BouquetProductDetail = () => {
   const autocompleteRef = useRef<HTMLDivElement>(null);
   const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
+  useEffect(() => { window.scrollTo(0, 0); }, []);
+
   useEffect(() => {
-    const handleClickOutside = (e: MouseEvent) => {
+    const handler = (e: MouseEvent) => {
       if (autocompleteRef.current && !autocompleteRef.current.contains(e.target as Node)) setShowPredictions(false);
     };
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
+    document.addEventListener("mousedown", handler);
+    return () => document.removeEventListener("mousedown", handler);
   }, []);
 
   const fetchPredictions = useCallback(async (input: string) => {
@@ -99,7 +80,7 @@ const BouquetProductDetail = () => {
       setDistanceLoading(true); setDistanceError(""); setDistanceTooFar(false); setDeliveryMiles(null);
       try {
         const { data, error } = await supabase.functions.invoke("calculate-distance", { body: { fullAddress: prediction.description } });
-        if (error) throw new Error("Error de conexión");
+        if (error) throw new Error("Connection error");
         if (data.error) { setDistanceError(data.error); if (data.tooFar) { setDistanceTooFar(true); setDeliveryMiles(data.miles); } }
         else { setDeliveryMiles(data.miles); setDeliveryDuration(data.duration); if (data.mapUrl) setMapUrl(data.mapUrl); }
       } catch (e: any) { setDistanceError(e.message || "Error calculating distance"); }
@@ -122,36 +103,30 @@ const BouquetProductDetail = () => {
   };
   const availableHours = getAvailableHours(deliveryDate);
 
-  if (!product) {
+  if (!pkg) {
     return (
       <div className="min-h-screen bg-background"><Navbar />
         <div className="pt-24 text-center">
-          <p className="text-muted-foreground font-body">Product not found</p>
-          <Link to="/" className="text-primary font-body underline mt-4 inline-block">Go back</Link>
+          <p className="text-muted-foreground font-body">Package not found</p>
+          <Link to="/room-decors" className="text-primary font-body underline mt-4 inline-block">Go back</Link>
         </div>
       </div>
     );
   }
 
-  // Count how many distinct colors this bouquet has
-  const colorCount = product.color.split(/,\s*|\s+y\s+/).length;
-  const hasCustomSizes = product.customSizes && product.customSizes.length > 0;
-  const sizeOptions = hasCustomSizes ? product.customSizes! : bouquetSizeOptions;
-  const minSizeIdx = hasCustomSizes ? 0 : (colorCount >= 3 ? 1 : 0); // 3+ colors → minimum 75 roses (index 1)
+  const toggleAddon = (idx: number) => {
+    setSelectedAddons(prev => {
+      if (prev.includes(idx)) return prev.filter(i => i !== idx);
+      if (prev.length >= pkg.maxAddons) return [...prev.slice(1), idx];
+      return [...prev, idx];
+    });
+  };
 
-  // If current selection is below minimum, bump it up
-  const effectiveSizeIdx = selectedSizeIdx < minSizeIdx ? minSizeIdx : (selectedSizeIdx >= sizeOptions.length ? sizeOptions.length - 1 : selectedSizeIdx);
-  const selectedSize = hasCustomSizes ? { roses: sizeOptions[effectiveSizeIdx].roses } : bouquetSizeOptions[effectiveSizeIdx];
-  const sizePrice = hasCustomSizes ? (product.customSizes![effectiveSizeIdx]?.price || 0) : getPrice(product.pricingTier, selectedSize.roses);
-  const lettersExtra = addLetters ? specialText.replace(/[^A-Z]/gi, "").length * letterNumberExtraPrice : 0;
-  const numbersExtra = addNumbers ? specialText.replace(/[^0-9]/g, "").length * letterNumberExtraPrice : 0;
-  const glitterCost = addGlitter ? Math.ceil(selectedSize.roses / 25) * 8 : 0;
-  const vaseCost = addVase ? vaseOptions[selectedVaseIdx].price : 0;
-  const deliveryCost = deliveryMethod === "delivery" && deliveryMiles && !distanceTooFar ? calculateDeliveryCost(deliveryMiles) : 0;
-  const basePrice = sizePrice + (addCrown ? crownPrice : 0) + (addRibbon ? ribbonPrice : 0) + lettersExtra + numbersExtra + glitterCost + vaseCost;
-  const totalPrice = basePrice + deliveryCost;
-
-  let step = 1;
+  const addonsCost = selectedAddons.reduce((sum, idx) => sum + (pkg.addons[idx]?.price || 0), 0);
+  const ribbonCost = addRibbon && pkg.ribbonOption ? pkg.ribbonOption.price : 0;
+  const deliveryCost = deliveryMethod === "delivery" && deliveryMiles && !distanceTooFar
+    ? calculateRoomDecorDeliveryCost(deliveryMiles) : 0;
+  const totalPrice = pkg.price + addonsCost + ribbonCost + deliveryCost;
 
   const handleAddToCart = async (): Promise<boolean> => {
     if (deliveryMethod === "delivery" && !selectedAddress) { toast.error("Please select a delivery address."); return false; }
@@ -160,31 +135,27 @@ const BouquetProductDetail = () => {
 
     setIsAdding(true);
     try {
-      const variant = await resolveVariantId(product.name, selectedSize.roses);
-      if (!variant) {
-        toast.error("Could not resolve product variant. Please try again.");
-        return false;
-      }
-
       const addons: string[] = [];
-      if (addGlitter) addons.push("Glitter");
+      selectedAddons.forEach(idx => addons.push(pkg.addons[idx].label));
+      if (pkg.bouquetIncluded) addons.push(`Bouquet: ${selectedBouquetColor}`);
+      if (addRibbon) addons.push(`Ribbon: "${ribbonText}"`);
 
       await addItem({
         id: "",
-        bouquetType: product.type === "heart" ? "heart" : "classic",
-        color: product.color,
-        roses: selectedSize.roses,
-        price: basePrice,
+        bouquetType: `room-decor`,
+        color: pkg.name,
+        roses: pkg.bouquetIncluded?.roses || 0,
+        price: pkg.price + addonsCost + ribbonCost,
         deliveryCost,
         totalPrice,
         addons,
-        accessory,
-        accessoryText,
-        ribbonText,
-        crownSize: addCrown ? crownSize : "",
-        specialText,
-        heartColor: product.type === "heart" ? (product.color === "Rosa" ? "pink" : "red") : "",
-        glitter: addGlitter,
+        accessory: "none",
+        accessoryText: "",
+        ribbonText: addRibbon ? ribbonText : "",
+        crownSize: "",
+        specialText: "",
+        heartColor: "",
+        glitter: false,
         deliveryMethod,
         deliveryName: "",
         deliveryPhone: "",
@@ -194,12 +165,13 @@ const BouquetProductDetail = () => {
         deliveryDate: deliveryDate ? format(deliveryDate, "PPP", { locale: enUS }) : "",
         deliveryHour,
         deliveryMiles: deliveryMethod === "delivery" ? deliveryMiles : null,
-        paperColor,
-        shopifyVariantId: variant.id,
+        paperColor: "",
+        shopifyVariantId: "", // TODO: create Shopify products for room decors
+        image: pkg.image,
       });
-      toast.success("Bouquet added to cart!");
+      toast.success(`${pkg.name} added to cart!`);
       return true;
-    } catch (error) {
+    } catch {
       toast.error("Failed to add to cart.");
       return false;
     } finally {
@@ -225,138 +197,131 @@ const BouquetProductDetail = () => {
     }
   };
 
+  let step = 1;
+
   return (
     <div className="min-h-screen bg-background">
       <Navbar />
       <div className="pt-16 md:pt-24 pb-16">
         <div className="container mx-auto px-6">
-          <Link to="/bouquets" className="inline-flex items-center gap-2 text-muted-foreground font-body text-sm hover:text-primary transition-colors mb-8">
+          <Link to="/room-decors" className="inline-flex items-center gap-2 text-muted-foreground font-body text-sm hover:text-primary transition-colors mb-8">
             <ArrowLeft className="w-4 h-4" /> Back
           </Link>
 
           <div className="max-w-4xl mx-auto space-y-10">
-            {/* Product Images */}
-            {/* Desktop: Grid */}
-            <div className="hidden md:grid grid-cols-2 gap-3 max-w-3xl mx-auto">
-              <div className="relative overflow-hidden rounded-sm bg-muted flex items-center justify-center aspect-square">
-                {product.image ? (
-                  <img src={product.image} alt={product.name} className="w-full h-full object-contain" />
-                ) : (
-                  <div className="w-full h-full flex items-center justify-center">
-                    <span className="font-display text-6xl text-muted-foreground/20">🌹</span>
-                  </div>
-                )}
-              </div>
-              {product.image2 && (
-                <div className="relative overflow-hidden rounded-sm bg-muted flex items-center justify-center aspect-square">
-                  <img src={product.image2} alt={`${product.name} - view 2`} className="w-full h-full object-cover" />
-                </div>
-              )}
+            {/* Image */}
+            <div className="relative overflow-hidden rounded-sm bg-muted flex items-center justify-center aspect-video">
+              <img src={pkg.image} alt={pkg.name} className="w-full h-full object-cover" />
             </div>
-
-            {/* Mobile: Swipeable flex container */}
-            <div className="md:hidden flex overflow-x-auto snap-x snap-mandatory scrollbar-hide gap-3 pb-2 w-full">
-              <div className="w-full flex-none snap-center relative overflow-hidden rounded-sm bg-muted flex items-center justify-center aspect-square">
-                {product.image ? (
-                  <img src={product.image} alt={product.name} className="w-full h-full object-contain pointer-events-none" />
-                ) : (
-                  <div className="w-full h-full flex items-center justify-center">
-                    <span className="font-display text-6xl text-muted-foreground/20">🌹</span>
-                  </div>
-                )}
-              </div>
-              {product.image2 && (
-                <div className="w-full flex-none snap-center relative overflow-hidden rounded-sm bg-muted flex items-center justify-center aspect-square">
-                  <img src={product.image2} alt={`${product.name} - view 2`} className="w-full h-full object-cover pointer-events-none" />
-                </div>
-              )}
-            </div>
-
-            {product.image2 && (
-              <p className="md:hidden text-center text-[10px] text-muted-foreground mt-1 uppercase tracking-widest">
-                Swipe to see more
-              </p>
-            )}
 
             <div className="text-center">
-              <h1 className="font-display text-3xl md:text-4xl font-semibold text-foreground">{product.name}</h1>
-              <p className="text-muted-foreground font-body mt-2">{product.description}</p>
+              <h1 className="font-display text-3xl md:text-4xl font-semibold text-foreground">{pkg.name}</h1>
+              <p className="text-muted-foreground font-body mt-2">{pkg.description}</p>
+              <p className="font-display text-4xl font-bold text-primary mt-4">${pkg.price}</p>
             </div>
 
-            {/* Paper Color - hidden for standard bouquets, shown only for custom */}
-            {/* 
-            <Section title="Color del Papel" step={step++}>
-              <p className="text-xs text-muted-foreground font-body mb-4">Elige el color del papel de envoltura</p>
-              <PaperColorPicker selected={paperColor} onChange={setPaperColor} />
-            </Section>
-            */}
-
-
-            {/* 1. Size */}
-            <Section title="Number of Roses" step={step++}>
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-                {sizeOptions.map((size, idx) => {
-                  const disabled = idx < minSizeIdx;
-                  const price = hasCustomSizes ? (size as any).price : getPrice(product.pricingTier, size.roses);
-                  const label = hasCustomSizes && (size as any).label ? (size as any).label : `${size.roses} roses`;
-                  return (
-                    <button key={size.roses} onClick={() => !disabled && setSelectedSizeIdx(idx)}
-                      disabled={disabled}
-                      className={`p-4 rounded-sm border-2 text-center transition-all ${disabled ? "opacity-40 cursor-not-allowed border-border" : effectiveSizeIdx === idx ? "border-primary bg-primary/5" : "border-border hover:border-primary/30"}`}>
-                      <p className="font-body text-foreground">
-                        <span className="font-display text-2xl font-semibold">{size.roses}</span>
-                        <span className="text-xs text-muted-foreground ml-1">{hasCustomSizes && (size as any).label ? (size as any).label : 'roses'}</span>
-                      </p>
-                      <p className="text-sm font-body font-semibold text-primary mt-1">${price}</p>
-                      {disabled && <p className="text-[10px] text-destructive font-body mt-1">Min. {sizeOptions[minSizeIdx].roses} for {colorCount} colors</p>}
-                    </button>
-                  );
-                })}
-              </div>
-            </Section>
-
-            {/* 2. Glitter */}
-            <Section title="Glitter Finish" step={step++} subtitle={`+$${Math.ceil(selectedSize.roses / 25) * 8}`}>
-              <button onClick={() => setAddGlitter(!addGlitter)}
-                className={`relative w-full p-6 rounded-sm border-2 transition-all overflow-hidden ${addGlitter ? "border-primary bg-primary/5" : "border-border hover:border-primary/30"}`}>
-                <div className="flex items-center gap-4 relative z-10">
-                  <Star className={`w-6 h-6 transition-colors ${addGlitter ? "text-gold fill-gold" : "text-muted-foreground"}`} />
-                  <div className="text-left">
-                     <p className="font-body font-semibold text-foreground">✨ Add Glitter ✨</p>
-                     <p className="text-xs text-muted-foreground font-body">$8 per 25 roses · {selectedSize.roses} roses = +${Math.ceil(selectedSize.roses / 25) * 8}</p>
+            {/* What's included */}
+            <Section title="What's Included" step={step++}>
+              <div className="space-y-2">
+                {pkg.includes.map((item, idx) => (
+                  <div key={idx} className="flex items-start gap-3 p-3 rounded-sm bg-primary/5 border border-primary/10">
+                    <Heart className="w-4 h-4 text-primary flex-shrink-0 mt-0.5 fill-primary" />
+                    <p className="font-body text-sm text-foreground">{item}</p>
                   </div>
-                  {addGlitter && <Check className="w-5 h-5 text-primary ml-auto" />}
-                </div>
-              </button>
-            </Section>
-
-            {/* Letters/Numbers - only for custom bouquets */}
-
-
-            {/* 4. Accessories */}
-            <Section title="Accessories" step={step++} subtitle="Free">
-              <div className="grid grid-cols-3 gap-3">
-                {([
-                  { type: "none" as const, label: "No accessory", icon: null },
-                  { type: "note" as const, label: "Note", icon: Type },
-                  { type: "card" as const, label: "Card", icon: Sparkles },
-                ]).map(({ type: t, label, icon: Icon }) => (
-                  <button key={t} onClick={() => setAccessory(t)}
-                    className={`flex flex-col items-center gap-2 p-4 rounded-sm border-2 transition-all font-body text-sm ${accessory === t ? "border-primary bg-primary/5 text-primary" : "border-border text-muted-foreground hover:border-primary/30"}`}>
-                    {Icon && <Icon className="w-4 h-4" />}
-                    {label}
-                  </button>
                 ))}
               </div>
-              {(accessory === "note" || accessory === "card") && (
-                <textarea value={accessoryText} onChange={(e) => setAccessoryText(e.target.value)} placeholder={`Write your ${accessory === "note" ? "note" : "card"}...`}
-                  className="w-full mt-4 bg-card border border-border rounded-sm px-4 py-3 font-body text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30 min-h-[100px] resize-none" maxLength={200} />
+              {pkg.bouquetIncluded?.restrictionsApply && (
+                <p className="text-xs text-muted-foreground font-body mt-3 italic">* Restrictions Apply</p>
               )}
             </Section>
 
+            {/* Bouquet color selection */}
+            {pkg.bouquetIncluded && (
+              <Section title="Bouquet Color" step={step++} subtitle="Included">
+                <p className="text-xs text-muted-foreground font-body mb-4">
+                  Choose the color for your {pkg.bouquetIncluded.roses}-rose bouquet
+                </p>
+                <div className="grid grid-cols-3 md:grid-cols-6 gap-3">
+                  {roomDecorBouquetColors.map(color => (
+                    <button
+                      key={color}
+                      onClick={() => setSelectedBouquetColor(color)}
+                      className={`p-3 rounded-sm border-2 text-center transition-all font-body text-sm ${
+                        selectedBouquetColor === color
+                          ? "border-primary bg-primary/5 text-primary"
+                          : "border-border text-muted-foreground hover:border-primary/30"
+                      }`}
+                    >
+                      {color}
+                      {selectedBouquetColor === color && <Check className="w-3 h-3 mx-auto mt-1 text-primary" />}
+                    </button>
+                  ))}
+                </div>
+              </Section>
+            )}
 
+            {/* Ribbon option (Overly Romantic) */}
+            {pkg.ribbonOption && (
+              <Section title="Bouquet Ribbon" step={step++} subtitle={`+$${pkg.ribbonOption.price}`}>
+                <button
+                  onClick={() => setAddRibbon(!addRibbon)}
+                  className={`w-full p-5 rounded-sm border-2 transition-all flex items-center gap-4 ${
+                    addRibbon ? "border-primary bg-primary/5" : "border-border hover:border-primary/30"
+                  }`}
+                >
+                  <div className="text-left flex-1">
+                    <p className="font-body font-semibold text-foreground">Add a ribbon to the bouquet</p>
+                    <p className="text-xs text-muted-foreground font-body">+${pkg.ribbonOption.price}</p>
+                  </div>
+                  {addRibbon && <Check className="w-5 h-5 text-primary" />}
+                </button>
+                {addRibbon && (
+                  <input
+                    type="text"
+                    value={ribbonText}
+                    onChange={(e) => setRibbonText(e.target.value)}
+                    placeholder="Write the ribbon text..."
+                    maxLength={40}
+                    className="w-full mt-3 bg-card border border-border rounded-sm px-4 py-3 font-body text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30"
+                  />
+                )}
+              </Section>
+            )}
 
-            {/* 6. Delivery */}
+            {/* Complementary add-ons */}
+            {pkg.addons.length > 0 && (
+              <Section title="Complementary Add-ons" step={step++} subtitle={`Choose ${pkg.maxAddons}`}>
+                <p className="text-xs text-muted-foreground font-body mb-4">
+                  You may choose {pkg.maxAddons} complementary add-on{pkg.maxAddons > 1 ? 's' : ''}
+                </p>
+                <div className="space-y-2">
+                  {pkg.addons.map((addon, idx) => {
+                    const selected = selectedAddons.includes(idx);
+                    return (
+                      <button
+                        key={idx}
+                        onClick={() => toggleAddon(idx)}
+                        className={`w-full flex items-center gap-3 p-4 rounded-sm border-2 transition-all text-left ${
+                          selected
+                            ? "border-primary bg-primary/5"
+                            : "border-border hover:border-primary/30"
+                        }`}
+                      >
+                        <div className="flex-1">
+                          <p className="font-body text-sm text-foreground">{addon.label}</p>
+                          {addon.price > 0 && (
+                            <p className="text-xs text-muted-foreground font-body">+${addon.price}</p>
+                          )}
+                        </div>
+                        {selected && <Check className="w-4 h-4 text-primary flex-shrink-0" />}
+                      </button>
+                    );
+                  })}
+                </div>
+              </Section>
+            )}
+
+            {/* Delivery */}
             <Section title="Shipping" step={step++}>
               <div className="grid grid-cols-2 gap-3 mb-6">
                 <button onClick={() => setDeliveryMethod("pickup")}
@@ -373,7 +338,7 @@ const BouquetProductDetail = () => {
                   <Truck className="w-5 h-5 flex-shrink-0" />
                   <div className="text-left flex-1">
                     <p className="font-semibold text-sm text-foreground">Home delivery</p>
-                    <p className="text-xs text-muted-foreground">From $20</p>
+                    <p className="text-xs text-muted-foreground">Free up to 10 mi</p>
                   </div>
                   {deliveryMethod === "delivery" && <Check className="w-4 h-4 text-primary flex-shrink-0" />}
                 </button>
@@ -387,6 +352,9 @@ const BouquetProductDetail = () => {
                 ) : (
                   <>
                     <p className="font-body font-semibold text-foreground text-sm">Delivery address</p>
+                    <p className="font-body text-xs text-muted-foreground mb-2">
+                      🎁 Free delivery within 10 miles · $1.60/mile after
+                    </p>
                     <div ref={autocompleteRef} className="relative">
                       <label className="text-xs text-muted-foreground font-body block mb-1"><MapPin className="w-3 h-3 inline mr-1" />Address <span className="text-destructive">*</span></label>
                       <div className="relative">
@@ -417,13 +385,15 @@ const BouquetProductDetail = () => {
                     {distanceError && <p className="text-sm font-body text-destructive">{distanceError}</p>}
                     {deliveryMiles !== null && !distanceTooFar && (
                       <div className="bg-primary/5 border border-primary/20 rounded-sm p-4">
-                         <p className="font-body text-sm text-foreground">📍 Distance: <span className="font-semibold">{deliveryMiles} miles</span>{deliveryDuration && <span className="text-muted-foreground"> (~{deliveryDuration})</span>}</p>
-                         <p className="font-body text-sm text-primary font-semibold mt-1">Shipping cost: {formatDeliveryCost(deliveryCost)}</p>
+                        <p className="font-body text-sm text-foreground">📍 Distance: <span className="font-semibold">{deliveryMiles} miles</span>{deliveryDuration && <span className="text-muted-foreground"> (~{deliveryDuration})</span>}</p>
+                        <p className="font-body text-sm text-primary font-semibold mt-1">
+                          Shipping: {deliveryCost === 0 ? 'Free ✨' : formatDeliveryCost(deliveryCost)}
+                        </p>
                       </div>
                     )}
                     {mapUrl && (
                       <div className="rounded-sm overflow-hidden border border-border">
-                        <iframe src={mapUrl} width="100%" height="300" style={{ border: 0 }} allowFullScreen loading="lazy" referrerPolicy="no-referrer-when-downgrade" title="Route" />
+                        <iframe src={mapUrl} width="100%" height="250" style={{ border: 0 }} allowFullScreen loading="lazy" referrerPolicy="no-referrer-when-downgrade" title="Route" />
                       </div>
                     )}
                   </>
@@ -441,8 +411,8 @@ const BouquetProductDetail = () => {
                     </button>
                   </PopoverTrigger>
                   <PopoverContent className="w-auto p-0" align="start">
-                     <Calendar mode="single" selected={deliveryDate} onSelect={(d) => { setDeliveryDate(d); setDeliveryHour(""); }}
-                       disabled={(date) => isBefore(startOfDay(date), startOfDay(todayInMiami()))} className="p-3 pointer-events-auto" locale={enUS} />
+                    <Calendar mode="single" selected={deliveryDate} onSelect={(d) => { setDeliveryDate(d); setDeliveryHour(""); }}
+                      disabled={(date) => isBefore(startOfDay(date), startOfDay(todayInMiami()))} className="p-3 pointer-events-auto" locale={enUS} />
                   </PopoverContent>
                 </Popover>
               </div>
@@ -465,29 +435,28 @@ const BouquetProductDetail = () => {
             <div className="pb-4" />
             <div className="sticky bottom-0 bg-card/95 backdrop-blur-md border border-border rounded-sm p-3 md:p-4 shadow-xl z-10">
               <div className="flex flex-col md:flex-row md:items-center justify-between gap-2 md:gap-4">
-                {/* Description and Price - Mobile Layout (Row 1) */}
                 <div className="flex md:hidden justify-between items-center gap-3">
                   <p className="font-body text-[10px] text-muted-foreground leading-tight flex-1 line-clamp-1">
-                    {product.name} · {selectedSize.roses} roses
-                    {addGlitter && " · Glitter"}
-                    {accessory !== "none" && ` · ${accessory === "note" ? "Note" : "Card"}`}
+                    {pkg.name}
+                    {pkg.bouquetIncluded && ` · ${selectedBouquetColor} bouquet`}
+                    {addRibbon && " · Ribbon"}
+                    {selectedAddons.length > 0 && ` · ${selectedAddons.length} add-on${selectedAddons.length > 1 ? 's' : ''}`}
                   </p>
                   <p className="font-display text-lg font-bold text-foreground whitespace-nowrap">
                     ${totalPrice}
                   </p>
                 </div>
 
-                {/* Description - Desktop (Left side) */}
                 <div className="hidden md:block flex-1 pr-4">
                   <p className="font-body text-xs text-muted-foreground leading-tight">
-                    {product.name} · {selectedSize.roses} roses
-                    {addGlitter && " · Glitter"}
-                    {accessory !== "none" && ` · ${accessory === "note" ? "Note" : "Card"}`}
-                    {deliveryMethod === "delivery" ? (deliveryMiles && !distanceTooFar ? ` · Shipping ($${deliveryCost})` : " · Shipping (pending)") : " · Pickup"}
+                    {pkg.name}
+                    {pkg.bouquetIncluded && ` · ${selectedBouquetColor} bouquet`}
+                    {addRibbon && " · Ribbon"}
+                    {selectedAddons.length > 0 && ` · ${selectedAddons.length} add-on${selectedAddons.length > 1 ? 's' : ''}`}
+                    {deliveryMethod === "delivery" ? (deliveryMiles && !distanceTooFar ? ` · Shipping (${deliveryCost === 0 ? 'Free' : formatDeliveryCost(deliveryCost)})` : " · Shipping (pending)") : " · Pickup"}
                   </p>
                 </div>
 
-                {/* Price and Buttons - Desktop (Right side) / Buttons - Mobile (Row 2) */}
                 <div className="flex flex-row items-center gap-3 md:gap-4 w-full md:w-auto">
                   <p className="hidden md:block font-display text-2xl font-bold text-foreground whitespace-nowrap">
                     ${totalPrice} <span className="text-xs font-body text-muted-foreground font-normal">USD</span>
@@ -523,4 +492,4 @@ const Section = ({ title, step, subtitle, children }: { title: string; step: num
   </div>
 );
 
-export default BouquetProductDetail;
+export default RoomDecorDetail;

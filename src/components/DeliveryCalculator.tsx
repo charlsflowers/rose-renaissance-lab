@@ -1,5 +1,6 @@
 import { useState, useCallback, useRef, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
+import { calculateDeliveryCost, formatDeliveryCost } from "@/lib/deliveryPricing";
 import { MapPin, Search, Loader2, Truck, Store, AlertTriangle } from "lucide-react";
 
 interface Prediction {
@@ -101,7 +102,7 @@ const DeliveryCalculator = ({ onResult }: Props) => {
         if (data.mapUrl) setMapUrl(data.mapUrl);
         onResult({
           miles: data.miles,
-          cost: data.miles * 2,
+          cost: calculateDeliveryCost(data.miles),
           address: prediction.description,
           duration: data.duration,
         });
@@ -180,7 +181,7 @@ const DeliveryCalculator = ({ onResult }: Props) => {
             {deliveryDuration && <span className="text-muted-foreground"> (~{deliveryDuration})</span>}
           </p>
           <p className="font-body text-sm text-primary font-semibold mt-1">
-            Shipping cost: ${deliveryMiles * 2}
+            Shipping cost: {formatDeliveryCost(calculateDeliveryCost(deliveryMiles))}
           </p>
         </div>
       )}

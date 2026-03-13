@@ -7,6 +7,7 @@ import { enUS } from "date-fns/locale";
 import { useCartStore } from "@/stores/cartStore";
 import { resolveVariantId } from "@/lib/shopify";
 import { toast } from "sonner";
+import { calculateDeliveryCost, formatDeliveryCost } from "@/lib/deliveryPricing";
 
 import Navbar from "@/components/Navbar";
 import PaperColorPicker from "@/components/PaperColorPicker";
@@ -173,7 +174,7 @@ const BouquetBuilder = () => {
     return getPrice(pricingTier, size.roses);
   }, [selectedSizeIdx, pricingTier]);
 
-  const deliveryCost = deliveryMethod === "delivery" && deliveryMiles && !distanceTooFar ? deliveryMiles * 2 : 0;
+  const deliveryCost = deliveryMethod === "delivery" && deliveryMiles && !distanceTooFar ? calculateDeliveryCost(deliveryMiles) : 0;
 
   const minLeadHours = deliveryMethod === "delivery" ? 1.5 : 2;
   const minMiamiHour = miamiHourNow() + minLeadHours;
@@ -629,7 +630,7 @@ const BouquetBuilder = () => {
                   <Truck className="w-6 h-6" />
                   <div className="text-center">
                      <p className="font-semibold text-sm text-foreground">Home delivery</p>
-                     <p className="text-xs text-muted-foreground mt-1">$2 / mile</p>
+                     <p className="text-xs text-muted-foreground mt-1">From $20</p>
                   </div>
                   {deliveryMethod === "delivery" && <Check className="w-4 h-4 text-primary" />}
                 </button>
@@ -705,7 +706,7 @@ const BouquetBuilder = () => {
                            {deliveryDuration && <span className="text-muted-foreground"> (~{deliveryDuration})</span>}
                          </p>
                          <p className="font-body text-sm text-primary font-semibold mt-1">
-                           Shipping cost: ${deliveryMiles * 2}
+                           Shipping cost: {formatDeliveryCost(deliveryCost)}
                          </p>
                       </div>
                     )}
@@ -947,7 +948,18 @@ const BouquetBuilder = () => {
                         shopifyVariantId: variant.id,
                       });
                       toast.success("Bouquet added to cart!");
-                      navigate("/checkout");
+                      const checkoutUrl = useCartStore.getState().checkoutUrl;
+                      if (checkoutUrl) {
+                        const link = document.createElement('a');
+                        link.href = checkoutUrl;
+                        link.target = '_blank';
+                        link.rel = 'noopener noreferrer';
+                        document.body.appendChild(link);
+                        link.click();
+                        document.body.removeChild(link);
+                      } else {
+                        navigate("/checkout");
+                      }
                     } catch {
                       toast.error("Failed to add to cart.");
                     } finally {

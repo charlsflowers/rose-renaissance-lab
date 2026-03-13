@@ -221,7 +221,7 @@ const Checkout = () => {
                 >
                   <Truck className="w-5 h-5" />
                   <span>Home delivery</span>
-                  <span className="text-[10px] text-muted-foreground font-normal">$2/mile</span>
+                  <span className="text-[10px] text-muted-foreground font-normal">From $20</span>
                 </button>
               </div>
 
