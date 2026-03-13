@@ -27,6 +27,10 @@ export interface ShopifyProductNode {
 }
 
 export async function storefrontApiRequest(query: string, variables: Record<string, unknown> = {}) {
+  if (!SHOPIFY_STOREFRONT_TOKEN) {
+    throw new Error("Missing Shopify Storefront token. Set VITE_SHOPIFY_STOREFRONT_ACCESS_TOKEN.");
+  }
+
   const response = await fetch(SHOPIFY_STOREFRONT_URL, {
     method: 'POST',
     headers: {
