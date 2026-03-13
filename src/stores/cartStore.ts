@@ -172,18 +172,54 @@ export const useCartStore = create<CartStore>()(
       },
 
       createCheckoutUrl: async () => {
-        const variantQuantities = new Map<string, number>();
+        const items = get().items;
+        if (items.length === 0) return null;
 
-        get().items.forEach((item) => {
-          if (!item.shopifyVariantId) return;
-          const current = variantQuantities.get(item.shopifyVariantId) ?? 0;
-          variantQuantities.set(item.shopifyVariantId, current + 1);
-        });
+        const lines = items
+          .filter((item) => item.shopifyVariantId)
+          .map((item) => {
+            const attrs: Array<{ key: string; value: string }> = [];
 
-        const lines = Array.from(variantQuantities.entries()).map(([variantId, quantity]) => ({
-          variantId,
-          quantity,
-        }));
+            if (item.glitter) {
+              const glitterCost = Math.ceil(item.roses / 25) * 8;
+              attrs.push({ key: "Glitter", value: `Con glitter (+$${glitterCost})` });
+            }
+            if (item.accessory && item.accessory !== "none") {
+              attrs.push({ key: "Accesorio", value: `${item.accessory}${item.accessoryText ? `: ${item.accessoryText}` : ""}` });
+            }
+            if (item.ribbonText) {
+              attrs.push({ key: "Cinta", value: item.ribbonText });
+            }
+            if (item.specialText) {
+              attrs.push({ key: "Letras/Números", value: item.specialText });
+            }
+            if (item.crownSize) {
+              attrs.push({ key: "Corona", value: item.crownSize });
+            }
+            if (item.paperColor) {
+              attrs.push({ key: "Color papel", value: item.paperColor });
+            }
+            if (item.deliveryMethod === "delivery") {
+              attrs.push({ key: "Envío", value: `Delivery (+$${item.deliveryCost})` });
+              if (item.deliveryAddress) attrs.push({ key: "Dirección", value: item.deliveryAddress });
+              if (item.deliveryName) attrs.push({ key: "Nombre destinatario", value: item.deliveryName });
+              if (item.deliveryPhone) attrs.push({ key: "Teléfono", value: item.deliveryPhone });
+            } else {
+              attrs.push({ key: "Envío", value: "Pickup in store" });
+            }
+            if (item.deliveryDate) {
+              attrs.push({ key: "Fecha", value: item.deliveryDate });
+            }
+            if (item.deliveryHour) {
+              attrs.push({ key: "Hora", value: item.deliveryHour });
+            }
+
+            return {
+              variantId: item.shopifyVariantId,
+              quantity: 1,
+              customAttributes: attrs,
+            };
+          });
 
         if (lines.length === 0) return null;
 

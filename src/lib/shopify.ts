@@ -211,12 +211,24 @@ function isCartNotFoundError(userErrors: Array<{ field: string[] | null; message
   return userErrors.some(e => e.message.toLowerCase().includes('cart not found') || e.message.toLowerCase().includes('does not exist'));
 }
 
+export interface CheckoutLineItem {
+  variantId: string;
+  quantity: number;
+  customAttributes?: Array<{ key: string; value: string }>;
+}
+
 export async function createCheckoutFromCartLines(
-  lines: Array<{ variantId: string; quantity: number }>
+  lines: CheckoutLineItem[]
 ): Promise<string | null> {
   const normalizedLines = lines
     .filter((line) => line.variantId && line.quantity > 0)
-    .map((line) => ({ variantId: line.variantId, quantity: line.quantity }));
+    .map((line) => ({
+      variantId: line.variantId,
+      quantity: line.quantity,
+      ...(line.customAttributes && line.customAttributes.length > 0
+        ? { customAttributes: line.customAttributes }
+        : {}),
+    }));
 
   if (normalizedLines.length === 0) return null;
 
