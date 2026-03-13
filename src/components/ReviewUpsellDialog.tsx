@@ -37,8 +37,8 @@ const ReviewUpsellDialog = ({ open, onOpenChange, cartData, productLabel, mode }
   const handleConfirm = async () => {
     setIsAdding(true);
     try {
-      // Use product label (name) to find the Shopify product
-      const variant = await resolveVariantId(productLabel, cartData.roses);
+      const tier = cartData.pricingTier || inferTierFromColor(cartData.color);
+      const variant = await resolveVariantId(productLabel, cartData.roses, tier);
       if (!variant) {
         toast.error("Could not resolve product. Please try again.");
         setIsAdding(false);
