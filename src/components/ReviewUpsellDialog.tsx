@@ -1,10 +1,9 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Crown, Ribbon, Store, Truck, ShoppingBag, CreditCard, Star, Loader2 } from "lucide-react";
 import { useCartStore, type CartItem } from "@/stores/cartStore";
 import { crownOptions, crownPrice, ribbonPrice, ribbonPresets } from "@/lib/productData";
-import { resolveVariantId } from "@/lib/shopify";
-import { inferTierFromColor } from "@/lib/tierUtils";
+import { fetchVariantsByHandle, findVariantByRoses, toShopifyHandle, type ShopifyHandleVariant } from "@/lib/shopifyVariants";
 import type { ReviewCartData } from "@/components/ReviewCard";
 import { toast } from "sonner";
 
@@ -28,6 +27,33 @@ const ReviewUpsellDialog = ({ open, onOpenChange, cartData, productLabel, mode }
   const [ribbonText, setRibbonText] = useState("");
   const [deliveryMethod, setDeliveryMethod] = useState<"pickup" | "delivery">("pickup");
   const [isAdding, setIsAdding] = useState(false);
+  const [variantsLoading, setVariantsLoading] = useState(false);
+  const [variants, setVariants] = useState<ShopifyHandleVariant[]>([]);
+
+  useEffect(() => {
+    if (!open) return;
+
+    let active = true;
+
+    const loadVariants = async () => {
+      setVariantsLoading(true);
+      try {
+        const loaded = await fetchVariantsByHandle(toShopifyHandle(productLabel));
+        if (active) setVariants(loaded);
+      } catch (error) {
+        console.error("Failed to load review product variants:", error);
+        if (active) setVariants([]);
+      } finally {
+        if (active) setVariantsLoading(false);
+      }
+    };
+
+    loadVariants();
+
+    return () => {
+      active = false;
+    };
+  }, [open, productLabel]);
 
   const glitterCost = addGlitter ? Math.ceil(cartData.roses / 25) * 8 : 0;
   const extrasTotal =
@@ -35,12 +61,16 @@ const ReviewUpsellDialog = ({ open, onOpenChange, cartData, productLabel, mode }
   const finalPrice = cartData.price + extrasTotal;
 
   const handleConfirm = async () => {
+    if (variantsLoading) {
+      toast.error("We are still loading product variants.");
+      return;
+    }
+
     setIsAdding(true);
     try {
-      const tier = cartData.pricingTier || inferTierFromColor(cartData.color);
-      const variant = await resolveVariantId(productLabel, cartData.roses, tier);
+      const variant = findVariantByRoses(variants, cartData.roses);
       if (!variant) {
-        toast.error("Could not resolve product. Please try again.");
+        toast.error("Could not resolve product variant for this bouquet.");
         setIsAdding(false);
         return;
       }
@@ -273,10 +303,10 @@ const ReviewUpsellDialog = ({ open, onOpenChange, cartData, productLabel, mode }
 
             <button
               onClick={handleConfirm}
-              disabled={isAdding}
+              disabled={isAdding || variantsLoading}
               className="inline-flex items-center gap-2 w-full justify-center bg-primary text-primary-foreground px-4 py-3 font-body text-sm tracking-widest uppercase hover:bg-primary/90 transition-colors rounded-sm disabled:opacity-50"
             >
-              {isAdding ? (
+              {isAdding || variantsLoading ? (
                 <Loader2 className="w-4 h-4 animate-spin" />
               ) : mode === "buy" ? (
                 <>

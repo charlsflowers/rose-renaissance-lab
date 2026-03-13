@@ -1,10 +1,9 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { ShoppingBag, CreditCard, Loader2 } from "lucide-react";
 import { useCartStore, type CartItem } from "@/stores/cartStore";
 import { letterNumberExtraPrice, ribbonPrice } from "@/lib/productData";
-import { resolveVariantId } from "@/lib/shopify";
-import { inferTierFromColor } from "@/lib/tierUtils";
+import { fetchVariantsByHandle, findVariantByRoses, toShopifyHandle, type ShopifyHandleVariant } from "@/lib/shopifyVariants";
 import type { VideoProduct } from "@/components/ClientVideos";
 import { toast } from "sonner";
 
@@ -19,6 +18,33 @@ const VideoOrderDialog = ({ video, open, onOpenChange }: Props) => {
   
   const [customValues, setCustomValues] = useState<Record<string, string>>({});
   const [isAdding, setIsAdding] = useState(false);
+  const [variantsLoading, setVariantsLoading] = useState(false);
+  const [variants, setVariants] = useState<ShopifyHandleVariant[]>([]);
+
+  useEffect(() => {
+    if (!open) return;
+
+    let active = true;
+
+    const loadVariants = async () => {
+      setVariantsLoading(true);
+      try {
+        const loaded = await fetchVariantsByHandle(toShopifyHandle(video.title));
+        if (active) setVariants(loaded);
+      } catch (error) {
+        console.error("Failed to load video product variants:", error);
+        if (active) setVariants([]);
+      } finally {
+        if (active) setVariantsLoading(false);
+      }
+    };
+
+    loadVariants();
+
+    return () => {
+      active = false;
+    };
+  }, [open, video.title]);
 
   const hasRibbon = video.customFields?.some(f => f.label.toLowerCase().includes("ribbon"));
   const hasLetterOrNumber = video.customFields?.some(f => f.label.toLowerCase().includes("letter") || f.label.toLowerCase().includes("number"));
@@ -39,12 +65,16 @@ const VideoOrderDialog = ({ video, open, onOpenChange }: Props) => {
   const totalPrice = video.basePrice + extras;
 
   const handleConfirm = async (mode: "cart" | "buy") => {
+    if (variantsLoading) {
+      toast.error("We are still loading product variants.");
+      return;
+    }
+
     setIsAdding(true);
     try {
-      const tier = video.pricingTier || inferTierFromColor(video.color);
-      const variant = await resolveVariantId(video.title, video.roses, tier);
+      const variant = findVariantByRoses(variants, video.roses);
       if (!variant) {
-        toast.error("Could not resolve product. Please try again.");
+        toast.error("Could not resolve product variant for this bouquet.");
         setIsAdding(false);
         return;
       }
@@ -180,17 +210,17 @@ const VideoOrderDialog = ({ video, open, onOpenChange }: Props) => {
 
             <button
               onClick={() => handleConfirm("cart")}
-              disabled={isAdding}
+              disabled={isAdding || variantsLoading}
               className="inline-flex items-center gap-2 w-full justify-center bg-primary text-primary-foreground px-4 py-3 font-body text-sm tracking-widest uppercase hover:bg-primary/90 transition-colors rounded-sm disabled:opacity-50"
             >
-              {isAdding ? <Loader2 className="w-4 h-4 animate-spin" /> : <><ShoppingBag className="w-4 h-4" /> Add to cart</>}
+              {isAdding || variantsLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : <><ShoppingBag className="w-4 h-4" /> Add to cart</>}
             </button>
             <button
               onClick={() => handleConfirm("buy")}
-              disabled={isAdding}
+              disabled={isAdding || variantsLoading}
               className="inline-flex items-center gap-2 w-full justify-center border border-primary text-primary px-4 py-3 font-body text-sm tracking-widest uppercase hover:bg-primary/10 transition-colors rounded-sm disabled:opacity-50"
             >
-              {isAdding ? <Loader2 className="w-4 h-4 animate-spin" /> : <><CreditCard className="w-4 h-4" /> Order & pay</>}
+              {isAdding || variantsLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : <><CreditCard className="w-4 h-4" /> Order & pay</>}
             </button>
           </div>
         </div>

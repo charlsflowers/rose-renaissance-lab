@@ -4,7 +4,7 @@ import { miamiHourNow, todayInMiami, isTodayInMiami } from "@/lib/miamiTime";
 import { supabase } from "@/integrations/supabase/client";
 import { enUS } from "date-fns/locale";
 import { useCartStore } from "@/stores/cartStore";
-import { resolveVariantId } from "@/lib/shopify";
+import { fetchVariantsByHandle, findVariantByRoses, toShopifyHandle, type ShopifyHandleVariant } from "@/lib/shopifyVariants";
 import { toast } from "sonner";
 import { calculateDeliveryCost, formatDeliveryCost } from "@/lib/deliveryPricing";
 
@@ -25,6 +25,7 @@ import {
   vaseOptions,
   type ColorOption,
   type AccessoryType,
+  type PricingTier,
 } from "@/lib/productData";
 import { Sparkles, Crown, Type, Hash, Check, Bug, Star, Truck, Store, CalendarIcon, Clock, MapPin, Search, Loader2, Eye } from "lucide-react";
 import { Calendar } from "@/components/ui/calendar";
@@ -32,7 +33,6 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 
 const BouquetBuilder = () => {
   const addItem = useCartStore(state => state.addItem);
-  const isCartLoading = useCartStore(state => state.isLoading);
   const [selectedColors, setSelectedColors] = useState<ColorOption[]>([colorOptions[6]]); // Red default
   const [selectedSizeIdx, setSelectedSizeIdx] = useState(0);
   const [accessory, setAccessory] = useState<AccessoryType>("none");
@@ -163,6 +163,45 @@ const BouquetBuilder = () => {
   }, []);
 
   const pricingTier = useMemo(() => determinePricingTier(selectedColors), [selectedColors]);
+  const [availableVariants, setAvailableVariants] = useState<ShopifyHandleVariant[]>([]);
+  const [variantsLoading, setVariantsLoading] = useState(true);
+
+  const tierBaseHandle = useMemo(() => {
+    const tierBaseProducts: Record<PricingTier, string> = {
+      standard: "Pure White",
+      red: "Total Passion",
+      painted: "Blue Sky",
+      mix2: "Iberian Passion",
+      mix2painted: "Night & Day",
+      mix3red: "Classic Tricolor",
+    };
+
+    return toShopifyHandle(tierBaseProducts[pricingTier]);
+  }, [pricingTier]);
+
+  useEffect(() => {
+    let active = true;
+
+    const loadVariants = async () => {
+      setVariantsLoading(true);
+      try {
+        const variants = await fetchVariantsByHandle(tierBaseHandle);
+        if (active) setAvailableVariants(variants);
+      } catch (error) {
+        console.error("Failed to load bouquet variants:", error);
+        if (active) setAvailableVariants([]);
+      } finally {
+        if (active) setVariantsLoading(false);
+      }
+    };
+
+    loadVariants();
+
+    return () => {
+      active = false;
+    };
+  }, [tierBaseHandle]);
+
   const minRoses = pricingTier === 'mix3red' ? 75 : 50;
 
   const lettersNumbersCost = addLettersNumbers ? specialText.length * letterNumberExtraPrice : 0;
@@ -817,7 +856,7 @@ const BouquetBuilder = () => {
                   </p>
                 </div>
                 <button
-                  disabled={isAdding}
+                  disabled={isAdding || variantsLoading}
                   onClick={async () => {
                     if (deliveryMethod === "delivery" && !selectedAddress) {
                      toast.error("Please select a delivery address.");
@@ -832,11 +871,16 @@ const BouquetBuilder = () => {
                       return;
                     }
 
+                    if (variantsLoading) {
+                      toast.error("We are still loading product variants.");
+                      return;
+                    }
+
                     setIsAdding(true);
                     try {
-                      const variant = await resolveVariantId("", rosesCount, pricingTier);
+                      const variant = findVariantByRoses(availableVariants, rosesCount);
                       if (!variant) {
-                        toast.error("Could not resolve product variant.");
+                        toast.error("Could not resolve product variant for the selected roses.");
                         return;
                       }
 
@@ -884,10 +928,10 @@ const BouquetBuilder = () => {
                   }}
                   className="w-full md:w-auto bg-primary text-primary-foreground px-10 py-4 font-body text-sm tracking-widest uppercase hover:bg-primary/90 transition-colors rounded-sm disabled:opacity-50"
                 >
-                  {isAdding ? "Adding..." : "Add to cart"}
+                  {isAdding ? "Adding..." : variantsLoading ? "Loading..." : "Add to cart"}
                 </button>
                 <button
-                  disabled={isAdding}
+                  disabled={isAdding || variantsLoading}
                   onClick={async () => {
                     if (deliveryMethod === "delivery" && !selectedAddress) {
                       toast.error("Please select a delivery address.");
@@ -902,11 +946,16 @@ const BouquetBuilder = () => {
                       return;
                     }
 
+                    if (variantsLoading) {
+                      toast.error("We are still loading product variants.");
+                      return;
+                    }
+
                     setIsAdding(true);
                     try {
-                      const variant = await resolveVariantId("", rosesCount, pricingTier);
+                      const variant = findVariantByRoses(availableVariants, rosesCount);
                       if (!variant) {
-                        toast.error("Could not resolve product variant.");
+                        toast.error("Could not resolve product variant for the selected roses.");
                         return;
                       }
 

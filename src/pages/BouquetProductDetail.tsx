@@ -4,8 +4,8 @@ import { format, addHours, isBefore, startOfDay } from "date-fns";
 import { miamiHourNow, todayInMiami, isTodayInMiami } from "@/lib/miamiTime";
 import { enUS } from "date-fns/locale";
 import { supabase } from "@/integrations/supabase/client";
-import { useCartStore, type CartItem } from "@/stores/cartStore";
-import { resolveVariantId } from "@/lib/shopify";
+import { useCartStore } from "@/stores/cartStore";
+import { fetchVariantsByHandle, findVariantByRoses, toShopifyHandle, type ShopifyHandleVariant } from "@/lib/shopifyVariants";
 import { calculateDeliveryCost, formatDeliveryCost } from "@/lib/deliveryPricing";
 import { toast } from "sonner";
 import Navbar from "@/components/Navbar";
@@ -43,6 +43,8 @@ const BouquetProductDetail = () => {
   const [selectedVaseIdx, setSelectedVaseIdx] = useState(0);
   const [paperColor, setPaperColor] = useState("Blanco");
   const [isAdding, setIsAdding] = useState(false);
+  const [variantsLoading, setVariantsLoading] = useState(true);
+  const [productVariants, setProductVariants] = useState<ShopifyHandleVariant[]>([]);
 
   // Delivery state
   const [deliveryMethod, setDeliveryMethod] = useState<"pickup" | "delivery">("pickup");
@@ -121,6 +123,31 @@ const BouquetProductDetail = () => {
   };
   const availableHours = getAvailableHours(deliveryDate);
 
+  useEffect(() => {
+    if (!product) return;
+
+    let active = true;
+
+    const loadVariants = async () => {
+      setVariantsLoading(true);
+      try {
+        const variants = await fetchVariantsByHandle(toShopifyHandle(product.name));
+        if (active) setProductVariants(variants);
+      } catch (error) {
+        console.error("Failed to load bouquet variants:", error);
+        if (active) setProductVariants([]);
+      } finally {
+        if (active) setVariantsLoading(false);
+      }
+    };
+
+    loadVariants();
+
+    return () => {
+      active = false;
+    };
+  }, [product]);
+
   if (!product) {
     return (
       <div className="min-h-screen bg-background"><Navbar />
@@ -157,11 +184,16 @@ const BouquetProductDetail = () => {
     if (deliveryMethod === "delivery" && (distanceTooFar || deliveryMiles === null)) { toast.error("The address is invalid or out of range."); return false; }
     if (!deliveryDate || !deliveryHour) { toast.error("Please select a date and time."); return false; }
 
+    if (variantsLoading) {
+      toast.error("We are still loading product variants. Please try again in a moment.");
+      return false;
+    }
+
     setIsAdding(true);
     try {
-      const variant = await resolveVariantId(product.name, selectedSize.roses, product.pricingTier);
+      const variant = findVariantByRoses(productVariants, selectedSize.roses);
       if (!variant) {
-        toast.error("Could not resolve product variant. Please try again.");
+        toast.error("Could not resolve product variant for the selected roses.");
         return false;
       }
 
@@ -493,13 +525,13 @@ const BouquetProductDetail = () => {
                     ${totalPrice} <span className="text-xs font-body text-muted-foreground font-normal">USD</span>
                   </p>
                   <div className="flex w-full md:w-auto gap-2">
-                    <button onClick={handleAddToCart} disabled={isAdding}
+                    <button onClick={handleAddToCart} disabled={isAdding || variantsLoading}
                       className="flex-1 md:flex-none bg-primary text-primary-foreground px-4 md:px-6 py-2.5 md:py-3 font-body text-[10px] md:text-xs tracking-widest uppercase hover:bg-primary/90 transition-colors rounded-sm disabled:opacity-50">
-                      {isAdding ? "Adding..." : "Add to cart"}
+                      {isAdding ? "Adding..." : variantsLoading ? "Loading..." : "Add to cart"}
                     </button>
-                    <button onClick={handlePayNow} disabled={isAdding}
+                    <button onClick={handlePayNow} disabled={isAdding || variantsLoading}
                       className="flex-1 md:flex-none border-2 border-primary text-primary px-4 md:px-6 py-2.5 md:py-3 font-body text-[10px] md:text-xs tracking-widest uppercase hover:bg-primary/10 transition-colors rounded-sm whitespace-nowrap disabled:opacity-50">
-                      {isAdding ? "Adding..." : "Pay now"}
+                      {isAdding ? "Adding..." : variantsLoading ? "Loading..." : "Pay now"}
                     </button>
                   </div>
                 </div>
