@@ -7,7 +7,12 @@ const corsHeaders = {
 
 const STORE_ADDRESS = "7255 NW 12th St, Miami, FL 33126";
 const MAX_MILES = 87;
-const PRICE_PER_MILE = 2;
+
+function calculateCost(miles: number): number {
+  if (miles <= 0) return 0;
+  if (miles <= 5) return 20;
+  return Math.round((20 + (miles - 5) * 1.60) * 100) / 100;
+}
 
 serve(async (req) => {
   if (req.method === 'OPTIONS') {
@@ -76,13 +81,15 @@ serve(async (req) => {
       );
     }
 
+    const cost = calculateCost(miles);
+
     // Build a static map URL showing both points
     const mapUrl = `https://www.google.com/maps/embed/v1/directions?key=${apiKey}&origin=${encodeURIComponent(STORE_ADDRESS)}&destination=${encodeURIComponent(destination)}&mode=driving`;
 
     return new Response(
       JSON.stringify({
         miles,
-        cost: miles * PRICE_PER_MILE,
+        cost,
         duration: durationText,
         destination,
         tooFar: false,
