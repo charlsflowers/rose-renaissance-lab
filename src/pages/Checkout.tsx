@@ -247,7 +247,25 @@ const Checkout = () => {
                 </p>
               )}
 
-              {checkoutDeliveryMethod === "delivery" && <DeliveryCalculator onResult={setDeliveryResult} />}
+              {checkoutDeliveryMethod === "delivery" && deliveryResult && (
+                <div className="space-y-2">
+                  <p className="font-body text-sm text-muted-foreground">
+                    📍 Deliver to: <span className="font-semibold text-foreground">{deliveryResult.address}</span>
+                  </p>
+                  <p className="font-body text-sm text-muted-foreground">
+                    Shipping: <span className="font-semibold text-foreground">${deliveryResult.cost}</span>
+                    <span className="text-xs ml-2">({deliveryResult.miles.toFixed(1)} miles)</span>
+                  </p>
+                  <button
+                    onClick={() => setDeliveryResult(null)}
+                    className="text-xs font-body text-primary underline hover:text-primary/80"
+                  >
+                    Change address
+                  </button>
+                </div>
+              )}
+
+              {checkoutDeliveryMethod === "delivery" && !deliveryResult && <DeliveryCalculator onResult={setDeliveryResult} />}
             </motion.div>
 
             {/* Total + CTA */}
