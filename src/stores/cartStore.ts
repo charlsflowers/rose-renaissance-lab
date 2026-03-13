@@ -50,7 +50,6 @@ interface CartStore {
   removeItem: (id: string) => Promise<void>;
   clearCart: () => void;
   syncCart: () => Promise<void>;
-  createCheckoutUrl: () => Promise<string | null>;
   totalItems: number;
   cartTotal: number;
 }
