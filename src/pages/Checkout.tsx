@@ -281,7 +281,7 @@ const Checkout = () => {
                   </p>
                   <div className="space-y-1">
                     <p className="font-body text-sm text-muted-foreground">
-                      Subtotal: <span className="text-foreground font-semibold">${cartTotal}</span>
+                      Subtotal: <span className="text-foreground font-semibold">${itemsSubtotal}</span>
                     </p>
                     {needsAddress && (
                       <p className="font-body text-sm text-muted-foreground">
