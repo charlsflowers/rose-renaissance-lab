@@ -41,7 +41,9 @@ export async function fetchVariantsByHandle(handle: string): Promise<ShopifyHand
   console.group(`🔍 [ShopifyVariants] fetchVariantsByHandle("${handle}")`);
   console.log("Handle sent to Storefront API:", handle);
 
+  console.log("HANDLE FINAL:", handle);
   const data = await storefrontApiRequest(GET_VARIANTS_BY_HANDLE_QUERY, { handle });
+  console.log("RESPUESTA API:", JSON.stringify(data));
 
   console.log("Raw API response:", JSON.stringify(data, null, 2));
 
