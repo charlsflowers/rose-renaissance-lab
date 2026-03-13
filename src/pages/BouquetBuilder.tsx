@@ -834,7 +834,7 @@ const BouquetBuilder = () => {
 
                     setIsAdding(true);
                     try {
-                      const variant = await resolveVariantId(pricingTier, rosesCount);
+                      const variant = await resolveVariantId("", rosesCount, pricingTier);
                       if (!variant) {
                         toast.error("Could not resolve product variant.");
                         return;
@@ -904,7 +904,7 @@ const BouquetBuilder = () => {
 
                     setIsAdding(true);
                     try {
-                      const variant = await resolveVariantId(pricingTier, rosesCount);
+                      const variant = await resolveVariantId("", rosesCount, pricingTier);
                       if (!variant) {
                         toast.error("Could not resolve product variant.");
                         return;

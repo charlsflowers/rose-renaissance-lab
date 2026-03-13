@@ -159,7 +159,7 @@ const BouquetProductDetail = () => {
 
     setIsAdding(true);
     try {
-      const variant = await resolveVariantId(product.name, selectedSize.roses);
+      const variant = await resolveVariantId(product.name, selectedSize.roses, product.pricingTier);
       if (!variant) {
         toast.error("Could not resolve product variant. Please try again.");
         return false;

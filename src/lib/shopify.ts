@@ -1,4 +1,5 @@
 import { toast } from "sonner";
+import type { PricingTier } from "@/lib/productData";
 
 const SHOPIFY_API_VERSION = "2024-01";
 const SHOPIFY_STOREFRONT_DOMAIN = import.meta.env.VITE_SHOPIFY_STOREFRONT_DOMAIN || "charlsflowers.com";
@@ -61,9 +62,27 @@ export async function storefrontApiRequest(query: string, variables: Record<stri
 // Cache for resolved variants
 const variantCache = new Map<string, ShopifyVariant>();
 
+const TIER_BASE_PRODUCT_TITLES: Record<PricingTier, string> = {
+  standard: "Pure White",
+  red: "Total Passion",
+  painted: "Blue Sky",
+  mix2: "Iberian Passion",
+  mix2painted: "Night & Day",
+  mix3red: "Classic Tricolor",
+};
+
+const PRICING_TIERS = new Set<PricingTier>([
+  "standard",
+  "red",
+  "painted",
+  "mix2",
+  "mix2painted",
+  "mix3red",
+]);
+
 const PRODUCTS_BY_TITLE_QUERY = `
   query GetProductByTitle($query: String!) {
-    products(first: 1, query: $query) {
+    products(first: 20, query: $query) {
       edges {
         node {
           id
@@ -86,51 +105,101 @@ const PRODUCTS_BY_TITLE_QUERY = `
   }
 `;
 
+const normalize = (value: string) => value.trim().toLowerCase();
+const cacheKey = (productName: string, rosesCount: number | string) => `${normalize(productName)}-${rosesCount}`;
+
+const escapeShopifySearchValue = (value: string) => value.replace(/["\\]/g, "\\$&");
+
+function getTierFromInput(value?: string): PricingTier | null {
+  if (!value) return null;
+  const normalized = normalize(value);
+  return PRICING_TIERS.has(normalized as PricingTier) ? (normalized as PricingTier) : null;
+}
+
+function buildProductCandidates(productName: string, fallbackTier?: PricingTier): string[] {
+  const candidates = new Set<string>();
+  const trimmedName = productName.trim();
+  if (trimmedName) candidates.add(trimmedName);
+
+  const inputTier = getTierFromInput(productName);
+  if (inputTier) candidates.add(TIER_BASE_PRODUCT_TITLES[inputTier]);
+
+  if (fallbackTier) candidates.add(TIER_BASE_PRODUCT_TITLES[fallbackTier]);
+
+  return Array.from(candidates);
+}
+
+function findVariantByRoses(product: ShopifyProductNode, rosesCount: number): ShopifyVariant | null {
+  return (
+    product.variants.edges.find(
+      (v) =>
+        v.node.title === String(rosesCount) ||
+        v.node.selectedOptions.some((o) => o.name === "Roses" && o.value === String(rosesCount))
+    )?.node ?? null
+  );
+}
+
 /**
  * Resolve the Shopify variant GID for a given product name and roses count.
  */
 export async function resolveVariantId(
   productName: string,
-  rosesCount: number
+  rosesCount: number,
+  fallbackTier?: PricingTier
 ): Promise<ShopifyVariant | null> {
-  const cacheKey = `${productName}-${rosesCount}`;
-  if (variantCache.has(cacheKey)) {
-    return variantCache.get(cacheKey)!;
+  const candidates = buildProductCandidates(productName, fallbackTier);
+
+  for (const candidate of candidates) {
+    const cached = variantCache.get(cacheKey(candidate, rosesCount));
+    if (cached) return cached;
   }
 
+  if (candidates.length === 0) return null;
+
   try {
+    const searchQuery = candidates
+      .map((candidate) => `title:"${escapeShopifySearchValue(candidate)}"`)
+      .join(" OR ");
+
     const data = await storefrontApiRequest(PRODUCTS_BY_TITLE_QUERY, {
-      query: `title:"${productName}"`,
+      query: searchQuery,
     });
 
     if (!data) return null;
 
-    const product = data.data?.products?.edges?.[0]?.node as ShopifyProductNode | undefined;
-    if (!product) {
-      console.error(`No Shopify product found with title "${productName}"`);
+    const products = (data.data?.products?.edges || []).map(
+      (edge: { node: ShopifyProductNode }) => edge.node
+    ) as ShopifyProductNode[];
+
+    if (products.length === 0) {
+      console.error(`No Shopify product found for candidates: ${candidates.join(", ")}`);
       return null;
     }
 
-    // Find variant matching roses count
-    const variant = product.variants.edges.find(
-      (v) => v.node.title === String(rosesCount) || 
-             v.node.selectedOptions.some(o => o.name === 'Roses' && o.value === String(rosesCount))
-    )?.node;
+    const selectedProduct =
+      candidates
+        .map((candidate) => products.find((product) => normalize(product.title) === normalize(candidate)))
+        .find(Boolean) || products[0];
+
+    const variant = findVariantByRoses(selectedProduct, rosesCount);
 
     if (!variant) {
-      console.error(`No variant found for ${rosesCount} roses in product "${productName}"`);
+      console.error(`No variant found for ${rosesCount} roses in product "${selectedProduct.title}"`);
       return null;
     }
 
-    // Cache all variants from this product
-    product.variants.edges.forEach((v) => {
-      const roses = v.node.selectedOptions.find(o => o.name === 'Roses')?.value || v.node.title;
-      variantCache.set(`${productName}-${roses}`, v.node);
+    const aliases = new Set<string>([selectedProduct.title, ...candidates]);
+
+    selectedProduct.variants.edges.forEach((v) => {
+      const roses = v.node.selectedOptions.find((o) => o.name === "Roses")?.value || v.node.title;
+      aliases.forEach((alias) => {
+        variantCache.set(cacheKey(alias, roses), v.node);
+      });
     });
 
     return variant;
   } catch (error) {
-    console.error('Error resolving Shopify variant:', error);
+    console.error("Error resolving Shopify variant:", error);
     return null;
   }
 }
