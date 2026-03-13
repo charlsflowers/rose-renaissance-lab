@@ -35,18 +35,14 @@ const Checkout = () => {
   const grandTotal = cartTotal + deliveryCost;
   const canCheckout = !needsAddress || deliveryResult !== null;
 
-  const handleCheckout = () => {
-    if (checkoutUrl) {
-      // On mobile or within iframes, window.open may not work properly
-      // Use a temporary anchor element to ensure it opens in a new tab
-      const link = document.createElement('a');
-      link.href = checkoutUrl;
-      link.target = '_blank';
-      link.rel = 'noopener noreferrer';
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
+  const handleCheckout = async () => {
+    const checkoutUrl = await createCheckoutUrl();
+    if (!checkoutUrl) {
+      toast.error("No se pudo iniciar el checkout de Shopify.");
+      return;
     }
+
+    openCheckoutInNewTab(checkoutUrl);
   };
 
   if (items.length === 0) {
