@@ -303,10 +303,10 @@ const ReviewUpsellDialog = ({ open, onOpenChange, cartData, productLabel, mode }
 
             <button
               onClick={handleConfirm}
-              disabled={isAdding}
+              disabled={isAdding || variantsLoading}
               className="inline-flex items-center gap-2 w-full justify-center bg-primary text-primary-foreground px-4 py-3 font-body text-sm tracking-widest uppercase hover:bg-primary/90 transition-colors rounded-sm disabled:opacity-50"
             >
-              {isAdding ? (
+              {isAdding || variantsLoading ? (
                 <Loader2 className="w-4 h-4 animate-spin" />
               ) : mode === "buy" ? (
                 <>

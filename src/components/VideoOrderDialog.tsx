@@ -210,17 +210,17 @@ const VideoOrderDialog = ({ video, open, onOpenChange }: Props) => {
 
             <button
               onClick={() => handleConfirm("cart")}
-              disabled={isAdding}
+              disabled={isAdding || variantsLoading}
               className="inline-flex items-center gap-2 w-full justify-center bg-primary text-primary-foreground px-4 py-3 font-body text-sm tracking-widest uppercase hover:bg-primary/90 transition-colors rounded-sm disabled:opacity-50"
             >
-              {isAdding ? <Loader2 className="w-4 h-4 animate-spin" /> : <><ShoppingBag className="w-4 h-4" /> Add to cart</>}
+              {isAdding || variantsLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : <><ShoppingBag className="w-4 h-4" /> Add to cart</>}
             </button>
             <button
               onClick={() => handleConfirm("buy")}
-              disabled={isAdding}
+              disabled={isAdding || variantsLoading}
               className="inline-flex items-center gap-2 w-full justify-center border border-primary text-primary px-4 py-3 font-body text-sm tracking-widest uppercase hover:bg-primary/10 transition-colors rounded-sm disabled:opacity-50"
             >
-              {isAdding ? <Loader2 className="w-4 h-4 animate-spin" /> : <><CreditCard className="w-4 h-4" /> Order & pay</>}
+              {isAdding || variantsLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : <><CreditCard className="w-4 h-4" /> Order & pay</>}
             </button>
           </div>
         </div>
