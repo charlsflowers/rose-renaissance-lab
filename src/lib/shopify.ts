@@ -1,9 +1,12 @@
 import { toast } from "sonner";
 
-const SHOPIFY_API_VERSION = '2025-07';
-const SHOPIFY_STORE_PERMANENT_DOMAIN = 'ztdjk5-wn.myshopify.com';
-const SHOPIFY_STOREFRONT_URL = `https://${SHOPIFY_STORE_PERMANENT_DOMAIN}/api/${SHOPIFY_API_VERSION}/graphql.json`;
-const SHOPIFY_STOREFRONT_TOKEN = '4e7516581c2c609bb77d69b5f1786a9b';
+const SHOPIFY_API_VERSION = "2024-01";
+const SHOPIFY_STOREFRONT_DOMAIN = import.meta.env.VITE_SHOPIFY_STOREFRONT_DOMAIN || "charlsflowers.com";
+const SHOPIFY_STOREFRONT_URL = `https://${SHOPIFY_STOREFRONT_DOMAIN}/api/${SHOPIFY_API_VERSION}/graphql.json`;
+const SHOPIFY_STOREFRONT_TOKEN =
+  import.meta.env.VITE_SHOPIFY_STOREFRONT_ACCESS_TOKEN ||
+  import.meta.env.VITE_SHOPIFY_STOREFRONT_TOKEN ||
+  "4e7516581c2c609bb77d69b5f1786a9b";
 
 
 export interface ShopifyVariant {
