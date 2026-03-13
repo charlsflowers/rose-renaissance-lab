@@ -5,7 +5,6 @@ import {
   addLineToShopifyCart,
   removeLineFromShopifyCart,
   fetchShopifyCart,
-  fetchCartCheckoutUrl,
 } from '@/lib/shopify';
 
 export interface CartItem {
@@ -51,7 +50,6 @@ interface CartStore {
   removeItem: (id: string) => Promise<void>;
   clearCart: () => void;
   syncCart: () => Promise<void>;
-  createCheckoutUrl: () => Promise<string | null>;
   totalItems: number;
   cartTotal: number;
 }
@@ -171,23 +169,6 @@ export const useCartStore = create<CartStore>()(
         }
       },
 
-      createCheckoutUrl: async () => {
-        const { cartId } = get();
-        console.log("🛒 [CartStore] createCheckoutUrl called, cartId:", cartId);
-        if (!cartId) return null;
-
-        try {
-          const checkoutUrl = await fetchCartCheckoutUrl(cartId);
-          console.log("🛒 [CartStore] CHECKOUT URL:", checkoutUrl);
-          if (!checkoutUrl) return null;
-
-          set({ checkoutUrl });
-          return checkoutUrl;
-        } catch (error) {
-          console.error('Failed to get checkout URL:', error);
-          return null;
-        }
-      },
     }),
     {
       name: 'charls-shopify-cart',

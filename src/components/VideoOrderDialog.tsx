@@ -6,6 +6,7 @@ import { letterNumberExtraPrice, ribbonPrice } from "@/lib/productData";
 import { fetchVariantsByHandle, findVariantByRoses, toShopifyHandle, type ShopifyHandleVariant } from "@/lib/shopifyVariants";
 import type { VideoProduct } from "@/components/ClientVideos";
 import { toast } from "sonner";
+import { buildCheckoutUrl, openCheckoutInNewTab } from "@/lib/checkout";
 
 interface Props {
   video: VideoProduct;
@@ -131,19 +132,12 @@ const VideoOrderDialog = ({ video, open, onOpenChange }: Props) => {
       onOpenChange(false);
 
       if (mode === "buy") {
-        const checkoutUrl = await useCartStore.getState().createCheckoutUrl();
+        const checkoutUrl = buildCheckoutUrl();
         if (!checkoutUrl) {
           toast.error("Could not start Shopify checkout. Please try again.");
           return;
         }
-
-        const link = document.createElement('a');
-        link.href = checkoutUrl;
-        link.target = '_blank';
-        link.rel = 'noopener noreferrer';
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
+        openCheckoutInNewTab(checkoutUrl);
         toast.success("Added to cart!", {
           description: `${video.roses} ${video.color} roses`,
         });

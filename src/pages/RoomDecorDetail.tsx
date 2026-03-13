@@ -6,6 +6,7 @@ import { enUS } from "date-fns/locale";
 import { supabase } from "@/integrations/supabase/client";
 import { useCartStore } from "@/stores/cartStore";
 import { toast } from "sonner";
+import { buildCheckoutUrl, openCheckoutInNewTab } from "@/lib/checkout";
 import Navbar from "@/components/Navbar";
 import { roomDecorPackages, roomDecorBouquetColors } from "@/lib/roomDecorData";
 import { calculateRoomDecorDeliveryCost, formatDeliveryCost } from "@/lib/deliveryPricing";
@@ -181,19 +182,12 @@ const RoomDecorDetail = () => {
   const handlePayNow = async () => {
     const success = await handleAddToCart();
     if (success) {
-      const checkoutUrl = await useCartStore.getState().createCheckoutUrl();
+      const checkoutUrl = buildCheckoutUrl();
       if (!checkoutUrl) {
         toast.error("Could not start Shopify checkout. Please try again.");
         return;
       }
-
-      const link = document.createElement('a');
-      link.href = checkoutUrl;
-      link.target = '_blank';
-      link.rel = 'noopener noreferrer';
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
+      openCheckoutInNewTab(checkoutUrl);
     }
   };
 
