@@ -84,18 +84,19 @@ const ReviewUpsellDialog = ({ open, onOpenChange, cartData, productLabel, mode }
       onOpenChange(false);
 
       if (mode === "buy") {
-        const checkoutUrl = useCartStore.getState().checkoutUrl;
-        if (checkoutUrl) {
-          const link = document.createElement('a');
-          link.href = checkoutUrl;
-          link.target = '_blank';
-          link.rel = 'noopener noreferrer';
-          document.body.appendChild(link);
-          link.click();
-          document.body.removeChild(link);
-        } else {
-          navigate("/checkout");
+        const checkoutUrl = await useCartStore.getState().createCheckoutUrl();
+        if (!checkoutUrl) {
+          toast.error("Could not start Shopify checkout. Please try again.");
+          return;
         }
+
+        const link = document.createElement('a');
+        link.href = checkoutUrl;
+        link.target = '_blank';
+        link.rel = 'noopener noreferrer';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
         toast.success("Added to cart!", {
           description: `${productLabel} — ${cartData.roses} roses`,
         });
