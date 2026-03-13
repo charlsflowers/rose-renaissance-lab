@@ -211,6 +211,31 @@ function isCartNotFoundError(userErrors: Array<{ field: string[] | null; message
   return userErrors.some(e => e.message.toLowerCase().includes('cart not found') || e.message.toLowerCase().includes('does not exist'));
 }
 
+export async function createCheckoutFromCartLines(
+  lines: Array<{ variantId: string; quantity: number }>
+): Promise<string | null> {
+  const normalizedLines = lines
+    .filter((line) => line.variantId && line.quantity > 0)
+    .map((line) => ({ variantId: line.variantId, quantity: line.quantity }));
+
+  if (normalizedLines.length === 0) return null;
+
+  const data = await storefrontApiRequest(CHECKOUT_CREATE_MUTATION, {
+    input: { lineItems: normalizedLines },
+  });
+
+  const userErrors = data?.data?.checkoutCreate?.checkoutUserErrors || [];
+  if (userErrors.length > 0) {
+    console.error('Checkout creation failed:', userErrors);
+    return null;
+  }
+
+  const checkoutUrl = data?.data?.checkoutCreate?.checkout?.checkoutUrl;
+  if (!checkoutUrl) return null;
+
+  return formatCheckoutUrl(checkoutUrl);
+}
+
 export async function createShopifyCart(variantId: string, quantity: number): Promise<{ cartId: string; checkoutUrl: string; lineId: string } | null> {
   const data = await storefrontApiRequest(CART_CREATE_MUTATION, {
     input: { lines: [{ quantity, merchandiseId: variantId }] },
