@@ -6,6 +6,7 @@ import { enUS } from "date-fns/locale";
 import { supabase } from "@/integrations/supabase/client";
 import { useCartStore, type CartItem } from "@/stores/cartStore";
 import { resolveVariantId } from "@/lib/shopify";
+import { calculateDeliveryCost, formatDeliveryCost } from "@/lib/deliveryPricing";
 import { toast } from "sonner";
 import Navbar from "@/components/Navbar";
 import PaperColorPicker from "@/components/PaperColorPicker"; // keep import but won't use for standard bouquets
