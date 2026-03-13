@@ -1,15 +1,17 @@
 import { useEffect } from "react";
-import { useParams, useSearchParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
 const ShopifyCheckoutRedirect = () => {
   const { cartId } = useParams();
-  const [searchParams] = useSearchParams();
 
   useEffect(() => {
-    const params = searchParams.toString();
-    const url = `https://charls-flowers.myshopify.com/cart/c/${cartId}${params ? `?${params}` : ""}`;
-    window.location.href = url;
-  }, [cartId, searchParams]);
+    if (!cartId) return;
+
+    const params = new URLSearchParams(window.location.search);
+    const key = params.get("key");
+
+    window.location.replace(`https://charls-flowers.myshopify.com/cart/c/${cartId}?key=${key}`);
+  }, [cartId]);
 
   return null;
 };
