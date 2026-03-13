@@ -30,6 +30,8 @@ const AppContent = () => {
         <Route path="/bouquets/personalizar" element={<BouquetBuilder />} />
         <Route path="/bouquets/:type/:productId" element={<BouquetProductDetail />} />
         <Route path="/bouquets" element={<BouquetProducts />} />
+        <Route path="/room-decors/:packageId" element={<RoomDecorDetail />} />
+        <Route path="/room-decors" element={<RoomDecors />} />
         <Route path="/checkout" element={<Checkout />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
