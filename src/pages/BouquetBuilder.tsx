@@ -998,7 +998,7 @@ const BouquetBuilder = () => {
                         shopifyVariantId: variant.id,
                       });
                       toast.success("Bouquet added to cart!");
-                      const checkoutUrl = buildCheckoutUrl();
+                      const checkoutUrl = buildCheckoutUrl(variant.id);
                       if (!checkoutUrl) {
                         toast.error("Could not start Shopify checkout. Please try again.");
                         return;

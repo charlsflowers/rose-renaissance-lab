@@ -117,7 +117,7 @@ const ReviewUpsellDialog = ({ open, onOpenChange, cartData, productLabel, mode }
       onOpenChange(false);
 
       if (mode === "buy") {
-        const checkoutUrl = buildCheckoutUrl();
+        const checkoutUrl = buildCheckoutUrl(variant.id);
         if (!checkoutUrl) {
           toast.error("Could not start Shopify checkout. Please try again.");
           return;
