@@ -10,17 +10,17 @@ import BrandLogo from "@/components/BrandLogo";
 import { motion } from "framer-motion";
 
 const Checkout = () => {
-  const items = useCartStore(state => state.items);
-  const removeItem = useCartStore(state => state.removeItem);
-  
-  const isLoading = useCartStore(state => state.isLoading);
-  const isSyncing = useCartStore(state => state.isSyncing);
+  const items = useCartStore((state) => state.items);
+  const removeItem = useCartStore((state) => state.removeItem);
+
+  const isLoading = useCartStore((state) => state.isLoading);
+  const isSyncing = useCartStore((state) => state.isSyncing);
   const navigate = useNavigate();
 
   const cartTotal = items.reduce((sum, i) => sum + i.totalPrice, 0);
 
   const [checkoutDeliveryMethod, setCheckoutDeliveryMethod] = useState<"pickup" | "delivery">(
-    items.some((i) => i.deliveryMethod === "delivery") ? "delivery" : "pickup"
+    items.some((i) => i.deliveryMethod === "delivery") ? "delivery" : "pickup",
   );
 
   const [deliveryResult, setDeliveryResult] = useState<{
@@ -36,12 +36,15 @@ const Checkout = () => {
   const canCheckout = !needsAddress || deliveryResult !== null;
 
   const handleCheckout = () => {
-    const checkoutUrl = buildCheckoutUrl();
-    if (!checkoutUrl) {
-      toast.error("No se pudo iniciar el checkout de Shopify.");
+    const storeItems = useCartStore.getState().items;
+    const firstVariantId = storeItems.find((i) => i.shopifyVariantId)?.shopifyVariantId;
+    if (!firstVariantId) {
+      toast.error("No se pudo iniciar el checkout. Vuelve atrás y añade el producto de nuevo.");
       return;
     }
-    openCheckoutInNewTab(checkoutUrl);
+    const numericId = firstVariantId.split("/").pop();
+    const checkoutUrl = `https://charls-flowers.myshopify.com/cart/${numericId}:1`;
+    window.location.href = checkoutUrl;
   };
 
   if (items.length === 0) {
@@ -49,16 +52,10 @@ const Checkout = () => {
       <div className="min-h-screen bg-background">
         <Navbar />
         <div className="pt-32 pb-16 text-center">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="max-w-md mx-auto px-6"
-          >
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="max-w-md mx-auto px-6">
             <BrandLogo className="w-20 h-20 mx-auto mb-6" />
             <h1 className="font-display text-3xl font-semibold text-foreground mb-3">Your cart is empty</h1>
-            <p className="text-muted-foreground font-body mb-8">
-              Add a bouquet to continue.
-            </p>
+            <p className="text-muted-foreground font-body mb-8">Add a bouquet to continue.</p>
             <button
               onClick={() => navigate(-1)}
               className="inline-flex items-center gap-2 bg-primary text-primary-foreground px-8 py-4 font-body text-sm tracking-widest uppercase hover:bg-primary/90 transition-colors rounded-sm"
@@ -79,9 +76,7 @@ const Checkout = () => {
         <div className="container mx-auto px-6">
           <div className="text-center mb-10">
             <p className="text-gold font-body text-sm tracking-[0.3em] uppercase mb-2">Checkout</p>
-            <h1 className="font-display text-4xl md:text-5xl font-semibold text-foreground">
-              Your Order
-            </h1>
+            <h1 className="font-display text-4xl md:text-5xl font-semibold text-foreground">Your Order</h1>
           </div>
 
           <div className="max-w-3xl mx-auto space-y-6">
@@ -106,7 +101,16 @@ const Checkout = () => {
                 <div className="flex items-start justify-between mb-4">
                   <div>
                     <h3 className="font-display text-xl font-semibold text-foreground">
-                      {item.bouquetType === "classic" ? "Classic" : item.bouquetType === "heart" ? "Heart" : item.bouquetType === "letters" ? "With Letters" : item.bouquetType === "round" ? "Round" : "With Numbers"} Bouquet
+                      {item.bouquetType === "classic"
+                        ? "Classic"
+                        : item.bouquetType === "heart"
+                          ? "Heart"
+                          : item.bouquetType === "letters"
+                            ? "With Letters"
+                            : item.bouquetType === "round"
+                              ? "Round"
+                              : "With Numbers"}{" "}
+                      Bouquet
                     </h3>
                     <p className="text-sm font-body text-muted-foreground mt-1">
                       {item.roses} roses · {item.color}
@@ -196,7 +200,10 @@ const Checkout = () => {
               <p className="font-body font-semibold text-foreground text-sm">Delivery method</p>
               <div className="grid grid-cols-2 gap-3">
                 <button
-                  onClick={() => { setCheckoutDeliveryMethod("pickup"); setDeliveryResult(null); }}
+                  onClick={() => {
+                    setCheckoutDeliveryMethod("pickup");
+                    setDeliveryResult(null);
+                  }}
                   className={`flex flex-col items-center gap-2 p-4 rounded-sm border-2 transition-all font-body text-xs ${
                     checkoutDeliveryMethod === "pickup"
                       ? "border-primary bg-primary/5 text-primary"
@@ -207,7 +214,10 @@ const Checkout = () => {
                   Store pickup
                 </button>
                 <button
-                  onClick={() => { setCheckoutDeliveryMethod("delivery"); setDeliveryResult(null); }}
+                  onClick={() => {
+                    setCheckoutDeliveryMethod("delivery");
+                    setDeliveryResult(null);
+                  }}
                   className={`flex flex-col items-center gap-2 p-4 rounded-sm border-2 transition-all font-body text-xs ${
                     checkoutDeliveryMethod === "delivery"
                       ? "border-primary bg-primary/5 text-primary"
@@ -226,9 +236,7 @@ const Checkout = () => {
                 </p>
               )}
 
-              {checkoutDeliveryMethod === "delivery" && (
-                <DeliveryCalculator onResult={setDeliveryResult} />
-              )}
+              {checkoutDeliveryMethod === "delivery" && <DeliveryCalculator onResult={setDeliveryResult} />}
             </motion.div>
 
             {/* Total + CTA */}
@@ -244,7 +252,8 @@ const Checkout = () => {
                     </p>
                     {needsAddress && (
                       <p className="font-body text-sm text-muted-foreground">
-                        Shipping: <span className="text-foreground font-semibold">
+                        Shipping:{" "}
+                        <span className="text-foreground font-semibold">
                           {deliveryResult ? `$${deliveryCost}` : "Pending"}
                         </span>
                       </p>
