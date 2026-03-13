@@ -167,16 +167,16 @@ const BouquetBuilder = () => {
   const [variantsLoading, setVariantsLoading] = useState(true);
 
   const tierBaseHandle = useMemo(() => {
-    const tierBaseProducts: Record<PricingTier, string> = {
-      standard: "Pure White",
-      red: "Total Passion",
-      painted: "Blue Sky",
-      mix2: "Iberian Passion",
-      mix2painted: "Night & Day",
-      mix3red: "Classic Tricolor",
+    const tierBaseHandles: Record<PricingTier, string> = {
+      standard: "pure-white",
+      red: "total-passion",
+      painted: "blue-sky",
+      mix2: "iberian-passion",
+      mix2painted: "night-day",
+      mix3red: "classic-tricolor",
     };
 
-    return toShopifyHandle(tierBaseProducts[pricingTier]);
+    return tierBaseHandles[pricingTier];
   }, [pricingTier]);
 
   useEffect(() => {

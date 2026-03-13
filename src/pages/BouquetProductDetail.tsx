@@ -193,7 +193,7 @@ const BouquetProductDetail = () => {
 
     setIsAdding(true);
     try {
-      console.log(`🛒 [BouquetProductDetail] Add to cart clicked — roses=${selectedSize.roses}, productVariants count=${productVariants.length}, handle="${toShopifyHandle(product.name)}"`);
+      console.log(`🛒 [BouquetProductDetail] Add to cart clicked — roses=${selectedSize.roses}, productVariants count=${productVariants.length}, handle="${product.shopifyHandle}"`);;
       const variant = findVariantByRoses(productVariants, selectedSize.roses);
       if (!variant) {
         toast.error("Could not resolve product variant for the selected roses.");
