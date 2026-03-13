@@ -173,7 +173,7 @@ const BouquetBuilder = () => {
     return getPrice(pricingTier, size.roses);
   }, [selectedSizeIdx, pricingTier]);
 
-  const deliveryCost = deliveryMethod === "delivery" && deliveryMiles && !distanceTooFar ? deliveryMiles * 2 : 0;
+  const deliveryCost = deliveryMethod === "delivery" && deliveryMiles && !distanceTooFar ? calculateDeliveryCost(deliveryMiles) : 0;
 
   const minLeadHours = deliveryMethod === "delivery" ? 1.5 : 2;
   const minMiamiHour = miamiHourNow() + minLeadHours;
