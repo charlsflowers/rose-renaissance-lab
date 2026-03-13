@@ -159,7 +159,20 @@ const CategoryProductDetail = () => {
   };
 
   const handlePayNow = () => {
-    if (handleAddToCart()) navigate("/checkout");
+    if (handleAddToCart()) {
+      const checkoutUrl = useCartStore.getState().checkoutUrl;
+      if (checkoutUrl) {
+        const link = document.createElement('a');
+        link.href = checkoutUrl;
+        link.target = '_blank';
+        link.rel = 'noopener noreferrer';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+      } else {
+        navigate("/checkout");
+      }
+    }
   };
 
   return (
