@@ -13,6 +13,8 @@ import CategoryProducts from "./pages/CategoryProducts";
 import CategoryProductDetail from "./pages/CategoryProductDetail";
 import BouquetProducts from "./pages/BouquetProducts";
 import BouquetProductDetail from "./pages/BouquetProductDetail";
+import RoomDecors from "./pages/RoomDecors";
+import RoomDecorDetail from "./pages/RoomDecorDetail";
 
 const queryClient = new QueryClient();
 
