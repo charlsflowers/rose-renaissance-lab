@@ -109,6 +109,7 @@ export interface CustomSize {
 export interface BouquetProduct {
   id: string;
   name: string;
+  shopifyHandle: string;
   description: string;
   image: string;
   image2?: string;
