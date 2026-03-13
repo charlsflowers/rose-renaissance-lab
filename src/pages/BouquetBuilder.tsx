@@ -872,11 +872,16 @@ const BouquetBuilder = () => {
                       return;
                     }
 
+                    if (variantsLoading) {
+                      toast.error("We are still loading product variants.");
+                      return;
+                    }
+
                     setIsAdding(true);
                     try {
-                      const variant = await resolveVariantId("", rosesCount, pricingTier);
+                      const variant = findVariantByRoses(availableVariants, rosesCount);
                       if (!variant) {
-                        toast.error("Could not resolve product variant.");
+                        toast.error("Could not resolve product variant for the selected roses.");
                         return;
                       }
 
