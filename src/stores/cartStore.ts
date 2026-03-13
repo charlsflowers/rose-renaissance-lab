@@ -5,7 +5,7 @@ import {
   addLineToShopifyCart,
   removeLineFromShopifyCart,
   fetchShopifyCart,
-  createCheckoutFromCartLines,
+  fetchCartCheckoutUrl,
 } from '@/lib/shopify';
 
 export interface CartItem {
