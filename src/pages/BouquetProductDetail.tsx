@@ -123,6 +123,31 @@ const BouquetProductDetail = () => {
   };
   const availableHours = getAvailableHours(deliveryDate);
 
+  useEffect(() => {
+    if (!product) return;
+
+    let active = true;
+
+    const loadVariants = async () => {
+      setVariantsLoading(true);
+      try {
+        const variants = await fetchVariantsByHandle(toShopifyHandle(product.name));
+        if (active) setProductVariants(variants);
+      } catch (error) {
+        console.error("Failed to load bouquet variants:", error);
+        if (active) setProductVariants([]);
+      } finally {
+        if (active) setVariantsLoading(false);
+      }
+    };
+
+    loadVariants();
+
+    return () => {
+      active = false;
+    };
+  }, [product]);
+
   if (!product) {
     return (
       <div className="min-h-screen bg-background"><Navbar />
