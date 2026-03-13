@@ -17,7 +17,7 @@ const Checkout = () => {
   const isSyncing = useCartStore((state) => state.isSyncing);
   const navigate = useNavigate();
 
-  const cartTotal = items.reduce((sum, i) => sum + i.totalPrice, 0);
+  const itemsSubtotal = items.reduce((sum, i) => sum + i.price, 0);
 
   // Pre-populate delivery info from cart items if already provided
   const existingDeliveryItem = items.find((i) => i.deliveryMethod === "delivery" && i.deliveryAddress && i.deliveryAddress !== "Store pickup");
@@ -43,54 +43,23 @@ const Checkout = () => {
 
   const needsAddress = checkoutDeliveryMethod === "delivery";
   const deliveryCost = needsAddress && deliveryResult ? deliveryResult.cost : 0;
-  const grandTotal = cartTotal + deliveryCost;
+  const grandTotal = itemsSubtotal + deliveryCost;
   const canCheckout = !needsAddress || deliveryResult !== null;
 
-  // Delivery fee product variant (SKU: DELIVERY-FEE, $0.01 each unit)
-  const DELIVERY_FEE_VARIANT_NUMERIC_ID = "51629708935300";
-
   const handleCheckout = () => {
-    const storeItems = useCartStore.getState().items;
-    const lineItems = storeItems
-      .filter((i) => i.shopifyVariantId)
-      .map((i) => {
-        const numericId = i.shopifyVariantId.split("/").pop();
-        return `${numericId}:1`;
-      });
-    if (lineItems.length === 0) {
+    const checkoutUrl = buildCheckoutUrl(undefined, {
+      deliveryMethod: checkoutDeliveryMethod,
+      deliveryCost,
+      deliveryAddress: deliveryResult?.address,
+      deliveryZip: existingDeliveryItem?.deliveryZip,
+    });
+
+    if (!checkoutUrl) {
       toast.error("No se pudo iniciar el checkout. Vuelve atrás y añade el producto de nuevo.");
       return;
     }
 
-    // If home delivery, add the delivery fee as line items ($0.01 × cents)
-    const currentDeliveryResult = deliveryResult;
-    if (checkoutDeliveryMethod === "delivery" && currentDeliveryResult && currentDeliveryResult.cost > 0) {
-      const deliveryCents = Math.round(currentDeliveryResult.cost * 100);
-      lineItems.push(`${DELIVERY_FEE_VARIANT_NUMERIC_ID}:${deliveryCents}`);
-    }
-
-    let checkoutUrl = `https://charls-flowers.myshopify.com/cart/${lineItems.join(",")}`;
-
-    // Append shipping address if delivery was selected and address is available
-    if (checkoutDeliveryMethod === "delivery" && currentDeliveryResult?.address) {
-      const parts = currentDeliveryResult.address.split(",").map((p) => p.trim());
-      const address1 = parts[0] || "";
-      const city = parts[1] || "";
-      // parts[2] might be "FL 33126" or "State ZIP"
-      const stateZipPart = parts[2] || "";
-      const stateZipMatch = stateZipPart.match(/^([A-Z]{2})\s+(\d{5}(-\d{4})?)$/);
-      const zip = stateZipMatch ? stateZipMatch[2] : "";
-
-      const params = new URLSearchParams();
-      if (address1) params.set("checkout[shipping_address][address1]", address1);
-      if (city) params.set("checkout[shipping_address][city]", city);
-      if (zip) params.set("checkout[shipping_address][zip]", zip);
-      params.set("checkout[shipping_address][country]", "US");
-
-      checkoutUrl += `?${params.toString()}`;
-    }
-
-    window.location.href = checkoutUrl;
+    openCheckoutInNewTab(checkoutUrl);
   };
 
   if (items.length === 0) {
@@ -312,7 +281,7 @@ const Checkout = () => {
                   </p>
                   <div className="space-y-1">
                     <p className="font-body text-sm text-muted-foreground">
-                      Subtotal: <span className="text-foreground font-semibold">${cartTotal}</span>
+                      Subtotal: <span className="text-foreground font-semibold">${itemsSubtotal}</span>
                     </p>
                     {needsAddress && (
                       <p className="font-body text-sm text-muted-foreground">

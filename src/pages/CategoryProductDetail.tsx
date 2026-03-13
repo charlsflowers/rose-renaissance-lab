@@ -160,7 +160,12 @@ const CategoryProductDetail = () => {
 
   const handlePayNow = async () => {
     if (handleAddToCart()) {
-      const checkoutUrl = buildCheckoutUrl();
+      const checkoutUrl = buildCheckoutUrl(undefined, {
+        deliveryMethod,
+        deliveryCost,
+        deliveryAddress: selectedAddress,
+        deliveryZip,
+      });
       if (!checkoutUrl) {
         toast.error("Could not start Shopify checkout. Please try again.");
         return;
