@@ -39,7 +39,9 @@ const ReviewUpsellDialog = ({ open, onOpenChange, cartData, productLabel, mode }
     const loadVariants = async () => {
       setVariantsLoading(true);
       try {
-        const loaded = await fetchVariantsByHandle(productLabel);
+        const catalogProduct = bouquetProducts.find(p => p.name === productLabel);
+        const handle = catalogProduct?.shopifyHandle || productLabel.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
+        const loaded = await fetchVariantsByHandle(handle);
         if (active) setVariants(loaded);
       } catch (error) {
         console.error("Failed to load review product variants:", error);
