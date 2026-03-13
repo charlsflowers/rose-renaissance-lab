@@ -118,7 +118,7 @@ const CategoryProductDetail = () => {
   }
 
   const selectedSize = product.sizes[selectedSizeIdx];
-  const deliveryCost = deliveryMethod === "delivery" && deliveryMiles && !distanceTooFar ? deliveryMiles * 2 : 0;
+  const deliveryCost = deliveryMethod === "delivery" && deliveryMiles && !distanceTooFar ? calculateDeliveryCost(deliveryMiles) : 0;
   const totalPrice = selectedSize.price + deliveryCost;
 
   const handleAddToCart = (): boolean => {
