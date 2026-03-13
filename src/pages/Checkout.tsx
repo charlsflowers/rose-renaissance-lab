@@ -46,6 +46,9 @@ const Checkout = () => {
   const grandTotal = cartTotal + deliveryCost;
   const canCheckout = !needsAddress || deliveryResult !== null;
 
+  // Delivery fee product variant (SKU: DELIVERY-FEE, $0.01 each unit)
+  const DELIVERY_FEE_VARIANT_NUMERIC_ID = "51629708935300";
+
   const handleCheckout = () => {
     const storeItems = useCartStore.getState().items;
     const lineItems = storeItems
@@ -58,10 +61,17 @@ const Checkout = () => {
       toast.error("No se pudo iniciar el checkout. Vuelve atrás y añade el producto de nuevo.");
       return;
     }
+
+    // If home delivery, add the delivery fee as line items ($0.01 × cents)
+    const currentDeliveryResult = deliveryResult;
+    if (checkoutDeliveryMethod === "delivery" && currentDeliveryResult && currentDeliveryResult.cost > 0) {
+      const deliveryCents = Math.round(currentDeliveryResult.cost * 100);
+      lineItems.push(`${DELIVERY_FEE_VARIANT_NUMERIC_ID}:${deliveryCents}`);
+    }
+
     let checkoutUrl = `https://charls-flowers.myshopify.com/cart/${lineItems.join(",")}`;
 
     // Append shipping address if delivery was selected and address is available
-    const currentDeliveryResult = deliveryResult;
     if (checkoutDeliveryMethod === "delivery" && currentDeliveryResult?.address) {
       const parts = currentDeliveryResult.address.split(",").map((p) => p.trim());
       const address1 = parts[0] || "";
