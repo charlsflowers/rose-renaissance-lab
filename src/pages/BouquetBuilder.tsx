@@ -164,6 +164,45 @@ const BouquetBuilder = () => {
   }, []);
 
   const pricingTier = useMemo(() => determinePricingTier(selectedColors), [selectedColors]);
+  const [availableVariants, setAvailableVariants] = useState<ShopifyHandleVariant[]>([]);
+  const [variantsLoading, setVariantsLoading] = useState(true);
+
+  const tierBaseHandle = useMemo(() => {
+    const tierBaseProducts: Record<PricingTier, string> = {
+      standard: "Pure White",
+      red: "Total Passion",
+      painted: "Blue Sky",
+      mix2: "Iberian Passion",
+      mix2painted: "Night & Day",
+      mix3red: "Classic Tricolor",
+    };
+
+    return toShopifyHandle(tierBaseProducts[pricingTier]);
+  }, [pricingTier]);
+
+  useEffect(() => {
+    let active = true;
+
+    const loadVariants = async () => {
+      setVariantsLoading(true);
+      try {
+        const variants = await fetchVariantsByHandle(tierBaseHandle);
+        if (active) setAvailableVariants(variants);
+      } catch (error) {
+        console.error("Failed to load bouquet variants:", error);
+        if (active) setAvailableVariants([]);
+      } finally {
+        if (active) setVariantsLoading(false);
+      }
+    };
+
+    loadVariants();
+
+    return () => {
+      active = false;
+    };
+  }, [tierBaseHandle]);
+
   const minRoses = pricingTier === 'mix3red' ? 75 : 50;
 
   const lettersNumbersCost = addLettersNumbers ? specialText.length * letterNumberExtraPrice : 0;
