@@ -291,9 +291,11 @@ export async function fetchCartCheckoutUrl(cartId: string): Promise<string | nul
       return null;
     }
     const formatted = formatCheckoutUrl(checkoutUrl);
+    // Replace custom domain with .myshopify.com domain for checkout
+    const finalUrl = formatted.replace('https://charlsflowers.com', 'https://charls-flowers.myshopify.com');
     console.log("🛒 [Shopify] Raw checkoutUrl from cart:", checkoutUrl);
-    console.log("🛒 [Shopify] Formatted checkoutUrl:", formatted);
-    return formatted;
+    console.log("🛒 [Shopify] Final checkoutUrl:", finalUrl);
+    return finalUrl;
   } catch (error) {
     console.error('Failed to fetch cart checkout URL:', error);
     return null;
