@@ -48,14 +48,17 @@ const Checkout = () => {
 
   const handleCheckout = () => {
     const storeItems = useCartStore.getState().items;
-    const firstVariantId = storeItems.find((i) => i.shopifyVariantId)?.shopifyVariantId;
-    if (!firstVariantId) {
+    const lineItems = storeItems
+      .filter((i) => i.shopifyVariantId)
+      .map((i) => {
+        const numericId = i.shopifyVariantId.split("/").pop();
+        return `${numericId}:1`;
+      });
+    if (lineItems.length === 0) {
       toast.error("No se pudo iniciar el checkout. Vuelve atrás y añade el producto de nuevo.");
       return;
     }
-    const numericId = firstVariantId.split("/").pop();
-    const checkoutUrl = `https://charls-flowers.myshopify.com/cart/${numericId}:1`;
-    window.location.href = checkoutUrl;
+    window.location.href = `https://charls-flowers.myshopify.com/cart/${lineItems.join(",")}`;
   };
 
   if (items.length === 0) {
