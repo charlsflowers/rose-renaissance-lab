@@ -271,7 +271,7 @@ const CART_CHECKOUT_URL_QUERY = `
 function formatCheckoutUrl(checkoutUrl: string): string {
   try {
     const url = new URL(checkoutUrl);
-    url.searchParams.set('channel', 'online_store');
+    url.searchParams.delete('channel');
     return url.toString();
   } catch {
     return checkoutUrl;
@@ -294,7 +294,7 @@ export async function fetchCartCheckoutUrl(cartId: string): Promise<string | nul
     // Replace custom domain with .myshopify.com domain for checkout
     const finalUrl = formatted
       .replace('https://charlsflowers.com', 'https://charls-flowers.myshopify.com')
-      .replace('/cart/c/', '/checkouts/');
+      .replace('/cart/c/', '/checkouts/cn/');
     console.log("🛒 [Shopify] Raw checkoutUrl from cart:", checkoutUrl);
     console.log("🛒 [Shopify] Final checkoutUrl:", finalUrl);
     return finalUrl;
