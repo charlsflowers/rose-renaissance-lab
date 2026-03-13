@@ -954,6 +954,7 @@ const BouquetBuilder = () => {
 
                     setIsAdding(true);
                     try {
+                      console.log(`💳 [BouquetBuilder] Pay Now clicked — roses=${rosesCount}, tierBaseHandle="${tierBaseHandle}", availableVariants count=${availableVariants.length}`);
                       const variant = findVariantByRoses(availableVariants, rosesCount);
                       if (!variant) {
                         toast.error("Could not resolve product variant for the selected roses.");
