@@ -5,7 +5,7 @@ import { miamiHourNow, todayInMiami, isTodayInMiami } from "@/lib/miamiTime";
 import { enUS } from "date-fns/locale";
 import { supabase } from "@/integrations/supabase/client";
 import { useCartStore } from "@/stores/cartStore";
-import { fetchVariantsByHandle, findVariantByRoses, toShopifyHandle, type ShopifyHandleVariant } from "@/lib/shopifyVariants";
+import { fetchVariantsByHandle, findVariantByRoses, type ShopifyHandleVariant } from "@/lib/shopifyVariants";
 import { calculateDeliveryCost, formatDeliveryCost } from "@/lib/deliveryPricing";
 import { toast } from "sonner";
 import Navbar from "@/components/Navbar";
@@ -130,7 +130,7 @@ const BouquetProductDetail = () => {
 
     const loadVariants = async () => {
       setVariantsLoading(true);
-      const handle = toShopifyHandle(product.name);
+      const handle = product.shopifyHandle;
       console.log(`📦 [BouquetProductDetail] Loading variants for "${product.name}" → handle="${handle}"`);
       try {
         const variants = await fetchVariantsByHandle(handle);
@@ -193,7 +193,7 @@ const BouquetProductDetail = () => {
 
     setIsAdding(true);
     try {
-      console.log(`🛒 [BouquetProductDetail] Add to cart clicked — roses=${selectedSize.roses}, productVariants count=${productVariants.length}, handle="${toShopifyHandle(product.name)}"`);
+      console.log(`🛒 [BouquetProductDetail] Add to cart clicked — roses=${selectedSize.roses}, productVariants count=${productVariants.length}, handle="${product.shopifyHandle}"`);;
       const variant = findVariantByRoses(productVariants, selectedSize.roses);
       if (!variant) {
         toast.error("Could not resolve product variant for the selected roses.");

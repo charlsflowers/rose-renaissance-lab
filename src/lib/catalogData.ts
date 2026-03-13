@@ -109,6 +109,7 @@ export interface CustomSize {
 export interface BouquetProduct {
   id: string;
   name: string;
+  shopifyHandle: string;
   description: string;
   image: string;
   image2?: string;
@@ -186,62 +187,62 @@ export const categoryProducts: Record<string, CatalogProduct[]> = {
 
 export const bouquetProducts: BouquetProduct[] = [
   // Single color - Natural (standard)
-  { id: 'bq-round-6', name: 'Pure White', description: 'Round bouquet of white roses', image: bqBlancoImg, image2: bqBlanco2Img, color: 'Blanco', type: 'round', pricingTier: 'standard' },
-  { id: 'bq-round-7', name: 'Hot Pink Blush', description: 'Round bouquet of vibrant hot pink roses', image: bqHotpinkImg, image2: bqHotpink2Img, color: 'Hot Pink', type: 'round', pricingTier: 'standard' },
-  { id: 'bq-round-8', name: 'Soft Pink', description: 'Round bouquet of soft pink roses', image: bqLightpinkImg, image2: bqLightpink2Img, color: 'Pink', type: 'round', pricingTier: 'standard' },
-  { id: 'bq-round-12', name: 'Purple Charm', description: 'Round bouquet of purple roses', image: bqMoradoImg, image2: bqMorado2Img, color: 'Morado', type: 'round', pricingTier: 'standard' },
-  { id: 'bq-round-19', name: 'Orange Sunset', description: 'Round bouquet of vibrant orange roses', image: bqNaranjaImg, image2: bqNaranja2Img, color: 'Naranja', type: 'round', pricingTier: 'standard' },
-  { id: 'bq-round-20', name: 'Radiant Sun', description: 'Round bouquet of luminous yellow roses', image: bqAmarilloImg, image2: bqAmarillo2Img, color: 'Amarillo', type: 'round', pricingTier: 'standard' },
+  { id: 'bq-round-6', name: 'Pure White', shopifyHandle: 'pure-white', description: 'Round bouquet of white roses', image: bqBlancoImg, image2: bqBlanco2Img, color: 'Blanco', type: 'round', pricingTier: 'standard' },
+  { id: 'bq-round-7', name: 'Hot Pink Blush', shopifyHandle: 'hot-pink-blush', description: 'Round bouquet of vibrant hot pink roses', image: bqHotpinkImg, image2: bqHotpink2Img, color: 'Hot Pink', type: 'round', pricingTier: 'standard' },
+  { id: 'bq-round-8', name: 'Soft Pink', shopifyHandle: 'soft-pink', description: 'Round bouquet of soft pink roses', image: bqLightpinkImg, image2: bqLightpink2Img, color: 'Pink', type: 'round', pricingTier: 'standard' },
+  { id: 'bq-round-12', name: 'Purple Charm', shopifyHandle: 'purple-charm', description: 'Round bouquet of purple roses', image: bqMoradoImg, image2: bqMorado2Img, color: 'Morado', type: 'round', pricingTier: 'standard' },
+  { id: 'bq-round-19', name: 'Orange Sunset', shopifyHandle: 'orange-sunset', description: 'Round bouquet of vibrant orange roses', image: bqNaranjaImg, image2: bqNaranja2Img, color: 'Naranja', type: 'round', pricingTier: 'standard' },
+  { id: 'bq-round-20', name: 'Radiant Sun', shopifyHandle: 'radiant-sun', description: 'Round bouquet of luminous yellow roses', image: bqAmarilloImg, image2: bqAmarillo2Img, color: 'Amarillo', type: 'round', pricingTier: 'standard' },
 
   // Single color - Red
-  { id: 'bq-round-5', name: 'Total Passion', description: 'Round bouquet of pure red roses', image: bqRojoImg, image2: bqRojo2Img, color: 'Rojo', type: 'round', pricingTier: 'red' },
+  { id: 'bq-round-5', name: 'Total Passion', shopifyHandle: 'total-passion', description: 'Round bouquet of pure red roses', image: bqRojoImg, image2: bqRojo2Img, color: 'Rojo', type: 'round', pricingTier: 'red' },
 
   // Single color - Painted
-  { id: 'bq-round-10', name: 'Blue Sky', description: 'Round bouquet of painted blue roses', image: bqAzulImg, image2: bqAzul2Img, color: 'Azul', type: 'round', pricingTier: 'painted' },
-  { id: 'bq-round-11', name: 'Deep Night', description: 'Round bouquet of elegant black roses', image: bqNegroImg, image2: bqNegro2Img, color: 'Negro', type: 'round', pricingTier: 'painted' },
-  { id: 'bq-round-22', name: 'Green Fresh', description: 'Round bouquet of painted green roses', image: bqVerdeImg, image2: bqVerde2Img, color: 'Verde', type: 'round', pricingTier: 'painted' },
+  { id: 'bq-round-10', name: 'Blue Sky', shopifyHandle: 'blue-sky', description: 'Round bouquet of painted blue roses', image: bqAzulImg, image2: bqAzul2Img, color: 'Azul', type: 'round', pricingTier: 'painted' },
+  { id: 'bq-round-11', name: 'Deep Night', shopifyHandle: 'deep-night', description: 'Round bouquet of elegant black roses', image: bqNegroImg, image2: bqNegro2Img, color: 'Negro', type: 'round', pricingTier: 'painted' },
+  { id: 'bq-round-22', name: 'Green Fresh', shopifyHandle: 'green-fresh', description: 'Round bouquet of painted green roses', image: bqVerdeImg, image2: bqVerde2Img, color: 'Verde', type: 'round', pricingTier: 'painted' },
 
   // 2 colors - Natural without red (standard pricing)
-  { id: 'bq-round-13', name: 'Pink & White Dawn', description: 'Delicate mix of hot pink and white roses', image: bqMixHotpinkBlancoImg, image2: bqMixHotpinkBlanco2Img, color: 'Hot Pink y Blanco', type: 'round', pricingTier: 'standard' },
-  { id: 'bq-round-15', name: 'Spring Garden', description: 'Mix of yellow and white roses', image: bqMixAmarilloBlancoImg, image2: bqMixAmarilloBlanco2Img, color: 'Amarillo y Blanco', type: 'round', pricingTier: 'standard' },
-  { id: 'bq-round-29', name: 'Soft Lilac', description: 'Mix of lilac and white roses', image: bqMixLilaBlancoImg, image2: bqMixLilaBlanco2Img, color: 'Lila y Blanco', type: 'round', pricingTier: 'standard' },
-  { id: 'bq-round-32', name: 'Citrus Refresh', description: 'Mix of orange and yellow roses', image: bqMixNaranjaAmarilloImg, image2: bqMixNaranjaAmarillo3Img, color: 'Naranja y Amarillo', type: 'round', pricingTier: 'standard' },
-  { id: 'bq-round-35', name: 'Orange Citrus', description: 'Mix of orange and white roses', image: bqMixNaranjaBlancoImg, image2: bqMixNaranjaBlanco2Img, color: 'Naranja y Blanco', type: 'round', pricingTier: 'standard' },
-  { id: 'bq-round-44', name: 'Infinite Tenderness', description: 'Mix of pink and white roses', image: bqMixLightpinkBlancoImg, image2: bqMixPinkAmarilloBlanco2Img, color: 'Pink y Blanco', type: 'round', pricingTier: 'standard' },
+  { id: 'bq-round-13', name: 'Pink & White Dawn', shopifyHandle: 'pink-white-dawn', description: 'Delicate mix of hot pink and white roses', image: bqMixHotpinkBlancoImg, image2: bqMixHotpinkBlanco2Img, color: 'Hot Pink y Blanco', type: 'round', pricingTier: 'standard' },
+  { id: 'bq-round-15', name: 'Spring Garden', shopifyHandle: 'spring-garden', description: 'Mix of yellow and white roses', image: bqMixAmarilloBlancoImg, image2: bqMixAmarilloBlanco2Img, color: 'Amarillo y Blanco', type: 'round', pricingTier: 'standard' },
+  { id: 'bq-round-29', name: 'Soft Lilac', shopifyHandle: 'soft-lilac', description: 'Mix of lilac and white roses', image: bqMixLilaBlancoImg, image2: bqMixLilaBlanco2Img, color: 'Lila y Blanco', type: 'round', pricingTier: 'standard' },
+  { id: 'bq-round-32', name: 'Citrus Refresh', shopifyHandle: 'citrus-refresh', description: 'Mix of orange and yellow roses', image: bqMixNaranjaAmarilloImg, image2: bqMixNaranjaAmarillo3Img, color: 'Naranja y Amarillo', type: 'round', pricingTier: 'standard' },
+  { id: 'bq-round-35', name: 'Orange Citrus', shopifyHandle: 'orange-citrus', description: 'Mix of orange and white roses', image: bqMixNaranjaBlancoImg, image2: bqMixNaranjaBlanco2Img, color: 'Naranja y Blanco', type: 'round', pricingTier: 'standard' },
+  { id: 'bq-round-44', name: 'Infinite Tenderness', shopifyHandle: 'infinite-tenderness', description: 'Mix of pink and white roses', image: bqMixLightpinkBlancoImg, image2: bqMixPinkAmarilloBlanco2Img, color: 'Pink y Blanco', type: 'round', pricingTier: 'standard' },
 
   // 2 colors - With Red (mix2 pricing)
-  { id: 'bq-round-27', name: 'Iberian Passion', description: 'Mix of red and yellow roses', image: bqMixEspanaImg, image2: bqMixEspana2Img, color: 'Rojo y Amarillo', type: 'round', pricingTier: 'mix2' },
-  { id: 'bq-round-34', name: 'Red Sweetness', description: 'Mix of red and pink roses', image: bqMixRojoLightpinkImg, image2: bqMixRojoPinkLightpink2Img, color: 'Rojo y Pink', type: 'round', pricingTier: 'mix2' },
-  { id: 'bq-round-37', name: 'Bicolor Passion', description: 'Mix of red and white roses', image: bqMixRojoBlancoImg, image2: bqMixRojoBlanco2Img, color: 'Rojo y Blanco', type: 'round', pricingTier: 'mix2' },
-  { id: 'bq-round-40', name: 'Dark Romance', description: 'Mix of red and hot pink roses', image: bqMixRojoHotpinkImg, image2: bqMixRojoHotpink3Img, color: 'Rojo y Hot Pink', type: 'round', pricingTier: 'mix2' },
-  { id: 'bq-round-43', name: 'Passionate Love', description: 'Mix of red and pink roses', image: bqMixRojoLightpink2Img, image2: bqMixRojoLightpinkSecImg, color: 'Rojo y Pink', type: 'round', pricingTier: 'mix2' },
+  { id: 'bq-round-27', name: 'Iberian Passion', shopifyHandle: 'iberian-passion', description: 'Mix of red and yellow roses', image: bqMixEspanaImg, image2: bqMixEspana2Img, color: 'Rojo y Amarillo', type: 'round', pricingTier: 'mix2' },
+  { id: 'bq-round-34', name: 'Red Sweetness', shopifyHandle: 'red-sweetness', description: 'Mix of red and pink roses', image: bqMixRojoLightpinkImg, image2: bqMixRojoPinkLightpink2Img, color: 'Rojo y Pink', type: 'round', pricingTier: 'mix2' },
+  { id: 'bq-round-37', name: 'Bicolor Passion', shopifyHandle: 'bicolor-passion', description: 'Mix of red and white roses', image: bqMixRojoBlancoImg, image2: bqMixRojoBlanco2Img, color: 'Rojo y Blanco', type: 'round', pricingTier: 'mix2' },
+  { id: 'bq-round-40', name: 'Dark Romance', shopifyHandle: 'dark-romance', description: 'Mix of red and hot pink roses', image: bqMixRojoHotpinkImg, image2: bqMixRojoHotpink3Img, color: 'Rojo y Hot Pink', type: 'round', pricingTier: 'mix2' },
+  { id: 'bq-round-43', name: 'Passionate Love', shopifyHandle: 'passionate-love', description: 'Mix of red and pink roses', image: bqMixRojoLightpink2Img, image2: bqMixRojoLightpinkSecImg, color: 'Rojo y Pink', type: 'round', pricingTier: 'mix2' },
 
   // 2 colors - Natural + Painted (mix2painted)
-  { id: 'bq-round-30', name: 'Night & Day', description: 'Mix of black and white roses', image: bqMixNegroBlancoImg, image2: bqMixNegroBlanco2Img, color: 'Negro y Blanco', type: 'round', pricingTier: 'mix2painted' },
-  { id: 'bq-round-38', name: 'White Ocean', description: 'Mix of blue and white roses', image: bqMixAzulBlancoImg, image2: bqMixAzulBlanco3Img, color: 'Azul y Blanco', type: 'round', pricingTier: 'mix2painted' },
-  { id: 'bq-round-42', name: 'Dark Pink Elegance', description: 'Mix of pink and black roses', image: bqMixLightpinkNegroImg, image2: bqMixNaranjaAmarillo2SecImg, color: 'Pink y Negro', type: 'round', pricingTier: 'mix2painted' },
+  { id: 'bq-round-30', name: 'Night & Day', shopifyHandle: 'night-day', description: 'Mix of black and white roses', image: bqMixNegroBlancoImg, image2: bqMixNegroBlanco2Img, color: 'Negro y Blanco', type: 'round', pricingTier: 'mix2painted' },
+  { id: 'bq-round-38', name: 'White Ocean', shopifyHandle: 'white-ocean', description: 'Mix of blue and white roses', image: bqMixAzulBlancoImg, image2: bqMixAzulBlanco3Img, color: 'Azul y Blanco', type: 'round', pricingTier: 'mix2painted' },
+  { id: 'bq-round-42', name: 'Dark Pink Elegance', shopifyHandle: 'dark-pink-elegance', description: 'Mix of pink and black roses', image: bqMixLightpinkNegroImg, image2: bqMixNaranjaAmarillo2SecImg, color: 'Pink y Negro', type: 'round', pricingTier: 'mix2painted' },
 
   // 2 colors - Girasoles (mix2)
-  { id: 'bq-round-28', name: 'Sunflowers & Passion', description: 'Bouquet of sunflowers and red roses', image: bqMixGirasolesImg, image2: bqMixGirasoles2Img, color: 'Girasoles y Rojo', type: 'round', pricingTier: 'mix2', customSizes: [{ roses: 50, price: 146, label: '50 red roses + 8 sunflowers' }, { roses: 100, price: 306, label: '100 red roses + 22 sunflowers' }, { roses: 150, price: 426, label: '150 red roses + 22 sunflowers' }] },
+  { id: 'bq-round-28', name: 'Sunflowers & Passion', shopifyHandle: 'sunflowers-passion', description: 'Bouquet of sunflowers and red roses', image: bqMixGirasolesImg, image2: bqMixGirasoles2Img, color: 'Girasoles y Rojo', type: 'round', pricingTier: 'mix2', customSizes: [{ roses: 50, price: 146, label: '50 red roses + 8 sunflowers' }, { roses: 100, price: 306, label: '100 red roses + 22 sunflowers' }, { roses: 150, price: 426, label: '150 red roses + 22 sunflowers' }] },
 
   // 3 colors - With Red (mix3red, min 75)
-  { id: 'bq-round-18', name: 'Classic Tricolor', description: 'Mix of red, white, and pink roses', image: bqMixRojoPinkLightpinkImg, image2: reviewTricolorClasicoImg, color: 'Rojo, Blanco y Pink', type: 'round', pricingTier: 'mix3red' },
-  { id: 'bq-round-25', name: 'Intense Romance', description: 'Mix of red, purple, and white roses', image: bqMixRomanticoImg, image2: bqMixRomantico2Img, color: 'Rojo, Morado y Blanco', type: 'round', pricingTier: 'mix3red' },
-  { id: 'bq-round-26', name: 'Fire & Sun', description: 'Cheerful mix of red, yellow, and pink roses', image: bqMixAlegriaImg, image2: bqMixAlegria2Img, color: 'Rojo, Amarillo y Pink', type: 'round', pricingTier: 'mix3red' },
-  { id: 'bq-round-46', name: 'Tricolor Love', description: 'Mix of red, pink, and white roses', image: bqMixRojoPinkBlancoNewImg, image2: bqMixRojoPinkBlancoImg, color: 'Rojo, Pink y Blanco', type: 'round', pricingTier: 'mix3red' },
+  { id: 'bq-round-18', name: 'Classic Tricolor', shopifyHandle: 'classic-tricolor', description: 'Mix of red, white, and pink roses', image: bqMixRojoPinkLightpinkImg, image2: reviewTricolorClasicoImg, color: 'Rojo, Blanco y Pink', type: 'round', pricingTier: 'mix3red' },
+  { id: 'bq-round-25', name: 'Intense Romance', shopifyHandle: 'intense-romance', description: 'Mix of red, purple, and white roses', image: bqMixRomanticoImg, image2: bqMixRomantico2Img, color: 'Rojo, Morado y Blanco', type: 'round', pricingTier: 'mix3red' },
+  { id: 'bq-round-26', name: 'Fire & Sun', shopifyHandle: 'fire-sun', description: 'Cheerful mix of red, yellow, and pink roses', image: bqMixAlegriaImg, image2: bqMixAlegria2Img, color: 'Rojo, Amarillo y Pink', type: 'round', pricingTier: 'mix3red' },
+  { id: 'bq-round-46', name: 'Tricolor Love', shopifyHandle: 'tricolor-love', description: 'Mix of red, pink, and white roses', image: bqMixRojoPinkBlancoNewImg, image2: bqMixRojoPinkBlancoImg, color: 'Rojo, Pink y Blanco', type: 'round', pricingTier: 'mix3red' },
 
   // 3 colors - Natural without red (standard pricing)
-  { id: 'bq-round-23', name: 'Magic Pastel', description: 'Mix of purple, pink, and white roses', image: bqMixPastelImg, image2: bqMixPastel2Img, color: 'Morado, Pink y Blanco', type: 'round', pricingTier: 'standard' },
-  { id: 'bq-round-24', name: 'Warm Sunset', description: 'Vibrant mix of orange, hot pink, and white roses', image: bqMixCalidoImg, image2: bqMixCalido2Img, color: 'Naranja, Hot Pink y Blanco', type: 'round', pricingTier: 'standard' },
-  { id: 'bq-round-33', name: 'Light Citrus', description: 'Mix of orange, yellow, and white roses', image: bqMixNaranjaAmarillo2Img, image2: bqMixNaranjaAmarillo23Img, color: 'Naranja, Amarillo y Blanco', type: 'round', pricingTier: 'standard' },
-  { id: 'bq-round-39', name: 'Soft Spring', description: 'Mix of yellow, pink, and white roses', image: bqMixPinkAmarilloBlancoImg, image2: bqMixPinkAmarilloBlanco3Img, color: 'Amarillo, Pink y Blanco', type: 'round', pricingTier: 'standard' },
-  { id: 'bq-round-41', name: 'Bright Lilac', description: 'Mix of yellow, lilac, and white roses', image: bqMixAmarilloLilaBlancoImg, image2: bqMixNaranjaAmarilloSecImg, color: 'Amarillo, Lila y Blanco', type: 'round', pricingTier: 'standard' },
-  { id: 'bq-round-47', name: 'Bright Lilac', description: 'Mix of pink, hot pink, yellow, and white roses', image: bqMixRojoBlanco3Img, image2: bqMixRojoBlanco4Img, color: 'Pink, Hot Pink, Amarillo y Blanco', type: 'round', pricingTier: 'standard' },
+  { id: 'bq-round-23', name: 'Magic Pastel', shopifyHandle: 'magic-pastel', description: 'Mix of purple, pink, and white roses', image: bqMixPastelImg, image2: bqMixPastel2Img, color: 'Morado, Pink y Blanco', type: 'round', pricingTier: 'standard' },
+  { id: 'bq-round-24', name: 'Warm Sunset', shopifyHandle: 'warm-sunset', description: 'Vibrant mix of orange, hot pink, and white roses', image: bqMixCalidoImg, image2: bqMixCalido2Img, color: 'Naranja, Hot Pink y Blanco', type: 'round', pricingTier: 'standard' },
+  { id: 'bq-round-33', name: 'Light Citrus', shopifyHandle: 'light-citrus', description: 'Mix of orange, yellow, and white roses', image: bqMixNaranjaAmarillo2Img, image2: bqMixNaranjaAmarillo23Img, color: 'Naranja, Amarillo y Blanco', type: 'round', pricingTier: 'standard' },
+  { id: 'bq-round-39', name: 'Soft Spring', shopifyHandle: 'soft-spring', description: 'Mix of yellow, pink, and white roses', image: bqMixPinkAmarilloBlancoImg, image2: bqMixPinkAmarilloBlanco3Img, color: 'Amarillo, Pink y Blanco', type: 'round', pricingTier: 'standard' },
+  { id: 'bq-round-41', name: 'Bright Lilac', shopifyHandle: 'bright-lilac', description: 'Mix of yellow, lilac, and white roses', image: bqMixAmarilloLilaBlancoImg, image2: bqMixNaranjaAmarilloSecImg, color: 'Amarillo, Lila y Blanco', type: 'round', pricingTier: 'standard' },
+  { id: 'bq-round-47', name: 'Pink Symphony', shopifyHandle: 'pink-symphony', description: 'Mix of pink, hot pink, yellow, and white roses', image: bqMixRojoBlanco3Img, image2: bqMixRojoBlanco4Img, color: 'Pink, Hot Pink, Amarillo y Blanco', type: 'round', pricingTier: 'standard' },
 
   // 3 colors - With Painted (mix2painted pricing)
-  { id: 'bq-round-31', name: 'Elegant Contrast', description: 'Mix of black, hot pink, and white roses', image: bqMixNegroRosaImg, image2: bqMixNegroRosa2Img, color: 'Negro, Hot Pink y Blanco', type: 'round', pricingTier: 'mix2painted', customSizes: [{ roses: 75, price: 131 }, { roses: 100, price: 166 }, { roses: 125, price: 231 }, { roses: 150, price: 286 }, { roses: 175, price: 311 }, { roses: 200, price: 361 }] },
-  { id: 'bq-round-36', name: 'Imperial Bee', description: 'Mix of yellow, black, and white roses', image: bqMixAmarilloNegroBlancoImg, image2: bqMixAmarilloNegroBlanco3Img, color: 'Amarillo, Negro y Blanco', type: 'round', pricingTier: 'mix2painted' },
-  { id: 'bq-round-45', name: 'Elegant Passion', description: 'Mix of red and white roses', image: bqMixRojoBlancoNegroImg, image2: bqMixRojoHotpink2Img, color: 'Rojo y Blanco', type: 'round', pricingTier: 'mix2' },
+  { id: 'bq-round-31', name: 'Elegant Contrast', shopifyHandle: 'elegant-contrast', description: 'Mix of black, hot pink, and white roses', image: bqMixNegroRosaImg, image2: bqMixNegroRosa2Img, color: 'Negro, Hot Pink y Blanco', type: 'round', pricingTier: 'mix2painted', customSizes: [{ roses: 75, price: 131 }, { roses: 100, price: 166 }, { roses: 125, price: 231 }, { roses: 150, price: 286 }, { roses: 175, price: 311 }, { roses: 200, price: 361 }] },
+  { id: 'bq-round-36', name: 'Imperial Bee', shopifyHandle: 'imperial-bee', description: 'Mix of yellow, black, and white roses', image: bqMixAmarilloNegroBlancoImg, image2: bqMixAmarilloNegroBlanco3Img, color: 'Amarillo, Negro y Blanco', type: 'round', pricingTier: 'mix2painted' },
+  { id: 'bq-round-45', name: 'Elegant Passion', shopifyHandle: 'elegant-passion', description: 'Mix of red and white roses', image: bqMixRojoBlancoNegroImg, image2: bqMixRojoHotpink2Img, color: 'Rojo y Blanco', type: 'round', pricingTier: 'mix2' },
 ];
 
 export const bouquetSizeOptions = pricingTable;

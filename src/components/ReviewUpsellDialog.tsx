@@ -3,7 +3,8 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/u
 import { Crown, Ribbon, Store, Truck, ShoppingBag, CreditCard, Star, Loader2 } from "lucide-react";
 import { useCartStore, type CartItem } from "@/stores/cartStore";
 import { crownOptions, crownPrice, ribbonPrice, ribbonPresets } from "@/lib/productData";
-import { fetchVariantsByHandle, findVariantByRoses, toShopifyHandle, type ShopifyHandleVariant } from "@/lib/shopifyVariants";
+import { fetchVariantsByHandle, findVariantByRoses, type ShopifyHandleVariant } from "@/lib/shopifyVariants";
+import { bouquetProducts } from "@/lib/catalogData";
 import type { ReviewCartData } from "@/components/ReviewCard";
 import { toast } from "sonner";
 
@@ -38,7 +39,9 @@ const ReviewUpsellDialog = ({ open, onOpenChange, cartData, productLabel, mode }
     const loadVariants = async () => {
       setVariantsLoading(true);
       try {
-        const loaded = await fetchVariantsByHandle(toShopifyHandle(productLabel));
+        const catalogProduct = bouquetProducts.find(p => p.name === productLabel);
+        const handle = catalogProduct?.shopifyHandle || productLabel.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
+        const loaded = await fetchVariantsByHandle(handle);
         if (active) setVariants(loaded);
       } catch (error) {
         console.error("Failed to load review product variants:", error);

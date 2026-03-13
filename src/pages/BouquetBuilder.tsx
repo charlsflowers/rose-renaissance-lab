@@ -4,7 +4,7 @@ import { miamiHourNow, todayInMiami, isTodayInMiami } from "@/lib/miamiTime";
 import { supabase } from "@/integrations/supabase/client";
 import { enUS } from "date-fns/locale";
 import { useCartStore } from "@/stores/cartStore";
-import { fetchVariantsByHandle, findVariantByRoses, toShopifyHandle, type ShopifyHandleVariant } from "@/lib/shopifyVariants";
+import { fetchVariantsByHandle, findVariantByRoses, type ShopifyHandleVariant } from "@/lib/shopifyVariants";
 import { toast } from "sonner";
 import { calculateDeliveryCost, formatDeliveryCost } from "@/lib/deliveryPricing";
 
@@ -167,16 +167,16 @@ const BouquetBuilder = () => {
   const [variantsLoading, setVariantsLoading] = useState(true);
 
   const tierBaseHandle = useMemo(() => {
-    const tierBaseProducts: Record<PricingTier, string> = {
-      standard: "Pure White",
-      red: "Total Passion",
-      painted: "Blue Sky",
-      mix2: "Iberian Passion",
-      mix2painted: "Night & Day",
-      mix3red: "Classic Tricolor",
+    const tierBaseHandles: Record<PricingTier, string> = {
+      standard: "pure-white",
+      red: "total-passion",
+      painted: "blue-sky",
+      mix2: "iberian-passion",
+      mix2painted: "night-day",
+      mix3red: "classic-tricolor",
     };
 
-    return toShopifyHandle(tierBaseProducts[pricingTier]);
+    return tierBaseHandles[pricingTier];
   }, [pricingTier]);
 
   useEffect(() => {
