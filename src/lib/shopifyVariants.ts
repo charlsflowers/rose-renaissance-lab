@@ -40,34 +40,29 @@ export async function fetchVariantsByHandle(handle: string): Promise<ShopifyHand
 
   const data = await storefrontApiRequest(GET_VARIANTS_BY_HANDLE_QUERY, { handle });
   const edges = data?.data?.productByHandle?.variants?.edges ?? [];
+  const variants = edges.map((edge: { node: ShopifyHandleVariant }) => edge.node);
 
-  return edges.map((edge: { node: ShopifyHandleVariant }) => edge.node);
-}
+  console.log("Full variants array:", variants);
 
-function parseNumericValue(value: string): number | null {
-  const match = value.match(/\d+/);
-  if (!match) return null;
-  const parsed = Number(match[0]);
-  return Number.isFinite(parsed) ? parsed : null;
+  return variants;
 }
 
 export function findVariantByRoses(
   variants: ShopifyHandleVariant[],
   rosesCount: number
 ): ShopifyHandleVariant | null {
-  const bySelectedOptions = variants.find((variant) => {
-    const roseOption = variant.selectedOptions.find((option) =>
-      option.name.toLowerCase().includes("rose")
-    );
+  const selectedRoses = String(rosesCount);
 
-    if (roseOption) {
-      return parseNumericValue(roseOption.value) === rosesCount;
-    }
+  const selectedVariant = variants.find((variant) =>
+    variant.selectedOptions.some(
+      (opt) => opt.name === "Roses" && opt.value === selectedRoses
+    )
+  );
 
-    return variant.selectedOptions.some((option) => parseNumericValue(option.value) === rosesCount);
-  });
+  if (!selectedVariant) {
+    console.log("Full variants array:", variants);
+    console.log("Selected roses value:", selectedRoses);
+  }
 
-  if (bySelectedOptions) return bySelectedOptions;
-
-  return variants.find((variant) => parseNumericValue(variant.title) === rosesCount) ?? null;
+  return selectedVariant ?? null;
 }
