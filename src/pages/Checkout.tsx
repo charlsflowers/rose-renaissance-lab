@@ -256,7 +256,7 @@ const Checkout = () => {
                   </div>
                 </div>
                 <button
-                  disabled={!canCheckout || isLoading || isSyncing || !checkoutUrl}
+                  disabled={!canCheckout || isLoading || isSyncing}
                   className="inline-flex items-center gap-2 bg-primary text-primary-foreground px-10 py-4 font-body text-sm tracking-widest uppercase hover:bg-primary/90 transition-colors rounded-sm disabled:opacity-50 disabled:cursor-not-allowed"
                   onClick={handleCheckout}
                 >
