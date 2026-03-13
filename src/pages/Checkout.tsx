@@ -19,8 +19,11 @@ const Checkout = () => {
 
   const cartTotal = items.reduce((sum, i) => sum + i.totalPrice, 0);
 
+  // Pre-populate delivery info from cart items if already provided
+  const existingDeliveryItem = items.find((i) => i.deliveryMethod === "delivery" && i.deliveryAddress && i.deliveryAddress !== "Store pickup");
+
   const [checkoutDeliveryMethod, setCheckoutDeliveryMethod] = useState<"pickup" | "delivery">(
-    items.some((i) => i.deliveryMethod === "delivery") ? "delivery" : "pickup",
+    existingDeliveryItem ? "delivery" : "pickup",
   );
 
   const [deliveryResult, setDeliveryResult] = useState<{
@@ -28,7 +31,15 @@ const Checkout = () => {
     cost: number;
     address: string;
     duration?: string;
-  } | null>(null);
+  } | null>(
+    existingDeliveryItem && existingDeliveryItem.deliveryMiles !== null
+      ? {
+          miles: existingDeliveryItem.deliveryMiles,
+          cost: existingDeliveryItem.deliveryCost,
+          address: existingDeliveryItem.deliveryAddress,
+        }
+      : null,
+  );
 
   const needsAddress = checkoutDeliveryMethod === "delivery";
   const deliveryCost = needsAddress && deliveryResult ? deliveryResult.cost : 0;
