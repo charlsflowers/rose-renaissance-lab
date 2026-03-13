@@ -28,6 +28,33 @@ const ReviewUpsellDialog = ({ open, onOpenChange, cartData, productLabel, mode }
   const [ribbonText, setRibbonText] = useState("");
   const [deliveryMethod, setDeliveryMethod] = useState<"pickup" | "delivery">("pickup");
   const [isAdding, setIsAdding] = useState(false);
+  const [variantsLoading, setVariantsLoading] = useState(false);
+  const [variants, setVariants] = useState<ShopifyHandleVariant[]>([]);
+
+  useEffect(() => {
+    if (!open) return;
+
+    let active = true;
+
+    const loadVariants = async () => {
+      setVariantsLoading(true);
+      try {
+        const loaded = await fetchVariantsByHandle(toShopifyHandle(productLabel));
+        if (active) setVariants(loaded);
+      } catch (error) {
+        console.error("Failed to load review product variants:", error);
+        if (active) setVariants([]);
+      } finally {
+        if (active) setVariantsLoading(false);
+      }
+    };
+
+    loadVariants();
+
+    return () => {
+      active = false;
+    };
+  }, [open, productLabel]);
 
   const glitterCost = addGlitter ? Math.ceil(cartData.roses / 25) * 8 : 0;
   const extrasTotal =
@@ -35,12 +62,16 @@ const ReviewUpsellDialog = ({ open, onOpenChange, cartData, productLabel, mode }
   const finalPrice = cartData.price + extrasTotal;
 
   const handleConfirm = async () => {
+    if (variantsLoading) {
+      toast.error("We are still loading product variants.");
+      return;
+    }
+
     setIsAdding(true);
     try {
-      const tier = cartData.pricingTier || inferTierFromColor(cartData.color);
-      const variant = await resolveVariantId(productLabel, cartData.roses, tier);
+      const variant = findVariantByRoses(variants, cartData.roses);
       if (!variant) {
-        toast.error("Could not resolve product. Please try again.");
+        toast.error("Could not resolve product variant for this bouquet.");
         setIsAdding(false);
         return;
       }

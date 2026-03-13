@@ -19,6 +19,33 @@ const VideoOrderDialog = ({ video, open, onOpenChange }: Props) => {
   
   const [customValues, setCustomValues] = useState<Record<string, string>>({});
   const [isAdding, setIsAdding] = useState(false);
+  const [variantsLoading, setVariantsLoading] = useState(false);
+  const [variants, setVariants] = useState<ShopifyHandleVariant[]>([]);
+
+  useEffect(() => {
+    if (!open) return;
+
+    let active = true;
+
+    const loadVariants = async () => {
+      setVariantsLoading(true);
+      try {
+        const loaded = await fetchVariantsByHandle(toShopifyHandle(video.title));
+        if (active) setVariants(loaded);
+      } catch (error) {
+        console.error("Failed to load video product variants:", error);
+        if (active) setVariants([]);
+      } finally {
+        if (active) setVariantsLoading(false);
+      }
+    };
+
+    loadVariants();
+
+    return () => {
+      active = false;
+    };
+  }, [open, video.title]);
 
   const hasRibbon = video.customFields?.some(f => f.label.toLowerCase().includes("ribbon"));
   const hasLetterOrNumber = video.customFields?.some(f => f.label.toLowerCase().includes("letter") || f.label.toLowerCase().includes("number"));
@@ -39,12 +66,16 @@ const VideoOrderDialog = ({ video, open, onOpenChange }: Props) => {
   const totalPrice = video.basePrice + extras;
 
   const handleConfirm = async (mode: "cart" | "buy") => {
+    if (variantsLoading) {
+      toast.error("We are still loading product variants.");
+      return;
+    }
+
     setIsAdding(true);
     try {
-      const tier = video.pricingTier || inferTierFromColor(video.color);
-      const variant = await resolveVariantId(video.title, video.roses, tier);
+      const variant = findVariantByRoses(variants, video.roses);
       if (!variant) {
-        toast.error("Could not resolve product. Please try again.");
+        toast.error("Could not resolve product variant for this bouquet.");
         setIsAdding(false);
         return;
       }

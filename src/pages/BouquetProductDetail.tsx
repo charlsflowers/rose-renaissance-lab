@@ -525,13 +525,13 @@ const BouquetProductDetail = () => {
                     ${totalPrice} <span className="text-xs font-body text-muted-foreground font-normal">USD</span>
                   </p>
                   <div className="flex w-full md:w-auto gap-2">
-                    <button onClick={handleAddToCart} disabled={isAdding}
+                    <button onClick={handleAddToCart} disabled={isAdding || variantsLoading}
                       className="flex-1 md:flex-none bg-primary text-primary-foreground px-4 md:px-6 py-2.5 md:py-3 font-body text-[10px] md:text-xs tracking-widest uppercase hover:bg-primary/90 transition-colors rounded-sm disabled:opacity-50">
-                      {isAdding ? "Adding..." : "Add to cart"}
+                      {isAdding ? "Adding..." : variantsLoading ? "Loading..." : "Add to cart"}
                     </button>
-                    <button onClick={handlePayNow} disabled={isAdding}
+                    <button onClick={handlePayNow} disabled={isAdding || variantsLoading}
                       className="flex-1 md:flex-none border-2 border-primary text-primary px-4 md:px-6 py-2.5 md:py-3 font-body text-[10px] md:text-xs tracking-widest uppercase hover:bg-primary/10 transition-colors rounded-sm whitespace-nowrap disabled:opacity-50">
-                      {isAdding ? "Adding..." : "Pay now"}
+                      {isAdding ? "Adding..." : variantsLoading ? "Loading..." : "Pay now"}
                     </button>
                   </div>
                 </div>
