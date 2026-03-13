@@ -130,7 +130,7 @@ const BouquetProductDetail = () => {
 
     const loadVariants = async () => {
       setVariantsLoading(true);
-      const handle = toShopifyHandle(product.name);
+      const handle = product.shopifyHandle;
       console.log(`📦 [BouquetProductDetail] Loading variants for "${product.name}" → handle="${handle}"`);
       try {
         const variants = await fetchVariantsByHandle(handle);
