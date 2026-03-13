@@ -287,7 +287,7 @@ const CategoryProductDetail = () => {
                     {deliveryMiles !== null && !distanceTooFar && (
                       <div className="bg-primary/5 border border-primary/20 rounded-sm p-4">
                          <p className="font-body text-sm text-foreground">📍 Distance: <span className="font-semibold">{deliveryMiles} miles</span>{deliveryDuration && <span className="text-muted-foreground"> (~{deliveryDuration})</span>}</p>
-                         <p className="font-body text-sm text-primary font-semibold mt-1">Shipping cost: ${deliveryMiles * 2}</p>
+                         <p className="font-body text-sm text-primary font-semibold mt-1">Shipping cost: {formatDeliveryCost(deliveryCost)}</p>
                       </div>
                     )}
                     {mapUrl && (

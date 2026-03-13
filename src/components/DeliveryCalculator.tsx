@@ -181,7 +181,7 @@ const DeliveryCalculator = ({ onResult }: Props) => {
             {deliveryDuration && <span className="text-muted-foreground"> (~{deliveryDuration})</span>}
           </p>
           <p className="font-body text-sm text-primary font-semibold mt-1">
-            Shipping cost: ${deliveryMiles * 2}
+            Shipping cost: {formatDeliveryCost(calculateDeliveryCost(deliveryMiles))}
           </p>
         </div>
       )}
