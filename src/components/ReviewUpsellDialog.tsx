@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Crown, Ribbon, Store, Truck, ShoppingBag, CreditCard, Star, Loader2 } from "lucide-react";
 import { useCartStore, type CartItem } from "@/stores/cartStore";
