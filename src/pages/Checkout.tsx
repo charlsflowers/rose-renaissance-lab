@@ -58,7 +58,29 @@ const Checkout = () => {
       toast.error("No se pudo iniciar el checkout. Vuelve atrás y añade el producto de nuevo.");
       return;
     }
-    window.location.href = `https://charls-flowers.myshopify.com/cart/${lineItems.join(",")}`;
+    let checkoutUrl = `https://charls-flowers.myshopify.com/cart/${lineItems.join(",")}`;
+
+    // Append shipping address if delivery was selected and address is available
+    const currentDeliveryResult = deliveryResult;
+    if (checkoutDeliveryMethod === "delivery" && currentDeliveryResult?.address) {
+      const parts = currentDeliveryResult.address.split(",").map((p) => p.trim());
+      const address1 = parts[0] || "";
+      const city = parts[1] || "";
+      // parts[2] might be "FL 33126" or "State ZIP"
+      const stateZipPart = parts[2] || "";
+      const stateZipMatch = stateZipPart.match(/^([A-Z]{2})\s+(\d{5}(-\d{4})?)$/);
+      const zip = stateZipMatch ? stateZipMatch[2] : "";
+
+      const params = new URLSearchParams();
+      if (address1) params.set("checkout[shipping_address][address1]", address1);
+      if (city) params.set("checkout[shipping_address][city]", city);
+      if (zip) params.set("checkout[shipping_address][zip]", zip);
+      params.set("checkout[shipping_address][country]", "US");
+
+      checkoutUrl += `?${params.toString()}`;
+    }
+
+    window.location.href = checkoutUrl;
   };
 
   if (items.length === 0) {
