@@ -35,13 +35,12 @@ const Checkout = () => {
   const grandTotal = cartTotal + deliveryCost;
   const canCheckout = !needsAddress || deliveryResult !== null;
 
-  const handleCheckout = async () => {
-    const checkoutUrl = await createCheckoutUrl();
+  const handleCheckout = () => {
+    const checkoutUrl = buildCheckoutUrl();
     if (!checkoutUrl) {
       toast.error("No se pudo iniciar el checkout de Shopify.");
       return;
     }
-
     openCheckoutInNewTab(checkoutUrl);
   };
 

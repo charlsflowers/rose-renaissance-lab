@@ -33,7 +33,7 @@ const AppContent = () => {
         <Route path="/bouquets" element={<BouquetProducts />} />
         <Route path="/room-decors/:packageId" element={<RoomDecorDetail />} />
         <Route path="/room-decors" element={<RoomDecors />} />
-        <Route path="/cart/c/:cartId" element={<ShopifyCheckoutRedirect />} />
+        
         <Route path="/checkout" element={<Checkout />} />
         <Route path="*" element={<NotFound />} />
       </Routes>

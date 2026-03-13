@@ -159,19 +159,12 @@ const CategoryProductDetail = () => {
 
   const handlePayNow = async () => {
     if (handleAddToCart()) {
-      const checkoutUrl = await useCartStore.getState().createCheckoutUrl();
+      const checkoutUrl = buildCheckoutUrl();
       if (!checkoutUrl) {
         toast.error("Could not start Shopify checkout. Please try again.");
         return;
       }
-
-      const link = document.createElement('a');
-      link.href = checkoutUrl;
-      link.target = '_blank';
-      link.rel = 'noopener noreferrer';
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
+      openCheckoutInNewTab(checkoutUrl);
     }
   };
 

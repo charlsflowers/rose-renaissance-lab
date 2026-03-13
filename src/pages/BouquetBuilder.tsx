@@ -997,19 +997,12 @@ const BouquetBuilder = () => {
                         shopifyVariantId: variant.id,
                       });
                       toast.success("Bouquet added to cart!");
-                      const checkoutUrl = await useCartStore.getState().createCheckoutUrl();
+                      const checkoutUrl = buildCheckoutUrl();
                       if (!checkoutUrl) {
                         toast.error("Could not start Shopify checkout. Please try again.");
                         return;
                       }
-
-                      const link = document.createElement('a');
-                      link.href = checkoutUrl;
-                      link.target = '_blank';
-                      link.rel = 'noopener noreferrer';
-                      document.body.appendChild(link);
-                      link.click();
-                      document.body.removeChild(link);
+                      openCheckoutInNewTab(checkoutUrl);
                     } catch {
                       toast.error("Failed to add to cart.");
                     } finally {
