@@ -5,7 +5,7 @@ import {
   addLineToShopifyCart,
   removeLineFromShopifyCart,
   fetchShopifyCart,
-  createCheckoutFromCartLines,
+  fetchCartCheckoutUrl,
 } from '@/lib/shopify';
 
 export interface CartItem {
@@ -172,65 +172,17 @@ export const useCartStore = create<CartStore>()(
       },
 
       createCheckoutUrl: async () => {
-        const items = get().items;
-        if (items.length === 0) return null;
-
-        const lines = items
-          .filter((item) => item.shopifyVariantId)
-          .map((item) => {
-            const attrs: Array<{ key: string; value: string }> = [];
-
-            if (item.glitter) {
-              const glitterCost = Math.ceil(item.roses / 25) * 8;
-              attrs.push({ key: "Glitter", value: `Con glitter (+$${glitterCost})` });
-            }
-            if (item.accessory && item.accessory !== "none") {
-              attrs.push({ key: "Accesorio", value: `${item.accessory}${item.accessoryText ? `: ${item.accessoryText}` : ""}` });
-            }
-            if (item.ribbonText) {
-              attrs.push({ key: "Cinta", value: item.ribbonText });
-            }
-            if (item.specialText) {
-              attrs.push({ key: "Letras/Números", value: item.specialText });
-            }
-            if (item.crownSize) {
-              attrs.push({ key: "Corona", value: item.crownSize });
-            }
-            if (item.paperColor) {
-              attrs.push({ key: "Color papel", value: item.paperColor });
-            }
-            if (item.deliveryMethod === "delivery") {
-              attrs.push({ key: "Envío", value: `Delivery (+$${item.deliveryCost})` });
-              if (item.deliveryAddress) attrs.push({ key: "Dirección", value: item.deliveryAddress });
-              if (item.deliveryName) attrs.push({ key: "Nombre destinatario", value: item.deliveryName });
-              if (item.deliveryPhone) attrs.push({ key: "Teléfono", value: item.deliveryPhone });
-            } else {
-              attrs.push({ key: "Envío", value: "Pickup in store" });
-            }
-            if (item.deliveryDate) {
-              attrs.push({ key: "Fecha", value: item.deliveryDate });
-            }
-            if (item.deliveryHour) {
-              attrs.push({ key: "Hora", value: item.deliveryHour });
-            }
-
-            return {
-              variantId: item.shopifyVariantId,
-              quantity: 1,
-              customAttributes: attrs,
-            };
-          });
-
-        if (lines.length === 0) return null;
+        const { cartId } = get();
+        if (!cartId) return null;
 
         try {
-          const checkoutUrl = await createCheckoutFromCartLines(lines);
+          const checkoutUrl = await fetchCartCheckoutUrl(cartId);
           if (!checkoutUrl) return null;
 
           set({ checkoutUrl });
           return checkoutUrl;
         } catch (error) {
-          console.error('Failed to create checkout URL:', error);
+          console.error('Failed to get checkout URL:', error);
           return null;
         }
       },

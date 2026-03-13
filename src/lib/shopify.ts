@@ -260,14 +260,10 @@ const CART_QUERY = `
   }
 `;
 
-const CHECKOUT_CREATE_MUTATION = `
-  mutation checkoutCreate($input: CheckoutCreateInput!) {
-    checkoutCreate(input: $input) {
-      checkout {
-        id
-        checkoutUrl: webUrl
-      }
-      checkoutUserErrors { field message }
+const CART_CHECKOUT_URL_QUERY = `
+  query getCartCheckoutUrl($id: ID!) {
+    cart(id: $id) {
+      checkoutUrl
     }
   }
 `;
@@ -286,41 +282,19 @@ function isCartNotFoundError(userErrors: Array<{ field: string[] | null; message
   return userErrors.some(e => e.message.toLowerCase().includes('cart not found') || e.message.toLowerCase().includes('does not exist'));
 }
 
-export interface CheckoutLineItem {
-  variantId: string;
-  quantity: number;
-  customAttributes?: Array<{ key: string; value: string }>;
-}
-
-export async function createCheckoutFromCartLines(
-  lines: CheckoutLineItem[]
-): Promise<string | null> {
-  const normalizedLines = lines
-    .filter((line) => line.variantId && line.quantity > 0)
-    .map((line) => ({
-      variantId: line.variantId,
-      quantity: line.quantity,
-      ...(line.customAttributes && line.customAttributes.length > 0
-        ? { customAttributes: line.customAttributes }
-        : {}),
-    }));
-
-  if (normalizedLines.length === 0) return null;
-
-  const data = await storefrontApiRequest(CHECKOUT_CREATE_MUTATION, {
-    input: { lineItems: normalizedLines },
-  });
-
-  const userErrors = data?.data?.checkoutCreate?.checkoutUserErrors || [];
-  if (userErrors.length > 0) {
-    console.error('Checkout creation failed:', userErrors);
+export async function fetchCartCheckoutUrl(cartId: string): Promise<string | null> {
+  try {
+    const data = await storefrontApiRequest(CART_CHECKOUT_URL_QUERY, { id: cartId });
+    const checkoutUrl = data?.data?.cart?.checkoutUrl;
+    if (!checkoutUrl) {
+      console.error('No checkoutUrl returned for cart:', cartId);
+      return null;
+    }
+    return formatCheckoutUrl(checkoutUrl);
+  } catch (error) {
+    console.error('Failed to fetch cart checkout URL:', error);
     return null;
   }
-
-  const checkoutUrl = data?.data?.checkoutCreate?.checkout?.checkoutUrl;
-  if (!checkoutUrl) return null;
-
-  return formatCheckoutUrl(checkoutUrl);
 }
 
 export async function createShopifyCart(variantId: string, quantity: number): Promise<{ cartId: string; checkoutUrl: string; lineId: string } | null> {
