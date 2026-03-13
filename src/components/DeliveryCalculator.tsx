@@ -102,7 +102,7 @@ const DeliveryCalculator = ({ onResult }: Props) => {
         if (data.mapUrl) setMapUrl(data.mapUrl);
         onResult({
           miles: data.miles,
-          cost: data.miles * 2,
+          cost: calculateDeliveryCost(data.miles),
           address: prediction.description,
           duration: data.duration,
         });
