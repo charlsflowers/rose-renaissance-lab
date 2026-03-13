@@ -290,13 +290,8 @@ export async function fetchCartCheckoutUrl(cartId: string): Promise<string | nul
       console.error('No checkoutUrl returned for cart:', cartId);
       return null;
     }
-    const finalUrl = checkoutUrl.replace(
-      'https://charlsflowers.com',
-      'https://charls-flowers.myshopify.com'
-    );
-    console.log("🛒 [Shopify] Raw checkoutUrl from cart:", checkoutUrl);
-    console.log("🛒 [Shopify] Final checkoutUrl:", finalUrl);
-    return finalUrl;
+    console.log("🛒 [Shopify] checkoutUrl:", checkoutUrl);
+    return checkoutUrl;
   } catch (error) {
     console.error('Failed to fetch cart checkout URL:', error);
     return null;
