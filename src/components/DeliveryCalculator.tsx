@@ -1,5 +1,6 @@
 import { useState, useCallback, useRef, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
+import { calculateDeliveryCost, formatDeliveryCost } from "@/lib/deliveryPricing";
 import { MapPin, Search, Loader2, Truck, Store, AlertTriangle } from "lucide-react";
 
 interface Prediction {
