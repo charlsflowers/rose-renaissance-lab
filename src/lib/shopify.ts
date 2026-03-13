@@ -271,7 +271,7 @@ const CART_CHECKOUT_URL_QUERY = `
 function formatCheckoutUrl(checkoutUrl: string): string {
   try {
     const url = new URL(checkoutUrl);
-    url.searchParams.set('channel', 'online_store');
+    url.searchParams.delete('channel');
     return url.toString();
   } catch {
     return checkoutUrl;
