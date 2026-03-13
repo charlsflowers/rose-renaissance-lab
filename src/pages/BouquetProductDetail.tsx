@@ -189,7 +189,7 @@ const BouquetProductDetail = () => {
 
     if (variantsLoading) {
       toast.error("We are still loading product variants. Please try again in a moment.");
-      return false;
+      return null;
     }
 
     setIsAdding(true);
