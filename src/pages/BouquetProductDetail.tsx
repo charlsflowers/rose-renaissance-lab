@@ -182,14 +182,14 @@ const BouquetProductDetail = () => {
 
   let step = 1;
 
-  const handleAddToCart = async (): Promise<boolean> => {
-    if (deliveryMethod === "delivery" && !selectedAddress) { toast.error("Please select a delivery address."); return false; }
-    if (deliveryMethod === "delivery" && (distanceTooFar || deliveryMiles === null)) { toast.error("The address is invalid or out of range."); return false; }
-    if (!deliveryDate || !deliveryHour) { toast.error("Please select a date and time."); return false; }
+  const handleAddToCart = async (): Promise<string | null> => {
+    if (deliveryMethod === "delivery" && !selectedAddress) { toast.error("Please select a delivery address."); return null; }
+    if (deliveryMethod === "delivery" && (distanceTooFar || deliveryMiles === null)) { toast.error("The address is invalid or out of range."); return null; }
+    if (!deliveryDate || !deliveryHour) { toast.error("Please select a date and time."); return null; }
 
     if (variantsLoading) {
       toast.error("We are still loading product variants. Please try again in a moment.");
-      return false;
+      return null;
     }
 
     setIsAdding(true);
@@ -198,7 +198,7 @@ const BouquetProductDetail = () => {
       const variant = findVariantByRoses(productVariants, selectedSize.roses);
       if (!variant) {
         toast.error("Could not resolve product variant for the selected roses.");
-        return false;
+        return null;
       }
 
       const addons: string[] = [];
@@ -233,19 +233,19 @@ const BouquetProductDetail = () => {
         shopifyVariantId: variant.id,
       });
       toast.success("Bouquet added to cart!");
-      return true;
+      return variant.id;
     } catch (error) {
       toast.error("Failed to add to cart.");
-      return false;
+      return null;
     } finally {
       setIsAdding(false);
     }
   };
 
   const handlePayNow = async () => {
-    const success = await handleAddToCart();
-    if (success) {
-      const checkoutUrl = buildCheckoutUrl();
+    const variantId = await handleAddToCart();
+    if (variantId) {
+      const checkoutUrl = buildCheckoutUrl(variantId);
       if (!checkoutUrl) {
         toast.error("Could not start Shopify checkout. Please try again.");
         return;
