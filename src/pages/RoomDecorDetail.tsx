@@ -17,7 +17,6 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 
 const RoomDecorDetail = () => {
   const { packageId } = useParams<{ packageId: string }>();
-  const navigate = useNavigate();
   const addItem = useCartStore(state => state.addItem);
   const pkg = roomDecorPackages.find(p => p.id === packageId);
 

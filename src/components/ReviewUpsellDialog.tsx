@@ -18,7 +18,7 @@ interface Props {
 
 const ReviewUpsellDialog = ({ open, onOpenChange, cartData, productLabel, mode }: Props) => {
   const addItem = useCartStore(state => state.addItem);
-  const navigate = useNavigate();
+  
 
   const [addGlitter, setAddGlitter] = useState(false);
   const [addCrown, setAddCrown] = useState(false);

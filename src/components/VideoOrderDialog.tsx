@@ -16,7 +16,7 @@ interface Props {
 
 const VideoOrderDialog = ({ video, open, onOpenChange }: Props) => {
   const addItem = useCartStore(state => state.addItem);
-  const navigate = useNavigate();
+  
   const [customValues, setCustomValues] = useState<Record<string, string>>({});
   const [isAdding, setIsAdding] = useState(false);
 

@@ -16,7 +16,6 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 
 const CategoryProductDetail = () => {
   const { slug, productId } = useParams<{ slug: string; productId: string }>();
-  const navigate = useNavigate();
   const addItem = useCartStore(state => state.addItem);
 
   const products = slug ? categoryProducts[slug] || [] : [];
