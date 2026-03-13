@@ -38,11 +38,28 @@ export function toShopifyHandle(value: string): string {
 export async function fetchVariantsByHandle(handle: string): Promise<ShopifyHandleVariant[]> {
   if (!handle) return [];
 
+  console.group(`🔍 [ShopifyVariants] fetchVariantsByHandle("${handle}")`);
+  console.log("Handle sent to Storefront API:", handle);
+
   const data = await storefrontApiRequest(GET_VARIANTS_BY_HANDLE_QUERY, { handle });
-  const edges = data?.data?.productByHandle?.variants?.edges ?? [];
+
+  console.log("Raw API response:", JSON.stringify(data, null, 2));
+
+  const product = data?.data?.productByHandle;
+  if (!product) {
+    console.warn("⚠️ productByHandle returned null — handle not found in Shopify");
+    console.groupEnd();
+    return [];
+  }
+
+  const edges = product?.variants?.edges ?? [];
   const variants = edges.map((edge: { node: ShopifyHandleVariant }) => edge.node);
 
-  console.log("Full variants array:", variants);
+  console.log(`✅ Found ${variants.length} variants:`);
+  variants.forEach((v: ShopifyHandleVariant, i: number) => {
+    console.log(`  [${i}] id=${v.id} title="${v.title}" options=${JSON.stringify(v.selectedOptions)}`);
+  });
+  console.groupEnd();
 
   return variants;
 }
