@@ -170,6 +170,34 @@ export const useCartStore = create<CartStore>()(
           set({ isSyncing: false });
         }
       },
+
+      createCheckoutUrl: async () => {
+        const variantQuantities = new Map<string, number>();
+
+        get().items.forEach((item) => {
+          if (!item.shopifyVariantId) return;
+          const current = variantQuantities.get(item.shopifyVariantId) ?? 0;
+          variantQuantities.set(item.shopifyVariantId, current + 1);
+        });
+
+        const lines = Array.from(variantQuantities.entries()).map(([variantId, quantity]) => ({
+          variantId,
+          quantity,
+        }));
+
+        if (lines.length === 0) return null;
+
+        try {
+          const checkoutUrl = await createCheckoutFromCartLines(lines);
+          if (!checkoutUrl) return null;
+
+          set({ checkoutUrl });
+          return checkoutUrl;
+        } catch (error) {
+          console.error('Failed to create checkout URL:', error);
+          return null;
+        }
+      },
     }),
     {
       name: 'charls-shopify-cart',
