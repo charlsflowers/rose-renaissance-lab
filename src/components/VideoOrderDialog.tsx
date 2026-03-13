@@ -6,6 +6,7 @@ import { letterNumberExtraPrice, ribbonPrice } from "@/lib/productData";
 import { fetchVariantsByHandle, findVariantByRoses, toShopifyHandle, type ShopifyHandleVariant } from "@/lib/shopifyVariants";
 import type { VideoProduct } from "@/components/ClientVideos";
 import { toast } from "sonner";
+import { buildCheckoutUrl, openCheckoutInNewTab } from "@/lib/checkout";
 
 interface Props {
   video: VideoProduct;
