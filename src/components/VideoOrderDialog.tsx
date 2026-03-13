@@ -4,7 +4,6 @@ import { ShoppingBag, CreditCard, Loader2 } from "lucide-react";
 import { useCartStore, type CartItem } from "@/stores/cartStore";
 import { letterNumberExtraPrice, ribbonPrice } from "@/lib/productData";
 import { fetchVariantsByHandle, findVariantByRoses, toShopifyHandle, type ShopifyHandleVariant } from "@/lib/shopifyVariants";
-import { inferTierFromColor } from "@/lib/tierUtils";
 import type { VideoProduct } from "@/components/ClientVideos";
 import { toast } from "sonner";
 
