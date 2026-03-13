@@ -15,6 +15,7 @@ import BouquetProducts from "./pages/BouquetProducts";
 import BouquetProductDetail from "./pages/BouquetProductDetail";
 import RoomDecors from "./pages/RoomDecors";
 import RoomDecorDetail from "./pages/RoomDecorDetail";
+import ShopifyCheckoutRedirect from "./pages/ShopifyCheckoutRedirect";
 
 const queryClient = new QueryClient();
 
@@ -32,6 +33,7 @@ const AppContent = () => {
         <Route path="/bouquets" element={<BouquetProducts />} />
         <Route path="/room-decors/:packageId" element={<RoomDecorDetail />} />
         <Route path="/room-decors" element={<RoomDecors />} />
+        <Route path="/cart/c/:cartId" element={<ShopifyCheckoutRedirect />} />
         <Route path="/checkout" element={<Checkout />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
