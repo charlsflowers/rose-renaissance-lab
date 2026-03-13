@@ -292,7 +292,9 @@ export async function fetchCartCheckoutUrl(cartId: string): Promise<string | nul
     }
     const formatted = formatCheckoutUrl(checkoutUrl);
     // Replace custom domain with .myshopify.com domain for checkout
-    const finalUrl = formatted.replace('https://charlsflowers.com', 'https://charls-flowers.myshopify.com');
+    const finalUrl = formatted
+      .replace('https://charlsflowers.com', 'https://charls-flowers.myshopify.com')
+      .replace('/cart/c/', '/checkouts/');
     console.log("🛒 [Shopify] Raw checkoutUrl from cart:", checkoutUrl);
     console.log("🛒 [Shopify] Final checkoutUrl:", finalUrl);
     return finalUrl;
