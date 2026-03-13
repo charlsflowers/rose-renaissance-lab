@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { toast } from "sonner";
 import { useCartStore } from "@/stores/cartStore";
+import { openCheckoutInNewTab } from "@/lib/checkout";
 import Navbar from "@/components/Navbar";
 import DeliveryCalculator from "@/components/DeliveryCalculator";
 import { Trash2, ArrowLeft, Truck, Store, Globe, ExternalLink, Loader2 } from "lucide-react";
@@ -10,11 +12,9 @@ import { motion } from "framer-motion";
 const Checkout = () => {
   const items = useCartStore(state => state.items);
   const removeItem = useCartStore(state => state.removeItem);
-  const clearCart = useCartStore(state => state.clearCart);
-  const checkoutUrl = useCartStore(state => state.checkoutUrl);
+  const createCheckoutUrl = useCartStore(state => state.createCheckoutUrl);
   const isLoading = useCartStore(state => state.isLoading);
   const isSyncing = useCartStore(state => state.isSyncing);
-  const syncCart = useCartStore(state => state.syncCart);
   const navigate = useNavigate();
 
   const cartTotal = items.reduce((sum, i) => sum + i.totalPrice, 0);
@@ -35,18 +35,14 @@ const Checkout = () => {
   const grandTotal = cartTotal + deliveryCost;
   const canCheckout = !needsAddress || deliveryResult !== null;
 
-  const handleCheckout = () => {
-    if (checkoutUrl) {
-      // On mobile or within iframes, window.open may not work properly
-      // Use a temporary anchor element to ensure it opens in a new tab
-      const link = document.createElement('a');
-      link.href = checkoutUrl;
-      link.target = '_blank';
-      link.rel = 'noopener noreferrer';
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
+  const handleCheckout = async () => {
+    const checkoutUrl = await createCheckoutUrl();
+    if (!checkoutUrl) {
+      toast.error("No se pudo iniciar el checkout de Shopify.");
+      return;
     }
+
+    openCheckoutInNewTab(checkoutUrl);
   };
 
   if (items.length === 0) {
@@ -260,7 +256,7 @@ const Checkout = () => {
                   </div>
                 </div>
                 <button
-                  disabled={!canCheckout || isLoading || isSyncing || !checkoutUrl}
+                  disabled={!canCheckout || isLoading || isSyncing}
                   className="inline-flex items-center gap-2 bg-primary text-primary-foreground px-10 py-4 font-body text-sm tracking-widest uppercase hover:bg-primary/90 transition-colors rounded-sm disabled:opacity-50 disabled:cursor-not-allowed"
                   onClick={handleCheckout}
                 >

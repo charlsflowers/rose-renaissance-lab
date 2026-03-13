@@ -1,9 +1,12 @@
 import { toast } from "sonner";
 
-const SHOPIFY_API_VERSION = '2025-07';
-const SHOPIFY_STORE_PERMANENT_DOMAIN = 'ztdjk5-wn.myshopify.com';
-const SHOPIFY_STOREFRONT_URL = `https://${SHOPIFY_STORE_PERMANENT_DOMAIN}/api/${SHOPIFY_API_VERSION}/graphql.json`;
-const SHOPIFY_STOREFRONT_TOKEN = '4e7516581c2c609bb77d69b5f1786a9b';
+const SHOPIFY_API_VERSION = "2024-01";
+const SHOPIFY_STOREFRONT_DOMAIN = import.meta.env.VITE_SHOPIFY_STOREFRONT_DOMAIN || "charlsflowers.com";
+const SHOPIFY_STOREFRONT_URL = `https://${SHOPIFY_STOREFRONT_DOMAIN}/api/${SHOPIFY_API_VERSION}/graphql.json`;
+const SHOPIFY_STOREFRONT_TOKEN =
+  import.meta.env.VITE_SHOPIFY_STOREFRONT_ACCESS_TOKEN ||
+  import.meta.env.VITE_SHOPIFY_STOREFRONT_TOKEN ||
+  "4e7516581c2c609bb77d69b5f1786a9b";
 
 
 export interface ShopifyVariant {
@@ -24,6 +27,10 @@ export interface ShopifyProductNode {
 }
 
 export async function storefrontApiRequest(query: string, variables: Record<string, unknown> = {}) {
+  if (!SHOPIFY_STOREFRONT_TOKEN) {
+    throw new Error("Missing Shopify Storefront token. Set VITE_SHOPIFY_STOREFRONT_ACCESS_TOKEN.");
+  }
+
   const response = await fetch(SHOPIFY_STOREFRONT_URL, {
     method: 'POST',
     headers: {
@@ -178,6 +185,18 @@ const CART_QUERY = `
   }
 `;
 
+const CHECKOUT_CREATE_MUTATION = `
+  mutation checkoutCreate($input: CheckoutCreateInput!) {
+    checkoutCreate(input: $input) {
+      checkout {
+        id
+        checkoutUrl: webUrl
+      }
+      checkoutUserErrors { field message }
+    }
+  }
+`;
+
 function formatCheckoutUrl(checkoutUrl: string): string {
   try {
     const url = new URL(checkoutUrl);
@@ -190,6 +209,31 @@ function formatCheckoutUrl(checkoutUrl: string): string {
 
 function isCartNotFoundError(userErrors: Array<{ field: string[] | null; message: string }>): boolean {
   return userErrors.some(e => e.message.toLowerCase().includes('cart not found') || e.message.toLowerCase().includes('does not exist'));
+}
+
+export async function createCheckoutFromCartLines(
+  lines: Array<{ variantId: string; quantity: number }>
+): Promise<string | null> {
+  const normalizedLines = lines
+    .filter((line) => line.variantId && line.quantity > 0)
+    .map((line) => ({ variantId: line.variantId, quantity: line.quantity }));
+
+  if (normalizedLines.length === 0) return null;
+
+  const data = await storefrontApiRequest(CHECKOUT_CREATE_MUTATION, {
+    input: { lineItems: normalizedLines },
+  });
+
+  const userErrors = data?.data?.checkoutCreate?.checkoutUserErrors || [];
+  if (userErrors.length > 0) {
+    console.error('Checkout creation failed:', userErrors);
+    return null;
+  }
+
+  const checkoutUrl = data?.data?.checkoutCreate?.checkout?.checkoutUrl;
+  if (!checkoutUrl) return null;
+
+  return formatCheckoutUrl(checkoutUrl);
 }
 
 export async function createShopifyCart(variantId: string, quantity: number): Promise<{ cartId: string; checkoutUrl: string; lineId: string } | null> {

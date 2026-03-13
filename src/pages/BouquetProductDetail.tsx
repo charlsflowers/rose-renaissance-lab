@@ -1,5 +1,5 @@
 import { useState, useMemo, useCallback, useRef, useEffect } from "react";
-import { useParams, Link, useNavigate } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import { format, addHours, isBefore, startOfDay } from "date-fns";
 import { miamiHourNow, todayInMiami, isTodayInMiami } from "@/lib/miamiTime";
 import { enUS } from "date-fns/locale";
@@ -24,7 +24,6 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 
 const BouquetProductDetail = () => {
   const { type, productId } = useParams<{ type: string; productId: string }>();
-  const navigate = useNavigate();
   const addItem = useCartStore(state => state.addItem);
   const product = bouquetProducts.find((b) => b.id === productId);
 
@@ -210,18 +209,19 @@ const BouquetProductDetail = () => {
   const handlePayNow = async () => {
     const success = await handleAddToCart();
     if (success) {
-      const checkoutUrl = useCartStore.getState().checkoutUrl;
-      if (checkoutUrl) {
-        const link = document.createElement('a');
-        link.href = checkoutUrl;
-        link.target = '_blank';
-        link.rel = 'noopener noreferrer';
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-      } else {
-        navigate("/checkout");
+      const checkoutUrl = await useCartStore.getState().createCheckoutUrl();
+      if (!checkoutUrl) {
+        toast.error("Could not start Shopify checkout. Please try again.");
+        return;
       }
+
+      const link = document.createElement('a');
+      link.href = checkoutUrl;
+      link.target = '_blank';
+      link.rel = 'noopener noreferrer';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
     }
   };
 

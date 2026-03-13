@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Crown, Ribbon, Store, Truck, ShoppingBag, CreditCard, Star, Loader2 } from "lucide-react";
 import { useCartStore, type CartItem } from "@/stores/cartStore";
@@ -19,7 +18,7 @@ interface Props {
 
 const ReviewUpsellDialog = ({ open, onOpenChange, cartData, productLabel, mode }: Props) => {
   const addItem = useCartStore(state => state.addItem);
-  const navigate = useNavigate();
+  
 
   const [addGlitter, setAddGlitter] = useState(false);
   const [addCrown, setAddCrown] = useState(false);
@@ -84,18 +83,19 @@ const ReviewUpsellDialog = ({ open, onOpenChange, cartData, productLabel, mode }
       onOpenChange(false);
 
       if (mode === "buy") {
-        const checkoutUrl = useCartStore.getState().checkoutUrl;
-        if (checkoutUrl) {
-          const link = document.createElement('a');
-          link.href = checkoutUrl;
-          link.target = '_blank';
-          link.rel = 'noopener noreferrer';
-          document.body.appendChild(link);
-          link.click();
-          document.body.removeChild(link);
-        } else {
-          navigate("/checkout");
+        const checkoutUrl = await useCartStore.getState().createCheckoutUrl();
+        if (!checkoutUrl) {
+          toast.error("Could not start Shopify checkout. Please try again.");
+          return;
         }
+
+        const link = document.createElement('a');
+        link.href = checkoutUrl;
+        link.target = '_blank';
+        link.rel = 'noopener noreferrer';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
         toast.success("Added to cart!", {
           description: `${productLabel} — ${cartData.roses} roses`,
         });

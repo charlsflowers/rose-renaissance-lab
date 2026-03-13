@@ -1,5 +1,4 @@
 import { useState, useMemo, useCallback, useRef, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 import { format, addHours, isBefore, startOfDay } from "date-fns";
 import { miamiHourNow, todayInMiami, isTodayInMiami } from "@/lib/miamiTime";
 import { supabase } from "@/integrations/supabase/client";
@@ -34,7 +33,6 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 const BouquetBuilder = () => {
   const addItem = useCartStore(state => state.addItem);
   const isCartLoading = useCartStore(state => state.isLoading);
-  const navigate = useNavigate();
   const [selectedColors, setSelectedColors] = useState<ColorOption[]>([colorOptions[6]]); // Red default
   const [selectedSizeIdx, setSelectedSizeIdx] = useState(0);
   const [accessory, setAccessory] = useState<AccessoryType>("none");
@@ -948,18 +946,19 @@ const BouquetBuilder = () => {
                         shopifyVariantId: variant.id,
                       });
                       toast.success("Bouquet added to cart!");
-                      const checkoutUrl = useCartStore.getState().checkoutUrl;
-                      if (checkoutUrl) {
-                        const link = document.createElement('a');
-                        link.href = checkoutUrl;
-                        link.target = '_blank';
-                        link.rel = 'noopener noreferrer';
-                        document.body.appendChild(link);
-                        link.click();
-                        document.body.removeChild(link);
-                      } else {
-                        navigate("/checkout");
+                      const checkoutUrl = await useCartStore.getState().createCheckoutUrl();
+                      if (!checkoutUrl) {
+                        toast.error("Could not start Shopify checkout. Please try again.");
+                        return;
                       }
+
+                      const link = document.createElement('a');
+                      link.href = checkoutUrl;
+                      link.target = '_blank';
+                      link.rel = 'noopener noreferrer';
+                      document.body.appendChild(link);
+                      link.click();
+                      document.body.removeChild(link);
                     } catch {
                       toast.error("Failed to add to cart.");
                     } finally {
