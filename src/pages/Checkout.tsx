@@ -12,11 +12,9 @@ import { motion } from "framer-motion";
 const Checkout = () => {
   const items = useCartStore(state => state.items);
   const removeItem = useCartStore(state => state.removeItem);
-  const clearCart = useCartStore(state => state.clearCart);
-  const checkoutUrl = useCartStore(state => state.checkoutUrl);
+  const createCheckoutUrl = useCartStore(state => state.createCheckoutUrl);
   const isLoading = useCartStore(state => state.isLoading);
   const isSyncing = useCartStore(state => state.isSyncing);
-  const syncCart = useCartStore(state => state.syncCart);
   const navigate = useNavigate();
 
   const cartTotal = items.reduce((sum, i) => sum + i.totalPrice, 0);
