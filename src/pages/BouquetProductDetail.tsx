@@ -184,11 +184,16 @@ const BouquetProductDetail = () => {
     if (deliveryMethod === "delivery" && (distanceTooFar || deliveryMiles === null)) { toast.error("The address is invalid or out of range."); return false; }
     if (!deliveryDate || !deliveryHour) { toast.error("Please select a date and time."); return false; }
 
+    if (variantsLoading) {
+      toast.error("We are still loading product variants. Please try again in a moment.");
+      return false;
+    }
+
     setIsAdding(true);
     try {
-      const variant = await resolveVariantId(product.name, selectedSize.roses, product.pricingTier);
+      const variant = findVariantByRoses(productVariants, selectedSize.roses);
       if (!variant) {
-        toast.error("Could not resolve product variant. Please try again.");
+        toast.error("Could not resolve product variant for the selected roses.");
         return false;
       }
 
