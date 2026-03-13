@@ -3,7 +3,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/u
 import { Crown, Ribbon, Store, Truck, ShoppingBag, CreditCard, Star, Loader2 } from "lucide-react";
 import { useCartStore, type CartItem } from "@/stores/cartStore";
 import { crownOptions, crownPrice, ribbonPrice, ribbonPresets } from "@/lib/productData";
-import { fetchVariantsByHandle, findVariantByRoses, toShopifyHandle, type ShopifyHandleVariant } from "@/lib/shopifyVariants";
+import { fetchVariantsByHandle, findVariantByRoses, type ShopifyHandleVariant } from "@/lib/shopifyVariants";
 import type { ReviewCartData } from "@/components/ReviewCard";
 import { toast } from "sonner";
 
