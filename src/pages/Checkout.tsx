@@ -12,7 +12,7 @@ import { motion } from "framer-motion";
 const Checkout = () => {
   const items = useCartStore(state => state.items);
   const removeItem = useCartStore(state => state.removeItem);
-  const createCheckoutUrl = useCartStore(state => state.createCheckoutUrl);
+  
   const isLoading = useCartStore(state => state.isLoading);
   const isSyncing = useCartStore(state => state.isSyncing);
   const navigate = useNavigate();
