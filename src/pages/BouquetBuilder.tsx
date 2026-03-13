@@ -7,6 +7,7 @@ import { enUS } from "date-fns/locale";
 import { useCartStore } from "@/stores/cartStore";
 import { resolveVariantId } from "@/lib/shopify";
 import { toast } from "sonner";
+import { calculateDeliveryCost, formatDeliveryCost } from "@/lib/deliveryPricing";
 
 import Navbar from "@/components/Navbar";
 import PaperColorPicker from "@/components/PaperColorPicker";
