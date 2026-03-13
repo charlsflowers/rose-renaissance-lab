@@ -43,6 +43,8 @@ const BouquetProductDetail = () => {
   const [selectedVaseIdx, setSelectedVaseIdx] = useState(0);
   const [paperColor, setPaperColor] = useState("Blanco");
   const [isAdding, setIsAdding] = useState(false);
+  const [variantsLoading, setVariantsLoading] = useState(true);
+  const [productVariants, setProductVariants] = useState<ShopifyHandleVariant[]>([]);
 
   // Delivery state
   const [deliveryMethod, setDeliveryMethod] = useState<"pickup" | "delivery">("pickup");
