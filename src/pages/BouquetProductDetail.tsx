@@ -130,8 +130,10 @@ const BouquetProductDetail = () => {
 
     const loadVariants = async () => {
       setVariantsLoading(true);
+      const handle = toShopifyHandle(product.name);
+      console.log(`📦 [BouquetProductDetail] Loading variants for "${product.name}" → handle="${handle}"`);
       try {
-        const variants = await fetchVariantsByHandle(toShopifyHandle(product.name));
+        const variants = await fetchVariantsByHandle(handle);
         if (active) setProductVariants(variants);
       } catch (error) {
         console.error("Failed to load bouquet variants:", error);
