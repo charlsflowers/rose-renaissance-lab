@@ -4,6 +4,7 @@ import { Crown, Ribbon, Store, Truck, ShoppingBag, CreditCard, Star, Loader2 } f
 import { useCartStore, type CartItem } from "@/stores/cartStore";
 import { crownOptions, crownPrice, ribbonPrice, ribbonPresets } from "@/lib/productData";
 import { fetchVariantsByHandle, findVariantByRoses, type ShopifyHandleVariant } from "@/lib/shopifyVariants";
+import { bouquetProducts } from "@/lib/catalogData";
 import type { ReviewCartData } from "@/components/ReviewCard";
 import { toast } from "sonner";
 
