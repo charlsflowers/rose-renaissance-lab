@@ -32,6 +32,10 @@ export async function storefrontApiRequest(query: string, variables: Record<stri
     throw new Error("Missing Shopify Storefront token. Set VITE_SHOPIFY_STOREFRONT_ACCESS_TOKEN.");
   }
 
+  console.log("🔗 [Shopify] URL:", SHOPIFY_STOREFRONT_URL);
+  console.log("🔑 [Shopify] Token (first 8 chars):", SHOPIFY_STOREFRONT_TOKEN.substring(0, 8) + "...");
+  console.log("📦 [Shopify] Variables:", JSON.stringify(variables));
+
   const response = await fetch(SHOPIFY_STOREFRONT_URL, {
     method: 'POST',
     headers: {
@@ -40,6 +44,8 @@ export async function storefrontApiRequest(query: string, variables: Record<stri
     },
     body: JSON.stringify({ query, variables }),
   });
+
+  console.log("📡 [Shopify] Response status:", response.status);
 
   if (response.status === 402) {
     toast.error("Payment required", {
