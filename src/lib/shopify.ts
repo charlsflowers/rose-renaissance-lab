@@ -290,7 +290,10 @@ export async function fetchCartCheckoutUrl(cartId: string): Promise<string | nul
       console.error('No checkoutUrl returned for cart:', cartId);
       return null;
     }
-    return formatCheckoutUrl(checkoutUrl);
+    const formatted = formatCheckoutUrl(checkoutUrl);
+    console.log("🛒 [Shopify] Raw checkoutUrl from cart:", checkoutUrl);
+    console.log("🛒 [Shopify] Formatted checkoutUrl:", formatted);
+    return formatted;
   } catch (error) {
     console.error('Failed to fetch cart checkout URL:', error);
     return null;
