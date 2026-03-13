@@ -856,7 +856,7 @@ const BouquetBuilder = () => {
                   </p>
                 </div>
                 <button
-                  disabled={isAdding}
+                  disabled={isAdding || variantsLoading}
                   onClick={async () => {
                     if (deliveryMethod === "delivery" && !selectedAddress) {
                      toast.error("Please select a delivery address.");
