@@ -15,6 +15,7 @@ import BouquetProducts from "./pages/BouquetProducts";
 import BouquetProductDetail from "./pages/BouquetProductDetail";
 import RoomDecors from "./pages/RoomDecors";
 import RoomDecorDetail from "./pages/RoomDecorDetail";
+import ShopifyCheckoutRedirect from "./pages/ShopifyCheckoutRedirect";
 
 const queryClient = new QueryClient();
 
