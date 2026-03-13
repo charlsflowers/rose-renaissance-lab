@@ -2,7 +2,7 @@ import { toast } from "sonner";
 import type { PricingTier } from "@/lib/productData";
 
 const SHOPIFY_API_VERSION = "2024-01";
-const SHOPIFY_STOREFRONT_DOMAIN = import.meta.env.VITE_SHOPIFY_STOREFRONT_DOMAIN || "charlsflowers.com";
+const SHOPIFY_STOREFRONT_DOMAIN = import.meta.env.VITE_SHOPIFY_STOREFRONT_DOMAIN || "charls-flowers.myshopify.com";
 const SHOPIFY_STOREFRONT_URL = `https://${SHOPIFY_STOREFRONT_DOMAIN}/api/${SHOPIFY_API_VERSION}/graphql.json`;
 const SHOPIFY_STOREFRONT_TOKEN =
   import.meta.env.VITE_SHOPIFY_STOREFRONT_ACCESS_TOKEN ||
