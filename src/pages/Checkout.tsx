@@ -19,8 +19,11 @@ const Checkout = () => {
 
   const cartTotal = items.reduce((sum, i) => sum + i.totalPrice, 0);
 
+  // Pre-populate delivery info from cart items if already provided
+  const existingDeliveryItem = items.find((i) => i.deliveryMethod === "delivery" && i.deliveryAddress && i.deliveryAddress !== "Store pickup");
+
   const [checkoutDeliveryMethod, setCheckoutDeliveryMethod] = useState<"pickup" | "delivery">(
-    items.some((i) => i.deliveryMethod === "delivery") ? "delivery" : "pickup",
+    existingDeliveryItem ? "delivery" : "pickup",
   );
 
   const [deliveryResult, setDeliveryResult] = useState<{
@@ -28,7 +31,15 @@ const Checkout = () => {
     cost: number;
     address: string;
     duration?: string;
-  } | null>(null);
+  } | null>(
+    existingDeliveryItem && existingDeliveryItem.deliveryMiles !== null
+      ? {
+          miles: existingDeliveryItem.deliveryMiles,
+          cost: existingDeliveryItem.deliveryCost,
+          address: existingDeliveryItem.deliveryAddress,
+        }
+      : null,
+  );
 
   const needsAddress = checkoutDeliveryMethod === "delivery";
   const deliveryCost = needsAddress && deliveryResult ? deliveryResult.cost : 0;
@@ -236,7 +247,25 @@ const Checkout = () => {
                 </p>
               )}
 
-              {checkoutDeliveryMethod === "delivery" && <DeliveryCalculator onResult={setDeliveryResult} />}
+              {checkoutDeliveryMethod === "delivery" && deliveryResult && (
+                <div className="space-y-2">
+                  <p className="font-body text-sm text-muted-foreground">
+                    📍 Deliver to: <span className="font-semibold text-foreground">{deliveryResult.address}</span>
+                  </p>
+                  <p className="font-body text-sm text-muted-foreground">
+                    Shipping: <span className="font-semibold text-foreground">${deliveryResult.cost}</span>
+                    <span className="text-xs ml-2">({deliveryResult.miles.toFixed(1)} miles)</span>
+                  </p>
+                  <button
+                    onClick={() => setDeliveryResult(null)}
+                    className="text-xs font-body text-primary underline hover:text-primary/80"
+                  >
+                    Change address
+                  </button>
+                </div>
+              )}
+
+              {checkoutDeliveryMethod === "delivery" && !deliveryResult && <DeliveryCalculator onResult={setDeliveryResult} />}
             </motion.div>
 
             {/* Total + CTA */}
