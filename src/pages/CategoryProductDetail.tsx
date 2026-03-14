@@ -165,6 +165,8 @@ const CategoryProductDetail = () => {
         deliveryCost,
         deliveryAddress: selectedAddress,
         deliveryZip,
+        deliveryDate: deliveryDate ? format(deliveryDate, "PPP", { locale: enUS }) : undefined,
+        deliveryTime: deliveryHour || undefined,
       });
       if (!checkoutUrl) {
         toast.error("Could not start Shopify checkout. Please try again.");

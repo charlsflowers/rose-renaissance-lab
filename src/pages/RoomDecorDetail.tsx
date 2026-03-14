@@ -182,7 +182,14 @@ const RoomDecorDetail = () => {
   const handlePayNow = async () => {
     const success = await handleAddToCart();
     if (success) {
-      const checkoutUrl = buildCheckoutUrl();
+      const checkoutUrl = buildCheckoutUrl(undefined, {
+        deliveryMethod,
+        deliveryCost: deliveryMethod === "delivery" ? deliveryCost : 0,
+        deliveryAddress: deliveryMethod === "delivery" ? selectedAddress : undefined,
+        deliveryZip: deliveryMethod === "delivery" ? deliveryZip : undefined,
+        deliveryDate: deliveryDate ? format(deliveryDate, "PPP", { locale: enUS }) : undefined,
+        deliveryTime: deliveryHour || undefined,
+      });
       if (!checkoutUrl) {
         toast.error("Could not start Shopify checkout. Please try again.");
         return;
