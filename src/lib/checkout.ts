@@ -9,6 +9,8 @@ type CheckoutDeliveryOptions = {
   deliveryAddress?: string;
   deliveryCity?: string;
   deliveryZip?: string;
+  deliveryDate?: string;
+  deliveryTime?: string;
 };
 
 type ParsedAddress = {
