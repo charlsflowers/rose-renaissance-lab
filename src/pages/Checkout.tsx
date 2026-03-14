@@ -247,7 +247,7 @@ const Checkout = () => {
 
               {checkoutDeliveryMethod === "pickup" && (
                 <p className="font-body text-sm text-muted-foreground">
-                  📍 Pickup at: <span className="font-semibold text-foreground">7255 NW 12th St, Miami, FL 33126</span>
+                  📍 Pickup at: <span className="font-semibold text-foreground">7261 NW 12th St, Miami, FL 33126</span>
                 </p>
               )}
 
