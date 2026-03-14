@@ -47,11 +47,17 @@ const Checkout = () => {
   const canCheckout = !needsAddress || deliveryResult !== null;
 
   const handleCheckout = () => {
+    // Gather delivery date/time from cart items (use first item that has them)
+    const itemWithDate = items.find((i) => i.deliveryDate);
+    const itemWithHour = items.find((i) => i.deliveryHour);
+
     const checkoutUrl = buildCheckoutUrl(undefined, {
       deliveryMethod: checkoutDeliveryMethod,
       deliveryCost,
       deliveryAddress: deliveryResult?.address,
       deliveryZip: existingDeliveryItem?.deliveryZip,
+      deliveryDate: itemWithDate?.deliveryDate,
+      deliveryTime: itemWithHour?.deliveryHour,
     });
 
     if (!checkoutUrl) {

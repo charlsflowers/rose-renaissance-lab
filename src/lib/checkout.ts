@@ -9,6 +9,8 @@ type CheckoutDeliveryOptions = {
   deliveryAddress?: string;
   deliveryCity?: string;
   deliveryZip?: string;
+  deliveryDate?: string;
+  deliveryTime?: string;
 };
 
 type ParsedAddress = {
@@ -80,19 +82,31 @@ export function buildCheckoutUrl(variantId?: string, options?: CheckoutDeliveryO
 
   let checkoutUrl = `${SHOPIFY_CART_BASE_URL}/${lineItems.join(",")}`;
 
+  const params = new URLSearchParams();
+
+  // Add note_attributes for delivery info
+  const deliveryType = options?.deliveryMethod === "delivery" ? "Home Delivery" : "Store Pickup";
+  params.set("attributes[delivery_type]", deliveryType);
+
+  if (options?.deliveryDate) {
+    params.set("attributes[delivery_date]", options.deliveryDate);
+  }
+  if (options?.deliveryTime) {
+    params.set("attributes[delivery_time]", options.deliveryTime);
+  }
+
   if (options?.deliveryMethod === "delivery" && options.deliveryAddress) {
     const parsed = parseAddress(options.deliveryAddress, options.deliveryCity, options.deliveryZip);
-    const params = new URLSearchParams();
 
     if (parsed.address1) params.set("checkout[shipping_address][address1]", parsed.address1);
     if (parsed.city) params.set("checkout[shipping_address][city]", parsed.city);
     if (parsed.state) params.set("checkout[shipping_address][province]", parsed.state);
     if (parsed.zip) params.set("checkout[shipping_address][zip]", parsed.zip);
     params.set("checkout[shipping_address][country]", "US");
-
-    const query = params.toString();
-    if (query) checkoutUrl += `?${query}`;
   }
+
+  const query = params.toString();
+  if (query) checkoutUrl += `?${query}`;
 
   return checkoutUrl;
 }
