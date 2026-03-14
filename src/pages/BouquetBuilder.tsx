@@ -72,7 +72,7 @@ const BouquetBuilder = () => {
   const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const [paperColor, setPaperColor] = useState("Blanco");
 
-  const STORE_MAP_URL = `https://www.google.com/maps/embed/v1/place?key=&q=${encodeURIComponent("7255 NW 12th St, Miami, FL 33126")}`;
+  const STORE_MAP_URL = `https://www.google.com/maps/embed/v1/place?key=&q=${encodeURIComponent("7261 NW 12th St, Miami, FL 33126")}`;
 
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
