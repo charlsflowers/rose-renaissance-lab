@@ -12,6 +12,11 @@ import { calculateDeliveryCost, formatDeliveryCost } from "@/lib/deliveryPricing
 import Navbar from "@/components/Navbar";
 import PaperColorPicker from "@/components/PaperColorPicker";
 import heroBouquet from "@/assets/hero-bouquet.jpg";
+import glitterRoseImg from "@/assets/glitter-rose.png";
+import crownSilverImg from "@/assets/crown-silver.png";
+import crownGoldImg from "@/assets/crown-gold.png";
+import butterflyImg from "@/assets/butterfly-gold.png";
+import lettersImg from "@/assets/letters-babybreathe.png";
 import {
   colorOptions,
   sizeOptions,
