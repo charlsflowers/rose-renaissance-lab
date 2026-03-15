@@ -416,50 +416,55 @@ const BouquetBuilder = () => {
 
             {/* 3. Glitter */}
             <Section title="Glitter Finish" step={4}>
-              <button
-                onClick={() => setAddGlitter(!addGlitter)}
-                className={`relative w-full p-6 rounded-sm border-2 transition-all overflow-hidden ${
-                  addGlitter
-                    ? "border-primary bg-primary/5"
-                    : "border-border hover:border-primary/30"
-                }`}
-              >
-                {addGlitter && (
-                  <div className="absolute inset-0 pointer-events-none">
-                    <div className="absolute inset-0 bg-gradient-to-br from-yellow-200/20 via-white/30 to-pink-200/20 animate-pulse" />
-                    <div className="absolute top-2 left-6 w-1.5 h-1.5 bg-yellow-300 rounded-full animate-ping" style={{ animationDelay: '0s' }} />
-                    <div className="absolute top-8 right-10 w-1 h-1 bg-white rounded-full animate-ping" style={{ animationDelay: '0.3s' }} />
-                    <div className="absolute bottom-4 left-1/3 w-1.5 h-1.5 bg-pink-300 rounded-full animate-ping" style={{ animationDelay: '0.6s' }} />
-                    <div className="absolute top-1/2 right-1/4 w-1 h-1 bg-yellow-200 rounded-full animate-ping" style={{ animationDelay: '0.9s' }} />
-                    <div className="absolute bottom-6 right-8 w-1.5 h-1.5 bg-white rounded-full animate-ping" style={{ animationDelay: '1.2s' }} />
-                  </div>
-                )}
-                <div className="flex items-center gap-4 relative z-10">
-                  <Star className={`w-6 h-6 transition-colors ${addGlitter ? "text-yellow-400 fill-yellow-400" : "text-muted-foreground"}`} />
-                  <div className="text-left">
-                     <p className="font-body font-semibold text-foreground">
-                       ✨ Glitter Finish ✨
-                     </p>
-                     <p className="text-xs text-muted-foreground font-body">
-                       $8 per 25 roses · <span className="text-primary font-semibold">+${glitterCost}</span> for {rosesCount} roses
-                     </p>
-                  </div>
-                  {addGlitter && (
-                    <Check className="w-5 h-5 text-primary ml-auto" />
-                  )}
+              <div className="flex flex-col md:flex-row gap-4">
+                <div className="w-32 h-32 rounded-sm overflow-hidden border border-border flex-shrink-0 mx-auto md:mx-0">
+                  <img src={glitterRoseImg} alt="Glitter rose example" className="w-full h-full object-cover" />
                 </div>
-              </button>
+                <button
+                  onClick={() => setAddGlitter(!addGlitter)}
+                  className={`relative w-full p-6 rounded-sm border-2 transition-all overflow-hidden ${
+                    addGlitter
+                      ? "border-primary bg-primary/5"
+                      : "border-border hover:border-primary/30"
+                  }`}
+                >
+                  {addGlitter && (
+                    <div className="absolute inset-0 pointer-events-none">
+                      <div className="absolute inset-0 bg-gradient-to-br from-yellow-200/20 via-white/30 to-pink-200/20 animate-pulse" />
+                      <div className="absolute top-2 left-6 w-1.5 h-1.5 bg-yellow-300 rounded-full animate-ping" style={{ animationDelay: '0s' }} />
+                      <div className="absolute top-8 right-10 w-1 h-1 bg-white rounded-full animate-ping" style={{ animationDelay: '0.3s' }} />
+                      <div className="absolute bottom-4 left-1/3 w-1.5 h-1.5 bg-pink-300 rounded-full animate-ping" style={{ animationDelay: '0.6s' }} />
+                      <div className="absolute top-1/2 right-1/4 w-1 h-1 bg-yellow-200 rounded-full animate-ping" style={{ animationDelay: '0.9s' }} />
+                      <div className="absolute bottom-6 right-8 w-1.5 h-1.5 bg-white rounded-full animate-ping" style={{ animationDelay: '1.2s' }} />
+                    </div>
+                  )}
+                  <div className="flex items-center gap-4 relative z-10">
+                    <Star className={`w-6 h-6 transition-colors ${addGlitter ? "text-yellow-400 fill-yellow-400" : "text-muted-foreground"}`} />
+                    <div className="text-left">
+                       <p className="font-body font-semibold text-foreground">
+                         ✨ Glitter Finish ✨
+                       </p>
+                       <p className="text-xs text-muted-foreground font-body">
+                         $8 per 25 roses · <span className="text-primary font-semibold">+${glitterCost}</span> for {rosesCount} roses
+                       </p>
+                    </div>
+                    {addGlitter && (
+                      <Check className="w-5 h-5 text-primary ml-auto" />
+                    )}
+                  </div>
+                </button>
+              </div>
             </Section>
 
             {/* 4. Accessories */}
             <Section title="Accessories" step={5} subtitle="Free">
               <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
                 {([
-                  { type: "none" as const, label: "No accessory", icon: null },
-                  { type: "note" as const, label: "Note", icon: Type },
-                  { type: "card" as const, label: "Card", icon: Sparkles },
-                  { type: "butterfly" as const, label: "Butterflies", icon: Bug },
-                ] as const).map(({ type, label, icon: Icon }) => (
+                  { type: "none" as const, label: "No accessory", icon: null, img: null },
+                  { type: "note" as const, label: "Note", icon: Type, img: null },
+                  { type: "card" as const, label: "Card", icon: Sparkles, img: null },
+                  { type: "butterfly" as const, label: "Butterflies", icon: null, img: butterflyImg },
+                ] as const).map(({ type, label, icon: Icon, img }) => (
                   <button
                     key={type}
                     onClick={() => setAccessory(type)}
