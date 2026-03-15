@@ -268,7 +268,7 @@ const BouquetBuilder = () => {
         roses: String(rosesCount),
         glitter: String(addGlitter),
       };
-      if (addLettersNumbers && specialText) bouquetConfig.specialText = specialText;
+      if (specialText) bouquetConfig.specialText = specialText;
       if (addCrown) { bouquetConfig.crown = "true"; bouquetConfig.crownSize = crownSize; }
       if (addRibbon && ribbonText) { bouquetConfig.ribbon = "true"; bouquetConfig.ribbonText = ribbonText; }
 
