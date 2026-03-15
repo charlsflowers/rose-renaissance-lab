@@ -322,10 +322,15 @@ export async function createShopifyCart(variantId: string, quantity: number, lin
   return { cartId: cart.id, checkoutUrl: formatCheckoutUrl(cart.checkoutUrl), lineId };
 }
 
-export async function addLineToShopifyCart(cartId: string, variantId: string, quantity: number): Promise<{ success: boolean; lineId?: string; cartNotFound?: boolean }> {
+export async function addLineToShopifyCart(cartId: string, variantId: string, quantity: number, lineAttributes?: Array<{ key: string; value: string }>): Promise<{ success: boolean; lineId?: string; cartNotFound?: boolean }> {
+  const lineInput: Record<string, unknown> = { quantity, merchandiseId: variantId };
+  if (lineAttributes && lineAttributes.length > 0) {
+    lineInput.attributes = lineAttributes;
+  }
+
   const data = await storefrontApiRequest(CART_LINES_ADD_MUTATION, {
     cartId,
-    lines: [{ quantity, merchandiseId: variantId }],
+    lines: [lineInput],
   });
 
   const userErrors = data?.data?.cartLinesAdd?.userErrors || [];
