@@ -357,17 +357,22 @@ const BouquetProductDetail = () => {
 
             {/* 2. Glitter */}
             <Section title="Glitter Finish" step={step++} subtitle={`+$${Math.ceil(selectedSize.roses / 25) * 8}`}>
-              <button onClick={() => setAddGlitter(!addGlitter)}
-                className={`relative w-full p-6 rounded-sm border-2 transition-all overflow-hidden ${addGlitter ? "border-primary bg-primary/5" : "border-border hover:border-primary/30"}`}>
-                <div className="flex items-center gap-4 relative z-10">
-                  <Star className={`w-6 h-6 transition-colors ${addGlitter ? "text-gold fill-gold" : "text-muted-foreground"}`} />
-                  <div className="text-left">
-                     <p className="font-body font-semibold text-foreground">✨ Add Glitter ✨</p>
-                     <p className="text-xs text-muted-foreground font-body">$8 per 25 roses · {selectedSize.roses} roses = +${Math.ceil(selectedSize.roses / 25) * 8}</p>
-                  </div>
-                  {addGlitter && <Check className="w-5 h-5 text-primary ml-auto" />}
+              <div className="flex flex-col md:flex-row gap-4">
+                <div className="w-28 h-28 rounded-sm overflow-hidden border border-border flex-shrink-0 mx-auto md:mx-0">
+                  <img src={glitterRoseImg} alt="Glitter rose example" className="w-full h-full object-cover" />
                 </div>
-              </button>
+                <button onClick={() => setAddGlitter(!addGlitter)}
+                  className={`relative w-full p-6 rounded-sm border-2 transition-all overflow-hidden ${addGlitter ? "border-primary bg-primary/5" : "border-border hover:border-primary/30"}`}>
+                  <div className="flex items-center gap-4 relative z-10">
+                    <Star className={`w-6 h-6 transition-colors ${addGlitter ? "text-gold fill-gold" : "text-muted-foreground"}`} />
+                    <div className="text-left">
+                       <p className="font-body font-semibold text-foreground">✨ Add Glitter ✨</p>
+                       <p className="text-xs text-muted-foreground font-body">$8 per 25 roses · {selectedSize.roses} roses = +${Math.ceil(selectedSize.roses / 25) * 8}</p>
+                    </div>
+                    {addGlitter && <Check className="w-5 h-5 text-primary ml-auto" />}
+                  </div>
+                </button>
+              </div>
             </Section>
 
             {/* Letters/Numbers - only for custom bouquets */}
