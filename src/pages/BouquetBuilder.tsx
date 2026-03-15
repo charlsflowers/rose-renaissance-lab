@@ -558,9 +558,6 @@ const BouquetBuilder = () => {
                     </p>
                   </div>
                 )}
-              </div>
-                )}
-              </div>
             </Section>
 
             {/* 6. Vase */}
