@@ -853,7 +853,7 @@ const BouquetBuilder = () => {
                 <div>
                   <p className="font-body text-sm text-muted-foreground">
                     {rosesCount} roses · {selectedColors.map(c => c.name).join(', ')}
-                    {addLettersNumbers && specialText && ` · ${lettersNumbersType === "letters" ? "Letters" : "Numbers"}: ${specialText}`}
+                    {specialText && ` · ${lettersNumbersType === "letters" ? "Letters" : "Numbers"}: ${specialText}`}
                     {addCrown && " · Crown"}
                     {addRibbon && " · Ribbon"}
                     {accessory !== "none" && ` · ${accessory === "note" ? "Note" : accessory === "card" ? "Card" : "Butterflies"}`}
