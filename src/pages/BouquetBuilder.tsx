@@ -210,7 +210,7 @@ const BouquetBuilder = () => {
 
   const minRoses = pricingTier === 'mix3red' ? 75 : 50;
 
-  const lettersNumbersCost = addLettersNumbers ? specialText.length * letterNumberExtraPrice : 0;
+  const lettersNumbersCost = specialText.length > 0 ? specialText.length * letterNumberExtraPrice : 0;
 
   const basePrice = useMemo(() => {
     const size = pricingTable[selectedSizeIdx];
