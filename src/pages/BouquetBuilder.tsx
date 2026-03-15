@@ -474,7 +474,11 @@ const BouquetBuilder = () => {
                         : "border-border text-muted-foreground hover:border-primary/30"
                     }`}
                   >
-                    {Icon && <Icon className="w-4 h-4" />}
+                    {img ? (
+                      <img src={img} alt={label} className="w-10 h-10 object-contain" />
+                    ) : Icon ? (
+                      <Icon className="w-4 h-4" />
+                    ) : null}
                     {label}
                     <span className="text-xs text-secondary">Free</span>
                   </button>
