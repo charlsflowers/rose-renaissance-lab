@@ -991,7 +991,7 @@ const BouquetBuilder = () => {
                         accessoryText,
                         ribbonText,
                         crownSize: addCrown ? crownSize : "",
-                        specialText: addLettersNumbers ? specialText : "",
+                        specialText,
                         heartColor: "",
                         glitter: addGlitter,
                         deliveryMethod,
