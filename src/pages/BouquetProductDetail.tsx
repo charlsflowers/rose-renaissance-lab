@@ -18,8 +18,12 @@ import {
 } from "@/lib/productData";
 import {
   ArrowLeft, Check, Store, Truck, CalendarIcon, Clock, MapPin, Search, Loader2,
-  Type, Sparkles, Bug, Crown, Star, Hash,
+  Type, Sparkles, Star, Hash,
 } from "lucide-react";
+import glitterRoseImg from "@/assets/glitter-rose.png";
+import crownSilverImg from "@/assets/crown-silver.png";
+import crownGoldImg from "@/assets/crown-gold.png";
+import butterflyImg from "@/assets/butterfly-gold.png";
 import { Calendar } from "@/components/ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 
