@@ -34,7 +34,7 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 
 const BouquetBuilder = () => {
   const addItem = useCartStore(state => state.addItem);
-  const [selectedColors, setSelectedColors] = useState<ColorOption[]>([colorOptions[6]]); // Red default
+  const [selectedColors, setSelectedColors] = useState<ColorOption[]>([]);
   const [selectedSizeIdx, setSelectedSizeIdx] = useState(0);
   const [accessory, setAccessory] = useState<AccessoryType>("none");
   const [accessoryText, setAccessoryText] = useState("");
