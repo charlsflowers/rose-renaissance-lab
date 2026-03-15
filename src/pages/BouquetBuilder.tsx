@@ -577,10 +577,21 @@ const BouquetBuilder = () => {
             {/* 7. Extras */}
             <Section title="Extras" step={8} subtitle="Coming soon">
               <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
-                {/* Crown */}
+                {/* Crown Silver */}
                 <div className="flex flex-col items-center gap-2 p-4 rounded-sm border-2 border-border">
-                  <Crown className="w-5 h-5 text-gold" />
-                  <p className="font-body font-semibold text-foreground text-sm text-center">Crown Tiara</p>
+                  <div className="w-20 h-16 overflow-hidden rounded-sm">
+                    <img src={crownSilverImg} alt="Silver Crown" className="w-full h-full object-contain" />
+                  </div>
+                  <p className="font-body font-semibold text-foreground text-sm text-center">Crown Silver</p>
+                  <p className="text-xs text-muted-foreground font-body">+${crownPrice}</p>
+                </div>
+
+                {/* Crown Gold */}
+                <div className="flex flex-col items-center gap-2 p-4 rounded-sm border-2 border-border">
+                  <div className="w-20 h-16 overflow-hidden rounded-sm">
+                    <img src={crownGoldImg} alt="Gold Crown" className="w-full h-full object-contain" />
+                  </div>
+                  <p className="font-body font-semibold text-foreground text-sm text-center">Crown Gold</p>
                   <p className="text-xs text-muted-foreground font-body">+${crownPrice}</p>
                 </div>
 
