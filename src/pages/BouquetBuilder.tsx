@@ -976,7 +976,7 @@ const BouquetBuilder = () => {
                       if (addRibbon) addons.push("Ribbon");
                       if (addGlitter) addons.push("Glitter");
                       if (addVase) addons.push(`Vase (${vaseOptions[selectedVaseIdx].label})`);
-                      if (addLettersNumbers && specialText) addons.push(`${lettersNumbersType === "letters" ? "Letters" : "Numbers"}: ${specialText}`);
+                      if (specialText) addons.push(`${lettersNumbersType === "letters" ? "Letters" : "Numbers"}: ${specialText}`);
 
                       await addItem({
                         id: "",
