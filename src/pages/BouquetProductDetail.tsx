@@ -18,8 +18,12 @@ import {
 } from "@/lib/productData";
 import {
   ArrowLeft, Check, Store, Truck, CalendarIcon, Clock, MapPin, Search, Loader2,
-  Type, Sparkles, Bug, Crown, Star, Hash,
+  Type, Sparkles, Star, Hash,
 } from "lucide-react";
+import glitterRoseImg from "@/assets/glitter-rose.png";
+import crownSilverImg from "@/assets/crown-silver.png";
+import crownGoldImg from "@/assets/crown-gold.png";
+import butterflyImg from "@/assets/butterfly-gold.png";
 import { Calendar } from "@/components/ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 
@@ -353,17 +357,22 @@ const BouquetProductDetail = () => {
 
             {/* 2. Glitter */}
             <Section title="Glitter Finish" step={step++} subtitle={`+$${Math.ceil(selectedSize.roses / 25) * 8}`}>
-              <button onClick={() => setAddGlitter(!addGlitter)}
-                className={`relative w-full p-6 rounded-sm border-2 transition-all overflow-hidden ${addGlitter ? "border-primary bg-primary/5" : "border-border hover:border-primary/30"}`}>
-                <div className="flex items-center gap-4 relative z-10">
-                  <Star className={`w-6 h-6 transition-colors ${addGlitter ? "text-gold fill-gold" : "text-muted-foreground"}`} />
-                  <div className="text-left">
-                     <p className="font-body font-semibold text-foreground">✨ Add Glitter ✨</p>
-                     <p className="text-xs text-muted-foreground font-body">$8 per 25 roses · {selectedSize.roses} roses = +${Math.ceil(selectedSize.roses / 25) * 8}</p>
-                  </div>
-                  {addGlitter && <Check className="w-5 h-5 text-primary ml-auto" />}
+              <div className="flex flex-col md:flex-row gap-4">
+                <div className="w-28 h-28 rounded-sm overflow-hidden border border-border flex-shrink-0 mx-auto md:mx-0">
+                  <img src={glitterRoseImg} alt="Glitter rose example" className="w-full h-full object-cover" />
                 </div>
-              </button>
+                <button onClick={() => setAddGlitter(!addGlitter)}
+                  className={`relative w-full p-6 rounded-sm border-2 transition-all overflow-hidden ${addGlitter ? "border-primary bg-primary/5" : "border-border hover:border-primary/30"}`}>
+                  <div className="flex items-center gap-4 relative z-10">
+                    <Star className={`w-6 h-6 transition-colors ${addGlitter ? "text-gold fill-gold" : "text-muted-foreground"}`} />
+                    <div className="text-left">
+                       <p className="font-body font-semibold text-foreground">✨ Add Glitter ✨</p>
+                       <p className="text-xs text-muted-foreground font-body">$8 per 25 roses · {selectedSize.roses} roses = +${Math.ceil(selectedSize.roses / 25) * 8}</p>
+                    </div>
+                    {addGlitter && <Check className="w-5 h-5 text-primary ml-auto" />}
+                  </div>
+                </button>
+              </div>
             </Section>
 
             {/* Letters/Numbers - only for custom bouquets */}
@@ -371,15 +380,20 @@ const BouquetProductDetail = () => {
 
             {/* 4. Accessories */}
             <Section title="Accessories" step={step++} subtitle="Free">
-              <div className="grid grid-cols-3 gap-3">
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
                 {([
-                  { type: "none" as const, label: "No accessory", icon: null },
-                  { type: "note" as const, label: "Note", icon: Type },
-                  { type: "card" as const, label: "Card", icon: Sparkles },
-                ]).map(({ type: t, label, icon: Icon }) => (
+                  { type: "none" as const, label: "No accessory", icon: null, img: null },
+                  { type: "note" as const, label: "Note", icon: Type, img: null },
+                  { type: "card" as const, label: "Card", icon: Sparkles, img: null },
+                  { type: "butterfly" as const, label: "Butterflies", icon: null, img: butterflyImg },
+                ] as const).map(({ type: t, label, icon: Icon, img }) => (
                   <button key={t} onClick={() => setAccessory(t)}
                     className={`flex flex-col items-center gap-2 p-4 rounded-sm border-2 transition-all font-body text-sm ${accessory === t ? "border-primary bg-primary/5 text-primary" : "border-border text-muted-foreground hover:border-primary/30"}`}>
-                    {Icon && <Icon className="w-4 h-4" />}
+                    {img ? (
+                      <img src={img} alt={label} className="w-10 h-10 object-contain" />
+                    ) : Icon ? (
+                      <Icon className="w-4 h-4" />
+                    ) : null}
                     {label}
                   </button>
                 ))}

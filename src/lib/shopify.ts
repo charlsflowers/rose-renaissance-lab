@@ -298,9 +298,14 @@ export async function fetchCartCheckoutUrl(cartId: string): Promise<string | nul
   }
 }
 
-export async function createShopifyCart(variantId: string, quantity: number): Promise<{ cartId: string; checkoutUrl: string; lineId: string } | null> {
+export async function createShopifyCart(variantId: string, quantity: number, lineAttributes?: Array<{ key: string; value: string }>): Promise<{ cartId: string; checkoutUrl: string; lineId: string } | null> {
+  const lineInput: Record<string, unknown> = { quantity, merchandiseId: variantId };
+  if (lineAttributes && lineAttributes.length > 0) {
+    lineInput.attributes = lineAttributes;
+  }
+
   const data = await storefrontApiRequest(CART_CREATE_MUTATION, {
-    input: { lines: [{ quantity, merchandiseId: variantId }] },
+    input: { lines: [lineInput] },
   });
 
   if (data?.data?.cartCreate?.userErrors?.length > 0) {
@@ -317,10 +322,15 @@ export async function createShopifyCart(variantId: string, quantity: number): Pr
   return { cartId: cart.id, checkoutUrl: formatCheckoutUrl(cart.checkoutUrl), lineId };
 }
 
-export async function addLineToShopifyCart(cartId: string, variantId: string, quantity: number): Promise<{ success: boolean; lineId?: string; cartNotFound?: boolean }> {
+export async function addLineToShopifyCart(cartId: string, variantId: string, quantity: number, lineAttributes?: Array<{ key: string; value: string }>): Promise<{ success: boolean; lineId?: string; cartNotFound?: boolean }> {
+  const lineInput: Record<string, unknown> = { quantity, merchandiseId: variantId };
+  if (lineAttributes && lineAttributes.length > 0) {
+    lineInput.attributes = lineAttributes;
+  }
+
   const data = await storefrontApiRequest(CART_LINES_ADD_MUTATION, {
     cartId,
-    lines: [{ quantity, merchandiseId: variantId }],
+    lines: [lineInput],
   });
 
   const userErrors = data?.data?.cartLinesAdd?.userErrors || [];

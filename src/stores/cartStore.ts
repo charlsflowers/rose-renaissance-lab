@@ -76,11 +76,29 @@ export const useCartStore = create<CartStore>()(
         const localId = crypto.randomUUID();
         const newItem: CartItem = { ...item, id: localId, shopifyLineId: null };
 
+        // Build line item properties for Shopify
+        const lineAttributes: Array<{ key: string; value: string }> = [];
+        if (item.color) lineAttributes.push({ key: "Color del ramo", value: item.color });
+        if (item.roses) lineAttributes.push({ key: "Tamaño del ramo", value: `${item.roses} roses` });
+        if (item.paperColor) lineAttributes.push({ key: "Tipo de papel", value: item.paperColor });
+        lineAttributes.push({ key: "Acabado glitter", value: item.glitter ? "Sí" : "No" });
+        if (item.accessory && item.accessory !== "none") {
+          const accessoryLabel = item.accessory === "note" ? "Notas" : item.accessory === "card" ? "Cartas" : "Mariposas";
+          lineAttributes.push({ key: "Accesorio elegido", value: accessoryLabel });
+        }
+        if (item.accessoryText) lineAttributes.push({ key: "Texto de la carta", value: item.accessoryText });
+        if (item.crownSize) lineAttributes.push({ key: "Crown", value: item.crownSize });
+        if (item.ribbonText) lineAttributes.push({ key: "Ribbon text", value: item.ribbonText });
+        if (item.specialText) lineAttributes.push({ key: "Letters or Numbers - Baby Breath", value: item.specialText });
+        // Note: Vase info is in addons array
+        const vaseAddon = item.addons?.find(a => a.startsWith("Vase"));
+        if (vaseAddon) lineAttributes.push({ key: "Jarrón elegido", value: vaseAddon });
+
         set({ isLoading: true });
         try {
           if (!cartId) {
             // Create new Shopify cart
-            const result = await createShopifyCart(item.shopifyVariantId, 1);
+            const result = await createShopifyCart(item.shopifyVariantId, 1, lineAttributes);
             if (result) {
               newItem.shopifyLineId = result.lineId;
               set({
@@ -94,10 +112,10 @@ export const useCartStore = create<CartStore>()(
             }
           } else {
             // Add line to existing cart
-            const result = await addLineToShopifyCart(cartId, item.shopifyVariantId, 1);
+            const result = await addLineToShopifyCart(cartId, item.shopifyVariantId, 1, lineAttributes);
             if (result.cartNotFound) {
               // Cart expired, create new one
-              const newResult = await createShopifyCart(item.shopifyVariantId, 1);
+              const newResult = await createShopifyCart(item.shopifyVariantId, 1, lineAttributes);
               if (newResult) {
                 newItem.shopifyLineId = newResult.lineId;
                 // Keep only the new item since old cart is gone

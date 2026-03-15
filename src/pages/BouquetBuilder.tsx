@@ -12,6 +12,11 @@ import { calculateDeliveryCost, formatDeliveryCost } from "@/lib/deliveryPricing
 import Navbar from "@/components/Navbar";
 import PaperColorPicker from "@/components/PaperColorPicker";
 import heroBouquet from "@/assets/hero-bouquet.jpg";
+import glitterRoseImg from "@/assets/glitter-rose.png";
+import crownSilverImg from "@/assets/crown-silver.png";
+import crownGoldImg from "@/assets/crown-gold.png";
+import butterflyImg from "@/assets/butterfly-gold.png";
+import lettersImg from "@/assets/letters-babybreathe.png";
 import {
   colorOptions,
   sizeOptions,
@@ -34,7 +39,7 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 
 const BouquetBuilder = () => {
   const addItem = useCartStore(state => state.addItem);
-  const [selectedColors, setSelectedColors] = useState<ColorOption[]>([colorOptions[6]]); // Red default
+  const [selectedColors, setSelectedColors] = useState<ColorOption[]>([]);
   const [selectedSizeIdx, setSelectedSizeIdx] = useState(0);
   const [accessory, setAccessory] = useState<AccessoryType>("none");
   const [accessoryText, setAccessoryText] = useState("");
@@ -205,7 +210,7 @@ const BouquetBuilder = () => {
 
   const minRoses = pricingTier === 'mix3red' ? 75 : 50;
 
-  const lettersNumbersCost = addLettersNumbers ? specialText.length * letterNumberExtraPrice : 0;
+  const lettersNumbersCost = specialText.length > 0 ? specialText.length * letterNumberExtraPrice : 0;
 
   const basePrice = useMemo(() => {
     const size = pricingTable[selectedSizeIdx];
@@ -263,7 +268,7 @@ const BouquetBuilder = () => {
         roses: String(rosesCount),
         glitter: String(addGlitter),
       };
-      if (addLettersNumbers && specialText) bouquetConfig.specialText = specialText;
+      if (specialText) bouquetConfig.specialText = specialText;
       if (addCrown) { bouquetConfig.crown = "true"; bouquetConfig.crownSize = crownSize; }
       if (addRibbon && ribbonText) { bouquetConfig.ribbon = "true"; bouquetConfig.ribbonText = ribbonText; }
 
@@ -285,7 +290,7 @@ const BouquetBuilder = () => {
     } finally {
       setPreviewLoading(false);
     }
-  }, [selectedColors, rosesCount, addGlitter, addLettersNumbers, specialText, addCrown, crownSize, addRibbon, ribbonText]);
+  }, [selectedColors, rosesCount, addGlitter, specialText, addCrown, crownSize, addRibbon, ribbonText]);
 
   const colorCategories = [
     { key: "natural" as const, label: "Natural" },
@@ -381,7 +386,7 @@ const BouquetBuilder = () => {
               <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
                 {pricingTable.map((size, idx) => {
                   const tooFewRoses = size.roses < minRoses;
-                  const letterDisabled = addLettersNumbers && (size.roses < 75 || (specialText.length >= 3 && lettersNumbersType === "letters" && size.roses < 100));
+                  const letterDisabled = specialText.length > 0 && (size.roses < 75 || (specialText.length >= 3 && lettersNumbersType === "letters" && size.roses < 100));
                   const disabled = tooFewRoses || letterDisabled;
                   const price = getPrice(pricingTier, size.roses);
                   return (
@@ -411,50 +416,55 @@ const BouquetBuilder = () => {
 
             {/* 3. Glitter */}
             <Section title="Glitter Finish" step={4}>
-              <button
-                onClick={() => setAddGlitter(!addGlitter)}
-                className={`relative w-full p-6 rounded-sm border-2 transition-all overflow-hidden ${
-                  addGlitter
-                    ? "border-primary bg-primary/5"
-                    : "border-border hover:border-primary/30"
-                }`}
-              >
-                {addGlitter && (
-                  <div className="absolute inset-0 pointer-events-none">
-                    <div className="absolute inset-0 bg-gradient-to-br from-yellow-200/20 via-white/30 to-pink-200/20 animate-pulse" />
-                    <div className="absolute top-2 left-6 w-1.5 h-1.5 bg-yellow-300 rounded-full animate-ping" style={{ animationDelay: '0s' }} />
-                    <div className="absolute top-8 right-10 w-1 h-1 bg-white rounded-full animate-ping" style={{ animationDelay: '0.3s' }} />
-                    <div className="absolute bottom-4 left-1/3 w-1.5 h-1.5 bg-pink-300 rounded-full animate-ping" style={{ animationDelay: '0.6s' }} />
-                    <div className="absolute top-1/2 right-1/4 w-1 h-1 bg-yellow-200 rounded-full animate-ping" style={{ animationDelay: '0.9s' }} />
-                    <div className="absolute bottom-6 right-8 w-1.5 h-1.5 bg-white rounded-full animate-ping" style={{ animationDelay: '1.2s' }} />
-                  </div>
-                )}
-                <div className="flex items-center gap-4 relative z-10">
-                  <Star className={`w-6 h-6 transition-colors ${addGlitter ? "text-yellow-400 fill-yellow-400" : "text-muted-foreground"}`} />
-                  <div className="text-left">
-                     <p className="font-body font-semibold text-foreground">
-                       ✨ Glitter Finish ✨
-                     </p>
-                     <p className="text-xs text-muted-foreground font-body">
-                       $8 per 25 roses · <span className="text-primary font-semibold">+${glitterCost}</span> for {rosesCount} roses
-                     </p>
-                  </div>
-                  {addGlitter && (
-                    <Check className="w-5 h-5 text-primary ml-auto" />
-                  )}
+              <div className="flex flex-col md:flex-row gap-4">
+                <div className="w-32 h-32 rounded-sm overflow-hidden border border-border flex-shrink-0 mx-auto md:mx-0">
+                  <img src={glitterRoseImg} alt="Glitter rose example" className="w-full h-full object-cover" />
                 </div>
-              </button>
+                <button
+                  onClick={() => setAddGlitter(!addGlitter)}
+                  className={`relative w-full p-6 rounded-sm border-2 transition-all overflow-hidden ${
+                    addGlitter
+                      ? "border-primary bg-primary/5"
+                      : "border-border hover:border-primary/30"
+                  }`}
+                >
+                  {addGlitter && (
+                    <div className="absolute inset-0 pointer-events-none">
+                      <div className="absolute inset-0 bg-gradient-to-br from-yellow-200/20 via-white/30 to-pink-200/20 animate-pulse" />
+                      <div className="absolute top-2 left-6 w-1.5 h-1.5 bg-yellow-300 rounded-full animate-ping" style={{ animationDelay: '0s' }} />
+                      <div className="absolute top-8 right-10 w-1 h-1 bg-white rounded-full animate-ping" style={{ animationDelay: '0.3s' }} />
+                      <div className="absolute bottom-4 left-1/3 w-1.5 h-1.5 bg-pink-300 rounded-full animate-ping" style={{ animationDelay: '0.6s' }} />
+                      <div className="absolute top-1/2 right-1/4 w-1 h-1 bg-yellow-200 rounded-full animate-ping" style={{ animationDelay: '0.9s' }} />
+                      <div className="absolute bottom-6 right-8 w-1.5 h-1.5 bg-white rounded-full animate-ping" style={{ animationDelay: '1.2s' }} />
+                    </div>
+                  )}
+                  <div className="flex items-center gap-4 relative z-10">
+                    <Star className={`w-6 h-6 transition-colors ${addGlitter ? "text-yellow-400 fill-yellow-400" : "text-muted-foreground"}`} />
+                    <div className="text-left">
+                       <p className="font-body font-semibold text-foreground">
+                         ✨ Glitter Finish ✨
+                       </p>
+                       <p className="text-xs text-muted-foreground font-body">
+                         $8 per 25 roses · <span className="text-primary font-semibold">+${glitterCost}</span> for {rosesCount} roses
+                       </p>
+                    </div>
+                    {addGlitter && (
+                      <Check className="w-5 h-5 text-primary ml-auto" />
+                    )}
+                  </div>
+                </button>
+              </div>
             </Section>
 
             {/* 4. Accessories */}
             <Section title="Accessories" step={5} subtitle="Free">
               <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
                 {([
-                  { type: "none" as const, label: "No accessory", icon: null },
-                  { type: "note" as const, label: "Note", icon: Type },
-                  { type: "card" as const, label: "Card", icon: Sparkles },
-                  { type: "butterfly" as const, label: "Butterflies", icon: Bug },
-                ] as const).map(({ type, label, icon: Icon }) => (
+                  { type: "none" as const, label: "No accessory", icon: null, img: null },
+                  { type: "note" as const, label: "Note", icon: Type, img: null },
+                  { type: "card" as const, label: "Card", icon: Sparkles, img: null },
+                  { type: "butterfly" as const, label: "Butterflies", icon: null, img: butterflyImg },
+                ] as const).map(({ type, label, icon: Icon, img }) => (
                   <button
                     key={type}
                     onClick={() => setAccessory(type)}
@@ -464,7 +474,11 @@ const BouquetBuilder = () => {
                         : "border-border text-muted-foreground hover:border-primary/30"
                     }`}
                   >
-                    {Icon && <Icon className="w-4 h-4" />}
+                    {img ? (
+                      <img src={img} alt={label} className="w-10 h-10 object-contain" />
+                    ) : Icon ? (
+                      <Icon className="w-4 h-4" />
+                    ) : null}
                     {label}
                     <span className="text-xs text-secondary">Free</span>
                   </button>
@@ -483,70 +497,65 @@ const BouquetBuilder = () => {
 
             {/* 5. Letras o Números */}
             <Section title="Letters or Numbers (Baby Breath)" step={6} subtitle="Optional">
-              <div className={`p-5 rounded-sm border-2 transition-all ${addLettersNumbers ? "border-primary bg-primary/5" : "border-border"}`}>
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-3">
-                    <Type className="w-5 h-5 text-primary" />
-                    <div>
-                      <p className="font-body font-semibold text-foreground">Add Letters or Numbers in Baby Breath</p>
-                      <p className="text-xs text-muted-foreground font-body">${letterNumberExtraPrice} per letter/number · Max. 4 · Minimum 75 roses</p>
-                    </div>
-                  </div>
-                  <button onClick={() => { if (!addLettersNumbers) { const minIdx = sizeOptions.findIndex(s => s.roses >= 75); if (selectedSizeIdx < minIdx) setSelectedSizeIdx(minIdx); } else { setSpecialText(""); } setAddLettersNumbers(!addLettersNumbers); }} className={`w-12 h-7 rounded-full transition-all relative ${addLettersNumbers ? "bg-primary" : "bg-muted"}`}>
-                    <div className={`w-5 h-5 rounded-full bg-primary-foreground absolute top-1 transition-all ${addLettersNumbers ? "left-6" : "left-1"}`} />
+              <div className="flex flex-col md:flex-row gap-4 mb-4">
+                <div className="w-40 h-40 rounded-sm overflow-hidden border border-border flex-shrink-0 mx-auto md:mx-0">
+                  <img src={lettersImg} alt="Letters in Baby Breath example" className="w-full h-full object-cover" />
+                </div>
+                <div className="flex-1">
+                  <p className="font-body font-semibold text-foreground mb-1">Add Letters or Numbers in Baby Breath</p>
+                  <p className="text-xs text-muted-foreground font-body mb-3">${letterNumberExtraPrice} per letter/number · Max. 4 · Minimum 75 roses</p>
+                </div>
+              </div>
+              <div className="space-y-4">
+                <div className="flex gap-3">
+                  <button
+                    onClick={() => { setLettersNumbersType("letters"); setSpecialText(""); }}
+                    className={`flex items-center gap-2 px-4 py-2 rounded-sm border-2 text-sm font-body transition-all ${
+                      lettersNumbersType === "letters" ? "border-primary bg-primary/5 text-primary" : "border-border text-muted-foreground hover:border-primary/30"
+                    }`}
+                  >
+                    <Type className="w-4 h-4" /> Letters
+                  </button>
+                  <button
+                    onClick={() => { setLettersNumbersType("numbers"); setSpecialText(""); }}
+                    className={`flex items-center gap-2 px-4 py-2 rounded-sm border-2 text-sm font-body transition-all ${
+                      lettersNumbersType === "numbers" ? "border-primary bg-primary/5 text-primary" : "border-border text-muted-foreground hover:border-primary/30"
+                    }`}
+                  >
+                    <Hash className="w-4 h-4" /> Numbers
                   </button>
                 </div>
-                {addLettersNumbers && (
-                  <div className="mt-4 space-y-4">
-                    <div className="flex gap-3">
-                      <button
-                        onClick={() => { setLettersNumbersType("letters"); setSpecialText(""); }}
-                        className={`flex items-center gap-2 px-4 py-2 rounded-sm border-2 text-sm font-body transition-all ${
-                          lettersNumbersType === "letters" ? "border-primary bg-primary/5 text-primary" : "border-border text-muted-foreground hover:border-primary/30"
-                        }`}
-                      >
-                        <Type className="w-4 h-4" /> Letters
-                      </button>
-                      <button
-                        onClick={() => { setLettersNumbersType("numbers"); setSpecialText(""); }}
-                        className={`flex items-center gap-2 px-4 py-2 rounded-sm border-2 text-sm font-body transition-all ${
-                          lettersNumbersType === "numbers" ? "border-primary bg-primary/5 text-primary" : "border-border text-muted-foreground hover:border-primary/30"
-                        }`}
-                      >
-                        <Hash className="w-4 h-4" /> Numbers
-                      </button>
-                    </div>
-                    <input
-                      type="text"
-                      value={specialText}
-                      onChange={(e) => {
-                        const val = lettersNumbersType === "numbers"
-                          ? e.target.value.replace(/[^0-9]/g, "")
-                          : e.target.value.toUpperCase().replace(/[^A-Z]/g, "");
-                        setSpecialText(val);
-                        const minRoses75Idx = sizeOptions.findIndex(s => s.roses >= 75);
-                        if (selectedSizeIdx < minRoses75Idx) setSelectedSizeIdx(minRoses75Idx);
-                        if (lettersNumbersType === "letters" && val.length >= 3) {
-                          const minIdx = sizeOptions.findIndex(s => s.roses >= 100);
-                          if (selectedSizeIdx < minIdx) setSelectedSizeIdx(minIdx);
-                        }
-                      }}
-                      placeholder={lettersNumbersType === "letters" ? "E.g.: LOVE" : "E.g.: 2025"}
-                      className="w-full max-w-xs bg-card border border-border rounded-sm px-4 py-3 font-body text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30"
-                      maxLength={4}
-                    />
-                    <p className="text-xs text-muted-foreground font-body">Minimum 75 roses to add letters or numbers.</p>
-                    {lettersNumbersType === "letters" && (
-                      <p className="text-xs text-muted-foreground font-body">From 3 letters, the minimum is 100 roses.</p>
-                    )}
-                    {specialText.length > 0 && (
-                      <div className="bg-card border border-border rounded-sm p-4">
-                        <p className="font-body text-sm text-muted-foreground">
-                          {specialText.length} {lettersNumbersType === "letters" ? "letters" : "numbers"} × ${letterNumberExtraPrice} ={" "}
-                          <span className="text-primary font-semibold">+${lettersNumbersCost}</span>
-                        </p>
-                      </div>
-                    )}
+                <input
+                  type="text"
+                  value={specialText}
+                  onChange={(e) => {
+                    const val = lettersNumbersType === "numbers"
+                      ? e.target.value.replace(/[^0-9]/g, "")
+                      : e.target.value.toUpperCase().replace(/[^A-Z]/g, "");
+                    setSpecialText(val);
+                    if (val.length > 0) {
+                      const minRoses75Idx = sizeOptions.findIndex(s => s.roses >= 75);
+                      if (selectedSizeIdx < minRoses75Idx) setSelectedSizeIdx(minRoses75Idx);
+                      if (lettersNumbersType === "letters" && val.length >= 3) {
+                        const minIdx = sizeOptions.findIndex(s => s.roses >= 100);
+                        if (selectedSizeIdx < minIdx) setSelectedSizeIdx(minIdx);
+                      }
+                    }
+                  }}
+                  placeholder={lettersNumbersType === "letters" ? "E.g.: LOVE (leave empty if none)" : "E.g.: 2025 (leave empty if none)"}
+                  className="w-full max-w-xs bg-card border border-border rounded-sm px-4 py-3 font-body text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30"
+                  maxLength={4}
+                />
+                <p className="text-xs text-muted-foreground font-body">Minimum 75 roses to add letters or numbers. Leave empty if you don't want any.</p>
+                {lettersNumbersType === "letters" && (
+                  <p className="text-xs text-muted-foreground font-body">From 3 letters, the minimum is 100 roses.</p>
+                )}
+                {specialText.length > 0 && (
+                  <div className="bg-card border border-border rounded-sm p-4">
+                    <p className="font-body text-sm text-muted-foreground">
+                      {specialText.length} {lettersNumbersType === "letters" ? "letters" : "numbers"} × ${letterNumberExtraPrice} ={" "}
+                      <span className="text-primary font-semibold">+${lettersNumbersCost}</span>
+                    </p>
                   </div>
                 )}
               </div>
@@ -568,10 +577,21 @@ const BouquetBuilder = () => {
             {/* 7. Extras */}
             <Section title="Extras" step={8} subtitle="Coming soon">
               <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
-                {/* Crown */}
+                {/* Crown Silver */}
                 <div className="flex flex-col items-center gap-2 p-4 rounded-sm border-2 border-border">
-                  <Crown className="w-5 h-5 text-gold" />
-                  <p className="font-body font-semibold text-foreground text-sm text-center">Crown Tiara</p>
+                  <div className="w-20 h-16 overflow-hidden rounded-sm">
+                    <img src={crownSilverImg} alt="Silver Crown" className="w-full h-full object-contain" />
+                  </div>
+                  <p className="font-body font-semibold text-foreground text-sm text-center">Crown Silver</p>
+                  <p className="text-xs text-muted-foreground font-body">+${crownPrice}</p>
+                </div>
+
+                {/* Crown Gold */}
+                <div className="flex flex-col items-center gap-2 p-4 rounded-sm border-2 border-border">
+                  <div className="w-20 h-16 overflow-hidden rounded-sm">
+                    <img src={crownGoldImg} alt="Gold Crown" className="w-full h-full object-contain" />
+                  </div>
+                  <p className="font-body font-semibold text-foreground text-sm text-center">Crown Gold</p>
                   <p className="text-xs text-muted-foreground font-body">+${crownPrice}</p>
                 </div>
 
@@ -844,7 +864,7 @@ const BouquetBuilder = () => {
                 <div>
                   <p className="font-body text-sm text-muted-foreground">
                     {rosesCount} roses · {selectedColors.map(c => c.name).join(', ')}
-                    {addLettersNumbers && specialText && ` · ${lettersNumbersType === "letters" ? "Letters" : "Numbers"}: ${specialText}`}
+                    {specialText && ` · ${lettersNumbersType === "letters" ? "Letters" : "Numbers"}: ${specialText}`}
                     {addCrown && " · Crown"}
                     {addRibbon && " · Ribbon"}
                     {accessory !== "none" && ` · ${accessory === "note" ? "Note" : accessory === "card" ? "Card" : "Butterflies"}`}
@@ -891,7 +911,7 @@ const BouquetBuilder = () => {
                       if (addRibbon) addons.push("Ribbon");
                       if (addGlitter) addons.push("Glitter");
                       if (addVase) addons.push(`Vase (${vaseOptions[selectedVaseIdx].label})`);
-                      if (addLettersNumbers && specialText) addons.push(`${lettersNumbersType === "letters" ? "Letters" : "Numbers"}: ${specialText}`);
+                      if (specialText) addons.push(`${lettersNumbersType === "letters" ? "Letters" : "Numbers"}: ${specialText}`);
 
                       await addItem({
                         id: "",
@@ -906,7 +926,7 @@ const BouquetBuilder = () => {
                         accessoryText,
                         ribbonText,
                         crownSize: addCrown ? crownSize : "",
-                        specialText: addLettersNumbers ? specialText : "",
+                        specialText,
                         heartColor: "",
                         glitter: addGlitter,
                         deliveryMethod,
@@ -967,7 +987,7 @@ const BouquetBuilder = () => {
                       if (addRibbon) addons.push("Ribbon");
                       if (addGlitter) addons.push("Glitter");
                       if (addVase) addons.push(`Vase (${vaseOptions[selectedVaseIdx].label})`);
-                      if (addLettersNumbers && specialText) addons.push(`${lettersNumbersType === "letters" ? "Letters" : "Numbers"}: ${specialText}`);
+                      if (specialText) addons.push(`${lettersNumbersType === "letters" ? "Letters" : "Numbers"}: ${specialText}`);
 
                       await addItem({
                         id: "",
@@ -982,7 +1002,7 @@ const BouquetBuilder = () => {
                         accessoryText,
                         ribbonText,
                         crownSize: addCrown ? crownSize : "",
-                        specialText: addLettersNumbers ? specialText : "",
+                        specialText,
                         heartColor: "",
                         glitter: addGlitter,
                         deliveryMethod,
