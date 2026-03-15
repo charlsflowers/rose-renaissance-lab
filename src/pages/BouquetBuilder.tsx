@@ -290,7 +290,7 @@ const BouquetBuilder = () => {
     } finally {
       setPreviewLoading(false);
     }
-  }, [selectedColors, rosesCount, addGlitter, addLettersNumbers, specialText, addCrown, crownSize, addRibbon, ribbonText]);
+  }, [selectedColors, rosesCount, addGlitter, specialText, addCrown, crownSize, addRibbon, ribbonText]);
 
   const colorCategories = [
     { key: "natural" as const, label: "Natural" },
