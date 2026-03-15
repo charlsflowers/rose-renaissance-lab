@@ -497,71 +497,68 @@ const BouquetBuilder = () => {
 
             {/* 5. Letras o Números */}
             <Section title="Letters or Numbers (Baby Breath)" step={6} subtitle="Optional">
-              <div className={`p-5 rounded-sm border-2 transition-all ${addLettersNumbers ? "border-primary bg-primary/5" : "border-border"}`}>
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-3">
-                    <Type className="w-5 h-5 text-primary" />
-                    <div>
-                      <p className="font-body font-semibold text-foreground">Add Letters or Numbers in Baby Breath</p>
-                      <p className="text-xs text-muted-foreground font-body">${letterNumberExtraPrice} per letter/number · Max. 4 · Minimum 75 roses</p>
-                    </div>
-                  </div>
-                  <button onClick={() => { if (!addLettersNumbers) { const minIdx = sizeOptions.findIndex(s => s.roses >= 75); if (selectedSizeIdx < minIdx) setSelectedSizeIdx(minIdx); } else { setSpecialText(""); } setAddLettersNumbers(!addLettersNumbers); }} className={`w-12 h-7 rounded-full transition-all relative ${addLettersNumbers ? "bg-primary" : "bg-muted"}`}>
-                    <div className={`w-5 h-5 rounded-full bg-primary-foreground absolute top-1 transition-all ${addLettersNumbers ? "left-6" : "left-1"}`} />
+              <div className="flex flex-col md:flex-row gap-4 mb-4">
+                <div className="w-40 h-40 rounded-sm overflow-hidden border border-border flex-shrink-0 mx-auto md:mx-0">
+                  <img src={lettersImg} alt="Letters in Baby Breath example" className="w-full h-full object-cover" />
+                </div>
+                <div className="flex-1">
+                  <p className="font-body font-semibold text-foreground mb-1">Add Letters or Numbers in Baby Breath</p>
+                  <p className="text-xs text-muted-foreground font-body mb-3">${letterNumberExtraPrice} per letter/number · Max. 4 · Minimum 75 roses</p>
+                </div>
+              </div>
+              <div className="space-y-4">
+                <div className="flex gap-3">
+                  <button
+                    onClick={() => { setLettersNumbersType("letters"); setSpecialText(""); }}
+                    className={`flex items-center gap-2 px-4 py-2 rounded-sm border-2 text-sm font-body transition-all ${
+                      lettersNumbersType === "letters" ? "border-primary bg-primary/5 text-primary" : "border-border text-muted-foreground hover:border-primary/30"
+                    }`}
+                  >
+                    <Type className="w-4 h-4" /> Letters
+                  </button>
+                  <button
+                    onClick={() => { setLettersNumbersType("numbers"); setSpecialText(""); }}
+                    className={`flex items-center gap-2 px-4 py-2 rounded-sm border-2 text-sm font-body transition-all ${
+                      lettersNumbersType === "numbers" ? "border-primary bg-primary/5 text-primary" : "border-border text-muted-foreground hover:border-primary/30"
+                    }`}
+                  >
+                    <Hash className="w-4 h-4" /> Numbers
                   </button>
                 </div>
-                {addLettersNumbers && (
-                  <div className="mt-4 space-y-4">
-                    <div className="flex gap-3">
-                      <button
-                        onClick={() => { setLettersNumbersType("letters"); setSpecialText(""); }}
-                        className={`flex items-center gap-2 px-4 py-2 rounded-sm border-2 text-sm font-body transition-all ${
-                          lettersNumbersType === "letters" ? "border-primary bg-primary/5 text-primary" : "border-border text-muted-foreground hover:border-primary/30"
-                        }`}
-                      >
-                        <Type className="w-4 h-4" /> Letters
-                      </button>
-                      <button
-                        onClick={() => { setLettersNumbersType("numbers"); setSpecialText(""); }}
-                        className={`flex items-center gap-2 px-4 py-2 rounded-sm border-2 text-sm font-body transition-all ${
-                          lettersNumbersType === "numbers" ? "border-primary bg-primary/5 text-primary" : "border-border text-muted-foreground hover:border-primary/30"
-                        }`}
-                      >
-                        <Hash className="w-4 h-4" /> Numbers
-                      </button>
-                    </div>
-                    <input
-                      type="text"
-                      value={specialText}
-                      onChange={(e) => {
-                        const val = lettersNumbersType === "numbers"
-                          ? e.target.value.replace(/[^0-9]/g, "")
-                          : e.target.value.toUpperCase().replace(/[^A-Z]/g, "");
-                        setSpecialText(val);
-                        const minRoses75Idx = sizeOptions.findIndex(s => s.roses >= 75);
-                        if (selectedSizeIdx < minRoses75Idx) setSelectedSizeIdx(minRoses75Idx);
-                        if (lettersNumbersType === "letters" && val.length >= 3) {
-                          const minIdx = sizeOptions.findIndex(s => s.roses >= 100);
-                          if (selectedSizeIdx < minIdx) setSelectedSizeIdx(minIdx);
-                        }
-                      }}
-                      placeholder={lettersNumbersType === "letters" ? "E.g.: LOVE" : "E.g.: 2025"}
-                      className="w-full max-w-xs bg-card border border-border rounded-sm px-4 py-3 font-body text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30"
-                      maxLength={4}
-                    />
-                    <p className="text-xs text-muted-foreground font-body">Minimum 75 roses to add letters or numbers.</p>
-                    {lettersNumbersType === "letters" && (
-                      <p className="text-xs text-muted-foreground font-body">From 3 letters, the minimum is 100 roses.</p>
-                    )}
-                    {specialText.length > 0 && (
-                      <div className="bg-card border border-border rounded-sm p-4">
-                        <p className="font-body text-sm text-muted-foreground">
-                          {specialText.length} {lettersNumbersType === "letters" ? "letters" : "numbers"} × ${letterNumberExtraPrice} ={" "}
-                          <span className="text-primary font-semibold">+${lettersNumbersCost}</span>
-                        </p>
-                      </div>
-                    )}
+                <input
+                  type="text"
+                  value={specialText}
+                  onChange={(e) => {
+                    const val = lettersNumbersType === "numbers"
+                      ? e.target.value.replace(/[^0-9]/g, "")
+                      : e.target.value.toUpperCase().replace(/[^A-Z]/g, "");
+                    setSpecialText(val);
+                    if (val.length > 0) {
+                      const minRoses75Idx = sizeOptions.findIndex(s => s.roses >= 75);
+                      if (selectedSizeIdx < minRoses75Idx) setSelectedSizeIdx(minRoses75Idx);
+                      if (lettersNumbersType === "letters" && val.length >= 3) {
+                        const minIdx = sizeOptions.findIndex(s => s.roses >= 100);
+                        if (selectedSizeIdx < minIdx) setSelectedSizeIdx(minIdx);
+                      }
+                    }
+                  }}
+                  placeholder={lettersNumbersType === "letters" ? "E.g.: LOVE (leave empty if none)" : "E.g.: 2025 (leave empty if none)"}
+                  className="w-full max-w-xs bg-card border border-border rounded-sm px-4 py-3 font-body text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30"
+                  maxLength={4}
+                />
+                <p className="text-xs text-muted-foreground font-body">Minimum 75 roses to add letters or numbers. Leave empty if you don't want any.</p>
+                {lettersNumbersType === "letters" && (
+                  <p className="text-xs text-muted-foreground font-body">From 3 letters, the minimum is 100 roses.</p>
+                )}
+                {specialText.length > 0 && (
+                  <div className="bg-card border border-border rounded-sm p-4">
+                    <p className="font-body text-sm text-muted-foreground">
+                      {specialText.length} {lettersNumbersType === "letters" ? "letters" : "numbers"} × ${letterNumberExtraPrice} ={" "}
+                      <span className="text-primary font-semibold">+${lettersNumbersCost}</span>
+                    </p>
                   </div>
+                )}
+              </div>
                 )}
               </div>
             </Section>
