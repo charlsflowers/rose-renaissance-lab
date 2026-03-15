@@ -386,7 +386,7 @@ const BouquetBuilder = () => {
               <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
                 {pricingTable.map((size, idx) => {
                   const tooFewRoses = size.roses < minRoses;
-                  const letterDisabled = addLettersNumbers && (size.roses < 75 || (specialText.length >= 3 && lettersNumbersType === "letters" && size.roses < 100));
+                  const letterDisabled = specialText.length > 0 && (size.roses < 75 || (specialText.length >= 3 && lettersNumbersType === "letters" && size.roses < 100));
                   const disabled = tooFewRoses || letterDisabled;
                   const price = getPrice(pricingTier, size.roses);
                   return (
