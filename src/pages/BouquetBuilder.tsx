@@ -243,12 +243,18 @@ const BouquetBuilder = () => {
   const glitterCost = addGlitter ? Math.ceil(rosesCount / 25) * 8 : 0;
   const vaseCost = addVase ? vaseOptions[selectedVaseIdx].price : 0;
 
+  const crownCost = addCrown ? crownPrice : 0;
+  const ribbonCost = addRibbon ? ribbonPrice : 0;
+
   const totalPrice = useMemo(() => {
     let total = basePrice + lettersNumbersCost;
     total += glitterCost;
+    total += crownCost;
+    total += ribbonCost;
+    total += vaseCost;
     total += deliveryCost;
     return total;
-  }, [basePrice, lettersNumbersCost, glitterCost, deliveryCost]);
+  }, [basePrice, lettersNumbersCost, glitterCost, crownCost, ribbonCost, vaseCost, deliveryCost]);
 
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const [previewLoading, setPreviewLoading] = useState(false);
