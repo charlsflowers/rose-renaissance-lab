@@ -1011,7 +1011,7 @@ const BouquetBuilder = () => {
                       setIsAdding(false);
                     }
                   }}
-                  className="w-full md:w-auto bg-primary text-primary-foreground px-10 py-4 font-body text-sm tracking-widest uppercase hover:bg-primary/90 transition-colors rounded-sm disabled:opacity-50"
+                  className="w-full md:w-auto bg-primary text-primary-foreground px-6 py-3 md:px-10 md:py-4 font-body text-xs md:text-sm tracking-widest uppercase hover:bg-primary/90 transition-colors rounded-sm disabled:opacity-50"
                 >
                   {isAdding ? "Adding..." : variantsLoading ? "Loading..." : "Add to cart"}
                 </button>
