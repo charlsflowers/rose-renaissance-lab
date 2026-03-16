@@ -569,44 +569,100 @@ const BouquetBuilder = () => {
             </Section>
 
             {/* 6. Vase */}
-            <Section title="Vase" step={7} subtitle="Optional · Coming soon">
+            <Section title="Vase" step={7} subtitle="Optional">
               <div className="grid grid-cols-3 gap-3">
-                {vaseOptions.map((v) => (
-                  <div key={v.roses} className="flex flex-col items-center gap-2 p-4 rounded-sm border-2 border-border">
+                {vaseOptions.map((v, idx) => (
+                  <button
+                    key={v.roses}
+                    onClick={() => { setAddVase(!addVase || selectedVaseIdx !== idx); setSelectedVaseIdx(idx); if (addVase && selectedVaseIdx === idx) setAddVase(false); }}
+                    className={`flex flex-col items-center gap-2 p-4 rounded-sm border-2 transition-all ${
+                      addVase && selectedVaseIdx === idx ? "border-primary bg-primary/5" : "border-border hover:border-primary/30"
+                    }`}
+                  >
                     <p className="font-display text-lg font-semibold text-foreground">{v.roses}</p>
                     <p className="text-xs text-muted-foreground font-body">roses</p>
                     <p className="text-sm font-body font-semibold text-primary">${v.price}</p>
-                  </div>
+                    {addVase && selectedVaseIdx === idx && <Check className="w-4 h-4 text-primary" />}
+                  </button>
                 ))}
               </div>
             </Section>
 
             {/* 7. Extras */}
-            <Section title="Extras" step={8} subtitle="Coming soon">
-              <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
-                {/* Crown Silver */}
-                <div className="flex flex-col items-center gap-2 p-4 rounded-sm border-2 border-border">
-                  <div className="w-20 h-16 overflow-hidden rounded-sm">
-                    <img src={crownSilverImg} alt="Silver Crown" className="w-full h-full object-contain" />
-                  </div>
-                  <p className="font-body font-semibold text-foreground text-sm text-center">Crown Silver</p>
-                  <p className="text-xs text-muted-foreground font-body">+${crownPrice}</p>
-                </div>
-
-                {/* Crown Gold */}
-                <div className="flex flex-col items-center gap-2 p-4 rounded-sm border-2 border-border">
-                  <div className="w-20 h-16 overflow-hidden rounded-sm">
-                    <img src={crownGoldImg} alt="Gold Crown" className="w-full h-full object-contain" />
-                  </div>
-                  <p className="font-body font-semibold text-foreground text-sm text-center">Crown Gold</p>
-                  <p className="text-xs text-muted-foreground font-body">+${crownPrice}</p>
+            <Section title="Extras" step={8} subtitle="Optional">
+              <div className="space-y-4">
+                {/* Crown */}
+                <div>
+                  <button onClick={() => setAddCrown(!addCrown)}
+                    className={`w-full flex items-center gap-3 p-4 rounded-sm border-2 transition-all font-body text-sm ${
+                      addCrown ? "border-primary bg-primary/5 text-primary" : "border-border text-muted-foreground hover:border-primary/30"
+                    }`}>
+                    <Crown className="w-5 h-5 shrink-0" />
+                    <div className="text-left flex-1">
+                      <p className="font-semibold">Crown Tiara</p>
+                      <p className="text-xs">Add a decorative crown</p>
+                    </div>
+                    <span className="text-xs font-semibold">+${crownPrice}</span>
+                    {addCrown && <Check className="w-4 h-4 text-primary" />}
+                  </button>
+                  {addCrown && (
+                    <div className="flex gap-3 mt-3 pl-2">
+                      {crownOptions.map((opt) => (
+                        <button key={opt.size} onClick={() => setCrownSize(opt.size)}
+                          className={`flex flex-col items-center gap-1 p-3 rounded-sm border-2 text-xs font-body transition-all ${
+                            crownSize === opt.size ? "border-primary bg-primary/10 text-primary" : "border-border text-muted-foreground hover:border-primary/30"
+                          }`}>
+                          <div className="w-16 h-12 overflow-hidden rounded-sm">
+                            <img src={opt.size === "silver" ? crownSilverImg : crownGoldImg} alt={opt.label} className="w-full h-full object-contain" />
+                          </div>
+                          {opt.label}
+                        </button>
+                      ))}
+                    </div>
+                  )}
                 </div>
 
                 {/* Ribbon */}
-                <div className="flex flex-col items-center gap-2 p-4 rounded-sm border-2 border-border">
-                  <Sparkles className="w-5 h-5 text-gold" />
-                  <p className="font-body font-semibold text-foreground text-sm text-center">Custom Ribbon</p>
-                  <p className="text-xs text-muted-foreground font-body">+${ribbonPrice}</p>
+                <div>
+                  <button onClick={() => { setAddRibbon(!addRibbon); if (addRibbon) setRibbonText(""); }}
+                    className={`w-full flex items-center gap-3 p-4 rounded-sm border-2 transition-all font-body text-sm ${
+                      addRibbon ? "border-primary bg-primary/5 text-primary" : "border-border text-muted-foreground hover:border-primary/30"
+                    }`}>
+                    <Sparkles className="w-5 h-5 shrink-0" />
+                    <div className="text-left flex-1">
+                      <p className="font-semibold">Custom Ribbon</p>
+                      <p className="text-xs">With any text you want</p>
+                    </div>
+                    <span className="text-xs font-semibold">+${ribbonPrice}</span>
+                    {addRibbon && <Check className="w-4 h-4 text-primary" />}
+                  </button>
+                  {addRibbon && (
+                    <div className="mt-3 pl-2 space-y-3">
+                      <div className="flex gap-2">
+                        {(["names", "congratulations"] as const).map((t) => (
+                          <button key={t} onClick={() => { setRibbonType(t); setRibbonText(""); }}
+                            className={`px-4 py-2 rounded-sm border text-xs font-body transition-all ${
+                              ribbonType === t ? "border-primary bg-primary/10 text-primary" : "border-border text-muted-foreground hover:border-primary/30"
+                            }`}>
+                            {t === "names" ? "Names" : "Congratulations"}
+                          </button>
+                        ))}
+                      </div>
+                      {ribbonType === "congratulations" && (
+                        <div className="flex flex-wrap gap-2">
+                          {ribbonPresets.map((preset) => (
+                            <button key={preset} onClick={() => setRibbonText(preset)}
+                              className={`px-3 py-1.5 rounded-sm border text-xs font-body transition-all ${
+                                ribbonText === preset ? "border-primary bg-primary/10 text-primary" : "border-border text-muted-foreground hover:border-primary/30"
+                              }`}>{preset}</button>
+                          ))}
+                        </div>
+                      )}
+                      <input type="text" value={ribbonText} onChange={(e) => setRibbonText(e.target.value)}
+                        placeholder={ribbonType === "names" ? "e.g. Ana & Carlos" : "e.g. Happy Birthday"}
+                        className="w-full bg-card border border-border rounded-sm px-4 py-3 font-body text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30" />
+                    </div>
+                  )}
                 </div>
               </div>
             </Section>
