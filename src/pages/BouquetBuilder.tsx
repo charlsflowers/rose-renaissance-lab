@@ -922,10 +922,10 @@ const BouquetBuilder = () => {
 
             {/* Summary */}
             <div className="pb-4" />
-            <div className="sticky bottom-0 bg-card/95 backdrop-blur-md border border-border rounded-sm p-6 shadow-xl z-10">
-              <div className="flex flex-col md:flex-row items-center justify-between gap-4">
+            <div className="sticky bottom-0 bg-card/95 backdrop-blur-md border border-border rounded-sm p-3 md:p-6 shadow-xl z-10">
+              <div className="flex flex-col md:flex-row items-center justify-between gap-2 md:gap-4">
                 <div>
-                  <p className="font-body text-sm text-muted-foreground">
+                  <p className="font-body text-[11px] md:text-sm text-muted-foreground leading-tight">
                     {rosesCount} roses · {selectedColors.map(c => c.name).join(', ')}
                     {specialText && ` · ${lettersNumbersType === "letters" ? "Letters" : "Numbers"}: ${specialText}`}
                     {addCrown && " · Crown"}
@@ -935,8 +935,8 @@ const BouquetBuilder = () => {
                     {addVase && ` · Vase (${vaseOptions[selectedVaseIdx].label})`}
                     {deliveryMethod === "delivery" ? (deliveryMiles && !distanceTooFar ? ` · Shipping ${deliveryMiles}mi ($${deliveryCost})` : " · Shipping (pending)") : " · Store pickup"}
                   </p>
-                  <p className="font-display text-3xl font-bold text-foreground">
-                    ${totalPrice} <span className="text-sm font-body text-muted-foreground font-normal">USD</span>
+                  <p className="font-display text-2xl md:text-3xl font-bold text-foreground">
+                    ${totalPrice} <span className="text-xs md:text-sm font-body text-muted-foreground font-normal">USD</span>
                   </p>
                 </div>
                 <button
