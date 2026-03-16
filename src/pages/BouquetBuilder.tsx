@@ -8,6 +8,7 @@ import { fetchVariantsByHandle, findVariantByRoses, type ShopifyHandleVariant } 
 import { toast } from "sonner";
 import { buildCheckoutUrl, openCheckoutInNewTab } from "@/lib/checkout";
 import { calculateDeliveryCost, formatDeliveryCost } from "@/lib/deliveryPricing";
+import { buildAccessoryLineItems } from "@/lib/accessoryVariants";
 
 import Navbar from "@/components/Navbar";
 import PaperColorPicker from "@/components/PaperColorPicker";
@@ -242,12 +243,18 @@ const BouquetBuilder = () => {
   const glitterCost = addGlitter ? Math.ceil(rosesCount / 25) * 8 : 0;
   const vaseCost = addVase ? vaseOptions[selectedVaseIdx].price : 0;
 
+  const crownCost = addCrown ? crownPrice : 0;
+  const ribbonCost = addRibbon ? ribbonPrice : 0;
+
   const totalPrice = useMemo(() => {
     let total = basePrice + lettersNumbersCost;
     total += glitterCost;
+    total += crownCost;
+    total += ribbonCost;
+    total += vaseCost;
     total += deliveryCost;
     return total;
-  }, [basePrice, lettersNumbersCost, glitterCost, deliveryCost]);
+  }, [basePrice, lettersNumbersCost, glitterCost, crownCost, ribbonCost, vaseCost, deliveryCost]);
 
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const [previewLoading, setPreviewLoading] = useState(false);
@@ -498,7 +505,7 @@ const BouquetBuilder = () => {
             {/* 5. Letras o Números */}
             <Section title="Letters or Numbers (Baby Breath)" step={6} subtitle="Optional">
               <div className="flex flex-col md:flex-row gap-4 mb-4">
-                <div className="w-40 h-40 rounded-sm overflow-hidden border border-border flex-shrink-0 mx-auto md:mx-0">
+                <div className="w-24 h-24 rounded-sm overflow-hidden border border-border flex-shrink-0 mx-auto md:mx-0">
                   <img src={lettersImg} alt="Letters in Baby Breath example" className="w-full h-full object-cover" />
                 </div>
                 <div className="flex-1">
@@ -562,44 +569,100 @@ const BouquetBuilder = () => {
             </Section>
 
             {/* 6. Vase */}
-            <Section title="Vase" step={7} subtitle="Optional · Coming soon">
+            <Section title="Vase" step={7} subtitle="Optional">
               <div className="grid grid-cols-3 gap-3">
-                {vaseOptions.map((v) => (
-                  <div key={v.roses} className="flex flex-col items-center gap-2 p-4 rounded-sm border-2 border-border">
+                {vaseOptions.map((v, idx) => (
+                  <button
+                    key={v.roses}
+                    onClick={() => { setAddVase(!addVase || selectedVaseIdx !== idx); setSelectedVaseIdx(idx); if (addVase && selectedVaseIdx === idx) setAddVase(false); }}
+                    className={`flex flex-col items-center gap-2 p-4 rounded-sm border-2 transition-all ${
+                      addVase && selectedVaseIdx === idx ? "border-primary bg-primary/5" : "border-border hover:border-primary/30"
+                    }`}
+                  >
                     <p className="font-display text-lg font-semibold text-foreground">{v.roses}</p>
                     <p className="text-xs text-muted-foreground font-body">roses</p>
                     <p className="text-sm font-body font-semibold text-primary">${v.price}</p>
-                  </div>
+                    {addVase && selectedVaseIdx === idx && <Check className="w-4 h-4 text-primary" />}
+                  </button>
                 ))}
               </div>
             </Section>
 
             {/* 7. Extras */}
-            <Section title="Extras" step={8} subtitle="Coming soon">
-              <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
-                {/* Crown Silver */}
-                <div className="flex flex-col items-center gap-2 p-4 rounded-sm border-2 border-border">
-                  <div className="w-20 h-16 overflow-hidden rounded-sm">
-                    <img src={crownSilverImg} alt="Silver Crown" className="w-full h-full object-contain" />
-                  </div>
-                  <p className="font-body font-semibold text-foreground text-sm text-center">Crown Silver</p>
-                  <p className="text-xs text-muted-foreground font-body">+${crownPrice}</p>
-                </div>
-
-                {/* Crown Gold */}
-                <div className="flex flex-col items-center gap-2 p-4 rounded-sm border-2 border-border">
-                  <div className="w-20 h-16 overflow-hidden rounded-sm">
-                    <img src={crownGoldImg} alt="Gold Crown" className="w-full h-full object-contain" />
-                  </div>
-                  <p className="font-body font-semibold text-foreground text-sm text-center">Crown Gold</p>
-                  <p className="text-xs text-muted-foreground font-body">+${crownPrice}</p>
+            <Section title="Extras" step={8} subtitle="Optional">
+              <div className="space-y-4">
+                {/* Crown */}
+                <div>
+                  <button onClick={() => setAddCrown(!addCrown)}
+                    className={`w-full flex items-center gap-3 p-4 rounded-sm border-2 transition-all font-body text-sm ${
+                      addCrown ? "border-primary bg-primary/5 text-primary" : "border-border text-muted-foreground hover:border-primary/30"
+                    }`}>
+                    <Crown className="w-5 h-5 shrink-0" />
+                    <div className="text-left flex-1">
+                      <p className="font-semibold">Crown Tiara</p>
+                      <p className="text-xs">Add a decorative crown</p>
+                    </div>
+                    <span className="text-xs font-semibold">+${crownPrice}</span>
+                    {addCrown && <Check className="w-4 h-4 text-primary" />}
+                  </button>
+                  {addCrown && (
+                    <div className="flex gap-3 mt-3 pl-2">
+                      {crownOptions.map((opt) => (
+                        <button key={opt.size} onClick={() => setCrownSize(opt.size)}
+                          className={`flex flex-col items-center gap-1 p-3 rounded-sm border-2 text-xs font-body transition-all ${
+                            crownSize === opt.size ? "border-primary bg-primary/10 text-primary" : "border-border text-muted-foreground hover:border-primary/30"
+                          }`}>
+                          <div className="w-16 h-12 overflow-hidden rounded-sm">
+                            <img src={opt.size === "silver" ? crownSilverImg : crownGoldImg} alt={opt.label} className="w-full h-full object-contain" />
+                          </div>
+                          {opt.label}
+                        </button>
+                      ))}
+                    </div>
+                  )}
                 </div>
 
                 {/* Ribbon */}
-                <div className="flex flex-col items-center gap-2 p-4 rounded-sm border-2 border-border">
-                  <Sparkles className="w-5 h-5 text-gold" />
-                  <p className="font-body font-semibold text-foreground text-sm text-center">Custom Ribbon</p>
-                  <p className="text-xs text-muted-foreground font-body">+${ribbonPrice}</p>
+                <div>
+                  <button onClick={() => { setAddRibbon(!addRibbon); if (addRibbon) setRibbonText(""); }}
+                    className={`w-full flex items-center gap-3 p-4 rounded-sm border-2 transition-all font-body text-sm ${
+                      addRibbon ? "border-primary bg-primary/5 text-primary" : "border-border text-muted-foreground hover:border-primary/30"
+                    }`}>
+                    <Sparkles className="w-5 h-5 shrink-0" />
+                    <div className="text-left flex-1">
+                      <p className="font-semibold">Custom Ribbon</p>
+                      <p className="text-xs">With any text you want</p>
+                    </div>
+                    <span className="text-xs font-semibold">+${ribbonPrice}</span>
+                    {addRibbon && <Check className="w-4 h-4 text-primary" />}
+                  </button>
+                  {addRibbon && (
+                    <div className="mt-3 pl-2 space-y-3">
+                      <div className="flex gap-2">
+                        {(["names", "congratulations"] as const).map((t) => (
+                          <button key={t} onClick={() => { setRibbonType(t); setRibbonText(""); }}
+                            className={`px-4 py-2 rounded-sm border text-xs font-body transition-all ${
+                              ribbonType === t ? "border-primary bg-primary/10 text-primary" : "border-border text-muted-foreground hover:border-primary/30"
+                            }`}>
+                            {t === "names" ? "Names" : "Congratulations"}
+                          </button>
+                        ))}
+                      </div>
+                      {ribbonType === "congratulations" && (
+                        <div className="flex flex-wrap gap-2">
+                          {ribbonPresets.map((preset) => (
+                            <button key={preset} onClick={() => setRibbonText(preset)}
+                              className={`px-3 py-1.5 rounded-sm border text-xs font-body transition-all ${
+                                ribbonText === preset ? "border-primary bg-primary/10 text-primary" : "border-border text-muted-foreground hover:border-primary/30"
+                              }`}>{preset}</button>
+                          ))}
+                        </div>
+                      )}
+                      <input type="text" value={ribbonText} onChange={(e) => setRibbonText(e.target.value)}
+                        placeholder={ribbonType === "names" ? "e.g. Ana & Carlos" : "e.g. Happy Birthday"}
+                        className="w-full bg-card border border-border rounded-sm px-4 py-3 font-body text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30" />
+                    </div>
+                  )}
                 </div>
               </div>
             </Section>
@@ -859,10 +922,10 @@ const BouquetBuilder = () => {
 
             {/* Summary */}
             <div className="pb-4" />
-            <div className="sticky bottom-0 bg-card/95 backdrop-blur-md border border-border rounded-sm p-6 shadow-xl z-10">
-              <div className="flex flex-col md:flex-row items-center justify-between gap-4">
+            <div className="sticky bottom-0 bg-card/95 backdrop-blur-md border border-border rounded-sm p-3 md:p-6 shadow-xl z-10">
+              <div className="flex flex-col md:flex-row items-center justify-between gap-2 md:gap-4">
                 <div>
-                  <p className="font-body text-sm text-muted-foreground">
+                  <p className="font-body text-[11px] md:text-sm text-muted-foreground leading-tight">
                     {rosesCount} roses · {selectedColors.map(c => c.name).join(', ')}
                     {specialText && ` · ${lettersNumbersType === "letters" ? "Letters" : "Numbers"}: ${specialText}`}
                     {addCrown && " · Crown"}
@@ -872,8 +935,8 @@ const BouquetBuilder = () => {
                     {addVase && ` · Vase (${vaseOptions[selectedVaseIdx].label})`}
                     {deliveryMethod === "delivery" ? (deliveryMiles && !distanceTooFar ? ` · Shipping ${deliveryMiles}mi ($${deliveryCost})` : " · Shipping (pending)") : " · Store pickup"}
                   </p>
-                  <p className="font-display text-3xl font-bold text-foreground">
-                    ${totalPrice} <span className="text-sm font-body text-muted-foreground font-normal">USD</span>
+                  <p className="font-display text-2xl md:text-3xl font-bold text-foreground">
+                    ${totalPrice} <span className="text-xs md:text-sm font-body text-muted-foreground font-normal">USD</span>
                   </p>
                 </div>
                 <button
@@ -948,7 +1011,7 @@ const BouquetBuilder = () => {
                       setIsAdding(false);
                     }
                   }}
-                  className="w-full md:w-auto bg-primary text-primary-foreground px-10 py-4 font-body text-sm tracking-widest uppercase hover:bg-primary/90 transition-colors rounded-sm disabled:opacity-50"
+                  className="w-full md:w-auto bg-primary text-primary-foreground px-6 py-3 md:px-10 md:py-4 font-body text-xs md:text-sm tracking-widest uppercase hover:bg-primary/90 transition-colors rounded-sm disabled:opacity-50"
                 >
                   {isAdding ? "Adding..." : variantsLoading ? "Loading..." : "Add to cart"}
                 </button>
@@ -1018,12 +1081,26 @@ const BouquetBuilder = () => {
                         shopifyVariantId: variant.id,
                       });
                       toast.success("Bouquet added to cart!");
+                      const accessories = buildAccessoryLineItems({
+                        glitter: addGlitter,
+                        rosesCount,
+                        accessory,
+                        specialText,
+                        addVase,
+                        vaseRoses: addVase ? vaseOptions[selectedVaseIdx].roses : undefined,
+                        addCrown,
+                        crownSize,
+                        addRibbon,
+                      });
                       const checkoutUrl = buildCheckoutUrl(variant.id, {
                         deliveryMethod,
                         deliveryCost,
                         deliveryAddress: selectedAddress,
                         deliveryCity,
                         deliveryZip,
+                        deliveryDate: deliveryDate ? format(deliveryDate, "PPP", { locale: enUS }) : undefined,
+                        deliveryTime: deliveryHour || undefined,
+                        accessories,
                       });
                       if (!checkoutUrl) {
                         toast.error("Could not start Shopify checkout. Please try again.");
@@ -1036,7 +1113,7 @@ const BouquetBuilder = () => {
                       setIsAdding(false);
                     }
                   }}
-                  className="w-full md:w-auto border-2 border-primary text-primary px-10 py-4 font-body text-sm tracking-widest uppercase hover:bg-primary/10 transition-colors rounded-sm disabled:opacity-50"
+                  className="w-full md:w-auto border-2 border-primary text-primary px-6 py-3 md:px-10 md:py-4 font-body text-xs md:text-sm tracking-widest uppercase hover:bg-primary/10 transition-colors rounded-sm disabled:opacity-50"
                 >
                   {isAdding ? "Adding..." : "Pay now"}
                 </button>

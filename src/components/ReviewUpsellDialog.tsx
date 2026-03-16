@@ -15,6 +15,7 @@ import { bouquetProducts } from "@/lib/catalogData";
 import type { ReviewCartData } from "@/components/ReviewCard";
 import { toast } from "sonner";
 import { buildCheckoutUrl, openCheckoutInNewTab } from "@/lib/checkout";
+import { buildAccessoryLineItems } from "@/lib/accessoryVariants";
 import glitterRoseImg from "@/assets/glitter-rose.png";
 import crownSilverImg from "@/assets/crown-silver.png";
 import crownGoldImg from "@/assets/crown-gold.png";
@@ -140,9 +141,11 @@ const ReviewUpsellDialog = ({ open, onOpenChange, cartData, productLabel, mode }
   const extrasTotal = glitterCost + (addCrown ? crownPrice : 0) + (addRibbon ? ribbonPrice : 0);
   const finalPrice = cartData.price + extrasTotal + deliveryCost;
 
+  const isDeliveryInfoComplete = deliveryDate && deliveryHour && (deliveryMethod === "pickup" || (selectedAddress && deliveryMiles !== null && !distanceTooFar));
+
   const handleConfirm = async () => {
     if (variantsLoading) { toast.error("We are still loading product variants."); return; }
-    if (!deliveryDate || !deliveryHour) { toast.error("Please select a date and time."); return; }
+    if (!deliveryDate || !deliveryHour) { toast.error("Please select a delivery date and time before continuing."); return; }
     if (deliveryMethod === "delivery" && !selectedAddress) { toast.error("Please select a delivery address."); return; }
     if (deliveryMethod === "delivery" && (distanceTooFar || deliveryMiles === null)) { toast.error("The address is invalid or out of range."); return; }
 
@@ -189,6 +192,16 @@ const ReviewUpsellDialog = ({ open, onOpenChange, cartData, productLabel, mode }
       onOpenChange(false);
 
       if (mode === "buy") {
+        const accessories = buildAccessoryLineItems({
+          glitter: addGlitter,
+          rosesCount: cartData.roses,
+          accessory: "",
+          specialText: "",
+          addVase: false,
+          addCrown,
+          crownSize,
+          addRibbon,
+        });
         const checkoutUrl = buildCheckoutUrl(variant.id, {
           deliveryMethod,
           deliveryCost,
@@ -196,6 +209,7 @@ const ReviewUpsellDialog = ({ open, onOpenChange, cartData, productLabel, mode }
           deliveryZip,
           deliveryDate: deliveryDate ? format(deliveryDate, "PPP", { locale: enUS }) : undefined,
           deliveryTime: deliveryHour || undefined,
+          accessories,
         });
         if (!checkoutUrl) { toast.error("Could not start Shopify checkout. Please try again."); return; }
         openCheckoutInNewTab(checkoutUrl);
@@ -221,7 +235,7 @@ const ReviewUpsellDialog = ({ open, onOpenChange, cartData, productLabel, mode }
         <div className="space-y-5 pt-2">
           {/* Delivery method */}
           <div>
-            <p className="font-body text-sm font-semibold text-foreground mb-3">Delivery method</p>
+            <p className="font-body text-sm font-semibold text-foreground mb-3">Delivery method <span className="text-destructive">*</span></p>
             <div className="grid grid-cols-2 gap-3">
               {([
                 { value: "pickup" as const, label: "Store pickup", icon: Store },
@@ -238,7 +252,7 @@ const ReviewUpsellDialog = ({ open, onOpenChange, cartData, productLabel, mode }
             </div>
           </div>
 
-          {/* Delivery address (if home delivery) */}
+          {/* Delivery address */}
           {deliveryMethod === "delivery" && (
             <div className="space-y-3">
               <p className="font-body font-semibold text-foreground text-sm">Delivery address</p>
@@ -293,7 +307,7 @@ const ReviewUpsellDialog = ({ open, onOpenChange, cartData, productLabel, mode }
           {/* Date */}
           <div>
             <label className="text-sm font-body font-semibold text-foreground block mb-2">
-              <CalendarIcon className="w-4 h-4 inline mr-1" /> Date
+              <CalendarIcon className="w-4 h-4 inline mr-1" /> Date <span className="text-destructive">*</span>
             </label>
             <Popover>
               <PopoverTrigger asChild>
@@ -313,7 +327,7 @@ const ReviewUpsellDialog = ({ open, onOpenChange, cartData, productLabel, mode }
           {deliveryDate && (
             <div>
               <label className="text-sm font-body font-semibold text-foreground block mb-2">
-                <Clock className="w-4 h-4 inline mr-1" /> Time
+                <Clock className="w-4 h-4 inline mr-1" /> Time <span className="text-destructive">*</span>
               </label>
               {availableHours.length > 0 ? (
                 <div className="flex flex-wrap gap-2">
@@ -427,7 +441,13 @@ const ReviewUpsellDialog = ({ open, onOpenChange, cartData, productLabel, mode }
               <span className="font-display text-lg font-semibold text-foreground">${finalPrice}</span>
             </div>
 
-            <button onClick={handleConfirm} disabled={isAdding || variantsLoading}
+            {!isDeliveryInfoComplete && (
+              <p className="text-xs text-destructive font-body text-center">
+                ⚠️ Please select delivery method, date and time to continue.
+              </p>
+            )}
+
+            <button onClick={handleConfirm} disabled={isAdding || variantsLoading || !isDeliveryInfoComplete}
               className="inline-flex items-center gap-2 w-full justify-center bg-primary text-primary-foreground px-4 py-3 font-body text-sm tracking-widest uppercase hover:bg-primary/90 transition-colors rounded-sm disabled:opacity-50">
               {isAdding || variantsLoading ? (
                 <Loader2 className="w-4 h-4 animate-spin" />
