@@ -1081,12 +1081,26 @@ const BouquetBuilder = () => {
                         shopifyVariantId: variant.id,
                       });
                       toast.success("Bouquet added to cart!");
+                      const accessories = buildAccessoryLineItems({
+                        glitter: addGlitter,
+                        rosesCount,
+                        accessory,
+                        specialText,
+                        addVase,
+                        vaseRoses: addVase ? vaseOptions[selectedVaseIdx].roses : undefined,
+                        addCrown,
+                        crownSize,
+                        addRibbon,
+                      });
                       const checkoutUrl = buildCheckoutUrl(variant.id, {
                         deliveryMethod,
                         deliveryCost,
                         deliveryAddress: selectedAddress,
                         deliveryCity,
                         deliveryZip,
+                        deliveryDate: deliveryDate ? format(deliveryDate, "PPP", { locale: enUS }) : undefined,
+                        deliveryTime: deliveryHour || undefined,
+                        accessories,
                       });
                       if (!checkoutUrl) {
                         toast.error("Could not start Shopify checkout. Please try again.");
