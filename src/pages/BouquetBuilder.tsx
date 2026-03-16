@@ -505,7 +505,7 @@ const BouquetBuilder = () => {
             {/* 5. Letras o Números */}
             <Section title="Letters or Numbers (Baby Breath)" step={6} subtitle="Optional">
               <div className="flex flex-col md:flex-row gap-4 mb-4">
-                <div className="w-40 h-40 rounded-sm overflow-hidden border border-border flex-shrink-0 mx-auto md:mx-0">
+                <div className="w-24 h-24 rounded-sm overflow-hidden border border-border flex-shrink-0 mx-auto md:mx-0">
                   <img src={lettersImg} alt="Letters in Baby Breath example" className="w-full h-full object-cover" />
                 </div>
                 <div className="flex-1">
