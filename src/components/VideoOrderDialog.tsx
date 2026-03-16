@@ -1,9 +1,17 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback, useRef } from "react";
+import { format, isBefore, startOfDay } from "date-fns";
+import { enUS } from "date-fns/locale";
+import { miamiHourNow, todayInMiami, isTodayInMiami } from "@/lib/miamiTime";
+import { supabase } from "@/integrations/supabase/client";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { ShoppingBag, CreditCard, Loader2 } from "lucide-react";
+import { Calendar } from "@/components/ui/calendar";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { ShoppingBag, CreditCard, Loader2, Store, Truck, CalendarIcon, Clock, MapPin, Search } from "lucide-react";
 import { useCartStore, type CartItem } from "@/stores/cartStore";
 import { letterNumberExtraPrice, ribbonPrice } from "@/lib/productData";
+import { calculateDeliveryCost, formatDeliveryCost } from "@/lib/deliveryPricing";
 import { fetchVariantsByHandle, findVariantByRoses, toShopifyHandle, type ShopifyHandleVariant } from "@/lib/shopifyVariants";
+import { buildAccessoryLineItems } from "@/lib/accessoryVariants";
 import type { VideoProduct } from "@/components/ClientVideos";
 import { toast } from "sonner";
 import { buildCheckoutUrl, openCheckoutInNewTab } from "@/lib/checkout";
@@ -22,11 +30,83 @@ const VideoOrderDialog = ({ video, open, onOpenChange }: Props) => {
   const [variantsLoading, setVariantsLoading] = useState(false);
   const [variants, setVariants] = useState<ShopifyHandleVariant[]>([]);
 
+  // Delivery state
+  const [deliveryMethod, setDeliveryMethod] = useState<"pickup" | "delivery">("pickup");
+  const [deliveryDate, setDeliveryDate] = useState<Date>();
+  const [deliveryHour, setDeliveryHour] = useState("");
+  const [deliveryMiles, setDeliveryMiles] = useState<number | null>(null);
+  const [deliveryZip, setDeliveryZip] = useState("");
+  const [deliveryDuration, setDeliveryDuration] = useState("");
+  const [distanceLoading, setDistanceLoading] = useState(false);
+  const [distanceError, setDistanceError] = useState("");
+  const [distanceTooFar, setDistanceTooFar] = useState(false);
+  const [addressQuery, setAddressQuery] = useState("");
+  const [predictions, setPredictions] = useState<Array<{ placeId: string; description: string; mainText: string; secondaryText: string }>>([]);
+  const [showPredictions, setShowPredictions] = useState(false);
+  const [autocompleteLoading, setAutocompleteLoading] = useState(false);
+  const [selectedAddress, setSelectedAddress] = useState("");
+  const [mapUrl, setMapUrl] = useState("");
+  const autocompleteRef = useRef<HTMLDivElement>(null);
+  const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (autocompleteRef.current && !autocompleteRef.current.contains(e.target as Node)) setShowPredictions(false);
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  const fetchPredictionsHandler = useCallback(async (input: string) => {
+    if (input.length < 3) { setPredictions([]); return; }
+    setAutocompleteLoading(true);
+    try {
+      const { data, error } = await supabase.functions.invoke("places-autocomplete", { body: { input } });
+      if (!error && data?.predictions) { setPredictions(data.predictions); setShowPredictions(true); }
+    } catch {} finally { setAutocompleteLoading(false); }
+  }, []);
+
+  const handleAddressInput = useCallback((value: string) => {
+    setAddressQuery(value); setSelectedAddress(""); setDeliveryMiles(null); setMapUrl(""); setDistanceError("");
+    if (debounceRef.current) clearTimeout(debounceRef.current);
+    debounceRef.current = setTimeout(() => fetchPredictionsHandler(value), 350);
+  }, [fetchPredictionsHandler]);
+
+  const handleSelectPrediction = useCallback((prediction: { description: string; mainText: string; secondaryText: string }) => {
+    setAddressQuery(prediction.description); setSelectedAddress(prediction.description); setShowPredictions(false); setPredictions([]);
+    const fullText = prediction.description + " " + (prediction.secondaryText || "");
+    const zipMatch = fullText.match(/\b(\d{5})\b/);
+    if (zipMatch) setDeliveryZip(zipMatch[1]);
+    (async () => {
+      setDistanceLoading(true); setDistanceError(""); setDistanceTooFar(false); setDeliveryMiles(null);
+      try {
+        const { data, error } = await supabase.functions.invoke("calculate-distance", { body: { fullAddress: prediction.description } });
+        if (error) throw new Error("Connection error");
+        if (data.error) { setDistanceError(data.error); if (data.tooFar) { setDistanceTooFar(true); setDeliveryMiles(data.miles); } }
+        else { setDeliveryMiles(data.miles); setDeliveryDuration(data.duration); if (data.mapUrl) setMapUrl(data.mapUrl); }
+      } catch (e: any) { setDistanceError(e.message || "Error calculating distance"); }
+      finally { setDistanceLoading(false); }
+    })();
+  }, []);
+
+  const minLeadHours = deliveryMethod === "delivery" ? 1.5 : 2;
+  const minMiamiHour = miamiHourNow() + minLeadHours;
+  const getAvailableHours = (date: Date | undefined) => {
+    if (!date) return [];
+    const day = date.getDay();
+    const closeHour = day === 0 ? 16 : day === 6 ? 17 : 19;
+    const hours: string[] = [];
+    for (let h = 8; h <= closeHour; h++) {
+      if (isTodayInMiami(date) && h < minMiamiHour) continue;
+      hours.push(`${h.toString().padStart(2, "0")}:00`);
+    }
+    return hours;
+  };
+  const availableHours = getAvailableHours(deliveryDate);
+
   useEffect(() => {
     if (!open) return;
-
     let active = true;
-
     const loadVariants = async () => {
       setVariantsLoading(true);
       try {
@@ -39,12 +119,8 @@ const VideoOrderDialog = ({ video, open, onOpenChange }: Props) => {
         if (active) setVariantsLoading(false);
       }
     };
-
     loadVariants();
-
-    return () => {
-      active = false;
-    };
+    return () => { active = false; };
   }, [open, video.title]);
 
   const hasRibbon = video.customFields?.some(f => f.label.toLowerCase().includes("ribbon"));
@@ -63,13 +139,16 @@ const VideoOrderDialog = ({ video, open, onOpenChange }: Props) => {
     extras += charCount * letterNumberExtraPrice;
   }
 
-  const totalPrice = video.basePrice + extras;
+  const deliveryCost = deliveryMethod === "delivery" && deliveryMiles && !distanceTooFar ? calculateDeliveryCost(deliveryMiles) : 0;
+  const totalPrice = video.basePrice + extras + deliveryCost;
+
+  const isDeliveryInfoComplete = deliveryDate && deliveryHour && (deliveryMethod === "pickup" || (selectedAddress && deliveryMiles !== null && !distanceTooFar));
 
   const handleConfirm = async (mode: "cart" | "buy") => {
-    if (variantsLoading) {
-      toast.error("We are still loading product variants.");
-      return;
-    }
+    if (variantsLoading) { toast.error("We are still loading product variants."); return; }
+    if (!deliveryDate || !deliveryHour) { toast.error("Please select a delivery date and time before continuing."); return; }
+    if (deliveryMethod === "delivery" && !selectedAddress) { toast.error("Please select a delivery address."); return; }
+    if (deliveryMethod === "delivery" && (distanceTooFar || deliveryMiles === null)) { toast.error("The address is invalid or out of range."); return; }
 
     setIsAdding(true);
     try {
@@ -104,7 +183,7 @@ const VideoOrderDialog = ({ video, open, onOpenChange }: Props) => {
         color: video.color,
         roses: video.roses,
         price: video.basePrice,
-        deliveryCost: 0,
+        deliveryCost,
         totalPrice,
         addons,
         accessory: "",
@@ -114,15 +193,15 @@ const VideoOrderDialog = ({ video, open, onOpenChange }: Props) => {
         specialText,
         heartColor: "",
         glitter: video.glitter || false,
-        deliveryMethod: "pickup",
+        deliveryMethod,
         deliveryName: "",
         deliveryPhone: "",
         deliveryEmail: "",
-        deliveryAddress: "",
-        deliveryZip: "",
-        deliveryDate: "",
-        deliveryHour: "",
-        deliveryMiles: null,
+        deliveryAddress: deliveryMethod === "delivery" ? selectedAddress : "Store pickup",
+        deliveryZip: deliveryMethod === "delivery" ? deliveryZip : "",
+        deliveryDate: deliveryDate ? format(deliveryDate, "PPP", { locale: enUS }) : "",
+        deliveryHour,
+        deliveryMiles: deliveryMethod === "delivery" ? deliveryMiles : null,
         paperColor: video.paperColor || "White",
         image: video.productImage,
         shopifyVariantId: variant.id,
@@ -132,7 +211,25 @@ const VideoOrderDialog = ({ video, open, onOpenChange }: Props) => {
       onOpenChange(false);
 
       if (mode === "buy") {
-        const checkoutUrl = buildCheckoutUrl(variant.id);
+        const accessories = buildAccessoryLineItems({
+          glitter: video.glitter || false,
+          rosesCount: video.roses,
+          accessory: "",
+          specialText,
+          addVase: false,
+          addCrown: false,
+          crownSize: "",
+          addRibbon: !!ribbonText,
+        });
+        const checkoutUrl = buildCheckoutUrl(variant.id, {
+          deliveryMethod,
+          deliveryCost,
+          deliveryAddress: selectedAddress,
+          deliveryZip,
+          deliveryDate: deliveryDate ? format(deliveryDate, "PPP", { locale: enUS }) : undefined,
+          deliveryTime: deliveryHour || undefined,
+          accessories,
+        });
         if (!checkoutUrl) {
           toast.error("Could not start Shopify checkout. Please try again.");
           return;
@@ -196,11 +293,126 @@ const VideoOrderDialog = ({ video, open, onOpenChange }: Props) => {
             )}
           </div>
 
+          {/* Delivery method */}
+          <div>
+            <p className="font-body text-sm font-semibold text-foreground mb-3">Delivery method <span className="text-destructive">*</span></p>
+            <div className="grid grid-cols-2 gap-3">
+              {([
+                { value: "pickup" as const, label: "Store pickup", icon: Store },
+                { value: "delivery" as const, label: "Home delivery", icon: Truck },
+              ]).map(({ value, label, icon: Icon }) => (
+                <button key={value} onClick={() => setDeliveryMethod(value)}
+                  className={`flex flex-col items-center gap-2 p-4 rounded-sm border-2 transition-all font-body text-xs ${
+                    deliveryMethod === value ? "border-primary bg-primary/5 text-primary" : "border-border text-muted-foreground hover:border-primary/30"
+                  }`}>
+                  <Icon className="w-5 h-5" />
+                  {label}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Delivery address */}
+          {deliveryMethod === "delivery" && (
+            <div className="space-y-3">
+              <p className="font-body font-semibold text-foreground text-sm">Delivery address</p>
+              <div ref={autocompleteRef} className="relative">
+                <div className="relative">
+                  <input type="text" value={addressQuery} onChange={(e) => handleAddressInput(e.target.value)}
+                    onFocus={() => predictions.length > 0 && setShowPredictions(true)}
+                    placeholder="Start typing the address..."
+                    className="w-full bg-background border border-border rounded-sm px-3 py-2.5 pr-10 font-body text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30" />
+                  <div className="absolute right-3 top-1/2 -translate-y-1/2">
+                    {autocompleteLoading || distanceLoading ? <Loader2 className="w-4 h-4 text-muted-foreground animate-spin" /> : <Search className="w-4 h-4 text-muted-foreground" />}
+                  </div>
+                </div>
+                {showPredictions && predictions.length > 0 && (
+                  <div className="absolute z-50 w-full mt-1 bg-card border border-border rounded-sm shadow-lg max-h-60 overflow-y-auto">
+                    {predictions.map((p) => (
+                      <button key={p.placeId} onClick={() => handleSelectPrediction(p)} className="w-full text-left px-4 py-3 hover:bg-primary/5 transition-colors border-b border-border last:border-b-0">
+                        <p className="font-body text-sm font-medium text-foreground">{p.mainText}</p>
+                        <p className="font-body text-xs text-muted-foreground">{p.secondaryText}</p>
+                      </button>
+                    ))}
+                  </div>
+                )}
+              </div>
+              {selectedAddress && (
+                <div className="bg-primary/5 border border-primary/20 rounded-sm p-3">
+                  <p className="font-body text-xs text-muted-foreground">Selected address:</p>
+                  <p className="font-body text-sm text-foreground font-medium">{selectedAddress}</p>
+                </div>
+              )}
+              {distanceError && <p className="text-sm font-body text-destructive">{distanceError}</p>}
+              {deliveryMiles !== null && !distanceTooFar && (
+                <div className="bg-primary/5 border border-primary/20 rounded-sm p-3">
+                  <p className="font-body text-sm text-foreground">📍 Distance: <span className="font-semibold">{deliveryMiles} miles</span>{deliveryDuration && <span className="text-muted-foreground"> (~{deliveryDuration})</span>}</p>
+                  <p className="font-body text-sm text-primary font-semibold mt-1">Shipping cost: {formatDeliveryCost(deliveryCost)}</p>
+                </div>
+              )}
+              {mapUrl && (
+                <div className="rounded-sm overflow-hidden border border-border">
+                  <iframe src={mapUrl} width="100%" height="200" style={{ border: 0 }} allowFullScreen loading="lazy" referrerPolicy="no-referrer-when-downgrade" title="Route" />
+                </div>
+              )}
+            </div>
+          )}
+
+          {deliveryMethod === "pickup" && (
+            <p className="font-body text-sm text-muted-foreground">
+              📍 Pickup at: <span className="font-semibold text-foreground">7261 NW 12th St, Miami, FL 33126</span>
+            </p>
+          )}
+
+          {/* Date */}
+          <div>
+            <label className="text-sm font-body font-semibold text-foreground block mb-2">
+              <CalendarIcon className="w-4 h-4 inline mr-1" /> Date <span className="text-destructive">*</span>
+            </label>
+            <Popover>
+              <PopoverTrigger asChild>
+                <button className="w-full flex items-center gap-2 px-4 py-3 rounded-sm border border-border bg-card font-body text-sm text-foreground hover:border-primary/30 transition-all">
+                  <CalendarIcon className="w-4 h-4 text-muted-foreground" />
+                  {deliveryDate ? format(deliveryDate, "PPP", { locale: enUS }) : "Select a date"}
+                </button>
+              </PopoverTrigger>
+              <PopoverContent className="w-auto p-0" align="start">
+                <Calendar mode="single" selected={deliveryDate} onSelect={(d) => { setDeliveryDate(d); setDeliveryHour(""); }}
+                  disabled={(date) => isBefore(startOfDay(date), startOfDay(todayInMiami()))} className="p-3 pointer-events-auto" locale={enUS} />
+              </PopoverContent>
+            </Popover>
+          </div>
+
+          {/* Time */}
+          {deliveryDate && (
+            <div>
+              <label className="text-sm font-body font-semibold text-foreground block mb-2">
+                <Clock className="w-4 h-4 inline mr-1" /> Time <span className="text-destructive">*</span>
+              </label>
+              {availableHours.length > 0 ? (
+                <div className="flex flex-wrap gap-2">
+                  {availableHours.map((hour) => (
+                    <button key={hour} onClick={() => setDeliveryHour(hour)}
+                      className={`px-3 py-1.5 rounded-sm border-2 text-xs font-body transition-all ${deliveryHour === hour ? "border-primary bg-primary/5 text-primary" : "border-border text-muted-foreground hover:border-primary/30"}`}>
+                      {hour}
+                    </button>
+                  ))}
+                </div>
+              ) : <p className="text-sm text-muted-foreground font-body">No available hours. Select another day.</p>}
+            </div>
+          )}
+
           <div className="border-t border-border pt-4 space-y-3">
             <div className="flex justify-between font-body text-sm">
               <span className="text-muted-foreground">Total</span>
               <span className="font-display text-lg font-semibold text-foreground">${totalPrice}</span>
             </div>
+
+            {!isDeliveryInfoComplete && (
+              <p className="text-xs text-destructive font-body text-center">
+                ⚠️ Please select delivery method, date and time to continue.
+              </p>
+            )}
 
             <button
               onClick={() => handleConfirm("cart")}
@@ -211,7 +423,7 @@ const VideoOrderDialog = ({ video, open, onOpenChange }: Props) => {
             </button>
             <button
               onClick={() => handleConfirm("buy")}
-              disabled={isAdding || variantsLoading}
+              disabled={isAdding || variantsLoading || !isDeliveryInfoComplete}
               className="inline-flex items-center gap-2 w-full justify-center border border-primary text-primary px-4 py-3 font-body text-sm tracking-widest uppercase hover:bg-primary/10 transition-colors rounded-sm disabled:opacity-50"
             >
               {isAdding || variantsLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : <><CreditCard className="w-4 h-4" /> Order & pay</>}
