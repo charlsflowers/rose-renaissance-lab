@@ -250,6 +250,16 @@ const BouquetProductDetail = () => {
   const handlePayNow = async () => {
     const variantId = await handleAddToCart();
     if (variantId) {
+      const accessories = buildAccessoryLineItems({
+        glitter: addGlitter,
+        rosesCount: selectedSize.roses,
+        accessory,
+        specialText: "",
+        addVase: false,
+        addCrown: false,
+        crownSize: "",
+        addRibbon: false,
+      });
       const checkoutUrl = buildCheckoutUrl(variantId, {
         deliveryMethod,
         deliveryCost,
@@ -257,6 +267,7 @@ const BouquetProductDetail = () => {
         deliveryZip,
         deliveryDate: deliveryDate ? format(deliveryDate, "PPP", { locale: enUS }) : undefined,
         deliveryTime: deliveryHour || undefined,
+        accessories,
       });
       if (!checkoutUrl) {
         toast.error("Could not start Shopify checkout. Please try again.");
