@@ -28,6 +28,9 @@ export const CROWN_GOLD_VARIANT_ID = "51632876060804";
 // Ribbon: fixed $25
 export const RIBBON_VARIANT_ID = "51632873537668";
 
+// Custom Bouquet: $0.01 base, qty = total bouquet price in cents
+export const CUSTOM_BOUQUET_VARIANT_ID = "51634887295108";
+
 export interface AccessoryLineItem {
   variantId: string;
   quantity: number; // 1 for fixed-price, cents for $0.01-base items

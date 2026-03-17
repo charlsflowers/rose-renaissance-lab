@@ -55,7 +55,8 @@ export function buildCheckoutUrl(variantId?: string, options?: CheckoutDeliveryO
   if (variantId) {
     const numericId = toNumericVariantId(variantId);
     if (!numericId) return null;
-    lineItems.push(`${numericId}:1`);
+    const qty = options?.mainProductQty ?? 1;
+    lineItems.push(`${numericId}:${qty}`);
   } else {
     const items = useCartStore.getState().items;
     if (items.length === 0) return null;
