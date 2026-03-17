@@ -9,6 +9,7 @@ import { fetchVariantsByHandle, findVariantByRoses, type ShopifyHandleVariant } 
 import { calculateDeliveryCost, formatDeliveryCost } from "@/lib/deliveryPricing";
 import { toast } from "sonner";
 import { buildCheckoutUrl, openCheckoutInNewTab } from "@/lib/checkout";
+import { buildAccessoryLineItems } from "@/lib/accessoryVariants";
 import Navbar from "@/components/Navbar";
 import PaperColorPicker from "@/components/PaperColorPicker"; // keep import but won't use for standard bouquets
 import { bouquetProducts, bouquetSizeOptions } from "@/lib/catalogData";
