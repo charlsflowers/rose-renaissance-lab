@@ -8,7 +8,7 @@ import { fetchVariantsByHandle, findVariantByRoses, type ShopifyHandleVariant } 
 import { toast } from "sonner";
 import { buildCheckoutUrl, openCheckoutInNewTab } from "@/lib/checkout";
 import { calculateDeliveryCost, formatDeliveryCost } from "@/lib/deliveryPricing";
-import { buildAccessoryLineItems } from "@/lib/accessoryVariants";
+import { buildAccessoryLineItems, CUSTOM_BOUQUET_VARIANT_ID } from "@/lib/accessoryVariants";
 
 import Navbar from "@/components/Navbar";
 import PaperColorPicker from "@/components/PaperColorPicker";
