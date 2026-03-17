@@ -928,12 +928,8 @@ const BouquetBuilder = () => {
 
                     setIsAdding(true);
                     try {
-                      console.log(`🛒 [BouquetBuilder] Add to cart clicked — roses=${rosesCount}, tierBaseHandle="${tierBaseHandle}", availableVariants count=${availableVariants.length}`);
-                      const variant = findVariantByRoses(availableVariants, rosesCount);
-                      if (!variant) {
-                        toast.error("Could not resolve product variant for the selected roses.");
-                        return;
-                      }
+                      console.log(`🛒 [BouquetBuilder] Add to cart clicked — roses=${rosesCount}, Custom Bouquet variant`);
+                      // Use Custom Bouquet product — no variant resolution needed
 
                       const addons: string[] = [];
                       if (addCrown) addons.push(`Crown Tiara (${crownSize})`);
