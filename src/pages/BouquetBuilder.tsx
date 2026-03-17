@@ -964,7 +964,7 @@ const BouquetBuilder = () => {
                         deliveryHour,
                         deliveryMiles: deliveryMethod === "delivery" ? deliveryMiles : null,
                         paperColor,
-                        shopifyVariantId: variant.id,
+                        shopifyVariantId: customBouquetVariantGid,
                       });
                       toast.success("Bouquet added to cart!");
                     } catch {
