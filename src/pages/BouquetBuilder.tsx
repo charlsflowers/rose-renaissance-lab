@@ -4,11 +4,10 @@ import { miamiHourNow, todayInMiami, isTodayInMiami } from "@/lib/miamiTime";
 import { supabase } from "@/integrations/supabase/client";
 import { enUS } from "date-fns/locale";
 import { useCartStore } from "@/stores/cartStore";
-import { fetchVariantsByHandle, findVariantByRoses, type ShopifyHandleVariant } from "@/lib/shopifyVariants";
 import { toast } from "sonner";
 import { buildCheckoutUrl, openCheckoutInNewTab } from "@/lib/checkout";
 import { calculateDeliveryCost, formatDeliveryCost } from "@/lib/deliveryPricing";
-import { buildAccessoryLineItems } from "@/lib/accessoryVariants";
+import { buildAccessoryLineItems, CUSTOM_BOUQUET_VARIANT_ID } from "@/lib/accessoryVariants";
 
 import Navbar from "@/components/Navbar";
 import PaperColorPicker from "@/components/PaperColorPicker";
@@ -170,44 +169,10 @@ const BouquetBuilder = () => {
   }, []);
 
   const pricingTier = useMemo(() => determinePricingTier(selectedColors), [selectedColors]);
-  const [availableVariants, setAvailableVariants] = useState<ShopifyHandleVariant[]>([]);
-  const [variantsLoading, setVariantsLoading] = useState(true);
-
-  const tierBaseHandle = useMemo(() => {
-    const tierBaseHandles: Record<PricingTier, string> = {
-      standard: "pure-white",
-      red: "total-passion",
-      painted: "blue-sky",
-      mix2: "iberian-passion",
-      mix2painted: "night-day",
-      mix3red: "classic-tricolor",
-    };
-
-    return tierBaseHandles[pricingTier];
-  }, [pricingTier]);
-
-  useEffect(() => {
-    let active = true;
-
-    const loadVariants = async () => {
-      setVariantsLoading(true);
-      try {
-        const variants = await fetchVariantsByHandle(tierBaseHandle);
-        if (active) setAvailableVariants(variants);
-      } catch (error) {
-        console.error("Failed to load bouquet variants:", error);
-        if (active) setAvailableVariants([]);
-      } finally {
-        if (active) setVariantsLoading(false);
-      }
-    };
-
-    loadVariants();
-
-    return () => {
-      active = false;
-    };
-  }, [tierBaseHandle]);
+  
+  // Custom Bouquet uses a single $0.01 variant — no need to fetch tier-based variants
+  const customBouquetVariantGid = `gid://shopify/ProductVariant/${CUSTOM_BOUQUET_VARIANT_ID}`;
+  const variantsLoading = false;
 
   const minRoses = pricingTier === 'mix3red' ? 75 : 50;
 
@@ -962,12 +927,8 @@ const BouquetBuilder = () => {
 
                     setIsAdding(true);
                     try {
-                      console.log(`🛒 [BouquetBuilder] Add to cart clicked — roses=${rosesCount}, tierBaseHandle="${tierBaseHandle}", availableVariants count=${availableVariants.length}`);
-                      const variant = findVariantByRoses(availableVariants, rosesCount);
-                      if (!variant) {
-                        toast.error("Could not resolve product variant for the selected roses.");
-                        return;
-                      }
+                      console.log(`🛒 [BouquetBuilder] Add to cart clicked — roses=${rosesCount}, Custom Bouquet variant`);
+                      // Use Custom Bouquet product — no variant resolution needed
 
                       const addons: string[] = [];
                       if (addCrown) addons.push(`Crown Tiara (${crownSize})`);
@@ -1002,7 +963,7 @@ const BouquetBuilder = () => {
                         deliveryHour,
                         deliveryMiles: deliveryMethod === "delivery" ? deliveryMiles : null,
                         paperColor,
-                        shopifyVariantId: variant.id,
+                        shopifyVariantId: customBouquetVariantGid,
                       });
                       toast.success("Bouquet added to cart!");
                     } catch {
@@ -1038,12 +999,8 @@ const BouquetBuilder = () => {
 
                     setIsAdding(true);
                     try {
-                      console.log(`💳 [BouquetBuilder] Pay Now clicked — roses=${rosesCount}, tierBaseHandle="${tierBaseHandle}", availableVariants count=${availableVariants.length}`);
-                      const variant = findVariantByRoses(availableVariants, rosesCount);
-                      if (!variant) {
-                        toast.error("Could not resolve product variant for the selected roses.");
-                        return;
-                      }
+                      console.log(`💳 [BouquetBuilder] Pay Now clicked — roses=${rosesCount}, Custom Bouquet variant`);
+                      // Use Custom Bouquet product — no variant resolution needed
 
                       const addons: string[] = [];
                       if (addCrown) addons.push(`Crown Tiara (${crownSize})`);
@@ -1078,7 +1035,7 @@ const BouquetBuilder = () => {
                         deliveryHour,
                         deliveryMiles: deliveryMethod === "delivery" ? deliveryMiles : null,
                         paperColor,
-                        shopifyVariantId: variant.id,
+                        shopifyVariantId: customBouquetVariantGid,
                       });
                       toast.success("Bouquet added to cart!");
                       const accessories = buildAccessoryLineItems({
@@ -1092,7 +1049,10 @@ const BouquetBuilder = () => {
                         crownSize,
                         addRibbon,
                       });
-                      const checkoutUrl = buildCheckoutUrl(variant.id, {
+                      // Custom Bouquet: qty = base bouquet price only (accessories are separate line items)
+                      const bouquetPriceCents = Math.round(basePrice * 100);
+                      const checkoutUrl = buildCheckoutUrl(customBouquetVariantGid, {
+                        mainProductQty: bouquetPriceCents,
                         deliveryMethod,
                         deliveryCost,
                         deliveryAddress: selectedAddress,

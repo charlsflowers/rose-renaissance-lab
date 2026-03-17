@@ -13,6 +13,7 @@ type CheckoutDeliveryOptions = {
   deliveryDate?: string;
   deliveryTime?: string;
   accessories?: AccessoryLineItem[];
+  mainProductQty?: number; // For $0.01-base products: total price in cents
 };
 
 type ParsedAddress = {
@@ -54,7 +55,8 @@ export function buildCheckoutUrl(variantId?: string, options?: CheckoutDeliveryO
   if (variantId) {
     const numericId = toNumericVariantId(variantId);
     if (!numericId) return null;
-    lineItems.push(`${numericId}:1`);
+    const qty = options?.mainProductQty ?? 1;
+    lineItems.push(`${numericId}:${qty}`);
   } else {
     const items = useCartStore.getState().items;
     if (items.length === 0) return null;

@@ -9,6 +9,7 @@ import { fetchVariantsByHandle, findVariantByRoses, type ShopifyHandleVariant } 
 import { calculateDeliveryCost, formatDeliveryCost } from "@/lib/deliveryPricing";
 import { toast } from "sonner";
 import { buildCheckoutUrl, openCheckoutInNewTab } from "@/lib/checkout";
+import { buildAccessoryLineItems } from "@/lib/accessoryVariants";
 import Navbar from "@/components/Navbar";
 import PaperColorPicker from "@/components/PaperColorPicker"; // keep import but won't use for standard bouquets
 import { bouquetProducts, bouquetSizeOptions } from "@/lib/catalogData";
@@ -249,6 +250,16 @@ const BouquetProductDetail = () => {
   const handlePayNow = async () => {
     const variantId = await handleAddToCart();
     if (variantId) {
+      const accessories = buildAccessoryLineItems({
+        glitter: addGlitter,
+        rosesCount: selectedSize.roses,
+        accessory,
+        specialText: "",
+        addVase: false,
+        addCrown: false,
+        crownSize: "",
+        addRibbon: false,
+      });
       const checkoutUrl = buildCheckoutUrl(variantId, {
         deliveryMethod,
         deliveryCost,
@@ -256,6 +267,7 @@ const BouquetProductDetail = () => {
         deliveryZip,
         deliveryDate: deliveryDate ? format(deliveryDate, "PPP", { locale: enUS }) : undefined,
         deliveryTime: deliveryHour || undefined,
+        accessories,
       });
       if (!checkoutUrl) {
         toast.error("Could not start Shopify checkout. Please try again.");
