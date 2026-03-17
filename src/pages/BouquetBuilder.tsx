@@ -170,44 +170,10 @@ const BouquetBuilder = () => {
   }, []);
 
   const pricingTier = useMemo(() => determinePricingTier(selectedColors), [selectedColors]);
-  const [availableVariants, setAvailableVariants] = useState<ShopifyHandleVariant[]>([]);
-  const [variantsLoading, setVariantsLoading] = useState(true);
-
-  const tierBaseHandle = useMemo(() => {
-    const tierBaseHandles: Record<PricingTier, string> = {
-      standard: "pure-white",
-      red: "total-passion",
-      painted: "blue-sky",
-      mix2: "iberian-passion",
-      mix2painted: "night-day",
-      mix3red: "classic-tricolor",
-    };
-
-    return tierBaseHandles[pricingTier];
-  }, [pricingTier]);
-
-  useEffect(() => {
-    let active = true;
-
-    const loadVariants = async () => {
-      setVariantsLoading(true);
-      try {
-        const variants = await fetchVariantsByHandle(tierBaseHandle);
-        if (active) setAvailableVariants(variants);
-      } catch (error) {
-        console.error("Failed to load bouquet variants:", error);
-        if (active) setAvailableVariants([]);
-      } finally {
-        if (active) setVariantsLoading(false);
-      }
-    };
-
-    loadVariants();
-
-    return () => {
-      active = false;
-    };
-  }, [tierBaseHandle]);
+  
+  // Custom Bouquet uses a single $0.01 variant — no need to fetch tier-based variants
+  const customBouquetVariantGid = `gid://shopify/ProductVariant/${CUSTOM_BOUQUET_VARIANT_ID}`;
+  const variantsLoading = false;
 
   const minRoses = pricingTier === 'mix3red' ? 75 : 50;
 
