@@ -13,6 +13,7 @@ type CheckoutDeliveryOptions = {
   deliveryDate?: string;
   deliveryTime?: string;
   accessories?: AccessoryLineItem[];
+  mainProductQty?: number; // For $0.01-base products: total price in cents
 };
 
 type ParsedAddress = {
