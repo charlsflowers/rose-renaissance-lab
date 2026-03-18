@@ -2,7 +2,7 @@ import { useCartStore } from "@/stores/cartStore";
 import type { AccessoryLineItem } from "@/lib/accessoryVariants";
 
 const SHOPIFY_CART_BASE_URL = "https://charls-flowers.myshopify.com/cart";
-const DELIVERY_FEE_VARIANT_NUMERIC_ID = "51629708935300"; // SKU: DELIVERY-FEE ($0.01)
+const DELIVERY_FEE_VARIANT_NUMERIC_ID = "51629708935300";
 
 type CheckoutDeliveryOptions = {
   deliveryMethod?: "pickup" | "delivery";
@@ -13,7 +13,6 @@ type CheckoutDeliveryOptions = {
   deliveryDate?: string;
   deliveryTime?: string;
   accessories?: AccessoryLineItem[];
-  mainProductQty?: number; // For $0.01-base products: total price in cents
 };
 
 type ParsedAddress = {
@@ -55,8 +54,7 @@ export function buildCheckoutUrl(variantId?: string, options?: CheckoutDeliveryO
   if (variantId) {
     const numericId = toNumericVariantId(variantId);
     if (!numericId) return null;
-    const qty = options?.mainProductQty ?? 1;
-    lineItems.push(`${numericId}:${qty}`);
+    lineItems.push(`${numericId}:1`);
   } else {
     const items = useCartStore.getState().items;
     if (items.length === 0) return null;
@@ -74,24 +72,19 @@ export function buildCheckoutUrl(variantId?: string, options?: CheckoutDeliveryO
 
   if (lineItems.length === 0) return null;
 
-  // Add accessory line items
   if (options?.accessories) {
     for (const acc of options.accessories) {
       lineItems.push(`${acc.variantId}:${acc.quantity}`);
     }
   }
 
-  // Add delivery fee
   if (options?.deliveryMethod === "delivery" && options.deliveryCost && options.deliveryCost > 0) {
-    const deliveryCents = Math.round(options.deliveryCost * 100);
-    lineItems.push(`${DELIVERY_FEE_VARIANT_NUMERIC_ID}:${deliveryCents}`);
+    lineItems.push(`${DELIVERY_FEE_VARIANT_NUMERIC_ID}:1`);
   }
 
   let checkoutUrl = `${SHOPIFY_CART_BASE_URL}/${lineItems.join(",")}`;
 
   const params = new URLSearchParams();
-
-  // Add note_attributes for delivery info
   const deliveryType = options?.deliveryMethod === "delivery" ? "Home Delivery" : "Store Pickup";
   params.set("attributes[delivery_type]", deliveryType);
 
