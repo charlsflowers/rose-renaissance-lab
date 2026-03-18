@@ -79,7 +79,9 @@ export function buildCheckoutUrl(variantId?: string, options?: CheckoutDeliveryO
   }
 
   if (options?.deliveryMethod === "delivery" && options.deliveryCost && options.deliveryCost > 0) {
-    lineItems.push(`${DELIVERY_FEE_VARIANT_NUMERIC_ID}:1`);
+    // Home Delivery: $0.01 base price × quantity in cents = real delivery cost
+    const deliveryQty = Math.round(options.deliveryCost * 100);
+    lineItems.push(`${DELIVERY_FEE_VARIANT_NUMERIC_ID}:${deliveryQty}`);
   }
 
   let checkoutUrl = `${SHOPIFY_CART_BASE_URL}/${lineItems.join(",")}`;
