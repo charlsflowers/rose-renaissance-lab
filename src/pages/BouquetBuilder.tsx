@@ -1049,10 +1049,7 @@ const BouquetBuilder = () => {
                         crownSize,
                         addRibbon,
                       });
-                      // Custom Bouquet: qty = base bouquet price only (accessories are separate line items)
-                      const bouquetPriceCents = Math.round(basePrice * 100);
                       const checkoutUrl = buildCheckoutUrl(customBouquetVariantGid, {
-                        mainProductQty: bouquetPriceCents,
                         deliveryMethod,
                         deliveryCost,
                         deliveryAddress: selectedAddress,
