@@ -3,16 +3,29 @@
  * These are added as separate line items in checkout.
  */
 
-// Variable-price accessory
-export const GLITTER_VARIANT_ID = "51632872259716";
+// Glitter Finish — variant by roses count (numeric IDs for cart permalinks)
+export const GLITTER_VARIANTS: Record<number, string> = {
+  50: "51641804390532",
+  75: "51641804423300",
+  100: "51641804456068",
+  125: "51641804488836",
+  150: "51641804521604",
+  175: "51641804554372",
+  200: "51641804587140",
+};
+
+// Baby Breath Letters & Numbers — variant by digit count (numeric IDs)
+export const BABY_BREATH_VARIANTS: Record<number, string> = {
+  1: "51641811304580",
+  2: "51641811337348",
+  3: "51641811370116",
+  4: "51641811402884",
+};
 
 // Free accessories
 export const NOTES_VARIANT_ID = "51632872456324";
 export const CARDS_VARIANT_ID = "51632872620164";
 export const BUTTERFLIES_VARIANT_ID = "51632872849540";
-
-// Variable-price accessory
-export const BABY_BREATH_VARIANT_ID = "51632873013380";
 
 // Vase variants by roses
 export const VASE_VARIANTS: Record<number, string> = {
@@ -38,6 +51,8 @@ export interface AccessoryLineItem {
 
 /**
  * Build accessory line items from cart item data.
+ * Glitter and Baby Breath now select the correct Shopify variant
+ * based on roses/digits — quantity is always 1, price comes from Shopify.
  */
 export function buildAccessoryLineItems(opts: {
   glitter: boolean;
@@ -52,8 +67,14 @@ export function buildAccessoryLineItems(opts: {
 }): AccessoryLineItem[] {
   const items: AccessoryLineItem[] = [];
 
+  // Glitter: select variant by roses count
   if (opts.glitter) {
-    items.push({ variantId: GLITTER_VARIANT_ID, quantity: 1 });
+    const glitterVariant = GLITTER_VARIANTS[opts.rosesCount];
+    if (glitterVariant) {
+      items.push({ variantId: glitterVariant, quantity: 1 });
+    } else {
+      console.warn(`No Glitter variant for ${opts.rosesCount} roses`);
+    }
   }
 
   if (opts.accessory === "note") {
@@ -64,8 +85,15 @@ export function buildAccessoryLineItems(opts: {
     items.push({ variantId: BUTTERFLIES_VARIANT_ID, quantity: 1 });
   }
 
+  // Baby Breath: select variant by digit count (1-4)
   if (opts.specialText && opts.specialText.length > 0) {
-    items.push({ variantId: BABY_BREATH_VARIANT_ID, quantity: 1 });
+    const digitCount = Math.min(opts.specialText.length, 4);
+    const bbVariant = BABY_BREATH_VARIANTS[digitCount];
+    if (bbVariant) {
+      items.push({ variantId: bbVariant, quantity: 1 });
+    } else {
+      console.warn(`No Baby Breath variant for ${digitCount} digits`);
+    }
   }
 
   if (opts.addVase && opts.vaseRoses) {
