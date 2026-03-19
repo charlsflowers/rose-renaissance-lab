@@ -196,7 +196,7 @@ const CheckoutSummaryBlock = ({
                     !deliveryDate && "text-muted-foreground"
                   )}>
                     <CalendarIcon className="w-4 h-4" />
-                    {deliveryDate ? format(new Date(deliveryDate + "T00:00:00"), "PPP", { locale: enUS }) : "Select date"}
+                    {parsedDate ? format(parsedDate, "PPP", { locale: enUS }) : "Select date"}
                   </button>
                 </PopoverTrigger>
                 <PopoverContent className="w-auto p-0" align="start">
