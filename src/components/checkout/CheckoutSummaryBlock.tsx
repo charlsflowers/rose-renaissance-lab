@@ -66,13 +66,27 @@ const CheckoutSummaryBlock = ({
   const today = todayInMiami();
   const disabledDays = { before: today };
 
+  // Safely parse deliveryDate (could be yyyy-MM-dd or a display string like "March 20th, 2026")
+  const parseDateSafe = (d: string): Date | null => {
+    if (!d) return null;
+    // Try yyyy-MM-dd first
+    if (/^\d{4}-\d{2}-\d{2}$/.test(d)) {
+      const parsed = new Date(d + "T00:00:00");
+      return isNaN(parsed.getTime()) ? null : parsed;
+    }
+    // Fallback: try native Date parse
+    const parsed = new Date(d);
+    return isNaN(parsed.getTime()) ? null : parsed;
+  };
+
+  const parsedDate = parseDateSafe(deliveryDate);
+
   // Available hours based on date
   const availableHours = (() => {
-    if (!deliveryDate) return HOURS;
-    const selected = new Date(deliveryDate + "T00:00:00");
-    if (isTodayInMiami(selected)) {
+    if (!parsedDate) return HOURS;
+    if (isTodayInMiami(parsedDate)) {
       const miamiNow = miamiHourNow();
-      const cutoff = miamiNow + 3; // 3 hour lead time
+      const cutoff = miamiNow + 3;
       return HOURS.filter(h => {
         const hour24 = parseInt(h) + (h.includes("PM") && !h.startsWith("12") ? 12 : 0);
         return hour24 > cutoff;
