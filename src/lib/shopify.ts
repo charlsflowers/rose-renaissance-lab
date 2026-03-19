@@ -36,6 +36,9 @@ export async function storefrontApiRequest(query: string, variables: Record<stri
   console.log("🔑 [Shopify] Token (first 8 chars):", SHOPIFY_STOREFRONT_TOKEN.substring(0, 8) + "...");
   console.log("📦 [Shopify] Variables:", JSON.stringify(variables));
 
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), 15000); // 15s timeout
+
   const response = await fetch(SHOPIFY_STOREFRONT_URL, {
     method: 'POST',
     headers: {
@@ -43,7 +46,10 @@ export async function storefrontApiRequest(query: string, variables: Record<stri
       'X-Shopify-Storefront-Access-Token': SHOPIFY_STOREFRONT_TOKEN,
     },
     body: JSON.stringify({ query, variables }),
+    signal: controller.signal,
   });
+
+  clearTimeout(timeoutId);
 
   console.log("📡 [Shopify] Response status:", response.status);
 
