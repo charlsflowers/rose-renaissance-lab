@@ -96,9 +96,19 @@ const Checkout = () => {
 
       // 3. Add order notes with ALL product details + delivery info
       const noteLines: string[] = [];
-      noteLines.push(`Delivery type: ${checkoutDeliveryMethod === "delivery" ? "Home Delivery" : "Store Pickup"}`);
-      if (deliveryDate) noteLines.push(`Delivery date: ${deliveryDate}`);
-      if (deliveryHour) noteLines.push(`Delivery time: ${deliveryHour}`);
+      noteLines.push(`delivery_type: ${checkoutDeliveryMethod === "delivery" ? "Home Delivery" : "Store Pickup"}`);
+      
+      // Format date for display but ensure it's never empty
+      if (deliveryDate) {
+        const dateObj = /^\d{4}-\d{2}-\d{2}$/.test(deliveryDate)
+          ? new Date(deliveryDate + "T00:00:00")
+          : new Date(deliveryDate);
+        const formattedDate = !isNaN(dateObj.getTime())
+          ? format(dateObj, "PPP", { locale: enUS })
+          : deliveryDate;
+        noteLines.push(`delivery_date: ${formattedDate}`);
+      }
+      noteLines.push(`delivery_time: ${deliveryHour || "No especificada"}`);
       if (checkoutDeliveryMethod === "delivery" && deliveryResult) {
         noteLines.push(`Delivery address: ${deliveryResult.address}`);
       }
