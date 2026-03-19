@@ -10,11 +10,20 @@ interface Prediction {
   description: string;
 }
 
-interface DeliveryResult {
+export interface StructuredAddress {
+  address1: string;
+  city: string;
+  province: string;
+  zip: string;
+  country: string;
+}
+
+export interface DeliveryResult {
   miles: number;
   cost: number;
   address: string;
   duration?: string;
+  structuredAddress?: StructuredAddress;
 }
 
 interface Props {
@@ -86,7 +95,7 @@ const DeliveryCalculator = ({ onResult }: Props) => {
     onResult(null);
     try {
       const { data, error } = await supabase.functions.invoke("calculate-distance", {
-        body: { fullAddress: prediction.description },
+        body: { fullAddress: prediction.description, placeId: prediction.placeId },
       });
       if (error) {
         setDistanceError("Error calculating distance.");
@@ -105,6 +114,7 @@ const DeliveryCalculator = ({ onResult }: Props) => {
           cost: calculateDeliveryCost(data.miles),
           address: prediction.description,
           duration: data.duration,
+          structuredAddress: data.structuredAddress || undefined,
         });
       }
     } catch {

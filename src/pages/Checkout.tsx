@@ -5,7 +5,7 @@ import { useCartStore } from "@/stores/cartStore";
 import { fetchCartCheckoutUrl, updateCartBuyerIdentity, updateCartNote, addLineToShopifyCart, type ShippingAddress } from "@/lib/shopify";
 import { buildAccessoryLineItems, DELIVERY_FEE_VARIANT_GID } from "@/lib/accessoryVariants";
 import Navbar from "@/components/Navbar";
-import DeliveryCalculator from "@/components/DeliveryCalculator";
+import DeliveryCalculator, { type DeliveryResult } from "@/components/DeliveryCalculator";
 import { Trash2, ArrowLeft, Truck, Store, Globe, ExternalLink, Loader2 } from "lucide-react";
 import BrandLogo from "@/components/BrandLogo";
 import { motion } from "framer-motion";
@@ -30,12 +30,7 @@ const Checkout = () => {
     existingDeliveryItem ? "delivery" : "pickup",
   );
 
-  const [deliveryResult, setDeliveryResult] = useState<{
-    miles: number;
-    cost: number;
-    address: string;
-    duration?: string;
-  } | null>(
+  const [deliveryResult, setDeliveryResult] = useState<DeliveryResult | null>(
     existingDeliveryItem && existingDeliveryItem.deliveryMiles !== null
       ? {
           miles: existingDeliveryItem.deliveryMiles,
@@ -66,8 +61,23 @@ const Checkout = () => {
 
       // 2. If home delivery, update buyer identity with shipping address
       if (checkoutDeliveryMethod === "delivery" && deliveryResult) {
-        const parsed = parseAddressForShopify(deliveryResult.address, existingDeliveryItem?.deliveryZip);
-        const identityResult = await updateCartBuyerIdentity(cartId, parsed);
+        const shippingAddress: ShippingAddress = deliveryResult.structuredAddress
+          ? {
+              address1: deliveryResult.structuredAddress.address1,
+              city: deliveryResult.structuredAddress.city,
+              province: deliveryResult.structuredAddress.province,
+              zip: deliveryResult.structuredAddress.zip,
+              country: deliveryResult.structuredAddress.country,
+            }
+          : {
+              // Fallback: use full address string as address1
+              address1: deliveryResult.address,
+              city: "",
+              province: "",
+              zip: "",
+              country: "US",
+            };
+        const identityResult = await updateCartBuyerIdentity(cartId, shippingAddress);
         if (!identityResult.success) {
           console.warn("Could not set shipping address on cart, proceeding anyway");
         }
@@ -376,20 +386,5 @@ const Checkout = () => {
     </div>
   );
 };
-
-function parseAddressForShopify(address: string, zip?: string): ShippingAddress {
-  const parts = address.split(",").map((p) => p.trim()).filter(Boolean);
-  const address1 = parts[0] || "";
-  const city = parts[1] || "";
-
-  const fullText = [address, zip].filter(Boolean).join(" ");
-  const zipMatch = fullText.match(/\b\d{5}(?:-\d{4})?\b/);
-  const parsedZip = zip || (zipMatch ? zipMatch[0] : "");
-
-  const stateMatch = fullText.match(/\b([A-Z]{2})\s+\d{5}(?:-\d{4})?\b/i);
-  const province = stateMatch ? stateMatch[1].toUpperCase() : "";
-
-  return { address1, city, province, zip: parsedZip, country: "US" };
-}
 
 export default Checkout;
