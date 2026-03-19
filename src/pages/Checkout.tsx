@@ -30,12 +30,7 @@ const Checkout = () => {
     existingDeliveryItem ? "delivery" : "pickup",
   );
 
-  const [deliveryResult, setDeliveryResult] = useState<{
-    miles: number;
-    cost: number;
-    address: string;
-    duration?: string;
-  } | null>(
+  const [deliveryResult, setDeliveryResult] = useState<DeliveryResult | null>(
     existingDeliveryItem && existingDeliveryItem.deliveryMiles !== null
       ? {
           miles: existingDeliveryItem.deliveryMiles,
