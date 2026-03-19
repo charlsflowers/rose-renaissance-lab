@@ -5,17 +5,18 @@ import { useCartStore } from "@/stores/cartStore";
 import { fetchCartCheckoutUrl, updateCartBuyerIdentity, updateCartNote, addLineToShopifyCart, type ShippingAddress } from "@/lib/shopify";
 import { buildAccessoryLineItems, DELIVERY_FEE_VARIANT_GID } from "@/lib/accessoryVariants";
 import Navbar from "@/components/Navbar";
-import DeliveryCalculator, { type DeliveryResult } from "@/components/DeliveryCalculator";
-import { Trash2, ArrowLeft, Truck, Store, Globe, Loader2, CreditCard } from "lucide-react";
+import type { DeliveryResult } from "@/components/DeliveryCalculator";
+import { ArrowLeft } from "lucide-react";
 import BrandLogo from "@/components/BrandLogo";
 import { motion } from "framer-motion";
+import CheckoutOrderItem from "@/components/checkout/CheckoutOrderItem";
+import CheckoutSummaryBlock from "@/components/checkout/CheckoutSummaryBlock";
 
 const Checkout = () => {
   const items = useCartStore((state) => state.items);
   const removeItem = useCartStore((state) => state.removeItem);
   const cartId = useCartStore((state) => state.cartId);
   const checkoutUrl = useCartStore((state) => state.checkoutUrl);
-
   const isLoading = useCartStore((state) => state.isLoading);
   const isSyncing = useCartStore((state) => state.isSyncing);
   const navigate = useNavigate();
@@ -40,9 +41,14 @@ const Checkout = () => {
       : null,
   );
 
+  // Date & time — pre-populate from cart items
+  const itemWithDate = items.find((i) => i.deliveryDate);
+  const itemWithHour = items.find((i) => i.deliveryHour);
+  const [deliveryDate, setDeliveryDate] = useState(itemWithDate?.deliveryDate || "");
+  const [deliveryHour, setDeliveryHour] = useState(itemWithHour?.deliveryHour || "");
+
   const needsAddress = checkoutDeliveryMethod === "delivery";
   const deliveryCost = needsAddress && deliveryResult ? deliveryResult.cost : 0;
-  const grandTotal = itemsSubtotal + deliveryCost;
   const canCheckout = !needsAddress || deliveryResult !== null;
 
   const handleCheckout = async () => {
@@ -57,19 +63,15 @@ const Checkout = () => {
       if (checkoutDeliveryMethod === "delivery" && deliveryCost > 0) {
         const deliveryQty = Math.round(deliveryCost * 10);
         console.log(`📦 [Checkout] Delivery fee: $${deliveryCost} → qty ${deliveryQty} × $0.10 = $${(deliveryQty * 0.1).toFixed(2)} (variant: ${DELIVERY_FEE_VARIANT_GID})`);
-        // Always add fresh — the Shopify cart won't have it since we never add it to local items
-        const deliveryResult = await addLineToShopifyCart(cartId, DELIVERY_FEE_VARIANT_GID, deliveryQty);
-        console.log("📦 [Checkout] Delivery fee add result:", JSON.stringify(deliveryResult));
-        if (!deliveryResult.success) {
+        const deliveryAddResult = await addLineToShopifyCart(cartId, DELIVERY_FEE_VARIANT_GID, deliveryQty);
+        console.log("📦 [Checkout] Delivery fee add result:", JSON.stringify(deliveryAddResult));
+        if (!deliveryAddResult.success) {
           console.error("Failed to add delivery fee to cart");
         }
       }
 
       // 2. If home delivery, update buyer identity with shipping address
       if (checkoutDeliveryMethod === "delivery" && deliveryResult) {
-        console.log("📦 [Checkout] structuredAddress:", JSON.stringify(deliveryResult.structuredAddress));
-        console.log("📦 [Checkout] full deliveryResult:", JSON.stringify(deliveryResult));
-
         const shippingAddress: ShippingAddress = deliveryResult.structuredAddress
           ? {
               address1: deliveryResult.structuredAddress.address1,
@@ -86,27 +88,21 @@ const Checkout = () => {
               country: "US",
             };
 
-        console.log("📦 [Checkout] Sending shippingAddress to Shopify:", JSON.stringify(shippingAddress));
         const identityResult = await updateCartBuyerIdentity(cartId, shippingAddress);
-        console.log("📦 [Checkout] buyerIdentityUpdate result:", JSON.stringify(identityResult));
         if (!identityResult.success) {
           console.warn("Could not set shipping address on cart, proceeding anyway");
         }
       }
 
       // 3. Add order notes with ALL product details + delivery info
-      // These are visible to the merchant in Shopify Admin but NOT shown to customer at checkout
-      const itemWithDate = items.find((i) => i.deliveryDate);
-      const itemWithHour = items.find((i) => i.deliveryHour);
       const noteLines: string[] = [];
       noteLines.push(`Delivery type: ${checkoutDeliveryMethod === "delivery" ? "Home Delivery" : "Store Pickup"}`);
-      if (itemWithDate?.deliveryDate) noteLines.push(`Delivery date: ${itemWithDate.deliveryDate}`);
-      if (itemWithHour?.deliveryHour) noteLines.push(`Delivery time: ${itemWithHour.deliveryHour}`);
+      if (deliveryDate) noteLines.push(`Delivery date: ${deliveryDate}`);
+      if (deliveryHour) noteLines.push(`Delivery time: ${deliveryHour}`);
       if (checkoutDeliveryMethod === "delivery" && deliveryResult) {
         noteLines.push(`Delivery address: ${deliveryResult.address}`);
       }
       noteLines.push("---");
-      // Add per-item product details
       items.forEach((item, idx) => {
         noteLines.push(`[Item ${idx + 1}] ${item.bouquetType} Bouquet`);
         if (item.color) noteLines.push(`  Color del ramo: ${item.color}`);
@@ -126,10 +122,10 @@ const Checkout = () => {
       });
       await updateCartNote(cartId, noteLines.join("\n"));
 
-      // 4. Get fresh checkout URL and redirect IN SAME TAB
+      // 4. Get fresh checkout URL and redirect
       const freshUrl = await fetchCartCheckoutUrl(cartId);
       const finalUrl = freshUrl || checkoutUrl;
-      
+
       if (!finalUrl) {
         toast.error("Could not get checkout URL. Please try again.");
         return;
@@ -178,228 +174,27 @@ const Checkout = () => {
 
           <div className="max-w-3xl mx-auto space-y-6">
             {items.map((item, idx) => (
-              <motion.div
-                key={item.id}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: idx * 0.1 }}
-                className="bg-card border border-border rounded-sm p-6"
-              >
-                {item.image && (
-                  <div className="mb-4 flex justify-center">
-                    <img
-                      src={item.image}
-                      alt={`${item.bouquetType} bouquet`}
-                      className="w-32 h-32 md:w-40 md:h-40 object-cover rounded-sm border border-border"
-                    />
-                  </div>
-                )}
-
-                <div className="flex items-start justify-between mb-4">
-                  <div>
-                    <h3 className="font-display text-xl font-semibold text-foreground">
-                      {item.bouquetType === "classic"
-                        ? "Classic"
-                        : item.bouquetType === "heart"
-                          ? "Heart"
-                          : item.bouquetType === "letters"
-                            ? "With Letters"
-                            : item.bouquetType === "round"
-                              ? "Round"
-                              : "With Numbers"}{" "}
-                      Bouquet
-                    </h3>
-                    <p className="text-sm font-body text-muted-foreground mt-1">
-                      {item.roses} roses · {item.color}
-                    </p>
-                  </div>
-                  <button
-                    onClick={() => removeItem(item.id)}
-                    className="text-muted-foreground hover:text-destructive transition-colors p-1"
-                    title="Remove"
-                  >
-                    <Trash2 className="w-5 h-5" />
-                  </button>
-                </div>
-
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm font-body">
-                  {item.addons.length > 0 && (
-                    <div>
-                      <p className="text-muted-foreground mb-1">Extras:</p>
-                      <p className="text-foreground">{item.addons.join(", ")}</p>
-                    </div>
-                  )}
-
-                  {item.specialText && (
-                    <div>
-                      <p className="text-muted-foreground mb-1">Text:</p>
-                      <p className="text-foreground font-semibold">{item.specialText}</p>
-                    </div>
-                  )}
-
-                  {item.accessory !== "none" && item.accessory !== "" && (
-                    <div>
-                      <p className="text-muted-foreground mb-1">Accessory:</p>
-                      <p className="text-foreground">
-                        {item.accessory === "note" ? "Note" : item.accessory === "card" ? "Card" : "Butterflies"}
-                        {item.accessoryText && `: "${item.accessoryText}"`}
-                      </p>
-                    </div>
-                  )}
-
-                  {item.ribbonText && (
-                    <div>
-                      <p className="text-muted-foreground mb-1">Ribbon:</p>
-                      <p className="text-foreground">"{item.ribbonText}"</p>
-                    </div>
-                  )}
-
-                  <div className="md:col-span-2 pt-3 border-t border-border mt-2">
-                    <p className="text-muted-foreground mb-1">Delivery:</p>
-                    <p className="text-foreground inline-flex items-center gap-2">
-                      {item.deliveryMethod === "pickup" ? (
-                        <>
-                          <Store className="w-4 h-4" />
-                          Store pickup
-                        </>
-                      ) : (
-                        <>
-                          <Truck className="w-4 h-4" />
-                          Home delivery
-                        </>
-                      )}
-                    </p>
-                  </div>
-                </div>
-
-                <div className="flex justify-end mt-4 pt-3 border-t border-border">
-                  <div className="text-right">
-                    <p className="text-sm text-muted-foreground font-body">Subtotal</p>
-                    <p className="font-display text-2xl font-bold text-foreground">${item.price}</p>
-                  </div>
-                </div>
-              </motion.div>
+              <CheckoutOrderItem key={item.id} item={item} index={idx} onRemove={removeItem} />
             ))}
 
-            {/* Delivery method selector */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="bg-card border-2 border-primary/20 rounded-sm p-6 space-y-5"
-            >
-              <div className="flex items-center justify-center">
-                <div className="inline-flex items-center gap-2 bg-primary text-primary-foreground px-4 py-2 rounded-full font-body text-xs tracking-widest uppercase">
-                  <Globe className="w-3.5 h-3.5" />
-                  Nationwide shipping across the USA
-                </div>
-              </div>
-
-              <p className="font-body font-semibold text-foreground text-sm">Delivery method</p>
-              <div className="grid grid-cols-2 gap-3">
-                <button
-                  onClick={() => {
-                    setCheckoutDeliveryMethod("pickup");
-                    setDeliveryResult(null);
-                  }}
-                  className={`flex flex-col items-center gap-2 p-4 rounded-sm border-2 transition-all font-body text-xs ${
-                    checkoutDeliveryMethod === "pickup"
-                      ? "border-primary bg-primary/5 text-primary"
-                      : "border-border text-muted-foreground hover:border-primary/30"
-                  }`}
-                >
-                  <Store className="w-5 h-5" />
-                  Store pickup
-                </button>
-                <button
-                  onClick={() => {
-                    setCheckoutDeliveryMethod("delivery");
-                    setDeliveryResult(null);
-                  }}
-                  className={`flex flex-col items-center gap-2 p-4 rounded-sm border-2 transition-all font-body text-xs ${
-                    checkoutDeliveryMethod === "delivery"
-                      ? "border-primary bg-primary/5 text-primary"
-                      : "border-border text-muted-foreground hover:border-primary/30"
-                  }`}
-                >
-                  <Truck className="w-5 h-5" />
-                  <span>Home delivery</span>
-                  <span className="text-[10px] text-muted-foreground font-normal">From $20</span>
-                </button>
-              </div>
-
-              {checkoutDeliveryMethod === "pickup" && (
-                <p className="font-body text-sm text-muted-foreground">
-                  📍 Pickup at: <span className="font-semibold text-foreground">7261 NW 12th St, Miami, FL 33126</span>
-                </p>
-              )}
-
-              {checkoutDeliveryMethod === "delivery" && deliveryResult && (
-                <div className="space-y-2">
-                  <p className="font-body text-sm text-muted-foreground">
-                    📍 Deliver to: <span className="font-semibold text-foreground">{deliveryResult.address}</span>
-                  </p>
-                  <p className="font-body text-sm text-muted-foreground">
-                    Shipping: <span className="font-semibold text-foreground">${deliveryResult.cost}</span>
-                    <span className="text-xs ml-2">({deliveryResult.miles.toFixed(1)} miles)</span>
-                  </p>
-                  <button
-                    onClick={() => setDeliveryResult(null)}
-                    className="text-xs font-body text-primary underline hover:text-primary/80"
-                  >
-                    Change address
-                  </button>
-                </div>
-              )}
-
-              {checkoutDeliveryMethod === "delivery" && !deliveryResult && <DeliveryCalculator onResult={setDeliveryResult} />}
-            </motion.div>
-
-            {/* Total + CTA */}
-            <div className="bg-card border-2 border-primary/30 rounded-sm p-6">
-              <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-                <div>
-                  <p className="font-body text-sm text-muted-foreground">
-                    {items.length} {items.length === 1 ? "item" : "items"}
-                  </p>
-                  <div className="space-y-1">
-                    <p className="font-body text-sm text-muted-foreground">
-                      Subtotal: <span className="text-foreground font-semibold">${itemsSubtotal}</span>
-                    </p>
-                    {needsAddress && (
-                      <p className="font-body text-sm text-muted-foreground">
-                        Shipping:{" "}
-                        <span className="text-foreground font-semibold">
-                          {deliveryResult ? `$${deliveryCost}` : "Pending"}
-                        </span>
-                      </p>
-                    )}
-                    <p className="font-display text-3xl font-bold text-foreground">
-                      ${grandTotal} <span className="text-sm font-body text-muted-foreground font-normal">USD</span>
-                    </p>
-                  </div>
-                </div>
-                <button
-                  disabled={!canCheckout || isLoading || isSyncing || isCheckingOut}
-                  className="inline-flex items-center gap-2 bg-primary text-primary-foreground px-10 py-4 font-body text-sm tracking-widest uppercase hover:bg-primary/90 transition-colors rounded-sm disabled:opacity-50 disabled:cursor-not-allowed"
-                  onClick={handleCheckout}
-                >
-                  {isLoading || isSyncing || isCheckingOut ? (
-                    <Loader2 className="w-4 h-4 animate-spin" />
-                  ) : (
-                    <>
-                      <CreditCard className="w-4 h-4" />
-                      Complete order
-                    </>
-                  )}
-                </button>
-              </div>
-
-              {!canCheckout && (
-                <p className="text-xs font-body text-muted-foreground mt-3">
-                  ⚠️ Enter a valid delivery address to continue.
-                </p>
-              )}
-            </div>
+            {/* Unified summary block: delivery method + address + date/time + totals */}
+            <CheckoutSummaryBlock
+              itemCount={items.length}
+              itemsSubtotal={itemsSubtotal}
+              deliveryMethod={checkoutDeliveryMethod}
+              setDeliveryMethod={setCheckoutDeliveryMethod}
+              deliveryResult={deliveryResult}
+              setDeliveryResult={setDeliveryResult}
+              deliveryDate={deliveryDate}
+              setDeliveryDate={setDeliveryDate}
+              deliveryHour={deliveryHour}
+              setDeliveryHour={setDeliveryHour}
+              canCheckout={canCheckout}
+              isLoading={isLoading}
+              isSyncing={isSyncing}
+              isCheckingOut={isCheckingOut}
+              onCheckout={handleCheckout}
+            />
 
             {/* Continue shopping */}
             <div className="text-center pt-4">
