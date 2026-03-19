@@ -312,11 +312,9 @@ const BouquetBuilder = () => {
                           <button
                             key={color.name}
                             onClick={() => {
-                              if (isSelected) {
-                                if (selectedColors.length > 1) {
-                                  setSelectedColors(prev => prev.filter(c => c.name !== color.name));
-                                }
-                              } else if (selectedColors.length < 3) {
+                          if (isSelected) {
+                            setSelectedColors(prev => prev.filter(c => c.name !== color.name));
+                          } else if (selectedColors.length < 3) {
                                 setSelectedColors(prev => [...prev, color]);
                               }
                             }}
