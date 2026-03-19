@@ -307,7 +307,7 @@ const BouquetProductDetail = () => {
       const freshUrl = await fetchCartCheckoutUrl(cartId);
       const finalUrl = freshUrl || storedCheckoutUrl;
       if (finalUrl) {
-        window.open(finalUrl, '_blank');
+        window.location.href = finalUrl;
       } else {
         toast.error("Could not get checkout URL.");
       }
