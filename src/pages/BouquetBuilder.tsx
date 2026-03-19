@@ -5,9 +5,9 @@ import { supabase } from "@/integrations/supabase/client";
 import { enUS } from "date-fns/locale";
 import { useCartStore } from "@/stores/cartStore";
 import { toast } from "sonner";
-import { buildCheckoutUrl, openCheckoutInNewTab } from "@/lib/checkout";
+import { fetchCartCheckoutUrl, updateCartBuyerIdentity, updateCartNote, addLineToShopifyCart, type ShippingAddress } from "@/lib/shopify";
 import { calculateDeliveryCost, formatDeliveryCost } from "@/lib/deliveryPricing";
-import { buildAccessoryLineItems, CUSTOM_BOUQUET_VARIANT_ID } from "@/lib/accessoryVariants";
+import { buildAccessoryLineItems, CUSTOM_BOUQUET_VARIANT_ID, DELIVERY_FEE_VARIANT_GID } from "@/lib/accessoryVariants";
 import { resolveCustomBouquetVariantId } from "@/lib/customBouquetVariants";
 
 import Navbar from "@/components/Navbar";
@@ -199,7 +199,9 @@ const BouquetBuilder = () => {
     const hours: string[] = [];
     for (let h = 8; h <= closeHour; h++) {
       if (isTodayInMiami(date) && h < minMiamiHour) continue;
-      hours.push(`${h.toString().padStart(2, "0")}:00`);
+      const ampm = h < 12 ? "AM" : "PM";
+      const h12 = h === 0 ? 12 : h > 12 ? h - 12 : h;
+      hours.push(`${h12}:00 ${ampm}`);
     }
     return hours;
   };
@@ -431,14 +433,14 @@ const BouquetBuilder = () => {
             </Section>
 
             {/* 4. Accessories */}
-            <Section title="Accessories" step={5} subtitle="Free">
+            <Section title="Accessories" step={5}>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
                 {([
-                  { type: "none" as const, label: "No accessory", icon: null, img: null },
-                  { type: "note" as const, label: "Note", icon: Type, img: null },
-                  { type: "card" as const, label: "Card", icon: Sparkles, img: null },
-                  { type: "butterfly" as const, label: "Butterflies", icon: null, img: butterflyImg },
-                ] as const).map(({ type, label, icon: Icon, img }) => (
+                  { type: "none" as const, label: "No accessory", icon: null, img: null, price: null },
+                  { type: "note" as const, label: "Note", icon: Type, img: null, price: null },
+                  { type: "card" as const, label: "Card", icon: Sparkles, img: null, price: "$1" },
+                  { type: "butterfly" as const, label: "Butterflies", icon: null, img: butterflyImg, price: "$1" },
+                ] as const).map(({ type, label, icon: Icon, img, price }) => (
                   <button
                     key={type}
                     onClick={() => setAccessory(type)}
@@ -454,7 +456,7 @@ const BouquetBuilder = () => {
                       <Icon className="w-4 h-4" />
                     ) : null}
                     {label}
-                    <span className="text-xs text-secondary">Free</span>
+                    <span className="text-xs text-secondary">{price || "Free"}</span>
                   </button>
                 ))}
               </div>
@@ -1047,6 +1049,13 @@ const BouquetBuilder = () => {
                         shopifyVariantId: customBouquetVariantGid,
                       });
                       toast.success("Bouquet added to cart!");
+                      const cartId = useCartStore.getState().cartId;
+                      const storedCheckoutUrl = useCartStore.getState().checkoutUrl;
+                      if (!cartId) {
+                        toast.error("Could not start checkout.");
+                        return;
+                      }
+                      // Add accessories
                       const accessories = buildAccessoryLineItems({
                         glitter: addGlitter,
                         rosesCount,
@@ -1058,21 +1067,39 @@ const BouquetBuilder = () => {
                         crownSize,
                         addRibbon,
                       });
-                      const checkoutUrl = buildCheckoutUrl(customBouquetVariantGid, {
-                        deliveryMethod,
-                        deliveryCost,
-                        deliveryAddress: selectedAddress,
-                        deliveryCity,
-                        deliveryZip,
-                        deliveryDate: deliveryDate ? format(deliveryDate, "PPP", { locale: enUS }) : undefined,
-                        deliveryTime: deliveryHour || undefined,
-                        accessories,
-                      });
-                      if (!checkoutUrl) {
-                        toast.error("Could not start Shopify checkout. Please try again.");
-                        return;
+                      for (const acc of accessories) {
+                        await addLineToShopifyCart(cartId, `gid://shopify/ProductVariant/${acc.variantId}`, acc.quantity);
                       }
-                      openCheckoutInNewTab(checkoutUrl);
+                      // Add delivery fee
+                      if (deliveryMethod === "delivery" && deliveryCost > 0) {
+                        await addLineToShopifyCart(cartId, DELIVERY_FEE_VARIANT_GID, Math.round(deliveryCost * 100));
+                      }
+                      // Update shipping address
+                      if (deliveryMethod === "delivery" && selectedAddress) {
+                        const parsed: ShippingAddress = {
+                          address1: deliveryStreet,
+                          city: deliveryCity,
+                          province: "",
+                          zip: deliveryZip,
+                          country: "US",
+                        };
+                        await updateCartBuyerIdentity(cartId, parsed);
+                      }
+                      // Add order notes
+                      const noteLines: string[] = [];
+                      noteLines.push(`Delivery type: ${deliveryMethod === "delivery" ? "Home Delivery" : "Store Pickup"}`);
+                      if (deliveryDate) noteLines.push(`Delivery date: ${format(deliveryDate, "PPP", { locale: enUS })}`);
+                      if (deliveryHour) noteLines.push(`Delivery time: ${deliveryHour}`);
+                      if (deliveryMethod === "delivery" && selectedAddress) noteLines.push(`Delivery address: ${selectedAddress}`);
+                      await updateCartNote(cartId, noteLines.join("\n"));
+                      // Get checkout URL and redirect
+                      const freshUrl = await fetchCartCheckoutUrl(cartId);
+                      const finalUrl = freshUrl || storedCheckoutUrl;
+                      if (finalUrl) {
+                        window.open(finalUrl, '_blank');
+                      } else {
+                        toast.error("Could not get checkout URL.");
+                      }
                     } catch {
                       toast.error("Failed to add to cart.");
                     } finally {

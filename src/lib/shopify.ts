@@ -268,6 +268,24 @@ const CART_CHECKOUT_URL_QUERY = `
   }
 `;
 
+const CART_BUYER_IDENTITY_UPDATE_MUTATION = `
+  mutation cartBuyerIdentityUpdate($cartId: ID!, $buyerIdentity: CartBuyerIdentityInput!) {
+    cartBuyerIdentityUpdate(cartId: $cartId, buyerIdentity: $buyerIdentity) {
+      cart { id checkoutUrl }
+      userErrors { field message }
+    }
+  }
+`;
+
+const CART_NOTE_UPDATE_MUTATION = `
+  mutation cartNoteUpdate($cartId: ID!, $note: String!) {
+    cartNoteUpdate(cartId: $cartId, note: $note) {
+      cart { id }
+      userErrors { field message }
+    }
+  }
+`;
+
 function formatCheckoutUrl(checkoutUrl: string): string {
   try {
     const url = new URL(checkoutUrl);
@@ -375,4 +393,66 @@ export async function fetchShopifyCart(cartId: string): Promise<{ exists: boolea
   const cart = data?.data?.cart;
   if (!cart) return { exists: false, totalQuantity: 0 };
   return { exists: true, totalQuantity: cart.totalQuantity };
+}
+
+export interface ShippingAddress {
+  address1: string;
+  city: string;
+  province: string;
+  zip: string;
+  country: string;
+}
+
+export async function updateCartBuyerIdentity(
+  cartId: string,
+  deliveryAddress: ShippingAddress
+): Promise<{ success: boolean; checkoutUrl?: string }> {
+  try {
+    const data = await storefrontApiRequest(CART_BUYER_IDENTITY_UPDATE_MUTATION, {
+      cartId,
+      buyerIdentity: {
+        deliveryAddressPreferences: [
+          {
+            deliveryAddress: {
+              address1: deliveryAddress.address1,
+              city: deliveryAddress.city,
+              province: deliveryAddress.province,
+              zip: deliveryAddress.zip,
+              country: deliveryAddress.country,
+            },
+          },
+        ],
+      },
+    });
+
+    const userErrors = data?.data?.cartBuyerIdentityUpdate?.userErrors || [];
+    if (userErrors.length > 0) {
+      console.error('Buyer identity update failed:', userErrors);
+      return { success: false };
+    }
+
+    const checkoutUrl = data?.data?.cartBuyerIdentityUpdate?.cart?.checkoutUrl;
+    return { success: true, checkoutUrl: checkoutUrl ? formatCheckoutUrl(checkoutUrl) : undefined };
+  } catch (error) {
+    console.error('Failed to update buyer identity:', error);
+    return { success: false };
+  }
+}
+
+export async function updateCartNote(cartId: string, note: string): Promise<boolean> {
+  try {
+    const data = await storefrontApiRequest(CART_NOTE_UPDATE_MUTATION, {
+      cartId,
+      note,
+    });
+    const userErrors = data?.data?.cartNoteUpdate?.userErrors || [];
+    if (userErrors.length > 0) {
+      console.error('Cart note update failed:', userErrors);
+      return false;
+    }
+    return true;
+  } catch (error) {
+    console.error('Failed to update cart note:', error);
+    return false;
+  }
 }

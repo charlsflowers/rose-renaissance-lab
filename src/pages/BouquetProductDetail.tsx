@@ -8,8 +8,8 @@ import { useCartStore } from "@/stores/cartStore";
 import { fetchVariantsByHandle, findVariantByRoses, type ShopifyHandleVariant } from "@/lib/shopifyVariants";
 import { calculateDeliveryCost, formatDeliveryCost } from "@/lib/deliveryPricing";
 import { toast } from "sonner";
-import { buildCheckoutUrl, openCheckoutInNewTab } from "@/lib/checkout";
-import { buildAccessoryLineItems } from "@/lib/accessoryVariants";
+import { fetchCartCheckoutUrl, updateCartBuyerIdentity, updateCartNote, addLineToShopifyCart, type ShippingAddress } from "@/lib/shopify";
+import { buildAccessoryLineItems, DELIVERY_FEE_VARIANT_GID } from "@/lib/accessoryVariants";
 import Navbar from "@/components/Navbar";
 import PaperColorPicker from "@/components/PaperColorPicker"; // keep import but won't use for standard bouquets
 import { bouquetProducts, bouquetSizeOptions } from "@/lib/catalogData";
@@ -123,7 +123,9 @@ const BouquetProductDetail = () => {
     const hours: string[] = [];
     for (let h = 8; h <= closeHour; h++) {
       if (isTodayInMiami(date) && h < minMiamiHour) continue;
-      hours.push(`${h.toString().padStart(2, "0")}:00`);
+      const ampm = h < 12 ? "AM" : "PM";
+      const h12 = h === 0 ? 12 : h > 12 ? h - 12 : h;
+      hours.push(`${h12}:00 ${ampm}`);
     }
     return hours;
   };
@@ -258,7 +260,17 @@ const BouquetProductDetail = () => {
 
   const handlePayNow = async () => {
     const variantId = await handleAddToCart();
-    if (variantId) {
+    if (!variantId) return;
+
+    const cartId = useCartStore.getState().cartId;
+    const storedCheckoutUrl = useCartStore.getState().checkoutUrl;
+    if (!cartId) {
+      toast.error("Could not start checkout. Please try again.");
+      return;
+    }
+
+    try {
+      // Add accessories as line items
       const accessories = buildAccessoryLineItems({
         glitter: addGlitter,
         rosesCount: selectedSize.roses,
@@ -269,22 +281,53 @@ const BouquetProductDetail = () => {
         crownSize: "",
         addRibbon: false,
       });
-      const checkoutUrl = buildCheckoutUrl(variantId, {
-        deliveryMethod,
-        deliveryCost,
-        deliveryAddress: selectedAddress,
-        deliveryZip,
-        deliveryDate: deliveryDate ? format(deliveryDate, "PPP", { locale: enUS }) : undefined,
-        deliveryTime: deliveryHour || undefined,
-        accessories,
-      });
-      if (!checkoutUrl) {
-        toast.error("Could not start Shopify checkout. Please try again.");
-        return;
+      for (const acc of accessories) {
+        await addLineToShopifyCart(cartId, `gid://shopify/ProductVariant/${acc.variantId}`, acc.quantity);
       }
-      openCheckoutInNewTab(checkoutUrl);
+
+      // Add delivery fee
+      if (deliveryMethod === "delivery" && deliveryCost > 0) {
+        await addLineToShopifyCart(cartId, DELIVERY_FEE_VARIANT_GID, Math.round(deliveryCost * 100));
+      }
+
+      // Update shipping address
+      if (deliveryMethod === "delivery" && selectedAddress) {
+        const parsed = parseAddressForShopify(selectedAddress, deliveryZip);
+        await updateCartBuyerIdentity(cartId, parsed);
+      }
+
+      // Add order notes
+      const noteLines: string[] = [];
+      noteLines.push(`Delivery type: ${deliveryMethod === "delivery" ? "Home Delivery" : "Store Pickup"}`);
+      if (deliveryDate) noteLines.push(`Delivery date: ${format(deliveryDate, "PPP", { locale: enUS })}`);
+      if (deliveryHour) noteLines.push(`Delivery time: ${deliveryHour}`);
+      if (deliveryMethod === "delivery" && selectedAddress) noteLines.push(`Delivery address: ${selectedAddress}`);
+      await updateCartNote(cartId, noteLines.join("\n"));
+
+      const freshUrl = await fetchCartCheckoutUrl(cartId);
+      const finalUrl = freshUrl || storedCheckoutUrl;
+      if (finalUrl) {
+        window.open(finalUrl, '_blank');
+      } else {
+        toast.error("Could not get checkout URL.");
+      }
+    } catch (error) {
+      console.error("Pay now error:", error);
+      toast.error("Checkout error. Please try again.");
     }
   };
+
+  function parseAddressForShopify(address: string, zip?: string): ShippingAddress {
+    const parts = address.split(",").map((p) => p.trim()).filter(Boolean);
+    const address1 = parts[0] || "";
+    const city = parts[1] || "";
+    const fullText = [address, zip].filter(Boolean).join(" ");
+    const zipMatch = fullText.match(/\b\d{5}(?:-\d{4})?\b/);
+    const parsedZip = zip || (zipMatch ? zipMatch[0] : "");
+    const stateMatch = fullText.match(/\b([A-Z]{2})\s+\d{5}(?:-\d{4})?\b/i);
+    const province = stateMatch ? stateMatch[1].toUpperCase() : "";
+    return { address1, city, province, zip: parsedZip, country: "US" };
+  }
 
   return (
     <div className="min-h-screen bg-background">
@@ -400,14 +443,14 @@ const BouquetProductDetail = () => {
 
 
             {/* 4. Accessories */}
-            <Section title="Accessories" step={step++} subtitle="Free">
+            <Section title="Accessories" step={step++}>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
                 {([
-                  { type: "none" as const, label: "No accessory", icon: null, img: null },
-                  { type: "note" as const, label: "Note", icon: Type, img: null },
-                  { type: "card" as const, label: "Card", icon: Sparkles, img: null },
-                  { type: "butterfly" as const, label: "Butterflies", icon: null, img: butterflyImg },
-                ] as const).map(({ type: t, label, icon: Icon, img }) => (
+                  { type: "none" as const, label: "No accessory", icon: null, img: null, price: null },
+                  { type: "note" as const, label: "Note", icon: Type, img: null, price: null },
+                  { type: "card" as const, label: "Card", icon: Sparkles, img: null, price: "$1" },
+                  { type: "butterfly" as const, label: "Butterflies", icon: null, img: butterflyImg, price: "$1" },
+                ] as const).map(({ type: t, label, icon: Icon, img, price }) => (
                   <button key={t} onClick={() => setAccessory(t)}
                     className={`flex flex-col items-center gap-2 p-4 rounded-sm border-2 transition-all font-body text-sm ${accessory === t ? "border-primary bg-primary/5 text-primary" : "border-border text-muted-foreground hover:border-primary/30"}`}>
                     {img ? (
@@ -416,6 +459,7 @@ const BouquetProductDetail = () => {
                       <Icon className="w-4 h-4" />
                     ) : null}
                     {label}
+                    <span className="text-xs text-secondary">{price || "Free"}</span>
                   </button>
                 ))}
               </div>

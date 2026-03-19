@@ -44,6 +44,10 @@ export const RIBBON_VARIANT_ID = "51632873537668";
 // Variable-price bouquet product
 export const CUSTOM_BOUQUET_VARIANT_ID = "51634887295108";
 
+// Home Delivery fee product (base $0.01, qty = cents)
+export const DELIVERY_FEE_VARIANT_ID = "51629708935300";
+export const DELIVERY_FEE_VARIANT_GID = `gid://shopify/ProductVariant/${DELIVERY_FEE_VARIANT_ID}`;
+
 export interface AccessoryLineItem {
   variantId: string;
   quantity: number;
