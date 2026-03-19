@@ -2,7 +2,8 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import { useCartStore } from "@/stores/cartStore";
-import { buildCheckoutUrl, openCheckoutInNewTab } from "@/lib/checkout";
+import { fetchCartCheckoutUrl, updateCartBuyerIdentity, updateCartNote, addLineToShopifyCart, type ShippingAddress } from "@/lib/shopify";
+import { buildAccessoryLineItems, DELIVERY_FEE_VARIANT_GID } from "@/lib/accessoryVariants";
 import Navbar from "@/components/Navbar";
 import DeliveryCalculator from "@/components/DeliveryCalculator";
 import { Trash2, ArrowLeft, Truck, Store, Globe, ExternalLink, Loader2 } from "lucide-react";
@@ -12,10 +13,13 @@ import { motion } from "framer-motion";
 const Checkout = () => {
   const items = useCartStore((state) => state.items);
   const removeItem = useCartStore((state) => state.removeItem);
+  const cartId = useCartStore((state) => state.cartId);
+  const checkoutUrl = useCartStore((state) => state.checkoutUrl);
 
   const isLoading = useCartStore((state) => state.isLoading);
   const isSyncing = useCartStore((state) => state.isSyncing);
   const navigate = useNavigate();
+  const [isCheckingOut, setIsCheckingOut] = useState(false);
 
   const itemsSubtotal = items.reduce((sum, i) => sum + i.price, 0);
 
@@ -46,26 +50,57 @@ const Checkout = () => {
   const grandTotal = itemsSubtotal + deliveryCost;
   const canCheckout = !needsAddress || deliveryResult !== null;
 
-  const handleCheckout = () => {
-    // Gather delivery date/time from cart items (use first item that has them)
-    const itemWithDate = items.find((i) => i.deliveryDate);
-    const itemWithHour = items.find((i) => i.deliveryHour);
-
-    const checkoutUrl = buildCheckoutUrl(undefined, {
-      deliveryMethod: checkoutDeliveryMethod,
-      deliveryCost,
-      deliveryAddress: deliveryResult?.address,
-      deliveryZip: existingDeliveryItem?.deliveryZip,
-      deliveryDate: itemWithDate?.deliveryDate,
-      deliveryTime: itemWithHour?.deliveryHour,
-    });
-
-    if (!checkoutUrl) {
+  const handleCheckout = async () => {
+    if (!cartId) {
       toast.error("No se pudo iniciar el checkout. Vuelve atrás y añade el producto de nuevo.");
       return;
     }
 
-    openCheckoutInNewTab(checkoutUrl);
+    setIsCheckingOut(true);
+    try {
+      // 1. Add delivery fee line item if home delivery
+      if (checkoutDeliveryMethod === "delivery" && deliveryCost > 0) {
+        const deliveryQty = Math.round(deliveryCost * 100);
+        await addLineToShopifyCart(cartId, DELIVERY_FEE_VARIANT_GID, deliveryQty);
+      }
+
+      // 2. If home delivery, update buyer identity with shipping address
+      if (checkoutDeliveryMethod === "delivery" && deliveryResult) {
+        const parsed = parseAddressForShopify(deliveryResult.address, existingDeliveryItem?.deliveryZip);
+        const identityResult = await updateCartBuyerIdentity(cartId, parsed);
+        if (!identityResult.success) {
+          console.warn("Could not set shipping address on cart, proceeding anyway");
+        }
+      }
+
+      // 3. Add order notes (delivery type, date, time)
+      const itemWithDate = items.find((i) => i.deliveryDate);
+      const itemWithHour = items.find((i) => i.deliveryHour);
+      const noteLines: string[] = [];
+      noteLines.push(`Delivery type: ${checkoutDeliveryMethod === "delivery" ? "Home Delivery" : "Store Pickup"}`);
+      if (itemWithDate?.deliveryDate) noteLines.push(`Delivery date: ${itemWithDate.deliveryDate}`);
+      if (itemWithHour?.deliveryHour) noteLines.push(`Delivery time: ${itemWithHour.deliveryHour}`);
+      if (checkoutDeliveryMethod === "delivery" && deliveryResult) {
+        noteLines.push(`Delivery address: ${deliveryResult.address}`);
+      }
+      await updateCartNote(cartId, noteLines.join("\n"));
+
+      // 4. Get fresh checkout URL and redirect
+      const freshUrl = await fetchCartCheckoutUrl(cartId);
+      const finalUrl = freshUrl || checkoutUrl;
+      
+      if (!finalUrl) {
+        toast.error("Could not get checkout URL. Please try again.");
+        return;
+      }
+
+      window.open(finalUrl, '_blank');
+    } catch (error) {
+      console.error("Checkout error:", error);
+      toast.error("Error during checkout. Please try again.");
+    } finally {
+      setIsCheckingOut(false);
+    }
   };
 
   if (items.length === 0) {
@@ -303,11 +338,11 @@ const Checkout = () => {
                   </div>
                 </div>
                 <button
-                  disabled={!canCheckout || isLoading || isSyncing}
+                  disabled={!canCheckout || isLoading || isSyncing || isCheckingOut}
                   className="inline-flex items-center gap-2 bg-primary text-primary-foreground px-10 py-4 font-body text-sm tracking-widest uppercase hover:bg-primary/90 transition-colors rounded-sm disabled:opacity-50 disabled:cursor-not-allowed"
                   onClick={handleCheckout}
                 >
-                  {isLoading || isSyncing ? (
+                  {isLoading || isSyncing || isCheckingOut ? (
                     <Loader2 className="w-4 h-4 animate-spin" />
                   ) : (
                     <>
@@ -341,5 +376,20 @@ const Checkout = () => {
     </div>
   );
 };
+
+function parseAddressForShopify(address: string, zip?: string): ShippingAddress {
+  const parts = address.split(",").map((p) => p.trim()).filter(Boolean);
+  const address1 = parts[0] || "";
+  const city = parts[1] || "";
+
+  const fullText = [address, zip].filter(Boolean).join(" ");
+  const zipMatch = fullText.match(/\b\d{5}(?:-\d{4})?\b/);
+  const parsedZip = zip || (zipMatch ? zipMatch[0] : "");
+
+  const stateMatch = fullText.match(/\b([A-Z]{2})\s+\d{5}(?:-\d{4})?\b/i);
+  const province = stateMatch ? stateMatch[1].toUpperCase() : "";
+
+  return { address1, city, province, zip: parsedZip, country: "US" };
+}
 
 export default Checkout;
