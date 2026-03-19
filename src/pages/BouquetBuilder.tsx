@@ -949,7 +949,7 @@ const BouquetBuilder = () => {
                       await addItem({
                         id: "",
                         bouquetType: "classic",
-                        color: selectedColors.map(c => c.name).join(', '),
+                        color: selectedColors.map(c => c.nameEn).join(', '),
                         roses: rosesCount,
                         price: basePrice + lettersNumbersCost + (addCrown ? crownPrice : 0) + (addRibbon ? ribbonPrice : 0),
                         deliveryCost,
