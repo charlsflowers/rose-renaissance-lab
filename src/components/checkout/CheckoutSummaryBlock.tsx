@@ -202,7 +202,7 @@ const CheckoutSummaryBlock = ({
                 <PopoverContent className="w-auto p-0" align="start">
                   <Calendar
                     mode="single"
-                    selected={deliveryDate ? new Date(deliveryDate + "T00:00:00") : undefined}
+                    selected={parsedDate ?? undefined}
                     onSelect={(d) => {
                       if (d) {
                         setDeliveryDate(format(d, "yyyy-MM-dd"));
