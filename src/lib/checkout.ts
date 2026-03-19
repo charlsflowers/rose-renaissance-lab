@@ -79,8 +79,8 @@ export function buildCheckoutUrl(variantId?: string, options?: CheckoutDeliveryO
   }
 
   if (options?.deliveryMethod === "delivery" && options.deliveryCost && options.deliveryCost > 0) {
-    // Home Delivery: $1.00 base price × rounded quantity in dollars = delivery cost
-    const deliveryQty = Math.round(options.deliveryCost);
+    // Home Delivery: $0.10 base price × quantity = delivery cost (e.g. $31.20 → qty 312)
+    const deliveryQty = Math.round(options.deliveryCost * 10);
     lineItems.push(`${DELIVERY_FEE_VARIANT_NUMERIC_ID}:${deliveryQty}`);
   }
 
