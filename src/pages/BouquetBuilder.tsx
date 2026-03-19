@@ -972,7 +972,7 @@ const BouquetBuilder = () => {
                         deliveryEmail: "",
                         deliveryAddress: deliveryMethod === "delivery" ? selectedAddress : "Store pickup",
                         deliveryZip: deliveryMethod === "delivery" ? deliveryZip : "",
-                        deliveryDate: deliveryDate ? format(deliveryDate, "PPP", { locale: enUS }) : "",
+                        deliveryDate: deliveryDate ? format(deliveryDate, "yyyy-MM-dd") : "",
                         deliveryHour,
                         deliveryMiles: deliveryMethod === "delivery" ? deliveryMiles : null,
                         paperColor,
