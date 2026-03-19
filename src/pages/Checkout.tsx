@@ -61,8 +61,23 @@ const Checkout = () => {
 
       // 2. If home delivery, update buyer identity with shipping address
       if (checkoutDeliveryMethod === "delivery" && deliveryResult) {
-        const parsed = parseAddressForShopify(deliveryResult.address, existingDeliveryItem?.deliveryZip);
-        const identityResult = await updateCartBuyerIdentity(cartId, parsed);
+        const shippingAddress: ShippingAddress = deliveryResult.structuredAddress
+          ? {
+              address1: deliveryResult.structuredAddress.address1,
+              city: deliveryResult.structuredAddress.city,
+              province: deliveryResult.structuredAddress.province,
+              zip: deliveryResult.structuredAddress.zip,
+              country: deliveryResult.structuredAddress.country,
+            }
+          : {
+              // Fallback: use full address string as address1
+              address1: deliveryResult.address,
+              city: "",
+              province: "",
+              zip: "",
+              country: "US",
+            };
+        const identityResult = await updateCartBuyerIdentity(cartId, shippingAddress);
         if (!identityResult.success) {
           console.warn("Could not set shipping address on cart, proceeding anyway");
         }
