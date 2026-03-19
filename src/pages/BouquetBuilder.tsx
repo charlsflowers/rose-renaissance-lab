@@ -199,7 +199,9 @@ const BouquetBuilder = () => {
     const hours: string[] = [];
     for (let h = 8; h <= closeHour; h++) {
       if (isTodayInMiami(date) && h < minMiamiHour) continue;
-      hours.push(`${h.toString().padStart(2, "0")}:00`);
+      const ampm = h < 12 ? "AM" : "PM";
+      const h12 = h === 0 ? 12 : h > 12 ? h - 12 : h;
+      hours.push(`${h12}:00 ${ampm}`);
     }
     return hours;
   };
