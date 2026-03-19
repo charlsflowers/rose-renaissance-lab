@@ -6,7 +6,7 @@ import { fetchCartCheckoutUrl, updateCartBuyerIdentity, updateCartNote, addLineT
 import { buildAccessoryLineItems, DELIVERY_FEE_VARIANT_GID } from "@/lib/accessoryVariants";
 import Navbar from "@/components/Navbar";
 import DeliveryCalculator, { type DeliveryResult } from "@/components/DeliveryCalculator";
-import { Trash2, ArrowLeft, Truck, Store, Globe, ExternalLink, Loader2 } from "lucide-react";
+import { Trash2, ArrowLeft, Truck, Store, Globe, Loader2, CreditCard } from "lucide-react";
 import BrandLogo from "@/components/BrandLogo";
 import { motion } from "framer-motion";
 
