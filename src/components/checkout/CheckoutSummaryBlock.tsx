@@ -255,7 +255,7 @@ const CheckoutSummaryBlock = ({
         ) : (
           <div className="flex items-center gap-4 font-body text-sm">
             <span className="text-foreground">
-              📅 {format(new Date(deliveryDate + "T00:00:00"), "PPP", { locale: enUS })}
+              📅 {parsedDate ? format(parsedDate, "PPP", { locale: enUS }) : deliveryDate}
             </span>
             {deliveryHour && (
               <span className="text-foreground">
