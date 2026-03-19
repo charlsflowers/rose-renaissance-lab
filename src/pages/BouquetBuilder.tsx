@@ -433,14 +433,14 @@ const BouquetBuilder = () => {
             </Section>
 
             {/* 4. Accessories */}
-            <Section title="Accessories" step={5} subtitle="Free">
+            <Section title="Accessories" step={5}>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
                 {([
-                  { type: "none" as const, label: "No accessory", icon: null, img: null },
-                  { type: "note" as const, label: "Note", icon: Type, img: null },
-                  { type: "card" as const, label: "Card", icon: Sparkles, img: null },
-                  { type: "butterfly" as const, label: "Butterflies", icon: null, img: butterflyImg },
-                ] as const).map(({ type, label, icon: Icon, img }) => (
+                  { type: "none" as const, label: "No accessory", icon: null, img: null, price: null },
+                  { type: "note" as const, label: "Note", icon: Type, img: null, price: null },
+                  { type: "card" as const, label: "Card", icon: Sparkles, img: null, price: "$1" },
+                  { type: "butterfly" as const, label: "Butterflies", icon: null, img: butterflyImg, price: "$1" },
+                ] as const).map(({ type, label, icon: Icon, img, price }) => (
                   <button
                     key={type}
                     onClick={() => setAccessory(type)}
@@ -456,7 +456,7 @@ const BouquetBuilder = () => {
                       <Icon className="w-4 h-4" />
                     ) : null}
                     {label}
-                    <span className="text-xs text-secondary">Free</span>
+                    <span className="text-xs text-secondary">{price || "Free"}</span>
                   </button>
                 ))}
               </div>

@@ -443,14 +443,14 @@ const BouquetProductDetail = () => {
 
 
             {/* 4. Accessories */}
-            <Section title="Accessories" step={step++} subtitle="Free">
+            <Section title="Accessories" step={step++}>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
                 {([
-                  { type: "none" as const, label: "No accessory", icon: null, img: null },
-                  { type: "note" as const, label: "Note", icon: Type, img: null },
-                  { type: "card" as const, label: "Card", icon: Sparkles, img: null },
-                  { type: "butterfly" as const, label: "Butterflies", icon: null, img: butterflyImg },
-                ] as const).map(({ type: t, label, icon: Icon, img }) => (
+                  { type: "none" as const, label: "No accessory", icon: null, img: null, price: null },
+                  { type: "note" as const, label: "Note", icon: Type, img: null, price: null },
+                  { type: "card" as const, label: "Card", icon: Sparkles, img: null, price: "$1" },
+                  { type: "butterfly" as const, label: "Butterflies", icon: null, img: butterflyImg, price: "$1" },
+                ] as const).map(({ type: t, label, icon: Icon, img, price }) => (
                   <button key={t} onClick={() => setAccessory(t)}
                     className={`flex flex-col items-center gap-2 p-4 rounded-sm border-2 transition-all font-body text-sm ${accessory === t ? "border-primary bg-primary/5 text-primary" : "border-border text-muted-foreground hover:border-primary/30"}`}>
                     {img ? (
@@ -459,6 +459,7 @@ const BouquetProductDetail = () => {
                       <Icon className="w-4 h-4" />
                     ) : null}
                     {label}
+                    <span className="text-xs text-secondary">{price || "Free"}</span>
                   </button>
                 ))}
               </div>
