@@ -5,9 +5,9 @@ import { supabase } from "@/integrations/supabase/client";
 import { enUS } from "date-fns/locale";
 import { useCartStore } from "@/stores/cartStore";
 import { toast } from "sonner";
-import { buildCheckoutUrl, openCheckoutInNewTab } from "@/lib/checkout";
+import { fetchCartCheckoutUrl, updateCartBuyerIdentity, updateCartNote, addLineToShopifyCart, type ShippingAddress } from "@/lib/shopify";
 import { calculateDeliveryCost, formatDeliveryCost } from "@/lib/deliveryPricing";
-import { buildAccessoryLineItems, CUSTOM_BOUQUET_VARIANT_ID } from "@/lib/accessoryVariants";
+import { buildAccessoryLineItems, CUSTOM_BOUQUET_VARIANT_ID, DELIVERY_FEE_VARIANT_GID } from "@/lib/accessoryVariants";
 import { resolveCustomBouquetVariantId } from "@/lib/customBouquetVariants";
 
 import Navbar from "@/components/Navbar";
