@@ -40,6 +40,7 @@ import { Calendar } from "@/components/ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 
 const BouquetBuilder = () => {
+  const navigate = useNavigate();
   const addItem = useCartStore(state => state.addItem);
   const [selectedColors, setSelectedColors] = useState<ColorOption[]>([]);
   const [selectedSizeIdx, setSelectedSizeIdx] = useState(0);
