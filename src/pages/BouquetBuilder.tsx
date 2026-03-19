@@ -1,4 +1,5 @@
 import { useState, useMemo, useCallback, useRef, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { format, addHours, isBefore, startOfDay } from "date-fns";
 import { miamiHourNow, todayInMiami, isTodayInMiami } from "@/lib/miamiTime";
 import { supabase } from "@/integrations/supabase/client";
@@ -39,6 +40,7 @@ import { Calendar } from "@/components/ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 
 const BouquetBuilder = () => {
+  const navigate = useNavigate();
   const addItem = useCartStore(state => state.addItem);
   const [selectedColors, setSelectedColors] = useState<ColorOption[]>([]);
   const [selectedSizeIdx, setSelectedSizeIdx] = useState(0);
@@ -977,6 +979,7 @@ const BouquetBuilder = () => {
                         shopifyVariantId: customBouquetVariantGid,
                       });
                       toast.success("Bouquet added to cart!");
+                      navigate("/checkout");
                     } catch {
                       toast.error("Failed to add to cart.");
                     } finally {

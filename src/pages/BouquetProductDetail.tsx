@@ -1,5 +1,5 @@
 import { useState, useMemo, useCallback, useRef, useEffect } from "react";
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useNavigate } from "react-router-dom";
 import { format, addHours, isBefore, startOfDay } from "date-fns";
 import { miamiHourNow, todayInMiami, isTodayInMiami } from "@/lib/miamiTime";
 import { enUS } from "date-fns/locale";
@@ -30,6 +30,7 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 
 const BouquetProductDetail = () => {
   const { type, productId } = useParams<{ type: string; productId: string }>();
+  const navigate = useNavigate();
   const addItem = useCartStore(state => state.addItem);
   const product = bouquetProducts.find((b) => b.id === productId);
 
@@ -249,6 +250,7 @@ const BouquetProductDetail = () => {
         shopifyVariantId: variant.id,
       });
       toast.success("Bouquet added to cart!");
+      navigate("/checkout");
       return variant.id;
     } catch (error) {
       toast.error("Failed to add to cart.");
