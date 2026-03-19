@@ -8,6 +8,7 @@ import { toast } from "sonner";
 import { buildCheckoutUrl, openCheckoutInNewTab } from "@/lib/checkout";
 import { calculateDeliveryCost, formatDeliveryCost } from "@/lib/deliveryPricing";
 import { buildAccessoryLineItems, CUSTOM_BOUQUET_VARIANT_ID } from "@/lib/accessoryVariants";
+import { resolveCustomBouquetVariantId } from "@/lib/customBouquetVariants";
 
 import Navbar from "@/components/Navbar";
 import PaperColorPicker from "@/components/PaperColorPicker";
@@ -75,7 +76,7 @@ const BouquetBuilder = () => {
   const [mapUrl, setMapUrl] = useState("");
   const autocompleteRef = useRef<HTMLDivElement>(null);
   const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const [paperColor, setPaperColor] = useState("Blanco");
+  const [paperColor, setPaperColor] = useState("");
 
   const STORE_MAP_URL = `https://www.google.com/maps/embed/v1/place?key=&q=${encodeURIComponent("7261 NW 12th St, Miami, FL 33126")}`;
 
@@ -170,8 +171,11 @@ const BouquetBuilder = () => {
 
   const pricingTier = useMemo(() => determinePricingTier(selectedColors), [selectedColors]);
   
-  // Custom Bouquet uses a single $0.01 variant — no need to fetch tier-based variants
-  const customBouquetVariantGid = `gid://shopify/ProductVariant/${CUSTOM_BOUQUET_VARIANT_ID}`;
+  // Custom Bouquet: resolve variant dynamically based on selected colors + roses
+  const customBouquetVariantNumericId = useMemo(() => {
+    return resolveCustomBouquetVariantId(selectedColors, pricingTable[selectedSizeIdx].roses) || CUSTOM_BOUQUET_VARIANT_ID;
+  }, [selectedColors, selectedSizeIdx]);
+  const customBouquetVariantGid = `gid://shopify/ProductVariant/${customBouquetVariantNumericId}`;
   const variantsLoading = false;
 
   const minRoses = pricingTier === 'mix3red' ? 75 : 50;
@@ -292,8 +296,8 @@ const BouquetBuilder = () => {
             </div>
 
             {/* 1. Color */}
-            <Section title="Rose Color" step={1}>
-              <p className="text-xs text-muted-foreground font-body mb-4">Select up to 3 colors for your bouquet</p>
+            <Section title="Choose Your Bouquet Colors" step={1}>
+              <p className="text-xs text-muted-foreground font-body mb-4">Select up to 3 colors. Tap a selected color to remove it.</p>
               {colorCategories.map(({ key, label }) => {
                 const colors = colorOptions.filter((c) => c.category === key);
                 return (
@@ -308,11 +312,9 @@ const BouquetBuilder = () => {
                           <button
                             key={color.name}
                             onClick={() => {
-                              if (isSelected) {
-                                if (selectedColors.length > 1) {
-                                  setSelectedColors(prev => prev.filter(c => c.name !== color.name));
-                                }
-                              } else if (selectedColors.length < 3) {
+                          if (isSelected) {
+                            setSelectedColors(prev => prev.filter(c => c.name !== color.name));
+                          } else if (selectedColors.length < 3) {
                                 setSelectedColors(prev => [...prev, color]);
                               }
                             }}
@@ -340,7 +342,7 @@ const BouquetBuilder = () => {
                 );
               })}
               <p className="text-sm font-body text-muted-foreground">
-                Selected: <span className="text-foreground font-semibold">{selectedColors.map(c => c.name).join(', ')}</span>
+                Selected: <span className="text-foreground font-semibold">{selectedColors.length > 0 ? selectedColors.map(c => c.nameEn).join(', ') : 'None'}</span>
               </p>
             </Section>
 
@@ -470,8 +472,8 @@ const BouquetBuilder = () => {
             {/* 5. Letras o Números */}
             <Section title="Letters or Numbers (Baby Breath)" step={6} subtitle="Optional">
               <div className="flex flex-col md:flex-row gap-4 mb-4">
-                <div className="w-24 h-24 rounded-sm overflow-hidden border border-border flex-shrink-0 mx-auto md:mx-0">
-                  <img src={lettersImg} alt="Letters in Baby Breath example" className="w-full h-full object-cover" />
+                <div className="w-32 h-32 rounded-sm overflow-hidden flex-shrink-0 mx-auto md:mx-0">
+                  <img src={lettersImg} alt="Letters in Baby Breath example" className="w-full h-full object-contain" />
                 </div>
                 <div className="flex-1">
                   <p className="font-body font-semibold text-foreground mb-1">Add Letters or Numbers in Baby Breath</p>
@@ -638,9 +640,15 @@ const BouquetBuilder = () => {
                 <p className="text-sm text-muted-foreground font-body">
                   Generate an approximate image of how your bouquet will look with your chosen options.
                 </p>
+                {selectedColors.length === 0 && (
+                  <p className="text-sm text-destructive font-body">⚠ Please select at least one color before generating a preview.</p>
+                )}
+                {selectedColors.length > 0 && !paperColor && (
+                  <p className="text-sm text-destructive font-body">⚠ Please select a paper color before generating a preview.</p>
+                )}
                 <button
                   onClick={handleGeneratePreview}
-                  disabled={previewLoading || hasGeneratedPreview}
+                  disabled={previewLoading || hasGeneratedPreview || selectedColors.length === 0 || !paperColor}
                   className="inline-flex items-center gap-3 bg-primary text-primary-foreground px-6 py-3 font-body text-sm tracking-widest uppercase hover:bg-primary/90 transition-colors rounded-sm disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   {previewLoading ? (
@@ -891,9 +899,10 @@ const BouquetBuilder = () => {
               <div className="flex flex-col md:flex-row items-center justify-between gap-2 md:gap-4">
                 <div>
                   <p className="font-body text-[11px] md:text-sm text-muted-foreground leading-tight">
-                    {rosesCount} roses · {selectedColors.map(c => c.name).join(', ')}
+                    {rosesCount} roses · {selectedColors.length > 0 ? selectedColors.map(c => c.nameEn).join(', ') : 'No color'}
+                    {paperColor && ` · Paper: ${paperColor}`}
                     {specialText && ` · ${lettersNumbersType === "letters" ? "Letters" : "Numbers"}: ${specialText}`}
-                    {addCrown && " · Crown"}
+                    {addCrown && ` · Crown (${crownSize === "gold" ? "Gold" : "Silver"})`}
                     {addRibbon && " · Ribbon"}
                     {accessory !== "none" && ` · ${accessory === "note" ? "Note" : accessory === "card" ? "Card" : "Butterflies"}`}
                     {addGlitter && " · Glitter"}
@@ -940,7 +949,7 @@ const BouquetBuilder = () => {
                       await addItem({
                         id: "",
                         bouquetType: "classic",
-                        color: selectedColors.map(c => c.name).join(', '),
+                        color: selectedColors.map(c => c.nameEn).join(', '),
                         roses: rosesCount,
                         price: basePrice + lettersNumbersCost + (addCrown ? crownPrice : 0) + (addRibbon ? ribbonPrice : 0),
                         deliveryCost,
@@ -1012,7 +1021,7 @@ const BouquetBuilder = () => {
                       await addItem({
                         id: "",
                         bouquetType: "classic",
-                        color: selectedColors.map(c => c.name).join(', '),
+                        color: selectedColors.map(c => c.nameEn).join(', '),
                         roses: rosesCount,
                         price: basePrice + lettersNumbersCost + (addCrown ? crownPrice : 0) + (addRibbon ? ribbonPrice : 0),
                         deliveryCost,

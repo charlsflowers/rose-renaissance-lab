@@ -200,9 +200,18 @@ const BouquetProductDetail = () => {
     setIsAdding(true);
     try {
       console.log(`🛒 [BouquetProductDetail] Add to cart clicked — roses=${selectedSize.roses}, productVariants count=${productVariants.length}, handle="${product.shopifyHandle}"`);;
-      const variant = findVariantByRoses(productVariants, selectedSize.roses);
+      let variant = findVariantByRoses(productVariants, selectedSize.roses);
+      // Fallback: use first available variant if Roses option doesn't exist
+      if (!variant && productVariants.length > 0) {
+        const rosesStr = String(selectedSize.roses);
+        variant = productVariants.find(v =>
+          v.selectedOptions.some(opt => opt.value === rosesStr)
+        ) || productVariants.find(v =>
+          v.title.includes(rosesStr)
+        ) || productVariants[0];
+      }
       if (!variant) {
-        toast.error("Could not resolve product variant for the selected roses.");
+        toast.error("Could not resolve product variant. Please try again.");
         return null;
       }
 
@@ -532,7 +541,8 @@ const BouquetProductDetail = () => {
                   <p className="font-body text-[10px] text-muted-foreground leading-tight flex-1 line-clamp-1">
                     {product.name} · {selectedSize.roses} roses
                     {addGlitter && " · Glitter"}
-                    {accessory !== "none" && ` · ${accessory === "note" ? "Note" : "Card"}`}
+                    {addCrown && ` · Crown (${crownSize === "gold" ? "Gold" : "Silver"})`}
+                    {accessory !== "none" && ` · ${accessory === "note" ? "Note" : accessory === "card" ? "Card" : "Butterflies"}`}
                   </p>
                   <p className="font-display text-lg font-bold text-foreground whitespace-nowrap">
                     ${totalPrice}
@@ -544,7 +554,8 @@ const BouquetProductDetail = () => {
                   <p className="font-body text-xs text-muted-foreground leading-tight">
                     {product.name} · {selectedSize.roses} roses
                     {addGlitter && " · Glitter"}
-                    {accessory !== "none" && ` · ${accessory === "note" ? "Note" : "Card"}`}
+                    {addCrown && ` · Crown (${crownSize === "gold" ? "Gold" : "Silver"})`}
+                    {accessory !== "none" && ` · ${accessory === "note" ? "Note" : accessory === "card" ? "Card" : "Butterflies"}`}
                     {deliveryMethod === "delivery" ? (deliveryMiles && !distanceTooFar ? ` · Shipping ($${deliveryCost})` : " · Shipping (pending)") : " · Pickup"}
                   </p>
                 </div>
