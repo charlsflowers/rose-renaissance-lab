@@ -6,7 +6,7 @@ import { fetchCartCheckoutUrl, updateCartBuyerIdentity, updateCartNote, addLineT
 import { buildAccessoryLineItems, DELIVERY_FEE_VARIANT_GID } from "@/lib/accessoryVariants";
 import Navbar from "@/components/Navbar";
 import DeliveryCalculator, { type DeliveryResult } from "@/components/DeliveryCalculator";
-import { Trash2, ArrowLeft, Truck, Store, Globe, ExternalLink, Loader2 } from "lucide-react";
+import { Trash2, ArrowLeft, Truck, Store, Globe, Loader2, CreditCard } from "lucide-react";
 import BrandLogo from "@/components/BrandLogo";
 import { motion } from "framer-motion";
 
@@ -53,37 +53,48 @@ const Checkout = () => {
 
     setIsCheckingOut(true);
     try {
-      // 1. Add delivery fee line item if home delivery
+      // 1. Add delivery fee line item if home delivery (only if not already added)
       if (checkoutDeliveryMethod === "delivery" && deliveryCost > 0) {
         const deliveryQty = Math.round(deliveryCost * 100);
-        await addLineToShopifyCart(cartId, DELIVERY_FEE_VARIANT_GID, deliveryQty);
+        // Check if delivery fee line already exists in the Shopify cart
+        const existingDeliveryLine = items.find(
+          (i) => i.shopifyVariantId === DELIVERY_FEE_VARIANT_GID
+        );
+        if (!existingDeliveryLine) {
+          await addLineToShopifyCart(cartId, DELIVERY_FEE_VARIANT_GID, deliveryQty);
+        }
       }
 
       // 2. If home delivery, update buyer identity with shipping address
       if (checkoutDeliveryMethod === "delivery" && deliveryResult) {
+        console.log("📦 [Checkout] structuredAddress:", JSON.stringify(deliveryResult.structuredAddress));
+        console.log("📦 [Checkout] full deliveryResult:", JSON.stringify(deliveryResult));
+
         const shippingAddress: ShippingAddress = deliveryResult.structuredAddress
           ? {
               address1: deliveryResult.structuredAddress.address1,
               city: deliveryResult.structuredAddress.city,
               province: deliveryResult.structuredAddress.province,
               zip: deliveryResult.structuredAddress.zip,
-              country: deliveryResult.structuredAddress.country,
+              country: deliveryResult.structuredAddress.country || "US",
             }
           : {
-              // Fallback: use full address string as address1
               address1: deliveryResult.address,
               city: "",
               province: "",
               zip: "",
               country: "US",
             };
+
+        console.log("📦 [Checkout] Sending shippingAddress to Shopify:", JSON.stringify(shippingAddress));
         const identityResult = await updateCartBuyerIdentity(cartId, shippingAddress);
+        console.log("📦 [Checkout] buyerIdentityUpdate result:", JSON.stringify(identityResult));
         if (!identityResult.success) {
           console.warn("Could not set shipping address on cart, proceeding anyway");
         }
       }
 
-      // 3. Add order notes (delivery type, date, time)
+      // 3. Add order notes (delivery type, date, time) — internal only
       const itemWithDate = items.find((i) => i.deliveryDate);
       const itemWithHour = items.find((i) => i.deliveryHour);
       const noteLines: string[] = [];
@@ -95,7 +106,7 @@ const Checkout = () => {
       }
       await updateCartNote(cartId, noteLines.join("\n"));
 
-      // 4. Get fresh checkout URL and redirect
+      // 4. Get fresh checkout URL and redirect IN SAME TAB
       const freshUrl = await fetchCartCheckoutUrl(cartId);
       const finalUrl = freshUrl || checkoutUrl;
       
@@ -104,7 +115,7 @@ const Checkout = () => {
         return;
       }
 
-      window.open(finalUrl, '_blank');
+      window.location.href = finalUrl;
     } catch (error) {
       console.error("Checkout error:", error);
       toast.error("Error during checkout. Please try again.");
@@ -356,7 +367,7 @@ const Checkout = () => {
                     <Loader2 className="w-4 h-4 animate-spin" />
                   ) : (
                     <>
-                      <ExternalLink className="w-4 h-4" />
+                      <CreditCard className="w-4 h-4" />
                       Complete order
                     </>
                   )}
