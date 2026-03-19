@@ -250,6 +250,7 @@ const BouquetProductDetail = () => {
         shopifyVariantId: variant.id,
       });
       toast.success("Bouquet added to cart!");
+      navigate("/checkout");
       return variant.id;
     } catch (error) {
       toast.error("Failed to add to cart.");
