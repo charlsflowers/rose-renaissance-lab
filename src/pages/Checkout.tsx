@@ -22,7 +22,7 @@ const Checkout = () => {
   const navigate = useNavigate();
   const [isCheckingOut, setIsCheckingOut] = useState(false);
 
-  const itemsSubtotal = items.reduce((sum, i) => sum + i.price, 0);
+  const itemsSubtotal = items.reduce((sum, i) => sum + i.totalPrice, 0);
 
   // Pre-populate delivery info from cart items if already provided
   const existingDeliveryItem = items.find((i) => i.deliveryMethod === "delivery" && i.deliveryAddress && i.deliveryAddress !== "Store pickup");
