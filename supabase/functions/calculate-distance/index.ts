@@ -15,13 +15,64 @@ function calculateCost(miles: number): number {
   return Math.round((20 + (miles - 5) * 1.6) * 100) / 100;
 }
 
+interface StructuredAddress {
+  address1: string;
+  city: string;
+  province: string;
+  zip: string;
+  country: string;
+}
+
+async function fetchPlaceDetails(placeId: string, apiKey: string): Promise<StructuredAddress | null> {
+  try {
+    const url = new URL("https://maps.googleapis.com/maps/api/place/details/json");
+    url.searchParams.set("place_id", placeId);
+    url.searchParams.set("fields", "address_component");
+    url.searchParams.set("key", apiKey);
+
+    const response = await fetch(url.toString());
+    const data = await response.json();
+
+    if (data.status !== "OK" || !data.result?.address_components) {
+      console.error("Place Details error:", data.status);
+      return null;
+    }
+
+    const components = data.result.address_components as Array<{
+      long_name: string;
+      short_name: string;
+      types: string[];
+    }>;
+
+    const get = (type: string, useShort = false) => {
+      const comp = components.find((c) => c.types.includes(type));
+      return comp ? (useShort ? comp.short_name : comp.long_name) : "";
+    };
+
+    const streetNumber = get("street_number");
+    const route = get("route");
+    const address1 = [streetNumber, route].filter(Boolean).join(" ");
+
+    return {
+      address1,
+      city: get("locality") || get("sublocality") || get("administrative_area_level_2"),
+      province: get("administrative_area_level_1", true),
+      zip: get("postal_code"),
+      country: get("country", true),
+    };
+  } catch (err) {
+    console.error("Place Details fetch error:", err);
+    return null;
+  }
+}
+
 serve(async (req) => {
   if (req.method === "OPTIONS") {
     return new Response(null, { headers: corsHeaders });
   }
 
   try {
-    const { street, city, zip, fullAddress } = await req.json();
+    const { street, city, zip, fullAddress, placeId } = await req.json();
 
     // Accept either fullAddress or street+city combo
     const destination = fullAddress || (street && city ? `${street}, ${city}, FL ${zip || ""}`.trim() : null);
@@ -47,17 +98,20 @@ serve(async (req) => {
     url.searchParams.set("units", "imperial");
     url.searchParams.set("key", apiKey);
 
-    const response = await fetch(url.toString());
-    const data = await response.json();
+    // Fetch distance and place details in parallel
+    const [distanceResponse, structuredAddress] = await Promise.all([
+      fetch(url.toString()).then((r) => r.json()),
+      placeId ? fetchPlaceDetails(placeId, apiKey) : Promise.resolve(null),
+    ]);
 
-    if (data.status !== "OK") {
-      return new Response(JSON.stringify({ error: "Error de Google Maps API", details: data.status }), {
+    if (distanceResponse.status !== "OK") {
+      return new Response(JSON.stringify({ error: "Error de Google Maps API", details: distanceResponse.status }), {
         status: 502,
         headers: { ...corsHeaders, "Content-Type": "application/json" },
       });
     }
 
-    const element = data.rows?.[0]?.elements?.[0];
+    const element = distanceResponse.rows?.[0]?.elements?.[0];
 
     if (!element || element.status !== "OK") {
       return new Response(
@@ -98,6 +152,7 @@ serve(async (req) => {
         destination,
         tooFar: false,
         mapUrl,
+        structuredAddress: structuredAddress || null,
       }),
       { status: 200, headers: { ...corsHeaders, "Content-Type": "application/json" } },
     );
