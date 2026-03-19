@@ -640,9 +640,15 @@ const BouquetBuilder = () => {
                 <p className="text-sm text-muted-foreground font-body">
                   Generate an approximate image of how your bouquet will look with your chosen options.
                 </p>
+                {selectedColors.length === 0 && (
+                  <p className="text-sm text-destructive font-body">⚠ Please select at least one color before generating a preview.</p>
+                )}
+                {selectedColors.length > 0 && !paperColor && (
+                  <p className="text-sm text-destructive font-body">⚠ Please select a paper color before generating a preview.</p>
+                )}
                 <button
                   onClick={handleGeneratePreview}
-                  disabled={previewLoading || hasGeneratedPreview}
+                  disabled={previewLoading || hasGeneratedPreview || selectedColors.length === 0 || !paperColor}
                   className="inline-flex items-center gap-3 bg-primary text-primary-foreground px-6 py-3 font-body text-sm tracking-widest uppercase hover:bg-primary/90 transition-colors rounded-sm disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   {previewLoading ? (
