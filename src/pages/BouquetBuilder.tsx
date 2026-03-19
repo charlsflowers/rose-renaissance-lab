@@ -1072,7 +1072,7 @@ const BouquetBuilder = () => {
                       }
                       // Add delivery fee
                       if (deliveryMethod === "delivery" && deliveryCost > 0) {
-                        await addLineToShopifyCart(cartId, DELIVERY_FEE_VARIANT_GID, Math.round(deliveryCost * 100));
+                        await addLineToShopifyCart(cartId, DELIVERY_FEE_VARIANT_GID, Math.round(deliveryCost));
                       }
                       // Update shipping address
                       if (deliveryMethod === "delivery" && selectedAddress) {
