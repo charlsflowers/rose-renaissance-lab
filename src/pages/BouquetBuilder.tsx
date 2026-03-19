@@ -342,7 +342,7 @@ const BouquetBuilder = () => {
                 );
               })}
               <p className="text-sm font-body text-muted-foreground">
-                Selected: <span className="text-foreground font-semibold">{selectedColors.map(c => c.name).join(', ')}</span>
+                Selected: <span className="text-foreground font-semibold">{selectedColors.length > 0 ? selectedColors.map(c => c.nameEn).join(', ') : 'None'}</span>
               </p>
             </Section>
 
