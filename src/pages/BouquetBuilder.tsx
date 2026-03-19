@@ -472,8 +472,8 @@ const BouquetBuilder = () => {
             {/* 5. Letras o Números */}
             <Section title="Letters or Numbers (Baby Breath)" step={6} subtitle="Optional">
               <div className="flex flex-col md:flex-row gap-4 mb-4">
-                <div className="w-24 h-24 rounded-sm overflow-hidden border border-border flex-shrink-0 mx-auto md:mx-0">
-                  <img src={lettersImg} alt="Letters in Baby Breath example" className="w-full h-full object-cover" />
+                <div className="w-32 h-32 rounded-sm overflow-hidden flex-shrink-0 mx-auto md:mx-0">
+                  <img src={lettersImg} alt="Letters in Baby Breath example" className="w-full h-full object-contain" />
                 </div>
                 <div className="flex-1">
                   <p className="font-body font-semibold text-foreground mb-1">Add Letters or Numbers in Baby Breath</p>
