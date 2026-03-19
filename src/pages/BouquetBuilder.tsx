@@ -1049,6 +1049,13 @@ const BouquetBuilder = () => {
                         shopifyVariantId: customBouquetVariantGid,
                       });
                       toast.success("Bouquet added to cart!");
+                      const cartId = useCartStore.getState().cartId;
+                      const storedCheckoutUrl = useCartStore.getState().checkoutUrl;
+                      if (!cartId) {
+                        toast.error("Could not start checkout.");
+                        return;
+                      }
+                      // Add accessories
                       const accessories = buildAccessoryLineItems({
                         glitter: addGlitter,
                         rosesCount,
@@ -1060,21 +1067,39 @@ const BouquetBuilder = () => {
                         crownSize,
                         addRibbon,
                       });
-                      const checkoutUrl = buildCheckoutUrl(customBouquetVariantGid, {
-                        deliveryMethod,
-                        deliveryCost,
-                        deliveryAddress: selectedAddress,
-                        deliveryCity,
-                        deliveryZip,
-                        deliveryDate: deliveryDate ? format(deliveryDate, "PPP", { locale: enUS }) : undefined,
-                        deliveryTime: deliveryHour || undefined,
-                        accessories,
-                      });
-                      if (!checkoutUrl) {
-                        toast.error("Could not start Shopify checkout. Please try again.");
-                        return;
+                      for (const acc of accessories) {
+                        await addLineToShopifyCart(cartId, `gid://shopify/ProductVariant/${acc.variantId}`, acc.quantity);
                       }
-                      openCheckoutInNewTab(checkoutUrl);
+                      // Add delivery fee
+                      if (deliveryMethod === "delivery" && deliveryCost > 0) {
+                        await addLineToShopifyCart(cartId, DELIVERY_FEE_VARIANT_GID, Math.round(deliveryCost * 100));
+                      }
+                      // Update shipping address
+                      if (deliveryMethod === "delivery" && selectedAddress) {
+                        const parsed: ShippingAddress = {
+                          address1: deliveryStreet,
+                          city: deliveryCity,
+                          province: "",
+                          zip: deliveryZip,
+                          country: "US",
+                        };
+                        await updateCartBuyerIdentity(cartId, parsed);
+                      }
+                      // Add order notes
+                      const noteLines: string[] = [];
+                      noteLines.push(`Delivery type: ${deliveryMethod === "delivery" ? "Home Delivery" : "Store Pickup"}`);
+                      if (deliveryDate) noteLines.push(`Delivery date: ${format(deliveryDate, "PPP", { locale: enUS })}`);
+                      if (deliveryHour) noteLines.push(`Delivery time: ${deliveryHour}`);
+                      if (deliveryMethod === "delivery" && selectedAddress) noteLines.push(`Delivery address: ${selectedAddress}`);
+                      await updateCartNote(cartId, noteLines.join("\n"));
+                      // Get checkout URL and redirect
+                      const freshUrl = await fetchCartCheckoutUrl(cartId);
+                      const finalUrl = freshUrl || storedCheckoutUrl;
+                      if (finalUrl) {
+                        window.open(finalUrl, '_blank');
+                      } else {
+                        toast.error("Could not get checkout URL.");
+                      }
                     } catch {
                       toast.error("Failed to add to cart.");
                     } finally {
