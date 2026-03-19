@@ -541,7 +541,8 @@ const BouquetProductDetail = () => {
                   <p className="font-body text-[10px] text-muted-foreground leading-tight flex-1 line-clamp-1">
                     {product.name} · {selectedSize.roses} roses
                     {addGlitter && " · Glitter"}
-                    {accessory !== "none" && ` · ${accessory === "note" ? "Note" : "Card"}`}
+                    {addCrown && ` · Crown (${crownSize === "gold" ? "Gold" : "Silver"})`}
+                    {accessory !== "none" && ` · ${accessory === "note" ? "Note" : accessory === "card" ? "Card" : "Butterflies"}`}
                   </p>
                   <p className="font-display text-lg font-bold text-foreground whitespace-nowrap">
                     ${totalPrice}
