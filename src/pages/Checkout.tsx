@@ -55,8 +55,8 @@ const Checkout = () => {
     try {
       // 1. Add delivery fee line item if home delivery
       if (checkoutDeliveryMethod === "delivery" && deliveryCost > 0) {
-        const deliveryQty = Math.round(deliveryCost * 100);
-        console.log(`📦 [Checkout] Delivery fee: $${deliveryCost} → qty ${deliveryQty} (variant: ${DELIVERY_FEE_VARIANT_GID})`);
+        const deliveryQty = Math.round(deliveryCost);
+        console.log(`📦 [Checkout] Delivery fee: $${deliveryCost} → qty ${deliveryQty} × $1.00 = $${deliveryQty} (variant: ${DELIVERY_FEE_VARIANT_GID})`);
         // Always add fresh — the Shopify cart won't have it since we never add it to local items
         const deliveryResult = await addLineToShopifyCart(cartId, DELIVERY_FEE_VARIANT_GID, deliveryQty);
         console.log("📦 [Checkout] Delivery fee add result:", JSON.stringify(deliveryResult));
