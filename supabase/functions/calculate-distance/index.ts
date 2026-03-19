@@ -44,8 +44,12 @@ async function fetchPlaceDetails(placeId: string, apiKey: string): Promise<Struc
       types: string[];
     }>;
 
-    // Log raw components for debugging
-    console.log("📍 [PlaceDetails] Raw address_components:", JSON.stringify(components));
+    // Log FULL raw components array for debugging
+    console.log("📍 [PlaceDetails] === RAW address_components START ===");
+    for (const comp of components) {
+      console.log(`📍 [PlaceDetails] Component: types=${JSON.stringify(comp.types)}, long_name="${comp.long_name}", short_name="${comp.short_name}"`);
+    }
+    console.log("📍 [PlaceDetails] === RAW address_components END ===");
 
     const get = (type: string, useShort = false) => {
       const comp = components.find((c) => c.types.includes(type));

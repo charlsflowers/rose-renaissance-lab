@@ -53,15 +53,15 @@ const Checkout = () => {
 
     setIsCheckingOut(true);
     try {
-      // 1. Add delivery fee line item if home delivery (only if not already added)
+      // 1. Add delivery fee line item if home delivery
       if (checkoutDeliveryMethod === "delivery" && deliveryCost > 0) {
         const deliveryQty = Math.round(deliveryCost * 100);
-        // Check if delivery fee line already exists in the Shopify cart
-        const existingDeliveryLine = items.find(
-          (i) => i.shopifyVariantId === DELIVERY_FEE_VARIANT_GID
-        );
-        if (!existingDeliveryLine) {
-          await addLineToShopifyCart(cartId, DELIVERY_FEE_VARIANT_GID, deliveryQty);
+        console.log(`📦 [Checkout] Delivery fee: $${deliveryCost} → qty ${deliveryQty} (variant: ${DELIVERY_FEE_VARIANT_GID})`);
+        // Always add fresh — the Shopify cart won't have it since we never add it to local items
+        const deliveryResult = await addLineToShopifyCart(cartId, DELIVERY_FEE_VARIANT_GID, deliveryQty);
+        console.log("📦 [Checkout] Delivery fee add result:", JSON.stringify(deliveryResult));
+        if (!deliveryResult.success) {
+          console.error("Failed to add delivery fee to cart");
         }
       }
 
