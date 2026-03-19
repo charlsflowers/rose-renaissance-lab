@@ -76,23 +76,22 @@ export const useCartStore = create<CartStore>()(
         const localId = crypto.randomUUID();
         const newItem: CartItem = { ...item, id: localId, shopifyLineId: null };
 
-        // Build line item properties for Shopify
+        // Build line item properties for Shopify (prefixed with _ to hide from checkout UI)
         const lineAttributes: Array<{ key: string; value: string }> = [];
-        if (item.color) lineAttributes.push({ key: "Color del ramo", value: item.color });
-        if (item.roses) lineAttributes.push({ key: "Tamaño del ramo", value: `${item.roses} roses` });
-        if (item.paperColor) lineAttributes.push({ key: "Tipo de papel", value: item.paperColor });
-        lineAttributes.push({ key: "Acabado glitter", value: item.glitter ? "Sí" : "No" });
+        if (item.color) lineAttributes.push({ key: "_Color del ramo", value: item.color });
+        if (item.roses) lineAttributes.push({ key: "_Tamaño del ramo", value: `${item.roses} roses` });
+        if (item.paperColor) lineAttributes.push({ key: "_Tipo de papel", value: item.paperColor });
+        lineAttributes.push({ key: "_Acabado glitter", value: item.glitter ? "Sí" : "No" });
         if (item.accessory && item.accessory !== "none") {
           const accessoryLabel = item.accessory === "note" ? "Notas" : item.accessory === "card" ? "Cartas" : "Mariposas";
-          lineAttributes.push({ key: "Accesorio elegido", value: accessoryLabel });
+          lineAttributes.push({ key: "_Accesorio elegido", value: accessoryLabel });
         }
-        if (item.accessoryText) lineAttributes.push({ key: "Texto de la carta", value: item.accessoryText });
-        if (item.crownSize) lineAttributes.push({ key: "Crown", value: item.crownSize });
-        if (item.ribbonText) lineAttributes.push({ key: "Ribbon text", value: item.ribbonText });
-        if (item.specialText) lineAttributes.push({ key: "Letters or Numbers - Baby Breath", value: item.specialText });
-        // Note: Vase info is in addons array
+        if (item.accessoryText) lineAttributes.push({ key: "_Texto de la carta", value: item.accessoryText });
+        if (item.crownSize) lineAttributes.push({ key: "_Crown", value: item.crownSize });
+        if (item.ribbonText) lineAttributes.push({ key: "_Ribbon text", value: item.ribbonText });
+        if (item.specialText) lineAttributes.push({ key: "_Letters or Numbers - Baby Breath", value: item.specialText });
         const vaseAddon = item.addons?.find(a => a.startsWith("Vase"));
-        if (vaseAddon) lineAttributes.push({ key: "Jarrón elegido", value: vaseAddon });
+        if (vaseAddon) lineAttributes.push({ key: "_Jarrón elegido", value: vaseAddon });
 
         set({ isLoading: true });
         try {
