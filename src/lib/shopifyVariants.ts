@@ -76,11 +76,26 @@ export function findVariantByRoses(
   console.log("selectedRoses value:", selectedRoses, "| type:", typeof selectedRoses);
   console.log("Total variants to search:", variants.length);
 
-  const selectedVariant = variants.find((variant) =>
+  // First try matching by option named "Roses"
+  let selectedVariant = variants.find((variant) =>
     variant.selectedOptions.some(
       (opt) => opt.name === "Roses" && opt.value === selectedRoses
     )
   );
+
+  // Fallback: try matching by any option value equal to the roses count
+  if (!selectedVariant) {
+    selectedVariant = variants.find((variant) =>
+      variant.selectedOptions.some((opt) => opt.value === selectedRoses)
+    );
+  }
+
+  // Fallback: try matching by title containing the roses count
+  if (!selectedVariant) {
+    selectedVariant = variants.find((variant) =>
+      variant.title.includes(selectedRoses)
+    );
+  }
 
   if (selectedVariant) {
     console.log("✅ Match found:", JSON.stringify(selectedVariant, null, 2));

@@ -2,23 +2,24 @@ export type ColorCategory = 'natural' | 'painted';
 
 export interface ColorOption {
   name: string;
+  nameEn: string;
   hex: string;
   category: ColorCategory;
 }
 
 export const colorOptions: ColorOption[] = [
   // Natural
-  { name: 'Blanco', hex: '#FEFEFE', category: 'natural' },
-  { name: 'Hot Pink', hex: '#FF69B4', category: 'natural' },
-  { name: 'Pink', hex: '#FFB6C1', category: 'natural' },
-  { name: 'Amarillo', hex: '#F5D547', category: 'natural' },
-  { name: 'Naranja', hex: '#F0913A', category: 'natural' },
-  { name: 'Morado', hex: '#8B5EA0', category: 'natural' },
-  { name: 'Rojo', hex: '#C41E3A', category: 'natural' },
+  { name: 'Blanco', nameEn: 'White', hex: '#FEFEFE', category: 'natural' },
+  { name: 'Hot Pink', nameEn: 'Hot Pink', hex: '#FF69B4', category: 'natural' },
+  { name: 'Pink', nameEn: 'Pink', hex: '#FFB6C1', category: 'natural' },
+  { name: 'Amarillo', nameEn: 'Yellow', hex: '#F5D547', category: 'natural' },
+  { name: 'Naranja', nameEn: 'Orange', hex: '#F0913A', category: 'natural' },
+  { name: 'Morado', nameEn: 'Purple', hex: '#8B5EA0', category: 'natural' },
+  { name: 'Rojo', nameEn: 'Red', hex: '#C41E3A', category: 'natural' },
   // Painted
-  { name: 'Negro', hex: '#1A1A1A', category: 'painted' },
-  { name: 'Verde', hex: '#4CAF50', category: 'painted' },
-  { name: 'Azul', hex: '#3A6BC5', category: 'painted' },
+  { name: 'Negro', nameEn: 'Black', hex: '#1A1A1A', category: 'painted' },
+  { name: 'Verde', nameEn: 'Green', hex: '#4CAF50', category: 'painted' },
+  { name: 'Azul', nameEn: 'Blue', hex: '#3A6BC5', category: 'painted' },
 ];
 
 export type PricingTier = 'standard' | 'red' | 'painted' | 'mix2' | 'mix2painted' | 'mix3red';
