@@ -34,7 +34,7 @@ async function fetchPlaceDetails(placeId: string, apiKey: string): Promise<Struc
     const data = await response.json();
 
     if (data.status !== "OK" || !data.result?.address_components) {
-      console.error("Place Details error:", data.status);
+      console.error("Place Details error:", data.status, JSON.stringify(data));
       return null;
     }
 
@@ -44,8 +44,16 @@ async function fetchPlaceDetails(placeId: string, apiKey: string): Promise<Struc
       types: string[];
     }>;
 
+    // Log raw components for debugging
+    console.log("📍 [PlaceDetails] Raw address_components:", JSON.stringify(components));
+
     const get = (type: string, useShort = false) => {
       const comp = components.find((c) => c.types.includes(type));
+      if (comp) {
+        console.log(`📍 [PlaceDetails] Found ${type}: long_name="${comp.long_name}", short_name="${comp.short_name}", using ${useShort ? 'short' : 'long'}`);
+      } else {
+        console.log(`📍 [PlaceDetails] NOT FOUND: ${type}`);
+      }
       return comp ? (useShort ? comp.short_name : comp.long_name) : "";
     };
 
@@ -53,13 +61,15 @@ async function fetchPlaceDetails(placeId: string, apiKey: string): Promise<Struc
     const route = get("route");
     const address1 = [streetNumber, route].filter(Boolean).join(" ");
 
-    return {
-      address1,
-      city: get("locality") || get("sublocality") || get("administrative_area_level_2"),
-      province: get("administrative_area_level_1", true),
-      zip: get("postal_code"),
-      country: get("country", true),
-    };
+    const city = get("locality") || get("sublocality") || get("administrative_area_level_2");
+    const province = get("administrative_area_level_1", true);
+    const zip = get("postal_code");
+    const country = get("country", true);
+
+    const result = { address1, city, province, zip, country };
+    console.log("📍 [PlaceDetails] Final structuredAddress:", JSON.stringify(result));
+
+    return result;
   } catch (err) {
     console.error("Place Details fetch error:", err);
     return null;
