@@ -899,9 +899,10 @@ const BouquetBuilder = () => {
               <div className="flex flex-col md:flex-row items-center justify-between gap-2 md:gap-4">
                 <div>
                   <p className="font-body text-[11px] md:text-sm text-muted-foreground leading-tight">
-                    {rosesCount} roses · {selectedColors.map(c => c.name).join(', ')}
+                    {rosesCount} roses · {selectedColors.length > 0 ? selectedColors.map(c => c.nameEn).join(', ') : 'No color'}
+                    {paperColor && ` · Paper: ${paperColor}`}
                     {specialText && ` · ${lettersNumbersType === "letters" ? "Letters" : "Numbers"}: ${specialText}`}
-                    {addCrown && " · Crown"}
+                    {addCrown && ` · Crown (${crownSize === "gold" ? "Gold" : "Silver"})`}
                     {addRibbon && " · Ribbon"}
                     {accessory !== "none" && ` · ${accessory === "note" ? "Note" : accessory === "card" ? "Card" : "Butterflies"}`}
                     {addGlitter && " · Glitter"}
