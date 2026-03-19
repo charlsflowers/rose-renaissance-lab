@@ -367,7 +367,7 @@ const Checkout = () => {
                     <Loader2 className="w-4 h-4 animate-spin" />
                   ) : (
                     <>
-                      <ExternalLink className="w-4 h-4" />
+                      <CreditCard className="w-4 h-4" />
                       Complete order
                     </>
                   )}
