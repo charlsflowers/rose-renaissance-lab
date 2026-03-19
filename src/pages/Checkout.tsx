@@ -94,7 +94,8 @@ const Checkout = () => {
         }
       }
 
-      // 3. Add order notes (delivery type, date, time) — internal only
+      // 3. Add order notes with ALL product details + delivery info
+      // These are visible to the merchant in Shopify Admin but NOT shown to customer at checkout
       const itemWithDate = items.find((i) => i.deliveryDate);
       const itemWithHour = items.find((i) => i.deliveryHour);
       const noteLines: string[] = [];
@@ -104,6 +105,25 @@ const Checkout = () => {
       if (checkoutDeliveryMethod === "delivery" && deliveryResult) {
         noteLines.push(`Delivery address: ${deliveryResult.address}`);
       }
+      noteLines.push("---");
+      // Add per-item product details
+      items.forEach((item, idx) => {
+        noteLines.push(`[Item ${idx + 1}] ${item.bouquetType} Bouquet`);
+        if (item.color) noteLines.push(`  Color del ramo: ${item.color}`);
+        if (item.roses) noteLines.push(`  Tamaño del ramo: ${item.roses} roses`);
+        if (item.paperColor) noteLines.push(`  Tipo de papel: ${item.paperColor}`);
+        noteLines.push(`  Acabado glitter: ${item.glitter ? "Sí" : "No"}`);
+        if (item.accessory && item.accessory !== "none") {
+          const accLabel = item.accessory === "note" ? "Notas" : item.accessory === "card" ? "Cartas" : "Mariposas";
+          noteLines.push(`  Accesorio elegido: ${accLabel}`);
+        }
+        if (item.accessoryText) noteLines.push(`  Texto de la carta: ${item.accessoryText}`);
+        if (item.crownSize) noteLines.push(`  Crown: ${item.crownSize}`);
+        if (item.ribbonText) noteLines.push(`  Ribbon text: ${item.ribbonText}`);
+        if (item.specialText) noteLines.push(`  Letters or Numbers - Baby Breath: ${item.specialText}`);
+        const vaseAddon = item.addons?.find(a => a.startsWith("Vase"));
+        if (vaseAddon) noteLines.push(`  Jarrón elegido: ${vaseAddon}`);
+      });
       await updateCartNote(cartId, noteLines.join("\n"));
 
       // 4. Get fresh checkout URL and redirect IN SAME TAB
