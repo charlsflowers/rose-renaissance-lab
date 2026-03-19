@@ -221,7 +221,8 @@ const BouquetProductDetail = () => {
       const addons: string[] = [];
       if (addGlitter) addons.push("Glitter");
 
-      await addItem({
+      // Add to cart with a timeout to prevent hanging
+      const addPromise = addItem({
         id: "",
         bouquetType: product.type === "heart" ? "heart" : "classic",
         color: product.color,
@@ -249,6 +250,11 @@ const BouquetProductDetail = () => {
         paperColor,
         shopifyVariantId: variant.id,
       });
+
+      // Race between addItem and a 10s timeout — navigate either way
+      const timeout = new Promise<void>((resolve) => setTimeout(resolve, 10000));
+      await Promise.race([addPromise, timeout]);
+
       toast.success("Bouquet added to cart!");
       navigate("/checkout");
       return variant.id;
