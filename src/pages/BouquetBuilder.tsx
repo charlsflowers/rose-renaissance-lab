@@ -171,8 +171,11 @@ const BouquetBuilder = () => {
 
   const pricingTier = useMemo(() => determinePricingTier(selectedColors), [selectedColors]);
   
-  // Custom Bouquet uses a single $0.01 variant — no need to fetch tier-based variants
-  const customBouquetVariantGid = `gid://shopify/ProductVariant/${CUSTOM_BOUQUET_VARIANT_ID}`;
+  // Custom Bouquet: resolve variant dynamically based on selected colors + roses
+  const customBouquetVariantNumericId = useMemo(() => {
+    return resolveCustomBouquetVariantId(selectedColors, pricingTable[selectedSizeIdx].roses) || CUSTOM_BOUQUET_VARIANT_ID;
+  }, [selectedColors, selectedSizeIdx]);
+  const customBouquetVariantGid = `gid://shopify/ProductVariant/${customBouquetVariantNumericId}`;
   const variantsLoading = false;
 
   const minRoses = pricingTier === 'mix3red' ? 75 : 50;
