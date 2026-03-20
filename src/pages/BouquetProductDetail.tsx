@@ -595,9 +595,10 @@ const BouquetProductDetail = () => {
                     {addGlitter && " · Glitter"}
                     {addCrown && ` · Crown (${crownSize === "gold" ? "Gold" : "Silver"})`}
                     {accessory !== "none" && ` · ${accessory === "note" ? "Note" : accessory === "card" ? "Card" : "Butterflies"}`}
+                    {deliveryMethod === "delivery" ? (deliveryMiles && !distanceTooFar ? ` · Shipping ($${parseFloat(deliveryCost.toFixed(2))})` : " · Shipping (pending)") : " · Pickup"}
                   </p>
                   <p className="font-display text-lg font-bold text-foreground whitespace-nowrap">
-                    ${totalPrice}
+                    ${parseFloat(totalPrice.toFixed(2))}
                   </p>
                 </div>
 
