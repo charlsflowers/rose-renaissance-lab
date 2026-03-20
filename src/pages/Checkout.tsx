@@ -24,7 +24,7 @@ const Checkout = () => {
   const navigate = useNavigate();
   const [isCheckingOut, setIsCheckingOut] = useState(false);
 
-  const itemsSubtotal = items.reduce((sum, i) => sum + i.totalPrice, 0);
+  const itemsSubtotal = parseFloat(items.reduce((sum, i) => sum + i.totalPrice, 0).toFixed(2));
 
   // Pre-populate delivery info from cart items if already provided
   const existingDeliveryItem = items.find((i) => i.deliveryMethod === "delivery" && i.deliveryAddress && i.deliveryAddress !== "Store pickup");
@@ -185,28 +185,37 @@ const Checkout = () => {
           </div>
 
           <div className="max-w-3xl mx-auto space-y-6">
-            {items.map((item, idx) => (
-              <CheckoutOrderItem key={item.id} item={item} index={idx} onRemove={removeItem} />
-            ))}
+            {/* Single unified card */}
+            <div className="bg-card border-2 border-primary/30 rounded-sm">
+              {/* Order items inside the card */}
+              <div className="p-6 space-y-6">
+                {items.map((item, idx) => (
+                  <CheckoutOrderItem key={item.id} item={item} index={idx} onRemove={removeItem} />
+                ))}
+              </div>
 
-            {/* Unified summary block: delivery method + address + date/time + totals */}
-            <CheckoutSummaryBlock
-              itemCount={items.length}
-              itemsSubtotal={itemsSubtotal}
-              deliveryMethod={checkoutDeliveryMethod}
-              setDeliveryMethod={setCheckoutDeliveryMethod}
-              deliveryResult={deliveryResult}
-              setDeliveryResult={setDeliveryResult}
-              deliveryDate={deliveryDate}
-              setDeliveryDate={setDeliveryDate}
-              deliveryHour={deliveryHour}
-              setDeliveryHour={setDeliveryHour}
-              canCheckout={canCheckout}
-              isLoading={isLoading}
-              isSyncing={isSyncing}
-              isCheckingOut={isCheckingOut}
-              onCheckout={handleCheckout}
-            />
+              {/* Divider */}
+              <div className="border-t border-border" />
+
+              {/* Summary block: delivery method + address + date/time + totals */}
+              <CheckoutSummaryBlock
+                itemCount={items.length}
+                itemsSubtotal={itemsSubtotal}
+                deliveryMethod={checkoutDeliveryMethod}
+                setDeliveryMethod={setCheckoutDeliveryMethod}
+                deliveryResult={deliveryResult}
+                setDeliveryResult={setDeliveryResult}
+                deliveryDate={deliveryDate}
+                setDeliveryDate={setDeliveryDate}
+                deliveryHour={deliveryHour}
+                setDeliveryHour={setDeliveryHour}
+                canCheckout={canCheckout}
+                isLoading={isLoading}
+                isSyncing={isSyncing}
+                isCheckingOut={isCheckingOut}
+                onCheckout={handleCheckout}
+              />
+            </div>
 
             {/* Continue shopping */}
             <div className="text-center pt-4">

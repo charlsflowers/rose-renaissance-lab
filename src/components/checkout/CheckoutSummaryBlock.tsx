@@ -286,7 +286,7 @@ const CheckoutSummaryBlock = ({
                 </p>
               )}
               <p className="font-display text-3xl font-bold text-foreground">
-                ${grandTotal} <span className="text-sm font-body text-muted-foreground font-normal">USD</span>
+                ${parseFloat(grandTotal.toFixed(2))} <span className="text-sm font-body text-muted-foreground font-normal">USD</span>
               </p>
             </div>
           </div>

@@ -150,8 +150,8 @@ const CheckoutOrderItem = ({ item, index, onRemove }: Props) => {
       {/* Subtotal */}
       <div className="flex justify-end mt-4 pt-3 border-t border-border">
         <div className="text-right">
-          <p className="text-sm text-muted-foreground font-body">Subtotal</p>
-          <p className="font-display text-2xl font-bold text-foreground">${item.price}</p>
+          <p className="text-sm text-muted-foreground font-body">Item total</p>
+          <p className="font-display text-2xl font-bold text-foreground">${parseFloat(item.totalPrice.toFixed(2))}</p>
         </div>
       </div>
     </motion.div>
