@@ -128,6 +128,7 @@ const CategoryProductDetail = () => {
 
     addItem({
       id: "",
+      productName: product.name,
       bouquetType: `${slug}-${product.name}`,
       color: selectedSize.label,
       roses: 0,

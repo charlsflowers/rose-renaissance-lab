@@ -161,6 +161,7 @@ const ReviewUpsellDialog = ({ open, onOpenChange, cartData, productLabel, mode }
 
       const item: Omit<CartItem, 'shopifyLineId'> = {
         id: "",
+        productName: cartData.bouquetType + " Bouquet",
         bouquetType: cartData.bouquetType,
         color: cartData.color,
         roses: cartData.roses,

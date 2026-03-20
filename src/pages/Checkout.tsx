@@ -14,6 +14,18 @@ import { motion } from "framer-motion";
 import CheckoutOrderItem from "@/components/checkout/CheckoutOrderItem";
 import CheckoutSummaryBlock from "@/components/checkout/CheckoutSummaryBlock";
 
+function parseAddressFallback(address: string, zip?: string): ShippingAddress {
+  const parts = address.split(",").map((p) => p.trim()).filter(Boolean);
+  const address1 = parts[0] || "";
+  const city = parts[1] || "";
+  const fullText = [address, zip].filter(Boolean).join(" ");
+  const zipMatch = fullText.match(/\b\d{5}(?:-\d{4})?\b/);
+  const parsedZip = zip || (zipMatch ? zipMatch[0] : "");
+  const stateMatch = fullText.match(/\b([A-Z]{2})\s+\d{5}(?:-\d{4})?\b/i);
+  const province = stateMatch ? stateMatch[1].toUpperCase() : "";
+  return { address1, city, province, zip: parsedZip, country: "US" };
+}
+
 const Checkout = () => {
   const items = useCartStore((state) => state.items);
   const removeItem = useCartStore((state) => state.removeItem);

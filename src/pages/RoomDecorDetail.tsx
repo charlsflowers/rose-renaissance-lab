@@ -142,6 +142,7 @@ const RoomDecorDetail = () => {
 
       await addItem({
         id: "",
+        productName: pkg.name,
         bouquetType: `room-decor`,
         color: pkg.name,
         roses: pkg.bouquetIncluded?.roses || 0,

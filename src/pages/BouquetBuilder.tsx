@@ -954,6 +954,7 @@ const BouquetBuilder = () => {
 
                       await addItem({
                         id: "",
+                        productName: "Custom Bouquet",
                         bouquetType: "custom",
                         color: selectedColors.map(c => c.nameEn).join(', '),
                         roses: rosesCount,
