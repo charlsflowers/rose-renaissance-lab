@@ -180,7 +180,7 @@ const BouquetBuilder = () => {
   const customBouquetVariantGid = `gid://shopify/ProductVariant/${customBouquetVariantNumericId}`;
   const variantsLoading = false;
 
-  const minRoses = pricingTier === 'mix3red' ? 75 : 50;
+  const minRoses = selectedColors.length >= 3 ? 75 : 50;
 
   const lettersNumbersCost = specialText.length > 0 ? specialText.length * letterNumberExtraPrice : 0;
 
@@ -913,8 +913,8 @@ const BouquetBuilder = () => {
                     {addVase && ` · Vase (${vaseOptions[selectedVaseIdx].label})`}
                     {deliveryMethod === "delivery" ? (deliveryMiles && !distanceTooFar ? ` · Shipping ${deliveryMiles}mi ($${deliveryCost})` : " · Shipping (pending)") : " · Store pickup"}
                   </p>
-                  <p className="font-display text-2xl md:text-3xl font-bold text-foreground">
-                    ${totalPrice} <span className="text-xs md:text-sm font-body text-muted-foreground font-normal">USD</span>
+                  <p className="font-display text-2xl md:text-3xl font-bold text-foreground whitespace-nowrap">
+                    ${parseFloat(totalPrice.toFixed(2))} <span className="text-xs md:text-sm font-body text-muted-foreground font-normal">USD</span>
                   </p>
                 </div>
                 <button

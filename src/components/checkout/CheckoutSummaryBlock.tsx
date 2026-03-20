@@ -96,7 +96,7 @@ const CheckoutSummaryBlock = ({
   })();
 
   return (
-    <div className="bg-card border-2 border-primary/30 rounded-sm p-6 space-y-5">
+    <div className="p-6 space-y-5">
       {/* Delivery method selector */}
       <div>
         <p className="font-body font-semibold text-foreground text-sm mb-3">Delivery method</p>
@@ -286,7 +286,7 @@ const CheckoutSummaryBlock = ({
                 </p>
               )}
               <p className="font-display text-3xl font-bold text-foreground">
-                ${grandTotal} <span className="text-sm font-body text-muted-foreground font-normal">USD</span>
+                ${parseFloat(grandTotal.toFixed(2))} <span className="text-sm font-body text-muted-foreground font-normal">USD</span>
               </p>
             </div>
           </div>

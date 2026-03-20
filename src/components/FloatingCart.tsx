@@ -25,8 +25,8 @@ const FloatingCart = () => {
             <span className="text-sm font-semibold">
               {totalItems} {totalItems === 1 ? "item" : "items"}
             </span>
-            <span className="bg-primary-foreground/20 px-3 py-1 rounded-full text-sm font-bold">
-              ${cartTotal}
+            <span className="bg-primary-foreground/20 px-3 py-1 rounded-full text-sm font-bold whitespace-nowrap">
+              ${parseFloat(cartTotal.toFixed(2))}
             </span>
           </Link>
         </motion.div>
