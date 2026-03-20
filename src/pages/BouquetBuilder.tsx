@@ -226,9 +226,10 @@ const BouquetBuilder = () => {
     total += crownCost;
     total += ribbonCost;
     total += vaseCost;
+    total += accessoryCost;
     total += deliveryCost;
     return total;
-  }, [basePrice, lettersNumbersCost, glitterCost, crownCost, ribbonCost, vaseCost, deliveryCost]);
+  }, [basePrice, lettersNumbersCost, glitterCost, crownCost, ribbonCost, vaseCost, accessoryCost, deliveryCost]);
 
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const [previewLoading, setPreviewLoading] = useState(false);
