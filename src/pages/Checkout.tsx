@@ -131,11 +131,10 @@ const Checkout = () => {
         }
       }
 
-      // 4. Add order notes with ALL product details + delivery info
+      // 4. Build clean order notes — only fields the customer actively selected
       const noteLines: string[] = [];
       noteLines.push(`delivery_type: ${checkoutDeliveryMethod === "delivery" ? "Home Delivery" : "Store Pickup"}`);
       
-      // Format date for display but ensure it's never empty
       if (deliveryDate) {
         const dateObj = /^\d{4}-\d{2}-\d{2}$/.test(deliveryDate)
           ? new Date(deliveryDate + "T00:00:00")
@@ -145,25 +144,26 @@ const Checkout = () => {
           : deliveryDate;
         noteLines.push(`delivery_date: ${formattedDate}`);
       }
-      noteLines.push(`delivery_time: ${deliveryHour || "No especificada"}`);
+      if (deliveryHour) noteLines.push(`delivery_time: ${deliveryHour}`);
       if (checkoutDeliveryMethod === "delivery" && deliveryResult) {
         noteLines.push(`Delivery address: ${deliveryResult.address}`);
       }
-      noteLines.push("---");
+
       items.forEach((item, idx) => {
+        noteLines.push("---");
         noteLines.push(`[Item ${idx + 1}] ${item.productName || item.bouquetType} Bouquet`);
-        if (item.color) noteLines.push(`  Bouquet color: ${item.color}`);
-        if (item.roses) noteLines.push(`  Bouquet size: ${item.roses} roses`);
-        if (item.paperColor) noteLines.push(`  Paper type: ${item.paperColor}`);
-        noteLines.push(`  Glitter finish: ${item.glitter ? "Yes" : "No"}`);
+        if (item.color) noteLines.push(`  Color: ${item.color}`);
+        if (item.roses) noteLines.push(`  Roses: ${item.roses}`);
+        if (item.paperColor) noteLines.push(`  Paper: ${item.paperColor}`);
+        if (item.glitter) noteLines.push(`  Glitter: Yes`);
         if (item.accessory && item.accessory !== "none") {
           const accLabel = item.accessory === "note" ? "Notes" : item.accessory === "card" ? "Card" : "Butterflies";
           noteLines.push(`  Accessory: ${accLabel}`);
         }
-        if (item.accessoryText) noteLines.push(`  Card text: ${item.accessoryText}`);
+        if (item.accessoryText) noteLines.push(`  Card/Note text: ${item.accessoryText}`);
         if (item.crownSize) noteLines.push(`  Crown: ${item.crownSize}`);
-        if (item.ribbonText) noteLines.push(`  Ribbon text: ${item.ribbonText}`);
-        if (item.specialText) noteLines.push(`  Letters or Numbers - Baby Breath: ${item.specialText}`);
+        if (item.ribbonText) noteLines.push(`  Ribbon: ${item.ribbonText}`);
+        if (item.specialText) noteLines.push(`  Baby Breath Letters/Numbers: ${item.specialText}`);
         const vaseAddon = item.addons?.find(a => a.startsWith("Vase"));
         if (vaseAddon) noteLines.push(`  Vase: ${vaseAddon}`);
       });
