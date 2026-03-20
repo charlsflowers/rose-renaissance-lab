@@ -179,7 +179,7 @@ const VideoOrderDialog = ({ video, open, onOpenChange }: Props) => {
 
       const item: Omit<CartItem, 'shopifyLineId'> = {
         id: "",
-        productName: video.name || "Round Bouquet",
+        productName: "Video Bouquet",
         bouquetType: "round",
         color: video.color,
         roses: video.roses,
