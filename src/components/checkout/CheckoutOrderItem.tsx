@@ -12,6 +12,7 @@ interface Props {
 function bouquetLabel(type: string) {
   switch (type) {
     case "classic": return "Classic";
+    case "custom": return "Custom";
     case "heart": return "Heart";
     case "letters": return "With Letters";
     case "round": return "Round";

@@ -156,7 +156,7 @@ const Checkout = () => {
       });
       await updateCartNote(cartId, noteLines.join("\n"));
 
-      // 4. Get fresh checkout URL and redirect
+      // 5. Get fresh checkout URL and redirect
       const freshUrl = await fetchCartCheckoutUrl(cartId);
       const finalUrl = freshUrl || checkoutUrl;
 
