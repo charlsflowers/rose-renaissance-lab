@@ -95,22 +95,23 @@ const Checkout = () => {
       }
 
       // 3. If home delivery, update buyer identity with shipping address
-      if (checkoutDeliveryMethod === "delivery" && deliveryResult) {
-        const shippingAddress: ShippingAddress = deliveryResult.structuredAddress
+      if (checkoutDeliveryMethod === "delivery") {
+        // Try structured address from DeliveryCalculator result first, then from cart item
+        const itemStructured = items[0]?.structuredAddress;
+        const resultStructured = deliveryResult?.structuredAddress;
+        const structured = resultStructured || itemStructured;
+
+        const shippingAddress: ShippingAddress = structured
           ? {
-              address1: deliveryResult.structuredAddress.address1,
-              city: deliveryResult.structuredAddress.city,
-              province: deliveryResult.structuredAddress.province,
-              zip: deliveryResult.structuredAddress.zip,
-              country: deliveryResult.structuredAddress.country || "US",
+              address1: structured.address1,
+              city: structured.city,
+              province: structured.province,
+              zip: structured.zip,
+              country: structured.country || "US",
             }
-          : {
-              address1: deliveryResult.address,
-              city: "",
-              province: "",
-              zip: "",
-              country: "US",
-            };
+          : deliveryResult
+            ? parseAddressFallback(deliveryResult.address, items[0]?.deliveryZip)
+            : parseAddressFallback(items[0]?.deliveryAddress || "", items[0]?.deliveryZip);
 
         const identityResult = await updateCartBuyerIdentity(cartId, shippingAddress);
         if (!identityResult.success) {
