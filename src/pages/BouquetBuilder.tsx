@@ -218,6 +218,7 @@ const BouquetBuilder = () => {
 
   const crownCost = addCrown ? crownPrice : 0;
   const ribbonCost = addRibbon ? ribbonPrice : 0;
+  const accessoryCost = accessory === "card" ? 1 : accessory === "butterfly" ? 1 : 0;
 
   const totalPrice = useMemo(() => {
     let total = basePrice + lettersNumbersCost;
@@ -225,9 +226,10 @@ const BouquetBuilder = () => {
     total += crownCost;
     total += ribbonCost;
     total += vaseCost;
+    total += accessoryCost;
     total += deliveryCost;
     return total;
-  }, [basePrice, lettersNumbersCost, glitterCost, crownCost, ribbonCost, vaseCost, deliveryCost]);
+  }, [basePrice, lettersNumbersCost, glitterCost, crownCost, ribbonCost, vaseCost, accessoryCost, deliveryCost]);
 
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const [previewLoading, setPreviewLoading] = useState(false);
@@ -952,10 +954,10 @@ const BouquetBuilder = () => {
 
                       await addItem({
                         id: "",
-                        bouquetType: "classic",
+                        bouquetType: "custom",
                         color: selectedColors.map(c => c.nameEn).join(', '),
                         roses: rosesCount,
-                        price: basePrice + lettersNumbersCost + (addCrown ? crownPrice : 0) + (addRibbon ? ribbonPrice : 0),
+                        price: basePrice + lettersNumbersCost + crownCost + ribbonCost + glitterCost + vaseCost + accessoryCost,
                         deliveryCost,
                         totalPrice,
                         addons,
@@ -1025,10 +1027,10 @@ const BouquetBuilder = () => {
 
                       await addItem({
                         id: "",
-                        bouquetType: "classic",
+                        bouquetType: "custom",
                         color: selectedColors.map(c => c.nameEn).join(', '),
                         roses: rosesCount,
-                        price: basePrice + lettersNumbersCost + (addCrown ? crownPrice : 0) + (addRibbon ? ribbonPrice : 0),
+                        price: basePrice + lettersNumbersCost + crownCost + ribbonCost + glitterCost + vaseCost + accessoryCost,
                         deliveryCost,
                         totalPrice,
                         addons,

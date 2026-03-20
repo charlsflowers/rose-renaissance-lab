@@ -184,13 +184,14 @@ const BouquetProductDetail = () => {
   const numbersExtra = addNumbers ? specialText.replace(/[^0-9]/g, "").length * letterNumberExtraPrice : 0;
   const glitterCost = addGlitter ? Math.ceil(selectedSize.roses / 25) * 8 : 0;
   const vaseCost = addVase ? vaseOptions[selectedVaseIdx].price : 0;
+  const accessoryCost = accessory === "card" ? 1 : accessory === "butterfly" ? 1 : 0;
   const deliveryCost = deliveryMethod === "delivery" && deliveryMiles && !distanceTooFar ? calculateDeliveryCost(deliveryMiles) : 0;
-  const basePrice = sizePrice + (addCrown ? crownPrice : 0) + (addRibbon ? ribbonPrice : 0) + lettersExtra + numbersExtra + glitterCost + vaseCost;
+  const basePrice = sizePrice + (addCrown ? crownPrice : 0) + (addRibbon ? ribbonPrice : 0) + lettersExtra + numbersExtra + glitterCost + vaseCost + accessoryCost;
   const totalPrice = basePrice + deliveryCost;
 
   let step = 1;
 
-  const handleAddToCart = async (): Promise<string | null> => {
+  const handleAddToCart = async (skipNavigate = false): Promise<string | null> => {
     if (deliveryMethod === "delivery" && !selectedAddress) { toast.error("Please select a delivery address."); return null; }
     if (deliveryMethod === "delivery" && (distanceTooFar || deliveryMiles === null)) { toast.error("The address is invalid or out of range."); return null; }
     if (!deliveryDate || !deliveryHour) { toast.error("Please select a date and time."); return null; }
@@ -220,6 +221,7 @@ const BouquetProductDetail = () => {
 
       const addons: string[] = [];
       if (addGlitter) addons.push("Glitter");
+      if (addVase) addons.push(`Vase (${vaseOptions[selectedVaseIdx].label})`);
 
       // Add to cart with a timeout to prevent hanging
       const addPromise = addItem({
@@ -256,24 +258,28 @@ const BouquetProductDetail = () => {
       await Promise.race([addPromise, timeout]);
 
       toast.success("Bouquet added to cart!");
-      navigate("/checkout");
+      if (!skipNavigate) navigate("/checkout");
       return variant.id;
     } catch (error) {
       toast.error("Failed to add to cart.");
       return null;
     } finally {
-      setIsAdding(false);
+      if (!skipNavigate) setIsAdding(false);
     }
   };
 
   const handlePayNow = async () => {
-    const variantId = await handleAddToCart();
-    if (!variantId) return;
+    const variantId = await handleAddToCart(true); // skip navigate to /checkout
+    if (!variantId) {
+      setIsAdding(false);
+      return;
+    }
 
     const cartId = useCartStore.getState().cartId;
     const storedCheckoutUrl = useCartStore.getState().checkoutUrl;
     if (!cartId) {
       toast.error("Could not start checkout. Please try again.");
+      setIsAdding(false);
       return;
     }
 
@@ -283,11 +289,12 @@ const BouquetProductDetail = () => {
         glitter: addGlitter,
         rosesCount: selectedSize.roses,
         accessory,
-        specialText: "",
-        addVase: false,
-        addCrown: false,
-        crownSize: "",
-        addRibbon: false,
+        specialText,
+        addVase,
+        vaseRoses: addVase ? vaseOptions[selectedVaseIdx].roses : undefined,
+        addCrown,
+        crownSize,
+        addRibbon,
       });
       for (const acc of accessories) {
         await addLineToShopifyCart(cartId, `gid://shopify/ProductVariant/${acc.variantId}`, acc.quantity);
@@ -306,10 +313,17 @@ const BouquetProductDetail = () => {
 
       // Add order notes
       const noteLines: string[] = [];
-      noteLines.push(`Delivery type: ${deliveryMethod === "delivery" ? "Home Delivery" : "Store Pickup"}`);
-      if (deliveryDate) noteLines.push(`Delivery date: ${format(deliveryDate, "PPP", { locale: enUS })}`);
-      if (deliveryHour) noteLines.push(`Delivery time: ${deliveryHour}`);
+      noteLines.push(`delivery_type: ${deliveryMethod === "delivery" ? "Home Delivery" : "Store Pickup"}`);
+      if (deliveryDate) noteLines.push(`delivery_date: ${format(deliveryDate, "PPP", { locale: enUS })}`);
+      noteLines.push(`delivery_time: ${deliveryHour || "No especificada"}`);
       if (deliveryMethod === "delivery" && selectedAddress) noteLines.push(`Delivery address: ${selectedAddress}`);
+      noteLines.push("---");
+      noteLines.push(`[Item 1] ${product.type === "heart" ? "Heart" : "Classic"} Bouquet`);
+      noteLines.push(`  Color: ${product.color}`);
+      noteLines.push(`  Roses: ${selectedSize.roses}`);
+      noteLines.push(`  Glitter: ${addGlitter ? "Yes" : "No"}`);
+      if (accessory !== "none") noteLines.push(`  Accessory: ${accessory}`);
+      if (accessoryText) noteLines.push(`  Card text: ${accessoryText}`);
       await updateCartNote(cartId, noteLines.join("\n"));
 
       const freshUrl = await fetchCartCheckoutUrl(cartId);
@@ -322,6 +336,8 @@ const BouquetProductDetail = () => {
     } catch (error) {
       console.error("Pay now error:", error);
       toast.error("Checkout error. Please try again.");
+    } finally {
+      setIsAdding(false);
     }
   };
 
@@ -619,7 +635,7 @@ const BouquetProductDetail = () => {
                     ${parseFloat(totalPrice.toFixed(2))} <span className="text-xs font-body text-muted-foreground font-normal">USD</span>
                   </p>
                   <div className="flex w-full md:w-auto gap-2">
-                    <button onClick={handleAddToCart} disabled={isAdding || variantsLoading}
+                    <button onClick={() => handleAddToCart()} disabled={isAdding || variantsLoading}
                       className="flex-1 md:flex-none bg-primary text-primary-foreground px-4 md:px-6 py-2.5 md:py-3 font-body text-[10px] md:text-xs tracking-widest uppercase hover:bg-primary/90 transition-colors rounded-sm disabled:opacity-50">
                       {isAdding ? "Adding..." : variantsLoading ? "Loading..." : "Add to cart"}
                     </button>
