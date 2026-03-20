@@ -1027,10 +1027,10 @@ const BouquetBuilder = () => {
 
                       await addItem({
                         id: "",
-                        bouquetType: "classic",
+                        bouquetType: "custom",
                         color: selectedColors.map(c => c.nameEn).join(', '),
                         roses: rosesCount,
-                        price: basePrice + lettersNumbersCost + (addCrown ? crownPrice : 0) + (addRibbon ? ribbonPrice : 0),
+                        price: basePrice + lettersNumbersCost + crownCost + ribbonCost + glitterCost + vaseCost + accessoryCost,
                         deliveryCost,
                         totalPrice,
                         addons,
