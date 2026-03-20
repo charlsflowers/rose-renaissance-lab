@@ -180,7 +180,7 @@ const BouquetBuilder = () => {
   const customBouquetVariantGid = `gid://shopify/ProductVariant/${customBouquetVariantNumericId}`;
   const variantsLoading = false;
 
-  const minRoses = pricingTier === 'mix3red' ? 75 : 50;
+  const minRoses = selectedColors.length >= 3 ? 75 : 50;
 
   const lettersNumbersCost = specialText.length > 0 ? specialText.length * letterNumberExtraPrice : 0;
 
