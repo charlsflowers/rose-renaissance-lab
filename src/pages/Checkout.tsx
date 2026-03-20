@@ -94,7 +94,7 @@ const Checkout = () => {
         }
       }
 
-      // 2. If home delivery, update buyer identity with shipping address
+      // 3. If home delivery, update buyer identity with shipping address
       if (checkoutDeliveryMethod === "delivery" && deliveryResult) {
         const shippingAddress: ShippingAddress = deliveryResult.structuredAddress
           ? {
