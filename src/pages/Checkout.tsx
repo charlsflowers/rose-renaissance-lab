@@ -62,7 +62,28 @@ const Checkout = () => {
 
     setIsCheckingOut(true);
     try {
-      // 1. Add delivery fee line item if home delivery
+      // 1. Add accessory line items for each cart item
+      for (const item of items) {
+        const vaseAddon = item.addons?.find(a => a.startsWith("Vase"));
+        const vaseRosesMatch = vaseAddon?.match(/\((\d+)/);
+        const accessories = buildAccessoryLineItems({
+          glitter: item.glitter,
+          rosesCount: item.roses,
+          accessory: item.accessory,
+          specialText: item.specialText,
+          addVase: !!vaseAddon,
+          vaseRoses: vaseRosesMatch ? parseInt(vaseRosesMatch[1]) : undefined,
+          addCrown: !!item.crownSize,
+          crownSize: item.crownSize,
+          addRibbon: !!item.ribbonText,
+        });
+        for (const acc of accessories) {
+          console.log(`📦 [Checkout] Adding accessory: variant=${acc.variantId}, qty=${acc.quantity}`);
+          await addLineToShopifyCart(cartId, `gid://shopify/ProductVariant/${acc.variantId}`, acc.quantity);
+        }
+      }
+
+      // 2. Add delivery fee line item if home delivery
       if (checkoutDeliveryMethod === "delivery" && deliveryCost > 0) {
         const deliveryQty = Math.round(deliveryCost * 10);
         console.log(`📦 [Checkout] Delivery fee: $${deliveryCost} → qty ${deliveryQty} × $0.10 = $${(deliveryQty * 0.1).toFixed(2)} (variant: ${DELIVERY_FEE_VARIANT_GID})`);
