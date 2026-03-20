@@ -96,7 +96,7 @@ const CheckoutSummaryBlock = ({
   })();
 
   return (
-    <div className="bg-card border-2 border-primary/30 rounded-sm p-6 space-y-5">
+    <div className="p-6 space-y-5">
       {/* Delivery method selector */}
       <div>
         <p className="font-body font-semibold text-foreground text-sm mb-3">Delivery method</p>
