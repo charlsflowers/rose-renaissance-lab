@@ -10,6 +10,7 @@ import {
 export interface CartItem {
   // Local display data
   id: string;
+  productName: string;
   bouquetType: string;
   color: string;
   roses: number;
@@ -35,6 +36,13 @@ export interface CartItem {
   deliveryMiles: number | null;
   paperColor: string;
   image?: string;
+  structuredAddress?: {
+    address1: string;
+    city: string;
+    province: string;
+    zip: string;
+    country: string;
+  };
   // Shopify-specific
   shopifyVariantId: string;
   shopifyLineId: string | null;

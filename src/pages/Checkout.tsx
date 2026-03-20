@@ -14,6 +14,18 @@ import { motion } from "framer-motion";
 import CheckoutOrderItem from "@/components/checkout/CheckoutOrderItem";
 import CheckoutSummaryBlock from "@/components/checkout/CheckoutSummaryBlock";
 
+function parseAddressFallback(address: string, zip?: string): ShippingAddress {
+  const parts = address.split(",").map((p) => p.trim()).filter(Boolean);
+  const address1 = parts[0] || "";
+  const city = parts[1] || "";
+  const fullText = [address, zip].filter(Boolean).join(" ");
+  const zipMatch = fullText.match(/\b\d{5}(?:-\d{4})?\b/);
+  const parsedZip = zip || (zipMatch ? zipMatch[0] : "");
+  const stateMatch = fullText.match(/\b([A-Z]{2})\s+\d{5}(?:-\d{4})?\b/i);
+  const province = stateMatch ? stateMatch[1].toUpperCase() : "";
+  return { address1, city, province, zip: parsedZip, country: "US" };
+}
+
 const Checkout = () => {
   const items = useCartStore((state) => state.items);
   const removeItem = useCartStore((state) => state.removeItem);
@@ -95,22 +107,23 @@ const Checkout = () => {
       }
 
       // 3. If home delivery, update buyer identity with shipping address
-      if (checkoutDeliveryMethod === "delivery" && deliveryResult) {
-        const shippingAddress: ShippingAddress = deliveryResult.structuredAddress
+      if (checkoutDeliveryMethod === "delivery") {
+        // Try structured address from DeliveryCalculator result first, then from cart item
+        const itemStructured = items[0]?.structuredAddress;
+        const resultStructured = deliveryResult?.structuredAddress;
+        const structured = resultStructured || itemStructured;
+
+        const shippingAddress: ShippingAddress = structured
           ? {
-              address1: deliveryResult.structuredAddress.address1,
-              city: deliveryResult.structuredAddress.city,
-              province: deliveryResult.structuredAddress.province,
-              zip: deliveryResult.structuredAddress.zip,
-              country: deliveryResult.structuredAddress.country || "US",
+              address1: structured.address1,
+              city: structured.city,
+              province: structured.province,
+              zip: structured.zip,
+              country: structured.country || "US",
             }
-          : {
-              address1: deliveryResult.address,
-              city: "",
-              province: "",
-              zip: "",
-              country: "US",
-            };
+          : deliveryResult
+            ? parseAddressFallback(deliveryResult.address, items[0]?.deliveryZip)
+            : parseAddressFallback(items[0]?.deliveryAddress || "", items[0]?.deliveryZip);
 
         const identityResult = await updateCartBuyerIdentity(cartId, shippingAddress);
         if (!identityResult.success) {
@@ -138,21 +151,21 @@ const Checkout = () => {
       }
       noteLines.push("---");
       items.forEach((item, idx) => {
-        noteLines.push(`[Item ${idx + 1}] ${item.bouquetType} Bouquet`);
-        if (item.color) noteLines.push(`  Color del ramo: ${item.color}`);
-        if (item.roses) noteLines.push(`  Tamaño del ramo: ${item.roses} roses`);
-        if (item.paperColor) noteLines.push(`  Tipo de papel: ${item.paperColor}`);
-        noteLines.push(`  Acabado glitter: ${item.glitter ? "Sí" : "No"}`);
+        noteLines.push(`[Item ${idx + 1}] ${item.productName || item.bouquetType} Bouquet`);
+        if (item.color) noteLines.push(`  Bouquet color: ${item.color}`);
+        if (item.roses) noteLines.push(`  Bouquet size: ${item.roses} roses`);
+        if (item.paperColor) noteLines.push(`  Paper type: ${item.paperColor}`);
+        noteLines.push(`  Glitter finish: ${item.glitter ? "Yes" : "No"}`);
         if (item.accessory && item.accessory !== "none") {
-          const accLabel = item.accessory === "note" ? "Notas" : item.accessory === "card" ? "Cartas" : "Mariposas";
-          noteLines.push(`  Accesorio elegido: ${accLabel}`);
+          const accLabel = item.accessory === "note" ? "Notes" : item.accessory === "card" ? "Card" : "Butterflies";
+          noteLines.push(`  Accessory: ${accLabel}`);
         }
-        if (item.accessoryText) noteLines.push(`  Texto de la carta: ${item.accessoryText}`);
+        if (item.accessoryText) noteLines.push(`  Card text: ${item.accessoryText}`);
         if (item.crownSize) noteLines.push(`  Crown: ${item.crownSize}`);
         if (item.ribbonText) noteLines.push(`  Ribbon text: ${item.ribbonText}`);
         if (item.specialText) noteLines.push(`  Letters or Numbers - Baby Breath: ${item.specialText}`);
         const vaseAddon = item.addons?.find(a => a.startsWith("Vase"));
-        if (vaseAddon) noteLines.push(`  Jarrón elegido: ${vaseAddon}`);
+        if (vaseAddon) noteLines.push(`  Vase: ${vaseAddon}`);
       });
       await updateCartNote(cartId, noteLines.join("\n"));
 

@@ -44,7 +44,7 @@ const CheckoutOrderItem = ({ item, index, onRemove }: Props) => {
       <div className="flex items-start justify-between mb-4">
         <div>
           <h3 className="font-display text-xl font-semibold text-foreground">
-            {bouquetLabel(item.bouquetType)} Bouquet
+            {item.productName || `${bouquetLabel(item.bouquetType)} Bouquet`}
           </h3>
           <p className="text-sm font-body text-muted-foreground mt-1">
             {item.roses} roses · {item.color}
