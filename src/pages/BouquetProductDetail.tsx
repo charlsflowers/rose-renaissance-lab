@@ -595,9 +595,10 @@ const BouquetProductDetail = () => {
                     {addGlitter && " · Glitter"}
                     {addCrown && ` · Crown (${crownSize === "gold" ? "Gold" : "Silver"})`}
                     {accessory !== "none" && ` · ${accessory === "note" ? "Note" : accessory === "card" ? "Card" : "Butterflies"}`}
+                    {deliveryMethod === "delivery" ? (deliveryMiles && !distanceTooFar ? ` · Shipping ($${parseFloat(deliveryCost.toFixed(2))})` : " · Shipping (pending)") : " · Pickup"}
                   </p>
                   <p className="font-display text-lg font-bold text-foreground whitespace-nowrap">
-                    ${totalPrice}
+                    ${parseFloat(totalPrice.toFixed(2))}
                   </p>
                 </div>
 
@@ -615,7 +616,7 @@ const BouquetProductDetail = () => {
                 {/* Price and Buttons - Desktop (Right side) / Buttons - Mobile (Row 2) */}
                 <div className="flex flex-row items-center gap-3 md:gap-4 w-full md:w-auto">
                   <p className="hidden md:block font-display text-2xl font-bold text-foreground whitespace-nowrap">
-                    ${totalPrice} <span className="text-xs font-body text-muted-foreground font-normal">USD</span>
+                    ${parseFloat(totalPrice.toFixed(2))} <span className="text-xs font-body text-muted-foreground font-normal">USD</span>
                   </p>
                   <div className="flex w-full md:w-auto gap-2">
                     <button onClick={handleAddToCart} disabled={isAdding || variantsLoading}

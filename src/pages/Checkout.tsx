@@ -24,7 +24,8 @@ const Checkout = () => {
   const navigate = useNavigate();
   const [isCheckingOut, setIsCheckingOut] = useState(false);
 
-  const itemsSubtotal = parseFloat(items.reduce((sum, i) => sum + i.totalPrice, 0).toFixed(2));
+  // Use item.price (product + extras only, NO shipping) to avoid double-counting delivery
+  const itemsSubtotal = parseFloat(items.reduce((sum, i) => sum + i.price, 0).toFixed(2));
 
   // Pre-populate delivery info from cart items if already provided
   const existingDeliveryItem = items.find((i) => i.deliveryMethod === "delivery" && i.deliveryAddress && i.deliveryAddress !== "Store pickup");
