@@ -26,7 +26,7 @@ const CheckoutOrderItem = ({ item, index, onRemove }: Props) => {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: index * 0.1 }}
-      className="bg-card border border-border rounded-sm p-6"
+      className="pb-6 last:pb-0"
     >
       {/* Product image */}
       {item.image && (
