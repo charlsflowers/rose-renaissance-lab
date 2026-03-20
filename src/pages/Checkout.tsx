@@ -118,7 +118,7 @@ const Checkout = () => {
         }
       }
 
-      // 3. Add order notes with ALL product details + delivery info
+      // 4. Add order notes with ALL product details + delivery info
       const noteLines: string[] = [];
       noteLines.push(`delivery_type: ${checkoutDeliveryMethod === "delivery" ? "Home Delivery" : "Store Pickup"}`);
       
