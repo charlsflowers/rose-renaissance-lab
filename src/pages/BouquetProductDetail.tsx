@@ -99,18 +99,23 @@ const BouquetProductDetail = () => {
     debounceRef.current = setTimeout(() => fetchPredictions(value), 350);
   }, [fetchPredictions]);
 
-  const handleSelectPrediction = useCallback((prediction: { description: string; mainText: string; secondaryText: string }) => {
+  const handleSelectPrediction = useCallback((prediction: { placeId: string; description: string; mainText: string; secondaryText: string }) => {
     setAddressQuery(prediction.description); setSelectedAddress(prediction.description); setShowPredictions(false); setPredictions([]);
     const fullText = prediction.description + " " + (prediction.secondaryText || "");
     const zipMatch = fullText.match(/\b(\d{5})\b/);
     if (zipMatch) setDeliveryZip(zipMatch[1]);
+    setStructuredAddress(undefined);
     (async () => {
       setDistanceLoading(true); setDistanceError(""); setDistanceTooFar(false); setDeliveryMiles(null);
       try {
-        const { data, error } = await supabase.functions.invoke("calculate-distance", { body: { fullAddress: prediction.description } });
+        const { data, error } = await supabase.functions.invoke("calculate-distance", { body: { fullAddress: prediction.description, placeId: prediction.placeId } });
         if (error) throw new Error("Error de conexión");
         if (data.error) { setDistanceError(data.error); if (data.tooFar) { setDistanceTooFar(true); setDeliveryMiles(data.miles); } }
-        else { setDeliveryMiles(data.miles); setDeliveryDuration(data.duration); if (data.mapUrl) setMapUrl(data.mapUrl); }
+        else {
+          setDeliveryMiles(data.miles); setDeliveryDuration(data.duration);
+          if (data.mapUrl) setMapUrl(data.mapUrl);
+          if (data.structuredAddress) setStructuredAddress(data.structuredAddress);
+        }
       } catch (e: any) { setDistanceError(e.message || "Error calculating distance"); }
       finally { setDistanceLoading(false); }
     })();
