@@ -191,7 +191,7 @@ const BouquetProductDetail = () => {
 
   let step = 1;
 
-  const handleAddToCart = async (): Promise<string | null> => {
+  const handleAddToCart = async (skipNavigate = false): Promise<string | null> => {
     if (deliveryMethod === "delivery" && !selectedAddress) { toast.error("Please select a delivery address."); return null; }
     if (deliveryMethod === "delivery" && (distanceTooFar || deliveryMiles === null)) { toast.error("The address is invalid or out of range."); return null; }
     if (!deliveryDate || !deliveryHour) { toast.error("Please select a date and time."); return null; }
@@ -221,6 +221,7 @@ const BouquetProductDetail = () => {
 
       const addons: string[] = [];
       if (addGlitter) addons.push("Glitter");
+      if (addVase) addons.push(`Vase (${vaseOptions[selectedVaseIdx].label})`);
 
       // Add to cart with a timeout to prevent hanging
       const addPromise = addItem({
@@ -257,13 +258,13 @@ const BouquetProductDetail = () => {
       await Promise.race([addPromise, timeout]);
 
       toast.success("Bouquet added to cart!");
-      navigate("/checkout");
+      if (!skipNavigate) navigate("/checkout");
       return variant.id;
     } catch (error) {
       toast.error("Failed to add to cart.");
       return null;
     } finally {
-      setIsAdding(false);
+      if (!skipNavigate) setIsAdding(false);
     }
   };
 
