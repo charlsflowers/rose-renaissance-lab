@@ -139,21 +139,21 @@ const Checkout = () => {
       }
       noteLines.push("---");
       items.forEach((item, idx) => {
-        noteLines.push(`[Item ${idx + 1}] ${item.bouquetType} Bouquet`);
-        if (item.color) noteLines.push(`  Color del ramo: ${item.color}`);
-        if (item.roses) noteLines.push(`  Tamaño del ramo: ${item.roses} roses`);
-        if (item.paperColor) noteLines.push(`  Tipo de papel: ${item.paperColor}`);
-        noteLines.push(`  Acabado glitter: ${item.glitter ? "Sí" : "No"}`);
+        noteLines.push(`[Item ${idx + 1}] ${item.productName || item.bouquetType} Bouquet`);
+        if (item.color) noteLines.push(`  Bouquet color: ${item.color}`);
+        if (item.roses) noteLines.push(`  Bouquet size: ${item.roses} roses`);
+        if (item.paperColor) noteLines.push(`  Paper type: ${item.paperColor}`);
+        noteLines.push(`  Glitter finish: ${item.glitter ? "Yes" : "No"}`);
         if (item.accessory && item.accessory !== "none") {
-          const accLabel = item.accessory === "note" ? "Notas" : item.accessory === "card" ? "Cartas" : "Mariposas";
-          noteLines.push(`  Accesorio elegido: ${accLabel}`);
+          const accLabel = item.accessory === "note" ? "Notes" : item.accessory === "card" ? "Card" : "Butterflies";
+          noteLines.push(`  Accessory: ${accLabel}`);
         }
-        if (item.accessoryText) noteLines.push(`  Texto de la carta: ${item.accessoryText}`);
+        if (item.accessoryText) noteLines.push(`  Card text: ${item.accessoryText}`);
         if (item.crownSize) noteLines.push(`  Crown: ${item.crownSize}`);
         if (item.ribbonText) noteLines.push(`  Ribbon text: ${item.ribbonText}`);
         if (item.specialText) noteLines.push(`  Letters or Numbers - Baby Breath: ${item.specialText}`);
         const vaseAddon = item.addons?.find(a => a.startsWith("Vase"));
-        if (vaseAddon) noteLines.push(`  Jarrón elegido: ${vaseAddon}`);
+        if (vaseAddon) noteLines.push(`  Vase: ${vaseAddon}`);
       });
       await updateCartNote(cartId, noteLines.join("\n"));
 

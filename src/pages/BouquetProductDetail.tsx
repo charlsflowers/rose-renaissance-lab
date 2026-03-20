@@ -232,6 +232,7 @@ const BouquetProductDetail = () => {
       // Add to cart with a timeout to prevent hanging
       const addPromise = addItem({
         id: "",
+        productName: product.name,
         bouquetType: product.type === "heart" ? "heart" : "classic",
         color: product.color,
         roses: selectedSize.roses,
@@ -256,6 +257,8 @@ const BouquetProductDetail = () => {
         deliveryHour,
         deliveryMiles: deliveryMethod === "delivery" ? deliveryMiles : null,
         paperColor,
+        image: product.image,
+        structuredAddress: deliveryMethod === "delivery" ? structuredAddress : undefined,
         shopifyVariantId: variant.id,
       });
 
