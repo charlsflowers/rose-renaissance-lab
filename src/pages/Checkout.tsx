@@ -131,10 +131,13 @@ const Checkout = () => {
         }
       }
 
-      // 4. Build clean order notes — only fields the customer actively selected
+      // 4. Build structured order notes with emoji format
       const noteLines: string[] = [];
-      noteLines.push(`delivery_type: ${checkoutDeliveryMethod === "delivery" ? "Home Delivery" : "Store Pickup"}`);
-      
+
+      // -- DATOS DEL ENVÍO --
+      noteLines.push("DATOS DEL ENVÍO");
+      noteLines.push(`- 🚚 Tipo: ${checkoutDeliveryMethod === "delivery" ? "Home Delivery" : "Store Pickup"}`);
+
       if (deliveryDate) {
         const dateObj = /^\d{4}-\d{2}-\d{2}$/.test(deliveryDate)
           ? new Date(deliveryDate + "T00:00:00")
@@ -142,30 +145,42 @@ const Checkout = () => {
         const formattedDate = !isNaN(dateObj.getTime())
           ? format(dateObj, "PPP", { locale: enUS })
           : deliveryDate;
-        noteLines.push(`delivery_date: ${formattedDate}`);
+        noteLines.push(`- 📅 Fecha: ${formattedDate}`);
       }
-      if (deliveryHour) noteLines.push(`delivery_time: ${deliveryHour}`);
+      if (deliveryHour) noteLines.push(`- ⏰ Hora: ${deliveryHour}`);
       if (checkoutDeliveryMethod === "delivery" && deliveryResult) {
-        noteLines.push(`Delivery address: ${deliveryResult.address}`);
+        noteLines.push(`- 📍 Dirección: ${deliveryResult.address}`);
       }
 
+      // -- DATOS DEL PRODUCTO per item --
       items.forEach((item, idx) => {
-        noteLines.push("---");
-        noteLines.push(`[Item ${idx + 1}] ${item.productName || item.bouquetType} Bouquet`);
-        if (item.color) noteLines.push(`  Color: ${item.color}`);
-        if (item.roses) noteLines.push(`  Roses: ${item.roses}`);
-        if (item.paperColor) noteLines.push(`  Paper: ${item.paperColor}`);
-        if (item.glitter) noteLines.push(`  Glitter: Yes`);
+        noteLines.push("");
+        noteLines.push(`DATOS DEL PRODUCTO ${idx + 1}`);
+        noteLines.push(`- 🌹 Producto: ${item.productName || item.bouquetType}`);
+
+        // Custom Bouquet: list individual colours
+        if (item.bouquetType === "custom" && item.color) {
+          const colors = item.color.split(",").map(c => c.trim()).filter(Boolean);
+          colors.forEach((c, ci) => {
+            noteLines.push(`- 🌸 Colour ${ci + 1}: ${c}`);
+          });
+        } else if (item.color) {
+          noteLines.push(`- 🌸 Color: ${item.color}`);
+        }
+
+        if (item.paperColor) noteLines.push(`- 📄 Paper color: ${item.paperColor}`);
+        if (item.roses) noteLines.push(`- 🌹 Roses: ${item.roses}`);
+        if (item.glitter) noteLines.push(`- ✨ Glitter finish: Yes`);
+        if (item.crownSize) noteLines.push(`- 👑 Crown: ${item.crownSize}`);
         if (item.accessory && item.accessory !== "none") {
           const accLabel = item.accessory === "note" ? "Notes" : item.accessory === "card" ? "Card" : "Butterflies";
-          noteLines.push(`  Accessory: ${accLabel}`);
+          noteLines.push(`- 🦋 Accessory: ${accLabel}`);
         }
-        if (item.accessoryText) noteLines.push(`  Card/Note text: ${item.accessoryText}`);
-        if (item.crownSize) noteLines.push(`  Crown: ${item.crownSize}`);
-        if (item.ribbonText) noteLines.push(`  Ribbon: ${item.ribbonText}`);
-        if (item.specialText) noteLines.push(`  Baby Breath Letters/Numbers: ${item.specialText}`);
+        if (item.accessoryText) noteLines.push(`- 💌 Card text: ${item.accessoryText}`);
+        if (item.ribbonText) noteLines.push(`- 🎀 Custom ribbon: ${item.ribbonText}`);
+        if (item.specialText) noteLines.push(`- 🔤 Letters or numbers (Baby Breath): ${item.specialText}`);
         const vaseAddon = item.addons?.find(a => a.startsWith("Vase"));
-        if (vaseAddon) noteLines.push(`  Vase: ${vaseAddon}`);
+        if (vaseAddon) noteLines.push(`- 🏺 Vase: ${vaseAddon}`);
       });
       await updateCartNote(cartId, noteLines.join("\n"));
 
