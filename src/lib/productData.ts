@@ -22,7 +22,7 @@ export const colorOptions: ColorOption[] = [
   { name: 'Azul', nameEn: 'Blue', hex: '#3A6BC5', category: 'painted' },
 ];
 
-export type PricingTier = 'standard' | 'red' | 'painted' | 'mix2' | 'mix2painted' | 'mix3red';
+export type PricingTier = 'standard' | 'red' | 'painted' | 'mix2' | 'mix2painted' | 'mix3red' | 'painted1';
 
 export interface PricingRow {
   roses: number;
@@ -32,16 +32,17 @@ export interface PricingRow {
   mix2: number;
   mix2painted: number;
   mix3red: number;
+  painted1: number;
 }
 
 export const pricingTable: PricingRow[] = [
-  { roses: 50,  standard: 76,  red: 106, painted: 136, mix2: 91,  mix2painted: 106, mix3red: 0 },
-  { roses: 75,  standard: 101, red: 146, painted: 191, mix2: 116, mix2painted: 131, mix3red: 116 },
-  { roses: 100, standard: 136, red: 196, painted: 256, mix2: 166, mix2painted: 196, mix3red: 151 },
-  { roses: 125, standard: 201, red: 276, painted: 351, mix2: 231, mix2painted: 261, mix3red: 216 },
-  { roses: 150, standard: 226, red: 226, painted: 406, mix2: 256, mix2painted: 316, mix3red: 256 },
-  { roses: 175, standard: 251, red: 251, painted: 461, mix2: 296, mix2painted: 341, mix3red: 281 },
-  { roses: 200, standard: 301, red: 301, painted: 541, mix2: 361, mix2painted: 421, mix3red: 346 },
+  { roses: 50,  standard: 76,  red: 106, painted: 136, mix2: 91,  mix2painted: 106, mix3red: 0,   painted1: 60 },
+  { roses: 75,  standard: 101, red: 146, painted: 191, mix2: 116, mix2painted: 131, mix3red: 116, painted1: 90 },
+  { roses: 100, standard: 136, red: 196, painted: 256, mix2: 166, mix2painted: 196, mix3red: 151, painted1: 120 },
+  { roses: 125, standard: 201, red: 276, painted: 351, mix2: 231, mix2painted: 261, mix3red: 216, painted1: 150 },
+  { roses: 150, standard: 226, red: 226, painted: 406, mix2: 256, mix2painted: 316, mix3red: 256, painted1: 180 },
+  { roses: 175, standard: 251, red: 251, painted: 461, mix2: 296, mix2painted: 341, mix3red: 281, painted1: 210 },
+  { roses: 200, standard: 301, red: 301, painted: 541, mix2: 361, mix2painted: 421, mix3red: 346, painted1: 240 },
 ];
 
 export function determinePricingTier(colors: ColorOption[]): PricingTier {
@@ -49,24 +50,26 @@ export function determinePricingTier(colors: ColorOption[]): PricingTier {
   const hasRed = colors.some(c => c.name === 'Rojo');
   const hasPainted = colors.some(c => c.category === 'painted');
   const hasNatural = colors.some(c => c.category === 'natural');
+  const allPainted = colors.every(c => c.category === 'painted');
+  const allNatural = colors.every(c => c.category === 'natural');
 
   if (count === 1) {
-    if (hasRed) return 'red';
-    if (hasPainted) return 'painted';
-    return 'standard';
+    if (hasPainted) return 'painted1';
+    // All single natural colors (including red) use 'red' tier pricing
+    return 'red';
   }
 
   if (count === 2) {
-    if (hasPainted && hasNatural) return 'mix2painted';
-    if (hasPainted) return 'painted';
-    if (hasRed) return 'mix2';
-    return 'standard';
+    if (allNatural) return 'standard';
+    // At least 1 painted
+    return 'painted';
   }
 
   // 3 colors
-  if (hasPainted && hasNatural) return 'mix2painted';
-  if (hasRed) return 'mix3red';
-  return 'standard';
+  if (allNatural && !hasRed) return 'standard';
+  if (allNatural && hasRed) return 'mix3red';
+  // At least 1 painted
+  return 'painted';
 }
 
 export function getPrice(tier: PricingTier, rosesCount: number): number {

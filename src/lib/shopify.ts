@@ -81,6 +81,7 @@ const TIER_BASE_PRODUCT_TITLES: Record<PricingTier, string> = {
   mix2: "Iberian Passion",
   mix2painted: "Night & Day",
   mix3red: "Classic Tricolor",
+  painted1: "Blue Sky",
 };
 
 const PRICING_TIERS = new Set<PricingTier>([
@@ -90,6 +91,7 @@ const PRICING_TIERS = new Set<PricingTier>([
   "mix2",
   "mix2painted",
   "mix3red",
+  "painted1",
 ]);
 
 const PRODUCTS_BY_TITLE_QUERY = `
@@ -295,7 +297,7 @@ const CART_NOTE_UPDATE_MUTATION = `
 function formatCheckoutUrl(checkoutUrl: string): string {
   try {
     const url = new URL(checkoutUrl);
-    url.searchParams.delete('channel');
+    url.searchParams.set('channel', 'online_store');
     return url.toString();
   } catch {
     return checkoutUrl;
