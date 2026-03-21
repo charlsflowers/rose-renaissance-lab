@@ -295,7 +295,7 @@ const CART_NOTE_UPDATE_MUTATION = `
 function formatCheckoutUrl(checkoutUrl: string): string {
   try {
     const url = new URL(checkoutUrl);
-    url.searchParams.delete('channel');
+    url.searchParams.set('channel', 'online_store');
     return url.toString();
   } catch {
     return checkoutUrl;

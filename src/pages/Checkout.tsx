@@ -184,7 +184,21 @@ const Checkout = () => {
       });
       await updateCartNote(cartId, noteLines.join("\n"));
 
-      // 5. Get fresh checkout URL and redirect
+      // 5. Add 3% Service Fee
+      const SERVICE_FEE_VARIANT_GID = "gid://shopify/ProductVariant/51654333595780";
+      // Calculate total currently in the Shopify cart: items subtotal + delivery
+      const cartTotalForFee = itemsSubtotal + deliveryCost;
+      const serviceFee = cartTotalForFee * 0.03;
+      const serviceFeeQty = Math.round(serviceFee * 10);
+      if (serviceFeeQty > 0) {
+        console.log(`📦 [Checkout] Service fee: $${serviceFee.toFixed(2)} → qty ${serviceFeeQty} × $0.10 = $${(serviceFeeQty * 0.1).toFixed(2)}`);
+        const feeResult = await addLineToShopifyCart(cartId, SERVICE_FEE_VARIANT_GID, serviceFeeQty);
+        if (!feeResult.success) {
+          console.error("Failed to add service fee to cart");
+        }
+      }
+
+      // 6. Get fresh checkout URL and redirect
       const freshUrl = await fetchCartCheckoutUrl(cartId);
       const finalUrl = freshUrl || checkoutUrl;
 
