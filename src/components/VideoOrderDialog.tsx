@@ -14,7 +14,8 @@ import { fetchVariantsByHandle, findVariantByRoses, toShopifyHandle, type Shopif
 import { buildAccessoryLineItems } from "@/lib/accessoryVariants";
 import type { VideoProduct } from "@/components/ClientVideos";
 import { toast } from "sonner";
-import { buildCheckoutUrl, openCheckoutInNewTab } from "@/lib/checkout";
+import { fetchCartCheckoutUrl, updateCartBuyerIdentity, updateCartNote, addLineToShopifyCart, type ShippingAddress } from "@/lib/shopify";
+import { DELIVERY_FEE_VARIANT_GID } from "@/lib/accessoryVariants";
 
 interface Props {
   video: VideoProduct;
