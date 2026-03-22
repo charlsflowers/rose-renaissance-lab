@@ -14,7 +14,8 @@ import { fetchVariantsByHandle, findVariantByRoses, type ShopifyHandleVariant } 
 import { bouquetProducts } from "@/lib/catalogData";
 import type { ReviewCartData } from "@/components/ReviewCard";
 import { toast } from "sonner";
-import { buildCheckoutUrl, openCheckoutInNewTab } from "@/lib/checkout";
+import { fetchCartCheckoutUrl, updateCartBuyerIdentity, updateCartNote, addLineToShopifyCart, type ShippingAddress } from "@/lib/shopify";
+import { DELIVERY_FEE_VARIANT_GID } from "@/lib/accessoryVariants";
 import { buildAccessoryLineItems } from "@/lib/accessoryVariants";
 import glitterRoseImg from "@/assets/glitter-rose.png";
 import crownSilverImg from "@/assets/crown-silver.png";
