@@ -213,6 +213,11 @@ const VideoOrderDialog = ({ video, open, onOpenChange }: Props) => {
       onOpenChange(false);
 
       if (mode === "buy") {
+        const cartId = useCartStore.getState().cartId;
+        const storedCheckoutUrl = useCartStore.getState().checkoutUrl;
+        if (!cartId) { toast.error("Could not start checkout."); return; }
+
+        // Add accessories
         const accessories = buildAccessoryLineItems({
           glitter: video.glitter || false,
           rosesCount: video.roses,
@@ -223,20 +228,53 @@ const VideoOrderDialog = ({ video, open, onOpenChange }: Props) => {
           crownSize: "",
           addRibbon: !!ribbonText,
         });
-        const checkoutUrl = buildCheckoutUrl(variant.id, {
-          deliveryMethod,
-          deliveryCost,
-          deliveryAddress: selectedAddress,
-          deliveryZip,
-          deliveryDate: deliveryDate ? format(deliveryDate, "PPP", { locale: enUS }) : undefined,
-          deliveryTime: deliveryHour || undefined,
-          accessories,
-        });
-        if (!checkoutUrl) {
-          toast.error("Could not start Shopify checkout. Please try again.");
-          return;
+        for (const acc of accessories) {
+          await addLineToShopifyCart(cartId, `gid://shopify/ProductVariant/${acc.variantId}`, acc.quantity);
         }
-        openCheckoutInNewTab(checkoutUrl);
+
+        // Add delivery fee
+        if (deliveryMethod === "delivery" && deliveryCost > 0) {
+          await addLineToShopifyCart(cartId, DELIVERY_FEE_VARIANT_GID, Math.round(deliveryCost * 10));
+        }
+
+        // Update shipping address
+        if (deliveryMethod === "delivery" && selectedAddress) {
+          const parsed: ShippingAddress = { address1: selectedAddress.split(",")[0] || "", city: selectedAddress.split(",")[1]?.trim() || "", province: "", zip: deliveryZip, country: "US" };
+          await updateCartBuyerIdentity(cartId, parsed);
+        }
+
+        // Build structured order notes
+        const noteLines: string[] = [];
+        noteLines.push("DATOS DEL ENVÍO");
+        noteLines.push(`- 🚚 Tipo: ${deliveryMethod === "delivery" ? "Home Delivery" : "Store Pickup"}`);
+        if (deliveryDate) noteLines.push(`- 📅 Fecha: ${format(deliveryDate, "PPP", { locale: enUS })}`);
+        if (deliveryHour) noteLines.push(`- ⏰ Hora: ${deliveryHour}`);
+        if (deliveryMethod === "delivery" && selectedAddress) noteLines.push(`- 📍 Dirección: ${selectedAddress}`);
+        noteLines.push("");
+        noteLines.push("DATOS DEL PRODUCTO 1");
+        noteLines.push(`- 🌹 Producto: ${video.color} Roses`);
+        noteLines.push(`- 📄 Paper color: ${video.paperColor || "White"}`);
+        noteLines.push(`- 🌹 Roses: ${video.roses}`);
+        if (video.glitter) noteLines.push(`- ✨ Glitter finish: Yes`);
+        if (ribbonText) noteLines.push(`- 🎀 Custom ribbon: ${ribbonText}`);
+        if (specialText) noteLines.push(`- 🔤 Letters or numbers (Baby Breath): ${specialText}`);
+        await updateCartNote(cartId, noteLines.join("\n"));
+
+        // Add 3% Service Fee
+        const SERVICE_FEE_VARIANT_GID = "gid://shopify/ProductVariant/51654333595780";
+        const cartTotalForFee = video.basePrice + deliveryCost;
+        const serviceFeePrice = cartTotalForFee * 0.03;
+        const serviceFeeQty = Math.round(serviceFeePrice / 0.10);
+        await addLineToShopifyCart(cartId, SERVICE_FEE_VARIANT_GID, serviceFeeQty);
+
+        // Redirect
+        const freshUrl = await fetchCartCheckoutUrl(cartId);
+        const finalUrl = freshUrl || storedCheckoutUrl;
+        if (finalUrl) {
+          window.location.href = finalUrl;
+        } else {
+          toast.error("Could not get checkout URL.");
+        }
         toast.success("Added to cart!", {
           description: `${video.roses} ${video.color} roses`,
         });
