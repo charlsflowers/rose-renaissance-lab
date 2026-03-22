@@ -1092,13 +1092,45 @@ const BouquetBuilder = () => {
                         };
                         await updateCartBuyerIdentity(cartId, parsed);
                       }
-                      // Add order notes
+                      // Build structured order notes
                       const noteLines: string[] = [];
-                      noteLines.push(`Delivery type: ${deliveryMethod === "delivery" ? "Home Delivery" : "Store Pickup"}`);
-                      if (deliveryDate) noteLines.push(`Delivery date: ${format(deliveryDate, "PPP", { locale: enUS })}`);
-                      if (deliveryHour) noteLines.push(`Delivery time: ${deliveryHour}`);
-                      if (deliveryMethod === "delivery" && selectedAddress) noteLines.push(`Delivery address: ${selectedAddress}`);
+                      noteLines.push("DATOS DEL ENVÍO");
+                      noteLines.push(`- 🚚 Tipo: ${deliveryMethod === "delivery" ? "Home Delivery" : "Store Pickup"}`);
+                      if (deliveryDate) noteLines.push(`- 📅 Fecha: ${format(deliveryDate, "PPP", { locale: enUS })}`);
+                      if (deliveryHour) noteLines.push(`- ⏰ Hora: ${deliveryHour}`);
+                      if (deliveryMethod === "delivery" && selectedAddress) noteLines.push(`- 📍 Dirección: ${selectedAddress}`);
+
+                      noteLines.push("");
+                      noteLines.push("DATOS DEL PRODUCTO 1");
+                      noteLines.push(`- 🌹 Producto: Custom Bouquet`);
+                      if (selectedColors.length > 0) {
+                        selectedColors.forEach((c, ci) => {
+                          noteLines.push(`- 🌸 Colour ${ci + 1}: ${c.nameEn}`);
+                        });
+                      }
+                      if (paperColor) noteLines.push(`- 📄 Paper color: ${paperColor}`);
+                      if (rosesCount) noteLines.push(`- 🌹 Roses: ${rosesCount}`);
+                      if (addGlitter) noteLines.push(`- ✨ Glitter finish: Yes`);
+                      if (addCrown && crownSize) noteLines.push(`- 👑 Crown: ${crownSize}`);
+                      if (accessory && accessory !== "none") {
+                        const accLabel = accessory === "note" ? "Notes" : accessory === "card" ? "Card" : "Butterflies";
+                        noteLines.push(`- 🦋 Accessory: ${accLabel}`);
+                      }
+                      if (accessoryText) noteLines.push(`- 💌 Card text: ${accessoryText}`);
+                      if (addRibbon && ribbonText) noteLines.push(`- 🎀 Custom ribbon: ${ribbonText}`);
+                      if (specialText) noteLines.push(`- 🔤 Letters or numbers (Baby Breath): ${specialText}`);
+                      if (addVase) noteLines.push(`- 🏺 Vase: ${vaseOptions[selectedVaseIdx].label}`);
+
                       await updateCartNote(cartId, noteLines.join("\n"));
+
+                      // Add 3% Service Fee
+                      const SERVICE_FEE_VARIANT_GID = "gid://shopify/ProductVariant/51654333595780";
+                      const cartTotalForFee = (basePrice + lettersNumbersCost + crownCost + ribbonCost + glitterCost + vaseCost + accessoryCost) + deliveryCost;
+                      const serviceFeePrice = cartTotalForFee * 0.03;
+                      const serviceFeeQty = Math.round(serviceFeePrice / 0.10);
+                      console.log(`📦 [BouquetBuilder] Service fee: $${serviceFeePrice.toFixed(2)} → qty ${serviceFeeQty}`);
+                      await addLineToShopifyCart(cartId, SERVICE_FEE_VARIANT_GID, serviceFeeQty);
+
                       // Get checkout URL and redirect
                       const freshUrl = await fetchCartCheckoutUrl(cartId);
                       const finalUrl = freshUrl || storedCheckoutUrl;
