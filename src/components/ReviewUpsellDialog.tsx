@@ -14,7 +14,8 @@ import { fetchVariantsByHandle, findVariantByRoses, type ShopifyHandleVariant } 
 import { bouquetProducts } from "@/lib/catalogData";
 import type { ReviewCartData } from "@/components/ReviewCard";
 import { toast } from "sonner";
-import { buildCheckoutUrl, openCheckoutInNewTab } from "@/lib/checkout";
+import { fetchCartCheckoutUrl, updateCartBuyerIdentity, updateCartNote, addLineToShopifyCart, type ShippingAddress } from "@/lib/shopify";
+import { DELIVERY_FEE_VARIANT_GID } from "@/lib/accessoryVariants";
 import { buildAccessoryLineItems } from "@/lib/accessoryVariants";
 import glitterRoseImg from "@/assets/glitter-rose.png";
 import crownSilverImg from "@/assets/crown-silver.png";
@@ -193,6 +194,11 @@ const ReviewUpsellDialog = ({ open, onOpenChange, cartData, productLabel, mode }
       onOpenChange(false);
 
       if (mode === "buy") {
+        const cartId = useCartStore.getState().cartId;
+        const storedCheckoutUrl = useCartStore.getState().checkoutUrl;
+        if (!cartId) { toast.error("Could not start checkout."); return; }
+
+        // Add accessories
         const accessories = buildAccessoryLineItems({
           glitter: addGlitter,
           rosesCount: cartData.roses,
@@ -203,17 +209,53 @@ const ReviewUpsellDialog = ({ open, onOpenChange, cartData, productLabel, mode }
           crownSize,
           addRibbon,
         });
-        const checkoutUrl = buildCheckoutUrl(variant.id, {
-          deliveryMethod,
-          deliveryCost,
-          deliveryAddress: selectedAddress,
-          deliveryZip,
-          deliveryDate: deliveryDate ? format(deliveryDate, "PPP", { locale: enUS }) : undefined,
-          deliveryTime: deliveryHour || undefined,
-          accessories,
-        });
-        if (!checkoutUrl) { toast.error("Could not start Shopify checkout. Please try again."); return; }
-        openCheckoutInNewTab(checkoutUrl);
+        for (const acc of accessories) {
+          await addLineToShopifyCart(cartId, `gid://shopify/ProductVariant/${acc.variantId}`, acc.quantity);
+        }
+
+        // Add delivery fee
+        if (deliveryMethod === "delivery" && deliveryCost > 0) {
+          await addLineToShopifyCart(cartId, DELIVERY_FEE_VARIANT_GID, Math.round(deliveryCost * 10));
+        }
+
+        // Update shipping address
+        if (deliveryMethod === "delivery" && selectedAddress) {
+          const parsed: ShippingAddress = { address1: selectedAddress.split(",")[0] || "", city: selectedAddress.split(",")[1]?.trim() || "", province: "", zip: deliveryZip, country: "US" };
+          await updateCartBuyerIdentity(cartId, parsed);
+        }
+
+        // Build structured order notes
+        const noteLines: string[] = [];
+        noteLines.push("DATOS DEL ENVÍO");
+        noteLines.push(`- 🚚 Tipo: ${deliveryMethod === "delivery" ? "Home Delivery" : "Store Pickup"}`);
+        if (deliveryDate) noteLines.push(`- 📅 Fecha: ${format(deliveryDate, "PPP", { locale: enUS })}`);
+        if (deliveryHour) noteLines.push(`- ⏰ Hora: ${deliveryHour}`);
+        if (deliveryMethod === "delivery" && selectedAddress) noteLines.push(`- 📍 Dirección: ${selectedAddress}`);
+        noteLines.push("");
+        noteLines.push("DATOS DEL PRODUCTO 1");
+        noteLines.push(`- 🌹 Producto: ${cartData.bouquetType}`);
+        if (cartData.color) noteLines.push(`- 🌸 Color: ${cartData.color}`);
+        noteLines.push(`- 🌹 Roses: ${cartData.roses}`);
+        if (addGlitter) noteLines.push(`- ✨ Glitter finish: Yes`);
+        if (addCrown && crownSize) noteLines.push(`- 👑 Crown: ${crownSize}`);
+        if (addRibbon && ribbonText) noteLines.push(`- 🎀 Custom ribbon: ${ribbonText}`);
+        await updateCartNote(cartId, noteLines.join("\n"));
+
+        // Add 3% Service Fee
+        const SERVICE_FEE_VARIANT_GID = "gid://shopify/ProductVariant/51654333595780";
+        const cartTotalForFee = cartData.price + deliveryCost;
+        const serviceFeePrice = cartTotalForFee * 0.03;
+        const serviceFeeQty = Math.round(serviceFeePrice / 0.10);
+        await addLineToShopifyCart(cartId, SERVICE_FEE_VARIANT_GID, serviceFeeQty);
+
+        // Redirect
+        const freshUrl = await fetchCartCheckoutUrl(cartId);
+        const finalUrl = freshUrl || storedCheckoutUrl;
+        if (finalUrl) {
+          window.location.href = finalUrl;
+        } else {
+          toast.error("Could not get checkout URL.");
+        }
         toast.success("Added to cart!", { description: `${productLabel} — ${cartData.roses} roses` });
       }
     } catch (error) {
