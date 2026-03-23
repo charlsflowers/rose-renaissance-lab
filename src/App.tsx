@@ -15,6 +15,7 @@ import BouquetProducts from "./pages/BouquetProducts";
 import BouquetProductDetail from "./pages/BouquetProductDetail";
 import RoomDecors from "./pages/RoomDecors";
 import RoomDecorDetail from "./pages/RoomDecorDetail";
+import FontPreview from "./pages/FontPreview";
 
 
 const queryClient = new QueryClient();
