@@ -104,3 +104,8 @@
     background-clip: text;
   }
 }
+
+/* Global rounded corners for all images */
+img {
+  border-radius: 0.5rem;
+}
