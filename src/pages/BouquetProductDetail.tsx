@@ -494,10 +494,9 @@ const BouquetProductDetail = () => {
             <Section title="Accessories" step={step++}>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
                 {([
-                  { type: "none" as const, label: "No accessory", icon: null, img: null, price: null },
-                  { type: "note" as const, label: "Note", icon: Type, img: null, price: null },
-                  { type: "card" as const, label: "Card", icon: Sparkles, img: null, price: "$1" },
-                  { type: "butterfly" as const, label: "Butterflies", icon: null, img: butterflyImg, price: "$1" },
+                  { type: "note" as const, label: "Note", icon: Type, img: null, price: "$3" },
+                  { type: "card" as const, label: "Card", icon: Sparkles, img: null, price: "$3" },
+                  { type: "butterfly" as const, label: "Butterflies", icon: null, img: butterflyImg, price: "$3" },
                 ] as const).map(({ type: t, label, icon: Icon, img, price }) => (
                   <button key={t} onClick={() => setAccessory(t)}
                     className={`flex flex-col items-center gap-2 p-4 rounded-sm border-2 transition-all font-body text-sm ${accessory === t ? "border-primary bg-primary/5 text-primary" : "border-border text-muted-foreground hover:border-primary/30"}`}>
