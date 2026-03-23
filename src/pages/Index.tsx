@@ -49,7 +49,7 @@ const Index = () => {
             transition={{ duration: 1, ease: "easeOut" }}
             className="max-w-xl"
           >
-            <p className="text-gold font-body text-xs md:text-sm tracking-[0.3em] uppercase mb-2 md:mb-4">Handcrafted with love</p>
+            <p className="font-subtitle-script text-gold text-lg md:text-2xl mb-2 md:mb-4">Handcrafted with love</p>
             <h1 className="font-display text-3xl md:text-7xl font-bold text-primary-foreground leading-tight mb-3 md:mb-6">
               Fresh & natural roses
             </h1>
