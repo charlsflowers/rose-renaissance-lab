@@ -15,6 +15,7 @@ import BouquetProducts from "./pages/BouquetProducts";
 import BouquetProductDetail from "./pages/BouquetProductDetail";
 import RoomDecors from "./pages/RoomDecors";
 import RoomDecorDetail from "./pages/RoomDecorDetail";
+import FontPreview from "./pages/FontPreview";
 
 
 const queryClient = new QueryClient();
@@ -33,6 +34,7 @@ const AppContent = () => {
         <Route path="/bouquets" element={<BouquetProducts />} />
         <Route path="/room-decors/:packageId" element={<RoomDecorDetail />} />
         <Route path="/room-decors" element={<RoomDecors />} />
+        <Route path="/font-preview" element={<FontPreview />} />
         
         <Route path="/checkout" element={<Checkout />} />
         <Route path="*" element={<NotFound />} />
