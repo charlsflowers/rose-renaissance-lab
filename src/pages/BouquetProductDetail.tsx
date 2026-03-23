@@ -350,7 +350,7 @@ const BouquetProductDetail = () => {
       // Add 3% Service Fee
       const SERVICE_FEE_VARIANT_GID = "gid://shopify/ProductVariant/51654333595780";
       const cartTotalForFee = basePrice + deliveryCost;
-      const serviceFeePrice = cartTotalForFee * 0.03;
+      const serviceFeePrice = cartTotalForFee * 0.05;
       const serviceFeeQty = Math.round(serviceFeePrice / 0.10);
       console.log(`📦 [BouquetProductDetail] Service fee: $${serviceFeePrice.toFixed(2)} → qty ${serviceFeeQty}`);
       await addLineToShopifyCart(cartId, SERVICE_FEE_VARIANT_GID, serviceFeeQty);
