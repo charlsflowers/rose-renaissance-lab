@@ -233,7 +233,7 @@ const Index = () => {
       <section className="py-16 md:py-20 bg-cream">
         <div className="container mx-auto px-6">
           <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.8 }} className="text-center mb-10">
-            <h2 className="font-display text-4xl md:text-5xl font-semibold text-primary mb-4">What our customers say</h2>
+            <h2 className="font-title-retro text-4xl md:text-5xl text-primary mb-4">What our customers say</h2>
             <p className="text-muted-foreground font-body max-w-lg mx-auto">Like what you see? Order it directly from here.</p>
           </motion.div>
 
