@@ -218,7 +218,7 @@ const BouquetBuilder = () => {
 
   const crownCost = addCrown ? crownPrice : 0;
   const ribbonCost = addRibbon ? ribbonPrice : 0;
-  const accessoryCost = accessory === "card" ? 1 : accessory === "butterfly" ? 1 : 0;
+  const accessoryCost = accessory === "card" ? 3 : accessory === "butterfly" ? 3 : accessory === "note" ? 3 : 0;
 
   const totalPrice = useMemo(() => {
     let total = basePrice + lettersNumbersCost;
@@ -440,10 +440,9 @@ const BouquetBuilder = () => {
             <Section title="Accessories" step={5}>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
                 {([
-                  { type: "none" as const, label: "No accessory", icon: null, img: null, price: null },
-                  { type: "note" as const, label: "Note", icon: Type, img: null, price: null },
-                  { type: "card" as const, label: "Card", icon: Sparkles, img: null, price: "$1" },
-                  { type: "butterfly" as const, label: "Butterflies", icon: null, img: butterflyImg, price: "$1" },
+                  { type: "note" as const, label: "Note", icon: Type, img: null, price: "$3" },
+                  { type: "card" as const, label: "Card", icon: Sparkles, img: null, price: "$3" },
+                  { type: "butterfly" as const, label: "Butterflies", icon: null, img: butterflyImg, price: "$3" },
                 ] as const).map(({ type, label, icon: Icon, img, price }) => (
                   <button
                     key={type}
@@ -460,7 +459,7 @@ const BouquetBuilder = () => {
                       <Icon className="w-4 h-4" />
                     ) : null}
                     {label}
-                    <span className="text-xs text-secondary">{price || "Free"}</span>
+                    <span className="text-xs text-secondary">{price}</span>
                   </button>
                 ))}
               </div>
@@ -1126,7 +1125,7 @@ const BouquetBuilder = () => {
                       // Add 3% Service Fee
                       const SERVICE_FEE_VARIANT_GID = "gid://shopify/ProductVariant/51654333595780";
                       const cartTotalForFee = (basePrice + lettersNumbersCost + crownCost + ribbonCost + glitterCost + vaseCost + accessoryCost) + deliveryCost;
-                      const serviceFeePrice = cartTotalForFee * 0.03;
+                      const serviceFeePrice = cartTotalForFee * 0.05;
                       const serviceFeeQty = Math.round(serviceFeePrice / 0.10);
                       console.log(`📦 [BouquetBuilder] Service fee: $${serviceFeePrice.toFixed(2)} → qty ${serviceFeeQty}`);
                       await addLineToShopifyCart(cartId, SERVICE_FEE_VARIANT_GID, serviceFeeQty);

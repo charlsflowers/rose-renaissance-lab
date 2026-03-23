@@ -21,8 +21,8 @@ const RoomDecors = () => {
           </Link>
 
           <div className="text-center mb-12">
-            <p className="text-gold font-body text-sm tracking-[0.3em] uppercase mb-2">Transform any space</p>
-            <h1 className="font-display text-4xl md:text-5xl font-semibold text-foreground">Room Decors</h1>
+            <p className="font-subtitle-script text-gold text-lg md:text-2xl mb-2">Transform any space</p>
+            <h1 className="font-title-retro text-4xl md:text-5xl text-foreground">Room Decors</h1>
             <p className="text-muted-foreground font-body mt-3 max-w-lg mx-auto">
               Create unforgettable moments with our romantic room decoration packages. Delivery included up to 10 miles.
             </p>

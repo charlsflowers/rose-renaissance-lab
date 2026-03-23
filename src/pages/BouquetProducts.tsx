@@ -29,9 +29,9 @@ const BouquetProducts = () => {
           <div className="text-center mb-8">
             <div className="flex items-center justify-center gap-2 mb-2">
               <Sparkles className="w-5 h-5 text-primary" />
-              <p className="text-gold font-body text-sm tracking-[0.3em] uppercase">Handcrafted bouquets</p>
+             <p className="font-subtitle-script text-gold text-lg md:text-2xl mb-2">Handcrafted bouquets</p>
             </div>
-            <h1 className="font-display text-4xl md:text-5xl font-semibold text-foreground">Bouquets</h1>
+            <h1 className="font-title-retro text-4xl md:text-5xl text-foreground">Bouquets</h1>
           </div>
 
           <div className="flex justify-center gap-3 mb-12">
@@ -99,7 +99,7 @@ const BouquetProducts = () => {
       {/* CTA */}
       <section className="py-20 bg-primary">
         <div className="container mx-auto px-6 text-center">
-          <h2 className="font-display text-3xl md:text-4xl font-semibold text-primary-foreground mb-4">Can't find what you're looking for?</h2>
+          <h2 className="font-title-retro text-3xl md:text-4xl text-primary-foreground mb-4">Can't find what you're looking for?</h2>
           <p className="text-primary-foreground/80 font-body mb-8 max-w-md mx-auto">Customize every detail: color, size, accessories, and more. From $76 USD.</p>
           <Link to="/bouquets/personalizar"
             className="inline-flex items-center gap-3 bg-background text-foreground px-8 py-4 font-body text-sm tracking-widest uppercase hover:bg-background/90 transition-colors rounded-sm">

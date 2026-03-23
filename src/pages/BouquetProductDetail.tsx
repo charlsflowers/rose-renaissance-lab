@@ -190,7 +190,7 @@ const BouquetProductDetail = () => {
   const numbersExtra = addNumbers ? specialText.replace(/[^0-9]/g, "").length * letterNumberExtraPrice : 0;
   const glitterCost = addGlitter ? Math.ceil(selectedSize.roses / 25) * 8 : 0;
   const vaseCost = addVase ? vaseOptions[selectedVaseIdx].price : 0;
-  const accessoryCost = accessory === "card" ? 1 : accessory === "butterfly" ? 1 : 0;
+  const accessoryCost = accessory === "card" ? 3 : accessory === "butterfly" ? 3 : accessory === "note" ? 3 : 0;
   const deliveryCost = deliveryMethod === "delivery" && deliveryMiles && !distanceTooFar ? calculateDeliveryCost(deliveryMiles) : 0;
   const basePrice = sizePrice + (addCrown ? crownPrice : 0) + (addRibbon ? ribbonPrice : 0) + lettersExtra + numbersExtra + glitterCost + vaseCost + accessoryCost;
   const totalPrice = basePrice + deliveryCost;
@@ -350,7 +350,7 @@ const BouquetProductDetail = () => {
       // Add 3% Service Fee
       const SERVICE_FEE_VARIANT_GID = "gid://shopify/ProductVariant/51654333595780";
       const cartTotalForFee = basePrice + deliveryCost;
-      const serviceFeePrice = cartTotalForFee * 0.03;
+      const serviceFeePrice = cartTotalForFee * 0.05;
       const serviceFeeQty = Math.round(serviceFeePrice / 0.10);
       console.log(`📦 [BouquetProductDetail] Service fee: $${serviceFeePrice.toFixed(2)} → qty ${serviceFeeQty}`);
       await addLineToShopifyCart(cartId, SERVICE_FEE_VARIANT_GID, serviceFeeQty);
@@ -429,11 +429,6 @@ const BouquetProductDetail = () => {
               )}
             </div>
 
-            {product.image2 && (
-              <p className="md:hidden text-center text-[10px] text-muted-foreground mt-1 uppercase tracking-widest">
-                Swipe to see more
-              </p>
-            )}
 
             <div className="text-center">
               <h1 className="font-display text-3xl md:text-4xl font-semibold text-foreground">{product.name}</h1>
@@ -499,10 +494,9 @@ const BouquetProductDetail = () => {
             <Section title="Accessories" step={step++}>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
                 {([
-                  { type: "none" as const, label: "No accessory", icon: null, img: null, price: null },
-                  { type: "note" as const, label: "Note", icon: Type, img: null, price: null },
-                  { type: "card" as const, label: "Card", icon: Sparkles, img: null, price: "$1" },
-                  { type: "butterfly" as const, label: "Butterflies", icon: null, img: butterflyImg, price: "$1" },
+                  { type: "note" as const, label: "Note", icon: Type, img: null, price: "$3" },
+                  { type: "card" as const, label: "Card", icon: Sparkles, img: null, price: "$3" },
+                  { type: "butterfly" as const, label: "Butterflies", icon: null, img: butterflyImg, price: "$3" },
                 ] as const).map(({ type: t, label, icon: Icon, img, price }) => (
                   <button key={t} onClick={() => setAccessory(t)}
                     className={`flex flex-col items-center gap-2 p-4 rounded-sm border-2 transition-all font-body text-sm ${accessory === t ? "border-primary bg-primary/5 text-primary" : "border-border text-muted-foreground hover:border-primary/30"}`}>
@@ -512,7 +506,7 @@ const BouquetProductDetail = () => {
                       <Icon className="w-4 h-4" />
                     ) : null}
                     {label}
-                    <span className="text-xs text-secondary">{price || "Free"}</span>
+                    <span className="text-xs text-secondary">{price}</span>
                   </button>
                 ))}
               </div>

@@ -16,6 +16,8 @@ export default {
       fontFamily: {
         display: ['"Playfair Display"', 'Georgia', 'serif'],
         body: ['Lato', 'system-ui', 'sans-serif'],
+        'title-retro': ['"Righteous"', 'cursive'],
+        'subtitle-script': ['"Great Vibes"', 'cursive'],
       },
       colors: {
         border: "hsl(var(--border))",

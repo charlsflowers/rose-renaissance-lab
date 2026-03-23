@@ -49,7 +49,7 @@ const Index = () => {
             transition={{ duration: 1, ease: "easeOut" }}
             className="max-w-xl"
           >
-            <p className="text-gold font-body text-xs md:text-sm tracking-[0.3em] uppercase mb-2 md:mb-4">Handcrafted with love</p>
+            <p className="font-subtitle-script text-gold text-lg md:text-2xl mb-2 md:mb-4">Handcrafted with love</p>
             <h1 className="font-display text-3xl md:text-7xl font-bold text-primary-foreground leading-tight mb-3 md:mb-6">
               Fresh & natural roses
             </h1>
@@ -105,7 +105,7 @@ const Index = () => {
       <section className="py-16 md:py-20 bg-background">
         <div className="container mx-auto px-6">
           <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.8 }} className="text-center mb-10">
-            <h2 className="font-display text-4xl md:text-5xl font-semibold text-primary">Categories</h2>
+            <h2 className="font-title-retro text-4xl md:text-5xl text-primary">Categories</h2>
           </motion.div>
 
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-7 gap-5">
@@ -146,7 +146,7 @@ const Index = () => {
       <section className="py-16 md:py-20 bg-cream">
         <div className="container mx-auto px-6">
           <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.8 }} className="text-center mb-10">
-            <h2 className="font-display text-4xl md:text-5xl font-semibold text-primary">Bouquets</h2>
+            <h2 className="font-title-retro text-4xl md:text-5xl text-primary">Bouquets</h2>
           </motion.div>
 
           <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }} className="max-w-md mx-auto">
@@ -212,7 +212,7 @@ const Index = () => {
       <section className="py-16 md:py-20 bg-background">
         <div className="container mx-auto px-6 text-center">
           <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.8 }}>
-            <h2 className="font-display text-4xl md:text-5xl font-semibold text-primary mb-6">
+            <h2 className="font-title-retro text-4xl md:text-5xl text-primary mb-6">
               Customize Your Bouquet
             </h2>
             <p className="text-muted-foreground font-body mb-8 max-w-md mx-auto">
@@ -233,7 +233,7 @@ const Index = () => {
       <section className="py-16 md:py-20 bg-cream">
         <div className="container mx-auto px-6">
           <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.8 }} className="text-center mb-10">
-            <h2 className="font-display text-4xl md:text-5xl font-semibold text-primary mb-4">What our customers say</h2>
+            <h2 className="font-title-retro text-4xl md:text-5xl text-primary mb-4">What our customers say</h2>
             <p className="text-muted-foreground font-body max-w-lg mx-auto">Like what you see? Order it directly from here.</p>
           </motion.div>
 

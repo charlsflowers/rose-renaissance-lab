@@ -187,7 +187,7 @@ const Checkout = () => {
       // 5. Add 3% Service Fee (same logic as Home Delivery: price / $0.10 = quantity)
       const SERVICE_FEE_VARIANT_GID = "gid://shopify/ProductVariant/51654333595780";
       const cartTotalForFee = itemsSubtotal + deliveryCost;
-      const serviceFeePrice = cartTotalForFee * 0.03;
+      const serviceFeePrice = cartTotalForFee * 0.05;
       const serviceFeeQty = Math.round(serviceFeePrice / 0.10);
       console.log(`📦 [Checkout] Service fee: $${serviceFeePrice.toFixed(2)} → qty ${serviceFeeQty} × $0.10 = $${(serviceFeeQty * 0.1).toFixed(2)}`);
       const feeResult = await addLineToShopifyCart(cartId, SERVICE_FEE_VARIANT_GID, serviceFeeQty);
