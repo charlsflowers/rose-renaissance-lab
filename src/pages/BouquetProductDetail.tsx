@@ -190,7 +190,7 @@ const BouquetProductDetail = () => {
   const numbersExtra = addNumbers ? specialText.replace(/[^0-9]/g, "").length * letterNumberExtraPrice : 0;
   const glitterCost = addGlitter ? Math.ceil(selectedSize.roses / 25) * 8 : 0;
   const vaseCost = addVase ? vaseOptions[selectedVaseIdx].price : 0;
-  const accessoryCost = accessory === "card" ? 1 : accessory === "butterfly" ? 1 : 0;
+  const accessoryCost = accessory === "card" ? 3 : accessory === "butterfly" ? 3 : accessory === "note" ? 3 : 0;
   const deliveryCost = deliveryMethod === "delivery" && deliveryMiles && !distanceTooFar ? calculateDeliveryCost(deliveryMiles) : 0;
   const basePrice = sizePrice + (addCrown ? crownPrice : 0) + (addRibbon ? ribbonPrice : 0) + lettersExtra + numbersExtra + glitterCost + vaseCost + accessoryCost;
   const totalPrice = basePrice + deliveryCost;
