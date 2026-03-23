@@ -429,11 +429,6 @@ const BouquetProductDetail = () => {
               )}
             </div>
 
-            {product.image2 && (
-              <p className="md:hidden text-center text-[10px] text-muted-foreground mt-1 uppercase tracking-widest">
-                Swipe to see more
-              </p>
-            )}
 
             <div className="text-center">
               <h1 className="font-display text-3xl md:text-4xl font-semibold text-foreground">{product.name}</h1>
