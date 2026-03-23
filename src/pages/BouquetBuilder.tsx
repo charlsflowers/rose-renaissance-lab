@@ -459,7 +459,7 @@ const BouquetBuilder = () => {
                       <Icon className="w-4 h-4" />
                     ) : null}
                     {label}
-                    <span className="text-xs text-secondary">{price || "Free"}</span>
+                    <span className="text-xs text-secondary">{price}</span>
                   </button>
                 ))}
               </div>
