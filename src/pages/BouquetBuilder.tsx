@@ -440,10 +440,9 @@ const BouquetBuilder = () => {
             <Section title="Accessories" step={5}>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
                 {([
-                  { type: "none" as const, label: "No accessory", icon: null, img: null, price: null },
-                  { type: "note" as const, label: "Note", icon: Type, img: null, price: null },
-                  { type: "card" as const, label: "Card", icon: Sparkles, img: null, price: "$1" },
-                  { type: "butterfly" as const, label: "Butterflies", icon: null, img: butterflyImg, price: "$1" },
+                  { type: "note" as const, label: "Note", icon: Type, img: null, price: "$3" },
+                  { type: "card" as const, label: "Card", icon: Sparkles, img: null, price: "$3" },
+                  { type: "butterfly" as const, label: "Butterflies", icon: null, img: butterflyImg, price: "$3" },
                 ] as const).map(({ type, label, icon: Icon, img, price }) => (
                   <button
                     key={type}
