@@ -4,8 +4,8 @@ import { enUS } from "date-fns/locale";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import { useCartStore } from "@/stores/cartStore";
-import { fetchCartCheckoutUrl, updateCartBuyerIdentity, updateCartNote, addLineToShopifyCart, type ShippingAddress } from "@/lib/shopify";
-import { buildAccessoryLineItems, DELIVERY_FEE_VARIANT_GID } from "@/lib/accessoryVariants";
+import { buildCheckoutUrl } from "@/lib/checkout";
+import { buildAccessoryLineItems } from "@/lib/accessoryVariants";
 import Navbar from "@/components/Navbar";
 import type { DeliveryResult } from "@/components/DeliveryCalculator";
 import { ArrowLeft } from "lucide-react";
@@ -14,23 +14,9 @@ import { motion } from "framer-motion";
 import CheckoutOrderItem from "@/components/checkout/CheckoutOrderItem";
 import CheckoutSummaryBlock from "@/components/checkout/CheckoutSummaryBlock";
 
-function parseAddressFallback(address: string, zip?: string): ShippingAddress {
-  const parts = address.split(",").map((p) => p.trim()).filter(Boolean);
-  const address1 = parts[0] || "";
-  const city = parts[1] || "";
-  const fullText = [address, zip].filter(Boolean).join(" ");
-  const zipMatch = fullText.match(/\b\d{5}(?:-\d{4})?\b/);
-  const parsedZip = zip || (zipMatch ? zipMatch[0] : "");
-  const stateMatch = fullText.match(/\b([A-Z]{2})\s+\d{5}(?:-\d{4})?\b/i);
-  const province = stateMatch ? stateMatch[1].toUpperCase() : "";
-  return { address1, city, province, zip: parsedZip, country: "US" };
-}
-
 const Checkout = () => {
   const items = useCartStore((state) => state.items);
   const removeItem = useCartStore((state) => state.removeItem);
-  const cartId = useCartStore((state) => state.cartId);
-  const checkoutUrl = useCartStore((state) => state.checkoutUrl);
   const isLoading = useCartStore((state) => state.isLoading);
   const isSyncing = useCartStore((state) => state.isSyncing);
   const navigate = useNavigate();
@@ -67,74 +53,9 @@ const Checkout = () => {
   const canCheckout = !needsAddress || deliveryResult !== null;
 
   const handleCheckout = async () => {
-    if (!cartId) {
-      toast.error("No se pudo iniciar el checkout. Vuelve atrás y añade el producto de nuevo.");
-      return;
-    }
-
     setIsCheckingOut(true);
     try {
-      // 1. Add accessory line items for each cart item
-      for (const item of items) {
-        const vaseAddon = item.addons?.find(a => a.startsWith("Vase"));
-        const vaseRosesMatch = vaseAddon?.match(/\((\d+)/);
-        const accessories = buildAccessoryLineItems({
-          glitter: item.glitter,
-          rosesCount: item.roses,
-          accessory: item.accessory,
-          specialText: item.specialText,
-          addVase: !!vaseAddon,
-          vaseRoses: vaseRosesMatch ? parseInt(vaseRosesMatch[1]) : undefined,
-          addCrown: !!item.crownSize,
-          crownSize: item.crownSize,
-          addRibbon: !!item.ribbonText,
-        });
-        for (const acc of accessories) {
-          console.log(`📦 [Checkout] Adding accessory: variant=${acc.variantId}, qty=${acc.quantity}`);
-          await addLineToShopifyCart(cartId, `gid://shopify/ProductVariant/${acc.variantId}`, acc.quantity);
-        }
-      }
-
-      // 2. Add delivery fee line item if home delivery
-      if (checkoutDeliveryMethod === "delivery" && deliveryCost > 0) {
-        const deliveryQty = Math.round(deliveryCost * 10);
-        console.log(`📦 [Checkout] Delivery fee: $${deliveryCost} → qty ${deliveryQty} × $0.10 = $${(deliveryQty * 0.1).toFixed(2)} (variant: ${DELIVERY_FEE_VARIANT_GID})`);
-        const deliveryAddResult = await addLineToShopifyCart(cartId, DELIVERY_FEE_VARIANT_GID, deliveryQty);
-        console.log("📦 [Checkout] Delivery fee add result:", JSON.stringify(deliveryAddResult));
-        if (!deliveryAddResult.success) {
-          console.error("Failed to add delivery fee to cart");
-        }
-      }
-
-      // 3. If home delivery, update buyer identity with shipping address
-      if (checkoutDeliveryMethod === "delivery") {
-        // Try structured address from DeliveryCalculator result first, then from cart item
-        const itemStructured = items[0]?.structuredAddress;
-        const resultStructured = deliveryResult?.structuredAddress;
-        const structured = resultStructured || itemStructured;
-
-        const shippingAddress: ShippingAddress = structured
-          ? {
-              address1: structured.address1,
-              city: structured.city,
-              province: structured.province,
-              zip: structured.zip,
-              country: structured.country || "US",
-            }
-          : deliveryResult
-            ? parseAddressFallback(deliveryResult.address, items[0]?.deliveryZip)
-            : parseAddressFallback(items[0]?.deliveryAddress || "", items[0]?.deliveryZip);
-
-        const identityResult = await updateCartBuyerIdentity(cartId, shippingAddress);
-        if (!identityResult.success) {
-          console.warn("Could not set shipping address on cart, proceeding anyway");
-        }
-      }
-
-      // 4. Build structured order notes with emoji format
       const noteLines: string[] = [];
-
-      // -- DATOS DEL ENVÍO --
       noteLines.push("DATOS DEL ENVÍO");
       noteLines.push(`- 🚚 Tipo: ${checkoutDeliveryMethod === "delivery" ? "Home Delivery" : "Store Pickup"}`);
 
@@ -182,22 +103,37 @@ const Checkout = () => {
         const vaseAddon = item.addons?.find(a => a.startsWith("Vase"));
         if (vaseAddon) noteLines.push(`- 🏺 Vase: ${vaseAddon}`);
       });
-      await updateCartNote(cartId, noteLines.join("\n"));
 
-      // 5. Add 3% Service Fee (same logic as Home Delivery: price / $0.10 = quantity)
-      const SERVICE_FEE_VARIANT_GID = "gid://shopify/ProductVariant/51654333595780";
+      const accessoryLineItems = items.flatMap((item) => {
+        const vaseAddon = item.addons?.find(a => a.startsWith("Vase"));
+        const vaseRosesMatch = vaseAddon?.match(/\((\d+)/);
+        return buildAccessoryLineItems({
+          glitter: item.glitter,
+          rosesCount: item.roses,
+          accessory: item.accessory,
+          specialText: item.specialText,
+          addVase: !!vaseAddon,
+          vaseRoses: vaseRosesMatch ? parseInt(vaseRosesMatch[1], 10) : undefined,
+          addCrown: !!item.crownSize,
+          crownSize: item.crownSize,
+          addRibbon: !!item.ribbonText,
+        });
+      });
+
       const cartTotalForFee = itemsSubtotal + deliveryCost;
       const serviceFeePrice = cartTotalForFee * 0.05;
-      const serviceFeeQty = Math.round(serviceFeePrice / 0.10);
-      console.log(`📦 [Checkout] Service fee: $${serviceFeePrice.toFixed(2)} → qty ${serviceFeeQty} × $0.10 = $${(serviceFeeQty * 0.1).toFixed(2)}`);
-      const feeResult = await addLineToShopifyCart(cartId, SERVICE_FEE_VARIANT_GID, serviceFeeQty);
-      if (!feeResult.success) {
-        console.error("Failed to add service fee to cart");
-      }
 
-      // 6. Get fresh checkout URL and redirect
-      const freshUrl = await fetchCartCheckoutUrl(cartId);
-      const finalUrl = freshUrl || checkoutUrl;
+      const finalUrl = buildCheckoutUrl(undefined, {
+        deliveryMethod: checkoutDeliveryMethod,
+        deliveryCost,
+        serviceFee: serviceFeePrice,
+        deliveryAddress: checkoutDeliveryMethod === "delivery" ? (deliveryResult?.address || items[0]?.deliveryAddress) : undefined,
+        deliveryZip: checkoutDeliveryMethod === "delivery" ? items[0]?.deliveryZip : undefined,
+        deliveryDate: deliveryDate || undefined,
+        deliveryTime: deliveryHour || undefined,
+        accessories: accessoryLineItems,
+        note: noteLines.join("\n"),
+      });
 
       if (!finalUrl) {
         toast.error("Could not get checkout URL. Please try again.");

@@ -11,11 +11,10 @@ import { useCartStore, type CartItem } from "@/stores/cartStore";
 import { letterNumberExtraPrice, ribbonPrice } from "@/lib/productData";
 import { calculateDeliveryCost, formatDeliveryCost } from "@/lib/deliveryPricing";
 import { fetchVariantsByHandle, findVariantByRoses, toShopifyHandle, type ShopifyHandleVariant } from "@/lib/shopifyVariants";
+import { buildCheckoutUrl } from "@/lib/checkout";
 import { buildAccessoryLineItems } from "@/lib/accessoryVariants";
 import type { VideoProduct } from "@/components/ClientVideos";
 import { toast } from "sonner";
-import { fetchCartCheckoutUrl, updateCartBuyerIdentity, updateCartNote, addLineToShopifyCart, type ShippingAddress } from "@/lib/shopify";
-import { DELIVERY_FEE_VARIANT_GID } from "@/lib/accessoryVariants";
 
 interface Props {
   video: VideoProduct;
@@ -213,11 +212,6 @@ const VideoOrderDialog = ({ video, open, onOpenChange }: Props) => {
       onOpenChange(false);
 
       if (mode === "buy") {
-        const cartId = useCartStore.getState().cartId;
-        const storedCheckoutUrl = useCartStore.getState().checkoutUrl;
-        if (!cartId) { toast.error("Could not start checkout."); return; }
-
-        // Add accessories
         const accessories = buildAccessoryLineItems({
           glitter: video.glitter || false,
           rosesCount: video.roses,
@@ -228,22 +222,7 @@ const VideoOrderDialog = ({ video, open, onOpenChange }: Props) => {
           crownSize: "",
           addRibbon: !!ribbonText,
         });
-        for (const acc of accessories) {
-          await addLineToShopifyCart(cartId, `gid://shopify/ProductVariant/${acc.variantId}`, acc.quantity);
-        }
 
-        // Add delivery fee
-        if (deliveryMethod === "delivery" && deliveryCost > 0) {
-          await addLineToShopifyCart(cartId, DELIVERY_FEE_VARIANT_GID, Math.round(deliveryCost * 10));
-        }
-
-        // Update shipping address
-        if (deliveryMethod === "delivery" && selectedAddress) {
-          const parsed: ShippingAddress = { address1: selectedAddress.split(",")[0] || "", city: selectedAddress.split(",")[1]?.trim() || "", province: "", zip: deliveryZip, country: "US" };
-          await updateCartBuyerIdentity(cartId, parsed);
-        }
-
-        // Build structured order notes
         const noteLines: string[] = [];
         noteLines.push("DATOS DEL ENVÍO");
         noteLines.push(`- 🚚 Tipo: ${deliveryMethod === "delivery" ? "Home Delivery" : "Store Pickup"}`);
@@ -258,18 +237,21 @@ const VideoOrderDialog = ({ video, open, onOpenChange }: Props) => {
         if (video.glitter) noteLines.push(`- ✨ Glitter finish: Yes`);
         if (ribbonText) noteLines.push(`- 🎀 Custom ribbon: ${ribbonText}`);
         if (specialText) noteLines.push(`- 🔤 Letters or numbers (Baby Breath): ${specialText}`);
-        await updateCartNote(cartId, noteLines.join("\n"));
 
-        // Add 3% Service Fee
-        const SERVICE_FEE_VARIANT_GID = "gid://shopify/ProductVariant/51654333595780";
         const cartTotalForFee = video.basePrice + deliveryCost;
         const serviceFeePrice = cartTotalForFee * 0.05;
-        const serviceFeeQty = Math.round(serviceFeePrice / 0.10);
-        await addLineToShopifyCart(cartId, SERVICE_FEE_VARIANT_GID, serviceFeeQty);
+        const finalUrl = buildCheckoutUrl(variant.id, {
+          deliveryMethod,
+          deliveryCost,
+          serviceFee: serviceFeePrice,
+          deliveryAddress: deliveryMethod === "delivery" ? selectedAddress : undefined,
+          deliveryZip: deliveryMethod === "delivery" ? deliveryZip : undefined,
+          deliveryDate: deliveryDate ? format(deliveryDate, "PPP", { locale: enUS }) : undefined,
+          deliveryTime: deliveryHour || undefined,
+          accessories,
+          note: noteLines.join("\n"),
+        });
 
-        // Redirect
-        const freshUrl = await fetchCartCheckoutUrl(cartId);
-        const finalUrl = freshUrl || storedCheckoutUrl;
         if (finalUrl) {
           window.location.href = finalUrl;
         } else {
