@@ -6,9 +6,9 @@ import { supabase } from "@/integrations/supabase/client";
 import { enUS } from "date-fns/locale";
 import { useCartStore } from "@/stores/cartStore";
 import { toast } from "sonner";
-import { fetchCartCheckoutUrl, updateCartBuyerIdentity, updateCartNote, addLineToShopifyCart, type ShippingAddress } from "@/lib/shopify";
+import { buildCheckoutUrl } from "@/lib/checkout";
 import { calculateDeliveryCost, formatDeliveryCost } from "@/lib/deliveryPricing";
-import { buildAccessoryLineItems, CUSTOM_BOUQUET_VARIANT_ID, DELIVERY_FEE_VARIANT_GID } from "@/lib/accessoryVariants";
+import { buildAccessoryLineItems, CUSTOM_BOUQUET_VARIANT_ID } from "@/lib/accessoryVariants";
 import { resolveCustomBouquetVariantId } from "@/lib/customBouquetVariants";
 
 import Navbar from "@/components/Navbar";
@@ -1055,13 +1055,7 @@ const BouquetBuilder = () => {
                         shopifyVariantId: customBouquetVariantGid,
                       });
                       toast.success("Bouquet added to cart!");
-                      const cartId = useCartStore.getState().cartId;
-                      const storedCheckoutUrl = useCartStore.getState().checkoutUrl;
-                      if (!cartId) {
-                        toast.error("Could not start checkout.");
-                        return;
-                      }
-                      // Add accessories
+
                       const accessories = buildAccessoryLineItems({
                         glitter: addGlitter,
                         rosesCount,
@@ -1073,25 +1067,7 @@ const BouquetBuilder = () => {
                         crownSize,
                         addRibbon,
                       });
-                      for (const acc of accessories) {
-                        await addLineToShopifyCart(cartId, `gid://shopify/ProductVariant/${acc.variantId}`, acc.quantity);
-                      }
-                      // Add delivery fee
-                      if (deliveryMethod === "delivery" && deliveryCost > 0) {
-                        await addLineToShopifyCart(cartId, DELIVERY_FEE_VARIANT_GID, Math.round(deliveryCost * 10));
-                      }
-                      // Update shipping address
-                      if (deliveryMethod === "delivery" && selectedAddress) {
-                        const parsed: ShippingAddress = {
-                          address1: deliveryStreet,
-                          city: deliveryCity,
-                          province: "",
-                          zip: deliveryZip,
-                          country: "US",
-                        };
-                        await updateCartBuyerIdentity(cartId, parsed);
-                      }
-                      // Build structured order notes
+
                       const noteLines: string[] = [];
                       noteLines.push("DATOS DEL ENVÍO");
                       noteLines.push(`- 🚚 Tipo: ${deliveryMethod === "delivery" ? "Home Delivery" : "Store Pickup"}`);
@@ -1120,19 +1096,22 @@ const BouquetBuilder = () => {
                       if (specialText) noteLines.push(`- 🔤 Letters or numbers (Baby Breath): ${specialText}`);
                       if (addVase) noteLines.push(`- 🏺 Vase: ${vaseOptions[selectedVaseIdx].label}`);
 
-                      await updateCartNote(cartId, noteLines.join("\n"));
-
-                      // Add 3% Service Fee
-                      const SERVICE_FEE_VARIANT_GID = "gid://shopify/ProductVariant/51654333595780";
                       const cartTotalForFee = (basePrice + lettersNumbersCost + crownCost + ribbonCost + glitterCost + vaseCost + accessoryCost) + deliveryCost;
                       const serviceFeePrice = cartTotalForFee * 0.05;
-                      const serviceFeeQty = Math.round(serviceFeePrice / 0.10);
-                      console.log(`📦 [BouquetBuilder] Service fee: $${serviceFeePrice.toFixed(2)} → qty ${serviceFeeQty}`);
-                      await addLineToShopifyCart(cartId, SERVICE_FEE_VARIANT_GID, serviceFeeQty);
 
-                      // Get checkout URL and redirect
-                      const freshUrl = await fetchCartCheckoutUrl(cartId);
-                      const finalUrl = freshUrl || storedCheckoutUrl;
+                      const finalUrl = buildCheckoutUrl(customBouquetVariantGid, {
+                        deliveryMethod,
+                        deliveryCost,
+                        serviceFee: serviceFeePrice,
+                        deliveryAddress: deliveryMethod === "delivery" ? selectedAddress : undefined,
+                        deliveryCity: deliveryMethod === "delivery" ? deliveryCity : undefined,
+                        deliveryZip: deliveryMethod === "delivery" ? deliveryZip : undefined,
+                        deliveryDate: deliveryDate ? format(deliveryDate, "PPP", { locale: enUS }) : undefined,
+                        deliveryTime: deliveryHour || undefined,
+                        accessories,
+                        note: noteLines.join("\n"),
+                      });
+
                       if (finalUrl) {
                         window.location.href = finalUrl;
                       } else {

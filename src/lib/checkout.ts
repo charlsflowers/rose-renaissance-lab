@@ -3,16 +3,19 @@ import type { AccessoryLineItem } from "@/lib/accessoryVariants";
 
 const SHOPIFY_CART_BASE_URL = "https://charls-flowers.myshopify.com/cart";
 const DELIVERY_FEE_VARIANT_NUMERIC_ID = "51629708935300";
+const SERVICE_FEE_VARIANT_NUMERIC_ID = "51654333595780";
 
 type CheckoutDeliveryOptions = {
   deliveryMethod?: "pickup" | "delivery";
   deliveryCost?: number;
+  serviceFee?: number;
   deliveryAddress?: string;
   deliveryCity?: string;
   deliveryZip?: string;
   deliveryDate?: string;
   deliveryTime?: string;
   accessories?: AccessoryLineItem[];
+  note?: string;
 };
 
 type ParsedAddress = {
@@ -84,6 +87,11 @@ export function buildCheckoutUrl(variantId?: string, options?: CheckoutDeliveryO
     lineItems.push(`${DELIVERY_FEE_VARIANT_NUMERIC_ID}:${deliveryQty}`);
   }
 
+  if (options?.serviceFee && options.serviceFee > 0) {
+    const serviceFeeQty = Math.round(options.serviceFee / 0.10);
+    lineItems.push(`${SERVICE_FEE_VARIANT_NUMERIC_ID}:${serviceFeeQty}`);
+  }
+
   let checkoutUrl = `${SHOPIFY_CART_BASE_URL}/${lineItems.join(",")}`;
 
   const params = new URLSearchParams();
@@ -96,6 +104,9 @@ export function buildCheckoutUrl(variantId?: string, options?: CheckoutDeliveryO
   }
   if (options?.deliveryTime) {
     params.set("attributes[delivery_time]", options.deliveryTime);
+  }
+  if (options?.note) {
+    params.set("note", options.note);
   }
 
   if (options?.deliveryMethod === "delivery" && options.deliveryAddress) {

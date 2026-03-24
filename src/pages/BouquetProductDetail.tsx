@@ -6,10 +6,10 @@ import { enUS } from "date-fns/locale";
 import { supabase } from "@/integrations/supabase/client";
 import { useCartStore } from "@/stores/cartStore";
 import { fetchVariantsByHandle, findVariantByRoses, type ShopifyHandleVariant } from "@/lib/shopifyVariants";
+import { buildCheckoutUrl } from "@/lib/checkout";
 import { calculateDeliveryCost, formatDeliveryCost } from "@/lib/deliveryPricing";
 import { toast } from "sonner";
-import { fetchCartCheckoutUrl, updateCartBuyerIdentity, updateCartNote, addLineToShopifyCart, type ShippingAddress } from "@/lib/shopify";
-import { buildAccessoryLineItems, DELIVERY_FEE_VARIANT_GID } from "@/lib/accessoryVariants";
+import { buildAccessoryLineItems } from "@/lib/accessoryVariants";
 import Navbar from "@/components/Navbar";
 import PaperColorPicker from "@/components/PaperColorPicker"; // keep import but won't use for standard bouquets
 import { bouquetProducts, bouquetSizeOptions } from "@/lib/catalogData";
@@ -284,16 +284,7 @@ const BouquetProductDetail = () => {
       return;
     }
 
-    const cartId = useCartStore.getState().cartId;
-    const storedCheckoutUrl = useCartStore.getState().checkoutUrl;
-    if (!cartId) {
-      toast.error("Could not start checkout. Please try again.");
-      setIsAdding(false);
-      return;
-    }
-
     try {
-      // Add accessories as line items
       const accessories = buildAccessoryLineItems({
         glitter: addGlitter,
         rosesCount: selectedSize.roses,
@@ -305,22 +296,7 @@ const BouquetProductDetail = () => {
         crownSize,
         addRibbon,
       });
-      for (const acc of accessories) {
-        await addLineToShopifyCart(cartId, `gid://shopify/ProductVariant/${acc.variantId}`, acc.quantity);
-      }
 
-      // Add delivery fee
-      if (deliveryMethod === "delivery" && deliveryCost > 0) {
-        await addLineToShopifyCart(cartId, DELIVERY_FEE_VARIANT_GID, Math.round(deliveryCost * 10));
-      }
-
-      // Update shipping address
-      if (deliveryMethod === "delivery" && selectedAddress) {
-        const parsed = parseAddressForShopify(selectedAddress, deliveryZip);
-        await updateCartBuyerIdentity(cartId, parsed);
-      }
-
-      // Build structured order notes
       const noteLines: string[] = [];
       noteLines.push("DATOS DEL ENVÍO");
       noteLines.push(`- 🚚 Tipo: ${deliveryMethod === "delivery" ? "Home Delivery" : "Store Pickup"}`);
@@ -345,18 +321,21 @@ const BouquetProductDetail = () => {
       if (specialText) noteLines.push(`- 🔤 Letters or numbers (Baby Breath): ${specialText}`);
       const vaseAddon = addVase ? vaseOptions[selectedVaseIdx] : null;
       if (vaseAddon) noteLines.push(`- 🏺 Vase: ${vaseAddon.label}`);
-      await updateCartNote(cartId, noteLines.join("\n"));
 
-      // Add 3% Service Fee
-      const SERVICE_FEE_VARIANT_GID = "gid://shopify/ProductVariant/51654333595780";
       const cartTotalForFee = basePrice + deliveryCost;
       const serviceFeePrice = cartTotalForFee * 0.05;
-      const serviceFeeQty = Math.round(serviceFeePrice / 0.10);
-      console.log(`📦 [BouquetProductDetail] Service fee: $${serviceFeePrice.toFixed(2)} → qty ${serviceFeeQty}`);
-      await addLineToShopifyCart(cartId, SERVICE_FEE_VARIANT_GID, serviceFeeQty);
+      const finalUrl = buildCheckoutUrl(variantId, {
+        deliveryMethod,
+        deliveryCost,
+        serviceFee: serviceFeePrice,
+        deliveryAddress: deliveryMethod === "delivery" ? selectedAddress : undefined,
+        deliveryZip: deliveryMethod === "delivery" ? deliveryZip : undefined,
+        deliveryDate: deliveryDate ? format(deliveryDate, "PPP", { locale: enUS }) : undefined,
+        deliveryTime: deliveryHour || undefined,
+        accessories,
+        note: noteLines.join("\n"),
+      });
 
-      const freshUrl = await fetchCartCheckoutUrl(cartId);
-      const finalUrl = freshUrl || storedCheckoutUrl;
       if (finalUrl) {
         window.location.href = finalUrl;
       } else {
@@ -369,18 +348,6 @@ const BouquetProductDetail = () => {
       setIsAdding(false);
     }
   };
-
-  function parseAddressForShopify(address: string, zip?: string): ShippingAddress {
-    const parts = address.split(",").map((p) => p.trim()).filter(Boolean);
-    const address1 = parts[0] || "";
-    const city = parts[1] || "";
-    const fullText = [address, zip].filter(Boolean).join(" ");
-    const zipMatch = fullText.match(/\b\d{5}(?:-\d{4})?\b/);
-    const parsedZip = zip || (zipMatch ? zipMatch[0] : "");
-    const stateMatch = fullText.match(/\b([A-Z]{2})\s+\d{5}(?:-\d{4})?\b/i);
-    const province = stateMatch ? stateMatch[1].toUpperCase() : "";
-    return { address1, city, province, zip: parsedZip, country: "US" };
-  }
 
   return (
     <div className="min-h-screen bg-background">
