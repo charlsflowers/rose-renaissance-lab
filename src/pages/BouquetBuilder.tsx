@@ -197,9 +197,24 @@ const BouquetBuilder = () => {
   const getAvailableHours = (date: Date | undefined) => {
     if (!date) return [];
     const day = date.getDay();
-    const closeHour = day === 0 ? 16 : day === 6 ? 17 : 19;
+    let startHour: number, closeHour: number;
+    if (deliveryMethod === "pickup") {
+      startHour = 9; // 9:30 rounded to 10:00 first slot
+      closeHour = day === 0 ? 17 : day === 6 ? 18 : 19;
+    } else {
+      startHour = 10;
+      closeHour = day === 0 ? 17 : day === 6 ? 18 : 19;
+    }
     const hours: string[] = [];
-    for (let h = 8; h <= closeHour; h++) {
+    const firstSlot = deliveryMethod === "pickup" ? 9.5 : 10;
+    // Generate half-hour start then full hours
+    if (deliveryMethod === "pickup") {
+      // 9:30 AM first
+      if (!isTodayInMiami(date) || 9.5 >= minMiamiHour) {
+        hours.push("9:30 AM");
+      }
+    }
+    for (let h = 10; h <= closeHour; h++) {
       if (isTodayInMiami(date) && h < minMiamiHour) continue;
       const ampm = h < 12 ? "AM" : "PM";
       const h12 = h === 0 ? 12 : h > 12 ? h - 12 : h;

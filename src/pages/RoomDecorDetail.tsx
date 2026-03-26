@@ -94,11 +94,19 @@ const RoomDecorDetail = () => {
   const getAvailableHours = (date: Date | undefined) => {
     if (!date) return [];
     const day = date.getDay();
-    const closeHour = day === 0 ? 16 : day === 6 ? 17 : 19;
+    const closeHour = day === 0 ? 17 : day === 6 ? 18 : 19;
     const hours: string[] = [];
-    for (let h = 8; h <= closeHour; h++) {
+    if (deliveryMethod === "pickup") {
+      if (!isTodayInMiami(date) || 9.5 >= minMiamiHour) {
+        hours.push("9:30 AM");
+      }
+    }
+    const startH = deliveryMethod === "pickup" ? 10 : 10;
+    for (let h = startH; h <= closeHour; h++) {
       if (isTodayInMiami(date) && h < minMiamiHour) continue;
-      hours.push(`${h.toString().padStart(2, "0")}:00`);
+      const ampm = h < 12 ? "AM" : "PM";
+      const h12 = h === 0 ? 12 : h > 12 ? h - 12 : h;
+      hours.push(`${h12}:00 ${ampm}`);
     }
     return hours;
   };
