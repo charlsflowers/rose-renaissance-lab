@@ -182,6 +182,14 @@ const BouquetBuilder = () => {
 
   const minRoses = selectedColors.length >= 3 ? 75 : 50;
 
+  // Auto-bump size when 3 colors selected and current size is 50
+  useEffect(() => {
+    if (selectedColors.length >= 3 && pricingTable[selectedSizeIdx].roses < 75) {
+      const idx75 = pricingTable.findIndex(s => s.roses >= 75);
+      if (idx75 >= 0) setSelectedSizeIdx(idx75);
+    }
+  }, [selectedColors.length]);
+
   const lettersNumbersCost = specialText.length > 0 ? specialText.length * letterNumberExtraPrice : 0;
 
   const basePrice = useMemo(() => {
