@@ -37,9 +37,9 @@ const BouquetProducts = () => {
 
           <div className="flex justify-center gap-3 mb-12">
             {([
+              { key: "all", label: "See All", locked: false },
               { key: "un-color", label: "Single color", locked: false },
               { key: "mezclas", label: "Mixes", locked: false },
-              { key: "aniversarios", label: "Anniversaries", locked: true },
             ] as { key: FilterType; label: string; locked: boolean }[]).map(({ key, label, locked }) => (
               <button
                 key={key}
@@ -53,9 +53,7 @@ const BouquetProducts = () => {
                       : "bg-muted text-muted-foreground hover:bg-accent"
                 }`}
               >
-                {locked && <Lock className="w-3 h-3" />}
                 {label}
-                {locked && <span className="text-[9px] uppercase tracking-wider ml-0.5">Soon</span>}
               </button>
             ))}
           </div>
