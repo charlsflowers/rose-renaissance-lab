@@ -5,14 +5,15 @@ import { bouquetProducts, bouquetSizeOptions } from "@/lib/catalogData";
 import { getPrice } from "@/lib/productData";
 import { ArrowLeft, ArrowRight, Sparkles, Flower2, Lock } from "lucide-react";
 
-type FilterType = "un-color" | "mezclas" | "aniversarios";
+type FilterType = "all" | "un-color" | "mezclas";
 
 const BouquetProducts = () => {
-  const [filter, setFilter] = useState<FilterType>("un-color");
+  const [filter, setFilter] = useState<FilterType>("all");
 
   useEffect(() => { window.scrollTo(0, 0); }, []);
 
   const filteredProducts = bouquetProducts.filter((product) => {
+    if (filter === "all") return true;
     const isMix = product.color.includes(" y ") || product.color.includes(", ") || product.color.includes(" y");
     return filter === "mezclas" ? isMix : !isMix;
   });
@@ -36,9 +37,9 @@ const BouquetProducts = () => {
 
           <div className="flex justify-center gap-3 mb-12">
             {([
+              { key: "all", label: "See All", locked: false },
               { key: "un-color", label: "Single color", locked: false },
               { key: "mezclas", label: "Mixes", locked: false },
-              { key: "aniversarios", label: "Anniversaries", locked: true },
             ] as { key: FilterType; label: string; locked: boolean }[]).map(({ key, label, locked }) => (
               <button
                 key={key}
@@ -52,9 +53,7 @@ const BouquetProducts = () => {
                       : "bg-muted text-muted-foreground hover:bg-accent"
                 }`}
               >
-                {locked && <Lock className="w-3 h-3" />}
                 {label}
-                {locked && <span className="text-[9px] uppercase tracking-wider ml-0.5">Soon</span>}
               </button>
             ))}
           </div>

@@ -126,9 +126,15 @@ const BouquetProductDetail = () => {
   const getAvailableHours = (date: Date | undefined) => {
     if (!date) return [];
     const day = date.getDay();
-    const closeHour = day === 0 ? 16 : day === 6 ? 17 : 19;
+    const closeHour = day === 0 ? 17 : day === 6 ? 18 : 19;
     const hours: string[] = [];
-    for (let h = 8; h <= closeHour; h++) {
+    if (deliveryMethod === "pickup") {
+      if (!isTodayInMiami(date) || 9.5 >= minMiamiHour) {
+        hours.push("9:30 AM");
+      }
+    }
+    const startH = deliveryMethod === "pickup" ? 10 : 10;
+    for (let h = startH; h <= closeHour; h++) {
       if (isTodayInMiami(date) && h < minMiamiHour) continue;
       const ampm = h < 12 ? "AM" : "PM";
       const h12 = h === 0 ? 12 : h > 12 ? h - 12 : h;
@@ -436,20 +442,25 @@ const BouquetProductDetail = () => {
 
             {/* 2. Glitter */}
             <Section title="Glitter Finish" step={step++} subtitle={`+$${Math.ceil(selectedSize.roses / 25) * 8}`}>
-              <div className="flex flex-col md:flex-row gap-4">
-                <div className="w-28 h-28 rounded-sm overflow-hidden border border-border flex-shrink-0 mx-auto md:mx-0">
-                  <img src={glitterRoseImg} alt="Glitter rose example" className="w-full h-full object-cover" />
+              <div className="flex flex-col md:flex-row gap-4 mb-4">
+                <div className="w-28 h-28 flex-shrink-0 mx-auto md:mx-0">
+                  <img src={glitterRoseImg} alt="Glitter rose example" className="w-full h-full object-contain" />
                 </div>
-                <button onClick={() => setAddGlitter(!addGlitter)}
-                  className={`relative w-full p-6 rounded-sm border-2 transition-all overflow-hidden ${addGlitter ? "border-primary bg-primary/5" : "border-border hover:border-primary/30"}`}>
-                  <div className="flex items-center gap-4 relative z-10">
-                    <Star className={`w-6 h-6 transition-colors ${addGlitter ? "text-gold fill-gold" : "text-muted-foreground"}`} />
-                    <div className="text-left">
-                       <p className="font-body font-semibold text-foreground">✨ Add Glitter ✨</p>
-                       <p className="text-xs text-muted-foreground font-body">$8 per 25 roses · {selectedSize.roses} roses = +${Math.ceil(selectedSize.roses / 25) * 8}</p>
-                    </div>
-                    {addGlitter && <Check className="w-5 h-5 text-primary ml-auto" />}
-                  </div>
+                <div className="flex-1">
+                  <p className="font-body font-semibold text-foreground">✨ Add Glitter ✨</p>
+                  <p className="text-xs text-muted-foreground font-body">$8 per 25 roses · {selectedSize.roses} roses = +${Math.ceil(selectedSize.roses / 25) * 8}</p>
+                </div>
+              </div>
+              <div className="grid grid-cols-2 gap-3">
+                <button onClick={() => setAddGlitter(true)}
+                  className={`p-4 rounded-sm border-2 text-center transition-all font-body text-sm ${addGlitter ? "border-primary bg-primary/5 text-primary" : "border-border text-muted-foreground hover:border-primary/30"}`}>
+                  Yes
+                  {addGlitter && <Check className="w-4 h-4 text-primary mx-auto mt-1" />}
+                </button>
+                <button onClick={() => setAddGlitter(false)}
+                  className={`p-4 rounded-sm border-2 text-center transition-all font-body text-sm ${!addGlitter ? "border-primary bg-primary/5 text-primary" : "border-border text-muted-foreground hover:border-primary/30"}`}>
+                  No
+                  {!addGlitter && <Check className="w-4 h-4 text-primary mx-auto mt-1" />}
                 </button>
               </div>
             </Section>

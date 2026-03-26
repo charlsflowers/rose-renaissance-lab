@@ -26,10 +26,17 @@ interface Props {
   onCheckout: () => void;
 }
 
-const HOURS = [
-  "9:00 AM", "10:00 AM", "11:00 AM", "12:00 PM",
+// Hours will be dynamically filtered based on delivery method
+const PICKUP_HOURS = [
+  "9:30 AM", "10:00 AM", "11:00 AM", "12:00 PM",
   "1:00 PM", "2:00 PM", "3:00 PM", "4:00 PM",
-  "5:00 PM", "6:00 PM", "7:00 PM", "8:00 PM",
+  "5:00 PM", "6:00 PM", "7:00 PM",
+];
+
+const DELIVERY_HOURS = [
+  "10:00 AM", "11:00 AM", "12:00 PM",
+  "1:00 PM", "2:00 PM", "3:00 PM", "4:00 PM",
+  "5:00 PM", "6:00 PM", "7:00 PM",
 ];
 
 const CheckoutSummaryBlock = ({
@@ -83,16 +90,33 @@ const CheckoutSummaryBlock = ({
 
   // Available hours based on date
   const availableHours = (() => {
-    if (!parsedDate) return HOURS;
+    const baseHours = deliveryMethod === "pickup" ? PICKUP_HOURS : DELIVERY_HOURS;
+    if (!parsedDate) return baseHours;
+    // Filter by day of week closing time
+    const day = parsedDate.getDay();
+    const closeHour = day === 0 ? 17 : day === 6 ? 18 : 19;
+    let filtered = baseHours.filter(h => {
+      const match = h.match(/^(\d+):(\d+)\s*(AM|PM)$/i);
+      if (!match) return false;
+      let hour24 = parseInt(match[1]);
+      if (match[3] === "PM" && hour24 !== 12) hour24 += 12;
+      if (match[3] === "AM" && hour24 === 12) hour24 = 0;
+      return hour24 <= closeHour;
+    });
     if (isTodayInMiami(parsedDate)) {
       const miamiNow = miamiHourNow();
       const cutoff = miamiNow + 3;
-      return HOURS.filter(h => {
-        const hour24 = parseInt(h) + (h.includes("PM") && !h.startsWith("12") ? 12 : 0);
-        return hour24 > cutoff;
+      filtered = filtered.filter(h => {
+        const match = h.match(/^(\d+):(\d+)\s*(AM|PM)$/i);
+        if (!match) return false;
+        let hour24 = parseInt(match[1]);
+        if (match[3] === "PM" && hour24 !== 12) hour24 += 12;
+        if (match[3] === "AM" && hour24 === 12) hour24 = 0;
+        const minutes = parseInt(match[2]);
+        return (hour24 + minutes / 60) > cutoff;
       });
     }
-    return HOURS;
+    return filtered;
   })();
 
   return (

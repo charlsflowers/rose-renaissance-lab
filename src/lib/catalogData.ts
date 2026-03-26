@@ -205,7 +205,7 @@ export const bouquetProducts: BouquetProduct[] = [
   // 2 colors - Natural without red (standard pricing)
   { id: 'bq-round-13', name: 'Pink & White Dawn', shopifyHandle: 'pink-white-dawn', description: 'Delicate mix of hot pink and white roses', image: bqMixHotpinkBlancoImg, image2: bqMixHotpinkBlanco2Img, color: 'Hot Pink y Blanco', type: 'round', pricingTier: 'standard' },
   { id: 'bq-round-15', name: 'Spring Garden', shopifyHandle: 'spring-garden', description: 'Mix of yellow and white roses', image: bqMixAmarilloBlancoImg, image2: bqMixAmarilloBlanco2Img, color: 'Amarillo y Blanco', type: 'round', pricingTier: 'standard' },
-  { id: 'bq-round-29', name: 'Soft Lilac', shopifyHandle: 'soft-lilac', description: 'Mix of purple, white, and hot pink roses', image: bqMixLilaBlancoImg, image2: bqMixLilaBlanco2Img, color: 'Morado, Blanco y Hot Pink', type: 'round', pricingTier: 'standard' },
+  
   { id: 'bq-round-32', name: 'Citrus Refresh', shopifyHandle: 'citrus-refresh', description: 'Mix of orange and yellow roses', image: bqMixNaranjaAmarilloImg, image2: bqMixNaranjaAmarillo3Img, color: 'Naranja y Amarillo', type: 'round', pricingTier: 'standard' },
   { id: 'bq-round-35', name: 'Orange Citrus', shopifyHandle: 'orange-citrus', description: 'Mix of orange and white roses', image: bqMixNaranjaBlancoImg, image2: bqMixNaranjaBlanco2Img, color: 'Naranja y Blanco', type: 'round', pricingTier: 'standard' },
   { id: 'bq-round-44', name: 'Infinite Tenderness', shopifyHandle: 'infinite-tenderness', description: 'Mix of pink and white roses', image: bqMixLightpinkBlancoImg, image2: bqMixPinkAmarilloBlanco2Img, color: 'Pink y Blanco', type: 'round', pricingTier: 'standard' },
@@ -236,7 +236,7 @@ export const bouquetProducts: BouquetProduct[] = [
   { id: 'bq-round-24', name: 'Warm Sunset', shopifyHandle: 'warm-sunset', description: 'Vibrant mix of orange, hot pink, and white roses', image: bqMixCalidoImg, image2: bqMixCalido2Img, color: 'Naranja, Hot Pink y Blanco', type: 'round', pricingTier: 'standard' },
   { id: 'bq-round-33', name: 'Light Citrus', shopifyHandle: 'light-citrus', description: 'Mix of orange, yellow, and white roses', image: bqMixNaranjaAmarillo2Img, image2: bqMixNaranjaAmarillo23Img, color: 'Naranja, Amarillo y Blanco', type: 'round', pricingTier: 'standard' },
   { id: 'bq-round-39', name: 'Soft Spring', shopifyHandle: 'soft-spring', description: 'Mix of yellow, pink, and white roses', image: bqMixPinkAmarilloBlancoImg, image2: bqMixPinkAmarilloBlanco3Img, color: 'Amarillo, Pink y Blanco', type: 'round', pricingTier: 'standard' },
-  { id: 'bq-round-41', name: 'Bright Lilac', shopifyHandle: 'bright-lilac', description: 'Mix of yellow, lilac, and white roses', image: bqMixAmarilloLilaBlancoImg, image2: bqMixNaranjaAmarilloSecImg, color: 'Amarillo, Lila y Blanco', type: 'round', pricingTier: 'standard' },
+  
   { id: 'bq-round-47', name: 'Pink Symphony', shopifyHandle: 'pink-symphony', description: 'Mix of pink, hot pink, yellow, and white roses', image: bqMixRojoBlanco3Img, image2: bqMixRojoBlanco4Img, color: 'Pink, Hot Pink, Amarillo y Blanco', type: 'round', pricingTier: 'standard' },
 
   // 3 colors - With Painted (mix2painted pricing)
