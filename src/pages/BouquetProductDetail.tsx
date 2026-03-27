@@ -147,6 +147,7 @@ const BouquetProductDetail = () => {
 
   useEffect(() => {
     if (!product) return;
+    applySeo(product.shopifyHandle);
 
     let active = true;
 

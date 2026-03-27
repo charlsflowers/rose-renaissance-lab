@@ -7,7 +7,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { useCartStore } from "@/stores/cartStore";
 import { toast } from "sonner";
 import { format, isBefore, startOfDay } from "date-fns";
-import { DELIVERY_FEE_VARIANT_GID } from "@/lib/accessoryVariants";
+import { enUS } from "date-fns/locale";
 import Navbar from "@/components/Navbar";
 import { roomDecorPackages, roomDecorBouquetColors } from "@/lib/roomDecorData";
 import { calculateRoomDecorDeliveryCost, formatDeliveryCost } from "@/lib/deliveryPricing";
