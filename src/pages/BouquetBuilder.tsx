@@ -241,7 +241,7 @@ const BouquetBuilder = () => {
 
   const crownCost = addCrown ? crownPrice : 0;
   const ribbonCost = addRibbon ? ribbonPrice : 0;
-  const accessoryCost = accessory === "card" ? 3 : accessory === "butterfly" ? 3 : accessory === "note" ? 3 : 0;
+  const accessoryCost = accessory === "note" ? 3 : 0;
 
   const totalPrice = useMemo(() => {
     let total = basePrice + lettersNumbersCost;
