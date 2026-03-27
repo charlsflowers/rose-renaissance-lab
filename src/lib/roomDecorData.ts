@@ -61,6 +61,8 @@ export const roomDecorPackages: RoomDecorPackage[] = [
   {
     id: 'rd-overly-romantic',
     name: 'Overly Romantic',
+    shopifyHandle: 'overly-romantic',
+    shopifyVariantId: 'gid://shopify/ProductVariant/51693066289284',
     price: 480,
     description: 'The ultimate romantic experience with a 50-rose bouquet included',
     image: roomDecorImg,
