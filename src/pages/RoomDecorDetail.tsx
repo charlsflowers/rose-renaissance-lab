@@ -179,7 +179,7 @@ const RoomDecorDetail = () => {
         deliveryHour,
         deliveryMiles: deliveryMethod === "delivery" ? deliveryMiles : null,
         paperColor: "",
-        shopifyVariantId: "", // TODO: create Shopify products for room decors
+        shopifyVariantId: pkg.shopifyVariantId,
         image: pkg.image,
       });
       toast.success(`${pkg.name} added to cart!`);
