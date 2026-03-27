@@ -2,6 +2,7 @@ import { useState, useMemo, useCallback, useRef, useEffect } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import { format, addHours, isBefore, startOfDay } from "date-fns";
 import { miamiHourNow, todayInMiami, isTodayInMiami } from "@/lib/miamiTime";
+import { applySeo } from "@/lib/seoData";
 import { enUS } from "date-fns/locale";
 import { supabase } from "@/integrations/supabase/client";
 import { useCartStore } from "@/stores/cartStore";
