@@ -39,6 +39,8 @@ export const roomDecorPackages: RoomDecorPackage[] = [
   {
     id: 'rd-love-bomb',
     name: 'Love Bomb',
+    shopifyHandle: 'love-bomb',
+    shopifyVariantId: 'gid://shopify/ProductVariant/51693066223748',
     price: 350,
     description: 'A romantic explosion of love for an unforgettable surprise',
     image: roomDecorImg,
