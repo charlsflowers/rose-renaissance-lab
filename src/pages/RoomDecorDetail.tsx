@@ -6,11 +6,11 @@ import { enUS } from "date-fns/locale";
 import { supabase } from "@/integrations/supabase/client";
 import { useCartStore } from "@/stores/cartStore";
 import { toast } from "sonner";
-import { fetchCartCheckoutUrl, updateCartNote, addLineToShopifyCart, updateCartBuyerIdentity, type ShippingAddress } from "@/lib/shopify";
-import { DELIVERY_FEE_VARIANT_GID } from "@/lib/accessoryVariants";
 import Navbar from "@/components/Navbar";
 import { roomDecorPackages, roomDecorBouquetColors } from "@/lib/roomDecorData";
 import { calculateRoomDecorDeliveryCost, formatDeliveryCost } from "@/lib/deliveryPricing";
+import { applySeo } from "@/lib/seoData";
+import { buildCheckoutUrl } from "@/lib/checkout";
 import {
   ArrowLeft, Check, Store, Truck, CalendarIcon, Clock, MapPin, Search, Loader2, Heart,
 } from "lucide-react";
@@ -47,7 +47,7 @@ const RoomDecorDetail = () => {
   const autocompleteRef = useRef<HTMLDivElement>(null);
   const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  useEffect(() => { window.scrollTo(0, 0); }, []);
+  useEffect(() => { window.scrollTo(0, 0); if (pkg) applySeo(pkg.shopifyHandle); }, [pkg]);
 
   useEffect(() => {
     const handler = (e: MouseEvent) => {
@@ -176,7 +176,7 @@ const RoomDecorDetail = () => {
         deliveryHour,
         deliveryMiles: deliveryMethod === "delivery" ? deliveryMiles : null,
         paperColor: "",
-        shopifyVariantId: "", // TODO: create Shopify products for room decors
+        shopifyVariantId: pkg.shopifyVariantId,
         image: pkg.image,
       });
       toast.success(`${pkg.name} added to cart!`);
@@ -191,53 +191,47 @@ const RoomDecorDetail = () => {
 
   const handlePayNow = async () => {
     const success = await handleAddToCart();
-    if (success) {
-      const cartId = useCartStore.getState().cartId;
-      const storedCheckoutUrl = useCartStore.getState().checkoutUrl;
-      if (!cartId) { toast.error("Could not start checkout."); return; }
+    if (!success) return;
 
-      try {
-        // Add delivery fee
-        if (deliveryMethod === "delivery" && deliveryCost > 0) {
-          await addLineToShopifyCart(cartId, DELIVERY_FEE_VARIANT_GID, Math.round(deliveryCost * 10));
-        }
-        // Update shipping address
-        if (deliveryMethod === "delivery" && selectedAddress) {
-          const parsed: ShippingAddress = { address1: selectedAddress.split(",")[0] || "", city: selectedAddress.split(",")[1]?.trim() || "", province: "", zip: deliveryZip, country: "US" };
-          await updateCartBuyerIdentity(cartId, parsed);
-        }
-        // Build structured order notes
-        const noteLines: string[] = [];
-        noteLines.push("DATOS DEL ENVÍO");
-        noteLines.push(`- 🚚 Tipo: ${deliveryMethod === "delivery" ? "Home Delivery" : "Store Pickup"}`);
-        if (deliveryDate) noteLines.push(`- 📅 Fecha: ${format(deliveryDate, "PPP", { locale: enUS })}`);
-        if (deliveryHour) noteLines.push(`- ⏰ Hora: ${deliveryHour}`);
-        if (deliveryMethod === "delivery" && selectedAddress) noteLines.push(`- 📍 Dirección: ${selectedAddress}`);
-        noteLines.push("");
-        noteLines.push("DATOS DEL PRODUCTO 1");
-        noteLines.push(`- 🌹 Producto: ${pkg.name}`);
-        if (selectedBouquetColor) noteLines.push(`- 🌸 Color: ${selectedBouquetColor}`);
-        if (addRibbon && ribbonText) noteLines.push(`- 🎀 Custom ribbon: ${ribbonText}`);
-        await updateCartNote(cartId, noteLines.join("\n"));
-
-        // Add 3% Service Fee
-        const SERVICE_FEE_VARIANT_GID = "gid://shopify/ProductVariant/51654333595780";
-        const cartTotalForFee = pkg.price + (deliveryMethod === "delivery" ? deliveryCost : 0);
-        const serviceFeePrice = cartTotalForFee * 0.05;
-        const serviceFeeQty = Math.round(serviceFeePrice / 0.10);
-        await addLineToShopifyCart(cartId, SERVICE_FEE_VARIANT_GID, serviceFeeQty);
-
-        // Redirect
-        const freshUrl = await fetchCartCheckoutUrl(cartId);
-        const finalUrl = freshUrl || storedCheckoutUrl;
-        if (finalUrl) {
-          window.location.href = finalUrl;
-        } else {
-          toast.error("Could not get checkout URL.");
-        }
-      } catch {
-        toast.error("Checkout error. Please try again.");
+    try {
+      const noteLines: string[] = [];
+      noteLines.push("DATOS DEL ENVÍO");
+      noteLines.push(`- 🚚 Tipo: ${deliveryMethod === "delivery" ? "Home Delivery" : "Store Pickup"}`);
+      if (deliveryDate) noteLines.push(`- 📅 Fecha: ${format(deliveryDate, "PPP", { locale: enUS })}`);
+      if (deliveryHour) noteLines.push(`- ⏰ Hora: ${deliveryHour}`);
+      if (deliveryMethod === "delivery" && selectedAddress) noteLines.push(`- 📍 Dirección: ${selectedAddress}`);
+      noteLines.push("");
+      noteLines.push("DATOS DEL PRODUCTO 1");
+      noteLines.push(`- 🌹 Producto: ${pkg.name}`);
+      if (pkg.bouquetIncluded && selectedBouquetColor) noteLines.push(`- 🌸 Bouquet color: ${selectedBouquetColor}`);
+      if (addRibbon && ribbonText) noteLines.push(`- 🎀 Custom ribbon: ${ribbonText}`);
+      if (selectedAddons.length > 0) {
+        const addonLabels = selectedAddons.map(idx => pkg.addons[idx]?.label).filter(Boolean);
+        noteLines.push(`- 🎁 Add-ons: ${addonLabels.join(", ")}`);
       }
+
+      const cartTotalForFee = (pkg.price + addonsCost + ribbonCost) + (deliveryMethod === "delivery" ? deliveryCost : 0);
+      const serviceFeePrice = cartTotalForFee * 0.05;
+
+      const finalUrl = buildCheckoutUrl(pkg.shopifyVariantId, {
+        deliveryMethod,
+        deliveryCost,
+        serviceFee: serviceFeePrice,
+        deliveryAddress: deliveryMethod === "delivery" ? selectedAddress : undefined,
+        deliveryZip: deliveryMethod === "delivery" ? deliveryZip : undefined,
+        deliveryDate: deliveryDate ? format(deliveryDate, "PPP", { locale: enUS }) : undefined,
+        deliveryTime: deliveryHour || undefined,
+        accessories: [],
+        note: noteLines.join("\n"),
+      });
+
+      if (finalUrl) {
+        window.location.href = finalUrl;
+      } else {
+        toast.error("Could not get checkout URL.");
+      }
+    } catch {
+      toast.error("Checkout error. Please try again.");
     }
   };
 

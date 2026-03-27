@@ -2,6 +2,7 @@ import { useState, useMemo, useCallback, useRef, useEffect } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import { format, addHours, isBefore, startOfDay } from "date-fns";
 import { miamiHourNow, todayInMiami, isTodayInMiami } from "@/lib/miamiTime";
+import { applySeo } from "@/lib/seoData";
 import { enUS } from "date-fns/locale";
 import { supabase } from "@/integrations/supabase/client";
 import { useCartStore } from "@/stores/cartStore";
@@ -146,6 +147,7 @@ const BouquetProductDetail = () => {
 
   useEffect(() => {
     if (!product) return;
+    applySeo(product.shopifyHandle);
 
     let active = true;
 
@@ -196,7 +198,7 @@ const BouquetProductDetail = () => {
   const numbersExtra = addNumbers ? specialText.replace(/[^0-9]/g, "").length * letterNumberExtraPrice : 0;
   const glitterCost = addGlitter ? Math.ceil(selectedSize.roses / 25) * 8 : 0;
   const vaseCost = addVase ? vaseOptions[selectedVaseIdx].price : 0;
-  const accessoryCost = accessory === "card" ? 3 : accessory === "butterfly" ? 3 : accessory === "note" ? 3 : 0;
+  const accessoryCost = accessory === "note" ? 3 : 0;
   const deliveryCost = deliveryMethod === "delivery" && deliveryMiles && !distanceTooFar ? calculateDeliveryCost(deliveryMiles) : 0;
   const basePrice = sizePrice + (addCrown ? crownPrice : 0) + (addRibbon ? ribbonPrice : 0) + lettersExtra + numbersExtra + glitterCost + vaseCost + accessoryCost;
   const totalPrice = basePrice + deliveryCost;
@@ -471,25 +473,15 @@ const BouquetProductDetail = () => {
             {/* 4. Accessories */}
             <Section title="Accessories" step={step++}>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-                {([
-                  { type: "note" as const, label: "Note", icon: Type, img: null, price: "$3" },
-                  { type: "card" as const, label: "Card", icon: Sparkles, img: null, price: "$3" },
-                  { type: "butterfly" as const, label: "Butterflies", icon: null, img: butterflyImg, price: "$3" },
-                ] as const).map(({ type: t, label, icon: Icon, img, price }) => (
-                  <button key={t} onClick={() => setAccessory(t)}
-                    className={`flex flex-col items-center gap-2 p-4 rounded-sm border-2 transition-all font-body text-sm ${accessory === t ? "border-primary bg-primary/5 text-primary" : "border-border text-muted-foreground hover:border-primary/30"}`}>
-                    {img ? (
-                      <img src={img} alt={label} className="w-10 h-10 object-contain" />
-                    ) : Icon ? (
-                      <Icon className="w-4 h-4" />
-                    ) : null}
-                    {label}
-                    <span className="text-xs text-secondary">{price}</span>
-                  </button>
-                ))}
+                <button onClick={() => setAccessory("note")}
+                  className={`flex flex-col items-center gap-2 p-4 rounded-sm border-2 transition-all font-body text-sm ${accessory === "note" ? "border-primary bg-primary/5 text-primary" : "border-border text-muted-foreground hover:border-primary/30"}`}>
+                  <Type className="w-4 h-4" />
+                  Note
+                  <span className="text-xs text-secondary">$3</span>
+                </button>
               </div>
-              {(accessory === "note" || accessory === "card") && (
-                <textarea value={accessoryText} onChange={(e) => setAccessoryText(e.target.value)} placeholder={`Write your ${accessory === "note" ? "note" : "card"}...`}
+              {accessory === "note" && (
+                <textarea value={accessoryText} onChange={(e) => setAccessoryText(e.target.value)} placeholder="Write your note..."
                   className="w-full mt-4 bg-card border border-border rounded-sm px-4 py-3 font-body text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30 min-h-[100px] resize-none" maxLength={200} />
               )}
             </Section>
@@ -513,7 +505,7 @@ const BouquetProductDetail = () => {
                   <Truck className="w-5 h-5 flex-shrink-0" />
                   <div className="text-left flex-1">
                     <p className="font-semibold text-sm text-foreground">Home delivery</p>
-                    <p className="text-xs text-muted-foreground">From $20</p>
+                    <p className="text-xs text-muted-foreground">From $25</p>
                   </div>
                   {deliveryMethod === "delivery" && <Check className="w-4 h-4 text-primary flex-shrink-0" />}
                 </button>

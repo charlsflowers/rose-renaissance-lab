@@ -8,6 +8,8 @@ export interface RoomDecorAddon {
 export interface RoomDecorPackage {
   id: string;
   name: string;
+  shopifyHandle: string;
+  shopifyVariantId: string;
   price: number;
   description: string;
   image: string;
@@ -37,6 +39,8 @@ export const roomDecorPackages: RoomDecorPackage[] = [
   {
     id: 'rd-love-bomb',
     name: 'Love Bomb',
+    shopifyHandle: 'love-bomb',
+    shopifyVariantId: 'gid://shopify/ProductVariant/51693066223748',
     price: 350,
     description: 'A romantic explosion of love for an unforgettable surprise',
     image: roomDecorImg,
@@ -57,6 +61,8 @@ export const roomDecorPackages: RoomDecorPackage[] = [
   {
     id: 'rd-overly-romantic',
     name: 'Overly Romantic',
+    shopifyHandle: 'overly-romantic',
+    shopifyVariantId: 'gid://shopify/ProductVariant/51693066289284',
     price: 480,
     description: 'The ultimate romantic experience with a 50-rose bouquet included',
     image: roomDecorImg,
@@ -85,6 +91,8 @@ export const roomDecorPackages: RoomDecorPackage[] = [
   {
     id: 'rd-deluxe-love',
     name: 'Deluxe Love Package',
+    shopifyHandle: 'deluxe-love-package',
+    shopifyVariantId: 'gid://shopify/ProductVariant/51693066322052',
     price: 835,
     description: 'The most complete and luxurious room decor with a 75-rose bouquet',
     image: roomDecorImg,

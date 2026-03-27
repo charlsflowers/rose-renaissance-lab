@@ -244,28 +244,18 @@ const CategoryProductDetail = () => {
               <PaperColorPicker selected={paperColor} onChange={setPaperColor} />
             </Section>
 
-            {/* Note & Card */}
-            <Section title="Accessories" step={2} subtitle="Free">
+            {/* Note */}
+            <Section title="Accessories" step={2} subtitle="$3">
               <div className="grid grid-cols-2 gap-3 mb-4">
-                <button onClick={() => { setAddNote(!addNote); if (!addNote) setAddCard(false); }}
+                <button onClick={() => setAddNote(!addNote)}
                   className={`flex items-center justify-center gap-3 p-4 rounded-sm border-2 transition-all font-body text-sm ${addNote ? "border-primary bg-primary/5 text-primary" : "border-border text-muted-foreground hover:border-primary/30"}`}>
                   <Type className="w-4 h-4" />
                   <span>Note</span>
                   {addNote && <Check className="w-4 h-4 ml-auto" />}
                 </button>
-                <button onClick={() => { setAddCard(!addCard); if (!addCard) setAddNote(false); }}
-                  className={`flex items-center justify-center gap-3 p-4 rounded-sm border-2 transition-all font-body text-sm ${addCard ? "border-primary bg-primary/5 text-primary" : "border-border text-muted-foreground hover:border-primary/30"}`}>
-                  <Sparkles className="w-4 h-4" />
-                  <span>Card</span>
-                  {addCard && <Check className="w-4 h-4 ml-auto" />}
-                </button>
               </div>
               {addNote && (
                 <textarea value={noteText} onChange={(e) => setNoteText(e.target.value)} placeholder="Write your note..."
-                  className="w-full mt-2 bg-card border border-border rounded-sm px-4 py-3 font-body text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30 min-h-[100px] resize-none" maxLength={200} />
-              )}
-              {addCard && (
-                <textarea value={cardText} onChange={(e) => setCardText(e.target.value)} placeholder="Write your card..."
                   className="w-full mt-2 bg-card border border-border rounded-sm px-4 py-3 font-body text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30 min-h-[100px] resize-none" maxLength={200} />
               )}
             </Section>
@@ -280,7 +270,7 @@ const CategoryProductDetail = () => {
                 </button>
                 <button onClick={() => setDeliveryMethod("delivery")}
                   className={`flex flex-col items-center gap-3 p-5 rounded-sm border-2 transition-all font-body ${deliveryMethod === "delivery" ? "border-primary bg-primary/5" : "border-border hover:border-primary/30"}`}>
-                  <Truck className="w-6 h-6" /><p className="font-semibold text-sm text-foreground">Home delivery</p><p className="text-xs text-muted-foreground">From $20</p>
+                  <Truck className="w-6 h-6" /><p className="font-semibold text-sm text-foreground">Home delivery</p><p className="text-xs text-muted-foreground">From $25</p>
                   {deliveryMethod === "delivery" && <Check className="w-4 h-4 text-primary" />}
                 </button>
               </div>

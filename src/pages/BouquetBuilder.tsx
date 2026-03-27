@@ -241,7 +241,7 @@ const BouquetBuilder = () => {
 
   const crownCost = addCrown ? crownPrice : 0;
   const ribbonCost = addRibbon ? ribbonPrice : 0;
-  const accessoryCost = accessory === "card" ? 3 : accessory === "butterfly" ? 3 : accessory === "note" ? 3 : 0;
+  const accessoryCost = accessory === "note" ? 3 : 0;
 
   const totalPrice = useMemo(() => {
     let total = basePrice + lettersNumbersCost;
@@ -455,35 +455,24 @@ const BouquetBuilder = () => {
             {/* 4. Accessories */}
             <Section title="Accessories" step={5}>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-                {([
-                  { type: "note" as const, label: "Note", icon: Type, img: null, price: "$3" },
-                  { type: "card" as const, label: "Card", icon: Sparkles, img: null, price: "$3" },
-                  { type: "butterfly" as const, label: "Butterflies", icon: null, img: butterflyImg, price: "$3" },
-                ] as const).map(({ type, label, icon: Icon, img, price }) => (
-                  <button
-                    key={type}
-                    onClick={() => setAccessory(type)}
-                    className={`flex flex-col items-center gap-2 p-4 rounded-sm border-2 transition-all font-body text-sm ${
-                      accessory === type
-                        ? "border-primary bg-primary/5 text-primary"
-                        : "border-border text-muted-foreground hover:border-primary/30"
-                    }`}
-                  >
-                    {img ? (
-                      <img src={img} alt={label} className="w-10 h-10 object-contain" />
-                    ) : Icon ? (
-                      <Icon className="w-4 h-4" />
-                    ) : null}
-                    {label}
-                    <span className="text-xs text-secondary">{price}</span>
-                  </button>
-                ))}
+                <button
+                  onClick={() => setAccessory("note")}
+                  className={`flex flex-col items-center gap-2 p-4 rounded-sm border-2 transition-all font-body text-sm ${
+                    accessory === "note"
+                      ? "border-primary bg-primary/5 text-primary"
+                      : "border-border text-muted-foreground hover:border-primary/30"
+                  }`}
+                >
+                  <Type className="w-4 h-4" />
+                  Note
+                  <span className="text-xs text-secondary">$3</span>
+                </button>
               </div>
-              {(accessory === "note" || accessory === "card") && (
+              {accessory === "note" && (
                 <textarea
                   value={accessoryText}
                   onChange={(e) => setAccessoryText(e.target.value)}
-                  placeholder={`Write your ${accessory === "note" ? "note" : "card"}...`}
+                  placeholder="Write your note..."
                   className="w-full mt-4 bg-card border border-border rounded-sm px-4 py-3 font-body text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30 min-h-[100px] resize-none"
                   maxLength={200}
                 />
@@ -745,7 +734,7 @@ const BouquetBuilder = () => {
                   <Truck className="w-6 h-6" />
                   <div className="text-center">
                      <p className="font-semibold text-sm text-foreground">Home delivery</p>
-                     <p className="text-xs text-muted-foreground mt-1">From $20</p>
+                     <p className="text-xs text-muted-foreground mt-1">From $25</p>
                   </div>
                   {deliveryMethod === "delivery" && <Check className="w-4 h-4 text-primary" />}
                 </button>
