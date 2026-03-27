@@ -503,7 +503,7 @@ const BouquetProductDetail = () => {
                   <Truck className="w-5 h-5 flex-shrink-0" />
                   <div className="text-left flex-1">
                     <p className="font-semibold text-sm text-foreground">Home delivery</p>
-                    <p className="text-xs text-muted-foreground">From $20</p>
+                    <p className="text-xs text-muted-foreground">From $25</p>
                   </div>
                   {deliveryMethod === "delivery" && <Check className="w-4 h-4 text-primary flex-shrink-0" />}
                 </button>

@@ -91,6 +91,8 @@ export const roomDecorPackages: RoomDecorPackage[] = [
   {
     id: 'rd-deluxe-love',
     name: 'Deluxe Love Package',
+    shopifyHandle: 'deluxe-love-package',
+    shopifyVariantId: 'gid://shopify/ProductVariant/51693066322052',
     price: 835,
     description: 'The most complete and luxurious room decor with a 75-rose bouquet',
     image: roomDecorImg,
