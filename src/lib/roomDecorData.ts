@@ -8,6 +8,8 @@ export interface RoomDecorAddon {
 export interface RoomDecorPackage {
   id: string;
   name: string;
+  shopifyHandle: string;
+  shopifyVariantId: string;
   price: number;
   description: string;
   image: string;
