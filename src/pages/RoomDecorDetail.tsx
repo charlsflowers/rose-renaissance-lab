@@ -50,7 +50,7 @@ const RoomDecorDetail = () => {
   const autocompleteRef = useRef<HTMLDivElement>(null);
   const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  useEffect(() => { window.scrollTo(0, 0); }, []);
+  useEffect(() => { window.scrollTo(0, 0); if (pkg) applySeo(pkg.shopifyHandle); }, [pkg]);
 
   useEffect(() => {
     const handler = (e: MouseEvent) => {
