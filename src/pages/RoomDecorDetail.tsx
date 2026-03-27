@@ -6,14 +6,11 @@ import { enUS } from "date-fns/locale";
 import { supabase } from "@/integrations/supabase/client";
 import { useCartStore } from "@/stores/cartStore";
 import { toast } from "sonner";
-import { format, isBefore, startOfDay } from "date-fns";
-import { enUS } from "date-fns/locale";
 import Navbar from "@/components/Navbar";
 import { roomDecorPackages, roomDecorBouquetColors } from "@/lib/roomDecorData";
 import { calculateRoomDecorDeliveryCost, formatDeliveryCost } from "@/lib/deliveryPricing";
 import { applySeo } from "@/lib/seoData";
 import { buildCheckoutUrl } from "@/lib/checkout";
-import { buildAccessoryLineItems } from "@/lib/accessoryVariants";
 import {
   ArrowLeft, Check, Store, Truck, CalendarIcon, Clock, MapPin, Search, Loader2, Heart,
 } from "lucide-react";
