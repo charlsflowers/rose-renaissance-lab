@@ -371,7 +371,7 @@ const BouquetProductDetail = () => {
       <div className="pt-16 md:pt-24 pb-16">
         <div className="container mx-auto px-6">
           <Breadcrumbs items={[{ label: "Home", to: "/" }, { label: "Bouquets", to: "/bouquets" }, { label: product.name }]} />
-          <p className="text-primary font-body text-xs font-semibold text-center mb-6">⏰ Order before 3PM for same-day delivery today</p>
+          <p className="text-primary font-body text-xs font-semibold text-center mb-6">{t("common.orderBefore3PM")}</p>
           {/* ===== DESKTOP: two-column layout ===== */}
           <div className="hidden md:grid md:grid-cols-[1fr_1fr] lg:grid-cols-[55%_45%] gap-8 max-w-6xl mx-auto">
             {/* Left column — sticky images */}
