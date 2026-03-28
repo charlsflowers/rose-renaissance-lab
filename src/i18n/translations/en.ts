@@ -218,7 +218,7 @@ export const en = {
     time: "Time",
     selectTime: "Select a time",
     addToCart: "Add to cart",
-    orderAndPay: "Order & pay",
+    orderAndPay: "Order now",
     deliveryDateAndTime: "Delivery date & time",
     orderBefore3PM: "⏰ Order before 3PM for same-day delivery today",
     min: "Min.",
