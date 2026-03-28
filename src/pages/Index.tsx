@@ -136,8 +136,8 @@ const Index = () => {
                     </div>
                   ) : (
                     <Link to={item.isRoute ? `/${item.slug}` : `/categoria/${item.slug}`} className="group block">
-                      <div className="relative overflow-hidden rounded-sm mb-4 aspect-square">
-                        <img src={item.img} alt={item.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
+                       <div className="relative overflow-hidden rounded-sm mb-4 aspect-square">
+                        <img src={item.img} alt={`${item.title} Miami – Charls Flowers`} loading="lazy" width={400} height={400} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
                         <div className="absolute inset-0 bg-foreground/10 group-hover:bg-foreground/25 transition-colors" />
                       </div>
                       <h3 className="font-display text-lg font-semibold text-foreground text-center uppercase tracking-wide">{item.title}</h3>
