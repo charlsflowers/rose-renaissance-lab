@@ -278,7 +278,16 @@ export const es = {
   clientVideos: {
     title: "Nuestros Clientes",
     subtitle: "Mira lo que nuestros clientes satisfechos dicen sobre sus flores.",
-    orderSame: "Pedir igual",
+    orderSame: "Pedir el mismo",
+  },
+
+  ticker: {
+    bestQuality: "La florería con mejor relación calidad-precio de Miami",
+    unbeatablePrices: "Precios imbatibles en rosas frescas",
+    handcrafted: "Ramos artesanales 100% hechos a mano",
+    sameDayDelivery: "Envío el mismo día en Miami",
+    rosesPerBouquet: "De 50 a 200 rosas por ramo",
+    finishOptions: "Flores naturales, pintadas o con acabado glitter",
   },
 
   roomDecors: {
