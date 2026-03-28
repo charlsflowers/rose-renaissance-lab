@@ -809,6 +809,9 @@ const BouquetProductDetail = () => {
                 </div>
               </div>
             </div>
+
+            {/* Cross-links */}
+            <YouMightAlsoLove currentProductId={product.id} />
           </div>
         </div>
       </div>

@@ -106,6 +106,11 @@ const BouquetProducts = () => {
         </div>
       </div>
 
+      {/* Collection FAQ */}
+      <div className="container mx-auto px-6">
+        <CollectionFAQ faqs={bouquetFAQs} />
+      </div>
+
       {/* CTA */}
       <section className="py-20 bg-primary">
         <div className="container mx-auto px-6 text-center">

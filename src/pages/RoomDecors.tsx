@@ -52,6 +52,9 @@ const RoomDecors = () => {
           </div>
         </div>
       </div>
+      <div className="container mx-auto px-6">
+        <CollectionFAQ faqs={roomDecorFAQs} />
+      </div>
       <Footer />
     </div>
   );
