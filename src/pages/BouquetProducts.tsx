@@ -17,9 +17,16 @@ const isZodiac = (id: string) => id.startsWith('bq-zodiac-');
 
 const BouquetProducts = () => {
   const { t } = useTranslation();
-  const [filter, setFilter] = useState<FilterType>("all");
+  const [searchParams] = useSearchParams();
+  const initialFilter = (searchParams.get("filter") as FilterType) || "all";
+  const [filter, setFilter] = useState<FilterType>(initialFilter);
 
   useEffect(() => { window.scrollTo(0, 0); }, []);
+
+  useEffect(() => {
+    const urlFilter = (searchParams.get("filter") as FilterType) || "all";
+    setFilter(urlFilter);
+  }, [searchParams]);
 
   const filteredProducts = bouquetProducts.filter((product) => {
     if (filter === "zodiac") return isZodiac(product.id);
