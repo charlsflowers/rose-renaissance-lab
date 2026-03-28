@@ -13,7 +13,7 @@ import { resolveCustomBouquetVariantId } from "@/lib/customBouquetVariants";
 
 import Navbar from "@/components/Navbar";
 import PaperColorPicker from "@/components/PaperColorPicker";
-import heroBouquet from "@/assets/hero-bouquet.jpg";
+import heroBouquet from "@/assets/hero-cover.webp";
 import glitterRoseImg from "@/assets/glitter-rose.png";
 import crownSilverImg from "@/assets/crown-silver.png";
 import crownGoldImg from "@/assets/crown-gold.png";
