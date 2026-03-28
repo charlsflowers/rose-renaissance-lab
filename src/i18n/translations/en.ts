@@ -295,6 +295,16 @@ export const en = {
     orderSame: "Order same",
   },
 
+  // Ticker
+  ticker: {
+    bestQuality: "Best quality-price flower shop in Miami",
+    unbeatablePrices: "Unbeatable prices on fresh roses",
+    handcrafted: "100% handcrafted artisan bouquets",
+    sameDayDelivery: "Same-day delivery in Miami",
+    rosesPerBouquet: "From 50 to 200 roses per bouquet",
+    finishOptions: "Natural, painted, or glitter finish flowers",
+  },
+
   // Room Decors
   roomDecors: {
     title: "Room Decoration Miami",
