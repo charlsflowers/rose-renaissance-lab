@@ -66,6 +66,31 @@ const Navbar = () => {
     ? searchableItems.filter(item => item.name.toLowerCase().includes(searchQuery.toLowerCase())).slice(0, 6)
     : [];
 
+  // Fetch Places autocomplete
+  const fetchPlaces = useCallback(async (input: string) => {
+    if (input.length < 3) { setPlacePredictions([]); return; }
+    setLoadingPlaces(true);
+    try {
+      const { data, error } = await supabase.functions.invoke("places-autocomplete", { body: { input } });
+      if (!error && data?.predictions) setPlacePredictions(data.predictions);
+      else setPlacePredictions([]);
+    } catch { setPlacePredictions([]); }
+    setLoadingPlaces(false);
+  }, []);
+
+  const handleSearchChange = (val: string) => {
+    setSearchQuery(val);
+    if (debounceRef.current) clearTimeout(debounceRef.current);
+    debounceRef.current = setTimeout(() => fetchPlaces(val), 350);
+  };
+
+  const handlePlaceClick = (prediction: PlacePrediction) => {
+    setSearchOpen(false);
+    setSearchQuery("");
+    setPlacePredictions([]);
+    navigate(`/delivery?address=${encodeURIComponent(prediction.description)}`);
+  };
+
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-md border-b border-border">
       <div className="container mx-auto px-4 md:px-6 py-3 flex items-center justify-between relative">
