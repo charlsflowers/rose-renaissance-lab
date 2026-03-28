@@ -265,7 +265,7 @@ export const es = {
 
   reviews: {
     addToCart: "Añadir al carrito",
-    orderAndPay: "Pedir y pagar",
+    orderAndPay: "Pedir ahora",
     bouquets: "Ramos",
     custom: "Personalizados",
     arrangements: "Arreglos",

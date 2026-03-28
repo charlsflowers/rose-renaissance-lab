@@ -278,7 +278,7 @@ export const en = {
   // Reviews
   reviews: {
     addToCart: "Add to cart",
-    orderAndPay: "Order & pay",
+    orderAndPay: "Order now",
     bouquets: "Bouquets",
     custom: "Custom",
     arrangements: "Arrangements",
