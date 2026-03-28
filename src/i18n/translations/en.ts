@@ -323,7 +323,7 @@ export const en = {
     deliveryMethod: "Delivery method",
     storePickup: "Store pickup",
     homeDelivery: "Home delivery",
-    fromPrice: "From $20",
+    fromPrice: "From $25",
     pickupAt: "📍 Pickup at:",
     deliverTo: "📍 Deliver to:",
     changeAddress: "Change address",
