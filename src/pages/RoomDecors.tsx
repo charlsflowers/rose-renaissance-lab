@@ -6,6 +6,7 @@ import Footer from "@/components/Footer";
 import SeoHead from "@/components/SeoHead";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import JsonLd, { breadcrumbSchema } from "@/components/JsonLd";
+import CollectionFAQ, { roomDecorFAQs } from "@/components/CollectionFAQ";
 import { roomDecorPackages } from "@/lib/roomDecorData";
 
 const RoomDecors = () => {
