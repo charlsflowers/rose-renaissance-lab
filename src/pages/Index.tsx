@@ -12,6 +12,7 @@ import Footer from "@/components/Footer";
 import SeoHead from "@/components/SeoHead";
 import JsonLd, { localBusinessSchema, serviceSchema, websiteSchema, faqSchema, homepageFaqs } from "@/components/JsonLd";
 import ClientVideos from "@/components/ClientVideos";
+import { useTranslation } from "@/i18n/LanguageContext";
 import heroBouquet from "@/assets/hero-cover.webp";
 import arreglosImg from "@/assets/arreglos.jpg";
 import cajasImg from "@/assets/cajas.jpg";
@@ -25,15 +26,34 @@ const deluxeLoveImg = 'https://cdn.shopify.com/s/files/1/0979/1671/5140/files/3_
 const comingSoonSlugs = ["arreglos", "cajas", "cestas", "jarrones", "osos"];
 
 const Index = () => {
+  const { t } = useTranslation();
   const [reviewCategory, setReviewCategory] = useState<ReviewCategory>("bouquets");
   const categories = [
-    { img: bicolorPassionImg, title: "Bouquets", slug: "bouquets", isRoute: true },
-    { img: arreglosImg, title: "Arrangements", slug: "arreglos" },
-    { img: cajasImg, title: "Boxes", slug: "cajas" },
-    { img: cestasImg, title: "Baskets", slug: "cestas" },
-    { img: jarronesImg, title: "Vases", slug: "jarrones" },
-    { img: ososImg, title: "Bears", slug: "osos" },
-    { img: deluxeLoveImg, title: "Room Decors", slug: "room-decors", isRoute: true },
+    { img: bicolorPassionImg, title: t("categories.bouquets"), slug: "bouquets", isRoute: true },
+    { img: arreglosImg, title: t("categories.arrangements"), slug: "arreglos" },
+    { img: cajasImg, title: t("categories.boxes"), slug: "cajas" },
+    { img: cestasImg, title: t("categories.baskets"), slug: "cestas" },
+    { img: jarronesImg, title: t("categories.vases"), slug: "jarrones" },
+    { img: ososImg, title: t("categories.bears"), slug: "osos" },
+    { img: deluxeLoveImg, title: t("categories.roomDecors"), slug: "room-decors", isRoute: true },
+  ];
+
+  const tickerTexts = [
+    "Best quality-price flower shop in Miami",
+    "Unbeatable prices on fresh roses",
+    "100% handcrafted artisan bouquets",
+    "Same-day delivery in Miami",
+    "From 50 to 200 roses per bouquet",
+    "Natural, painted, or glitter finish flowers",
+  ];
+
+  const occasions = [
+    { text: t("home.valentinesDay"), icon: Heart },
+    { text: t("home.mothersDay"), icon: Heart },
+    { text: t("home.weddingFlowers"), icon: Heart },
+    { text: t("home.birthdayBouquets"), icon: Sparkles },
+    { text: t("home.babyShower"), icon: Sparkles },
+    { text: t("home.anniversaryRoses"), icon: Heart },
   ];
 
   return (
@@ -58,21 +78,21 @@ const Index = () => {
             transition={{ duration: 1, ease: "easeOut" }}
             className="max-w-xl"
           >
-            <p className="font-subtitle-script text-gold text-lg md:text-2xl mb-2 md:mb-4">Handcrafted with love</p>
+            <p className="font-subtitle-script text-gold text-lg md:text-2xl mb-2 md:mb-4">{t("home.heroSubtitle")}</p>
             <h1 className="font-display text-3xl md:text-7xl font-bold text-primary-foreground leading-tight mb-3 md:mb-6">
-              Fresh & Natural Roses Miami
+              {t("home.heroTitle")}
             </h1>
             <p className="text-primary-foreground/80 font-body text-sm md:text-lg mb-5 md:mb-8 leading-relaxed">
-              Handmade bouquets from 50 to 200 roses. Natural, painted, or glitter finish.
+              {t("home.heroDescription")}
             </p>
             <div className="flex flex-col sm:flex-row gap-3 md:gap-4">
               <Link to="/bouquets"
                 className="inline-flex items-center justify-center gap-2 bg-primary text-primary-foreground px-5 md:px-8 py-3 md:py-4 font-body text-xs md:text-sm tracking-widest uppercase hover:bg-primary/90 transition-colors rounded-sm">
-                View bouquets <ArrowRight className="w-3.5 h-3.5 md:w-4 md:h-4" />
+                {t("home.viewBouquets")} <ArrowRight className="w-3.5 h-3.5 md:w-4 md:h-4" />
               </Link>
               <Link to="/bouquets/personalizar"
                 className="inline-flex items-center justify-center gap-2 border border-primary-foreground/50 text-primary-foreground px-5 md:px-8 py-3 md:py-4 font-body text-xs md:text-sm tracking-widest uppercase hover:bg-primary-foreground/10 transition-colors rounded-sm">
-                Build your bouquet <Sparkles className="w-3.5 h-3.5 md:w-4 md:h-4" />
+                {t("home.buildYourBouquet")} <Sparkles className="w-3.5 h-3.5 md:w-4 md:h-4" />
               </Link>
             </div>
           </motion.div>
@@ -87,14 +107,14 @@ const Index = () => {
               <div className="w-9 h-9 rounded-full bg-primary/10 flex items-center justify-center">
                 <Store className="w-4 h-4 text-primary" />
               </div>
-              <span className="font-body text-[11px] md:text-xs tracking-wider text-foreground uppercase">Store pickup</span>
+              <span className="font-body text-[11px] md:text-xs tracking-wider text-foreground uppercase">{t("home.storePickup")}</span>
             </div>
             <div className="w-px h-6 bg-primary/15 hidden md:block" />
             <div className="flex items-center gap-2.5">
               <div className="w-9 h-9 rounded-full bg-primary/10 flex items-center justify-center">
                 <Truck className="w-4 h-4 text-primary" />
               </div>
-              <span className="font-body text-[11px] md:text-xs tracking-wider text-foreground uppercase">Home delivery</span>
+              <span className="font-body text-[11px] md:text-xs tracking-wider text-foreground uppercase">{t("home.homeDelivery")}</span>
             </div>
             <div className="w-px h-6 bg-primary/15 hidden md:block" />
             <div className="flex items-center gap-2.5">
@@ -102,8 +122,8 @@ const Index = () => {
                 <Globe className="w-4 h-4 text-primary" />
               </div>
               <div className="flex flex-col items-start gap-0.5">
-                <span className="font-body text-[11px] md:text-xs tracking-wider text-foreground uppercase">Nationwide shipping</span>
-                <span className="font-body text-[9px] md:text-[10px] tracking-widest uppercase text-primary-foreground bg-primary px-2 py-0.5 rounded-full">Coming Soon</span>
+                <span className="font-body text-[11px] md:text-xs tracking-wider text-foreground uppercase">{t("home.nationwideShipping")}</span>
+                <span className="font-body text-[9px] md:text-[10px] tracking-widest uppercase text-primary-foreground bg-primary px-2 py-0.5 rounded-full">{t("common.comingSoon")}</span>
               </div>
             </div>
           </div>
@@ -114,14 +134,14 @@ const Index = () => {
       <section className="py-16 md:py-20 bg-background">
         <div className="container mx-auto px-6">
           <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.8 }} className="text-center mb-10">
-            <h2 className="font-title-retro text-4xl md:text-5xl text-primary">The Largest Bouquet Selection in Miami</h2>
+            <h2 className="font-title-retro text-4xl md:text-5xl text-primary">{t("home.categoriesTitle")}</h2>
           </motion.div>
 
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-7 gap-5">
             {categories.map((item, i) => {
               const isComingSoon = comingSoonSlugs.includes(item.slug);
               return (
-                <motion.div key={item.title} initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5, delay: i * 0.1 }}>
+                <motion.div key={item.slug} initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5, delay: i * 0.1 }}>
                   {isComingSoon ? (
                     <div className="block opacity-50 cursor-not-allowed">
                       <div className="relative overflow-hidden rounded-sm mb-4 aspect-square">
@@ -129,7 +149,7 @@ const Index = () => {
                         <div className="absolute inset-0 bg-foreground/30 flex items-center justify-center">
                           <div className="bg-foreground/70 px-3 py-1.5 rounded-sm flex items-center gap-1.5">
                             <Lock className="w-3.5 h-3.5 text-primary-foreground" />
-                            <span className="font-body text-[10px] text-primary-foreground tracking-widest uppercase">Coming Soon</span>
+                            <span className="font-body text-[10px] text-primary-foreground tracking-widest uppercase">{t("common.comingSoon")}</span>
                           </div>
                         </div>
                       </div>
@@ -155,7 +175,7 @@ const Index = () => {
       <section className="py-16 md:py-20 bg-cream">
         <div className="container mx-auto px-6">
           <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.8 }} className="text-center mb-10">
-            <h2 className="font-title-retro text-4xl md:text-5xl text-primary">Bouquets</h2>
+            <h2 className="font-title-retro text-4xl md:text-5xl text-primary">{t("home.bouquetsTitle")}</h2>
           </motion.div>
 
           <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }} className="max-w-md mx-auto">
@@ -166,7 +186,7 @@ const Index = () => {
               </div>
               <div className="flex items-center justify-center gap-2 mb-2">
                 <Sparkles className="w-4 h-4 text-primary" />
-                <h3 className="font-display text-xl font-semibold text-foreground uppercase tracking-wide">View Bouquets</h3>
+                <h3 className="font-display text-xl font-semibold text-foreground uppercase tracking-wide">{t("home.viewBouquetsBtn")}</h3>
               </div>
             </Link>
           </motion.div>
@@ -191,14 +211,7 @@ const Index = () => {
           >
             {[...Array(2)].map((_, loop) => (
               <div key={loop} className="flex items-center gap-8 md:gap-12 px-4 md:px-6 shrink-0">
-                {[
-                  "Best quality-price flower shop in Miami",
-                  "Unbeatable prices on fresh roses",
-                  "100% handcrafted artisan bouquets",
-                  "Same-day delivery in Miami",
-                  "From 50 to 200 roses per bouquet",
-                  "Natural, painted, or glitter finish flowers",
-                ].map((text, i) => (
+                {tickerTexts.map((text, i) => (
                   <span key={i} className="font-body text-xs md:text-sm tracking-widest uppercase text-primary-foreground flex items-center gap-8 md:gap-12 shrink-0">
                     {text}
                     <Star className="w-3 h-3 fill-primary-foreground text-primary-foreground shrink-0" />
@@ -222,14 +235,14 @@ const Index = () => {
         <div className="container mx-auto px-6 text-center">
           <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.8 }}>
             <h2 className="font-title-retro text-4xl md:text-5xl text-primary mb-6">
-              Build Your Custom Bouquet with AI Preview
+              {t("home.customizeTitle")}
             </h2>
             <p className="text-muted-foreground font-body mb-8 max-w-md mx-auto">
-              Create a unique bouquet by choosing color, size, accessories, and more.
+              {t("home.customizeDescription")}
             </p>
             <Link to="/bouquets/personalizar"
               className="inline-flex items-center gap-3 bg-primary text-primary-foreground px-8 py-4 font-body text-sm tracking-widest uppercase hover:bg-primary/90 transition-colors rounded-sm">
-              Customize <ArrowRight className="w-4 h-4" />
+              {t("home.customize")} <ArrowRight className="w-4 h-4" />
             </Link>
           </motion.div>
         </div>
@@ -242,8 +255,8 @@ const Index = () => {
       <section className="py-16 md:py-20 bg-cream">
         <div className="container mx-auto px-6">
           <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.8 }} className="text-center mb-10">
-            <h2 className="font-title-retro text-4xl md:text-5xl text-primary mb-4">What our customers say</h2>
-            <p className="text-muted-foreground font-body max-w-lg mx-auto">Like what you see? Order it directly from here.</p>
+            <h2 className="font-title-retro text-4xl md:text-5xl text-primary mb-4">{t("home.reviewsTitle")}</h2>
+            <p className="text-muted-foreground font-body max-w-lg mx-auto">{t("home.reviewsSubtitle")}</p>
           </motion.div>
 
           <ReviewFilters active={reviewCategory} onChange={setReviewCategory} />
@@ -260,11 +273,11 @@ const Index = () => {
       <section className="py-20 bg-primary">
         <div className="container mx-auto px-6 text-center">
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
-            <h2 className="font-display text-3xl md:text-4xl font-semibold text-primary-foreground mb-4">From $76 USD</h2>
-            <p className="text-primary-foreground/80 font-body mb-8 max-w-md mx-auto">Customize every detail: color, size, accessories, and more.</p>
+            <h2 className="font-display text-3xl md:text-4xl font-semibold text-primary-foreground mb-4">{t("home.ctaPrice")}</h2>
+            <p className="text-primary-foreground/80 font-body mb-8 max-w-md mx-auto">{t("home.ctaDescription")}</p>
             <Link to="/bouquets/personalizar"
               className="inline-flex items-center gap-3 bg-background text-foreground px-8 py-4 font-body text-sm tracking-widest uppercase hover:bg-background/90 transition-colors rounded-sm">
-              Customize now <ArrowRight className="w-4 h-4" />
+              {t("home.customizeNow")} <ArrowRight className="w-4 h-4" />
             </Link>
           </motion.div>
         </div>
@@ -274,17 +287,10 @@ const Index = () => {
       <section className="py-16 md:py-20 bg-background">
         <div className="container mx-auto px-6">
           <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.8 }} className="text-center mb-10">
-            <h2 className="font-title-retro text-4xl md:text-5xl text-primary">Perfect for Every Occasion</h2>
+            <h2 className="font-title-retro text-4xl md:text-5xl text-primary">{t("home.occasionsTitle")}</h2>
           </motion.div>
           <div className="grid grid-cols-2 md:grid-cols-3 gap-6 max-w-3xl mx-auto text-center">
-            {[
-              { text: "Valentine's Day Flowers Miami", icon: Heart },
-              { text: "Mother's Day Bouquets Miami", icon: Heart },
-              { text: "Wedding Flowers Miami", icon: Heart },
-              { text: "Birthday Bouquets Miami", icon: Sparkles },
-              { text: "Baby Shower Flowers Miami", icon: Sparkles },
-              { text: "Anniversary Roses Miami", icon: Heart },
-            ].map(({ text, icon: Icon }) => (
+            {occasions.map(({ text, icon: Icon }) => (
               <div key={text} className="flex flex-col items-center gap-2 p-4">
                 <Icon className="w-5 h-5 text-primary" />
                 <h3 className="font-display text-sm md:text-base font-semibold text-foreground">{text}</h3>
@@ -298,9 +304,9 @@ const Index = () => {
       <section className="py-16 md:py-20 bg-cream">
         <div className="container mx-auto px-6">
           <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.8 }} className="text-center mb-8">
-            <h2 className="font-title-retro text-4xl md:text-5xl text-primary mb-4">Same-Day Flower Delivery Across Miami</h2>
-            <p className="text-muted-foreground font-body max-w-lg mx-auto">$20 flat rate for 0-5 miles. $1.60/mile from 5 to 87 miles. Free in-store pickup.</p>
-            <p className="text-primary font-body text-sm font-semibold mt-3">📍 7261 NW 12th Street, Miami, FL 33126</p>
+            <h2 className="font-title-retro text-4xl md:text-5xl text-primary mb-4">{t("home.deliveryTitle")}</h2>
+            <p className="text-muted-foreground font-body max-w-lg mx-auto">{t("home.deliverySubtitle")}</p>
+            <p className="text-primary font-body text-sm font-semibold mt-3">{t("home.deliveryAddress")}</p>
           </motion.div>
           <div className="max-w-2xl mx-auto rounded-sm overflow-hidden border border-border" style={{ aspectRatio: '16/9', minHeight: '300px' }}>
             <iframe
@@ -315,7 +321,7 @@ const Index = () => {
             />
           </div>
           <p className="text-center mt-4 font-body text-sm text-muted-foreground">
-            <a href="tel:9044424042" className="text-primary hover:underline">904-442-4042</a> · Mon–Fri 8AM–7PM | Sat 8AM–6PM | Sun 8AM–5PM
+            <a href="tel:9044424042" className="text-primary hover:underline">904-442-4042</a> · {t("home.deliveryPhone")}
           </p>
         </div>
       </section>

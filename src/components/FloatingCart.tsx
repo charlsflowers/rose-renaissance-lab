@@ -2,8 +2,10 @@ import { Link } from "react-router-dom";
 import { useCartStore } from "@/stores/cartStore";
 import BrandLogo from "@/components/BrandLogo";
 import { motion, AnimatePresence } from "framer-motion";
+import { useTranslation } from "@/i18n/LanguageContext";
 
 const FloatingCart = () => {
+  const { t } = useTranslation();
   const items = useCartStore(state => state.items);
   const totalItems = items.length;
   const cartTotal = items.reduce((sum, i) => sum + i.totalPrice, 0);
@@ -23,7 +25,7 @@ const FloatingCart = () => {
           >
             <BrandLogo className="w-6 h-6" color="hsl(var(--primary-foreground))" />
             <span className="text-sm font-semibold">
-              {totalItems} {totalItems === 1 ? "item" : "items"}
+              {totalItems} {totalItems === 1 ? t("floatingCart.item") : t("floatingCart.items")}
             </span>
             <span className="bg-primary-foreground/20 px-3 py-1 rounded-full text-sm font-bold whitespace-nowrap">
               ${parseFloat(cartTotal.toFixed(2))}

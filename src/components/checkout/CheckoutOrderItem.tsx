@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import { Trash2, Store, Truck } from "lucide-react";
 import type { CartItem } from "@/stores/cartStore";
 import { getExtraImage, getAccessoryImage } from "./ExtrasImages";
+import { useTranslation } from "@/i18n/LanguageContext";
 
 interface Props {
   item: CartItem;
@@ -22,6 +23,8 @@ function bouquetLabel(type: string) {
 }
 
 const CheckoutOrderItem = ({ item, index, onRemove }: Props) => {
+  const { t } = useTranslation();
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -47,23 +50,23 @@ const CheckoutOrderItem = ({ item, index, onRemove }: Props) => {
             {item.productName || `${bouquetLabel(item.bouquetType)} Bouquet`}
           </h3>
           <p className="text-sm font-body text-muted-foreground mt-1">
-            {item.roses} roses · {item.color}
+            {item.roses} {t("product.roses")} · {item.color}
           </p>
         </div>
         <button
           onClick={() => onRemove(item.id)}
           className="text-muted-foreground hover:text-destructive transition-colors p-1"
-          title="Remove"
+          title={t("checkout.remove")}
         >
           <Trash2 className="w-5 h-5" />
         </button>
       </div>
 
       <div className="space-y-3 text-sm font-body">
-        {/* Extras — vertical list with thumbnails */}
+        {/* Extras */}
         {item.addons.length > 0 && (
           <div>
-            <p className="text-muted-foreground mb-2">Extras:</p>
+            <p className="text-muted-foreground mb-2">{t("checkout.extras")}:</p>
             <div className="space-y-2">
               {item.addons.map((addon, i) => {
                 const img = getExtraImage(addon);
@@ -84,20 +87,20 @@ const CheckoutOrderItem = ({ item, index, onRemove }: Props) => {
           </div>
         )}
 
-        {/* Special text (letters/numbers) */}
+        {/* Special text */}
         {item.specialText && (
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 bg-muted rounded-sm flex items-center justify-center flex-shrink-0">
               <span className="text-xs text-muted-foreground font-bold">AB</span>
             </div>
             <div>
-              <p className="text-muted-foreground text-xs">Text</p>
+              <p className="text-muted-foreground text-xs">{t("checkout.text")}</p>
               <p className="text-foreground font-semibold">{item.specialText}</p>
             </div>
           </div>
         )}
 
-        {/* Accessory with image */}
+        {/* Accessory */}
         {item.accessory !== "none" && item.accessory !== "" && (
           <div className="flex items-center gap-3">
             {(() => {
@@ -113,23 +116,23 @@ const CheckoutOrderItem = ({ item, index, onRemove }: Props) => {
               );
             })()}
             <div>
-              <p className="text-muted-foreground text-xs">Accessory</p>
+              <p className="text-muted-foreground text-xs">{t("checkout.accessory")}</p>
               <p className="text-foreground">
-                {item.accessory === "note" ? "Note" : item.accessory === "card" ? "Card" : "Butterflies"}
+                {item.accessory === "note" ? t("product.note") : item.accessory === "card" ? "Card" : "Butterflies"}
                 {item.accessoryText && `: "${item.accessoryText}"`}
               </p>
             </div>
           </div>
         )}
 
-        {/* Ribbon with image */}
+        {/* Ribbon */}
         {item.ribbonText && (
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 bg-muted rounded-sm flex items-center justify-center flex-shrink-0">
               <span className="text-xs text-muted-foreground">🎀</span>
             </div>
             <div>
-              <p className="text-muted-foreground text-xs">Ribbon</p>
+              <p className="text-muted-foreground text-xs">{t("checkout.ribbon")}</p>
               <p className="text-foreground">"{item.ribbonText}"</p>
             </div>
           </div>
@@ -137,12 +140,12 @@ const CheckoutOrderItem = ({ item, index, onRemove }: Props) => {
 
         {/* Delivery method */}
         <div className="pt-3 border-t border-border mt-2">
-          <p className="text-muted-foreground mb-1">Delivery:</p>
+          <p className="text-muted-foreground mb-1">{t("checkout.shipping")}:</p>
           <p className="text-foreground inline-flex items-center gap-2">
             {item.deliveryMethod === "pickup" ? (
-              <><Store className="w-4 h-4" /> Store pickup</>
+              <><Store className="w-4 h-4" /> {t("checkoutSummary.storePickup")}</>
             ) : (
-              <><Truck className="w-4 h-4" /> Home delivery</>
+              <><Truck className="w-4 h-4" /> {t("checkoutSummary.homeDelivery")}</>
             )}
           </p>
         </div>
@@ -151,7 +154,7 @@ const CheckoutOrderItem = ({ item, index, onRemove }: Props) => {
       {/* Subtotal */}
       <div className="flex justify-end mt-4 pt-3 border-t border-border">
         <div className="text-right">
-          <p className="text-sm text-muted-foreground font-body">Item total</p>
+          <p className="text-sm text-muted-foreground font-body">{t("checkout.itemTotal")}</p>
           <p className="font-display text-2xl font-bold text-foreground">${parseFloat(item.totalPrice.toFixed(2))}</p>
         </div>
       </div>
