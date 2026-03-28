@@ -105,7 +105,7 @@ const Navbar = () => {
         </Link>
 
         <Link to="/" className="lg:hidden absolute left-1/2 -translate-x-1/2 flex items-center">
-          <img src={charlsLogo} alt="Charls Flowers Miami" className="h-10 w-auto" />
+          <img src={charlsLogo} alt="Charls Flowers Miami" className="h-10 w-auto" width={120} height={40} />
         </Link>
 
         <div className="hidden lg:flex items-center gap-5 font-body text-xs tracking-widest uppercase text-muted-foreground">

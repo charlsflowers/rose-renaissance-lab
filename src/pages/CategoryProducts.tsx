@@ -51,7 +51,7 @@ const CategoryProducts = () => {
                 <Link to={`/categoria/${slug}/${product.id}`} className="group block">
                   <div className="relative overflow-hidden rounded-sm mb-4 aspect-square bg-muted">
                     {product.image ? (
-                      <img src={product.image} alt={`${product.name} Miami – Charls Flowers`} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
+                      <img src={product.image} alt={`${product.name} Miami – Charls Flowers`} loading="lazy" width={400} height={400} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
                     ) : (
                       <div className="w-full h-full flex items-center justify-center">
                         <span className="font-display text-4xl text-muted-foreground/30">🌹</span>
