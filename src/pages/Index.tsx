@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { GOOGLE_MAPS_API_KEY } from "@/lib/constants";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { ArrowRight, Heart, Sparkles, Star, Lock, Store, Truck, Globe } from "lucide-react";
