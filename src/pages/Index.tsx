@@ -1,12 +1,15 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { ArrowRight, Heart, Sparkles, Flower2, Star, Lock, Store, Truck, Globe } from "lucide-react";
+import { ArrowRight, Heart, Sparkles, Star, Lock, Store, Truck, Globe } from "lucide-react";
 import ReviewCard from "@/components/ReviewCard";
 import type { ReviewCategory } from "@/components/ReviewCard";
 import ReviewFilters from "@/components/ReviewFilters";
 import { reviews } from "@/lib/reviewsData";
 import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
+import SeoHead from "@/components/SeoHead";
+import JsonLd, { localBusinessSchema, serviceSchema, websiteSchema, faqSchema, homepageFaqs } from "@/components/JsonLd";
 import ClientVideos from "@/components/ClientVideos";
 import heroBouquet from "@/assets/hero-cover.webp";
 import arreglosImg from "@/assets/arreglos.jpg";
@@ -51,7 +54,7 @@ const Index = () => {
           >
             <p className="font-subtitle-script text-gold text-lg md:text-2xl mb-2 md:mb-4">Handcrafted with love</p>
             <h1 className="font-display text-3xl md:text-7xl font-bold text-primary-foreground leading-tight mb-3 md:mb-6">
-              Fresh & natural roses
+              Fresh & Natural Roses Miami
             </h1>
             <p className="text-primary-foreground/80 font-body text-sm md:text-lg mb-5 md:mb-8 leading-relaxed">
               Handmade bouquets from 50 to 200 roses. Natural, painted, or glitter finish.
@@ -105,7 +108,7 @@ const Index = () => {
       <section className="py-16 md:py-20 bg-background">
         <div className="container mx-auto px-6">
           <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.8 }} className="text-center mb-10">
-            <h2 className="font-title-retro text-4xl md:text-5xl text-primary">Categories</h2>
+            <h2 className="font-title-retro text-4xl md:text-5xl text-primary">The Largest Bouquet Selection in Miami</h2>
           </motion.div>
 
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-7 gap-5">
@@ -213,7 +216,7 @@ const Index = () => {
         <div className="container mx-auto px-6 text-center">
           <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.8 }}>
             <h2 className="font-title-retro text-4xl md:text-5xl text-primary mb-6">
-              Customize Your Bouquet
+              Build Your Custom Bouquet with AI Preview
             </h2>
             <p className="text-muted-foreground font-body mb-8 max-w-md mx-auto">
               Create a unique bouquet by choosing color, size, accessories, and more.
@@ -261,14 +264,7 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Footer */}
-      <footer className="py-12 bg-foreground">
-        <div className="container mx-auto px-6 text-center">
-          <Flower2 className="w-6 h-6 text-primary mx-auto mb-3 fill-primary" />
-          <p className="font-display text-lg text-primary-foreground mb-2">Charl's Flowers</p>
-          <p className="text-primary-foreground/50 font-body text-xs tracking-widest uppercase">Handmade bouquets with fresh flowers</p>
-        </div>
-      </footer>
+      <Footer />
     </div>
   );
 };

@@ -1,9 +1,13 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
+import SeoHead from "@/components/SeoHead";
+import Breadcrumbs from "@/components/Breadcrumbs";
+import JsonLd, { breadcrumbSchema } from "@/components/JsonLd";
 import { bouquetProducts, bouquetSizeOptions } from "@/lib/catalogData";
 import { getPrice } from "@/lib/productData";
-import { ArrowLeft, ArrowRight, Sparkles, Flower2, Lock } from "lucide-react";
+import { ArrowLeft, ArrowRight, Sparkles, Lock } from "lucide-react";
 
 type FilterType = "all" | "un-color" | "mezclas" | "zodiac";
 
@@ -25,12 +29,12 @@ const BouquetProducts = () => {
 
   return (
     <div className="min-h-screen bg-background">
+      <SeoHead title="Fresh Bouquets Miami | Single Color & Mixed – Charls Flowers" description="Handcrafted bouquets in Miami. 50 to 200 roses, same-day delivery available. Order now." path="/bouquets" />
+      <JsonLd data={breadcrumbSchema([{ name: "Home", url: "https://www.charlsflowers.com" }, { name: "Bouquets", url: "https://www.charlsflowers.com/bouquets" }])} />
       <Navbar />
       <div className="pt-24 pb-16">
         <div className="container mx-auto px-6">
-          <Link to="/" className="inline-flex items-center gap-2 text-muted-foreground font-body text-sm hover:text-primary transition-colors mb-8">
-            <ArrowLeft className="w-4 h-4" /> Back
-          </Link>
+          <Breadcrumbs items={[{ label: "Home", to: "/" }, { label: "Bouquets" }]} />
 
           <div className="text-center mb-8">
             <div className="flex items-center justify-center gap-2 mb-2">
@@ -113,14 +117,7 @@ const BouquetProducts = () => {
         </div>
       </section>
 
-      {/* Footer */}
-      <footer className="py-12 bg-foreground">
-        <div className="container mx-auto px-6 text-center">
-          <Flower2 className="w-6 h-6 text-primary mx-auto mb-3 fill-primary" />
-          <p className="font-display text-lg text-primary-foreground mb-2">Charl's Flowers</p>
-          <p className="text-primary-foreground/50 font-body text-xs tracking-widest uppercase">Handmade bouquets with fresh flowers</p>
-        </div>
-      </footer>
+      <Footer />
     </div>
   );
 };

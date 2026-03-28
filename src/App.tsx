@@ -5,6 +5,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { useCartSync } from "@/hooks/useCartSync";
 import FloatingCart from "@/components/FloatingCart";
+import { landingPages } from "@/lib/landingPagesData";
 import Index from "./pages/Index";
 import BouquetBuilder from "./pages/BouquetBuilder";
 import Checkout from "./pages/Checkout";
@@ -25,6 +26,9 @@ import RefundPolicy from "./pages/RefundPolicy";
 import ShippingPolicy from "./pages/ShippingPolicy";
 import CookiePolicy from "./pages/CookiePolicy";
 import SitemapPage from "./pages/SitemapPage";
+import Blog from "./pages/Blog";
+import BlogArticle from "./pages/BlogArticle";
+import LandingPage from "./pages/LandingPage";
 
 const queryClient = new QueryClient();
 
@@ -52,6 +56,11 @@ const AppContent = () => {
         <Route path="/shipping-policy" element={<ShippingPolicy />} />
         <Route path="/cookie-policy" element={<CookiePolicy />} />
         <Route path="/sitemap" element={<SitemapPage />} />
+        <Route path="/blog" element={<Blog />} />
+        <Route path="/blog/:slug" element={<BlogArticle />} />
+        {landingPages.map(page => (
+          <Route key={page.slug} path={`/${page.slug}`} element={<LandingPage />} />
+        ))}
         <Route path="/checkout" element={<Checkout />} />
         <Route path="*" element={<NotFound />} />
       </Routes>

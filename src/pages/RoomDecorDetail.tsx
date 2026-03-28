@@ -9,7 +9,10 @@ import { toast } from "sonner";
 import Navbar from "@/components/Navbar";
 import { roomDecorPackages, roomDecorBouquetColors } from "@/lib/roomDecorData";
 import { calculateRoomDecorDeliveryCost, formatDeliveryCost } from "@/lib/deliveryPricing";
-import { applySeo } from "@/lib/seoData";
+import { seoData } from "@/lib/seoData";
+import SeoHead from "@/components/SeoHead";
+import JsonLd, { productSchema, breadcrumbSchema } from "@/components/JsonLd";
+import Breadcrumbs from "@/components/Breadcrumbs";
 import { buildCheckoutUrl } from "@/lib/checkout";
 import {
   ArrowLeft, Check, Store, Truck, CalendarIcon, Clock, MapPin, Search, Loader2, Heart,
@@ -47,7 +50,8 @@ const RoomDecorDetail = () => {
   const autocompleteRef = useRef<HTMLDivElement>(null);
   const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  useEffect(() => { window.scrollTo(0, 0); if (pkg) applySeo(pkg.shopifyHandle); }, [pkg]);
+  const seo = pkg ? seoData[pkg.shopifyHandle] : undefined;
+  useEffect(() => { window.scrollTo(0, 0); }, [pkg]);
 
   useEffect(() => {
     const handler = (e: MouseEvent) => {
@@ -239,12 +243,12 @@ const RoomDecorDetail = () => {
 
   return (
     <div className="min-h-screen bg-background">
+      <SeoHead title={seo?.seoTitle || `${pkg.name} Miami | Room Decoration – Charls Flowers`} description={seo?.seoDescription || pkg.description} path={`/room-decors/${pkg.id}`} image={pkg.image} />
+      <JsonLd data={[productSchema(pkg.name, seo?.seoDescription || pkg.description, pkg.price, pkg.image), breadcrumbSchema([{ name: "Home", url: "https://www.charlsflowers.com" }, { name: "Room Decors", url: "https://www.charlsflowers.com/room-decors" }, { name: pkg.name, url: `https://www.charlsflowers.com/room-decors/${pkg.id}` }])]} />
       <Navbar />
       <div className="pt-16 md:pt-24 pb-16">
         <div className="container mx-auto px-6">
-          <Link to="/room-decors" className="inline-flex items-center gap-2 text-muted-foreground font-body text-sm hover:text-primary transition-colors mb-8">
-            <ArrowLeft className="w-4 h-4" /> Back
-          </Link>
+          <Breadcrumbs items={[{ label: "Home", to: "/" }, { label: "Room Decors", to: "/room-decors" }, { label: pkg.name }]} />
 
           {/* ===== DESKTOP: two-column layout ===== */}
           <div className="hidden md:grid md:grid-cols-[1fr_1fr] lg:grid-cols-[55%_45%] gap-8 max-w-6xl mx-auto">
