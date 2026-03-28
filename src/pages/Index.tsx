@@ -39,12 +39,12 @@ const Index = () => {
   ];
 
   const tickerTexts = [
-    "Best quality-price flower shop in Miami",
-    "Unbeatable prices on fresh roses",
-    "100% handcrafted artisan bouquets",
-    "Same-day delivery in Miami",
-    "From 50 to 200 roses per bouquet",
-    "Natural, painted, or glitter finish flowers",
+    t("ticker.bestQuality"),
+    t("ticker.unbeatablePrices"),
+    t("ticker.handcrafted"),
+    t("ticker.sameDayDelivery"),
+    t("ticker.rosesPerBouquet"),
+    t("ticker.finishOptions"),
   ];
 
   const occasions = [
