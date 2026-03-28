@@ -5,7 +5,9 @@ import { bouquetProducts, bouquetSizeOptions } from "@/lib/catalogData";
 import { getPrice } from "@/lib/productData";
 import { ArrowLeft, ArrowRight, Sparkles, Flower2, Lock } from "lucide-react";
 
-type FilterType = "all" | "un-color" | "mezclas";
+type FilterType = "all" | "un-color" | "mezclas" | "zodiac";
+
+const isZodiac = (id: string) => id.startsWith('bq-zodiac-');
 
 const BouquetProducts = () => {
   const [filter, setFilter] = useState<FilterType>("all");
@@ -13,7 +15,10 @@ const BouquetProducts = () => {
   useEffect(() => { window.scrollTo(0, 0); }, []);
 
   const filteredProducts = bouquetProducts.filter((product) => {
+    if (filter === "zodiac") return isZodiac(product.id);
     if (filter === "all") return true;
+    // Exclude zodiac from Single Color and Mixes
+    if (isZodiac(product.id)) return false;
     const isMix = product.color.includes(" y ") || product.color.includes(", ") || product.color.includes(" y");
     return filter === "mezclas" ? isMix : !isMix;
   });
