@@ -54,7 +54,7 @@ const Index = () => {
           >
             <p className="font-subtitle-script text-gold text-lg md:text-2xl mb-2 md:mb-4">Handcrafted with love</p>
             <h1 className="font-display text-3xl md:text-7xl font-bold text-primary-foreground leading-tight mb-3 md:mb-6">
-              Fresh & natural roses
+              Fresh & Natural Roses Miami
             </h1>
             <p className="text-primary-foreground/80 font-body text-sm md:text-lg mb-5 md:mb-8 leading-relaxed">
               Handmade bouquets from 50 to 200 roses. Natural, painted, or glitter finish.
