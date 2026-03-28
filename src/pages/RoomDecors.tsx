@@ -46,12 +46,9 @@ const RoomDecors = () => {
                         <Icon className="w-4 h-4" />
                       </div>
                     </div>
-                    <h3 className="font-display text-xl font-semibold text-foreground text-center">{pkg.name}</h3>
+                    <h3 className="font-display text-lg font-semibold text-foreground text-center">{pkg.name}</h3>
                     <p className="text-muted-foreground font-body text-xs text-center mt-1 line-clamp-2">{pkg.description}</p>
-                    <p className="text-primary font-display text-2xl font-bold text-center mt-3">${pkg.price}</p>
-                    <p className="text-muted-foreground font-body text-[10px] text-center mt-1 uppercase tracking-wider">
-                      {pkg.includes.length} items included
-                    </p>
+                    <p className="text-primary font-body text-sm font-semibold text-center mt-2">From ${pkg.price}</p>
                   </Link>
                 </motion.div>
               );
