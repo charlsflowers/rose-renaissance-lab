@@ -9,7 +9,10 @@ import { toast } from "sonner";
 import Navbar from "@/components/Navbar";
 import { roomDecorPackages, roomDecorBouquetColors } from "@/lib/roomDecorData";
 import { calculateRoomDecorDeliveryCost, formatDeliveryCost } from "@/lib/deliveryPricing";
-import { applySeo } from "@/lib/seoData";
+import { seoData } from "@/lib/seoData";
+import SeoHead from "@/components/SeoHead";
+import JsonLd, { productSchema, breadcrumbSchema } from "@/components/JsonLd";
+import Breadcrumbs from "@/components/Breadcrumbs";
 import { buildCheckoutUrl } from "@/lib/checkout";
 import {
   ArrowLeft, Check, Store, Truck, CalendarIcon, Clock, MapPin, Search, Loader2, Heart,
