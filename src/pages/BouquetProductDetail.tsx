@@ -96,9 +96,12 @@ const BouquetProductDetail = () => {
     if (input.length < 3) { setPredictions([]); return; }
     setAutocompleteLoading(true);
     try {
+      console.log("🔍 [Delivery] Fetching predictions for:", input);
       const { data, error } = await supabase.functions.invoke("places-autocomplete", { body: { input } });
+      console.log("🔍 [Delivery] Predictions response:", { data, error });
       if (!error && data?.predictions) { setPredictions(data.predictions); setShowPredictions(true); }
-    } catch {} finally { setAutocompleteLoading(false); }
+      else if (error) { console.error("🔍 [Delivery] Predictions error:", error); }
+    } catch (e) { console.error("🔍 [Delivery] Predictions exception:", e); } finally { setAutocompleteLoading(false); }
   }, []);
 
   const handleAddressInput = useCallback((value: string) => {
@@ -116,7 +119,9 @@ const BouquetProductDetail = () => {
     (async () => {
       setDistanceLoading(true); setDistanceError(""); setDistanceTooFar(false); setDeliveryMiles(null);
       try {
+        console.log("📍 [Delivery] Calculating distance for:", prediction.description, "placeId:", prediction.placeId);
         const { data, error } = await supabase.functions.invoke("calculate-distance", { body: { fullAddress: prediction.description, placeId: prediction.placeId } });
+        console.log("📍 [Delivery] Distance response:", { data, error });
         if (error) throw new Error("Error de conexión");
         if (data.error) { setDistanceError(data.error); if (data.tooFar) { setDistanceTooFar(true); setDeliveryMiles(data.miles); } }
         else {
@@ -124,7 +129,7 @@ const BouquetProductDetail = () => {
           if (data.mapUrl) setMapUrl(data.mapUrl);
           if (data.structuredAddress) setStructuredAddress(data.structuredAddress);
         }
-      } catch (e: any) { setDistanceError(e.message || "Error calculating distance"); }
+      } catch (e: any) { console.error("📍 [Delivery] Distance exception:", e); setDistanceError(e.message || "Error calculating distance"); }
       finally { setDistanceLoading(false); }
     })();
   }, []);

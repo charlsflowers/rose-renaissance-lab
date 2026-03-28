@@ -7,6 +7,7 @@ import ReviewCard from "@/components/ReviewCard";
 import type { ReviewCategory } from "@/components/ReviewCard";
 import ReviewFilters from "@/components/ReviewFilters";
 import { reviews } from "@/lib/reviewsData";
+import { useShopifyReviewImages } from "@/hooks/useShopifyReviewImages";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import SeoHead from "@/components/SeoHead";
@@ -28,6 +29,7 @@ const comingSoonSlugs = ["arreglos", "cajas", "cestas", "jarrones", "osos"];
 const Index = () => {
   const { t } = useTranslation();
   const [reviewCategory, setReviewCategory] = useState<ReviewCategory>("bouquets");
+  const shopifyReviewImages = useShopifyReviewImages(reviews);
   const categories = [
     { img: bicolorPassionImg, title: t("categories.bouquets"), slug: "bouquets", isRoute: true },
     { img: arreglosImg, title: t("categories.arrangements"), slug: "arreglos" },
@@ -263,7 +265,7 @@ const Index = () => {
 
           <div className="grid grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 max-w-5xl mx-auto">
             {reviews.filter((r) => r.category === reviewCategory).map((review, i) => (
-              <ReviewCard key={review.id} review={review} index={i} />
+              <ReviewCard key={review.id} review={review} index={i} dynamicImage={shopifyReviewImages.get(review.id)} />
             ))}
           </div>
         </div>

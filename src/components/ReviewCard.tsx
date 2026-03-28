@@ -28,7 +28,7 @@ export interface ReviewData {
   cartData: ReviewCartData;
 }
 
-const ReviewCard = ({ review, index }: { review: ReviewData; index: number }) => {
+const ReviewCard = ({ review, index, dynamicImage }: { review: ReviewData; index: number; dynamicImage?: string }) => {
   const { t, language } = useTranslation();
   const [dialogOpen, setDialogOpen] = useState(false);
   const [dialogMode, setDialogMode] = useState<"cart" | "buy">("cart");
@@ -39,6 +39,7 @@ const ReviewCard = ({ review, index }: { review: ReviewData; index: number }) =>
   };
 
   const reviewText = language === "es" && review.textEs ? review.textEs : review.text;
+  const displayImage = dynamicImage || review.image;
 
   return (
     <>
@@ -46,7 +47,7 @@ const ReviewCard = ({ review, index }: { review: ReviewData; index: number }) =>
         <div className="bg-card rounded-sm overflow-hidden border border-border">
           <div className="relative aspect-square overflow-hidden">
             <img
-              src={review.image}
+              src={displayImage}
               alt={`${review.productLabel} Miami – Charls Flowers customer review`}
               loading="lazy"
               width={400}
