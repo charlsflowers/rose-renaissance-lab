@@ -246,20 +246,279 @@ const RoomDecorDetail = () => {
             <ArrowLeft className="w-4 h-4" /> Back
           </Link>
 
-          <div className="max-w-3xl mx-auto space-y-5">
+          {/* ===== DESKTOP: two-column layout ===== */}
+          <div className="hidden md:grid md:grid-cols-[1fr_1fr] lg:grid-cols-[55%_45%] gap-8 max-w-6xl mx-auto">
+            {/* Left column — sticky image */}
+            <div className="sticky top-24 self-start space-y-3">
+              <div className="relative overflow-hidden rounded-sm bg-muted flex items-center justify-center aspect-square">
+                <img src={pkg.image} alt={pkg.name} className="w-full h-full object-cover" />
+              </div>
+            </div>
+
+            {/* Right column — product details & options */}
+            <div className="space-y-5">
+              <div>
+                <h1 className="font-display text-2xl font-semibold text-foreground">{pkg.name}</h1>
+                <p className="text-muted-foreground font-body text-sm mt-1">{pkg.description}</p>
+                <p className="font-display text-xl font-bold text-foreground mt-2">${pkg.price} <span className="text-xs font-body text-muted-foreground font-normal">USD</span></p>
+              </div>
+
+              {/* What's included */}
+              <Section title="What's Included" step={step++}>
+                <div className="space-y-2">
+                  {pkg.includes.map((item, idx) => (
+                    <div key={idx} className="flex items-start gap-3 p-3 rounded-sm bg-primary/5 border border-primary/10">
+                      <Heart className="w-4 h-4 text-primary flex-shrink-0 mt-0.5 fill-primary" />
+                      <p className="font-body text-sm text-foreground">{item}</p>
+                    </div>
+                  ))}
+                </div>
+                {pkg.bouquetIncluded?.restrictionsApply && (
+                  <p className="text-xs text-muted-foreground font-body mt-3 italic">* Restrictions Apply</p>
+                )}
+              </Section>
+
+              {/* Bouquet color selection */}
+              {pkg.bouquetIncluded && (
+                <Section title="Bouquet Color" step={step++} subtitle="Included">
+                  <p className="text-xs text-muted-foreground font-body mb-4">
+                    Choose the color for your {pkg.bouquetIncluded.roses}-rose bouquet
+                  </p>
+                  <div className="grid grid-cols-3 md:grid-cols-6 gap-3">
+                    {roomDecorBouquetColors.map(color => (
+                      <button
+                        key={color}
+                        onClick={() => setSelectedBouquetColor(color)}
+                        className={`p-3 rounded-sm border-2 text-center transition-all font-body text-sm ${
+                          selectedBouquetColor === color
+                            ? "border-primary bg-primary/5 text-primary"
+                            : "border-border text-muted-foreground hover:border-primary/30"
+                        }`}
+                      >
+                        {color}
+                        {selectedBouquetColor === color && <Check className="w-3 h-3 mx-auto mt-1 text-primary" />}
+                      </button>
+                    ))}
+                  </div>
+                </Section>
+              )}
+
+              {/* Ribbon option (Overly Romantic) */}
+              {pkg.ribbonOption && (
+                <Section title="Bouquet Ribbon" step={step++} subtitle={`+$${pkg.ribbonOption.price}`}>
+                  <button
+                    onClick={() => setAddRibbon(!addRibbon)}
+                    className={`w-full p-4 rounded-sm border-2 transition-all flex items-center gap-4 ${
+                      addRibbon ? "border-primary bg-primary/5" : "border-border hover:border-primary/30"
+                    }`}
+                  >
+                    <div className="text-left flex-1">
+                      <p className="font-body font-semibold text-foreground text-sm">Add a ribbon to the bouquet</p>
+                      <p className="text-xs text-muted-foreground font-body">+${pkg.ribbonOption.price}</p>
+                    </div>
+                    {addRibbon && <Check className="w-5 h-5 text-primary" />}
+                  </button>
+                  {addRibbon && (
+                    <input
+                      type="text"
+                      value={ribbonText}
+                      onChange={(e) => setRibbonText(e.target.value)}
+                      placeholder="Write the ribbon text..."
+                      maxLength={40}
+                      className="w-full mt-3 bg-card border border-border rounded-sm px-4 py-3 font-body text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30"
+                    />
+                  )}
+                </Section>
+              )}
+
+              {/* Complementary add-ons */}
+              {pkg.addons.length > 0 && (
+                <Section title="Complementary Add-ons" step={step++} subtitle={`Choose ${pkg.maxAddons}`}>
+                  <p className="text-xs text-muted-foreground font-body mb-4">
+                    You may choose {pkg.maxAddons} complementary add-on{pkg.maxAddons > 1 ? 's' : ''}
+                  </p>
+                  <div className="space-y-2">
+                    {pkg.addons.map((addon, idx) => {
+                      const selected = selectedAddons.includes(idx);
+                      return (
+                        <button
+                          key={idx}
+                          onClick={() => toggleAddon(idx)}
+                          className={`w-full flex items-center gap-3 p-3 rounded-sm border-2 transition-all text-left ${
+                            selected
+                              ? "border-primary bg-primary/5"
+                              : "border-border hover:border-primary/30"
+                          }`}
+                        >
+                          <div className="flex-1">
+                            <p className="font-body text-sm text-foreground">{addon.label}</p>
+                            {addon.price > 0 && (
+                              <p className="text-xs text-muted-foreground font-body">+${addon.price}</p>
+                            )}
+                          </div>
+                          {selected && <Check className="w-4 h-4 text-primary flex-shrink-0" />}
+                        </button>
+                      );
+                    })}
+                  </div>
+                </Section>
+              )}
+
+              {/* Shipping */}
+              <Section title="Shipping" step={step++}>
+                <div className="grid grid-cols-2 gap-2 mb-4">
+                  <button onClick={() => setDeliveryMethod("pickup")}
+                    className={`flex items-center gap-2 p-3 rounded-sm border-2 transition-all font-body ${deliveryMethod === "pickup" ? "border-primary bg-primary/5" : "border-border hover:border-primary/30"}`}>
+                    <Store className="w-4 h-4 flex-shrink-0" />
+                    <div className="text-left flex-1">
+                      <p className="font-semibold text-xs text-foreground">Store pickup</p>
+                      <p className="text-xs text-muted-foreground">Free</p>
+                    </div>
+                    {deliveryMethod === "pickup" && <Check className="w-3.5 h-3.5 text-primary flex-shrink-0" />}
+                  </button>
+                  <button onClick={() => setDeliveryMethod("delivery")}
+                    className={`flex items-center gap-2 p-3 rounded-sm border-2 transition-all font-body ${deliveryMethod === "delivery" ? "border-primary bg-primary/5" : "border-border hover:border-primary/30"}`}>
+                    <Truck className="w-4 h-4 flex-shrink-0" />
+                    <div className="text-left flex-1">
+                      <p className="font-semibold text-xs text-foreground">Home delivery</p>
+                      <p className="text-xs text-muted-foreground">Free up to 10 mi</p>
+                    </div>
+                    {deliveryMethod === "delivery" && <Check className="w-3.5 h-3.5 text-primary flex-shrink-0" />}
+                  </button>
+                </div>
+
+                <div className="space-y-3 p-4 rounded-sm border border-border bg-card mb-4">
+                  {deliveryMethod === "pickup" ? (
+                    <p className="font-body text-sm text-muted-foreground">
+                      📍 Pickup at: <span className="font-semibold text-foreground">7261 NW 12th St, Miami, FL 33126</span>
+                    </p>
+                  ) : (
+                    <>
+                      <p className="font-body font-semibold text-foreground text-sm">Delivery address</p>
+                      <p className="font-body text-xs text-muted-foreground mb-2">
+                        🎁 Free delivery within 10 miles · $1.60/mile after
+                      </p>
+                      <div ref={autocompleteRef} className="relative">
+                        <label className="text-xs text-muted-foreground font-body block mb-1"><MapPin className="w-3 h-3 inline mr-1" />Address <span className="text-destructive">*</span></label>
+                        <div className="relative">
+                          <input type="text" value={addressQuery} onChange={(e) => handleAddressInput(e.target.value)} onFocus={() => predictions.length > 0 && setShowPredictions(true)}
+                            placeholder="Start typing the address..."
+                            className="w-full bg-background border border-border rounded-sm px-3 py-2.5 pr-10 font-body text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30" />
+                          <div className="absolute right-3 top-1/2 -translate-y-1/2">
+                            {autocompleteLoading || distanceLoading ? <Loader2 className="w-4 h-4 text-muted-foreground animate-spin" /> : <Search className="w-4 h-4 text-muted-foreground" />}
+                          </div>
+                        </div>
+                        {showPredictions && predictions.length > 0 && (
+                          <div className="absolute z-50 w-full mt-1 bg-card border border-border rounded-sm shadow-lg max-h-60 overflow-y-auto">
+                            {predictions.map((p) => (
+                              <button key={p.placeId} onClick={() => handleSelectPrediction(p)} className="w-full text-left px-4 py-3 hover:bg-primary/5 transition-colors border-b border-border last:border-b-0">
+                                <p className="font-body text-sm font-medium text-foreground">{p.mainText}</p>
+                                <p className="font-body text-xs text-muted-foreground">{p.secondaryText}</p>
+                              </button>
+                            ))}
+                          </div>
+                        )}
+                      </div>
+                      {selectedAddress && (
+                        <div className="bg-primary/5 border border-primary/20 rounded-sm p-3">
+                          <p className="font-body text-xs text-muted-foreground">Selected address:</p>
+                          <p className="font-body text-sm text-foreground font-medium">{selectedAddress}</p>
+                        </div>
+                      )}
+                      {distanceError && <p className="text-sm font-body text-destructive">{distanceError}</p>}
+                      {deliveryMiles !== null && !distanceTooFar && (
+                        <div className="bg-primary/5 border border-primary/20 rounded-sm p-4">
+                          <p className="font-body text-sm text-foreground">📍 Distance: <span className="font-semibold">{deliveryMiles} miles</span>{deliveryDuration && <span className="text-muted-foreground"> (~{deliveryDuration})</span>}</p>
+                          <p className="font-body text-sm text-primary font-semibold mt-1">
+                            Shipping: {deliveryCost === 0 ? 'Free ✨' : formatDeliveryCost(deliveryCost)}
+                          </p>
+                        </div>
+                      )}
+                      {mapUrl && (
+                        <div className="rounded-sm overflow-hidden border border-border">
+                          <iframe src={mapUrl} width="100%" height="250" style={{ border: 0 }} allowFullScreen loading="lazy" referrerPolicy="no-referrer-when-downgrade" title="Route" />
+                        </div>
+                      )}
+                    </>
+                  )}
+                </div>
+
+                {/* Date */}
+                <div className="mb-4">
+                  <label className="text-sm font-body font-semibold text-foreground block mb-2"><CalendarIcon className="w-4 h-4 inline mr-1" /> Date</label>
+                  <Popover>
+                    <PopoverTrigger asChild>
+                      <button className="w-full md:w-auto flex items-center gap-2 px-4 py-3 rounded-sm border border-border bg-card font-body text-sm text-foreground hover:border-primary/30 transition-all">
+                        <CalendarIcon className="w-4 h-4 text-muted-foreground" />
+                        {deliveryDate ? format(deliveryDate, "PPP", { locale: enUS }) : "Select a date"}
+                      </button>
+                    </PopoverTrigger>
+                    <PopoverContent className="w-auto p-0" align="start">
+                      <Calendar mode="single" selected={deliveryDate} onSelect={(d) => { setDeliveryDate(d); setDeliveryHour(""); }}
+                        disabled={(date) => isBefore(startOfDay(date), startOfDay(todayInMiami()))} className="p-3 pointer-events-auto" locale={enUS} />
+                    </PopoverContent>
+                  </Popover>
+                </div>
+                {deliveryDate && (
+                  <div>
+                    <label className="text-sm font-body font-semibold text-foreground block mb-2"><Clock className="w-4 h-4 inline mr-1" /> Time</label>
+                    {availableHours.length > 0 ? (
+                      <div className="flex flex-wrap gap-2">
+                        {availableHours.map((hour) => (
+                          <button key={hour} onClick={() => setDeliveryHour(hour)}
+                            className={`px-4 py-2 rounded-sm border-2 text-sm font-body transition-all ${deliveryHour === hour ? "border-primary bg-primary/5 text-primary" : "border-border text-muted-foreground hover:border-primary/30"}`}>{hour}</button>
+                        ))}
+                      </div>
+                    ) : <p className="text-sm text-muted-foreground font-body">No available hours. Select another day.</p>}
+                  </div>
+                )}
+              </Section>
+
+              {/* Desktop sticky bottom bar */}
+              <div className="pb-4" />
+              <div className="sticky bottom-0 bg-card/95 backdrop-blur-md border border-border rounded-sm p-4 shadow-xl z-10">
+                <div className="flex items-center justify-between gap-4">
+                  <div className="flex-1 pr-4">
+                    <p className="font-body text-xs text-muted-foreground leading-tight">
+                      {pkg.name}
+                      {pkg.bouquetIncluded && ` · ${selectedBouquetColor} bouquet`}
+                      {addRibbon && " · Ribbon"}
+                      {selectedAddons.length > 0 && ` · ${selectedAddons.length} add-on${selectedAddons.length > 1 ? 's' : ''}`}
+                      {deliveryMethod === "delivery" ? (deliveryMiles && !distanceTooFar ? ` · Shipping (${deliveryCost === 0 ? 'Free' : formatDeliveryCost(deliveryCost)})` : " · Shipping (pending)") : " · Pickup"}
+                    </p>
+                  </div>
+                  <p className="font-display text-2xl font-bold text-foreground whitespace-nowrap">
+                    ${totalPrice} <span className="text-xs font-body text-muted-foreground font-normal">USD</span>
+                  </p>
+                  <div className="flex gap-2">
+                    <button onClick={handleAddToCart} disabled={isAdding}
+                      className="bg-primary text-primary-foreground px-6 py-3 font-body text-xs tracking-widest uppercase hover:bg-primary/90 transition-colors rounded-sm disabled:opacity-50">
+                      {isAdding ? "Adding..." : "Add to cart"}
+                    </button>
+                    <button onClick={handlePayNow} disabled={isAdding}
+                      className="border-2 border-primary text-primary px-6 py-3 font-body text-xs tracking-widest uppercase hover:bg-primary/10 transition-colors rounded-sm whitespace-nowrap disabled:opacity-50">
+                      {isAdding ? "Adding..." : "Pay now"}
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* ===== MOBILE: stacked layout ===== */}
+          <div className="md:hidden space-y-5 max-w-lg mx-auto">
             {/* Image */}
-            <div className="relative overflow-hidden rounded-sm bg-muted flex items-center justify-center aspect-video">
+            <div className="relative overflow-hidden rounded-sm bg-muted flex items-center justify-center aspect-square">
               <img src={pkg.image} alt={pkg.name} className="w-full h-full object-cover" />
             </div>
 
-            <div>
-              <h1 className="font-display text-2xl font-semibold text-foreground">{pkg.name}</h1>
-              <p className="text-muted-foreground font-body text-sm mt-1">{pkg.description}</p>
-              <p className="font-display text-xl font-bold text-foreground mt-2">${pkg.price} <span className="text-xs font-body text-muted-foreground font-normal">USD</span></p>
+            <div className="text-center">
+              <h1 className="font-display text-3xl font-semibold text-foreground">{pkg.name}</h1>
+              <p className="text-muted-foreground font-body mt-2">{pkg.description}</p>
             </div>
 
             {/* What's included */}
-            <Section title="What's Included" step={step++}>
+            <Section title="What's Included" step={1}>
               <div className="space-y-2">
                 {pkg.includes.map((item, idx) => (
                   <div key={idx} className="flex items-start gap-3 p-3 rounded-sm bg-primary/5 border border-primary/10">
@@ -275,11 +534,11 @@ const RoomDecorDetail = () => {
 
             {/* Bouquet color selection */}
             {pkg.bouquetIncluded && (
-              <Section title="Bouquet Color" step={step++} subtitle="Included">
+              <Section title="Bouquet Color" step={2} subtitle="Included">
                 <p className="text-xs text-muted-foreground font-body mb-4">
                   Choose the color for your {pkg.bouquetIncluded.roses}-rose bouquet
                 </p>
-                <div className="grid grid-cols-3 md:grid-cols-6 gap-3">
+                <div className="grid grid-cols-3 gap-3">
                   {roomDecorBouquetColors.map(color => (
                     <button
                       key={color}
@@ -298,9 +557,9 @@ const RoomDecorDetail = () => {
               </Section>
             )}
 
-            {/* Ribbon option (Overly Romantic) */}
+            {/* Ribbon option */}
             {pkg.ribbonOption && (
-              <Section title="Bouquet Ribbon" step={step++} subtitle={`+$${pkg.ribbonOption.price}`}>
+              <Section title="Bouquet Ribbon" step={pkg.bouquetIncluded ? 3 : 2} subtitle={`+$${pkg.ribbonOption.price}`}>
                 <button
                   onClick={() => setAddRibbon(!addRibbon)}
                   className={`w-full p-5 rounded-sm border-2 transition-all flex items-center gap-4 ${
@@ -328,7 +587,7 @@ const RoomDecorDetail = () => {
 
             {/* Complementary add-ons */}
             {pkg.addons.length > 0 && (
-              <Section title="Complementary Add-ons" step={step++} subtitle={`Choose ${pkg.maxAddons}`}>
+              <Section title="Complementary Add-ons" step={step} subtitle={`Choose ${pkg.maxAddons}`}>
                 <p className="text-xs text-muted-foreground font-body mb-4">
                   You may choose {pkg.maxAddons} complementary add-on{pkg.maxAddons > 1 ? 's' : ''}
                 </p>
@@ -359,8 +618,8 @@ const RoomDecorDetail = () => {
               </Section>
             )}
 
-            {/* Delivery */}
-            <Section title="Shipping" step={step++}>
+            {/* Shipping */}
+            <Section title="Shipping" step={step + 1}>
               <div className="grid grid-cols-2 gap-3 mb-6">
                 <button onClick={() => setDeliveryMethod("pickup")}
                   className={`flex items-center gap-3 p-5 rounded-sm border-2 transition-all font-body ${deliveryMethod === "pickup" ? "border-primary bg-primary/5" : "border-border hover:border-primary/30"}`}>
@@ -431,7 +690,7 @@ const RoomDecorDetail = () => {
                     )}
                     {mapUrl && (
                       <div className="rounded-sm overflow-hidden border border-border">
-                        <iframe src={mapUrl} width="100%" height="250" style={{ border: 0 }} allowFullScreen loading="lazy" referrerPolicy="no-referrer-when-downgrade" title="Route" />
+                        <iframe src={mapUrl} width="100%" height="300" style={{ border: 0 }} allowFullScreen loading="lazy" referrerPolicy="no-referrer-when-downgrade" title="Route" />
                       </div>
                     )}
                   </>
@@ -443,7 +702,7 @@ const RoomDecorDetail = () => {
                 <label className="text-sm font-body font-semibold text-foreground block mb-2"><CalendarIcon className="w-4 h-4 inline mr-1" /> Date</label>
                 <Popover>
                   <PopoverTrigger asChild>
-                    <button className="w-full md:w-auto flex items-center gap-2 px-4 py-3 rounded-sm border border-border bg-card font-body text-sm text-foreground hover:border-primary/30 transition-all">
+                    <button className="w-full flex items-center gap-2 px-4 py-3 rounded-sm border border-border bg-card font-body text-sm text-foreground hover:border-primary/30 transition-all">
                       <CalendarIcon className="w-4 h-4 text-muted-foreground" />
                       {deliveryDate ? format(deliveryDate, "PPP", { locale: enUS }) : "Select a date"}
                     </button>
@@ -469,46 +728,31 @@ const RoomDecorDetail = () => {
               )}
             </Section>
 
-            {/* Summary */}
+            {/* Mobile sticky bottom bar */}
             <div className="pb-4" />
-            <div className="sticky bottom-0 bg-card/95 backdrop-blur-md border border-border rounded-sm p-3 md:p-4 shadow-xl z-10">
-              <div className="flex flex-col md:flex-row md:items-center justify-between gap-2 md:gap-4">
-                <div className="flex md:hidden justify-between items-center gap-3">
+            <div className="sticky bottom-0 bg-card/95 backdrop-blur-md border border-border rounded-sm p-3 shadow-xl z-10">
+              <div className="flex flex-col gap-2">
+                <div className="flex justify-between items-center gap-3">
                   <p className="font-body text-[10px] text-muted-foreground leading-tight flex-1 line-clamp-1">
-                    {pkg.name}
-                    {pkg.bouquetIncluded && ` · ${selectedBouquetColor} bouquet`}
-                    {addRibbon && " · Ribbon"}
-                    {selectedAddons.length > 0 && ` · ${selectedAddons.length} add-on${selectedAddons.length > 1 ? 's' : ''}`}
-                  </p>
-                  <p className="font-display text-lg font-bold text-foreground whitespace-nowrap">
-                    ${totalPrice}
-                  </p>
-                </div>
-
-                <div className="hidden md:block flex-1 pr-4">
-                  <p className="font-body text-xs text-muted-foreground leading-tight">
                     {pkg.name}
                     {pkg.bouquetIncluded && ` · ${selectedBouquetColor} bouquet`}
                     {addRibbon && " · Ribbon"}
                     {selectedAddons.length > 0 && ` · ${selectedAddons.length} add-on${selectedAddons.length > 1 ? 's' : ''}`}
                     {deliveryMethod === "delivery" ? (deliveryMiles && !distanceTooFar ? ` · Shipping (${deliveryCost === 0 ? 'Free' : formatDeliveryCost(deliveryCost)})` : " · Shipping (pending)") : " · Pickup"}
                   </p>
-                </div>
-
-                <div className="flex flex-row items-center gap-3 md:gap-4 w-full md:w-auto">
-                  <p className="hidden md:block font-display text-2xl font-bold text-foreground whitespace-nowrap">
-                    ${totalPrice} <span className="text-xs font-body text-muted-foreground font-normal">USD</span>
+                  <p className="font-display text-lg font-bold text-foreground whitespace-nowrap">
+                    ${totalPrice}
                   </p>
-                  <div className="flex w-full md:w-auto gap-2">
-                    <button onClick={handleAddToCart} disabled={isAdding}
-                      className="flex-1 md:flex-none bg-primary text-primary-foreground px-4 md:px-6 py-2.5 md:py-3 font-body text-[10px] md:text-xs tracking-widest uppercase hover:bg-primary/90 transition-colors rounded-sm disabled:opacity-50">
-                      {isAdding ? "Adding..." : "Add to cart"}
-                    </button>
-                    <button onClick={handlePayNow} disabled={isAdding}
-                      className="flex-1 md:flex-none border-2 border-primary text-primary px-4 md:px-6 py-2.5 md:py-3 font-body text-[10px] md:text-xs tracking-widest uppercase hover:bg-primary/10 transition-colors rounded-sm whitespace-nowrap disabled:opacity-50">
-                      {isAdding ? "Adding..." : "Pay now"}
-                    </button>
-                  </div>
+                </div>
+                <div className="flex w-full gap-2">
+                  <button onClick={handleAddToCart} disabled={isAdding}
+                    className="flex-1 bg-primary text-primary-foreground px-4 py-2.5 font-body text-[10px] tracking-widest uppercase hover:bg-primary/90 transition-colors rounded-sm disabled:opacity-50">
+                    {isAdding ? "Adding..." : "Add to cart"}
+                  </button>
+                  <button onClick={handlePayNow} disabled={isAdding}
+                    className="flex-1 border-2 border-primary text-primary px-4 py-2.5 font-body text-[10px] tracking-widest uppercase hover:bg-primary/10 transition-colors rounded-sm whitespace-nowrap disabled:opacity-50">
+                    {isAdding ? "Adding..." : "Pay now"}
+                  </button>
                 </div>
               </div>
             </div>
