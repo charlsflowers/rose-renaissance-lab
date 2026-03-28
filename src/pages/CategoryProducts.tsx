@@ -52,7 +52,7 @@ const CategoryProducts = () => {
                     <div className="absolute inset-0 bg-foreground/5 group-hover:bg-foreground/15 transition-colors" />
                   </div>
                   <h3 className="font-display text-lg font-semibold text-foreground text-center">{product.name}</h3>
-                  <p className="text-muted-foreground font-body text-xs text-center mt-1">{product.description}</p>
+                  
                   <p className="text-primary font-body text-sm font-semibold text-center mt-2">
                     From ${product.sizes[0].price}
                   </p>
