@@ -148,9 +148,10 @@ const BouquetProductDetail = () => {
   };
   const availableHours = getAvailableHours(deliveryDate);
 
+  const seo = product ? seoData[product.shopifyHandle] : undefined;
+
   useEffect(() => {
     if (!product) return;
-    applySeo(product.shopifyHandle);
 
     let active = true;
 
