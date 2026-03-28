@@ -364,34 +364,7 @@ const RoomDecorDetail = () => {
 
               {/* Shipping */}
               <Section title="Shipping" step={step++}>
-                <div className="grid grid-cols-2 gap-2 mb-4">
-                  <button onClick={() => setDeliveryMethod("pickup")}
-                    className={`flex items-center gap-2 p-3 rounded-sm border-2 transition-all font-body ${deliveryMethod === "pickup" ? "border-primary bg-primary/5" : "border-border hover:border-primary/30"}`}>
-                    <Store className="w-4 h-4 flex-shrink-0" />
-                    <div className="text-left flex-1">
-                      <p className="font-semibold text-xs text-foreground">Store pickup</p>
-                      <p className="text-xs text-muted-foreground">Free</p>
-                    </div>
-                    {deliveryMethod === "pickup" && <Check className="w-3.5 h-3.5 text-primary flex-shrink-0" />}
-                  </button>
-                  <button onClick={() => setDeliveryMethod("delivery")}
-                    className={`flex items-center gap-2 p-3 rounded-sm border-2 transition-all font-body ${deliveryMethod === "delivery" ? "border-primary bg-primary/5" : "border-border hover:border-primary/30"}`}>
-                    <Truck className="w-4 h-4 flex-shrink-0" />
-                    <div className="text-left flex-1">
-                      <p className="font-semibold text-xs text-foreground">Home delivery</p>
-                      <p className="text-xs text-muted-foreground">Free up to 10 miles</p>
-                    </div>
-                    {deliveryMethod === "delivery" && <Check className="w-3.5 h-3.5 text-primary flex-shrink-0" />}
-                  </button>
-                </div>
-
                 <div className="space-y-3 p-4 rounded-sm border border-border bg-card mb-4">
-                  {deliveryMethod === "pickup" ? (
-                    <p className="font-body text-sm text-muted-foreground">
-                      📍 Pickup at: <span className="font-semibold text-foreground">7261 NW 12th St, Miami, FL 33126</span>
-                    </p>
-                  ) : (
-                    <>
                       <p className="font-body font-semibold text-foreground text-sm">Delivery address</p>
                       <p className="font-body text-xs text-muted-foreground mb-2">
                         🎁 Free delivery within 10 miles · $1.60/mile after
