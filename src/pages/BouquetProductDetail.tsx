@@ -81,12 +81,16 @@ const BouquetProductDetail = () => {
   const [selectedAddress, setSelectedAddress] = useState("");
   const [mapUrl, setMapUrl] = useState("");
   const [structuredAddress, setStructuredAddress] = useState<{ address1: string; city: string; province: string; zip: string; country: string } | undefined>(undefined);
-  const autocompleteRef = useRef<HTMLDivElement>(null);
+  const autocompleteDesktopRef = useRef<HTMLDivElement>(null);
+  const autocompleteMobileRef = useRef<HTMLDivElement>(null);
   const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
-      if (autocompleteRef.current && !autocompleteRef.current.contains(e.target as Node)) setShowPredictions(false);
+      const target = e.target as Node;
+      const insideDesktop = autocompleteDesktopRef.current?.contains(target);
+      const insideMobile = autocompleteMobileRef.current?.contains(target);
+      if (!insideDesktop && !insideMobile) setShowPredictions(false);
     };
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
@@ -503,7 +507,7 @@ const BouquetProductDetail = () => {
                   ) : (
                     <>
                       <p className="font-body font-semibold text-foreground text-sm">Delivery address</p>
-                      <div ref={autocompleteRef} className="relative">
+                      <div ref={autocompleteDesktopRef} className="relative">
                         <label className="text-xs text-muted-foreground font-body block mb-1"><MapPin className="w-3 h-3 inline mr-1" />Address <span className="text-destructive">*</span></label>
                         <div className="relative">
                           <input type="text" value={addressQuery} onChange={(e) => handleAddressInput(e.target.value)} onFocus={() => predictions.length > 0 && setShowPredictions(true)}
@@ -558,7 +562,8 @@ const BouquetProductDetail = () => {
                     </PopoverTrigger>
                     <PopoverContent className="w-auto p-0" align="start">
                        <Calendar mode="single" selected={deliveryDate} onSelect={(d) => { setDeliveryDate(d); setDeliveryHour(""); }}
-                         disabled={(date) => isBefore(startOfDay(date), startOfDay(todayInMiami()))} className="p-3 pointer-events-auto" locale={enUS} />
+                         disabled={(date) => isBefore(startOfDay(date), startOfDay(todayInMiami()))} className="p-3 pointer-events-auto" locale={enUS}
+                         classNames={{ day_outside: "text-foreground", day_disabled: "text-muted-foreground opacity-50 line-through" }} />
                     </PopoverContent>
                   </Popover>
                 </div>
@@ -721,7 +726,7 @@ const BouquetProductDetail = () => {
                 ) : (
                   <>
                     <p className="font-body font-semibold text-foreground text-sm">Delivery address</p>
-                    <div ref={autocompleteRef} className="relative">
+                    <div ref={autocompleteMobileRef} className="relative">
                       <label className="text-xs text-muted-foreground font-body block mb-1"><MapPin className="w-3 h-3 inline mr-1" />Address <span className="text-destructive">*</span></label>
                       <div className="relative">
                         <input type="text" value={addressQuery} onChange={(e) => handleAddressInput(e.target.value)} onFocus={() => predictions.length > 0 && setShowPredictions(true)}
@@ -776,7 +781,8 @@ const BouquetProductDetail = () => {
                   </PopoverTrigger>
                   <PopoverContent className="w-auto p-0" align="start">
                      <Calendar mode="single" selected={deliveryDate} onSelect={(d) => { setDeliveryDate(d); setDeliveryHour(""); }}
-                       disabled={(date) => isBefore(startOfDay(date), startOfDay(todayInMiami()))} className="p-3 pointer-events-auto" locale={enUS} />
+                       disabled={(date) => isBefore(startOfDay(date), startOfDay(todayInMiami()))} className="p-3 pointer-events-auto" locale={enUS}
+                       classNames={{ day_outside: "text-foreground", day_disabled: "text-muted-foreground opacity-50 line-through" }} />
                   </PopoverContent>
                 </Popover>
               </div>
