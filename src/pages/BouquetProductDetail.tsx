@@ -367,7 +367,7 @@ const BouquetProductDetail = () => {
           </Link>
 
           {/* ===== DESKTOP: two-column layout ===== */}
-          <div className="hidden md:grid md:grid-cols-2 gap-10 max-w-6xl mx-auto">
+          <div className="hidden md:grid md:grid-cols-[1fr_1fr] lg:grid-cols-[55%_45%] gap-8 max-w-6xl mx-auto">
             {/* Left column — sticky images */}
             <div className="sticky top-24 self-start space-y-3">
               <div className="relative overflow-hidden rounded-sm bg-muted flex items-center justify-center aspect-square">
@@ -387,29 +387,29 @@ const BouquetProductDetail = () => {
             </div>
 
             {/* Right column — product details & options */}
-            <div className="space-y-8">
+            <div className="space-y-5">
               <div>
-                <h1 className="font-display text-3xl font-semibold text-foreground">{product.name}</h1>
-                <p className="text-muted-foreground font-body mt-2">{product.description}</p>
-                <p className="font-display text-2xl font-bold text-foreground mt-3">${parseFloat(sizePrice.toFixed(2))} <span className="text-sm font-body text-muted-foreground font-normal">USD</span></p>
+                <h1 className="font-display text-2xl font-semibold text-foreground">{product.name}</h1>
+                <p className="text-muted-foreground font-body text-sm mt-1">{product.description}</p>
+                <p className="font-display text-xl font-bold text-foreground mt-2">${parseFloat(sizePrice.toFixed(2))} <span className="text-xs font-body text-muted-foreground font-normal">USD</span></p>
               </div>
 
               {/* 1. Size */}
               <Section title="Number of Roses" step={step++}>
-                <div className="grid grid-cols-2 gap-3">
+                <div className="grid grid-cols-4 gap-2">
                   {sizeOptions.map((size, idx) => {
                     const disabled = idx < minSizeIdx;
                     const price = hasCustomSizes ? (size as any).price : getPrice(product.pricingTier, size.roses);
                     return (
                       <button key={size.roses} onClick={() => !disabled && setSelectedSizeIdx(idx)}
                         disabled={disabled}
-                        className={`p-4 rounded-sm border-2 text-center transition-all ${disabled ? "opacity-40 cursor-not-allowed border-border" : effectiveSizeIdx === idx ? "border-primary bg-primary/5" : "border-border hover:border-primary/30"}`}>
+                        className={`p-2 rounded-sm border-2 text-center transition-all ${disabled ? "opacity-40 cursor-not-allowed border-border" : effectiveSizeIdx === idx ? "border-primary bg-primary/5" : "border-border hover:border-primary/30"}`}>
                         <p className="font-body text-foreground">
-                          <span className="font-display text-2xl font-semibold">{size.roses}</span>
-                          <span className="text-xs text-muted-foreground ml-1">{hasCustomSizes && (size as any).label ? (size as any).label : 'roses'}</span>
+                          <span className="font-display text-lg font-semibold">{size.roses}</span>
+                          <span className="text-[10px] text-muted-foreground ml-0.5">{hasCustomSizes && (size as any).label ? (size as any).label : 'roses'}</span>
                         </p>
-                        <p className="text-sm font-body font-semibold text-primary mt-1">${price}</p>
-                        {disabled && <p className="text-[10px] text-destructive font-body mt-1">Min. {sizeOptions[minSizeIdx].roses} for {colorCount} colors</p>}
+                        <p className="text-xs font-body font-semibold text-primary">${price}</p>
+                        {disabled && <p className="text-[9px] text-destructive font-body mt-0.5">Min. {sizeOptions[minSizeIdx].roses}</p>}
                       </button>
                     );
                   })}
@@ -418,65 +418,65 @@ const BouquetProductDetail = () => {
 
               {/* 2. Glitter */}
               <Section title="Glitter Finish" step={step++} subtitle={`+$${Math.ceil(selectedSize.roses / 25) * 8}`}>
-                <div className="flex gap-4 mb-4">
-                  <div className="w-28 h-28 flex-shrink-0">
+                <div className="flex gap-3 mb-3">
+                  <div className="w-16 h-16 flex-shrink-0">
                     <img src={glitterRoseImg} alt="Glitter rose example" className="w-full h-full object-contain" />
                   </div>
                   <div className="flex-1">
-                    <p className="font-body font-semibold text-foreground">✨ Add Glitter ✨</p>
-                    <p className="text-xs text-muted-foreground font-body">$8 per 25 roses · {selectedSize.roses} roses = +${Math.ceil(selectedSize.roses / 25) * 8}</p>
+                    <p className="font-body font-semibold text-foreground text-sm">✨ Add Glitter ✨</p>
+                    <p className="text-[11px] text-muted-foreground font-body">$8 per 25 roses · {selectedSize.roses} roses = +${Math.ceil(selectedSize.roses / 25) * 8}</p>
                   </div>
                 </div>
-                <div className="grid grid-cols-2 gap-3">
+                <div className="grid grid-cols-2 gap-2">
                   <button onClick={() => setAddGlitter(true)}
-                    className={`p-4 rounded-sm border-2 text-center transition-all font-body text-sm ${addGlitter ? "border-primary bg-primary/5 text-primary" : "border-border text-muted-foreground hover:border-primary/30"}`}>
-                    Yes {addGlitter && <Check className="w-4 h-4 text-primary mx-auto mt-1" />}
+                    className={`p-2.5 rounded-sm border-2 text-center transition-all font-body text-sm ${addGlitter ? "border-primary bg-primary/5 text-primary" : "border-border text-muted-foreground hover:border-primary/30"}`}>
+                    Yes {addGlitter && <Check className="w-3 h-3 text-primary mx-auto mt-0.5" />}
                   </button>
                   <button onClick={() => setAddGlitter(false)}
-                    className={`p-4 rounded-sm border-2 text-center transition-all font-body text-sm ${!addGlitter ? "border-primary bg-primary/5 text-primary" : "border-border text-muted-foreground hover:border-primary/30"}`}>
-                    No {!addGlitter && <Check className="w-4 h-4 text-primary mx-auto mt-1" />}
+                    className={`p-2.5 rounded-sm border-2 text-center transition-all font-body text-sm ${!addGlitter ? "border-primary bg-primary/5 text-primary" : "border-border text-muted-foreground hover:border-primary/30"}`}>
+                    No {!addGlitter && <Check className="w-3 h-3 text-primary mx-auto mt-0.5" />}
                   </button>
                 </div>
               </Section>
 
               {/* 3. Accessories */}
               <Section title="Accessories" step={step++}>
-                <div className="grid grid-cols-2 gap-3">
+                <div className="grid grid-cols-2 gap-2">
                   <button onClick={() => setAccessory("note")}
-                    className={`flex flex-col items-center gap-2 p-4 rounded-sm border-2 transition-all font-body text-sm ${accessory === "note" ? "border-primary bg-primary/5 text-primary" : "border-border text-muted-foreground hover:border-primary/30"}`}>
-                    <Type className="w-4 h-4" /> Note <span className="text-xs text-secondary">$3</span>
+                    className={`flex flex-col items-center gap-1 p-2.5 rounded-sm border-2 transition-all font-body text-sm ${accessory === "note" ? "border-primary bg-primary/5 text-primary" : "border-border text-muted-foreground hover:border-primary/30"}`}>
+                    <Type className="w-3.5 h-3.5" /> Note <span className="text-[10px] text-secondary">$3</span>
                   </button>
                 </div>
                 {accessory === "note" && (
                   <textarea value={accessoryText} onChange={(e) => setAccessoryText(e.target.value)} placeholder="Write your note..."
-                    className="w-full mt-4 bg-card border border-border rounded-sm px-4 py-3 font-body text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30 min-h-[100px] resize-none" maxLength={200} />
+                    className="w-full mt-3 bg-card border border-border rounded-sm px-3 py-2 font-body text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30 min-h-[80px] resize-none" maxLength={200} />
                 )}
               </Section>
 
               {/* 4. Shipping */}
               <Section title="Shipping" step={step++}>
-                <div className="grid grid-cols-2 gap-3 mb-6">
+                <div className="grid grid-cols-2 gap-2 mb-4">
                   <button onClick={() => setDeliveryMethod("pickup")}
-                    className={`flex items-center gap-3 p-5 rounded-sm border-2 transition-all font-body ${deliveryMethod === "pickup" ? "border-primary bg-primary/5" : "border-border hover:border-primary/30"}`}>
-                    <Store className="w-5 h-5 flex-shrink-0" />
+                    className={`flex items-center gap-2 p-3 rounded-sm border-2 transition-all font-body ${deliveryMethod === "pickup" ? "border-primary bg-primary/5" : "border-border hover:border-primary/30"}`}>
+                    <Store className="w-4 h-4 flex-shrink-0" />
                     <div className="text-left flex-1">
-                      <p className="font-semibold text-sm text-foreground">Store pickup</p>
+                      <p className="font-semibold text-xs text-foreground">Store pickup</p>
                       <p className="text-xs text-muted-foreground">Free</p>
                     </div>
-                    {deliveryMethod === "pickup" && <Check className="w-4 h-4 text-primary flex-shrink-0" />}
+                    {deliveryMethod === "pickup" && <Check className="w-3.5 h-3.5 text-primary flex-shrink-0" />}
                   </button>
                   <button onClick={() => setDeliveryMethod("delivery")}
-                    className={`flex items-center gap-3 p-5 rounded-sm border-2 transition-all font-body ${deliveryMethod === "delivery" ? "border-primary bg-primary/5" : "border-border hover:border-primary/30"}`}>
-                    <Truck className="w-5 h-5 flex-shrink-0" />
+                    className={`flex items-center gap-2 p-3 rounded-sm border-2 transition-all font-body ${deliveryMethod === "delivery" ? "border-primary bg-primary/5" : "border-border hover:border-primary/30"}`}>
+                    <Truck className="w-4 h-4 flex-shrink-0" />
                     <div className="text-left flex-1">
-                      <p className="font-semibold text-sm text-foreground">Home delivery</p>
+                      <p className="font-semibold text-xs text-foreground">Home delivery</p>
                       <p className="text-xs text-muted-foreground">From $25</p>
                     </div>
-                    {deliveryMethod === "delivery" && <Check className="w-4 h-4 text-primary flex-shrink-0" />}
+                    {deliveryMethod === "delivery" && <Check className="w-3.5 h-3.5 text-primary flex-shrink-0" />}
                   </button>
                 </div>
 
-                <div className="space-y-4 p-5 rounded-sm border border-border bg-card mb-6">
+                <div className="space-y-3 p-4 rounded-sm border border-border bg-card mb-4">
                   {deliveryMethod === "pickup" ? (
                     <p className="font-body text-sm text-muted-foreground">
                       📍 Pickup at: <span className="font-semibold text-foreground">7261 NW 12th St, Miami, FL 33126</span>
@@ -559,27 +559,26 @@ const BouquetProductDetail = () => {
               </Section>
 
               {/* Desktop sticky bottom bar */}
-              <div className="sticky bottom-0 bg-card/95 backdrop-blur-md border border-border rounded-sm p-4 shadow-xl z-10">
-                <div className="flex items-center justify-between gap-4">
-                  <div className="flex-1 pr-4">
-                    <p className="font-body text-xs text-muted-foreground leading-tight">
+              <div className="sticky bottom-0 bg-card/95 backdrop-blur-md border border-border rounded-sm p-3 shadow-xl z-10">
+                <div className="flex items-center justify-between gap-3">
+                  <div className="flex-1">
+                    <p className="font-body text-[11px] text-muted-foreground leading-tight">
                       {product.name} · {selectedSize.roses} roses
                       {addGlitter && " · Glitter"}
-                      {addCrown && ` · Crown (${crownSize === "gold" ? "Gold" : "Silver"})`}
                       {accessory !== "none" && ` · ${accessory === "note" ? "Note" : "Accessory"}`}
                       {deliveryMethod === "delivery" ? (deliveryMiles && !distanceTooFar ? ` · Shipping ($${deliveryCost})` : " · Shipping (pending)") : " · Pickup"}
                     </p>
                   </div>
-                  <p className="font-display text-2xl font-bold text-foreground whitespace-nowrap">
-                    ${parseFloat(totalPrice.toFixed(2))} <span className="text-xs font-body text-muted-foreground font-normal">USD</span>
+                  <p className="font-display text-lg font-bold text-foreground whitespace-nowrap">
+                    ${parseFloat(totalPrice.toFixed(2))} <span className="text-[10px] font-body text-muted-foreground font-normal">USD</span>
                   </p>
                   <div className="flex gap-2">
                     <button onClick={() => handleAddToCart()} disabled={isAdding || variantsLoading}
-                      className="bg-primary text-primary-foreground px-6 py-3 font-body text-xs tracking-widest uppercase hover:bg-primary/90 transition-colors rounded-sm disabled:opacity-50">
+                      className="bg-primary text-primary-foreground px-4 py-2 font-body text-[10px] tracking-widest uppercase hover:bg-primary/90 transition-colors rounded-sm disabled:opacity-50">
                       {isAdding ? "Adding..." : variantsLoading ? "Loading..." : "Add to cart"}
                     </button>
                     <button onClick={handlePayNow} disabled={isAdding || variantsLoading}
-                      className="border-2 border-primary text-primary px-6 py-3 font-body text-xs tracking-widest uppercase hover:bg-primary/10 transition-colors rounded-sm whitespace-nowrap disabled:opacity-50">
+                      className="border-2 border-primary text-primary px-4 py-2 font-body text-[10px] tracking-widest uppercase hover:bg-primary/10 transition-colors rounded-sm whitespace-nowrap disabled:opacity-50">
                       {isAdding ? "Adding..." : variantsLoading ? "Loading..." : "Pay now"}
                     </button>
                   </div>
@@ -814,10 +813,10 @@ const BouquetProductDetail = () => {
 
 const Section = ({ title, step, subtitle, children }: { title: string; step: number; subtitle?: string; children: React.ReactNode }) => (
   <div>
-    <div className="flex items-center gap-3 mb-4">
-      <span className="w-8 h-8 rounded-full bg-primary text-primary-foreground flex items-center justify-center font-display text-sm font-semibold">{step}</span>
-      <h2 className="font-display text-xl font-semibold text-foreground">{title}</h2>
-      {subtitle && <span className="bg-secondary text-secondary-foreground text-xs px-2 py-0.5 rounded-full font-body">{subtitle}</span>}
+    <div className="flex items-center gap-2 mb-3">
+      <span className="w-6 h-6 rounded-full bg-primary text-primary-foreground flex items-center justify-center font-display text-xs font-semibold">{step}</span>
+      <h2 className="font-display text-base font-semibold text-foreground">{title}</h2>
+      {subtitle && <span className="bg-secondary text-secondary-foreground text-[10px] px-1.5 py-0.5 rounded-full font-body">{subtitle}</span>}
     </div>
     {children}
   </div>
