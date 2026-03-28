@@ -73,7 +73,7 @@ export const en = {
     babyShower: "Baby Shower Flowers Miami",
     anniversaryRoses: "Anniversary Roses Miami",
     deliveryTitle: "Same-Day Flower Delivery Across Miami",
-    deliverySubtitle: "$20 flat rate for 0-5 miles. $1.60/mile from 5 to 87 miles. Free in-store pickup.",
+    deliverySubtitle: "$25 flat rate for 0-5 miles. $1.60/mile from 5 to 87 miles. Free in-store pickup.",
     deliveryAddress: "📍 7261 NW 12th Street, Miami, FL 33126",
     deliveryPhone: "Mon–Fri 8AM–7PM | Sat 8AM–6PM | Sun 8AM–5PM",
     faqTitle: "Frequently Asked Questions",
