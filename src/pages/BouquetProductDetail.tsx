@@ -725,7 +725,7 @@ const BouquetProductDetail = () => {
                 ) : (
                   <>
                     <p className="font-body font-semibold text-foreground text-sm">Delivery address</p>
-                    <div ref={autocompleteRef} className="relative">
+                    <div ref={autocompleteMobileRef} className="relative">
                       <label className="text-xs text-muted-foreground font-body block mb-1"><MapPin className="w-3 h-3 inline mr-1" />Address <span className="text-destructive">*</span></label>
                       <div className="relative">
                         <input type="text" value={addressQuery} onChange={(e) => handleAddressInput(e.target.value)} onFocus={() => predictions.length > 0 && setShowPredictions(true)}
