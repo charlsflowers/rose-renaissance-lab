@@ -59,7 +59,7 @@ export const roomDecorPackages: RoomDecorPackage[] = [
     freeDeliveryMiles: 10,
   },
   {
-    id: 'rd-overly-romantic',
+    id: 'overly-romantic',
     name: 'Overly Romantic',
     shopifyHandle: 'overly-romantic',
     shopifyVariantId: 'gid://shopify/ProductVariant/51693066289284',
