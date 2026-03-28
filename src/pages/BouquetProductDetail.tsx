@@ -366,10 +366,10 @@ const BouquetProductDetail = () => {
             <ArrowLeft className="w-4 h-4" /> Back
           </Link>
 
-          <div className="max-w-4xl mx-auto space-y-10">
-            {/* Product Images */}
-            {/* Desktop: Grid */}
-            <div className="hidden md:grid grid-cols-2 gap-3 max-w-3xl mx-auto">
+          {/* ===== DESKTOP: two-column layout ===== */}
+          <div className="hidden md:grid md:grid-cols-2 gap-10 max-w-6xl mx-auto">
+            {/* Left column — sticky images */}
+            <div className="sticky top-24 self-start space-y-3">
               <div className="relative overflow-hidden rounded-sm bg-muted flex items-center justify-center aspect-square">
                 {product.image ? (
                   <img src={product.image} alt={product.name} className="w-full h-full object-contain" />
@@ -386,8 +386,212 @@ const BouquetProductDetail = () => {
               )}
             </div>
 
-            {/* Mobile: Swipeable flex container */}
-            <div className="md:hidden flex overflow-x-auto snap-x snap-mandatory scrollbar-hide gap-3 pb-2 w-full">
+            {/* Right column — product details & options */}
+            <div className="space-y-8">
+              <div>
+                <h1 className="font-display text-3xl font-semibold text-foreground">{product.name}</h1>
+                <p className="text-muted-foreground font-body mt-2">{product.description}</p>
+                <p className="font-display text-2xl font-bold text-foreground mt-3">${parseFloat(sizePrice.toFixed(2))} <span className="text-sm font-body text-muted-foreground font-normal">USD</span></p>
+              </div>
+
+              {/* 1. Size */}
+              <Section title="Number of Roses" step={step++}>
+                <div className="grid grid-cols-2 gap-3">
+                  {sizeOptions.map((size, idx) => {
+                    const disabled = idx < minSizeIdx;
+                    const price = hasCustomSizes ? (size as any).price : getPrice(product.pricingTier, size.roses);
+                    return (
+                      <button key={size.roses} onClick={() => !disabled && setSelectedSizeIdx(idx)}
+                        disabled={disabled}
+                        className={`p-4 rounded-sm border-2 text-center transition-all ${disabled ? "opacity-40 cursor-not-allowed border-border" : effectiveSizeIdx === idx ? "border-primary bg-primary/5" : "border-border hover:border-primary/30"}`}>
+                        <p className="font-body text-foreground">
+                          <span className="font-display text-2xl font-semibold">{size.roses}</span>
+                          <span className="text-xs text-muted-foreground ml-1">{hasCustomSizes && (size as any).label ? (size as any).label : 'roses'}</span>
+                        </p>
+                        <p className="text-sm font-body font-semibold text-primary mt-1">${price}</p>
+                        {disabled && <p className="text-[10px] text-destructive font-body mt-1">Min. {sizeOptions[minSizeIdx].roses} for {colorCount} colors</p>}
+                      </button>
+                    );
+                  })}
+                </div>
+              </Section>
+
+              {/* 2. Glitter */}
+              <Section title="Glitter Finish" step={step++} subtitle={`+$${Math.ceil(selectedSize.roses / 25) * 8}`}>
+                <div className="flex gap-4 mb-4">
+                  <div className="w-28 h-28 flex-shrink-0">
+                    <img src={glitterRoseImg} alt="Glitter rose example" className="w-full h-full object-contain" />
+                  </div>
+                  <div className="flex-1">
+                    <p className="font-body font-semibold text-foreground">✨ Add Glitter ✨</p>
+                    <p className="text-xs text-muted-foreground font-body">$8 per 25 roses · {selectedSize.roses} roses = +${Math.ceil(selectedSize.roses / 25) * 8}</p>
+                  </div>
+                </div>
+                <div className="grid grid-cols-2 gap-3">
+                  <button onClick={() => setAddGlitter(true)}
+                    className={`p-4 rounded-sm border-2 text-center transition-all font-body text-sm ${addGlitter ? "border-primary bg-primary/5 text-primary" : "border-border text-muted-foreground hover:border-primary/30"}`}>
+                    Yes {addGlitter && <Check className="w-4 h-4 text-primary mx-auto mt-1" />}
+                  </button>
+                  <button onClick={() => setAddGlitter(false)}
+                    className={`p-4 rounded-sm border-2 text-center transition-all font-body text-sm ${!addGlitter ? "border-primary bg-primary/5 text-primary" : "border-border text-muted-foreground hover:border-primary/30"}`}>
+                    No {!addGlitter && <Check className="w-4 h-4 text-primary mx-auto mt-1" />}
+                  </button>
+                </div>
+              </Section>
+
+              {/* 3. Accessories */}
+              <Section title="Accessories" step={step++}>
+                <div className="grid grid-cols-2 gap-3">
+                  <button onClick={() => setAccessory("note")}
+                    className={`flex flex-col items-center gap-2 p-4 rounded-sm border-2 transition-all font-body text-sm ${accessory === "note" ? "border-primary bg-primary/5 text-primary" : "border-border text-muted-foreground hover:border-primary/30"}`}>
+                    <Type className="w-4 h-4" /> Note <span className="text-xs text-secondary">$3</span>
+                  </button>
+                </div>
+                {accessory === "note" && (
+                  <textarea value={accessoryText} onChange={(e) => setAccessoryText(e.target.value)} placeholder="Write your note..."
+                    className="w-full mt-4 bg-card border border-border rounded-sm px-4 py-3 font-body text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30 min-h-[100px] resize-none" maxLength={200} />
+                )}
+              </Section>
+
+              {/* 4. Shipping */}
+              <Section title="Shipping" step={step++}>
+                <div className="grid grid-cols-2 gap-3 mb-6">
+                  <button onClick={() => setDeliveryMethod("pickup")}
+                    className={`flex items-center gap-3 p-5 rounded-sm border-2 transition-all font-body ${deliveryMethod === "pickup" ? "border-primary bg-primary/5" : "border-border hover:border-primary/30"}`}>
+                    <Store className="w-5 h-5 flex-shrink-0" />
+                    <div className="text-left flex-1">
+                      <p className="font-semibold text-sm text-foreground">Store pickup</p>
+                      <p className="text-xs text-muted-foreground">Free</p>
+                    </div>
+                    {deliveryMethod === "pickup" && <Check className="w-4 h-4 text-primary flex-shrink-0" />}
+                  </button>
+                  <button onClick={() => setDeliveryMethod("delivery")}
+                    className={`flex items-center gap-3 p-5 rounded-sm border-2 transition-all font-body ${deliveryMethod === "delivery" ? "border-primary bg-primary/5" : "border-border hover:border-primary/30"}`}>
+                    <Truck className="w-5 h-5 flex-shrink-0" />
+                    <div className="text-left flex-1">
+                      <p className="font-semibold text-sm text-foreground">Home delivery</p>
+                      <p className="text-xs text-muted-foreground">From $25</p>
+                    </div>
+                    {deliveryMethod === "delivery" && <Check className="w-4 h-4 text-primary flex-shrink-0" />}
+                  </button>
+                </div>
+
+                <div className="space-y-4 p-5 rounded-sm border border-border bg-card mb-6">
+                  {deliveryMethod === "pickup" ? (
+                    <p className="font-body text-sm text-muted-foreground">
+                      📍 Pickup at: <span className="font-semibold text-foreground">7261 NW 12th St, Miami, FL 33126</span>
+                    </p>
+                  ) : (
+                    <>
+                      <p className="font-body font-semibold text-foreground text-sm">Delivery address</p>
+                      <div ref={autocompleteRef} className="relative">
+                        <label className="text-xs text-muted-foreground font-body block mb-1"><MapPin className="w-3 h-3 inline mr-1" />Address <span className="text-destructive">*</span></label>
+                        <div className="relative">
+                          <input type="text" value={addressQuery} onChange={(e) => handleAddressInput(e.target.value)} onFocus={() => predictions.length > 0 && setShowPredictions(true)}
+                            placeholder="Start typing the address..."
+                            className="w-full bg-background border border-border rounded-sm px-3 py-2.5 pr-10 font-body text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30" />
+                          <div className="absolute right-3 top-1/2 -translate-y-1/2">
+                            {autocompleteLoading || distanceLoading ? <Loader2 className="w-4 h-4 text-muted-foreground animate-spin" /> : <Search className="w-4 h-4 text-muted-foreground" />}
+                          </div>
+                        </div>
+                        {showPredictions && predictions.length > 0 && (
+                          <div className="absolute z-50 w-full mt-1 bg-card border border-border rounded-sm shadow-lg max-h-60 overflow-y-auto">
+                            {predictions.map((p) => (
+                              <button key={p.placeId} onClick={() => handleSelectPrediction(p)} className="w-full text-left px-4 py-3 hover:bg-primary/5 transition-colors border-b border-border last:border-b-0">
+                                <p className="font-body text-sm font-medium text-foreground">{p.mainText}</p>
+                                <p className="font-body text-xs text-muted-foreground">{p.secondaryText}</p>
+                              </button>
+                            ))}
+                          </div>
+                        )}
+                      </div>
+                      {selectedAddress && (
+                        <div className="bg-primary/5 border border-primary/20 rounded-sm p-3">
+                          <p className="font-body text-xs text-muted-foreground">Selected address:</p>
+                          <p className="font-body text-sm text-foreground font-medium">{selectedAddress}</p>
+                        </div>
+                      )}
+                      {distanceError && <p className="text-sm font-body text-destructive">{distanceError}</p>}
+                      {deliveryMiles !== null && !distanceTooFar && (
+                        <div className="bg-primary/5 border border-primary/20 rounded-sm p-4">
+                           <p className="font-body text-sm text-foreground">📍 Distance: <span className="font-semibold">{deliveryMiles} miles</span>{deliveryDuration && <span className="text-muted-foreground"> (~{deliveryDuration})</span>}</p>
+                           <p className="font-body text-sm text-primary font-semibold mt-1">Shipping cost: {formatDeliveryCost(deliveryCost)}</p>
+                        </div>
+                      )}
+                      {mapUrl && (
+                        <div className="rounded-sm overflow-hidden border border-border">
+                          <iframe src={mapUrl} width="100%" height="300" style={{ border: 0 }} allowFullScreen loading="lazy" referrerPolicy="no-referrer-when-downgrade" title="Route" />
+                        </div>
+                      )}
+                    </>
+                  )}
+                </div>
+
+                {/* Date */}
+                <div className="mb-4">
+                  <label className="text-sm font-body font-semibold text-foreground block mb-2"><CalendarIcon className="w-4 h-4 inline mr-1" /> Date</label>
+                  <Popover>
+                    <PopoverTrigger asChild>
+                      <button className="w-full flex items-center gap-2 px-4 py-3 rounded-sm border border-border bg-card font-body text-sm text-foreground hover:border-primary/30 transition-all">
+                        <CalendarIcon className="w-4 h-4 text-muted-foreground" />
+                        {deliveryDate ? format(deliveryDate, "PPP", { locale: enUS }) : "Select a date"}
+                      </button>
+                    </PopoverTrigger>
+                    <PopoverContent className="w-auto p-0" align="start">
+                       <Calendar mode="single" selected={deliveryDate} onSelect={(d) => { setDeliveryDate(d); setDeliveryHour(""); }}
+                         disabled={(date) => isBefore(startOfDay(date), startOfDay(todayInMiami()))} className="p-3 pointer-events-auto" locale={enUS} />
+                    </PopoverContent>
+                  </Popover>
+                </div>
+                {deliveryDate && (
+                  <div>
+                    <label className="text-sm font-body font-semibold text-foreground block mb-2"><Clock className="w-4 h-4 inline mr-1" /> Time</label>
+                    {availableHours.length > 0 ? (
+                      <div className="flex flex-wrap gap-2">
+                        {availableHours.map((hour) => (
+                          <button key={hour} onClick={() => setDeliveryHour(hour)}
+                            className={`px-4 py-2 rounded-sm border-2 text-sm font-body transition-all ${deliveryHour === hour ? "border-primary bg-primary/5 text-primary" : "border-border text-muted-foreground hover:border-primary/30"}`}>{hour}</button>
+                        ))}
+                      </div>
+                    ) : <p className="text-sm text-muted-foreground font-body">No available hours. Select another day.</p>}
+                  </div>
+                )}
+              </Section>
+
+              {/* Desktop sticky bottom bar */}
+              <div className="sticky bottom-0 bg-card/95 backdrop-blur-md border border-border rounded-sm p-4 shadow-xl z-10">
+                <div className="flex items-center justify-between gap-4">
+                  <div className="flex-1 pr-4">
+                    <p className="font-body text-xs text-muted-foreground leading-tight">
+                      {product.name} · {selectedSize.roses} roses
+                      {addGlitter && " · Glitter"}
+                      {addCrown && ` · Crown (${crownSize === "gold" ? "Gold" : "Silver"})`}
+                      {accessory !== "none" && ` · ${accessory === "note" ? "Note" : "Accessory"}`}
+                      {deliveryMethod === "delivery" ? (deliveryMiles && !distanceTooFar ? ` · Shipping ($${deliveryCost})` : " · Shipping (pending)") : " · Pickup"}
+                    </p>
+                  </div>
+                  <p className="font-display text-2xl font-bold text-foreground whitespace-nowrap">
+                    ${parseFloat(totalPrice.toFixed(2))} <span className="text-xs font-body text-muted-foreground font-normal">USD</span>
+                  </p>
+                  <div className="flex gap-2">
+                    <button onClick={() => handleAddToCart()} disabled={isAdding || variantsLoading}
+                      className="bg-primary text-primary-foreground px-6 py-3 font-body text-xs tracking-widest uppercase hover:bg-primary/90 transition-colors rounded-sm disabled:opacity-50">
+                      {isAdding ? "Adding..." : variantsLoading ? "Loading..." : "Add to cart"}
+                    </button>
+                    <button onClick={handlePayNow} disabled={isAdding || variantsLoading}
+                      className="border-2 border-primary text-primary px-6 py-3 font-body text-xs tracking-widest uppercase hover:bg-primary/10 transition-colors rounded-sm whitespace-nowrap disabled:opacity-50">
+                      {isAdding ? "Adding..." : variantsLoading ? "Loading..." : "Pay now"}
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* ===== MOBILE: stacked layout ===== */}
+          <div className="md:hidden max-w-4xl mx-auto space-y-10">
+            {/* Mobile images */}
+            <div className="flex overflow-x-auto snap-x snap-mandatory scrollbar-hide gap-3 pb-2 w-full">
               <div className="w-full flex-none snap-center relative overflow-hidden rounded-sm bg-muted flex items-center justify-center aspect-square">
                 {product.image ? (
                   <img src={product.image} alt={product.name} className="w-full h-full object-contain pointer-events-none" />
@@ -404,28 +608,17 @@ const BouquetProductDetail = () => {
               )}
             </div>
 
-
             <div className="text-center">
-              <h1 className="font-display text-3xl md:text-4xl font-semibold text-foreground">{product.name}</h1>
+              <h1 className="font-display text-3xl font-semibold text-foreground">{product.name}</h1>
               <p className="text-muted-foreground font-body mt-2">{product.description}</p>
             </div>
 
-            {/* Paper Color - hidden for standard bouquets, shown only for custom */}
-            {/* 
-            <Section title="Color del Papel" step={step++}>
-              <p className="text-xs text-muted-foreground font-body mb-4">Elige el color del papel de envoltura</p>
-              <PaperColorPicker selected={paperColor} onChange={setPaperColor} />
-            </Section>
-            */}
-
-
             {/* 1. Size */}
-            <Section title="Number of Roses" step={step++}>
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+            <Section title="Number of Roses" step={1}>
+              <div className="grid grid-cols-2 gap-3">
                 {sizeOptions.map((size, idx) => {
                   const disabled = idx < minSizeIdx;
                   const price = hasCustomSizes ? (size as any).price : getPrice(product.pricingTier, size.roses);
-                  const label = hasCustomSizes && (size as any).label ? (size as any).label : `${size.roses} roses`;
                   return (
                     <button key={size.roses} onClick={() => !disabled && setSelectedSizeIdx(idx)}
                       disabled={disabled}
@@ -443,9 +636,9 @@ const BouquetProductDetail = () => {
             </Section>
 
             {/* 2. Glitter */}
-            <Section title="Glitter Finish" step={step++} subtitle={`+$${Math.ceil(selectedSize.roses / 25) * 8}`}>
-              <div className="flex flex-col md:flex-row gap-4 mb-4">
-                <div className="w-28 h-28 flex-shrink-0 mx-auto md:mx-0">
+            <Section title="Glitter Finish" step={2} subtitle={`+$${Math.ceil(selectedSize.roses / 25) * 8}`}>
+              <div className="flex flex-col gap-4 mb-4">
+                <div className="w-28 h-28 flex-shrink-0 mx-auto">
                   <img src={glitterRoseImg} alt="Glitter rose example" className="w-full h-full object-contain" />
                 </div>
                 <div className="flex-1">
@@ -456,28 +649,21 @@ const BouquetProductDetail = () => {
               <div className="grid grid-cols-2 gap-3">
                 <button onClick={() => setAddGlitter(true)}
                   className={`p-4 rounded-sm border-2 text-center transition-all font-body text-sm ${addGlitter ? "border-primary bg-primary/5 text-primary" : "border-border text-muted-foreground hover:border-primary/30"}`}>
-                  Yes
-                  {addGlitter && <Check className="w-4 h-4 text-primary mx-auto mt-1" />}
+                  Yes {addGlitter && <Check className="w-4 h-4 text-primary mx-auto mt-1" />}
                 </button>
                 <button onClick={() => setAddGlitter(false)}
                   className={`p-4 rounded-sm border-2 text-center transition-all font-body text-sm ${!addGlitter ? "border-primary bg-primary/5 text-primary" : "border-border text-muted-foreground hover:border-primary/30"}`}>
-                  No
-                  {!addGlitter && <Check className="w-4 h-4 text-primary mx-auto mt-1" />}
+                  No {!addGlitter && <Check className="w-4 h-4 text-primary mx-auto mt-1" />}
                 </button>
               </div>
             </Section>
 
-            {/* Letters/Numbers - only for custom bouquets */}
-
-
-            {/* 4. Accessories */}
-            <Section title="Accessories" step={step++}>
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+            {/* 3. Accessories */}
+            <Section title="Accessories" step={3}>
+              <div className="grid grid-cols-2 gap-3">
                 <button onClick={() => setAccessory("note")}
                   className={`flex flex-col items-center gap-2 p-4 rounded-sm border-2 transition-all font-body text-sm ${accessory === "note" ? "border-primary bg-primary/5 text-primary" : "border-border text-muted-foreground hover:border-primary/30"}`}>
-                  <Type className="w-4 h-4" />
-                  Note
-                  <span className="text-xs text-secondary">$3</span>
+                  <Type className="w-4 h-4" /> Note <span className="text-xs text-secondary">$3</span>
                 </button>
               </div>
               {accessory === "note" && (
@@ -486,10 +672,8 @@ const BouquetProductDetail = () => {
               )}
             </Section>
 
-
-
-            {/* 6. Delivery */}
-            <Section title="Shipping" step={step++}>
+            {/* 4. Shipping */}
+            <Section title="Shipping" step={4}>
               <div className="grid grid-cols-2 gap-3 mb-6">
                 <button onClick={() => setDeliveryMethod("pickup")}
                   className={`flex items-center gap-3 p-5 rounded-sm border-2 transition-all font-body ${deliveryMethod === "pickup" ? "border-primary bg-primary/5" : "border-border hover:border-primary/30"}`}>
@@ -567,7 +751,7 @@ const BouquetProductDetail = () => {
                 <label className="text-sm font-body font-semibold text-foreground block mb-2"><CalendarIcon className="w-4 h-4 inline mr-1" /> Date</label>
                 <Popover>
                   <PopoverTrigger asChild>
-                    <button className="w-full md:w-auto flex items-center gap-2 px-4 py-3 rounded-sm border border-border bg-card font-body text-sm text-foreground hover:border-primary/30 transition-all">
+                    <button className="w-full flex items-center gap-2 px-4 py-3 rounded-sm border border-border bg-card font-body text-sm text-foreground hover:border-primary/30 transition-all">
                       <CalendarIcon className="w-4 h-4 text-muted-foreground" />
                       {deliveryDate ? format(deliveryDate, "PPP", { locale: enUS }) : "Select a date"}
                     </button>
@@ -593,50 +777,31 @@ const BouquetProductDetail = () => {
               )}
             </Section>
 
-            {/* Summary */}
+            {/* Mobile sticky bottom bar */}
             <div className="pb-4" />
-            <div className="sticky bottom-0 bg-card/95 backdrop-blur-md border border-border rounded-sm p-3 md:p-4 shadow-xl z-10">
-              <div className="flex flex-col md:flex-row md:items-center justify-between gap-2 md:gap-4">
-                {/* Description and Price - Mobile Layout (Row 1) */}
-                <div className="flex md:hidden justify-between items-center gap-3">
+            <div className="sticky bottom-0 bg-card/95 backdrop-blur-md border border-border rounded-sm p-3 shadow-xl z-10">
+              <div className="flex flex-col gap-2">
+                <div className="flex justify-between items-center gap-3">
                   <p className="font-body text-[10px] text-muted-foreground leading-tight flex-1 line-clamp-1">
                     {product.name} · {selectedSize.roses} roses
                     {addGlitter && " · Glitter"}
                     {addCrown && ` · Crown (${crownSize === "gold" ? "Gold" : "Silver"})`}
-                    {accessory !== "none" && ` · ${accessory === "note" ? "Note" : accessory === "card" ? "Card" : "Butterflies"}`}
+                    {accessory !== "none" && ` · ${accessory === "note" ? "Note" : "Accessory"}`}
                     {deliveryMethod === "delivery" ? (deliveryMiles && !distanceTooFar ? ` · Shipping ($${parseFloat(deliveryCost.toFixed(2))})` : " · Shipping (pending)") : " · Pickup"}
                   </p>
                   <p className="font-display text-lg font-bold text-foreground whitespace-nowrap">
                     ${parseFloat(totalPrice.toFixed(2))}
                   </p>
                 </div>
-
-                {/* Description - Desktop (Left side) */}
-                <div className="hidden md:block flex-1 pr-4">
-                  <p className="font-body text-xs text-muted-foreground leading-tight">
-                    {product.name} · {selectedSize.roses} roses
-                    {addGlitter && " · Glitter"}
-                    {addCrown && ` · Crown (${crownSize === "gold" ? "Gold" : "Silver"})`}
-                    {accessory !== "none" && ` · ${accessory === "note" ? "Note" : accessory === "card" ? "Card" : "Butterflies"}`}
-                    {deliveryMethod === "delivery" ? (deliveryMiles && !distanceTooFar ? ` · Shipping ($${deliveryCost})` : " · Shipping (pending)") : " · Pickup"}
-                  </p>
-                </div>
-
-                {/* Price and Buttons - Desktop (Right side) / Buttons - Mobile (Row 2) */}
-                <div className="flex flex-row items-center gap-3 md:gap-4 w-full md:w-auto">
-                  <p className="hidden md:block font-display text-2xl font-bold text-foreground whitespace-nowrap">
-                    ${parseFloat(totalPrice.toFixed(2))} <span className="text-xs font-body text-muted-foreground font-normal">USD</span>
-                  </p>
-                  <div className="flex w-full md:w-auto gap-2">
-                    <button onClick={() => handleAddToCart()} disabled={isAdding || variantsLoading}
-                      className="flex-1 md:flex-none bg-primary text-primary-foreground px-4 md:px-6 py-2.5 md:py-3 font-body text-[10px] md:text-xs tracking-widest uppercase hover:bg-primary/90 transition-colors rounded-sm disabled:opacity-50">
-                      {isAdding ? "Adding..." : variantsLoading ? "Loading..." : "Add to cart"}
-                    </button>
-                    <button onClick={handlePayNow} disabled={isAdding || variantsLoading}
-                      className="flex-1 md:flex-none border-2 border-primary text-primary px-4 md:px-6 py-2.5 md:py-3 font-body text-[10px] md:text-xs tracking-widest uppercase hover:bg-primary/10 transition-colors rounded-sm whitespace-nowrap disabled:opacity-50">
-                      {isAdding ? "Adding..." : variantsLoading ? "Loading..." : "Pay now"}
-                    </button>
-                  </div>
+                <div className="flex w-full gap-2">
+                  <button onClick={() => handleAddToCart()} disabled={isAdding || variantsLoading}
+                    className="flex-1 bg-primary text-primary-foreground px-4 py-2.5 font-body text-[10px] tracking-widest uppercase hover:bg-primary/90 transition-colors rounded-sm disabled:opacity-50">
+                    {isAdding ? "Adding..." : variantsLoading ? "Loading..." : "Add to cart"}
+                  </button>
+                  <button onClick={handlePayNow} disabled={isAdding || variantsLoading}
+                    className="flex-1 border-2 border-primary text-primary px-4 py-2.5 font-body text-[10px] tracking-widest uppercase hover:bg-primary/10 transition-colors rounded-sm whitespace-nowrap disabled:opacity-50">
+                    {isAdding ? "Adding..." : variantsLoading ? "Loading..." : "Pay now"}
+                  </button>
                 </div>
               </div>
             </div>
