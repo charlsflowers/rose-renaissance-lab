@@ -81,12 +81,16 @@ const BouquetProductDetail = () => {
   const [selectedAddress, setSelectedAddress] = useState("");
   const [mapUrl, setMapUrl] = useState("");
   const [structuredAddress, setStructuredAddress] = useState<{ address1: string; city: string; province: string; zip: string; country: string } | undefined>(undefined);
-  const autocompleteRef = useRef<HTMLDivElement>(null);
+  const autocompleteDesktopRef = useRef<HTMLDivElement>(null);
+  const autocompleteMobileRef = useRef<HTMLDivElement>(null);
   const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
-      if (autocompleteRef.current && !autocompleteRef.current.contains(e.target as Node)) setShowPredictions(false);
+      const target = e.target as Node;
+      const insideDesktop = autocompleteDesktopRef.current?.contains(target);
+      const insideMobile = autocompleteMobileRef.current?.contains(target);
+      if (!insideDesktop && !insideMobile) setShowPredictions(false);
     };
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
