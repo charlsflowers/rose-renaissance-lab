@@ -472,7 +472,7 @@ const BouquetProductDetail = () => {
                       <p className="font-semibold text-xs text-foreground">Home delivery</p>
                       <p className="text-xs text-muted-foreground">From $25</p>
                     </div>
-                    {deliveryMethod === "delivery" && <Check className="w-4 h-4 text-primary flex-shrink-0" />}
+                    {deliveryMethod === "delivery" && <Check className="w-3.5 h-3.5 text-primary flex-shrink-0" />}
                   </button>
                 </div>
 
