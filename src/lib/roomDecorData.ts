@@ -43,7 +43,7 @@ export const roomDecorPackages: RoomDecorPackage[] = [
     shopifyVariantId: 'gid://shopify/ProductVariant/51693066223748',
     price: 350,
     description: 'A romantic explosion of love for an unforgettable surprise',
-    image: roomDecorImg,
+    image: `${CDN}/1_fca2072b-02a2-4f7a-a489-8a7bcb428241.png?v=1774615718`,
     includes: [
       '15 Ceiling Balloons',
       '10 Balloons on the floor',
