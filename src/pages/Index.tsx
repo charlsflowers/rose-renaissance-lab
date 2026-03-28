@@ -15,7 +15,7 @@ import cestasImg from "@/assets/cestas.jpg";
 import jarronesImg from "@/assets/jarrones.jpg";
 import ososImg from "@/assets/osos.jpg";
 import heartBouquet from "@/assets/heart-bouquet.jpg";
-import purezaBlancaImg from "@/assets/bq-blanco.png";
+const bicolorPassionImg = 'https://cdn.shopify.com/s/files/1/0979/1671/5140/files/16.png?v=1774610789';
 import roomDecorImg from "@/assets/room-decor.jpg";
 
 const comingSoonSlugs = ["arreglos", "cajas", "cestas", "jarrones", "osos"];
