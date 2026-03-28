@@ -7,42 +7,7 @@ import { Menu, X, ChevronDown, Search as SearchIcon, MapPin, Globe } from "lucid
 import { bouquetProducts } from "@/lib/catalogData";
 import { roomDecorPackages } from "@/lib/roomDecorData";
 import { supabase } from "@/integrations/supabase/client";
-import { useTranslation } from "@/i18n/LanguageContext";
-
-const bouquetSubLinks = [
-  { to: "/bouquets", label: "All Bouquets", active: true },
-  { to: "/bouquets?filter=un-color", label: "Single Color Bouquets", active: true },
-  { to: "/bouquets?filter=mezclas", label: "Mixed Bouquets", active: true },
-  { to: "/bouquets?filter=zodiac", label: "Zodiac Bouquets", active: true },
-  { label: "Anniversaries", active: false },
-  { label: "Birthday Bouquets", active: false },
-  { label: "Baby Shower Bouquets", active: false },
-  { label: "Valentine's Day Flowers", active: false },
-  { label: "Wedding Bouquets", active: false },
-];
-
-const navLinks = [
-  { to: "/", label: "Home" },
-  { to: "/bouquets", label: "Bouquets", hasDropdown: true },
-  { to: "/bouquets/personalizar", label: "Custom Bouquets" },
-  { to: "/room-decors", label: "Room Decors" },
-  { to: "/delivery", label: "Delivery" },
-  { to: "/about", label: "About" },
-  { to: "/contact", label: "Contact" },
-  { to: "/faq", label: "FAQ" },
-];
-
-// Searchable items
-const searchableItems = [
-  ...bouquetProducts.map(p => ({ name: p.name, to: `/bouquets/all/${p.shopifyHandle}` })),
-  ...roomDecorPackages.map(p => ({ name: p.name, to: `/room-decors/${p.id}` })),
-  { name: "Custom Bouquet Builder", to: "/bouquets/personalizar" },
-  { name: "Delivery", to: "/delivery" },
-  { name: "About", to: "/about" },
-  { name: "Contact", to: "/contact" },
-  { name: "FAQ", to: "/faq" },
-  { name: "Blog", to: "/blog" },
-];
+import { useTranslation, type Language } from "@/i18n/LanguageContext";
 
 interface PlacePrediction {
   placeId: string;
@@ -52,6 +17,7 @@ interface PlacePrediction {
 }
 
 const Navbar = () => {
+  const { t, language, setLanguage } = useTranslation();
   const totalItems = useCartStore(state => state.items.length);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [bouquetDropdownOpen, setBouquetDropdownOpen] = useState(false);
@@ -60,14 +26,48 @@ const Navbar = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [placePredictions, setPlacePredictions] = useState<PlacePrediction[]>([]);
   const [loadingPlaces, setLoadingPlaces] = useState(false);
+  const [langMenuOpen, setLangMenuOpen] = useState(false);
   const navigate = useNavigate();
   const debounceRef = useRef<ReturnType<typeof setTimeout>>();
+
+  const bouquetSubLinks = [
+    { to: "/bouquets", label: t("nav.allBouquets"), active: true },
+    { to: "/bouquets?filter=un-color", label: t("nav.singleColor"), active: true },
+    { to: "/bouquets?filter=mezclas", label: t("nav.mixedBouquets"), active: true },
+    { to: "/bouquets?filter=zodiac", label: t("nav.zodiacBouquets"), active: true },
+    { label: t("nav.anniversaries"), active: false },
+    { label: t("nav.birthdayBouquets"), active: false },
+    { label: t("nav.babyShowerBouquets"), active: false },
+    { label: t("nav.valentinesDayFlowers"), active: false },
+    { label: t("nav.weddingBouquets"), active: false },
+  ];
+
+  const navLinks = [
+    { to: "/", label: t("nav.home") },
+    { to: "/bouquets", label: t("nav.bouquets"), hasDropdown: true },
+    { to: "/bouquets/personalizar", label: t("nav.customBouquets") },
+    { to: "/room-decors", label: t("nav.roomDecors") },
+    { to: "/delivery", label: t("nav.delivery") },
+    { to: "/about", label: t("nav.about") },
+    { to: "/contact", label: t("nav.contact") },
+    { to: "/faq", label: t("nav.faq") },
+  ];
+
+  const searchableItems = [
+    ...bouquetProducts.map(p => ({ name: p.name, to: `/bouquets/all/${p.shopifyHandle}` })),
+    ...roomDecorPackages.map(p => ({ name: p.name, to: `/room-decors/${p.id}` })),
+    { name: t("nav.customBouquetBuilder"), to: "/bouquets/personalizar" },
+    { name: t("nav.delivery"), to: "/delivery" },
+    { name: t("nav.about"), to: "/about" },
+    { name: t("nav.contact"), to: "/contact" },
+    { name: t("nav.faq"), to: "/faq" },
+    { name: t("nav.blog"), to: "/blog" },
+  ];
 
   const searchResults = searchQuery.length >= 2
     ? searchableItems.filter(item => item.name.toLowerCase().includes(searchQuery.toLowerCase())).slice(0, 6)
     : [];
 
-  // Fetch Places autocomplete
   const fetchPlaces = useCallback(async (input: string) => {
     if (input.length < 3) { setPlacePredictions([]); return; }
     setLoadingPlaces(true);
@@ -90,6 +90,10 @@ const Navbar = () => {
     setSearchQuery("");
     setPlacePredictions([]);
     navigate(`/delivery?address=${encodeURIComponent(prediction.description)}`);
+  };
+
+  const toggleLang = () => {
+    setLanguage(language === "en" ? "es" : "en");
   };
 
   return (
@@ -125,7 +129,7 @@ const Navbar = () => {
                         </Link>
                       ) : (
                         <span key={i} className="block px-4 py-2 text-xs tracking-widest uppercase text-muted-foreground/40 cursor-not-allowed">
-                          {sub.label} <span className="text-[9px] normal-case">coming soon</span>
+                          {sub.label} <span className="text-[9px] normal-case">{t("nav.comingSoon")}</span>
                         </span>
                       )
                     ))}
@@ -141,6 +145,16 @@ const Navbar = () => {
         </div>
 
         <div className="flex items-center gap-3">
+          {/* Language toggle */}
+          <button
+            onClick={toggleLang}
+            className="flex items-center gap-1 text-muted-foreground hover:text-primary transition-colors font-body text-xs tracking-wider uppercase"
+            title={language === "en" ? "Cambiar a Español" : "Switch to English"}
+          >
+            <Globe className="w-4 h-4" />
+            <span className="hidden sm:inline">{language === "en" ? "ES" : "EN"}</span>
+          </button>
+
           {/* Search toggle */}
           <button onClick={() => setSearchOpen(!searchOpen)} className="text-foreground hover:text-primary transition-colors">
             <SearchIcon className="w-5 h-5" />
@@ -167,7 +181,7 @@ const Navbar = () => {
                 type="text"
                 value={searchQuery}
                 onChange={(e) => handleSearchChange(e.target.value)}
-                placeholder="Search bouquets or enter a delivery address..."
+                placeholder={t("nav.searchPlaceholder")}
                 autoFocus
                 className="w-full bg-muted border border-border rounded-sm pl-10 pr-4 py-2.5 font-body text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30"
               />
@@ -187,7 +201,7 @@ const Navbar = () => {
                 ))}
                 {placePredictions.length > 0 && searchResults.length > 0 && (
                   <div className="px-4 py-1.5 bg-muted/50">
-                    <span className="font-body text-[10px] tracking-widest uppercase text-muted-foreground">Delivery addresses</span>
+                    <span className="font-body text-[10px] tracking-widest uppercase text-muted-foreground">{t("nav.deliveryAddresses")}</span>
                   </div>
                 )}
                 {placePredictions.map((p, i) => (
@@ -231,7 +245,7 @@ const Navbar = () => {
                           </Link>
                         ) : (
                           <span key={i} className="block py-1.5 text-xs tracking-widest uppercase text-muted-foreground/40">
-                            {sub.label} <span className="text-[9px] normal-case">coming soon</span>
+                            {sub.label} <span className="text-[9px] normal-case">{t("nav.comingSoon")}</span>
                           </span>
                         )
                       ))}
@@ -244,6 +258,15 @@ const Navbar = () => {
                 </Link>
               )
             ))}
+
+            {/* Mobile language toggle */}
+            <button
+              onClick={toggleLang}
+              className="flex items-center gap-2 hover:text-primary transition-colors py-2 mt-1"
+            >
+              <Globe className="w-4 h-4" />
+              {language === "en" ? "Español" : "English"}
+            </button>
           </div>
         </div>
       )}
