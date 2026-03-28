@@ -15,7 +15,7 @@ import cestasImg from "@/assets/cestas.jpg";
 import jarronesImg from "@/assets/jarrones.jpg";
 import ososImg from "@/assets/osos.jpg";
 import heartBouquet from "@/assets/heart-bouquet.jpg";
-import purezaBlancaImg from "@/assets/bq-blanco.png";
+const bicolorPassionImg = 'https://cdn.shopify.com/s/files/1/0979/1671/5140/files/16.png?v=1774610789';
 import roomDecorImg from "@/assets/room-decor.jpg";
 
 const comingSoonSlugs = ["arreglos", "cajas", "cestas", "jarrones", "osos"];
@@ -23,7 +23,7 @@ const comingSoonSlugs = ["arreglos", "cajas", "cestas", "jarrones", "osos"];
 const Index = () => {
   const [reviewCategory, setReviewCategory] = useState<ReviewCategory>("bouquets");
   const categories = [
-    { img: purezaBlancaImg, title: "Bouquets", slug: "bouquets", isRoute: true },
+    { img: bicolorPassionImg, title: "Bouquets", slug: "bouquets", isRoute: true },
     { img: arreglosImg, title: "Arrangements", slug: "arreglos" },
     { img: cajasImg, title: "Boxes", slug: "cajas" },
     { img: cestasImg, title: "Baskets", slug: "cestas" },
@@ -152,7 +152,7 @@ const Index = () => {
           <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }} className="max-w-md mx-auto">
             <Link to="/bouquets" className="group block">
               <div className="relative overflow-hidden rounded-sm mb-5 aspect-square">
-                <img src={purezaBlancaImg} alt="Bouquets" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
+                <img src={bicolorPassionImg} alt="Bouquets" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
                 <div className="absolute inset-0 bg-foreground/10 group-hover:bg-foreground/20 transition-colors" />
               </div>
               <div className="flex items-center justify-center gap-2 mb-2">
