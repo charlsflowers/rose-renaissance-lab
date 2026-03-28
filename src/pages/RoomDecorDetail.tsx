@@ -513,7 +513,7 @@ const RoomDecorDetail = () => {
           <div className="md:hidden space-y-5 max-w-lg mx-auto">
             {/* Image */}
             <div className="relative overflow-hidden rounded-sm bg-muted flex items-center justify-center aspect-square">
-              <img src={pkg.image} alt={pkg.name} className="w-full h-full object-cover" />
+              <img src={pkg.image} alt={`${pkg.name} Miami Room Decoration – Charls Flowers`} width={600} height={600} className="w-full h-full object-cover" />
             </div>
 
             <div className="text-center">
