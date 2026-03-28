@@ -85,13 +85,19 @@ const BouquetProducts = () => {
                       <>
                         <img 
                           src={product.image} 
-                          alt={product.name} 
+                          alt={`${product.name} Miami – Charls Flowers`} 
+                          loading="lazy"
+                          width={400}
+                          height={400}
                           className={`w-full h-full object-cover transition-all duration-700 group-hover:scale-105 ${product.image2 ? 'md:group-hover:opacity-0' : ''}`} 
                         />
                         {product.image2 && (
                           <img 
                             src={product.image2} 
-                            alt={`${product.name} - alternate view`} 
+                            alt={`${product.name} Miami alternate view – Charls Flowers`} 
+                            loading="lazy"
+                            width={400}
+                            height={400}
                             className="absolute inset-0 w-full h-full object-cover opacity-0 md:group-hover:opacity-100 transition-all duration-700 md:group-hover:scale-105 hidden md:block" 
                           />
                         )}
