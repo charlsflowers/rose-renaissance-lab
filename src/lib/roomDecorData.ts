@@ -37,7 +37,7 @@ export const roomDecorBouquetColors = [
 
 export const roomDecorPackages: RoomDecorPackage[] = [
   {
-    id: 'rd-love-bomb',
+    id: 'love-bomb',
     name: 'Love Bomb',
     shopifyHandle: 'love-bomb',
     shopifyVariantId: 'gid://shopify/ProductVariant/51693066223748',
@@ -59,7 +59,7 @@ export const roomDecorPackages: RoomDecorPackage[] = [
     freeDeliveryMiles: 10,
   },
   {
-    id: 'rd-overly-romantic',
+    id: 'overly-romantic',
     name: 'Overly Romantic',
     shopifyHandle: 'overly-romantic',
     shopifyVariantId: 'gid://shopify/ProductVariant/51693066289284',
@@ -89,7 +89,7 @@ export const roomDecorPackages: RoomDecorPackage[] = [
     freeDeliveryMiles: 10,
   },
   {
-    id: 'rd-deluxe-love',
+    id: 'deluxe-love-package',
     name: 'Deluxe Love Package',
     shopifyHandle: 'deluxe-love-package',
     shopifyVariantId: 'gid://shopify/ProductVariant/51693066322052',

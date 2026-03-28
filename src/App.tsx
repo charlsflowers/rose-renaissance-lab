@@ -55,6 +55,9 @@ const AppContent = () => {
         <Route path="/bouquets/personalizar" element={<BouquetBuilder />} />
         <Route path="/bouquets/:type/:productId" element={<OldBouquetRedirect />} />
         <Route path="/bouquets" element={<BouquetProducts />} />
+        <Route path="/room-decors/rd-love-bomb" element={<Navigate to="/room-decors/love-bomb" replace />} />
+        <Route path="/room-decors/rd-overly-romantic" element={<Navigate to="/room-decors/overly-romantic" replace />} />
+        <Route path="/room-decors/rd-deluxe-love" element={<Navigate to="/room-decors/deluxe-love-package" replace />} />
         <Route path="/room-decors/:packageId" element={<RoomDecorDetail />} />
         <Route path="/room-decors" element={<RoomDecors />} />
         <Route path="/about" element={<About />} />
