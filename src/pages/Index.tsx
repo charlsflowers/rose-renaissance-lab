@@ -301,7 +301,7 @@ const Index = () => {
       </section>
 
       {/* Same-Day Delivery + Google Maps */}
-      <section className="py-16 md:py-20 bg-cream">
+      <section className="py-16 md:py-20">
         <div className="container mx-auto px-6">
           <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.8 }} className="text-center mb-8">
             <h2 className="font-title-retro text-4xl md:text-5xl text-primary mb-4">{t("home.deliveryTitle")}</h2>
