@@ -52,7 +52,7 @@ export const bouquetCrossLinks: Record<string, string[]> = {
 };
 
 export const roomDecorCrossLinks: Record<string, string[]> = {
-  'rd-love-bomb':     ['rd-overly-romantic', 'rd-deluxe-love'],
-  'rd-overly-romantic': ['rd-love-bomb', 'rd-deluxe-love'],
-  'rd-deluxe-love':   ['rd-overly-romantic', 'rd-love-bomb'],
+  'love-bomb':     ['overly-romantic', 'deluxe-love-package'],
+  'overly-romantic': ['love-bomb', 'deluxe-love-package'],
+  'deluxe-love-package':   ['overly-romantic', 'love-bomb'],
 };

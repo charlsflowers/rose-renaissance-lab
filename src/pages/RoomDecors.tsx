@@ -39,7 +39,7 @@ const RoomDecors = () => {
                   <div className="relative overflow-hidden rounded-sm mb-4 aspect-square bg-muted">
                     <img src={pkg.image} alt={`${pkg.name} Miami Room Decoration – Charls Flowers`} loading="lazy" width={400} height={400} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
                     <div className="absolute inset-0 bg-foreground/5 group-hover:bg-foreground/15 transition-colors" />
-                    {pkg.id === 'rd-deluxe-love' && (
+                    {pkg.id === 'deluxe-love-package' && (
                       <div className="absolute -top-1 -right-1 z-10">
                         <div className="bg-primary text-primary-foreground px-5 py-1.5 rounded-bl-lg rounded-tr-sm font-body text-xs tracking-wider uppercase font-bold shadow-lg">
                           Most Popular

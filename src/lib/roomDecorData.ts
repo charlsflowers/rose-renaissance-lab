@@ -89,7 +89,7 @@ export const roomDecorPackages: RoomDecorPackage[] = [
     freeDeliveryMiles: 10,
   },
   {
-    id: 'rd-deluxe-love',
+    id: 'deluxe-love-package',
     name: 'Deluxe Love Package',
     shopifyHandle: 'deluxe-love-package',
     shopifyVariantId: 'gid://shopify/ProductVariant/51693066322052',
