@@ -458,7 +458,7 @@ const BouquetProductDetail = () => {
                 <div className="grid grid-cols-2 gap-2 mb-4">
                   <button onClick={() => setDeliveryMethod("pickup")}
                     className={`flex items-center gap-2 p-3 rounded-sm border-2 transition-all font-body ${deliveryMethod === "pickup" ? "border-primary bg-primary/5" : "border-border hover:border-primary/30"}`}>
-                    <Store className="w-5 h-5 flex-shrink-0" />
+                    <Store className="w-4 h-4 flex-shrink-0" />
                     <div className="text-left flex-1">
                       <p className="font-semibold text-sm text-foreground">Store pickup</p>
                       <p className="text-xs text-muted-foreground">Free</p>
