@@ -70,9 +70,12 @@ export const es = {
     babyShower: "Flores para Baby Shower en Miami",
     anniversaryRoses: "Rosas de Aniversario en Miami",
     deliveryTitle: "Envío de Flores el Mismo Día en Todo Miami",
-    deliverySubtitle: "$25 tarifa fija para 0-5 millas. $1.60/milla de 5 a 87 millas. Recogida gratis en tienda.",
+    deliverySubtitleLine1: "$25 tarifa fija para 0-5 millas. $1.60/milla de 5 a 87 millas.",
+    deliverySubtitleLine2: "Recogida gratis en tienda.",
     deliveryAddress: "📍 7261 NW 12th Street, Miami, FL 33126",
-    deliveryPhone: "Lun–Vie 8AM–7PM | Sáb 8AM–6PM | Dom 8AM–5PM",
+    hoursLine1: "Lun–Vie: 8AM – 7PM",
+    hoursLine2: "Sáb: 8AM – 6PM",
+    hoursLine3: "Dom: 8AM – 5PM",
     faqTitle: "Preguntas Frecuentes",
   },
 
@@ -205,7 +208,7 @@ export const es = {
     time: "Hora",
     selectTime: "Seleccionar hora",
     addToCart: "Añadir al carrito",
-    orderAndPay: "Pedir y pagar",
+    orderAndPay: "Pedir ahora",
     deliveryDateAndTime: "Fecha y hora de entrega",
     orderBefore3PM: "⏰ Pide antes de las 3PM para envío hoy mismo",
     min: "Mín.",
@@ -262,7 +265,7 @@ export const es = {
 
   reviews: {
     addToCart: "Añadir al carrito",
-    orderAndPay: "Pedir y pagar",
+    orderAndPay: "Pedir ahora",
     bouquets: "Ramos",
     custom: "Personalizados",
     arrangements: "Arreglos",
@@ -275,7 +278,16 @@ export const es = {
   clientVideos: {
     title: "Nuestros Clientes",
     subtitle: "Mira lo que nuestros clientes satisfechos dicen sobre sus flores.",
-    orderSame: "Pedir igual",
+    orderSame: "Pedir el mismo",
+  },
+
+  ticker: {
+    bestQuality: "La florería con mejor relación calidad-precio de Miami",
+    unbeatablePrices: "Precios imbatibles en rosas frescas",
+    handcrafted: "Ramos artesanales 100% hechos a mano",
+    sameDayDelivery: "Envío el mismo día en Miami",
+    rosesPerBouquet: "De 50 a 200 rosas por ramo",
+    finishOptions: "Flores naturales, pintadas o con acabado glitter",
   },
 
   roomDecors: {

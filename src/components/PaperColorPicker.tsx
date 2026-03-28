@@ -1,11 +1,10 @@
 import { Check } from "lucide-react";
-import paperAzul from "@/assets/paper-azul.png";
-import paperBlanco from "@/assets/paper-blanco.png";
-import paperBeige from "@/assets/paper-beige.png";
-import paperMorado from "@/assets/paper-morado.png";
-import paperNegro from "@/assets/paper-negro.png";
-import paperRosaLight from "@/assets/paper-rosa-light.png";
-import paperPurple from "@/assets/paper-purple.png";
+import paperAzul from "@/assets/paper-azul.webp";
+import paperBlanco from "@/assets/paper-blanco.webp";
+import paperBeige from "@/assets/paper-beige.webp";
+import paperMorado from "@/assets/paper-morado.webp";
+import paperNegro from "@/assets/paper-negro.webp";
+import paperRosaLight from "@/assets/paper-rosa-light.webp";
 
 export interface PaperColorOption {
   name: string;
@@ -17,7 +16,6 @@ export const paperColorOptions: PaperColorOption[] = [
   { name: "Light Pink", image: paperRosaLight },
   { name: "Beige", image: paperBeige },
   { name: "Mauve", image: paperMorado },
-  { name: "Purple", image: paperPurple },
   { name: "Blue", image: paperAzul },
   { name: "Black", image: paperNegro },
 ];
@@ -35,24 +33,18 @@ const PaperColorPicker = ({ selected, onChange }: PaperColorPickerProps) => {
           <button
             key={paper.name}
             onClick={() => onChange(paper.name)}
-            className={`relative flex flex-col items-center gap-2 p-2 rounded-sm border-2 transition-all ${
+            className={`relative flex flex-col items-center gap-2 p-1.5 rounded-sm border-2 transition-all ${
               selected === paper.name
                 ? "border-primary bg-primary/5 scale-105 shadow-md"
-                : "border-border hover:border-primary/30 hover:scale-105"
+                : "border-transparent hover:border-primary/30 hover:scale-105"
             }`}
           >
             <div className="w-16 h-16 rounded-sm overflow-hidden">
-              {paper.image ? (
-                <img
-                  src={paper.image}
-                  alt={`${paper.name} paper`}
-                  className="w-full h-full object-cover"
-                />
-              ) : (
-                <div className="w-full h-full bg-muted flex items-center justify-center">
-                  <span className="text-[10px] text-muted-foreground text-center leading-tight">Coming soon</span>
-                </div>
-              )}
+              <img
+                src={paper.image}
+                alt={`${paper.name} paper`}
+                className="w-full h-full object-cover"
+              />
             </div>
             <span className="text-xs font-body text-foreground">{paper.name}</span>
             {selected === paper.name && (

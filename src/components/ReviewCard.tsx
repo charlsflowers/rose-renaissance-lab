@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Star, ShoppingBag, CreditCard } from "lucide-react";
 import { motion } from "framer-motion";
 import ReviewUpsellDialog from "@/components/ReviewUpsellDialog";
+import { useTranslation } from "@/i18n/LanguageContext";
 
 export interface ReviewCartData {
   bouquetType: string;
@@ -20,6 +21,7 @@ export interface ReviewData {
   avatar?: string;
   rating: number;
   text: string;
+  textEs?: string;
   image: string;
   productLabel: string;
   category: ReviewCategory;
@@ -27,6 +29,7 @@ export interface ReviewData {
 }
 
 const ReviewCard = ({ review, index }: { review: ReviewData; index: number }) => {
+  const { t, language } = useTranslation();
   const [dialogOpen, setDialogOpen] = useState(false);
   const [dialogMode, setDialogMode] = useState<"cart" | "buy">("cart");
 
@@ -34,6 +37,8 @@ const ReviewCard = ({ review, index }: { review: ReviewData; index: number }) =>
     setDialogMode(mode);
     setDialogOpen(true);
   };
+
+  const reviewText = language === "es" && review.textEs ? review.textEs : review.text;
 
   return (
     <>
@@ -62,7 +67,7 @@ const ReviewCard = ({ review, index }: { review: ReviewData; index: number }) =>
             </div>
 
             <p className="font-body text-sm text-muted-foreground mb-3 line-clamp-3 leading-relaxed">
-              "{review.text}"
+              "{reviewText}"
             </p>
 
             <div className="flex items-center gap-2.5 mb-1">
@@ -80,7 +85,7 @@ const ReviewCard = ({ review, index }: { review: ReviewData; index: number }) =>
               </p>
             </div>
             <p className="font-body text-xs text-muted-foreground mb-4">
-              {review.productLabel} · {review.cartData.roses} roses · ${review.cartData.price}
+              {review.productLabel} · {review.cartData.roses} {t("product.roses")} · ${review.cartData.price}
             </p>
 
             <div className="flex flex-col gap-1.5 sm:gap-2">
@@ -89,14 +94,14 @@ const ReviewCard = ({ review, index }: { review: ReviewData; index: number }) =>
                 className="inline-flex items-center gap-1.5 w-full justify-center bg-primary text-primary-foreground px-3 py-2 sm:py-2.5 font-body text-[9px] sm:text-xs tracking-wider sm:tracking-widest uppercase hover:bg-primary/90 transition-colors rounded-sm"
               >
                 <ShoppingBag className="w-3 h-3 shrink-0" />
-                Add to cart
+                {t("reviews.addToCart")}
               </button>
               <button
                 onClick={() => openDialog("buy")}
                 className="inline-flex items-center gap-1.5 w-full justify-center border border-primary text-primary px-3 py-2 sm:py-2.5 font-body text-[9px] sm:text-xs tracking-wider sm:tracking-widest uppercase hover:bg-primary/10 transition-colors rounded-sm"
               >
                 <CreditCard className="w-3 h-3 shrink-0" />
-                Order & pay
+                {t("reviews.orderAndPay")}
               </button>
             </div>
           </div>

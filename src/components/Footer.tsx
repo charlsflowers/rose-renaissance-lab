@@ -69,7 +69,6 @@ const Footer = () => {
               <a href="https://www.tiktok.com/@charlsflowers" target="_blank" rel="noopener noreferrer" className="hover:text-primary transition-colors">TikTok</a>
             </div>
             <p className="font-body text-[10px] text-primary-foreground/40">{t("footer.payments")}</p>
-            <p className="font-body text-[10px] text-primary-foreground/40 mt-1">{t("footer.secureCheckout")}</p>
           </div>
         </div>
 

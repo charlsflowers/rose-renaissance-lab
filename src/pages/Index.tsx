@@ -39,12 +39,12 @@ const Index = () => {
   ];
 
   const tickerTexts = [
-    "Best quality-price flower shop in Miami",
-    "Unbeatable prices on fresh roses",
-    "100% handcrafted artisan bouquets",
-    "Same-day delivery in Miami",
-    "From 50 to 200 roses per bouquet",
-    "Natural, painted, or glitter finish flowers",
+    t("ticker.bestQuality"),
+    t("ticker.unbeatablePrices"),
+    t("ticker.handcrafted"),
+    t("ticker.sameDayDelivery"),
+    t("ticker.rosesPerBouquet"),
+    t("ticker.finishOptions"),
   ];
 
   const occasions = [
@@ -305,7 +305,8 @@ const Index = () => {
         <div className="container mx-auto px-6">
           <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.8 }} className="text-center mb-8">
             <h2 className="font-title-retro text-4xl md:text-5xl text-primary mb-4">{t("home.deliveryTitle")}</h2>
-            <p className="text-muted-foreground font-body max-w-lg mx-auto">{t("home.deliverySubtitle")}</p>
+            <p className="text-muted-foreground font-body max-w-lg mx-auto">{t("home.deliverySubtitleLine1")}</p>
+            <p className="text-muted-foreground font-body max-w-lg mx-auto mt-1">{t("home.deliverySubtitleLine2")}</p>
             <p className="text-primary font-body text-sm font-semibold mt-3">{t("home.deliveryAddress")}</p>
           </motion.div>
           <div className="max-w-2xl mx-auto rounded-sm overflow-hidden border border-border" style={{ aspectRatio: '16/9', minHeight: '300px' }}>
@@ -320,9 +321,12 @@ const Index = () => {
               title="Charls Flowers Miami Location"
             />
           </div>
-          <p className="text-center mt-4 font-body text-sm text-muted-foreground">
-            <a href="tel:9044424042" className="text-primary hover:underline">904-442-4042</a> · {t("home.deliveryPhone")}
-          </p>
+          <div className="text-center mt-4 font-body text-sm text-muted-foreground space-y-1">
+            <p><a href="tel:9044424042" className="text-primary hover:underline font-semibold">904-442-4042</a></p>
+            <p>{t("home.hoursLine1")}</p>
+            <p>{t("home.hoursLine2")}</p>
+            <p>{t("home.hoursLine3")}</p>
+          </div>
         </div>
       </section>
 

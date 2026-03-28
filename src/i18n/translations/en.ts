@@ -73,9 +73,12 @@ export const en = {
     babyShower: "Baby Shower Flowers Miami",
     anniversaryRoses: "Anniversary Roses Miami",
     deliveryTitle: "Same-Day Flower Delivery Across Miami",
-    deliverySubtitle: "$25 flat rate for 0-5 miles. $1.60/mile from 5 to 87 miles. Free in-store pickup.",
+    deliverySubtitleLine1: "$25 flat rate for 0-5 miles. $1.60/mile from 5 to 87 miles.",
+    deliverySubtitleLine2: "Free in-store pickup.",
     deliveryAddress: "📍 7261 NW 12th Street, Miami, FL 33126",
-    deliveryPhone: "Mon–Fri 8AM–7PM | Sat 8AM–6PM | Sun 8AM–5PM",
+    hoursLine1: "Mon–Fri: 8AM – 7PM",
+    hoursLine2: "Sat: 8AM – 6PM",
+    hoursLine3: "Sun: 8AM – 5PM",
     faqTitle: "Frequently Asked Questions",
   },
 
@@ -215,7 +218,7 @@ export const en = {
     time: "Time",
     selectTime: "Select a time",
     addToCart: "Add to cart",
-    orderAndPay: "Order & pay",
+    orderAndPay: "Order now",
     deliveryDateAndTime: "Delivery date & time",
     orderBefore3PM: "⏰ Order before 3PM for same-day delivery today",
     min: "Min.",
@@ -275,7 +278,7 @@ export const en = {
   // Reviews
   reviews: {
     addToCart: "Add to cart",
-    orderAndPay: "Order & pay",
+    orderAndPay: "Order now",
     bouquets: "Bouquets",
     custom: "Custom",
     arrangements: "Arrangements",
@@ -290,6 +293,16 @@ export const en = {
     title: "Our Clients",
     subtitle: "See what our happy customers have to say about their flowers.",
     orderSame: "Order same",
+  },
+
+  // Ticker
+  ticker: {
+    bestQuality: "Best quality-price flower shop in Miami",
+    unbeatablePrices: "Unbeatable prices on fresh roses",
+    handcrafted: "100% handcrafted artisan bouquets",
+    sameDayDelivery: "Same-day delivery in Miami",
+    rosesPerBouquet: "From 50 to 200 roses per bouquet",
+    finishOptions: "Natural, painted, or glitter finish flowers",
   },
 
   // Room Decors
