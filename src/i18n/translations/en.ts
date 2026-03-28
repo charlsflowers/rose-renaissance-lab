@@ -150,7 +150,7 @@ export const en = {
       { q: "Do you offer wedding flowers in Miami?", a: "Wedding bouquets are coming soon! In the meantime, our custom bouquet builder lets you design stunning arrangements perfect for wedding events." },
       { q: "Can I order 100 roses in one bouquet?", a: "Absolutely! We offer bouquets with 50, 75, 100, 150, and 200 roses. You can choose any color combination and finish." },
       { q: "Do you deliver to Coral Gables, Doral, Hialeah, Kendall, Brickell?", a: "Yes! We deliver to all Miami neighborhoods and surrounding areas up to 87 miles, including Coral Gables, Doral, Hialeah, Kendall, Brickell, Wynwood, Miami Beach, and Aventura." },
-      { q: "Is there a minimum order for delivery?", a: "No minimum order for delivery. Any bouquet or product can be delivered. Delivery starts at $20 for 0-5 miles." },
+      { q: "Is there a minimum order for delivery?", a: "No minimum order for delivery. Any bouquet or product can be delivered. Delivery starts at $25 for 0-5 miles." },
     ],
   },
 
