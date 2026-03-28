@@ -1,10 +1,10 @@
 import { Check } from "lucide-react";
-import paperAzul from "@/assets/paper-azul.webp";
-import paperBlanco from "@/assets/paper-blanco.webp";
-import paperBeige from "@/assets/paper-beige.webp";
-import paperMorado from "@/assets/paper-morado.webp";
-import paperNegro from "@/assets/paper-negro.webp";
-import paperRosaLight from "@/assets/paper-rosa-light.webp";
+import paperAzul from "@/assets/paper-azul.png";
+import paperBlanco from "@/assets/paper-blanco.png";
+import paperBeige from "@/assets/paper-beige.png";
+import paperMorado from "@/assets/paper-morado.png";
+import paperNegro from "@/assets/paper-negro.png";
+import paperRosaLight from "@/assets/paper-rosa-light.png";
 
 export interface PaperColorOption {
   name: string;
@@ -39,7 +39,7 @@ const PaperColorPicker = ({ selected, onChange }: PaperColorPickerProps) => {
                 : "border-transparent hover:border-primary/30 hover:scale-105"
             }`}
           >
-            <div className="w-16 h-16 rounded-sm overflow-hidden">
+            <div className="w-16 h-16 rounded-sm overflow-hidden bg-white">
               <img
                 src={paper.image}
                 alt={`${paper.name} paper`}
