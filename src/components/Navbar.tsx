@@ -1,11 +1,12 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useState, useEffect, useRef, useCallback } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { useCartStore } from "@/stores/cartStore";
 import BrandLogo from "@/components/BrandLogo";
 import charlsLogo from "@/assets/charls-logo.png";
-import { Menu, X, ChevronDown, Search as SearchIcon } from "lucide-react";
+import { Menu, X, ChevronDown, Search as SearchIcon, MapPin } from "lucide-react";
 import { bouquetProducts } from "@/lib/catalogData";
 import { roomDecorPackages } from "@/lib/roomDecorData";
+import { supabase } from "@/integrations/supabase/client";
 
 const bouquetSubLinks = [
   { to: "/bouquets", label: "All Bouquets", active: true },
@@ -42,6 +43,13 @@ const searchableItems = [
   { name: "Blog", to: "/blog" },
 ];
 
+interface PlacePrediction {
+  placeId: string;
+  description: string;
+  mainText: string;
+  secondaryText: string;
+}
+
 const Navbar = () => {
   const totalItems = useCartStore(state => state.items.length);
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -49,6 +57,10 @@ const Navbar = () => {
   const [mobileBouquetOpen, setMobileBouquetOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
+  const [placePredictions, setPlacePredictions] = useState<PlacePrediction[]>([]);
+  const [loadingPlaces, setLoadingPlaces] = useState(false);
+  const navigate = useNavigate();
+  const debounceRef = useRef<ReturnType<typeof setTimeout>>();
 
   const searchResults = searchQuery.length >= 2
     ? searchableItems.filter(item => item.name.toLowerCase().includes(searchQuery.toLowerCase())).slice(0, 6)
