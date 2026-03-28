@@ -378,7 +378,7 @@ const BouquetProductDetail = () => {
             <div className="sticky top-24 self-start space-y-3">
               <div className="relative overflow-hidden rounded-sm bg-muted flex items-center justify-center aspect-square">
                 {product.image ? (
-                  <img src={product.image} alt={product.name} className="w-full h-full object-contain" />
+                  <img src={product.image} alt={`${product.name} Miami – Charls Flowers`} width={600} height={600} className="w-full h-full object-contain" />
                 ) : (
                   <div className="w-full h-full flex items-center justify-center">
                     <span className="font-display text-6xl text-muted-foreground/20">🌹</span>
