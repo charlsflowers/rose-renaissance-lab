@@ -42,7 +42,7 @@ export const roomDecorPackages: RoomDecorPackage[] = [
     shopifyHandle: 'love-bomb',
     shopifyVariantId: 'gid://shopify/ProductVariant/51693066223748',
     price: 350,
-    description: 'A romantic explosion of love for an unforgettable surprise',
+    description: 'Transform any room into a romantic paradise with our Love Bomb decoration service in Miami. Perfect for anniversaries, Valentine\'s Day, and surprise proposals. Includes premium floral arrangements, candles, and personalized setup. Available for same-day booking. Free consultation included.',
     image: `${CDN}/1_fca2072b-02a2-4f7a-a489-8a7bcb428241.png?v=1774615718`,
     includes: [
       '15 Ceiling Balloons',
@@ -64,7 +64,7 @@ export const roomDecorPackages: RoomDecorPackage[] = [
     shopifyHandle: 'overly-romantic',
     shopifyVariantId: 'gid://shopify/ProductVariant/51693066289284',
     price: 480,
-    description: 'The ultimate romantic experience with a 50-rose bouquet included',
+    description: 'Take romance to the next level with our Overly Romantic room decoration service in Miami. Ideal for surprise date nights, anniversaries, and special celebrations. Includes an elevated floral and decor setup tailored to your vision. Available for same-day booking.',
     image: `${CDN}/2_0d55a7e0-0374-4149-93df-e0d9ffe75962.png?v=1774615718`,
     includes: [
       '25 Ceiling Balloons',
@@ -94,7 +94,7 @@ export const roomDecorPackages: RoomDecorPackage[] = [
     shopifyHandle: 'deluxe-love-package',
     shopifyVariantId: 'gid://shopify/ProductVariant/51693066322052',
     price: 835,
-    description: 'The most complete and luxurious room decor with a 75-rose bouquet',
+    description: 'Our most complete romantic experience in Miami. The Deluxe Love Package includes a full room transformation with premium florals, candles, rose petals, and personalized decor — everything you need for an unforgettable surprise. Perfect for proposals, anniversaries, and milestone celebrations. Available for same-day booking.',
     image: `${CDN}/3_adaa192a-8c9b-41b5-8586-cb7e13640829.png?v=1774615718`,
     includes: [
       '35 Ceiling balloons',
