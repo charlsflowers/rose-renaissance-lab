@@ -1,12 +1,15 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { ArrowRight, Heart, Sparkles, Flower2, Star, Lock, Store, Truck, Globe } from "lucide-react";
+import { ArrowRight, Heart, Sparkles, Star, Lock, Store, Truck, Globe } from "lucide-react";
 import ReviewCard from "@/components/ReviewCard";
 import type { ReviewCategory } from "@/components/ReviewCard";
 import ReviewFilters from "@/components/ReviewFilters";
 import { reviews } from "@/lib/reviewsData";
 import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
+import SeoHead from "@/components/SeoHead";
+import JsonLd, { localBusinessSchema, serviceSchema, websiteSchema, faqSchema, homepageFaqs } from "@/components/JsonLd";
 import ClientVideos from "@/components/ClientVideos";
 import heroBouquet from "@/assets/hero-cover.webp";
 import arreglosImg from "@/assets/arreglos.jpg";
