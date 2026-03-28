@@ -42,7 +42,10 @@ const ReviewCard = ({ review, index }: { review: ReviewData; index: number }) =>
           <div className="relative aspect-square overflow-hidden">
             <img
               src={review.image}
-              alt={`Review by ${review.name}`}
+              alt={`${review.productLabel} Miami – Charls Flowers customer review`}
+              loading="lazy"
+              width={400}
+              height={400}
               className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
             />
             <div className="absolute inset-0 bg-foreground/5 group-hover:bg-foreground/15 transition-colors" />
@@ -65,7 +68,7 @@ const ReviewCard = ({ review, index }: { review: ReviewData; index: number }) =>
             <div className="flex items-center gap-2.5 mb-1">
               <div className="w-8 h-8 rounded-full overflow-hidden bg-muted flex-shrink-0 border border-border">
                 {review.avatar ? (
-                  <img src={review.avatar} alt={review.name} className="w-full h-full object-cover" />
+                  <img src={review.avatar} alt={`${review.name} – Charls Flowers customer`} loading="lazy" width={32} height={32} className="w-full h-full object-cover" />
                 ) : (
                   <div className="w-full h-full flex items-center justify-center bg-primary/10 text-primary font-display text-xs font-semibold">
                     {review.name.charAt(0)}

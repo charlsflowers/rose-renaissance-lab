@@ -387,7 +387,7 @@ const BouquetProductDetail = () => {
               </div>
               {product.image2 && (
                 <div className="relative overflow-hidden rounded-sm bg-muted flex items-center justify-center aspect-square">
-                  <img src={product.image2} alt={`${product.name} - view 2`} className="w-full h-full object-cover" />
+                  <img src={product.image2} alt={`${product.name} Miami alternate view – Charls Flowers`} loading="lazy" width={600} height={600} className="w-full h-full object-cover" />
                 </div>
               )}
             </div>
@@ -599,7 +599,7 @@ const BouquetProductDetail = () => {
             <div className="flex overflow-x-auto snap-x snap-mandatory scrollbar-hide gap-3 pb-2 w-full">
               <div className="w-full flex-none snap-center relative overflow-hidden rounded-sm bg-muted flex items-center justify-center aspect-square">
                 {product.image ? (
-                  <img src={product.image} alt={product.name} className="w-full h-full object-contain pointer-events-none" />
+                  <img src={product.image} alt={`${product.name} Miami – Charls Flowers`} width={600} height={600} className="w-full h-full object-contain pointer-events-none" />
                 ) : (
                   <div className="w-full h-full flex items-center justify-center">
                     <span className="font-display text-6xl text-muted-foreground/20">🌹</span>
@@ -608,7 +608,7 @@ const BouquetProductDetail = () => {
               </div>
               {product.image2 && (
                 <div className="w-full flex-none snap-center relative overflow-hidden rounded-sm bg-muted flex items-center justify-center aspect-square">
-                  <img src={product.image2} alt={`${product.name} - view 2`} className="w-full h-full object-cover pointer-events-none" />
+                  <img src={product.image2} alt={`${product.name} Miami alternate view – Charls Flowers`} loading="lazy" width={600} height={600} className="w-full h-full object-cover pointer-events-none" />
                 </div>
               )}
             </div>
