@@ -5,6 +5,7 @@ import { useCartStore } from "@/stores/cartStore";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import VideoOrderDialog from "@/components/VideoOrderDialog";
+import { useTranslation } from "@/i18n/LanguageContext";
 
 // Product images for cart
 import bqRojoImg from '@/assets/bq-rojo.png';
@@ -44,7 +45,7 @@ const videoProducts: VideoProduct[] = [
   { id: 15, title: "White & pink fantasy", src: "/videos/video_15.mov", roses: 200, color: "Blanco, Pink", basePrice: 301, paperColor: "Light Pink", glitter: true, hasCustomText: true, customFields: [{ label: "Ribbon text", placeholder: "e.g. Happy Anniversary" }], productImage: bqMixLightpinkBlancoImg },
 ];
 
-const VideoCard = ({ video, index, onOrder }: { video: VideoProduct; index: number; onOrder: (v: VideoProduct) => void }) => {
+const VideoCard = ({ video, index, onOrder, orderLabel }: { video: VideoProduct; index: number; onOrder: (v: VideoProduct) => void; orderLabel: string }) => {
   const videoRef = useRef<HTMLVideoElement>(null);
   const cardRef = useRef<HTMLDivElement>(null);
 
@@ -104,13 +105,14 @@ const VideoCard = ({ video, index, onOrder }: { video: VideoProduct; index: numb
         className="mt-3 w-full inline-flex items-center justify-center gap-2 bg-primary text-primary-foreground px-4 py-2.5 font-body text-xs tracking-widest uppercase rounded-sm hover:bg-primary/90 transition-colors"
       >
         <ShoppingBag className="w-3.5 h-3.5" />
-        Order same
+        {orderLabel}
       </button>
     </motion.div>
   );
 };
 
 const ClientVideos = () => {
+  const { t } = useTranslation();
   const scrollRef = useRef<HTMLDivElement>(null);
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(true);
@@ -143,10 +145,10 @@ const ClientVideos = () => {
           className="text-center mb-12"
         >
           <h2 className="font-display text-4xl md:text-5xl font-semibold text-primary mb-4">
-            Our Clients
+            {t("clientVideos.title")}
           </h2>
           <p className="text-muted-foreground font-body max-w-lg mx-auto">
-            See what our happy customers have to say about their flowers.
+            {t("clientVideos.subtitle")}
           </p>
         </motion.div>
 
@@ -167,7 +169,7 @@ const ClientVideos = () => {
             style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
           >
             {videoProducts.map((video, i) => (
-              <VideoCard key={video.id} video={video} index={i} onOrder={setSelectedVideo} />
+              <VideoCard key={video.id} video={video} index={i} onOrder={setSelectedVideo} orderLabel={t("clientVideos.orderSame")} />
             ))}
           </div>
 

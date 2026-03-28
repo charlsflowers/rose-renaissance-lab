@@ -9,12 +9,14 @@ import CollectionFAQ, { bouquetFAQs } from "@/components/CollectionFAQ";
 import { bouquetProducts, bouquetSizeOptions } from "@/lib/catalogData";
 import { getPrice } from "@/lib/productData";
 import { ArrowLeft, ArrowRight, Sparkles, Lock } from "lucide-react";
+import { useTranslation } from "@/i18n/LanguageContext";
 
 type FilterType = "all" | "un-color" | "mezclas" | "zodiac";
 
 const isZodiac = (id: string) => id.startsWith('bq-zodiac-');
 
 const BouquetProducts = () => {
+  const { t } = useTranslation();
   const [filter, setFilter] = useState<FilterType>("all");
 
   useEffect(() => { window.scrollTo(0, 0); }, []);
@@ -22,7 +24,6 @@ const BouquetProducts = () => {
   const filteredProducts = bouquetProducts.filter((product) => {
     if (filter === "zodiac") return isZodiac(product.id);
     if (filter === "all") return true;
-    // Exclude zodiac from Single Color and Mixes
     if (isZodiac(product.id)) return false;
     const isMix = product.color.includes(" y ") || product.color.includes(", ") || product.color.includes(" y");
     return filter === "mezclas" ? isMix : !isMix;
@@ -35,30 +36,30 @@ const BouquetProducts = () => {
       <Navbar />
       <div className="pt-24 pb-16">
         <div className="container mx-auto px-6">
-          <Breadcrumbs items={[{ label: "Home", to: "/" }, { label: "Bouquets" }]} />
+          <Breadcrumbs items={[{ label: t("nav.home"), to: "/" }, { label: t("nav.bouquets") }]} />
 
           <div className="text-center mb-8">
             <div className="flex items-center justify-center gap-2 mb-2">
               <Sparkles className="w-5 h-5 text-primary" />
-             <p className="font-subtitle-script text-gold text-lg md:text-2xl mb-2">Handcrafted bouquets</p>
+             <p className="font-subtitle-script text-gold text-lg md:text-2xl mb-2">{t("bouquetProducts.subtitle")}</p>
             </div>
-            <h1 className="font-title-retro text-4xl md:text-5xl text-foreground">Bouquets</h1>
+            <h1 className="font-title-retro text-4xl md:text-5xl text-foreground">{t("bouquetProducts.title")}</h1>
             <p className="text-muted-foreground font-body text-sm mt-3 max-w-2xl mx-auto">
-              Explore our handcrafted rose bouquets in Miami. From elegant{' '}
-              <Link to="/bouquets/all/pure-white" className="text-primary hover:underline">Pure White</Link> and fiery{' '}
-              <Link to="/bouquets/all/total-passion" className="text-primary hover:underline">Total Passion</Link> to vibrant{' '}
-              <Link to="/bouquets/all/hot-pink-blush" className="text-primary hover:underline">Hot Pink Blush</Link> and stunning{' '}
-              <Link to="/bouquets/all/blue-sky" className="text-primary hover:underline">Blue Sky</Link>. 50 to 200 roses, natural or glitter finish. Same-day delivery available.
+              {t("bouquetProducts.description")}{' '}
+              <Link to="/bouquets/all/pure-white" className="text-primary hover:underline">Pure White</Link>,{' '}
+              <Link to="/bouquets/all/total-passion" className="text-primary hover:underline">Total Passion</Link>,{' '}
+              <Link to="/bouquets/all/hot-pink-blush" className="text-primary hover:underline">Hot Pink Blush</Link>,{' '}
+              <Link to="/bouquets/all/blue-sky" className="text-primary hover:underline">Blue Sky</Link>.
             </p>
-            <p className="text-primary font-body text-xs font-semibold mt-2">⏰ Order before 3PM for same-day delivery today</p>
+            <p className="text-primary font-body text-xs font-semibold mt-2">{t("common.orderBefore3PM")}</p>
           </div>
 
           <div className="flex justify-center gap-3 mb-12">
             {([
-              { key: "all", label: "See All", locked: false },
-              { key: "un-color", label: "Single color", locked: false },
-              { key: "mezclas", label: "Mixes", locked: false },
-              { key: "zodiac", label: "Zodiac Signs", locked: false },
+              { key: "all", label: t("bouquetProducts.seeAll"), locked: false },
+              { key: "un-color", label: t("bouquetProducts.singleColor"), locked: false },
+              { key: "mezclas", label: t("bouquetProducts.mixes"), locked: false },
+              { key: "zodiac", label: t("bouquetProducts.zodiacSigns"), locked: false },
             ] as { key: FilterType; label: string; locked: boolean }[]).map(({ key, label, locked }) => (
               <button
                 key={key}
@@ -112,7 +113,7 @@ const BouquetProducts = () => {
                   </div>
                   <h3 className="font-display text-lg font-semibold text-foreground text-center">{product.name}</h3>
                   
-                  <p className="text-primary font-body text-sm font-semibold text-center mt-2">From ${product.customSizes ? product.customSizes[0].price : getPrice(product.pricingTier, (product.pricingTier === 'mix3red' || (product.color.includes(',') && product.pricingTier === 'standard')) ? 75 : 50)}</p>
+                  <p className="text-primary font-body text-sm font-semibold text-center mt-2">{t("product.from")} ${product.customSizes ? product.customSizes[0].price : getPrice(product.pricingTier, (product.pricingTier === 'mix3red' || (product.color.includes(',') && product.pricingTier === 'standard')) ? 75 : 50)}</p>
                 </Link>
               </div>
             ))}
@@ -128,11 +129,11 @@ const BouquetProducts = () => {
       {/* CTA */}
       <section className="py-20 bg-primary">
         <div className="container mx-auto px-6 text-center">
-          <h2 className="font-title-retro text-3xl md:text-4xl text-primary-foreground mb-4">Can't find what you're looking for?</h2>
-          <p className="text-primary-foreground/80 font-body mb-8 max-w-md mx-auto">Customize every detail: color, size, accessories, and more. From $76 USD.</p>
+          <h2 className="font-title-retro text-3xl md:text-4xl text-primary-foreground mb-4">{t("bouquetProducts.cantFind")}</h2>
+          <p className="text-primary-foreground/80 font-body mb-8 max-w-md mx-auto">{t("bouquetProducts.cantFindDesc")}</p>
           <Link to="/bouquets/personalizar"
             className="inline-flex items-center gap-3 bg-background text-foreground px-8 py-4 font-body text-sm tracking-widest uppercase hover:bg-background/90 transition-colors rounded-sm">
-            Customize now <ArrowRight className="w-4 h-4" />
+            {t("bouquetProducts.customizeNow")} <ArrowRight className="w-4 h-4" />
           </Link>
         </div>
       </section>

@@ -7,6 +7,7 @@ import { Calendar } from "@/components/ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { cn } from "@/lib/utils";
 import DeliveryCalculator, { type DeliveryResult } from "@/components/DeliveryCalculator";
+import { useTranslation } from "@/i18n/LanguageContext";
 
 interface Props {
   itemCount: number;
@@ -26,7 +27,6 @@ interface Props {
   onCheckout: () => void;
 }
 
-// Hours will be dynamically filtered based on delivery method
 const PICKUP_HOURS = [
   "9:30 AM", "10:00 AM", "11:00 AM", "12:00 PM",
   "1:00 PM", "2:00 PM", "3:00 PM", "4:00 PM",
@@ -45,16 +45,15 @@ const CheckoutSummaryBlock = ({
   deliveryHour, setDeliveryHour, canCheckout, isLoading, isSyncing,
   isCheckingOut, onCheckout,
 }: Props) => {
+  const { t } = useTranslation();
   const needsAddress = deliveryMethod === "delivery";
   const deliveryCost = needsAddress && deliveryResult ? deliveryResult.cost : 0;
   const grandTotal = itemsSubtotal + deliveryCost;
 
-  // Saved address so it persists when toggling methods
   const [savedResult, setSavedResult] = useState<DeliveryResult | null>(deliveryResult);
   const [showAddressEditor, setShowAddressEditor] = useState(!deliveryResult && deliveryMethod === "delivery");
   const [editingDateTime, setEditingDateTime] = useState(false);
 
-  // Sync saved result
   useEffect(() => {
     if (deliveryResult) setSavedResult(deliveryResult);
   }, [deliveryResult]);
@@ -69,30 +68,24 @@ const CheckoutSummaryBlock = ({
     }
   };
 
-  // Date filtering
   const today = todayInMiami();
   const disabledDays = { before: today };
 
-  // Safely parse deliveryDate (could be yyyy-MM-dd or a display string like "March 20th, 2026")
   const parseDateSafe = (d: string): Date | null => {
     if (!d) return null;
-    // Try yyyy-MM-dd first
     if (/^\d{4}-\d{2}-\d{2}$/.test(d)) {
       const parsed = new Date(d + "T00:00:00");
       return isNaN(parsed.getTime()) ? null : parsed;
     }
-    // Fallback: try native Date parse
     const parsed = new Date(d);
     return isNaN(parsed.getTime()) ? null : parsed;
   };
 
   const parsedDate = parseDateSafe(deliveryDate);
 
-  // Available hours based on date
   const availableHours = (() => {
     const baseHours = deliveryMethod === "pickup" ? PICKUP_HOURS : DELIVERY_HOURS;
     if (!parsedDate) return baseHours;
-    // Filter by day of week closing time
     const day = parsedDate.getDay();
     const closeHour = day === 0 ? 17 : day === 6 ? 18 : 19;
     let filtered = baseHours.filter(h => {
@@ -123,7 +116,7 @@ const CheckoutSummaryBlock = ({
     <div className="p-6 space-y-5">
       {/* Delivery method selector */}
       <div>
-        <p className="font-body font-semibold text-foreground text-sm mb-3">Delivery method</p>
+        <p className="font-body font-semibold text-foreground text-sm mb-3">{t("checkoutSummary.deliveryMethod")}</p>
         <div className="grid grid-cols-2 gap-3">
           <button
             onClick={() => handleMethodChange("pickup")}
@@ -135,7 +128,7 @@ const CheckoutSummaryBlock = ({
             )}
           >
             <Store className="w-5 h-5" />
-            Store pickup
+            {t("checkoutSummary.storePickup")}
           </button>
           <button
             onClick={() => handleMethodChange("delivery")}
@@ -147,8 +140,8 @@ const CheckoutSummaryBlock = ({
             )}
           >
             <Truck className="w-5 h-5" />
-            <span>Home delivery</span>
-            <span className="text-[10px] text-muted-foreground font-normal">From $20</span>
+            <span>{t("checkoutSummary.homeDelivery")}</span>
+            <span className="text-[10px] text-muted-foreground font-normal">{t("checkoutSummary.fromPrice")}</span>
           </button>
         </div>
       </div>
@@ -156,7 +149,7 @@ const CheckoutSummaryBlock = ({
       {/* Pickup info */}
       {deliveryMethod === "pickup" && (
         <p className="font-body text-sm text-muted-foreground">
-          📍 Pickup at: <span className="font-semibold text-foreground">7261 NW 12th St, Miami, FL 33126</span>
+          {t("checkoutSummary.pickupAt")} <span className="font-semibold text-foreground">7261 NW 12th St, Miami, FL 33126</span>
         </p>
       )}
 
@@ -164,17 +157,17 @@ const CheckoutSummaryBlock = ({
       {deliveryMethod === "delivery" && deliveryResult && !showAddressEditor && (
         <div className="space-y-2">
           <p className="font-body text-sm text-muted-foreground">
-            📍 Deliver to: <span className="font-semibold text-foreground">{deliveryResult.address}</span>
+            {t("checkoutSummary.deliverTo")} <span className="font-semibold text-foreground">{deliveryResult.address}</span>
           </p>
           <p className="font-body text-sm text-muted-foreground">
-            Shipping: <span className="font-semibold text-foreground">${deliveryResult.cost}</span>
-            <span className="text-xs ml-2">({deliveryResult.miles.toFixed(1)} miles)</span>
+            {t("checkout.shipping")}: <span className="font-semibold text-foreground">${deliveryResult.cost}</span>
+            <span className="text-xs ml-2">({deliveryResult.miles.toFixed(1)} {t("product.miles")})</span>
           </p>
           <button
             onClick={() => setShowAddressEditor(true)}
             className="text-xs font-body text-primary underline hover:text-primary/80"
           >
-            Change address
+            {t("checkoutSummary.changeAddress")}
           </button>
         </div>
       )}
@@ -196,23 +189,22 @@ const CheckoutSummaryBlock = ({
         <div className="flex items-center justify-between mb-2">
           <p className="font-body font-semibold text-foreground text-sm flex items-center gap-2">
             <CalendarIcon className="w-4 h-4" />
-            Delivery date & time
+            {t("checkoutSummary.deliveryDateAndTime")}
           </p>
           {(deliveryDate || deliveryHour) && !editingDateTime && (
             <button
               onClick={() => setEditingDateTime(true)}
               className="text-xs font-body text-primary underline hover:text-primary/80 inline-flex items-center gap-1"
             >
-              <Pencil className="w-3 h-3" /> Edit
+              <Pencil className="w-3 h-3" /> {t("checkoutSummary.edit")}
             </button>
           )}
         </div>
 
         {(!deliveryDate && !deliveryHour) || editingDateTime ? (
           <div className="space-y-3">
-            {/* Date picker */}
             <div>
-              <label className="text-xs text-muted-foreground font-body block mb-1">Date</label>
+              <label className="text-xs text-muted-foreground font-body block mb-1">{t("product.date")}</label>
               <Popover>
                 <PopoverTrigger asChild>
                   <button className={cn(
@@ -220,7 +212,7 @@ const CheckoutSummaryBlock = ({
                     !deliveryDate && "text-muted-foreground"
                   )}>
                     <CalendarIcon className="w-4 h-4" />
-                    {parsedDate ? format(parsedDate, "PPP", { locale: enUS }) : "Select date"}
+                    {parsedDate ? format(parsedDate, "PPP", { locale: enUS }) : t("product.selectDate")}
                   </button>
                 </PopoverTrigger>
                 <PopoverContent className="w-auto p-0" align="start">
@@ -240,11 +232,10 @@ const CheckoutSummaryBlock = ({
               </Popover>
             </div>
 
-            {/* Hour picker */}
             <div>
               <label className="text-xs text-muted-foreground font-body block mb-1">
                 <Clock className="w-3 h-3 inline mr-1" />
-                Time
+                {t("product.time")}
               </label>
               <div className="grid grid-cols-3 sm:grid-cols-4 gap-2">
                 {availableHours.map((h) => (
@@ -272,7 +263,7 @@ const CheckoutSummaryBlock = ({
                 onClick={() => setEditingDateTime(false)}
                 className="text-xs font-body text-muted-foreground underline"
               >
-                Cancel
+                {t("checkoutSummary.cancel")}
               </button>
             )}
           </div>
@@ -295,17 +286,17 @@ const CheckoutSummaryBlock = ({
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
           <div>
             <p className="font-body text-sm text-muted-foreground">
-              {itemCount} {itemCount === 1 ? "item" : "items"}
+              {itemCount} {itemCount === 1 ? t("checkout.item") : t("checkout.items")}
             </p>
             <div className="space-y-1">
               <p className="font-body text-sm text-muted-foreground">
-                Subtotal: <span className="text-foreground font-semibold">${itemsSubtotal}</span>
+                {t("checkout.subtotal")}: <span className="text-foreground font-semibold">${itemsSubtotal}</span>
               </p>
               {needsAddress && (
                 <p className="font-body text-sm text-muted-foreground">
-                  Shipping:{" "}
+                  {t("checkout.shipping")}:{" "}
                   <span className="text-foreground font-semibold">
-                    {deliveryResult ? `$${deliveryCost}` : "Pending"}
+                    {deliveryResult ? `$${deliveryCost}` : t("checkout.pending")}
                   </span>
                 </p>
               )}
@@ -324,7 +315,7 @@ const CheckoutSummaryBlock = ({
             ) : (
               <>
                 <CreditCard className="w-4 h-4" />
-                Complete order
+                {t("checkoutSummary.completeOrder")}
               </>
             )}
           </button>
@@ -332,7 +323,7 @@ const CheckoutSummaryBlock = ({
 
         {!canCheckout && needsAddress && (
           <p className="text-xs font-body text-muted-foreground mt-3">
-            ⚠️ Enter a valid delivery address to continue.
+            {t("checkoutSummary.enterAddress")}
           </p>
         )}
       </div>

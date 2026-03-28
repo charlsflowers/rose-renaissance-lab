@@ -6,8 +6,10 @@ import SeoHead from "@/components/SeoHead";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import { blogArticles } from "@/lib/blogData";
 import { ArrowRight } from "lucide-react";
+import { useTranslation } from "@/i18n/LanguageContext";
 
 const Blog = () => {
+  const { t } = useTranslation();
   useEffect(() => { window.scrollTo(0, 0); }, []);
 
   return (
@@ -16,11 +18,11 @@ const Blog = () => {
       <Navbar />
       <div className="pt-24 pb-16">
         <div className="container mx-auto px-6">
-          <Breadcrumbs items={[{ label: "Home", to: "/" }, { label: "Blog" }]} />
+          <Breadcrumbs items={[{ label: t("nav.home"), to: "/" }, { label: t("nav.blog") }]} />
 
           <div className="text-center mb-12">
-            <h1 className="font-title-retro text-4xl md:text-5xl text-foreground">Blog</h1>
-            <p className="text-muted-foreground font-body mt-3 max-w-lg mx-auto">Flower guides, inspiration, and tips from Charls Flowers Miami.</p>
+            <h1 className="font-title-retro text-4xl md:text-5xl text-foreground">{t("blogPage.title")}</h1>
+            <p className="text-muted-foreground font-body mt-3 max-w-lg mx-auto">{t("blogPage.subtitle")}</p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-5xl mx-auto">
@@ -34,7 +36,7 @@ const Blog = () => {
                 <h2 className="font-display text-lg font-semibold text-foreground group-hover:text-primary transition-colors mb-2">{article.title}</h2>
                 <p className="font-body text-sm text-muted-foreground mb-3">{article.excerpt}</p>
                 <span className="font-body text-xs text-primary tracking-widest uppercase inline-flex items-center gap-1">
-                  Read more <ArrowRight className="w-3 h-3" />
+                  {t("blogPage.readMore")} <ArrowRight className="w-3 h-3" />
                 </span>
               </Link>
             ))}
