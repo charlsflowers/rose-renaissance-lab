@@ -8,7 +8,7 @@ import ReviewFilters from "@/components/ReviewFilters";
 import { reviews } from "@/lib/reviewsData";
 import Navbar from "@/components/Navbar";
 import ClientVideos from "@/components/ClientVideos";
-import heroBouquet from "@/assets/hero-bouquet.jpg";
+import heroBouquet from "@/assets/hero-cover.webp";
 import arreglosImg from "@/assets/arreglos.jpg";
 import cajasImg from "@/assets/cajas.jpg";
 import cestasImg from "@/assets/cestas.jpg";

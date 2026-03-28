@@ -40,9 +40,9 @@ const RoomDecors = () => {
                       <img src={pkg.image} alt={pkg.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
                       <div className="absolute inset-0 bg-foreground/5 group-hover:bg-foreground/15 transition-colors" />
                       {pkg.id === 'rd-deluxe-love' && (
-                        <div className="absolute top-0 right-0 overflow-hidden w-28 h-28">
-                          <div className="absolute top-4 -right-6 rotate-45 bg-primary text-primary-foreground py-1 w-40 text-center font-body text-[10px] tracking-wider uppercase font-semibold shadow-md">
-                            Most Popular
+                        <div className="absolute -top-1 -right-1 z-10">
+                          <div className="bg-gold text-foreground px-5 py-1.5 rounded-bl-lg rounded-tr-sm font-body text-xs tracking-wider uppercase font-bold shadow-lg">
+                            ⭐ Most Popular
                           </div>
                         </div>
                       )}
