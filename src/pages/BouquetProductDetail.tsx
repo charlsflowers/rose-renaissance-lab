@@ -469,7 +469,7 @@ const BouquetProductDetail = () => {
                     className={`flex items-center gap-2 p-3 rounded-sm border-2 transition-all font-body ${deliveryMethod === "delivery" ? "border-primary bg-primary/5" : "border-border hover:border-primary/30"}`}>
                     <Truck className="w-4 h-4 flex-shrink-0" />
                     <div className="text-left flex-1">
-                      <p className="font-semibold text-sm text-foreground">Home delivery</p>
+                      <p className="font-semibold text-xs text-foreground">Home delivery</p>
                       <p className="text-xs text-muted-foreground">From $25</p>
                     </div>
                     {deliveryMethod === "delivery" && <Check className="w-4 h-4 text-primary flex-shrink-0" />}
