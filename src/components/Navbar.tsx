@@ -165,23 +165,42 @@ const Navbar = () => {
               <input
                 type="text"
                 value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Search bouquets, room decors..."
+                onChange={(e) => handleSearchChange(e.target.value)}
+                placeholder="Search bouquets or enter a delivery address..."
                 autoFocus
                 className="w-full bg-muted border border-border rounded-sm pl-10 pr-4 py-2.5 font-body text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30"
               />
             </div>
-            {searchResults.length > 0 && (
-              <div className="absolute left-1/2 -translate-x-1/2 w-full max-w-md mt-1 bg-background border border-border rounded-sm shadow-lg z-50 max-h-60 overflow-y-auto">
+            {(searchResults.length > 0 || placePredictions.length > 0) && (
+              <div className="absolute left-1/2 -translate-x-1/2 w-full max-w-md mt-1 bg-background border border-border rounded-sm shadow-lg z-50 max-h-72 overflow-y-auto">
                 {searchResults.map((item, i) => (
                   <Link
-                    key={i}
+                    key={`s-${i}`}
                     to={item.to}
-                    onClick={() => { setSearchOpen(false); setSearchQuery(""); }}
-                    className="block px-4 py-3 text-sm font-body text-foreground hover:bg-cream/50 hover:text-primary transition-colors border-b border-border last:border-b-0"
+                    onClick={() => { setSearchOpen(false); setSearchQuery(""); setPlacePredictions([]); }}
+                    className="flex items-center gap-3 px-4 py-3 text-sm font-body text-foreground hover:bg-cream/50 hover:text-primary transition-colors border-b border-border last:border-b-0"
                   >
+                    <SearchIcon className="w-3.5 h-3.5 text-muted-foreground shrink-0" />
                     {item.name}
                   </Link>
+                ))}
+                {placePredictions.length > 0 && searchResults.length > 0 && (
+                  <div className="px-4 py-1.5 bg-muted/50">
+                    <span className="font-body text-[10px] tracking-widest uppercase text-muted-foreground">Delivery addresses</span>
+                  </div>
+                )}
+                {placePredictions.map((p, i) => (
+                  <button
+                    key={`p-${i}`}
+                    onClick={() => handlePlaceClick(p)}
+                    className="w-full flex items-center gap-3 px-4 py-3 text-sm font-body text-foreground hover:bg-cream/50 hover:text-primary transition-colors border-b border-border last:border-b-0 text-left"
+                  >
+                    <MapPin className="w-3.5 h-3.5 text-primary shrink-0" />
+                    <div>
+                      <span className="font-semibold">{p.mainText}</span>
+                      <span className="text-muted-foreground text-xs ml-1">{p.secondaryText}</span>
+                    </div>
+                  </button>
                 ))}
               </div>
             )}
