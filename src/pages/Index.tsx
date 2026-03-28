@@ -108,7 +108,7 @@ const Index = () => {
       <section className="py-16 md:py-20 bg-background">
         <div className="container mx-auto px-6">
           <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.8 }} className="text-center mb-10">
-            <h2 className="font-title-retro text-4xl md:text-5xl text-primary">Categories</h2>
+            <h2 className="font-title-retro text-4xl md:text-5xl text-primary">The Largest Bouquet Selection in Miami</h2>
           </motion.div>
 
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-7 gap-5">
