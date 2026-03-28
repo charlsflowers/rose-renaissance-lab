@@ -216,7 +216,7 @@ const Index = () => {
         <div className="container mx-auto px-6 text-center">
           <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.8 }}>
             <h2 className="font-title-retro text-4xl md:text-5xl text-primary mb-6">
-              Customize Your Bouquet
+              Build Your Custom Bouquet with AI Preview
             </h2>
             <p className="text-muted-foreground font-body mb-8 max-w-md mx-auto">
               Create a unique bouquet by choosing color, size, accessories, and more.
