@@ -95,7 +95,7 @@ export const roomDecorPackages: RoomDecorPackage[] = [
     shopifyVariantId: 'gid://shopify/ProductVariant/51693066322052',
     price: 835,
     description: 'The most complete and luxurious room decor with a 75-rose bouquet',
-    image: roomDecorImg,
+    image: `${CDN}/3_adaa192a-8c9b-41b5-8586-cb7e13640829.png?v=1774615718`,
     includes: [
       '35 Ceiling balloons',
       'Roses attached to the ceiling Balloons',
