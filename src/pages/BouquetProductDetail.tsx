@@ -452,9 +452,13 @@ const BouquetProductDetail = () => {
               {/* 3. Accessories */}
               <Section title="Accessories" step={step++}>
                 <div className="grid grid-cols-2 gap-2">
-                  <button onClick={() => setAccessory("note")}
+                  <button onClick={() => setAccessory(accessory === "note" ? "none" : "note")}
                     className={`flex flex-col items-center gap-1 p-2.5 rounded-sm border-2 transition-all font-body text-sm ${accessory === "note" ? "border-primary bg-primary/5 text-primary" : "border-border text-muted-foreground hover:border-primary/30"}`}>
                     <Type className="w-3.5 h-3.5" /> Note <span className="text-[10px] text-secondary">$3</span>
+                  </button>
+                  <button onClick={() => setAccessory(accessory === "butterfly" ? "none" : "butterfly")}
+                    className={`flex flex-col items-center gap-1 p-2.5 rounded-sm border-2 transition-all font-body text-sm ${accessory === "butterfly" ? "border-primary bg-primary/5 text-primary" : "border-border text-muted-foreground hover:border-primary/30"}`}>
+                    <img src={butterflyImg} alt="Butterfly accessory" className="w-6 h-6 object-contain" /> Butterflies <span className="text-[10px] text-secondary">Free</span>
                   </button>
                 </div>
                 {accessory === "note" && (
@@ -666,9 +670,13 @@ const BouquetProductDetail = () => {
             {/* 3. Accessories */}
             <Section title="Accessories" step={3}>
               <div className="grid grid-cols-2 gap-3">
-                <button onClick={() => setAccessory("note")}
+                <button onClick={() => setAccessory(accessory === "note" ? "none" : "note")}
                   className={`flex flex-col items-center gap-2 p-4 rounded-sm border-2 transition-all font-body text-sm ${accessory === "note" ? "border-primary bg-primary/5 text-primary" : "border-border text-muted-foreground hover:border-primary/30"}`}>
                   <Type className="w-4 h-4" /> Note <span className="text-xs text-secondary">$3</span>
+                </button>
+                <button onClick={() => setAccessory(accessory === "butterfly" ? "none" : "butterfly")}
+                  className={`flex flex-col items-center gap-2 p-4 rounded-sm border-2 transition-all font-body text-sm ${accessory === "butterfly" ? "border-primary bg-primary/5 text-primary" : "border-border text-muted-foreground hover:border-primary/30"}`}>
+                  <img src={butterflyImg} alt="Butterfly accessory" className="w-8 h-8 object-contain" /> Butterflies <span className="text-xs text-secondary">Free</span>
                 </button>
               </div>
               {accessory === "note" && (

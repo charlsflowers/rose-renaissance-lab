@@ -15,7 +15,7 @@ import JsonLd, { productSchema, breadcrumbSchema } from "@/components/JsonLd";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import { buildCheckoutUrl } from "@/lib/checkout";
 import {
-  ArrowLeft, Check, Store, Truck, CalendarIcon, Clock, MapPin, Search, Loader2, Heart,
+  ArrowLeft, Check, Truck, CalendarIcon, Clock, MapPin, Search, Loader2, Heart,
 } from "lucide-react";
 import { Calendar } from "@/components/ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
@@ -32,7 +32,7 @@ const RoomDecorDetail = () => {
   const [isAdding, setIsAdding] = useState(false);
 
   // Delivery state
-  const [deliveryMethod, setDeliveryMethod] = useState<"pickup" | "delivery">("delivery");
+  const deliveryMethod = "delivery" as const;
   const [deliveryDate, setDeliveryDate] = useState<Date>();
   const [deliveryHour, setDeliveryHour] = useState("");
   const [deliveryMiles, setDeliveryMiles] = useState<number | null>(null);
@@ -93,20 +93,14 @@ const RoomDecorDetail = () => {
     })();
   }, []);
 
-  const minLeadHours = deliveryMethod === "delivery" ? 1.5 : 2;
+  const minLeadHours = 1.5;
   const minMiamiHour = miamiHourNow() + minLeadHours;
   const getAvailableHours = (date: Date | undefined) => {
     if (!date) return [];
     const day = date.getDay();
     const closeHour = day === 0 ? 17 : day === 6 ? 18 : 19;
     const hours: string[] = [];
-    if (deliveryMethod === "pickup") {
-      if (!isTodayInMiami(date) || 9.5 >= minMiamiHour) {
-        hours.push("9:30 AM");
-      }
-    }
-    const startH = deliveryMethod === "pickup" ? 10 : 10;
-    for (let h = startH; h <= closeHour; h++) {
+    for (let h = 10; h <= closeHour; h++) {
       if (isTodayInMiami(date) && h < minMiamiHour) continue;
       const ampm = h < 12 ? "AM" : "PM";
       const h12 = h === 0 ? 12 : h > 12 ? h - 12 : h;
@@ -288,12 +282,12 @@ const RoomDecorDetail = () => {
                   <p className="text-xs text-muted-foreground font-body mb-4">
                     Choose the color for your {pkg.bouquetIncluded.roses}-rose bouquet
                   </p>
-                  <div className="grid grid-cols-3 md:grid-cols-6 gap-3">
+                  <div className="flex flex-wrap gap-3">
                     {roomDecorBouquetColors.map(color => (
                       <button
                         key={color}
                         onClick={() => setSelectedBouquetColor(color)}
-                        className={`p-3 rounded-sm border-2 text-center transition-all font-body text-sm ${
+                      className={`px-4 py-3 rounded-sm border-2 text-center transition-all font-body text-sm whitespace-nowrap ${
                           selectedBouquetColor === color
                             ? "border-primary bg-primary/5 text-primary"
                             : "border-border text-muted-foreground hover:border-primary/30"
@@ -370,34 +364,7 @@ const RoomDecorDetail = () => {
 
               {/* Shipping */}
               <Section title="Shipping" step={step++}>
-                <div className="grid grid-cols-2 gap-2 mb-4">
-                  <button onClick={() => setDeliveryMethod("pickup")}
-                    className={`flex items-center gap-2 p-3 rounded-sm border-2 transition-all font-body ${deliveryMethod === "pickup" ? "border-primary bg-primary/5" : "border-border hover:border-primary/30"}`}>
-                    <Store className="w-4 h-4 flex-shrink-0" />
-                    <div className="text-left flex-1">
-                      <p className="font-semibold text-xs text-foreground">Store pickup</p>
-                      <p className="text-xs text-muted-foreground">Free</p>
-                    </div>
-                    {deliveryMethod === "pickup" && <Check className="w-3.5 h-3.5 text-primary flex-shrink-0" />}
-                  </button>
-                  <button onClick={() => setDeliveryMethod("delivery")}
-                    className={`flex items-center gap-2 p-3 rounded-sm border-2 transition-all font-body ${deliveryMethod === "delivery" ? "border-primary bg-primary/5" : "border-border hover:border-primary/30"}`}>
-                    <Truck className="w-4 h-4 flex-shrink-0" />
-                    <div className="text-left flex-1">
-                      <p className="font-semibold text-xs text-foreground">Home delivery</p>
-                      <p className="text-xs text-muted-foreground">Free up to 10 miles</p>
-                    </div>
-                    {deliveryMethod === "delivery" && <Check className="w-3.5 h-3.5 text-primary flex-shrink-0" />}
-                  </button>
-                </div>
-
                 <div className="space-y-3 p-4 rounded-sm border border-border bg-card mb-4">
-                  {deliveryMethod === "pickup" ? (
-                    <p className="font-body text-sm text-muted-foreground">
-                      📍 Pickup at: <span className="font-semibold text-foreground">7261 NW 12th St, Miami, FL 33126</span>
-                    </p>
-                  ) : (
-                    <>
                       <p className="font-body font-semibold text-foreground text-sm">Delivery address</p>
                       <p className="font-body text-xs text-muted-foreground mb-2">
                         🎁 Free delivery within 10 miles · $1.60/mile after
@@ -443,8 +410,6 @@ const RoomDecorDetail = () => {
                           <iframe src={mapUrl} width="100%" height="250" style={{ border: 0 }} allowFullScreen loading="lazy" referrerPolicy="no-referrer-when-downgrade" title="Route" />
                         </div>
                       )}
-                    </>
-                  )}
                 </div>
 
                 {/* Date */}
@@ -542,12 +507,12 @@ const RoomDecorDetail = () => {
                 <p className="text-xs text-muted-foreground font-body mb-4">
                   Choose the color for your {pkg.bouquetIncluded.roses}-rose bouquet
                 </p>
-                <div className="grid grid-cols-3 gap-3">
+                <div className="flex flex-wrap gap-3">
                   {roomDecorBouquetColors.map(color => (
                     <button
                       key={color}
                       onClick={() => setSelectedBouquetColor(color)}
-                      className={`p-3 rounded-sm border-2 text-center transition-all font-body text-sm ${
+                      className={`px-4 py-3 rounded-sm border-2 text-center transition-all font-body text-sm whitespace-nowrap ${
                         selectedBouquetColor === color
                           ? "border-primary bg-primary/5 text-primary"
                           : "border-border text-muted-foreground hover:border-primary/30"
@@ -624,34 +589,7 @@ const RoomDecorDetail = () => {
 
             {/* Shipping */}
             <Section title="Shipping" step={step + 1}>
-              <div className="grid grid-cols-2 gap-3 mb-6">
-                <button onClick={() => setDeliveryMethod("pickup")}
-                  className={`flex items-center gap-3 p-5 rounded-sm border-2 transition-all font-body ${deliveryMethod === "pickup" ? "border-primary bg-primary/5" : "border-border hover:border-primary/30"}`}>
-                  <Store className="w-5 h-5 flex-shrink-0" />
-                  <div className="text-left flex-1">
-                    <p className="font-semibold text-sm text-foreground">Store pickup</p>
-                    <p className="text-xs text-muted-foreground">Free</p>
-                  </div>
-                  {deliveryMethod === "pickup" && <Check className="w-4 h-4 text-primary flex-shrink-0" />}
-                </button>
-                <button onClick={() => setDeliveryMethod("delivery")}
-                  className={`flex items-center gap-3 p-5 rounded-sm border-2 transition-all font-body ${deliveryMethod === "delivery" ? "border-primary bg-primary/5" : "border-border hover:border-primary/30"}`}>
-                  <Truck className="w-5 h-5 flex-shrink-0" />
-                  <div className="text-left flex-1">
-                    <p className="font-semibold text-sm text-foreground">Home delivery</p>
-                    <p className="text-xs text-muted-foreground">Free up to 10 miles</p>
-                  </div>
-                  {deliveryMethod === "delivery" && <Check className="w-4 h-4 text-primary flex-shrink-0" />}
-                </button>
-              </div>
-
               <div className="space-y-4 p-5 rounded-sm border border-border bg-card mb-6">
-                {deliveryMethod === "pickup" ? (
-                  <p className="font-body text-sm text-muted-foreground">
-                    📍 Pickup at: <span className="font-semibold text-foreground">7261 NW 12th St, Miami, FL 33126</span>
-                  </p>
-                ) : (
-                  <>
                     <p className="font-body font-semibold text-foreground text-sm">Delivery address</p>
                     <p className="font-body text-xs text-muted-foreground mb-2">
                       🎁 Free delivery within 10 miles · $1.60/mile after
@@ -697,8 +635,6 @@ const RoomDecorDetail = () => {
                         <iframe src={mapUrl} width="100%" height="300" style={{ border: 0 }} allowFullScreen loading="lazy" referrerPolicy="no-referrer-when-downgrade" title="Route" />
                       </div>
                     )}
-                  </>
-                )}
               </div>
 
               {/* Date */}
