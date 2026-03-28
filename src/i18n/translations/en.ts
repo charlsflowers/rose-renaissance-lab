@@ -78,9 +78,9 @@ export const en = {
     deliverySubtitleLine1: "$25 flat rate for 0-5 miles. $1.60/mile from 5 to 87 miles.",
     deliverySubtitleLine2: "Free in-store pickup.",
     deliveryAddress: "📍 7261 NW 12th Street, Miami, FL 33126",
-    hoursLine1: "Mon–Fri: 8AM – 7PM",
-    hoursLine2: "Sat: 8AM – 6PM",
-    hoursLine3: "Sun: 8AM – 5PM",
+     hoursLine1: "Monday – Friday: 8AM – 7PM",
+    hoursLine2: "Saturday: 8AM – 6PM",
+    hoursLine3: "Sunday: 8AM – 5PM",
     faqTitle: "Frequently Asked Questions",
   },
 
