@@ -569,9 +569,9 @@ const BouquetProductDetail = () => {
               </Section>
 
               {/* Desktop sticky bottom bar */}
-              <div className="sticky bottom-0 bg-foreground z-10">
+              <div className="sticky bottom-0 bg-primary z-10">
                 <button onClick={() => handleAddToCart()} disabled={isAdding || variantsLoading}
-                  className="w-full py-4 font-body text-sm tracking-[0.2em] uppercase text-primary-foreground hover:bg-foreground/90 transition-colors disabled:opacity-50">
+                  className="w-full py-4 font-body text-sm tracking-[0.2em] uppercase text-primary-foreground hover:bg-primary/90 transition-colors disabled:opacity-50">
                   {isAdding ? "..." : variantsLoading ? "..." : t("product.addToCart").toUpperCase()}
                 </button>
               </div>
