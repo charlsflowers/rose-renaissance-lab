@@ -43,7 +43,14 @@ const BouquetProducts = () => {
              <p className="font-subtitle-script text-gold text-lg md:text-2xl mb-2">Handcrafted bouquets</p>
             </div>
             <h1 className="font-title-retro text-4xl md:text-5xl text-foreground">Bouquets</h1>
-          </div>
+            <p className="text-muted-foreground font-body text-sm mt-3 max-w-2xl mx-auto">
+              Explore our handcrafted rose bouquets in Miami. From elegant{' '}
+              <Link to="/bouquets/all/pure-white" className="text-primary hover:underline">Pure White</Link> and fiery{' '}
+              <Link to="/bouquets/all/total-passion" className="text-primary hover:underline">Total Passion</Link> to vibrant{' '}
+              <Link to="/bouquets/all/hot-pink-blush" className="text-primary hover:underline">Hot Pink Blush</Link> and stunning{' '}
+              <Link to="/bouquets/all/blue-sky" className="text-primary hover:underline">Blue Sky</Link>. 50 to 200 roses, natural or glitter finish. Same-day delivery available.
+            </p>
+            <p className="text-primary font-body text-xs font-semibold mt-2">⏰ Order before 3PM for same-day delivery today</p>
 
           <div className="flex justify-center gap-3 mb-12">
             {([
