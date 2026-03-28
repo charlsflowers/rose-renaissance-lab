@@ -98,7 +98,7 @@ const BouquetProductDetail = () => {
     try {
       console.log("🔍 [Delivery] Fetching predictions for:", input);
       const { data, error } = await supabase.functions.invoke("places-autocomplete", { body: { input } });
-      console.log("🔍 [Delivery] Predictions response:", { data, error });
+      console.log("🔍 [Delivery] Predictions response:", JSON.stringify({ data, error }, null, 2));
       if (!error && data?.predictions) { setPredictions(data.predictions); setShowPredictions(true); }
       else if (error) { console.error("🔍 [Delivery] Predictions error:", error); }
     } catch (e) { console.error("🔍 [Delivery] Predictions exception:", e); } finally { setAutocompleteLoading(false); }
