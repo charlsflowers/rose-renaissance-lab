@@ -350,7 +350,7 @@ export const en = {
     customBouquetsDesc: "Design your own bouquet with AI preview. 50-200 roses, any color.",
     deliveryRates: "Delivery Rates",
     zeroToFive: "0–5 miles",
-    flatRate: "$20 flat rate",
+    flatRate: "$25 flat rate",
     fiveToEightySeven: "5–87 miles",
     perMile: "$1.60 per mile",
     minPrepTime: "Minimum 2 hours preparation time",
