@@ -304,7 +304,7 @@ const Index = () => {
           </motion.div>
           <div className="max-w-2xl mx-auto rounded-sm overflow-hidden border border-border" style={{ aspectRatio: '16/9', minHeight: '300px' }}>
             <iframe
-              src={`https://www.google.com/maps/embed/v1/place?key=${import.meta.env.VITE_GOOGLE_MAPS_API_KEY || ''}&q=7261+NW+12th+Street,Miami,FL+33126&center=25.7617,-80.3999&zoom=15`}
+              src={`https://www.google.com/maps/embed/v1/place?key=${GOOGLE_MAPS_API_KEY}&q=7261+NW+12th+Street,Miami,FL+33126&center=25.7617,-80.3999&zoom=15`}
               width="100%"
               height="100%"
               style={{ border: 0 }}
