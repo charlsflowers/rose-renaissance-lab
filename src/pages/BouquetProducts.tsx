@@ -51,6 +51,7 @@ const BouquetProducts = () => {
               <Link to="/bouquets/all/blue-sky" className="text-primary hover:underline">Blue Sky</Link>. 50 to 200 roses, natural or glitter finish. Same-day delivery available.
             </p>
             <p className="text-primary font-body text-xs font-semibold mt-2">⏰ Order before 3PM for same-day delivery today</p>
+          </div>
 
           <div className="flex justify-center gap-3 mb-12">
             {([
