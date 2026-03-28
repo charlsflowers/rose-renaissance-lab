@@ -15,7 +15,7 @@ import JsonLd, { productSchema, breadcrumbSchema } from "@/components/JsonLd";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import { buildCheckoutUrl } from "@/lib/checkout";
 import {
-  ArrowLeft, Check, Store, Truck, CalendarIcon, Clock, MapPin, Search, Loader2, Heart,
+  ArrowLeft, Check, Truck, CalendarIcon, Clock, MapPin, Search, Loader2, Heart,
 } from "lucide-react";
 import { Calendar } from "@/components/ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
