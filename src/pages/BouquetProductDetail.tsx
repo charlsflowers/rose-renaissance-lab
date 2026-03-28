@@ -395,9 +395,11 @@ const BouquetProductDetail = () => {
             {/* Right column — product details & options */}
             <div className="space-y-5">
               <div>
-                <h1 className="font-display text-2xl font-semibold text-foreground">{product.name}</h1>
-                <p className="text-muted-foreground font-body text-sm mt-1">{product.description}</p>
-                <p className="font-display text-xl font-bold text-foreground mt-2">${parseFloat(sizePrice.toFixed(2))} <span className="text-xs font-body text-muted-foreground font-normal">USD</span></p>
+                <div className="flex items-start justify-between gap-4">
+                  <h1 className="font-display text-xl font-semibold text-foreground uppercase tracking-wide">{product.name}</h1>
+                  <p className="font-display text-xl font-bold text-foreground whitespace-nowrap">${parseFloat(sizePrice.toFixed(2))} <span className="text-xs font-body text-muted-foreground font-normal">USD</span></p>
+                </div>
+                <p className="text-muted-foreground font-body text-sm mt-3 leading-relaxed">{product.description}</p>
               </div>
 
               {/* 1. Size */}
