@@ -38,9 +38,9 @@ const Index = () => {
   return (
     <div className="min-h-screen bg-background">
       <SeoHead title="Charls Flowers Miami | Custom Bouquets & Same-Day Delivery" description="Miami's premier flower shop. Handcrafted bouquets from 50 to 200 roses, natural or glitter finish. Custom designs with AI preview. Same-day delivery up to 87 miles. Free pickup." path="/" />
-      <JsonLd data={localBusinessSchema} />
-      <JsonLd data={serviceSchema} />
-      <JsonLd data={websiteSchema} />
+      <JsonLd data={localBusinessSchema()} />
+      <JsonLd data={serviceSchema()} />
+      <JsonLd data={websiteSchema()} />
       <JsonLd data={faqSchema(homepageFaqs)} />
       <Navbar />
 
