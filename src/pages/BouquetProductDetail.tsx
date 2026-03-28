@@ -35,6 +35,7 @@ import { Calendar } from "@/components/ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 
 const BouquetProductDetail = () => {
+  const { t } = useTranslation();
   const { type, productId } = useParams<{ type: string; productId: string }>();
   const navigate = useNavigate();
   const addItem = useCartStore(state => state.addItem);
