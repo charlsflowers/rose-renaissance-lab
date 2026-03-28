@@ -124,7 +124,7 @@ const Index = () => {
                   {isComingSoon ? (
                     <div className="block opacity-50 cursor-not-allowed">
                       <div className="relative overflow-hidden rounded-sm mb-4 aspect-square">
-                        <img src={item.img} alt={item.title} className="w-full h-full object-cover grayscale" />
+                         <img src={item.img} alt={`${item.title} Miami – Charls Flowers`} loading="lazy" width={400} height={400} className="w-full h-full object-cover grayscale" />
                         <div className="absolute inset-0 bg-foreground/30 flex items-center justify-center">
                           <div className="bg-foreground/70 px-3 py-1.5 rounded-sm flex items-center gap-1.5">
                             <Lock className="w-3.5 h-3.5 text-primary-foreground" />
