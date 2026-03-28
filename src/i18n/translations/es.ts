@@ -306,7 +306,7 @@ export const es = {
     deliveryMethod: "Método de envío",
     storePickup: "Recogida en tienda",
     homeDelivery: "Envío a domicilio",
-    fromPrice: "Desde $20",
+    fromPrice: "Desde $25",
     pickupAt: "📍 Recoger en:",
     deliverTo: "📍 Enviar a:",
     changeAddress: "Cambiar dirección",
