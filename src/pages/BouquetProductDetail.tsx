@@ -96,9 +96,12 @@ const BouquetProductDetail = () => {
     if (input.length < 3) { setPredictions([]); return; }
     setAutocompleteLoading(true);
     try {
+      console.log("🔍 [Delivery] Fetching predictions for:", input);
       const { data, error } = await supabase.functions.invoke("places-autocomplete", { body: { input } });
+      console.log("🔍 [Delivery] Predictions response:", { data, error });
       if (!error && data?.predictions) { setPredictions(data.predictions); setShowPredictions(true); }
-    } catch {} finally { setAutocompleteLoading(false); }
+      else if (error) { console.error("🔍 [Delivery] Predictions error:", error); }
+    } catch (e) { console.error("🔍 [Delivery] Predictions exception:", e); } finally { setAutocompleteLoading(false); }
   }, []);
 
   const handleAddressInput = useCallback((value: string) => {
