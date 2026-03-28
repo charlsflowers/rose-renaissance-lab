@@ -41,8 +41,8 @@ const RoomDecors = () => {
                     <div className="absolute inset-0 bg-foreground/5 group-hover:bg-foreground/15 transition-colors" />
                     {pkg.id === 'rd-deluxe-love' && (
                       <div className="absolute -top-1 -right-1 z-10">
-                        <div className="bg-gold text-foreground px-5 py-1.5 rounded-bl-lg rounded-tr-sm font-body text-xs tracking-wider uppercase font-bold shadow-lg">
-                          ⭐ Most Popular
+                        <div className="bg-primary text-primary-foreground px-5 py-1.5 rounded-bl-lg rounded-tr-sm font-body text-xs tracking-wider uppercase font-bold shadow-lg">
+                          Most Popular
                         </div>
                       </div>
                     )}

@@ -11,8 +11,8 @@ const MAX_MILES = 87;
 
 function calculateCost(miles: number): number {
   if (miles <= 0) return 0;
-  if (miles <= 5) return 20;
-  return Math.round((20 + (miles - 5) * 1.6) * 100) / 100;
+  if (miles <= 5) return 25;
+  return Math.round((25 + (miles - 5) * 1.6) * 100) / 100;
 }
 
 interface StructuredAddress {
