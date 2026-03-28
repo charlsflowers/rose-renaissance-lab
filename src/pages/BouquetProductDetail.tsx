@@ -567,30 +567,26 @@ const BouquetProductDetail = () => {
               </Section>
 
               {/* Desktop sticky bottom bar */}
-              <div className="sticky bottom-0 bg-card/95 backdrop-blur-md border border-border rounded-sm p-3 shadow-xl z-10">
-                <div className="flex items-center justify-between gap-3">
-                  <div className="flex-1">
-                    <p className="font-body text-[11px] text-muted-foreground leading-tight">
-                      {product.name} · {selectedSize.roses} roses
-                      {addGlitter && " · Glitter"}
-                      {accessory !== "none" && ` · ${accessory === "note" ? "Note" : "Accessory"}`}
-                      {deliveryMethod === "delivery" ? (deliveryMiles && !distanceTooFar ? ` · Shipping ($${deliveryCost})` : " · Shipping (pending)") : " · Pickup"}
-                    </p>
-                  </div>
-                  <p className="font-display text-lg font-bold text-foreground whitespace-nowrap">
-                    ${parseFloat(totalPrice.toFixed(2))} <span className="text-[10px] font-body text-muted-foreground font-normal">USD</span>
-                  </p>
-                  <div className="flex gap-2">
-                    <button onClick={() => handleAddToCart()} disabled={isAdding || variantsLoading}
-                      className="bg-primary text-primary-foreground px-4 py-2 font-body text-[10px] tracking-widest uppercase hover:bg-primary/90 transition-colors rounded-sm disabled:opacity-50">
-                      {isAdding ? "Adding..." : variantsLoading ? "Loading..." : "Add to cart"}
-                    </button>
-                    <button onClick={handlePayNow} disabled={isAdding || variantsLoading}
-                      className="border-2 border-primary text-primary px-4 py-2 font-body text-[10px] tracking-widest uppercase hover:bg-primary/10 transition-colors rounded-sm whitespace-nowrap disabled:opacity-50">
-                      {isAdding ? "Adding..." : variantsLoading ? "Loading..." : "Pay now"}
-                    </button>
-                  </div>
-                </div>
+              <div className="sticky bottom-0 bg-foreground z-10">
+                <button onClick={() => handleAddToCart()} disabled={isAdding || variantsLoading}
+                  className="w-full py-4 font-body text-sm tracking-[0.2em] uppercase text-primary-foreground hover:bg-foreground/90 transition-colors disabled:opacity-50">
+                  {isAdding ? "..." : variantsLoading ? "..." : t("product.addToCart").toUpperCase()}
+                </button>
+              </div>
+              <div className="flex items-center justify-between gap-3 py-3">
+                <p className="font-body text-[11px] text-muted-foreground leading-tight flex-1">
+                  {product.name} · {selectedSize.roses} {t("product.roses")}
+                  {addGlitter && " · Glitter"}
+                  {accessory !== "none" && ` · ${accessory === "note" ? t("product.note") : t("product.accessories")}`}
+                  {deliveryMethod === "delivery" ? (deliveryMiles && !distanceTooFar ? ` · ${t("product.shipping")} ($${deliveryCost})` : ` · ${t("product.shipping")} (${t("checkout.pending")})`) : ` · ${t("product.storePickup")}`}
+                </p>
+                <p className="font-display text-lg font-bold text-foreground whitespace-nowrap">
+                  ${parseFloat(totalPrice.toFixed(2))} <span className="text-[10px] font-body text-muted-foreground font-normal">USD</span>
+                </p>
+                <button onClick={handlePayNow} disabled={isAdding || variantsLoading}
+                  className="border-2 border-primary text-primary px-4 py-2 font-body text-[10px] tracking-widest uppercase hover:bg-primary/10 transition-colors rounded-sm whitespace-nowrap disabled:opacity-50">
+                  {isAdding ? "..." : variantsLoading ? "..." : t("product.orderAndPay")}
+                </button>
               </div>
             </div>
           </div>
