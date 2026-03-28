@@ -365,8 +365,8 @@ const BouquetProductDetail = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      <SeoHead title={seo?.seoTitle || `${product.name} Miami | Charls Flowers`} description={seo?.seoDescription || product.description} path={`/bouquets/all/${product.id}`} image={product.image} />
-      <JsonLd data={[productSchema(product.name, seo?.seoDescription || product.description, hasCustomSizes ? product.customSizes![0].price : getPrice(product.pricingTier, product.pricingTier === 'mix3red' ? 75 : 50), product.image), breadcrumbSchema([{ name: "Home", url: "https://www.charlsflowers.com" }, { name: "Bouquets", url: "https://www.charlsflowers.com/bouquets" }, { name: product.name, url: `https://www.charlsflowers.com/bouquets/all/${product.id}` }])]} />
+      <SeoHead title={seo?.seoTitle || `${product.name} Miami | Charls Flowers`} description={seo?.seoDescription || product.description} path={`/bouquets/all/${product.shopifyHandle}`} image={product.image} />
+      <JsonLd data={[productSchema(product.name, seo?.seoDescription || product.description, hasCustomSizes ? product.customSizes![0].price : getPrice(product.pricingTier, product.pricingTier === 'mix3red' ? 75 : 50), product.image), breadcrumbSchema([{ name: "Home", url: "https://www.charlsflowers.com" }, { name: "Bouquets", url: "https://www.charlsflowers.com/bouquets" }, { name: product.name, url: `https://www.charlsflowers.com/bouquets/all/${product.shopifyHandle}` }])]} />
       <Navbar />
       <div className="pt-16 md:pt-24 pb-16">
         <div className="container mx-auto px-6">
