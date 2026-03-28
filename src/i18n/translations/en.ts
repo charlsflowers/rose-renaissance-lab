@@ -140,7 +140,7 @@ export const en = {
     title: "Frequently Asked Questions",
     faqs: [
       { q: "Do you offer same-day flower delivery in Miami?", a: "Yes! We offer same-day delivery across Miami up to 87 miles. Order before 3PM and your bouquet will be delivered today. Minimum 2 hours preparation time." },
-      { q: "How much does flower delivery cost in Miami?", a: "$20 flat rate for 0-5 miles. $1.60 per mile from 5 to 87 miles. Free in-store pickup available at 7261 NW 12th Street, Miami FL 33126." },
+      { q: "How much does flower delivery cost in Miami?", a: "$25 flat rate for 0-5 miles. $1.60 per mile from 5 to 87 miles. Free in-store pickup available at 7261 NW 12th Street, Miami FL 33126." },
       { q: "Can I customize my bouquet?", a: "Yes! Use our custom bouquet builder to choose color, paper, quantity (50-200 roses), finish (natural, glitter, painted) and accessories. AI preview shows exactly what you'll receive." },
       { q: "What is the difference between glitter and natural bouquets?", a: "Natural bouquets use fresh roses in their original color. Glitter bouquets have a premium glitter coating applied to the petals for a glamorous, long-lasting effect." },
       { q: "How does the AI bouquet preview work?", a: "Our custom bouquet builder uses AI to generate a realistic preview of your bouquet before you order, based on your color, quantity and finish selections." },
