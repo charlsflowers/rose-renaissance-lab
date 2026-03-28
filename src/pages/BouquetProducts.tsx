@@ -29,12 +29,12 @@ const BouquetProducts = () => {
 
   return (
     <div className="min-h-screen bg-background">
+      <SeoHead title="Fresh Bouquets Miami | Single Color & Mixed – Charls Flowers" description="Handcrafted bouquets in Miami. 50 to 200 roses, same-day delivery available. Order now." path="/bouquets" />
+      <JsonLd data={breadcrumbSchema([{ name: "Home", url: "https://www.charlsflowers.com" }, { name: "Bouquets", url: "https://www.charlsflowers.com/bouquets" }])} />
       <Navbar />
       <div className="pt-24 pb-16">
         <div className="container mx-auto px-6">
-          <Link to="/" className="inline-flex items-center gap-2 text-muted-foreground font-body text-sm hover:text-primary transition-colors mb-8">
-            <ArrowLeft className="w-4 h-4" /> Back
-          </Link>
+          <Breadcrumbs items={[{ label: "Home", to: "/" }, { label: "Bouquets" }]} />
 
           <div className="text-center mb-8">
             <div className="flex items-center justify-center gap-2 mb-2">
