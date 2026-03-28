@@ -92,7 +92,7 @@ const BouquetProducts = () => {
                     <div className="absolute inset-0 bg-foreground/5 group-hover:bg-foreground/15 transition-colors" />
                   </div>
                   <h3 className="font-display text-lg font-semibold text-foreground text-center">{product.name}</h3>
-                  <p className="text-muted-foreground font-body text-xs text-center mt-1">{product.description}</p>
+                  
                   <p className="text-primary font-body text-sm font-semibold text-center mt-2">From ${product.customSizes ? product.customSizes[0].price : getPrice(product.pricingTier, (product.pricingTier === 'mix3red' || (product.color.includes(',') && product.pricingTier === 'standard')) ? 75 : 50)}</p>
                 </Link>
               </div>
