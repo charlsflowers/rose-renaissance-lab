@@ -7,6 +7,7 @@ import ReviewCard from "@/components/ReviewCard";
 import type { ReviewCategory } from "@/components/ReviewCard";
 import ReviewFilters from "@/components/ReviewFilters";
 import { reviews } from "@/lib/reviewsData";
+import { useShopifyReviewImages } from "@/hooks/useShopifyReviewImages";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import SeoHead from "@/components/SeoHead";
