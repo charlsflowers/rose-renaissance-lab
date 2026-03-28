@@ -3,9 +3,8 @@ import { en } from "./translations/en";
 import { es } from "./translations/es";
 
 export type Language = "en" | "es";
-type Translations = typeof en;
 
-const translations: Record<Language, Translations> = { en, es };
+const translations: Record<Language, Record<string, any>> = { en, es };
 
 interface LanguageContextType {
   language: Language;
