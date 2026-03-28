@@ -42,7 +42,10 @@ const ReviewCard = ({ review, index }: { review: ReviewData; index: number }) =>
           <div className="relative aspect-square overflow-hidden">
             <img
               src={review.image}
-              alt={`Review by ${review.name}`}
+              alt={`${review.productLabel} Miami – Charls Flowers customer review`}
+              loading="lazy"
+              width={400}
+              height={400}
               className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
             />
             <div className="absolute inset-0 bg-foreground/5 group-hover:bg-foreground/15 transition-colors" />
