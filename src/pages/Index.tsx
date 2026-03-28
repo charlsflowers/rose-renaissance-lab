@@ -303,7 +303,7 @@ const Index = () => {
           </motion.div>
           <div className="max-w-2xl mx-auto rounded-sm overflow-hidden border border-border" style={{ aspectRatio: '16/9', minHeight: '300px' }}>
             <iframe
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3593.0!2d-80.3999!3d25.7617!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMjXCsDQ1JzQyLjEiTiA4MMKwMjMnNTkuNiJX!5e0!3m2!1sen!2sus!4v1"
+              src={`https://www.google.com/maps/embed/v1/place?key=${import.meta.env.VITE_GOOGLE_MAPS_API_KEY || ''}&q=7261+NW+12th+Street,Miami,FL+33126&center=25.7617,-80.3999&zoom=15`}
               width="100%"
               height="100%"
               style={{ border: 0 }}
