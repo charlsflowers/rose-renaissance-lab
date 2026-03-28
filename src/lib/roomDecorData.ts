@@ -1,4 +1,4 @@
-import roomDecorImg from '@/assets/room-decor.jpg';
+const CDN = 'https://cdn.shopify.com/s/files/1/0979/1671/5140/files';
 
 export interface RoomDecorAddon {
   label: string;
@@ -43,7 +43,7 @@ export const roomDecorPackages: RoomDecorPackage[] = [
     shopifyVariantId: 'gid://shopify/ProductVariant/51693066223748',
     price: 350,
     description: 'A romantic explosion of love for an unforgettable surprise',
-    image: roomDecorImg,
+    image: `${CDN}/1_fca2072b-02a2-4f7a-a489-8a7bcb428241.png?v=1774615718`,
     includes: [
       '15 Ceiling Balloons',
       '10 Balloons on the floor',
@@ -65,7 +65,7 @@ export const roomDecorPackages: RoomDecorPackage[] = [
     shopifyVariantId: 'gid://shopify/ProductVariant/51693066289284',
     price: 480,
     description: 'The ultimate romantic experience with a 50-rose bouquet included',
-    image: roomDecorImg,
+    image: `${CDN}/2_0d55a7e0-0374-4149-93df-e0d9ffe75962.png?v=1774615718`,
     includes: [
       '25 Ceiling Balloons',
       'Roses attached to the ceiling Balloons',
@@ -95,7 +95,7 @@ export const roomDecorPackages: RoomDecorPackage[] = [
     shopifyVariantId: 'gid://shopify/ProductVariant/51693066322052',
     price: 835,
     description: 'The most complete and luxurious room decor with a 75-rose bouquet',
-    image: roomDecorImg,
+    image: `${CDN}/3_adaa192a-8c9b-41b5-8586-cb7e13640829.png?v=1774615718`,
     includes: [
       '35 Ceiling balloons',
       'Roses attached to the ceiling Balloons',
