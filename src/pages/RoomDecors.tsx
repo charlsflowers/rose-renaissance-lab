@@ -25,7 +25,6 @@ import roomDecorImg from "@/assets/room-decor.jpg";
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
             {roomDecorPackages.map((pkg, idx) => {
-              const Icon = tierIcons[idx];
               return (
                 <motion.div
                   key={pkg.id}
@@ -38,13 +37,12 @@ import roomDecorImg from "@/assets/room-decor.jpg";
                       <img src={pkg.image} alt={pkg.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
                       <div className="absolute inset-0 bg-foreground/5 group-hover:bg-foreground/15 transition-colors" />
                       {pkg.id === 'rd-deluxe-love' && (
-                        <div className="absolute top-3 left-3 bg-primary text-primary-foreground px-3 py-1 rounded-full font-body text-[10px] tracking-wider uppercase font-semibold shadow-md">
-                          Most Popular
+                        <div className="absolute top-0 right-0 overflow-hidden w-28 h-28">
+                          <div className="absolute top-4 -right-6 rotate-45 bg-primary text-primary-foreground py-1 w-40 text-center font-body text-[10px] tracking-wider uppercase font-semibold shadow-md">
+                            Most Popular
+                          </div>
                         </div>
                       )}
-                      <div className="absolute top-3 right-3 bg-primary text-primary-foreground p-2 rounded-full">
-                        <Icon className="w-4 h-4" />
-                      </div>
                     </div>
                     <h3 className="font-display text-lg font-semibold text-foreground text-center">{pkg.name}</h3>
                     <p className="text-muted-foreground font-body text-xs text-center mt-1 line-clamp-2">{pkg.description}</p>
