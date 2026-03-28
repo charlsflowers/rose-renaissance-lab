@@ -455,9 +455,9 @@ const BouquetProductDetail = () => {
 
               {/* 4. Shipping */}
               <Section title="Shipping" step={step++}>
-                <div className="grid grid-cols-2 gap-3 mb-6">
+                <div className="grid grid-cols-2 gap-2 mb-4">
                   <button onClick={() => setDeliveryMethod("pickup")}
-                    className={`flex items-center gap-3 p-5 rounded-sm border-2 transition-all font-body ${deliveryMethod === "pickup" ? "border-primary bg-primary/5" : "border-border hover:border-primary/30"}`}>
+                    className={`flex items-center gap-2 p-3 rounded-sm border-2 transition-all font-body ${deliveryMethod === "pickup" ? "border-primary bg-primary/5" : "border-border hover:border-primary/30"}`}>
                     <Store className="w-5 h-5 flex-shrink-0" />
                     <div className="text-left flex-1">
                       <p className="font-semibold text-sm text-foreground">Store pickup</p>
