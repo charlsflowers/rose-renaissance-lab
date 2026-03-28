@@ -3,13 +3,8 @@ import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import Navbar from "@/components/Navbar";
 import { roomDecorPackages } from "@/lib/roomDecorData";
-import { ArrowLeft, Heart, Sparkles, Star } from "lucide-react";
+import { ArrowLeft } from "lucide-react";
 import roomDecorImg from "@/assets/room-decor.jpg";
-
-const RoomDecors = () => {
-  useEffect(() => { window.scrollTo(0, 0); }, []);
-
-  const tierIcons = [Heart, Sparkles, Star];
 
   return (
     <div className="min-h-screen bg-background">
