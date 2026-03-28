@@ -418,23 +418,23 @@ const BouquetProductDetail = () => {
 
               {/* 2. Glitter */}
               <Section title="Glitter Finish" step={step++} subtitle={`+$${Math.ceil(selectedSize.roses / 25) * 8}`}>
-                <div className="flex gap-4 mb-4">
-                  <div className="w-28 h-28 flex-shrink-0">
+                <div className="flex gap-3 mb-3">
+                  <div className="w-16 h-16 flex-shrink-0">
                     <img src={glitterRoseImg} alt="Glitter rose example" className="w-full h-full object-contain" />
                   </div>
                   <div className="flex-1">
-                    <p className="font-body font-semibold text-foreground">✨ Add Glitter ✨</p>
-                    <p className="text-xs text-muted-foreground font-body">$8 per 25 roses · {selectedSize.roses} roses = +${Math.ceil(selectedSize.roses / 25) * 8}</p>
+                    <p className="font-body font-semibold text-foreground text-sm">✨ Add Glitter ✨</p>
+                    <p className="text-[11px] text-muted-foreground font-body">$8 per 25 roses · {selectedSize.roses} roses = +${Math.ceil(selectedSize.roses / 25) * 8}</p>
                   </div>
                 </div>
-                <div className="grid grid-cols-2 gap-3">
+                <div className="grid grid-cols-2 gap-2">
                   <button onClick={() => setAddGlitter(true)}
-                    className={`p-4 rounded-sm border-2 text-center transition-all font-body text-sm ${addGlitter ? "border-primary bg-primary/5 text-primary" : "border-border text-muted-foreground hover:border-primary/30"}`}>
-                    Yes {addGlitter && <Check className="w-4 h-4 text-primary mx-auto mt-1" />}
+                    className={`p-2.5 rounded-sm border-2 text-center transition-all font-body text-sm ${addGlitter ? "border-primary bg-primary/5 text-primary" : "border-border text-muted-foreground hover:border-primary/30"}`}>
+                    Yes {addGlitter && <Check className="w-3 h-3 text-primary mx-auto mt-0.5" />}
                   </button>
                   <button onClick={() => setAddGlitter(false)}
-                    className={`p-4 rounded-sm border-2 text-center transition-all font-body text-sm ${!addGlitter ? "border-primary bg-primary/5 text-primary" : "border-border text-muted-foreground hover:border-primary/30"}`}>
-                    No {!addGlitter && <Check className="w-4 h-4 text-primary mx-auto mt-1" />}
+                    className={`p-2.5 rounded-sm border-2 text-center transition-all font-body text-sm ${!addGlitter ? "border-primary bg-primary/5 text-primary" : "border-border text-muted-foreground hover:border-primary/30"}`}>
+                    No {!addGlitter && <Check className="w-3 h-3 text-primary mx-auto mt-0.5" />}
                   </button>
                 </div>
               </Section>
