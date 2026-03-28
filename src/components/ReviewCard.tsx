@@ -39,6 +39,7 @@ const ReviewCard = ({ review, index, dynamicImage }: { review: ReviewData; index
   };
 
   const reviewText = language === "es" && review.textEs ? review.textEs : review.text;
+  const displayImage = dynamicImage || review.image;
 
   return (
     <>
