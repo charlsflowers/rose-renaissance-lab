@@ -1,5 +1,6 @@
 import { useState, useMemo, useCallback, useRef, useEffect } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
+import YouMightAlsoLove from "@/components/YouMightAlsoLove";
 import { format, addHours, isBefore, startOfDay } from "date-fns";
 import { miamiHourNow, todayInMiami, isTodayInMiami } from "@/lib/miamiTime";
 import { seoData } from "@/lib/seoData";
@@ -808,6 +809,9 @@ const BouquetProductDetail = () => {
                 </div>
               </div>
             </div>
+
+            {/* Cross-links */}
+            <YouMightAlsoLove currentProductId={product.id} />
           </div>
         </div>
       </div>

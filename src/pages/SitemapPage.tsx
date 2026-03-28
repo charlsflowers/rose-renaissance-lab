@@ -2,6 +2,8 @@ import { Link } from "react-router-dom";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import SeoHead from "@/components/SeoHead";
+import { landingPages } from "@/lib/landingPagesData";
+import { blogArticles } from "@/lib/blogData";
 
 const Sitemap = () => {
   const sections = [
@@ -16,22 +18,12 @@ const Sitemap = () => {
       { to: "/faq", label: "FAQ" },
       { to: "/blog", label: "Blog" },
     ]},
-    { title: "Landing Pages", links: [
-      { to: "/flower-shop-miami", label: "Flower Shop Miami" },
-      { to: "/flower-delivery-coral-gables", label: "Flower Delivery Coral Gables" },
-      { to: "/flower-delivery-doral", label: "Flower Delivery Doral" },
-      { to: "/flower-delivery-hialeah", label: "Flower Delivery Hialeah" },
-      { to: "/flower-delivery-kendall", label: "Flower Delivery Kendall" },
-      { to: "/flower-delivery-brickell", label: "Flower Delivery Brickell" },
-      { to: "/flower-delivery-wynwood", label: "Flower Delivery Wynwood" },
-      { to: "/flower-delivery-miami-beach", label: "Flower Delivery Miami Beach" },
-      { to: "/flower-delivery-aventura", label: "Flower Delivery Aventura" },
-      { to: "/valentines-day-flowers-miami", label: "Valentine's Day Flowers Miami" },
-      { to: "/mothers-day-bouquets-miami", label: "Mother's Day Bouquets Miami" },
-      { to: "/quinceanera-bouquets-miami", label: "Quinceañera Bouquets Miami" },
-      { to: "/gender-reveal-flowers-miami", label: "Gender Reveal Flowers Miami" },
-      { to: "/100-roses-bouquet-miami", label: "100 Roses Bouquet Miami" },
-    ]},
+    { title: "Blog Articles", links: blogArticles.map(a => ({
+      to: `/blog/${a.slug}`, label: a.title.split('|')[0].trim(),
+    }))},
+    { title: "Landing Pages", links: landingPages.map(p => ({
+      to: `/${p.slug}`, label: p.h1.replace(/ [–—|].*/g, ''),
+    }))},
     { title: "Legal", links: [
       { to: "/privacy-policy", label: "Privacy Policy" },
       { to: "/terms-of-service", label: "Terms of Service" },
