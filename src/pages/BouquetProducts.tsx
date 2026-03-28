@@ -45,6 +45,7 @@ const BouquetProducts = () => {
               { key: "all", label: "See All", locked: false },
               { key: "un-color", label: "Single color", locked: false },
               { key: "mezclas", label: "Mixes", locked: false },
+              { key: "zodiac", label: "Zodiac Signs", locked: false },
             ] as { key: FilterType; label: string; locked: boolean }[]).map(({ key, label, locked }) => (
               <button
                 key={key}
