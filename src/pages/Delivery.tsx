@@ -3,6 +3,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import SeoHead from "@/components/SeoHead";
 import { Truck, Store, MapPin, Clock, DollarSign } from "lucide-react";
+import { GOOGLE_MAPS_API_KEY } from "@/lib/constants";
 
 const Delivery = () => (
   <div className="min-h-screen bg-background">
