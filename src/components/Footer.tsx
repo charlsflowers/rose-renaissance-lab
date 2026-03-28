@@ -1,20 +1,20 @@
 import { Link } from "react-router-dom";
-import { Flower2, MapPin, Phone, Clock } from "lucide-react";
+import { MapPin, Phone, Clock } from "lucide-react";
 import JsonLd, { organizationSchema } from "@/components/JsonLd";
 import { useTranslation } from "@/i18n/LanguageContext";
+import charlsLogo from "@/assets/charls-logo.png";
 
 const Footer = () => {
   const { t } = useTranslation();
 
   return (
-    <footer className="bg-foreground pt-16 pb-8">
+    <footer className="bg-primary pt-16 pb-8">
       <JsonLd data={organizationSchema()} />
       <div className="container mx-auto px-6">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 mb-12">
           {/* Col 1 — Info */}
           <div>
-            <Flower2 className="w-6 h-6 text-primary mb-3 fill-primary" />
-            <p className="font-display text-lg text-primary-foreground mb-3">Charls Flowers</p>
+            <img src={charlsLogo} alt="Charls Flowers" className="h-10 w-auto mb-3 brightness-0 invert" width={120} height={40} />
             <div className="space-y-2 font-body text-xs text-primary-foreground/60">
               <p className="flex items-start gap-2"><MapPin className="w-3.5 h-3.5 mt-0.5 shrink-0" /> 7261 NW 12th Street, Miami, FL 33126</p>
               <p className="flex items-center gap-2"><Phone className="w-3.5 h-3.5 shrink-0" /> <a href="tel:9044424042" className="hover:text-primary transition-colors">904-442-4042</a></p>
