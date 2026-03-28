@@ -3,10 +3,11 @@ import { Link, useNavigate } from "react-router-dom";
 import { useCartStore } from "@/stores/cartStore";
 import BrandLogo from "@/components/BrandLogo";
 import charlsLogo from "@/assets/charls-logo.png";
-import { Menu, X, ChevronDown, Search as SearchIcon, MapPin } from "lucide-react";
+import { Menu, X, ChevronDown, Search as SearchIcon, MapPin, Globe } from "lucide-react";
 import { bouquetProducts } from "@/lib/catalogData";
 import { roomDecorPackages } from "@/lib/roomDecorData";
 import { supabase } from "@/integrations/supabase/client";
+import { useTranslation } from "@/i18n/LanguageContext";
 
 const bouquetSubLinks = [
   { to: "/bouquets", label: "All Bouquets", active: true },
