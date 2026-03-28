@@ -32,7 +32,7 @@ const RoomDecorDetail = () => {
   const [isAdding, setIsAdding] = useState(false);
 
   // Delivery state
-  const [deliveryMethod, setDeliveryMethod] = useState<"pickup" | "delivery">("delivery");
+  const deliveryMethod = "delivery" as const;
   const [deliveryDate, setDeliveryDate] = useState<Date>();
   const [deliveryHour, setDeliveryHour] = useState("");
   const [deliveryMiles, setDeliveryMiles] = useState<number | null>(null);
