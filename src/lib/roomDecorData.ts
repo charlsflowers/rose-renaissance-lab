@@ -27,12 +27,12 @@ export interface RoomDecorPackage {
 
 /** Natural bouquet colors available (all natural EXCEPT red) */
 export const roomDecorBouquetColors = [
-  'Blanco',
+  'White',
   'Hot Pink',
   'Pink',
-  'Morado',
-  'Naranja',
-  'Amarillo',
+  'Purple',
+  'Orange',
+  'Yellow',
 ];
 
 export const roomDecorPackages: RoomDecorPackage[] = [

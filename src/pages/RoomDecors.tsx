@@ -42,6 +42,11 @@ const RoomDecors = () => {
                     <div className="relative overflow-hidden rounded-sm mb-4 aspect-square bg-muted">
                       <img src={pkg.image} alt={pkg.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
                       <div className="absolute inset-0 bg-foreground/5 group-hover:bg-foreground/15 transition-colors" />
+                      {pkg.id === 'rd-deluxe-love' && (
+                        <div className="absolute top-3 left-3 bg-primary text-primary-foreground px-3 py-1 rounded-full font-body text-[10px] tracking-wider uppercase font-semibold shadow-md">
+                          Most Popular
+                        </div>
+                      )}
                       <div className="absolute top-3 right-3 bg-primary text-primary-foreground p-2 rounded-full">
                         <Icon className="w-4 h-4" />
                       </div>
