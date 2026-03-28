@@ -1,9 +1,13 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
+import SeoHead from "@/components/SeoHead";
+import Breadcrumbs from "@/components/Breadcrumbs";
+import JsonLd, { breadcrumbSchema } from "@/components/JsonLd";
 import { bouquetProducts, bouquetSizeOptions } from "@/lib/catalogData";
 import { getPrice } from "@/lib/productData";
-import { ArrowLeft, ArrowRight, Sparkles, Flower2, Lock } from "lucide-react";
+import { ArrowLeft, ArrowRight, Sparkles, Lock } from "lucide-react";
 
 type FilterType = "all" | "un-color" | "mezclas" | "zodiac";
 
