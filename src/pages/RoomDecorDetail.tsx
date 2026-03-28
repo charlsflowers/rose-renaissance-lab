@@ -507,12 +507,12 @@ const RoomDecorDetail = () => {
                 <p className="text-xs text-muted-foreground font-body mb-4">
                   Choose the color for your {pkg.bouquetIncluded.roses}-rose bouquet
                 </p>
-                <div className="grid grid-cols-3 gap-3">
+                <div className="flex flex-wrap gap-3">
                   {roomDecorBouquetColors.map(color => (
                     <button
                       key={color}
                       onClick={() => setSelectedBouquetColor(color)}
-                      className={`p-3 rounded-sm border-2 text-center transition-all font-body text-sm ${
+                      className={`px-4 py-3 rounded-sm border-2 text-center transition-all font-body text-sm whitespace-nowrap ${
                         selectedBouquetColor === color
                           ? "border-primary bg-primary/5 text-primary"
                           : "border-border text-muted-foreground hover:border-primary/30"
