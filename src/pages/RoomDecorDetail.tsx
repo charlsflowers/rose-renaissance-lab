@@ -93,20 +93,14 @@ const RoomDecorDetail = () => {
     })();
   }, []);
 
-  const minLeadHours = deliveryMethod === "delivery" ? 1.5 : 2;
+  const minLeadHours = 1.5;
   const minMiamiHour = miamiHourNow() + minLeadHours;
   const getAvailableHours = (date: Date | undefined) => {
     if (!date) return [];
     const day = date.getDay();
     const closeHour = day === 0 ? 17 : day === 6 ? 18 : 19;
     const hours: string[] = [];
-    if (deliveryMethod === "pickup") {
-      if (!isTodayInMiami(date) || 9.5 >= minMiamiHour) {
-        hours.push("9:30 AM");
-      }
-    }
-    const startH = deliveryMethod === "pickup" ? 10 : 10;
-    for (let h = startH; h <= closeHour; h++) {
+    for (let h = 10; h <= closeHour; h++) {
       if (isTodayInMiami(date) && h < minMiamiHour) continue;
       const ampm = h < 12 ? "AM" : "PM";
       const h12 = h === 0 ? 12 : h > 12 ? h - 12 : h;
