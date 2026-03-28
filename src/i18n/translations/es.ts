@@ -75,9 +75,9 @@ export const es = {
     deliverySubtitleLine1: "$25 tarifa fija para 0-5 millas. $1.60/milla de 5 a 87 millas.",
     deliverySubtitleLine2: "Recogida gratis en tienda.",
     deliveryAddress: "📍 7261 NW 12th Street, Miami, FL 33126",
-    hoursLine1: "Lun–Vie: 8AM – 7PM",
-    hoursLine2: "Sáb: 8AM – 6PM",
-    hoursLine3: "Dom: 8AM – 5PM",
+    hoursLine1: "Lunes – Viernes: 8AM – 7PM",
+    hoursLine2: "Sábado: 8AM – 6PM",
+    hoursLine3: "Domingo: 8AM – 5PM",
     faqTitle: "Preguntas Frecuentes",
   },
 

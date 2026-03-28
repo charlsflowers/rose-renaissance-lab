@@ -18,7 +18,13 @@ const Footer = () => {
             <div className="space-y-2 font-body text-xs text-primary-foreground/60">
               <p className="flex items-start gap-2"><MapPin className="w-3.5 h-3.5 mt-0.5 shrink-0" /> 7261 NW 12th Street, Miami, FL 33126</p>
               <p className="flex items-center gap-2"><Phone className="w-3.5 h-3.5 shrink-0" /> <a href="tel:9044424042" className="hover:text-primary transition-colors">904-442-4042</a></p>
-              <p className="flex items-start gap-2"><Clock className="w-3.5 h-3.5 mt-0.5 shrink-0" /> {t("footer.hours").split("\n").map((line, i) => <span key={i}>{line}{i === 0 && <br/>}</span>)}</p>
+              <div className="flex items-start gap-2"><Clock className="w-3.5 h-3.5 mt-0.5 shrink-0" />
+                <ul className="space-y-0.5">
+                  <li>{t("footer.hoursLine1")}</li>
+                  <li>{t("footer.hoursLine2")}</li>
+                  <li>{t("footer.hoursLine3")}</li>
+                </ul>
+              </div>
             </div>
             <p className="font-body text-[10px] text-primary-foreground/40 mt-3 italic">{t("footer.sameDayDelivery")}</p>
           </div>
