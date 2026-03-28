@@ -155,8 +155,9 @@ serve(async (req) => {
 
     const cost = calculateCost(miles);
 
-    // Build a static map URL showing both points
-    const mapUrl = `https://www.google.com/maps/embed/v1/directions?key=${apiKey}&origin=${encodeURIComponent(STORE_ADDRESS)}&destination=${encodeURIComponent(destination)}&mode=driving`;
+    // Build a static map URL using the PUBLIC embed key (not the server key)
+    const PUBLIC_EMBED_KEY = "AIzaSyAN5ltXtvRFMQp3vQio_kyDMXC9Lvmw1ug";
+    const mapUrl = `https://www.google.com/maps/embed/v1/directions?key=${PUBLIC_EMBED_KEY}&origin=${encodeURIComponent(STORE_ADDRESS)}&destination=${encodeURIComponent(destination)}&mode=driving`;
 
     return new Response(
       JSON.stringify({
