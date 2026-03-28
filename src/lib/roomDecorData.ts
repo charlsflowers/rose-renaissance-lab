@@ -37,7 +37,7 @@ export const roomDecorBouquetColors = [
 
 export const roomDecorPackages: RoomDecorPackage[] = [
   {
-    id: 'rd-love-bomb',
+    id: 'love-bomb',
     name: 'Love Bomb',
     shopifyHandle: 'love-bomb',
     shopifyVariantId: 'gid://shopify/ProductVariant/51693066223748',
