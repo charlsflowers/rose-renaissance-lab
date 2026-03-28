@@ -287,7 +287,7 @@ const RoomDecorDetail = () => {
                       <button
                         key={color}
                         onClick={() => setSelectedBouquetColor(color)}
-                        className={`p-3 rounded-sm border-2 text-center transition-all font-body text-sm ${
+                      className={`px-4 py-3 rounded-sm border-2 text-center transition-all font-body text-sm whitespace-nowrap ${
                           selectedBouquetColor === color
                             ? "border-primary bg-primary/5 text-primary"
                             : "border-border text-muted-foreground hover:border-primary/30"
