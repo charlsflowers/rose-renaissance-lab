@@ -28,7 +28,7 @@ export interface ReviewData {
   cartData: ReviewCartData;
 }
 
-const ReviewCard = ({ review, index }: { review: ReviewData; index: number }) => {
+const ReviewCard = ({ review, index, dynamicImage }: { review: ReviewData; index: number; dynamicImage?: string }) => {
   const { t, language } = useTranslation();
   const [dialogOpen, setDialogOpen] = useState(false);
   const [dialogMode, setDialogMode] = useState<"cart" | "buy">("cart");
