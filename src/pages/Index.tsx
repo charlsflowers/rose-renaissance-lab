@@ -320,9 +320,12 @@ const Index = () => {
               title="Charls Flowers Miami Location"
             />
           </div>
-          <p className="text-center mt-4 font-body text-sm text-muted-foreground">
-            <a href="tel:9044424042" className="text-primary hover:underline">904-442-4042</a> · {t("home.deliveryPhone")}
-          </p>
+          <div className="text-center mt-4 font-body text-sm text-muted-foreground space-y-1">
+            <p><a href="tel:9044424042" className="text-primary hover:underline font-semibold">904-442-4042</a></p>
+            <p>{t("home.hoursLine1")}</p>
+            <p>{t("home.hoursLine2")}</p>
+            <p>{t("home.hoursLine3")}</p>
+          </div>
         </div>
       </section>
 
