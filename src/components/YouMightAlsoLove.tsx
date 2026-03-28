@@ -22,7 +22,7 @@ const YouMightAlsoLove = ({ currentProductId }: Props) => {
       <h2 className="font-display text-xl font-semibold text-foreground text-center mb-8">You might also love</h2>
       <div className="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-6">
         {related.map(product => (
-          <Link key={product.id} to={`/bouquets/all/${product.id}`} className="group block">
+          <Link key={product.id} to={`/bouquets/all/${product.shopifyHandle}`} className="group block">
             <div className="relative overflow-hidden rounded-sm mb-3 aspect-square bg-muted">
               <img
                 src={product.image}

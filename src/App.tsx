@@ -2,10 +2,11 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate, useParams } from "react-router-dom";
 import { useCartSync } from "@/hooks/useCartSync";
 import FloatingCart from "@/components/FloatingCart";
 import { landingPages } from "@/lib/landingPagesData";
+import { bouquetProducts } from "@/lib/catalogData";
 import Index from "./pages/Index";
 import BouquetBuilder from "./pages/BouquetBuilder";
 import Checkout from "./pages/Checkout";
@@ -32,6 +33,16 @@ import LandingPage from "./pages/LandingPage";
 
 const queryClient = new QueryClient();
 
+/** 301-style redirect for old /bouquets/:type/bq-* URLs */
+const OldBouquetRedirect = () => {
+  const { type, productId } = useParams<{ type: string; productId: string }>();
+  if (productId?.startsWith("bq-")) {
+    const product = bouquetProducts.find(p => p.id === productId);
+    if (product) return <Navigate to={`/bouquets/${type}/${product.shopifyHandle}`} replace />;
+  }
+  return <BouquetProductDetail />;
+};
+
 const AppContent = () => {
   useCartSync();
   return (
@@ -42,7 +53,7 @@ const AppContent = () => {
         <Route path="/categoria/:slug" element={<CategoryProducts />} />
         <Route path="/categoria/:slug/:productId" element={<CategoryProductDetail />} />
         <Route path="/bouquets/personalizar" element={<BouquetBuilder />} />
-        <Route path="/bouquets/:type/:productId" element={<BouquetProductDetail />} />
+        <Route path="/bouquets/:type/:productId" element={<OldBouquetRedirect />} />
         <Route path="/bouquets" element={<BouquetProducts />} />
         <Route path="/room-decors/:packageId" element={<RoomDecorDetail />} />
         <Route path="/room-decors" element={<RoomDecors />} />
