@@ -143,7 +143,7 @@ export const es = {
       { q: "¿Ofrecen flores para bodas en Miami?", a: "¡Los ramos de boda llegarán pronto! Mientras tanto, nuestro creador de ramos personalizados te permite diseñar arreglos perfectos para eventos de boda." },
       { q: "¿Puedo pedir 100 rosas en un ramo?", a: "¡Absolutamente! Ofrecemos ramos con 50, 75, 100, 150 y 200 rosas. Puedes elegir cualquier combinación de colores y acabado." },
       { q: "¿Entregan a Coral Gables, Doral, Hialeah, Kendall, Brickell?", a: "¡Sí! Entregamos a todos los vecindarios de Miami y áreas circundantes hasta 87 millas, incluyendo Coral Gables, Doral, Hialeah, Kendall, Brickell, Wynwood, Miami Beach y Aventura." },
-      { q: "¿Hay un pedido mínimo para envío?", a: "No hay pedido mínimo para envío. Cualquier ramo o producto puede ser enviado. El envío comienza en $20 para 0-5 millas." },
+      { q: "¿Hay un pedido mínimo para envío?", a: "No hay pedido mínimo para envío. Cualquier ramo o producto puede ser enviado. El envío comienza en $25 para 0-5 millas." },
     ],
   },
 
