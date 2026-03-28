@@ -246,16 +246,16 @@ const RoomDecorDetail = () => {
             <ArrowLeft className="w-4 h-4" /> Back
           </Link>
 
-          <div className="max-w-4xl mx-auto space-y-10">
+          <div className="max-w-3xl mx-auto space-y-5">
             {/* Image */}
             <div className="relative overflow-hidden rounded-sm bg-muted flex items-center justify-center aspect-video">
               <img src={pkg.image} alt={pkg.name} className="w-full h-full object-cover" />
             </div>
 
-            <div className="text-center">
-              <h1 className="font-display text-3xl md:text-4xl font-semibold text-foreground">{pkg.name}</h1>
-              <p className="text-muted-foreground font-body mt-2">{pkg.description}</p>
-              <p className="font-display text-4xl font-bold text-primary mt-4">${pkg.price}</p>
+            <div>
+              <h1 className="font-display text-2xl font-semibold text-foreground">{pkg.name}</h1>
+              <p className="text-muted-foreground font-body text-sm mt-1">{pkg.description}</p>
+              <p className="font-display text-xl font-bold text-foreground mt-2">${pkg.price} <span className="text-xs font-body text-muted-foreground font-normal">USD</span></p>
             </div>
 
             {/* What's included */}
@@ -521,10 +521,10 @@ const RoomDecorDetail = () => {
 
 const Section = ({ title, step, subtitle, children }: { title: string; step: number; subtitle?: string; children: React.ReactNode }) => (
   <div>
-    <div className="flex items-center gap-3 mb-4">
-      <span className="w-8 h-8 rounded-full bg-primary text-primary-foreground flex items-center justify-center font-display text-sm font-semibold">{step}</span>
-      <h2 className="font-display text-xl font-semibold text-foreground">{title}</h2>
-      {subtitle && <span className="bg-secondary text-secondary-foreground text-xs px-2 py-0.5 rounded-full font-body">{subtitle}</span>}
+    <div className="flex items-center gap-2 mb-3">
+      <span className="w-6 h-6 rounded-full bg-primary text-primary-foreground flex items-center justify-center font-display text-xs font-semibold">{step}</span>
+      <h2 className="font-display text-base font-semibold text-foreground">{title}</h2>
+      {subtitle && <span className="bg-secondary text-secondary-foreground text-[10px] px-1.5 py-0.5 rounded-full font-body">{subtitle}</span>}
     </div>
     {children}
   </div>
