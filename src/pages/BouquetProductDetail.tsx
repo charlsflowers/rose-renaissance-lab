@@ -121,7 +121,7 @@ const BouquetProductDetail = () => {
       try {
         console.log("📍 [Delivery] Calculating distance for:", prediction.description, "placeId:", prediction.placeId);
         const { data, error } = await supabase.functions.invoke("calculate-distance", { body: { fullAddress: prediction.description, placeId: prediction.placeId } });
-        console.log("📍 [Delivery] Distance response:", { data, error });
+        console.log("📍 [Delivery] Distance response:", JSON.stringify({ data, error }, null, 2));
         if (error) throw new Error("Error de conexión");
         if (data.error) { setDistanceError(data.error); if (data.tooFar) { setDistanceTooFar(true); setDeliveryMiles(data.miles); } }
         else {
