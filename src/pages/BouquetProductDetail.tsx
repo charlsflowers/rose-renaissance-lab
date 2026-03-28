@@ -441,10 +441,10 @@ const BouquetProductDetail = () => {
 
               {/* 3. Accessories */}
               <Section title="Accessories" step={step++}>
-                <div className="grid grid-cols-2 gap-3">
+                <div className="grid grid-cols-2 gap-2">
                   <button onClick={() => setAccessory("note")}
-                    className={`flex flex-col items-center gap-2 p-4 rounded-sm border-2 transition-all font-body text-sm ${accessory === "note" ? "border-primary bg-primary/5 text-primary" : "border-border text-muted-foreground hover:border-primary/30"}`}>
-                    <Type className="w-4 h-4" /> Note <span className="text-xs text-secondary">$3</span>
+                    className={`flex flex-col items-center gap-1 p-2.5 rounded-sm border-2 transition-all font-body text-sm ${accessory === "note" ? "border-primary bg-primary/5 text-primary" : "border-border text-muted-foreground hover:border-primary/30"}`}>
+                    <Type className="w-3.5 h-3.5" /> Note <span className="text-[10px] text-secondary">$3</span>
                   </button>
                 </div>
                 {accessory === "note" && (
