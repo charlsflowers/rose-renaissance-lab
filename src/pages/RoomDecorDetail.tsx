@@ -589,34 +589,7 @@ const RoomDecorDetail = () => {
 
             {/* Shipping */}
             <Section title="Shipping" step={step + 1}>
-              <div className="grid grid-cols-2 gap-3 mb-6">
-                <button onClick={() => setDeliveryMethod("pickup")}
-                  className={`flex items-center gap-3 p-5 rounded-sm border-2 transition-all font-body ${deliveryMethod === "pickup" ? "border-primary bg-primary/5" : "border-border hover:border-primary/30"}`}>
-                  <Store className="w-5 h-5 flex-shrink-0" />
-                  <div className="text-left flex-1">
-                    <p className="font-semibold text-sm text-foreground">Store pickup</p>
-                    <p className="text-xs text-muted-foreground">Free</p>
-                  </div>
-                  {deliveryMethod === "pickup" && <Check className="w-4 h-4 text-primary flex-shrink-0" />}
-                </button>
-                <button onClick={() => setDeliveryMethod("delivery")}
-                  className={`flex items-center gap-3 p-5 rounded-sm border-2 transition-all font-body ${deliveryMethod === "delivery" ? "border-primary bg-primary/5" : "border-border hover:border-primary/30"}`}>
-                  <Truck className="w-5 h-5 flex-shrink-0" />
-                  <div className="text-left flex-1">
-                    <p className="font-semibold text-sm text-foreground">Home delivery</p>
-                    <p className="text-xs text-muted-foreground">Free up to 10 miles</p>
-                  </div>
-                  {deliveryMethod === "delivery" && <Check className="w-4 h-4 text-primary flex-shrink-0" />}
-                </button>
-              </div>
-
               <div className="space-y-4 p-5 rounded-sm border border-border bg-card mb-6">
-                {deliveryMethod === "pickup" ? (
-                  <p className="font-body text-sm text-muted-foreground">
-                    📍 Pickup at: <span className="font-semibold text-foreground">7261 NW 12th St, Miami, FL 33126</span>
-                  </p>
-                ) : (
-                  <>
                     <p className="font-body font-semibold text-foreground text-sm">Delivery address</p>
                     <p className="font-body text-xs text-muted-foreground mb-2">
                       🎁 Free delivery within 10 miles · $1.60/mile after
