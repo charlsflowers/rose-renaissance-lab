@@ -29,6 +29,7 @@ const comingSoonSlugs = ["arreglos", "cajas", "cestas", "jarrones", "osos"];
 const Index = () => {
   const { t } = useTranslation();
   const [reviewCategory, setReviewCategory] = useState<ReviewCategory>("bouquets");
+  const shopifyReviewImages = useShopifyReviewImages(reviews);
   const categories = [
     { img: bicolorPassionImg, title: t("categories.bouquets"), slug: "bouquets", isRoute: true },
     { img: arreglosImg, title: t("categories.arrangements"), slug: "arreglos" },
