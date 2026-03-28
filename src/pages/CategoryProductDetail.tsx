@@ -225,7 +225,7 @@ const CategoryProductDetail = () => {
             {/* Product Image */}
             <div className="relative overflow-hidden rounded-sm bg-muted flex items-center justify-center">
               {product.image ? (
-                <img src={product.image} alt={product.name} className="w-full h-auto object-contain" />
+                <img src={product.image} alt={`${product.name} Miami – Charls Flowers`} loading="lazy" width={800} height={800} className="w-full h-auto object-contain" />
               ) : (
                 <div className="w-full h-full flex items-center justify-center">
                   <span className="font-display text-6xl text-muted-foreground/20">🌹</span>

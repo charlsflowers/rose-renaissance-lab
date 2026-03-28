@@ -28,6 +28,8 @@ const YouMightAlsoLove = ({ currentProductId }: Props) => {
                 src={product.image}
                 alt={`${product.name} Miami – Charls Flowers`}
                 loading="lazy"
+                width={400}
+                height={400}
                 className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
               />
               <div className="absolute inset-0 bg-foreground/5 group-hover:bg-foreground/15 transition-colors" />

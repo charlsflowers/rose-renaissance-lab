@@ -426,7 +426,7 @@ const BouquetProductDetail = () => {
               <Section title="Glitter Finish" step={step++} subtitle={`+$${Math.ceil(selectedSize.roses / 25) * 8}`}>
                 <div className="flex gap-3 mb-3">
                   <div className="w-16 h-16 flex-shrink-0">
-                    <img src={glitterRoseImg} alt="Glitter rose example" className="w-full h-full object-contain" />
+                    <img src={glitterRoseImg} alt="Glitter finish rose Miami – Charls Flowers" width={64} height={64} className="w-full h-full object-contain" />
                   </div>
                   <div className="flex-1">
                     <p className="font-body font-semibold text-foreground text-sm">✨ Add Glitter ✨</p>
@@ -644,7 +644,7 @@ const BouquetProductDetail = () => {
             <Section title="Glitter Finish" step={2} subtitle={`+$${Math.ceil(selectedSize.roses / 25) * 8}`}>
               <div className="flex flex-col gap-4 mb-4">
                 <div className="w-28 h-28 flex-shrink-0 mx-auto">
-                  <img src={glitterRoseImg} alt="Glitter rose example" className="w-full h-full object-contain" />
+                  <img src={glitterRoseImg} alt="Glitter finish rose Miami – Charls Flowers" width={112} height={112} className="w-full h-full object-contain" />
                 </div>
                 <div className="flex-1">
                   <p className="font-body font-semibold text-foreground">✨ Add Glitter ✨</p>
