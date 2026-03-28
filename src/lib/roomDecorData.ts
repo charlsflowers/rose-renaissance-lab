@@ -1,4 +1,4 @@
-import roomDecorImg from '@/assets/room-decor.jpg';
+const CDN = 'https://cdn.shopify.com/s/files/1/0979/1671/5140/files';
 
 export interface RoomDecorAddon {
   label: string;
