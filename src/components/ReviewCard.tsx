@@ -47,7 +47,7 @@ const ReviewCard = ({ review, index, dynamicImage }: { review: ReviewData; index
         <div className="bg-card rounded-sm overflow-hidden border border-border">
           <div className="relative aspect-square overflow-hidden">
             <img
-              src={review.image}
+              src={displayImage}
               alt={`${review.productLabel} Miami – Charls Flowers customer review`}
               loading="lazy"
               width={400}
