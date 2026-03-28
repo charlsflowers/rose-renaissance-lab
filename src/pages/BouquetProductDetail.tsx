@@ -396,7 +396,7 @@ const BouquetProductDetail = () => {
 
               {/* 1. Size */}
               <Section title="Number of Roses" step={step++}>
-                <div className="grid grid-cols-2 gap-3">
+                <div className="grid grid-cols-4 gap-2">
                   {sizeOptions.map((size, idx) => {
                     const disabled = idx < minSizeIdx;
                     const price = hasCustomSizes ? (size as any).price : getPrice(product.pricingTier, size.roses);
