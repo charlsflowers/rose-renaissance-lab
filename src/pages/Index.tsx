@@ -23,7 +23,7 @@ const comingSoonSlugs = ["arreglos", "cajas", "cestas", "jarrones", "osos"];
 const Index = () => {
   const [reviewCategory, setReviewCategory] = useState<ReviewCategory>("bouquets");
   const categories = [
-    { img: purezaBlancaImg, title: "Bouquets", slug: "bouquets", isRoute: true },
+    { img: bicolorPassionImg, title: "Bouquets", slug: "bouquets", isRoute: true },
     { img: arreglosImg, title: "Arrangements", slug: "arreglos" },
     { img: cajasImg, title: "Boxes", slug: "cajas" },
     { img: cestasImg, title: "Baskets", slug: "cestas" },
