@@ -381,7 +381,7 @@ const RoomDecorDetail = () => {
                     <Truck className="w-4 h-4 flex-shrink-0" />
                     <div className="text-left flex-1">
                       <p className="font-semibold text-xs text-foreground">Home delivery</p>
-                      <p className="text-xs text-muted-foreground">Free up to 10 mi</p>
+                      <p className="text-xs text-muted-foreground">Free up to 10 miles</p>
                     </div>
                     {deliveryMethod === "delivery" && <Check className="w-3.5 h-3.5 text-primary flex-shrink-0" />}
                   </button>
@@ -635,7 +635,7 @@ const RoomDecorDetail = () => {
                   <Truck className="w-5 h-5 flex-shrink-0" />
                   <div className="text-left flex-1">
                     <p className="font-semibold text-sm text-foreground">Home delivery</p>
-                    <p className="text-xs text-muted-foreground">Free up to 10 mi</p>
+                    <p className="text-xs text-muted-foreground">Free up to 10 miles</p>
                   </div>
                   {deliveryMethod === "delivery" && <Check className="w-4 h-4 text-primary flex-shrink-0" />}
                 </button>
