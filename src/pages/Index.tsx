@@ -47,7 +47,7 @@ const Index = () => {
       {/* Hero */}
       <section className="relative h-[70vh] md:h-screen flex items-end md:items-center overflow-hidden">
         <div className="absolute inset-0">
-          <img src={heroBouquet} alt="Fresh rose bouquet" className="w-full h-full object-cover object-center" />
+          <img src={heroBouquet} alt="Charls Flowers Miami – Fresh Handcrafted Rose Bouquets Same-Day Delivery" className="w-full h-full object-cover object-center" fetchPriority="high" width={1920} height={1080} />
           <div className="absolute inset-0 bg-gradient-to-t md:bg-gradient-to-r from-foreground/85 via-foreground/50 to-transparent" />
         </div>
         <div className="container relative z-10 mx-auto px-4 md:px-6 pb-10 md:pb-0">
@@ -124,7 +124,7 @@ const Index = () => {
                   {isComingSoon ? (
                     <div className="block opacity-50 cursor-not-allowed">
                       <div className="relative overflow-hidden rounded-sm mb-4 aspect-square">
-                        <img src={item.img} alt={item.title} className="w-full h-full object-cover grayscale" />
+                         <img src={item.img} alt={`${item.title} Miami – Charls Flowers`} loading="lazy" width={400} height={400} className="w-full h-full object-cover grayscale" />
                         <div className="absolute inset-0 bg-foreground/30 flex items-center justify-center">
                           <div className="bg-foreground/70 px-3 py-1.5 rounded-sm flex items-center gap-1.5">
                             <Lock className="w-3.5 h-3.5 text-primary-foreground" />
@@ -136,8 +136,8 @@ const Index = () => {
                     </div>
                   ) : (
                     <Link to={item.isRoute ? `/${item.slug}` : `/categoria/${item.slug}`} className="group block">
-                      <div className="relative overflow-hidden rounded-sm mb-4 aspect-square">
-                        <img src={item.img} alt={item.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
+                       <div className="relative overflow-hidden rounded-sm mb-4 aspect-square">
+                        <img src={item.img} alt={`${item.title} Miami – Charls Flowers`} loading="lazy" width={400} height={400} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
                         <div className="absolute inset-0 bg-foreground/10 group-hover:bg-foreground/25 transition-colors" />
                       </div>
                       <h3 className="font-display text-lg font-semibold text-foreground text-center uppercase tracking-wide">{item.title}</h3>
@@ -160,7 +160,7 @@ const Index = () => {
           <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }} className="max-w-md mx-auto">
             <Link to="/bouquets" className="group block">
               <div className="relative overflow-hidden rounded-sm mb-5 aspect-square">
-                <img src={bicolorPassionImg} alt="Bouquets" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
+                <img src={bicolorPassionImg} alt="Fresh Rose Bouquets Miami – Charls Flowers" loading="lazy" width={500} height={500} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
                 <div className="absolute inset-0 bg-foreground/10 group-hover:bg-foreground/20 transition-colors" />
               </div>
               <div className="flex items-center justify-center gap-2 mb-2">
@@ -266,6 +266,56 @@ const Index = () => {
               Customize now <ArrowRight className="w-4 h-4" />
             </Link>
           </motion.div>
+        </div>
+      </section>
+
+      {/* Occasions — SEO H3 section */}
+      <section className="py-16 md:py-20 bg-background">
+        <div className="container mx-auto px-6">
+          <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.8 }} className="text-center mb-10">
+            <h2 className="font-title-retro text-4xl md:text-5xl text-primary">Perfect for Every Occasion</h2>
+          </motion.div>
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-6 max-w-3xl mx-auto text-center">
+            {[
+              { text: "Valentine's Day Flowers Miami", icon: Heart },
+              { text: "Mother's Day Bouquets Miami", icon: Heart },
+              { text: "Wedding Flowers Miami", icon: Heart },
+              { text: "Birthday Bouquets Miami", icon: Sparkles },
+              { text: "Baby Shower Flowers Miami", icon: Sparkles },
+              { text: "Anniversary Roses Miami", icon: Heart },
+            ].map(({ text, icon: Icon }) => (
+              <div key={text} className="flex flex-col items-center gap-2 p-4">
+                <Icon className="w-5 h-5 text-primary" />
+                <h3 className="font-display text-sm md:text-base font-semibold text-foreground">{text}</h3>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Same-Day Delivery + Google Maps */}
+      <section className="py-16 md:py-20 bg-cream">
+        <div className="container mx-auto px-6">
+          <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.8 }} className="text-center mb-8">
+            <h2 className="font-title-retro text-4xl md:text-5xl text-primary mb-4">Same-Day Flower Delivery Across Miami</h2>
+            <p className="text-muted-foreground font-body max-w-lg mx-auto">$20 flat rate for 0-5 miles. $1.60/mile from 5 to 87 miles. Free in-store pickup.</p>
+            <p className="text-primary font-body text-sm font-semibold mt-3">📍 7261 NW 12th Street, Miami, FL 33126</p>
+          </motion.div>
+          <div className="max-w-2xl mx-auto rounded-sm overflow-hidden border border-border" style={{ aspectRatio: '16/9', minHeight: '300px' }}>
+            <iframe
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3593.0!2d-80.3999!3d25.7617!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMjXCsDQ1JzQyLjEiTiA4MMKwMjMnNTkuNiJX!5e0!3m2!1sen!2sus!4v1"
+              width="100%"
+              height="100%"
+              style={{ border: 0 }}
+              allowFullScreen
+              loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
+              title="Charls Flowers Miami Location"
+            />
+          </div>
+          <p className="text-center mt-4 font-body text-sm text-muted-foreground">
+            <a href="tel:9044424042" className="text-primary hover:underline">904-442-4042</a> · Mon–Fri 8AM–7PM | Sat 8AM–6PM | Sun 8AM–5PM
+          </p>
         </div>
       </section>
 

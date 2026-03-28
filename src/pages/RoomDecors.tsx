@@ -24,8 +24,11 @@ const RoomDecors = () => {
           <div className="text-center mb-12">
             <p className="font-subtitle-script text-gold text-lg md:text-2xl mb-2">Transform any space</p>
             <h1 className="font-title-retro text-4xl md:text-5xl text-foreground">Room Decoration Miami</h1>
-            <p className="text-muted-foreground font-body mt-3 max-w-lg mx-auto">
-              Create unforgettable moments with our romantic room decoration packages. Delivery included up to 10 miles.
+            <p className="text-muted-foreground font-body text-sm mt-3 max-w-lg mx-auto">
+              Create unforgettable moments with our romantic room decoration packages. Choose from{' '}
+              <Link to="/room-decors/rd-love-bomb" className="text-primary hover:underline">Love Bomb</Link>,{' '}
+              <Link to="/room-decors/rd-overly-romantic" className="text-primary hover:underline">Overly Romantic</Link>, or the{' '}
+              <Link to="/room-decors/rd-deluxe-love" className="text-primary hover:underline">Deluxe Love Package</Link>. Delivery included up to 10 miles.
             </p>
           </div>
 
@@ -34,7 +37,7 @@ const RoomDecors = () => {
               <motion.div key={pkg.id} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: idx * 0.15 }}>
                 <Link to={`/room-decors/${pkg.id}`} className="group block">
                   <div className="relative overflow-hidden rounded-sm mb-4 aspect-square bg-muted">
-                    <img src={pkg.image} alt={`${pkg.name} Miami Room Decoration – Charls Flowers`} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
+                    <img src={pkg.image} alt={`${pkg.name} Miami Room Decoration – Charls Flowers`} loading="lazy" width={400} height={400} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
                     <div className="absolute inset-0 bg-foreground/5 group-hover:bg-foreground/15 transition-colors" />
                     {pkg.id === 'rd-deluxe-love' && (
                       <div className="absolute -top-1 -right-1 z-10">

@@ -37,7 +37,8 @@ const BouquetProductDetail = () => {
   const { type, productId } = useParams<{ type: string; productId: string }>();
   const navigate = useNavigate();
   const addItem = useCartStore(state => state.addItem);
-  const product = bouquetProducts.find((b) => b.id === productId);
+  // Support both old (id) and new (shopifyHandle) URLs
+  const product = bouquetProducts.find((b) => b.shopifyHandle === productId || b.id === productId);
 
   const [selectedSizeIdx, setSelectedSizeIdx] = useState(0);
   const [accessory, setAccessory] = useState<"none" | "note" | "card" | "butterfly">("none");
@@ -364,20 +365,20 @@ const BouquetProductDetail = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      <SeoHead title={seo?.seoTitle || `${product.name} Miami | Charls Flowers`} description={seo?.seoDescription || product.description} path={`/bouquets/all/${product.id}`} image={product.image} />
-      <JsonLd data={[productSchema(product.name, seo?.seoDescription || product.description, hasCustomSizes ? product.customSizes![0].price : getPrice(product.pricingTier, product.pricingTier === 'mix3red' ? 75 : 50), product.image), breadcrumbSchema([{ name: "Home", url: "https://www.charlsflowers.com" }, { name: "Bouquets", url: "https://www.charlsflowers.com/bouquets" }, { name: product.name, url: `https://www.charlsflowers.com/bouquets/all/${product.id}` }])]} />
+      <SeoHead title={seo?.seoTitle || `${product.name} Miami | Charls Flowers`} description={seo?.seoDescription || product.description} path={`/bouquets/all/${product.shopifyHandle}`} image={product.image} />
+      <JsonLd data={[productSchema(product.name, seo?.seoDescription || product.description, hasCustomSizes ? product.customSizes![0].price : getPrice(product.pricingTier, product.pricingTier === 'mix3red' ? 75 : 50), product.image), breadcrumbSchema([{ name: "Home", url: "https://www.charlsflowers.com" }, { name: "Bouquets", url: "https://www.charlsflowers.com/bouquets" }, { name: product.name, url: `https://www.charlsflowers.com/bouquets/all/${product.shopifyHandle}` }])]} />
       <Navbar />
       <div className="pt-16 md:pt-24 pb-16">
         <div className="container mx-auto px-6">
           <Breadcrumbs items={[{ label: "Home", to: "/" }, { label: "Bouquets", to: "/bouquets" }, { label: product.name }]} />
-
+          <p className="text-primary font-body text-xs font-semibold text-center mb-6">⏰ Order before 3PM for same-day delivery today</p>
           {/* ===== DESKTOP: two-column layout ===== */}
           <div className="hidden md:grid md:grid-cols-[1fr_1fr] lg:grid-cols-[55%_45%] gap-8 max-w-6xl mx-auto">
             {/* Left column — sticky images */}
             <div className="sticky top-24 self-start space-y-3">
               <div className="relative overflow-hidden rounded-sm bg-muted flex items-center justify-center aspect-square">
                 {product.image ? (
-                  <img src={product.image} alt={product.name} className="w-full h-full object-contain" />
+                  <img src={product.image} alt={`${product.name} Miami – Charls Flowers`} width={600} height={600} className="w-full h-full object-contain" />
                 ) : (
                   <div className="w-full h-full flex items-center justify-center">
                     <span className="font-display text-6xl text-muted-foreground/20">🌹</span>

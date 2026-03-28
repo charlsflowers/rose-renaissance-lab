@@ -43,6 +43,14 @@ const BouquetProducts = () => {
              <p className="font-subtitle-script text-gold text-lg md:text-2xl mb-2">Handcrafted bouquets</p>
             </div>
             <h1 className="font-title-retro text-4xl md:text-5xl text-foreground">Bouquets</h1>
+            <p className="text-muted-foreground font-body text-sm mt-3 max-w-2xl mx-auto">
+              Explore our handcrafted rose bouquets in Miami. From elegant{' '}
+              <Link to="/bouquets/all/pure-white" className="text-primary hover:underline">Pure White</Link> and fiery{' '}
+              <Link to="/bouquets/all/total-passion" className="text-primary hover:underline">Total Passion</Link> to vibrant{' '}
+              <Link to="/bouquets/all/hot-pink-blush" className="text-primary hover:underline">Hot Pink Blush</Link> and stunning{' '}
+              <Link to="/bouquets/all/blue-sky" className="text-primary hover:underline">Blue Sky</Link>. 50 to 200 roses, natural or glitter finish. Same-day delivery available.
+            </p>
+            <p className="text-primary font-body text-xs font-semibold mt-2">⏰ Order before 3PM for same-day delivery today</p>
           </div>
 
           <div className="flex justify-center gap-3 mb-12">
@@ -72,19 +80,25 @@ const BouquetProducts = () => {
           <div className="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-8 max-w-5xl mx-auto">
             {filteredProducts.map((product) => (
               <div key={product.id}>
-                <Link to={`/bouquets/all/${product.id}`} className="group block">
+                <Link to={`/bouquets/all/${product.shopifyHandle}`} className="group block">
                   <div className="relative overflow-hidden rounded-sm mb-4 aspect-square bg-muted">
                     {product.image ? (
                       <>
                         <img 
                           src={product.image} 
-                          alt={product.name} 
+                          alt={`${product.name} Miami – Charls Flowers`} 
+                          loading="lazy"
+                          width={400}
+                          height={400}
                           className={`w-full h-full object-cover transition-all duration-700 group-hover:scale-105 ${product.image2 ? 'md:group-hover:opacity-0' : ''}`} 
                         />
                         {product.image2 && (
                           <img 
                             src={product.image2} 
-                            alt={`${product.name} - alternate view`} 
+                            alt={`${product.name} Miami alternate view – Charls Flowers`} 
+                            loading="lazy"
+                            width={400}
+                            height={400}
                             className="absolute inset-0 w-full h-full object-cover opacity-0 md:group-hover:opacity-100 transition-all duration-700 md:group-hover:scale-105 hidden md:block" 
                           />
                         )}
