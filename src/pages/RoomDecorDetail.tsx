@@ -246,22 +246,17 @@ const RoomDecorDetail = () => {
             <ArrowLeft className="w-4 h-4" /> Back
           </Link>
 
-          {/* ===== DESKTOP: two-column layout ===== */}
-          <div className="hidden md:grid md:grid-cols-[1fr_1fr] lg:grid-cols-[55%_45%] gap-8 max-w-6xl mx-auto">
-            {/* Left column — sticky image */}
-            <div className="sticky top-24 self-start">
-              <div className="relative overflow-hidden rounded-sm bg-muted flex items-center justify-center aspect-square">
-                <img src={pkg.image} alt={pkg.name} className="w-full h-full object-contain" />
-              </div>
+          <div className="max-w-3xl mx-auto space-y-5">
+            {/* Image */}
+            <div className="relative overflow-hidden rounded-sm bg-muted flex items-center justify-center aspect-video">
+              <img src={pkg.image} alt={pkg.name} className="w-full h-full object-cover" />
             </div>
 
-            {/* Right column — product details & options */}
-            <div className="space-y-5">
-              <div>
-                <h1 className="font-display text-2xl font-semibold text-foreground">{pkg.name}</h1>
-                <p className="text-muted-foreground font-body text-sm mt-1">{pkg.description}</p>
-                <p className="font-display text-xl font-bold text-foreground mt-2">${pkg.price} <span className="text-xs font-body text-muted-foreground font-normal">USD</span></p>
-              </div>
+            <div>
+              <h1 className="font-display text-2xl font-semibold text-foreground">{pkg.name}</h1>
+              <p className="text-muted-foreground font-body text-sm mt-1">{pkg.description}</p>
+              <p className="font-display text-xl font-bold text-foreground mt-2">${pkg.price} <span className="text-xs font-body text-muted-foreground font-normal">USD</span></p>
+            </div>
 
             {/* What's included */}
             <Section title="What's Included" step={step++}>
