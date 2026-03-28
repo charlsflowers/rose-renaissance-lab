@@ -27,7 +27,7 @@ const Blog = () => {
             {blogArticles.map((article) => (
               <Link key={article.slug} to={`/blog/${article.slug}`} className="group block">
                 <div className="relative overflow-hidden rounded-sm mb-4 aspect-video bg-muted">
-                  <img src={article.image} alt={`${article.title} – Charls Flowers Miami`} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" loading="lazy" />
+                  <img src={article.image} alt={`${article.title} – Charls Flowers Miami`} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" loading="lazy" width={500} height={280} />
                   <div className="absolute inset-0 bg-foreground/5 group-hover:bg-foreground/15 transition-colors" />
                 </div>
                 <p className="font-body text-xs text-muted-foreground mb-1">{new Date(article.datePublished).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</p>

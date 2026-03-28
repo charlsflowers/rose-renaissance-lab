@@ -43,7 +43,7 @@ const BlogArticle = () => {
             </div>
 
             <div className="relative overflow-hidden rounded-sm mb-10 aspect-video bg-muted">
-              <img src={article.image} alt={`${article.title} – Charls Flowers Miami`} className="w-full h-full object-cover" />
+              <img src={article.image} alt={`${article.title} – Charls Flowers Miami`} loading="lazy" width={800} height={450} className="w-full h-full object-cover" />
             </div>
 
             <div className="prose prose-lg max-w-none font-body text-foreground

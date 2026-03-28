@@ -68,7 +68,7 @@ const ReviewCard = ({ review, index }: { review: ReviewData; index: number }) =>
             <div className="flex items-center gap-2.5 mb-1">
               <div className="w-8 h-8 rounded-full overflow-hidden bg-muted flex-shrink-0 border border-border">
                 {review.avatar ? (
-                  <img src={review.avatar} alt={review.name} className="w-full h-full object-cover" />
+                  <img src={review.avatar} alt={`${review.name} – Charls Flowers customer`} loading="lazy" width={32} height={32} className="w-full h-full object-cover" />
                 ) : (
                   <div className="w-full h-full flex items-center justify-center bg-primary/10 text-primary font-display text-xs font-semibold">
                     {review.name.charAt(0)}

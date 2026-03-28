@@ -255,7 +255,7 @@ const RoomDecorDetail = () => {
             {/* Left column — sticky image */}
             <div className="sticky top-24 self-start space-y-3">
               <div className="relative overflow-hidden rounded-sm bg-muted flex items-center justify-center aspect-square">
-                <img src={pkg.image} alt={pkg.name} className="w-full h-full object-cover" />
+                 <img src={pkg.image} alt={`${pkg.name} Miami Room Decoration – Charls Flowers`} width={600} height={600} className="w-full h-full object-cover" />
               </div>
             </div>
 

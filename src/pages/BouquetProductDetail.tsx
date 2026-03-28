@@ -608,7 +608,7 @@ const BouquetProductDetail = () => {
               </div>
               {product.image2 && (
                 <div className="w-full flex-none snap-center relative overflow-hidden rounded-sm bg-muted flex items-center justify-center aspect-square">
-                  <img src={product.image2} alt={`${product.name} - view 2`} className="w-full h-full object-cover pointer-events-none" />
+                  <img src={product.image2} alt={`${product.name} Miami alternate view – Charls Flowers`} loading="lazy" width={600} height={600} className="w-full h-full object-cover pointer-events-none" />
                 </div>
               )}
             </div>
