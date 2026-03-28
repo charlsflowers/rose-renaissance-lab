@@ -476,7 +476,7 @@ const BouquetProductDetail = () => {
                   </button>
                 </div>
 
-                <div className="space-y-4 p-5 rounded-sm border border-border bg-card mb-6">
+                <div className="space-y-3 p-4 rounded-sm border border-border bg-card mb-4">
                   {deliveryMethod === "pickup" ? (
                     <p className="font-body text-sm text-muted-foreground">
                       📍 Pickup at: <span className="font-semibold text-foreground">7261 NW 12th St, Miami, FL 33126</span>
