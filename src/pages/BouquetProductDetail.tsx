@@ -644,7 +644,7 @@ const BouquetProductDetail = () => {
             <Section title="Glitter Finish" step={2} subtitle={`+$${Math.ceil(selectedSize.roses / 25) * 8}`}>
               <div className="flex flex-col gap-4 mb-4">
                 <div className="w-28 h-28 flex-shrink-0 mx-auto">
-                  <img src={glitterRoseImg} alt="Glitter rose example" className="w-full h-full object-contain" />
+                  <img src={glitterRoseImg} alt="Glitter finish rose Miami – Charls Flowers" width={112} height={112} className="w-full h-full object-contain" />
                 </div>
                 <div className="flex-1">
                   <p className="font-body font-semibold text-foreground">✨ Add Glitter ✨</p>
