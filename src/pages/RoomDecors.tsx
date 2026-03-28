@@ -6,6 +6,9 @@ import { roomDecorPackages } from "@/lib/roomDecorData";
 import { ArrowLeft } from "lucide-react";
 import roomDecorImg from "@/assets/room-decor.jpg";
 
+const RoomDecors = () => {
+  useEffect(() => { window.scrollTo(0, 0); }, []);
+
   return (
     <div className="min-h-screen bg-background">
       <Navbar />
