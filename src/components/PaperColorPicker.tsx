@@ -35,15 +35,15 @@ const PaperColorPicker = ({ selected, onChange }: PaperColorPickerProps) => {
             onClick={() => onChange(paper.name)}
             className={`relative flex flex-col items-center gap-2 p-1.5 rounded-sm border-2 transition-all ${
               selected === paper.name
-                ? "border-primary bg-primary/5 scale-105 shadow-md"
+                ? "border-primary scale-105 shadow-md"
                 : "border-transparent hover:border-primary/30 hover:scale-105"
             }`}
           >
-            <div className="w-16 h-16 rounded-sm overflow-hidden bg-white">
+            <div className="w-16 h-16 rounded-sm overflow-hidden">
               <img
                 src={paper.image}
                 alt={`${paper.name} paper`}
-                className="w-full h-full object-cover"
+                className="w-full h-full object-contain"
               />
             </div>
             <span className="text-xs font-body text-foreground">{paper.name}</span>
