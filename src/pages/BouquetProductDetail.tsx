@@ -403,13 +403,13 @@ const BouquetProductDetail = () => {
                     return (
                       <button key={size.roses} onClick={() => !disabled && setSelectedSizeIdx(idx)}
                         disabled={disabled}
-                        className={`p-4 rounded-sm border-2 text-center transition-all ${disabled ? "opacity-40 cursor-not-allowed border-border" : effectiveSizeIdx === idx ? "border-primary bg-primary/5" : "border-border hover:border-primary/30"}`}>
+                        className={`p-2 rounded-sm border-2 text-center transition-all ${disabled ? "opacity-40 cursor-not-allowed border-border" : effectiveSizeIdx === idx ? "border-primary bg-primary/5" : "border-border hover:border-primary/30"}`}>
                         <p className="font-body text-foreground">
-                          <span className="font-display text-2xl font-semibold">{size.roses}</span>
-                          <span className="text-xs text-muted-foreground ml-1">{hasCustomSizes && (size as any).label ? (size as any).label : 'roses'}</span>
+                          <span className="font-display text-lg font-semibold">{size.roses}</span>
+                          <span className="text-[10px] text-muted-foreground ml-0.5">{hasCustomSizes && (size as any).label ? (size as any).label : 'roses'}</span>
                         </p>
-                        <p className="text-sm font-body font-semibold text-primary mt-1">${price}</p>
-                        {disabled && <p className="text-[10px] text-destructive font-body mt-1">Min. {sizeOptions[minSizeIdx].roses} for {colorCount} colors</p>}
+                        <p className="text-xs font-body font-semibold text-primary">${price}</p>
+                        {disabled && <p className="text-[9px] text-destructive font-body mt-0.5">Min. {sizeOptions[minSizeIdx].roses}</p>}
                       </button>
                     );
                   })}
