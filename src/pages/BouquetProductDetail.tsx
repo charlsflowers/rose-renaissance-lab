@@ -37,7 +37,8 @@ const BouquetProductDetail = () => {
   const { type, productId } = useParams<{ type: string; productId: string }>();
   const navigate = useNavigate();
   const addItem = useCartStore(state => state.addItem);
-  const product = bouquetProducts.find((b) => b.id === productId);
+  // Support both old (id) and new (shopifyHandle) URLs
+  const product = bouquetProducts.find((b) => b.shopifyHandle === productId || b.id === productId);
 
   const [selectedSizeIdx, setSelectedSizeIdx] = useState(0);
   const [accessory, setAccessory] = useState<"none" | "note" | "card" | "butterfly">("none");

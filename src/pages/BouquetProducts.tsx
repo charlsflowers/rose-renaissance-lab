@@ -72,7 +72,7 @@ const BouquetProducts = () => {
           <div className="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-8 max-w-5xl mx-auto">
             {filteredProducts.map((product) => (
               <div key={product.id}>
-                <Link to={`/bouquets/all/${product.id}`} className="group block">
+                <Link to={`/bouquets/all/${product.shopifyHandle}`} className="group block">
                   <div className="relative overflow-hidden rounded-sm mb-4 aspect-square bg-muted">
                     {product.image ? (
                       <>
