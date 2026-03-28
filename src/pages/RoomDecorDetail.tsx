@@ -282,7 +282,7 @@ const RoomDecorDetail = () => {
                   <p className="text-xs text-muted-foreground font-body mb-4">
                     Choose the color for your {pkg.bouquetIncluded.roses}-rose bouquet
                   </p>
-                  <div className="grid grid-cols-3 md:grid-cols-6 gap-3">
+                  <div className="flex flex-wrap gap-3">
                     {roomDecorBouquetColors.map(color => (
                       <button
                         key={color}
