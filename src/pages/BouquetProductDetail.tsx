@@ -338,7 +338,7 @@ const BouquetProductDetail = () => {
       if (customerNotes.trim()) {
         noteLines.push("");
         noteLines.push("NOTAS DEL CLIENTE");
-        noteLines.push(customerNotes.trim());
+        noteLines.push(`📝 Nota del cliente: ${customerNotes.trim()}`);
       }
 
       const cartTotalForFee = basePrice + deliveryCost;
