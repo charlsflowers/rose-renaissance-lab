@@ -470,7 +470,7 @@ const BouquetBuilder = () => {
                       : "border-border text-muted-foreground hover:border-primary/30"
                   }`}
                 >
-                  <img src={noteImg} alt="Note accessory" className="w-10 h-10 md:w-8 md:h-8 object-contain rounded-sm" />
+                  <img src={noteImg} alt="Note accessory" className="w-16 h-16 md:w-14 md:h-14 object-contain rounded-sm" />
                   {t("builder.note")}
                   <span className="text-xs text-secondary">$3</span>
                 </button>
@@ -482,7 +482,7 @@ const BouquetBuilder = () => {
                       : "border-border text-muted-foreground hover:border-primary/30"
                   }`}
                 >
-                  <img src={butterflyImg} alt="Butterfly accessory" className="w-10 h-10 md:w-8 md:h-8 object-contain" />
+                  <img src={butterflyImg} alt="Butterfly accessory" className="w-16 h-16 md:w-14 md:h-14 object-contain" />
                   {t("builder.butterflies")}
                   <span className="text-xs text-secondary">$3</span>
                 </button>
