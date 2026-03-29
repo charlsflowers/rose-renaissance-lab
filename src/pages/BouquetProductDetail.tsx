@@ -17,20 +17,20 @@ import { calculateDeliveryCost, formatDeliveryCost } from "@/lib/deliveryPricing
 import { toast } from "sonner";
 import { buildAccessoryLineItems } from "@/lib/accessoryVariants";
 import Navbar from "@/components/Navbar";
-import PaperColorPicker from "@/components/PaperColorPicker"; // keep import but won't use for standard bouquets
+import PaperColorPicker from "@/components/PaperColorPicker";
 import { bouquetProducts, bouquetSizeOptions } from "@/lib/catalogData";
 import {
   crownOptions, ribbonPresets, crownPrice, ribbonPrice, letterNumberExtraPrice, vaseOptions, getPrice,
-// Note: crown, ribbon, letters, vase are used for custom bouquets only; standard bouquets won't show them
 } from "@/lib/productData";
 import {
   ArrowLeft, Check, Store, Truck, CalendarIcon, Clock, MapPin, Search, Loader2,
   Type, Sparkles, Star, Hash,
 } from "lucide-react";
 import glitterRoseImg from "@/assets/glitter-rose.png";
-import crownSilverImg from "@/assets/crown-silver.png";
-import crownGoldImg from "@/assets/crown-gold.png";
+import crownSilverImg from "@/assets/crown-silver.webp";
+import crownGoldImg from "@/assets/crown-gold.webp";
 import butterflyImg from "@/assets/butterfly-gold.png";
+import noteImg from "@/assets/accessory-note.webp";
 import { Calendar } from "@/components/ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 
@@ -39,7 +39,7 @@ const BouquetProductDetail = () => {
   const { type, productId } = useParams<{ type: string; productId: string }>();
   const navigate = useNavigate();
   const addItem = useCartStore(state => state.addItem);
-  // Support both old (id) and new (shopifyHandle) URLs
+  const cartItems = useCartStore(state => state.items);
   const product = bouquetProducts.find((b) => b.shopifyHandle === productId || b.id === productId);
 
   const [selectedSizeIdx, setSelectedSizeIdx] = useState(0);
@@ -50,7 +50,7 @@ const BouquetProductDetail = () => {
   const [addRibbon, setAddRibbon] = useState(false);
   const [ribbonType, setRibbonType] = useState<"names" | "congratulations">("names");
   const [ribbonText, setRibbonText] = useState("");
-  const [addGlitter, setAddGlitter] = useState(false);
+  const [addGlitter, setAddGlitter] = useState<boolean | null>(null); // null = not yet selected
   const [addLetters, setAddLetters] = useState(false);
   const [addNumbers, setAddNumbers] = useState(false);
   const [specialText, setSpecialText] = useState("");
@@ -60,30 +60,55 @@ const BouquetProductDetail = () => {
   const [isAdding, setIsAdding] = useState(false);
   const [variantsLoading, setVariantsLoading] = useState(true);
   const [productVariants, setProductVariants] = useState<ShopifyHandleVariant[]>([]);
+  const [customerNotes, setCustomerNotes] = useState("");
 
-  // Delivery state
-  const [deliveryMethod, setDeliveryMethod] = useState<"pickup" | "delivery">("pickup");
-  const [deliveryDate, setDeliveryDate] = useState<Date>();
-  const [deliveryHour, setDeliveryHour] = useState("");
-  const [deliveryMiles, setDeliveryMiles] = useState<number | null>(null);
+  // Delivery state — auto-fill from existing cart items
+  const existingDeliveryItem = cartItems.find(i => i.deliveryMethod === "delivery" && i.deliveryAddress && i.deliveryAddress !== "Store pickup");
+  const hasExistingDelivery = !!existingDeliveryItem;
+
+  const [deliveryMethod, setDeliveryMethod] = useState<"pickup" | "delivery">(hasExistingDelivery ? "delivery" : "pickup");
+  const [deliveryDate, setDeliveryDate] = useState<Date>(() => {
+    const existing = cartItems.find(i => i.deliveryDate);
+    if (existing?.deliveryDate) {
+      const d = new Date(existing.deliveryDate + "T00:00:00");
+      return !isNaN(d.getTime()) ? d : undefined as any;
+    }
+    return undefined as any;
+  });
+  const [deliveryHour, setDeliveryHour] = useState(() => cartItems.find(i => i.deliveryHour)?.deliveryHour || "");
+  const [deliveryMiles, setDeliveryMiles] = useState<number | null>(existingDeliveryItem?.deliveryMiles ?? null);
   const [deliveryName, setDeliveryName] = useState("");
-  const [deliveryZip, setDeliveryZip] = useState("");
+  const [deliveryZip, setDeliveryZip] = useState(existingDeliveryItem?.deliveryZip || "");
   const [deliveryEmail, setDeliveryEmail] = useState("");
   const [deliveryPhone, setDeliveryPhone] = useState("");
   const [deliveryDuration, setDeliveryDuration] = useState("");
   const [distanceLoading, setDistanceLoading] = useState(false);
   const [distanceError, setDistanceError] = useState("");
   const [distanceTooFar, setDistanceTooFar] = useState(false);
-  const [addressQuery, setAddressQuery] = useState("");
+  const [addressQuery, setAddressQuery] = useState(existingDeliveryItem?.deliveryAddress || "");
   const [predictions, setPredictions] = useState<Array<{ placeId: string; description: string; mainText: string; secondaryText: string }>>([]);
   const [showPredictions, setShowPredictions] = useState(false);
   const [autocompleteLoading, setAutocompleteLoading] = useState(false);
-  const [selectedAddress, setSelectedAddress] = useState("");
+  const [selectedAddress, setSelectedAddress] = useState(existingDeliveryItem?.deliveryAddress || "");
   const [mapUrl, setMapUrl] = useState("");
-  const [structuredAddress, setStructuredAddress] = useState<{ address1: string; city: string; province: string; zip: string; country: string } | undefined>(undefined);
+  const [structuredAddress, setStructuredAddress] = useState<{ address1: string; city: string; province: string; zip: string; country: string } | undefined>(existingDeliveryItem?.structuredAddress);
   const autocompleteDesktopRef = useRef<HTMLDivElement>(null);
   const autocompleteMobileRef = useRef<HTMLDivElement>(null);
   const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  // Scroll direction detection for sticky bar
+  const [showStickyBar, setShowStickyBar] = useState(true);
+  const lastScrollY = useRef(0);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentY = window.scrollY;
+      setShowStickyBar(currentY > lastScrollY.current || currentY < 50);
+      lastScrollY.current = currentY;
+    };
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
@@ -100,12 +125,9 @@ const BouquetProductDetail = () => {
     if (input.length < 3) { setPredictions([]); return; }
     setAutocompleteLoading(true);
     try {
-      console.log("🔍 [Delivery] Fetching predictions for:", input);
       const { data, error } = await supabase.functions.invoke("places-autocomplete", { body: { input } });
-      console.log("🔍 [Delivery] Predictions response:", JSON.stringify({ data, error }, null, 2));
       if (!error && data?.predictions) { setPredictions(data.predictions); setShowPredictions(true); }
-      else if (error) { console.error("🔍 [Delivery] Predictions error:", error); }
-    } catch (e) { console.error("🔍 [Delivery] Predictions exception:", e); } finally { setAutocompleteLoading(false); }
+    } catch (e) { console.error("Predictions error:", e); } finally { setAutocompleteLoading(false); }
   }, []);
 
   const handleAddressInput = useCallback((value: string) => {
@@ -123,9 +145,7 @@ const BouquetProductDetail = () => {
     (async () => {
       setDistanceLoading(true); setDistanceError(""); setDistanceTooFar(false); setDeliveryMiles(null);
       try {
-        console.log("📍 [Delivery] Calculating distance for:", prediction.description, "placeId:", prediction.placeId);
         const { data, error } = await supabase.functions.invoke("calculate-distance", { body: { fullAddress: prediction.description, placeId: prediction.placeId } });
-        console.log("📍 [Delivery] Distance response:", JSON.stringify({ data, error }, null, 2));
         if (error) throw new Error("Error de conexión");
         if (data.error) { setDistanceError(data.error); if (data.tooFar) { setDistanceTooFar(true); setDeliveryMiles(data.miles); } }
         else {
@@ -133,7 +153,7 @@ const BouquetProductDetail = () => {
           if (data.mapUrl) setMapUrl(data.mapUrl);
           if (data.structuredAddress) setStructuredAddress(data.structuredAddress);
         }
-      } catch (e: any) { console.error("📍 [Delivery] Distance exception:", e); setDistanceError(e.message || "Error calculating distance"); }
+      } catch (e: any) { setDistanceError(e.message || "Error calculating distance"); }
       finally { setDistanceLoading(false); }
     })();
   }, []);
@@ -150,8 +170,7 @@ const BouquetProductDetail = () => {
         hours.push("9:30 AM");
       }
     }
-    const startH = deliveryMethod === "pickup" ? 10 : 10;
-    for (let h = startH; h <= closeHour; h++) {
+    for (let h = 10; h <= closeHour; h++) {
       if (isTodayInMiami(date) && h < minMiamiHour) continue;
       const ampm = h < 12 ? "AM" : "PM";
       const h12 = h === 0 ? 12 : h > 12 ? h - 12 : h;
@@ -165,29 +184,20 @@ const BouquetProductDetail = () => {
 
   useEffect(() => {
     if (!product) return;
-
     let active = true;
-
     const loadVariants = async () => {
       setVariantsLoading(true);
-      const handle = product.shopifyHandle;
-      console.log(`📦 [BouquetProductDetail] Loading variants for "${product.name}" → handle="${handle}"`);
       try {
-        const variants = await fetchVariantsByHandle(handle);
+        const variants = await fetchVariantsByHandle(product.shopifyHandle);
         if (active) setProductVariants(variants);
       } catch (error) {
-        console.error("Failed to load bouquet variants:", error);
         if (active) setProductVariants([]);
       } finally {
         if (active) setVariantsLoading(false);
       }
     };
-
     loadVariants();
-
-    return () => {
-      active = false;
-    };
+    return () => { active = false; };
   }, [product]);
 
   if (!product) {
@@ -201,23 +211,19 @@ const BouquetProductDetail = () => {
     );
   }
 
-  // Count how many distinct colors this bouquet has
   const colorCount = product.color.split(/,\s*|\s+y\s+/).length;
   const hasCustomSizes = product.customSizes && product.customSizes.length > 0;
   const sizeOptions = hasCustomSizes ? product.customSizes! : bouquetSizeOptions;
-  const minSizeIdx = hasCustomSizes ? 0 : (colorCount >= 3 ? 1 : 0); // 3+ colors → minimum 75 roses (index 1)
+  const minSizeIdx = hasCustomSizes ? 0 : (colorCount >= 3 ? 1 : 0);
 
-  // If current selection is below minimum, bump it up
   const effectiveSizeIdx = selectedSizeIdx < minSizeIdx ? minSizeIdx : (selectedSizeIdx >= sizeOptions.length ? sizeOptions.length - 1 : selectedSizeIdx);
   const selectedSize = hasCustomSizes ? { roses: sizeOptions[effectiveSizeIdx].roses } : bouquetSizeOptions[effectiveSizeIdx];
   const sizePrice = hasCustomSizes ? (product.customSizes![effectiveSizeIdx]?.price || 0) : getPrice(product.pricingTier, selectedSize.roses);
-  const lettersExtra = addLetters ? specialText.replace(/[^A-Z]/gi, "").length * letterNumberExtraPrice : 0;
-  const numbersExtra = addNumbers ? specialText.replace(/[^0-9]/g, "").length * letterNumberExtraPrice : 0;
-  const glitterCost = addGlitter ? Math.ceil(selectedSize.roses / 25) * 8 : 0;
+  const glitterCost = addGlitter === true ? Math.ceil(selectedSize.roses / 25) * 8 : 0;
   const vaseCost = addVase ? vaseOptions[selectedVaseIdx].price : 0;
-  const accessoryCost = accessory === "note" ? 3 : 0;
+  const accessoryCost = accessory === "note" ? 3 : accessory === "butterfly" ? 3 : 0;
   const deliveryCost = deliveryMethod === "delivery" && deliveryMiles && !distanceTooFar ? calculateDeliveryCost(deliveryMiles) : 0;
-  const basePrice = sizePrice + (addCrown ? crownPrice : 0) + (addRibbon ? ribbonPrice : 0) + lettersExtra + numbersExtra + glitterCost + vaseCost + accessoryCost;
+  const basePrice = sizePrice + (addCrown ? crownPrice : 0) + (addRibbon ? ribbonPrice : 0) + glitterCost + vaseCost + accessoryCost;
   const totalPrice = basePrice + deliveryCost;
 
   let step = 1;
@@ -226,35 +232,21 @@ const BouquetProductDetail = () => {
     if (deliveryMethod === "delivery" && !selectedAddress) { toast.error("Please select a delivery address."); return null; }
     if (deliveryMethod === "delivery" && (distanceTooFar || deliveryMiles === null)) { toast.error("The address is invalid or out of range."); return null; }
     if (!deliveryDate || !deliveryHour) { toast.error("Please select a date and time."); return null; }
-
-    if (variantsLoading) {
-      toast.error("We are still loading product variants. Please try again in a moment.");
-      return null;
-    }
+    if (variantsLoading) { toast.error("Loading variants. Please try again."); return null; }
 
     setIsAdding(true);
     try {
-      console.log(`🛒 [BouquetProductDetail] Add to cart clicked — roses=${selectedSize.roses}, productVariants count=${productVariants.length}, handle="${product.shopifyHandle}"`);;
       let variant = findVariantByRoses(productVariants, selectedSize.roses);
-      // Fallback: use first available variant if Roses option doesn't exist
       if (!variant && productVariants.length > 0) {
         const rosesStr = String(selectedSize.roses);
-        variant = productVariants.find(v =>
-          v.selectedOptions.some(opt => opt.value === rosesStr)
-        ) || productVariants.find(v =>
-          v.title.includes(rosesStr)
-        ) || productVariants[0];
+        variant = productVariants.find(v => v.selectedOptions.some(opt => opt.value === rosesStr)) || productVariants.find(v => v.title.includes(rosesStr)) || productVariants[0];
       }
-      if (!variant) {
-        toast.error("Could not resolve product variant. Please try again.");
-        return null;
-      }
+      if (!variant) { toast.error("Could not resolve product variant."); return null; }
 
       const addons: string[] = [];
-      if (addGlitter) addons.push("Glitter");
+      if (addGlitter === true) addons.push("Glitter");
       if (addVase) addons.push(`Vase (${vaseOptions[selectedVaseIdx].label})`);
 
-      // Add to cart with a timeout to prevent hanging
       const addPromise = addItem({
         id: "",
         productName: product.name,
@@ -271,7 +263,7 @@ const BouquetProductDetail = () => {
         crownSize: addCrown ? crownSize : "",
         specialText,
         heartColor: product.type === "heart" ? (product.color === "Rosa" ? "pink" : "red") : "",
-        glitter: addGlitter,
+        glitter: addGlitter === true,
         deliveryMethod,
         deliveryName: "",
         deliveryPhone: "",
@@ -287,7 +279,6 @@ const BouquetProductDetail = () => {
         shopifyVariantId: variant.id,
       });
 
-      // Race between addItem and a 10s timeout — navigate either way
       const timeout = new Promise<void>((resolve) => setTimeout(resolve, 10000));
       await Promise.race([addPromise, timeout]);
 
@@ -303,15 +294,12 @@ const BouquetProductDetail = () => {
   };
 
   const handlePayNow = async () => {
-    const variantId = await handleAddToCart(true); // skip navigate to /checkout
-    if (!variantId) {
-      setIsAdding(false);
-      return;
-    }
+    const variantId = await handleAddToCart(true);
+    if (!variantId) { setIsAdding(false); return; }
 
     try {
       const accessories = buildAccessoryLineItems({
-        glitter: addGlitter,
+        glitter: addGlitter === true,
         rosesCount: selectedSize.roses,
         accessory,
         specialText,
@@ -335,7 +323,7 @@ const BouquetProductDetail = () => {
       if (product.color) noteLines.push(`- 🌸 Color: ${product.color}`);
       if (paperColor) noteLines.push(`- 📄 Paper color: ${paperColor}`);
       noteLines.push(`- 🌹 Roses: ${selectedSize.roses}`);
-      if (addGlitter) noteLines.push(`- ✨ Glitter finish: Yes`);
+      if (addGlitter === true) noteLines.push(`- ✨ Glitter finish: Yes`);
       if (addCrown && crownSize) noteLines.push(`- 👑 Crown: ${crownSize}`);
       if (accessory && accessory !== "none") {
         const accLabel = accessory === "note" ? "Notes" : accessory === "card" ? "Card" : "Butterflies";
@@ -346,6 +334,12 @@ const BouquetProductDetail = () => {
       if (specialText) noteLines.push(`- 🔤 Letters or numbers (Baby Breath): ${specialText}`);
       const vaseAddon = addVase ? vaseOptions[selectedVaseIdx] : null;
       if (vaseAddon) noteLines.push(`- 🏺 Vase: ${vaseAddon.label}`);
+
+      if (customerNotes.trim()) {
+        noteLines.push("");
+        noteLines.push("NOTAS DEL CLIENTE");
+        noteLines.push(customerNotes.trim());
+      }
 
       const cartTotalForFee = basePrice + deliveryCost;
       const serviceFeePrice = cartTotalForFee * 0.05;
@@ -367,43 +361,198 @@ const BouquetProductDetail = () => {
         toast.error("Could not get checkout URL.");
       }
     } catch (error) {
-      console.error("Pay now error:", error);
       toast.error("Checkout error. Please try again.");
     } finally {
       setIsAdding(false);
     }
   };
 
+  // Shared rendering functions
+  const renderGlitterSection = (isMobile = false) => (
+    <Section title={t("product.glitterFinish")} step={step++} subtitle={`+$${Math.ceil(selectedSize.roses / 25) * 8}`}>
+      <div className={`flex ${isMobile ? "flex-col" : ""} gap-3 mb-3`}>
+        <div className={`${isMobile ? "w-20 h-20 mx-auto" : "w-14 h-14"} flex-shrink-0`}>
+          <img src={glitterRoseImg} alt="Glitter finish rose" width={64} height={64} className="w-full h-full object-contain" />
+        </div>
+        <div className="flex-1">
+          <p className="font-body font-semibold text-foreground text-sm">{t("product.addGlitter")}</p>
+          <p className="text-[11px] text-muted-foreground font-body">{t("product.glitterDesc")} · {selectedSize.roses} roses = +${Math.ceil(selectedSize.roses / 25) * 8}</p>
+        </div>
+      </div>
+      <div className="grid grid-cols-2 gap-2">
+        <button onClick={() => setAddGlitter(true)}
+          className={`py-2 rounded-sm border-2 text-center transition-all font-body text-sm ${addGlitter === true ? "border-primary bg-primary/5 text-primary" : "border-border text-muted-foreground hover:border-primary/30"}`}>
+          {t("product.yes")} {addGlitter === true && <Check className="w-3 h-3 text-primary mx-auto mt-0.5" />}
+        </button>
+        <button onClick={() => setAddGlitter(false)}
+          className={`py-2 rounded-sm border-2 text-center transition-all font-body text-sm ${addGlitter === false ? "border-primary bg-primary/5 text-primary" : "border-border text-muted-foreground hover:border-primary/30"}`}>
+          {t("product.no")} {addGlitter === false && <Check className="w-3 h-3 text-primary mx-auto mt-0.5" />}
+        </button>
+      </div>
+    </Section>
+  );
+
+  const renderAccessoriesSection = (isMobile = false) => (
+    <Section title={t("product.accessories")} step={step++}>
+      <div className="grid grid-cols-2 gap-2">
+        <button onClick={() => setAccessory(accessory === "note" ? "none" : "note")}
+          className={`flex flex-col items-center gap-1 py-2 px-2 rounded-sm border-2 transition-all font-body text-sm ${accessory === "note" ? "border-primary bg-primary/5 text-primary" : "border-border text-muted-foreground hover:border-primary/30"}`}>
+          <img src={noteImg} alt="Note accessory" className="w-8 h-8 object-contain rounded-sm" /> {t("product.note")} <span className="text-[10px] text-secondary">$3</span>
+        </button>
+        <button onClick={() => setAccessory(accessory === "butterfly" ? "none" : "butterfly")}
+          className={`flex flex-col items-center gap-1 py-2 px-2 rounded-sm border-2 transition-all font-body text-sm ${accessory === "butterfly" ? "border-primary bg-primary/5 text-primary" : "border-border text-muted-foreground hover:border-primary/30"}`}>
+          <img src={butterflyImg} alt="Butterfly accessory" className="w-8 h-8 object-contain" /> {t("product.butterflies")} <span className="text-[10px] text-secondary">$3</span>
+        </button>
+      </div>
+      {accessory === "note" && (
+        <textarea value={accessoryText} onChange={(e) => setAccessoryText(e.target.value)} placeholder={t("product.writeNote")}
+          className="w-full mt-3 bg-card border border-border rounded-sm px-3 py-2 font-body text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30 min-h-[80px] resize-none" maxLength={200} />
+      )}
+    </Section>
+  );
+
+  const renderShippingSection = (isMobile = false, autocompleteRef: React.RefObject<HTMLDivElement>) => (
+    <Section title={t("product.shipping")} step={step++}>
+      <div className="grid grid-cols-2 gap-2 mb-4">
+        <button onClick={() => setDeliveryMethod("pickup")}
+          className={`flex items-center gap-2 p-3 rounded-sm border-2 transition-all font-body ${deliveryMethod === "pickup" ? "border-primary bg-primary/5" : "border-border hover:border-primary/30"}`}>
+          <Store className="w-4 h-4 flex-shrink-0" />
+          <div className="text-left flex-1">
+            <p className="font-semibold text-xs text-foreground">{t("product.storePickup")}</p>
+            <p className="text-xs text-muted-foreground">{t("product.free")}</p>
+          </div>
+          {deliveryMethod === "pickup" && <Check className="w-3.5 h-3.5 text-primary flex-shrink-0" />}
+        </button>
+        <button onClick={() => setDeliveryMethod("delivery")}
+          className={`flex items-center gap-2 p-3 rounded-sm border-2 transition-all font-body ${deliveryMethod === "delivery" ? "border-primary bg-primary/5" : "border-border hover:border-primary/30"}`}>
+          <Truck className="w-4 h-4 flex-shrink-0" />
+          <div className="text-left flex-1">
+            <p className="font-semibold text-xs text-foreground">{t("product.homeDelivery")}</p>
+            <p className="text-xs text-muted-foreground">{t("product.fromPrice")}</p>
+          </div>
+          {deliveryMethod === "delivery" && <Check className="w-3.5 h-3.5 text-primary flex-shrink-0" />}
+        </button>
+      </div>
+
+      <div className="space-y-3 p-4 rounded-sm border border-border bg-card mb-4">
+        {deliveryMethod === "pickup" ? (
+          <p className="font-body text-sm text-muted-foreground">
+            {t("product.pickupAt")} <span className="font-semibold text-foreground">7261 NW 12th St, Miami, FL 33126</span>
+          </p>
+        ) : (
+          <>
+            <p className="font-body font-semibold text-foreground text-sm">{t("product.deliveryAddress")}</p>
+            <div ref={autocompleteRef} className="relative">
+              <label className="text-xs text-muted-foreground font-body block mb-1"><MapPin className="w-3 h-3 inline mr-1" />{t("product.addressLabel")} <span className="text-destructive">*</span></label>
+              <div className="relative">
+                <input type="text" value={addressQuery} onChange={(e) => handleAddressInput(e.target.value)} onFocus={() => predictions.length > 0 && setShowPredictions(true)}
+                  placeholder={t("product.startTyping")}
+                  className="w-full bg-background border border-border rounded-sm px-3 py-2.5 pr-10 font-body text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30" />
+                <div className="absolute right-3 top-1/2 -translate-y-1/2">
+                  {autocompleteLoading || distanceLoading ? <Loader2 className="w-4 h-4 text-muted-foreground animate-spin" /> : <Search className="w-4 h-4 text-muted-foreground" />}
+                </div>
+              </div>
+              {showPredictions && predictions.length > 0 && (
+                <div className="absolute z-50 w-full mt-1 bg-card border border-border rounded-sm shadow-lg max-h-60 overflow-y-auto">
+                  {predictions.map((p) => (
+                    <button key={p.placeId} onClick={() => handleSelectPrediction(p)} className="w-full text-left px-4 py-3 hover:bg-primary/5 transition-colors border-b border-border last:border-b-0">
+                      <p className="font-body text-sm font-medium text-foreground">{p.mainText}</p>
+                      <p className="font-body text-xs text-muted-foreground">{p.secondaryText}</p>
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
+            {selectedAddress && (
+              <div className="bg-primary/5 border border-primary/20 rounded-sm p-3">
+                <p className="font-body text-xs text-muted-foreground">{t("product.selectedAddress")}</p>
+                <p className="font-body text-sm text-foreground font-medium">{selectedAddress}</p>
+              </div>
+            )}
+            {distanceError && <p className="text-sm font-body text-destructive">{distanceError}</p>}
+            {deliveryMiles !== null && !distanceTooFar && (
+              <div className="bg-primary/5 border border-primary/20 rounded-sm p-4">
+                <p className="font-body text-sm text-foreground">{t("product.distance")} <span className="font-semibold">{deliveryMiles} {t("product.miles")}</span>{deliveryDuration && <span className="text-muted-foreground"> (~{deliveryDuration})</span>}</p>
+                <p className="font-body text-sm text-primary font-semibold mt-1">{t("product.shippingCost")} {formatDeliveryCost(deliveryCost)}</p>
+              </div>
+            )}
+            {mapUrl && (
+              <div className="rounded-sm overflow-hidden border border-border">
+                <iframe src={mapUrl} width="100%" height="300" style={{ border: 0 }} allowFullScreen loading="lazy" referrerPolicy="no-referrer-when-downgrade" title="Route" />
+              </div>
+            )}
+          </>
+        )}
+      </div>
+
+      {/* Date */}
+      <div className="mb-4">
+        <label className="text-sm font-body font-semibold text-foreground block mb-2"><CalendarIcon className="w-4 h-4 inline mr-1" /> {t("product.date")}</label>
+        <Popover>
+          <PopoverTrigger asChild>
+            <button className="w-full flex items-center gap-2 px-4 py-3 rounded-sm border border-border bg-card font-body text-sm text-foreground hover:border-primary/30 transition-all">
+              <CalendarIcon className="w-4 h-4 text-muted-foreground" />
+              {deliveryDate ? format(deliveryDate, "PPP", { locale: enUS }) : t("product.selectDate")}
+            </button>
+          </PopoverTrigger>
+          <PopoverContent className="w-auto p-0" align="start">
+            <Calendar mode="single" selected={deliveryDate} onSelect={(d) => { setDeliveryDate(d); setDeliveryHour(""); }}
+              disabled={(date) => isBefore(startOfDay(date), startOfDay(todayInMiami()))} className="p-3 pointer-events-auto" locale={enUS}
+              classNames={{ day_outside: "text-foreground", day_disabled: "text-muted-foreground opacity-50 line-through" }} />
+          </PopoverContent>
+        </Popover>
+      </div>
+      {deliveryDate && (
+        <div className="mb-4">
+          <label className="text-sm font-body font-semibold text-foreground block mb-2"><Clock className="w-4 h-4 inline mr-1" /> {t("product.time")}</label>
+          {availableHours.length > 0 ? (
+            <div className="flex flex-wrap gap-2">
+              {availableHours.map((hour) => (
+                <button key={hour} onClick={() => setDeliveryHour(hour)}
+                  className={`px-3 py-1.5 rounded-sm border-2 text-sm font-body transition-all ${deliveryHour === hour ? "border-primary bg-primary/5 text-primary" : "border-border text-muted-foreground hover:border-primary/30"}`}>{hour}</button>
+              ))}
+            </div>
+          ) : <p className="text-sm text-muted-foreground font-body">No available hours. Select another day.</p>}
+        </div>
+      )}
+
+      {/* Customer Notes */}
+      <div>
+        <label className="text-sm font-body font-semibold text-foreground block mb-2">📝 {t("product.customerNotes")}</label>
+        <textarea value={customerNotes} onChange={(e) => setCustomerNotes(e.target.value)} placeholder={t("product.customerNotesPlaceholder")}
+          className="w-full bg-card border border-border rounded-sm px-3 py-2 font-body text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30 min-h-[60px] resize-none" maxLength={500} />
+      </div>
+    </Section>
+  );
+
   return (
     <div className="min-h-screen bg-background">
       <SeoHead title={seo?.seoTitle || `${product.name} Miami | Charls Flowers`} description={seo?.seoDescription || product.description} path={`/bouquets/all/${product.shopifyHandle}`} image={product.image} />
       <JsonLd data={[productSchema(product.name, seo?.seoDescription || product.description, hasCustomSizes ? product.customSizes![0].price : getPrice(product.pricingTier, product.pricingTier === 'mix3red' ? 75 : 50), product.image), breadcrumbSchema([{ name: "Home", url: "https://www.charlsflowers.com" }, { name: "Bouquets", url: "https://www.charlsflowers.com/bouquets" }, { name: product.name, url: `https://www.charlsflowers.com/bouquets/all/${product.shopifyHandle}` }])]} />
       <Navbar />
-      <div className="pt-16 md:pt-24 pb-16">
+      <div className="pt-20 md:pt-28 pb-16">
         <div className="container mx-auto px-6">
           <Breadcrumbs items={[{ label: "Home", to: "/" }, { label: "Bouquets", to: "/bouquets" }, { label: product.name }]} />
-          <p className="text-primary font-body text-xs font-semibold text-center mb-6">{t("common.orderBefore3PM")}</p>
+
           {/* ===== DESKTOP: two-column layout ===== */}
           <div className="hidden md:grid md:grid-cols-[1fr_1fr] lg:grid-cols-[55%_45%] gap-8 max-w-6xl mx-auto">
             {/* Left column — sticky images */}
-            <div className="sticky top-24 self-start space-y-3">
+            <div className="sticky top-28 self-start space-y-3">
               <div className="relative overflow-hidden rounded-sm bg-muted flex items-center justify-center aspect-square">
                 {product.image ? (
                   <img src={product.image} alt={`${product.name} Miami – Charls Flowers`} width={600} height={600} className="w-full h-full object-contain" />
                 ) : (
-                  <div className="w-full h-full flex items-center justify-center">
-                    <span className="font-display text-6xl text-muted-foreground/20">🌹</span>
-                  </div>
+                  <div className="w-full h-full flex items-center justify-center"><span className="font-display text-6xl text-muted-foreground/20">🌹</span></div>
                 )}
               </div>
               {product.image2 && (
                 <div className="relative overflow-hidden rounded-sm bg-muted flex items-center justify-center aspect-square">
-                  <img src={product.image2} alt={`${product.name} Miami alternate view – Charls Flowers`} loading="lazy" width={600} height={600} className="w-full h-full object-cover" />
+                  <img src={product.image2} alt={`${product.name} alternate – Charls Flowers`} loading="lazy" width={600} height={600} className="w-full h-full object-cover" />
                 </div>
               )}
             </div>
 
-            {/* Right column — product details & options */}
+            {/* Right column */}
             <div className="space-y-5">
               <div>
                 <div className="flex items-start justify-between gap-4">
@@ -413,418 +562,115 @@ const BouquetProductDetail = () => {
                 <p className="text-muted-foreground font-body text-sm mt-3 leading-relaxed">{product.description}</p>
               </div>
 
-              {/* 1. Size */}
-              <Section title="Number of Roses" step={step++}>
+              {/* Size */}
+              <Section title={t("product.numberOfRoses")} step={step++}>
                 <div className="grid grid-cols-4 gap-2">
                   {sizeOptions.map((size, idx) => {
                     const disabled = idx < minSizeIdx;
                     const price = hasCustomSizes ? (size as any).price : getPrice(product.pricingTier, size.roses);
                     return (
-                      <button key={size.roses} onClick={() => !disabled && setSelectedSizeIdx(idx)}
-                        disabled={disabled}
+                      <button key={size.roses} onClick={() => !disabled && setSelectedSizeIdx(idx)} disabled={disabled}
                         className={`p-2 rounded-sm border-2 text-center transition-all ${disabled ? "opacity-40 cursor-not-allowed border-border" : effectiveSizeIdx === idx ? "border-primary bg-primary/5" : "border-border hover:border-primary/30"}`}>
-                        <p className="font-body text-foreground">
-                          <span className="font-display text-lg font-semibold">{size.roses}</span>
-                          <span className="text-[10px] text-muted-foreground ml-0.5">{hasCustomSizes && (size as any).label ? (size as any).label : 'roses'}</span>
-                        </p>
+                        <p className="font-body text-foreground"><span className="font-display text-lg font-semibold">{size.roses}</span><span className="text-[10px] text-muted-foreground ml-0.5">{t("product.roses")}</span></p>
                         <p className="text-xs font-body font-semibold text-primary">${price}</p>
-                        {disabled && <p className="text-[9px] text-destructive font-body mt-0.5">Min. {sizeOptions[minSizeIdx].roses}</p>}
                       </button>
                     );
                   })}
                 </div>
               </Section>
 
-              {/* 2. Glitter */}
-              <Section title="Glitter Finish" step={step++} subtitle={`+$${Math.ceil(selectedSize.roses / 25) * 8}`}>
-                <div className="flex gap-3 mb-3">
-                  <div className="w-16 h-16 flex-shrink-0">
-                    <img src={glitterRoseImg} alt="Glitter finish rose Miami – Charls Flowers" width={64} height={64} className="w-full h-full object-contain" />
-                  </div>
-                  <div className="flex-1">
-                    <p className="font-body font-semibold text-foreground text-sm">✨ Add Glitter ✨</p>
-                    <p className="text-[11px] text-muted-foreground font-body">$8 per 25 roses · {selectedSize.roses} roses = +${Math.ceil(selectedSize.roses / 25) * 8}</p>
-                  </div>
-                </div>
-                <div className="grid grid-cols-2 gap-2">
-                  <button onClick={() => setAddGlitter(true)}
-                    className={`p-2.5 rounded-sm border-2 text-center transition-all font-body text-sm ${addGlitter ? "border-primary bg-primary/5 text-primary" : "border-border text-muted-foreground hover:border-primary/30"}`}>
-                    Yes {addGlitter && <Check className="w-3 h-3 text-primary mx-auto mt-0.5" />}
-                  </button>
-                  <button onClick={() => setAddGlitter(false)}
-                    className={`p-2.5 rounded-sm border-2 text-center transition-all font-body text-sm ${!addGlitter ? "border-primary bg-primary/5 text-primary" : "border-border text-muted-foreground hover:border-primary/30"}`}>
-                    No {!addGlitter && <Check className="w-3 h-3 text-primary mx-auto mt-0.5" />}
-                  </button>
-                </div>
-              </Section>
-
-              {/* 3. Accessories */}
-              <Section title="Accessories" step={step++}>
-                <div className="grid grid-cols-2 gap-2">
-                  <button onClick={() => setAccessory(accessory === "note" ? "none" : "note")}
-                    className={`flex flex-col items-center gap-1 p-2.5 rounded-sm border-2 transition-all font-body text-sm ${accessory === "note" ? "border-primary bg-primary/5 text-primary" : "border-border text-muted-foreground hover:border-primary/30"}`}>
-                    <Type className="w-3.5 h-3.5" /> Note <span className="text-[10px] text-secondary">$3</span>
-                  </button>
-                  <button onClick={() => setAccessory(accessory === "butterfly" ? "none" : "butterfly")}
-                    className={`flex flex-col items-center gap-1 p-2.5 rounded-sm border-2 transition-all font-body text-sm ${accessory === "butterfly" ? "border-primary bg-primary/5 text-primary" : "border-border text-muted-foreground hover:border-primary/30"}`}>
-                    <img src={butterflyImg} alt="Butterfly accessory" className="w-6 h-6 object-contain" /> Butterflies <span className="text-[10px] text-secondary">Free</span>
-                  </button>
-                </div>
-                {accessory === "note" && (
-                  <textarea value={accessoryText} onChange={(e) => setAccessoryText(e.target.value)} placeholder="Write your note..."
-                    className="w-full mt-3 bg-card border border-border rounded-sm px-3 py-2 font-body text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30 min-h-[80px] resize-none" maxLength={200} />
-                )}
-              </Section>
-
-              {/* 4. Shipping */}
-              <Section title="Shipping" step={step++}>
-                <div className="grid grid-cols-2 gap-2 mb-4">
-                  <button onClick={() => setDeliveryMethod("pickup")}
-                    className={`flex items-center gap-2 p-3 rounded-sm border-2 transition-all font-body ${deliveryMethod === "pickup" ? "border-primary bg-primary/5" : "border-border hover:border-primary/30"}`}>
-                    <Store className="w-4 h-4 flex-shrink-0" />
-                    <div className="text-left flex-1">
-                      <p className="font-semibold text-xs text-foreground">Store pickup</p>
-                      <p className="text-xs text-muted-foreground">Free</p>
-                    </div>
-                    {deliveryMethod === "pickup" && <Check className="w-3.5 h-3.5 text-primary flex-shrink-0" />}
-                  </button>
-                  <button onClick={() => setDeliveryMethod("delivery")}
-                    className={`flex items-center gap-2 p-3 rounded-sm border-2 transition-all font-body ${deliveryMethod === "delivery" ? "border-primary bg-primary/5" : "border-border hover:border-primary/30"}`}>
-                    <Truck className="w-4 h-4 flex-shrink-0" />
-                    <div className="text-left flex-1">
-                      <p className="font-semibold text-xs text-foreground">Home delivery</p>
-                      <p className="text-xs text-muted-foreground">From $25</p>
-                    </div>
-                    {deliveryMethod === "delivery" && <Check className="w-3.5 h-3.5 text-primary flex-shrink-0" />}
-                  </button>
-                </div>
-
-                <div className="space-y-3 p-4 rounded-sm border border-border bg-card mb-4">
-                  {deliveryMethod === "pickup" ? (
-                    <p className="font-body text-sm text-muted-foreground">
-                      📍 Pickup at: <span className="font-semibold text-foreground">7261 NW 12th St, Miami, FL 33126</span>
-                    </p>
-                  ) : (
-                    <>
-                      <p className="font-body font-semibold text-foreground text-sm">Delivery address</p>
-                      <div ref={autocompleteDesktopRef} className="relative">
-                        <label className="text-xs text-muted-foreground font-body block mb-1"><MapPin className="w-3 h-3 inline mr-1" />Address <span className="text-destructive">*</span></label>
-                        <div className="relative">
-                          <input type="text" value={addressQuery} onChange={(e) => handleAddressInput(e.target.value)} onFocus={() => predictions.length > 0 && setShowPredictions(true)}
-                            placeholder="Start typing the address..."
-                            className="w-full bg-background border border-border rounded-sm px-3 py-2.5 pr-10 font-body text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30" />
-                          <div className="absolute right-3 top-1/2 -translate-y-1/2">
-                            {autocompleteLoading || distanceLoading ? <Loader2 className="w-4 h-4 text-muted-foreground animate-spin" /> : <Search className="w-4 h-4 text-muted-foreground" />}
-                          </div>
-                        </div>
-                        {showPredictions && predictions.length > 0 && (
-                          <div className="absolute z-50 w-full mt-1 bg-card border border-border rounded-sm shadow-lg max-h-60 overflow-y-auto">
-                            {predictions.map((p) => (
-                              <button key={p.placeId} onClick={() => handleSelectPrediction(p)} className="w-full text-left px-4 py-3 hover:bg-primary/5 transition-colors border-b border-border last:border-b-0">
-                                <p className="font-body text-sm font-medium text-foreground">{p.mainText}</p>
-                                <p className="font-body text-xs text-muted-foreground">{p.secondaryText}</p>
-                              </button>
-                            ))}
-                          </div>
-                        )}
-                      </div>
-                      {selectedAddress && (
-                        <div className="bg-primary/5 border border-primary/20 rounded-sm p-3">
-                          <p className="font-body text-xs text-muted-foreground">Selected address:</p>
-                          <p className="font-body text-sm text-foreground font-medium">{selectedAddress}</p>
-                        </div>
-                      )}
-                      {distanceError && <p className="text-sm font-body text-destructive">{distanceError}</p>}
-                      {deliveryMiles !== null && !distanceTooFar && (
-                        <div className="bg-primary/5 border border-primary/20 rounded-sm p-4">
-                           <p className="font-body text-sm text-foreground">📍 Distance: <span className="font-semibold">{deliveryMiles} miles</span>{deliveryDuration && <span className="text-muted-foreground"> (~{deliveryDuration})</span>}</p>
-                           <p className="font-body text-sm text-primary font-semibold mt-1">Shipping cost: {formatDeliveryCost(deliveryCost)}</p>
-                        </div>
-                      )}
-                      {mapUrl && (
-                        <div className="rounded-sm overflow-hidden border border-border">
-                          <iframe src={mapUrl} width="100%" height="300" style={{ border: 0 }} allowFullScreen loading="lazy" referrerPolicy="no-referrer-when-downgrade" title="Route" />
-                        </div>
-                      )}
-                    </>
-                  )}
-                </div>
-
-                {/* Date */}
-                <div className="mb-4">
-                  <label className="text-sm font-body font-semibold text-foreground block mb-2"><CalendarIcon className="w-4 h-4 inline mr-1" /> Date</label>
-                  <Popover>
-                    <PopoverTrigger asChild>
-                      <button className="w-full flex items-center gap-2 px-4 py-3 rounded-sm border border-border bg-card font-body text-sm text-foreground hover:border-primary/30 transition-all">
-                        <CalendarIcon className="w-4 h-4 text-muted-foreground" />
-                        {deliveryDate ? format(deliveryDate, "PPP", { locale: enUS }) : "Select a date"}
-                      </button>
-                    </PopoverTrigger>
-                    <PopoverContent className="w-auto p-0" align="start">
-                       <Calendar mode="single" selected={deliveryDate} onSelect={(d) => { setDeliveryDate(d); setDeliveryHour(""); }}
-                         disabled={(date) => isBefore(startOfDay(date), startOfDay(todayInMiami()))} className="p-3 pointer-events-auto" locale={enUS}
-                         classNames={{ day_outside: "text-foreground", day_disabled: "text-muted-foreground opacity-50 line-through" }} />
-                    </PopoverContent>
-                  </Popover>
-                </div>
-                {deliveryDate && (
-                  <div>
-                    <label className="text-sm font-body font-semibold text-foreground block mb-2"><Clock className="w-4 h-4 inline mr-1" /> Time</label>
-                    {availableHours.length > 0 ? (
-                      <div className="flex flex-wrap gap-2">
-                        {availableHours.map((hour) => (
-                          <button key={hour} onClick={() => setDeliveryHour(hour)}
-                            className={`px-4 py-2 rounded-sm border-2 text-sm font-body transition-all ${deliveryHour === hour ? "border-primary bg-primary/5 text-primary" : "border-border text-muted-foreground hover:border-primary/30"}`}>{hour}</button>
-                        ))}
-                      </div>
-                    ) : <p className="text-sm text-muted-foreground font-body">No available hours. Select another day.</p>}
-                  </div>
-                )}
-              </Section>
+              {renderGlitterSection(false)}
+              {renderAccessoriesSection(false)}
+              {renderShippingSection(false, autocompleteDesktopRef)}
 
               {/* Desktop sticky bottom bar */}
-              <div className="sticky bottom-0 bg-primary z-10">
-                <button onClick={() => handleAddToCart()} disabled={isAdding || variantsLoading}
-                  className="w-full py-4 font-body text-sm tracking-[0.2em] uppercase text-primary-foreground hover:bg-primary/90 transition-colors disabled:opacity-50">
-                  {isAdding ? "..." : variantsLoading ? "..." : t("product.addToCart").toUpperCase()}
-                </button>
-              </div>
-              <div className="flex items-center justify-between gap-3 py-3">
-                <p className="font-body text-[11px] text-muted-foreground leading-tight flex-1">
-                  {product.name} · {selectedSize.roses} {t("product.roses")}
-                  {addGlitter && " · Glitter"}
-                  {accessory !== "none" && ` · ${accessory === "note" ? t("product.note") : t("product.accessories")}`}
-                  {deliveryMethod === "delivery" ? (deliveryMiles && !distanceTooFar ? ` · ${t("product.shipping")} ($${deliveryCost})` : ` · ${t("product.shipping")} (${t("checkout.pending")})`) : ` · ${t("product.storePickup")}`}
-                </p>
-                <p className="font-display text-lg font-bold text-foreground whitespace-nowrap">
-                  ${parseFloat(totalPrice.toFixed(2))} <span className="text-[10px] font-body text-muted-foreground font-normal">USD</span>
-                </p>
-                <button onClick={handlePayNow} disabled={isAdding || variantsLoading}
-                  className="border-2 border-primary text-primary px-4 py-2 font-body text-[10px] tracking-widest uppercase hover:bg-primary/10 transition-colors rounded-sm whitespace-nowrap disabled:opacity-50">
-                  {isAdding ? "..." : variantsLoading ? "..." : t("product.orderAndPay")}
-                </button>
+              <div className={`sticky bottom-0 z-10 transition-transform duration-300 ${showStickyBar ? "translate-y-0" : "translate-y-full"}`}>
+                <div className="bg-primary rounded-sm overflow-hidden">
+                  <button onClick={() => handleAddToCart()} disabled={isAdding || variantsLoading}
+                    className="w-full py-3 font-body text-xs tracking-[0.2em] uppercase text-primary-foreground hover:bg-primary/90 transition-colors disabled:opacity-50">
+                    {isAdding ? "..." : variantsLoading ? "..." : t("product.addToCart").toUpperCase()}
+                  </button>
+                </div>
+                <div className="flex items-center justify-between gap-3 py-2">
+                  <p className="font-body text-[10px] text-muted-foreground leading-tight flex-1 line-clamp-1">
+                    {product.name} · {selectedSize.roses} {t("product.roses")}
+                    {addGlitter === true && " · Glitter"}
+                    {accessory !== "none" && ` · ${accessory === "note" ? t("product.note") : t("product.butterflies")}`}
+                  </p>
+                  <p className="font-display text-lg font-bold text-foreground whitespace-nowrap">${parseFloat(totalPrice.toFixed(2))}</p>
+                  <button onClick={handlePayNow} disabled={isAdding || variantsLoading}
+                    className="border-2 border-primary text-primary px-3 py-1.5 font-body text-[10px] tracking-widest uppercase hover:bg-primary/10 transition-colors rounded-sm whitespace-nowrap disabled:opacity-50">
+                    {isAdding ? "..." : t("product.orderAndPay")}
+                  </button>
+                </div>
               </div>
             </div>
           </div>
 
           {/* ===== MOBILE: stacked layout ===== */}
-          <div className="md:hidden max-w-4xl mx-auto space-y-10">
+          <div className="md:hidden max-w-4xl mx-auto space-y-8">
             {/* Mobile images */}
             <div className="flex overflow-x-auto snap-x snap-mandatory scrollbar-hide gap-3 pb-2 w-full">
               <div className="w-full flex-none snap-center relative overflow-hidden rounded-sm bg-muted flex items-center justify-center aspect-square">
                 {product.image ? (
                   <img src={product.image} alt={`${product.name} Miami – Charls Flowers`} width={600} height={600} className="w-full h-full object-contain pointer-events-none" />
                 ) : (
-                  <div className="w-full h-full flex items-center justify-center">
-                    <span className="font-display text-6xl text-muted-foreground/20">🌹</span>
-                  </div>
+                  <div className="w-full h-full flex items-center justify-center"><span className="font-display text-6xl text-muted-foreground/20">🌹</span></div>
                 )}
               </div>
               {product.image2 && (
                 <div className="w-full flex-none snap-center relative overflow-hidden rounded-sm bg-muted flex items-center justify-center aspect-square">
-                  <img src={product.image2} alt={`${product.name} Miami alternate view – Charls Flowers`} loading="lazy" width={600} height={600} className="w-full h-full object-cover pointer-events-none" />
+                  <img src={product.image2} alt={`${product.name} alternate – Charls Flowers`} loading="lazy" width={600} height={600} className="w-full h-full object-cover pointer-events-none" />
                 </div>
               )}
             </div>
 
             <div className="text-center">
-              <h1 className="font-display text-3xl font-semibold text-foreground">{product.name}</h1>
-              <p className="text-muted-foreground font-body mt-2">{product.description}</p>
+              <h1 className="font-display text-2xl font-semibold text-foreground">{product.name}</h1>
+              <p className="text-muted-foreground font-body text-sm mt-2">{product.description}</p>
             </div>
 
-            {/* 1. Size */}
-            <Section title="Number of Roses" step={1}>
-              <div className="grid grid-cols-2 gap-3">
+            {/* Size */}
+            <Section title={t("product.numberOfRoses")} step={1}>
+              <div className="grid grid-cols-2 gap-2">
                 {sizeOptions.map((size, idx) => {
                   const disabled = idx < minSizeIdx;
                   const price = hasCustomSizes ? (size as any).price : getPrice(product.pricingTier, size.roses);
                   return (
-                    <button key={size.roses} onClick={() => !disabled && setSelectedSizeIdx(idx)}
-                      disabled={disabled}
-                      className={`p-4 rounded-sm border-2 text-center transition-all ${disabled ? "opacity-40 cursor-not-allowed border-border" : effectiveSizeIdx === idx ? "border-primary bg-primary/5" : "border-border hover:border-primary/30"}`}>
-                      <p className="font-body text-foreground">
-                        <span className="font-display text-2xl font-semibold">{size.roses}</span>
-                        <span className="text-xs text-muted-foreground ml-1">{hasCustomSizes && (size as any).label ? (size as any).label : 'roses'}</span>
-                      </p>
+                    <button key={size.roses} onClick={() => !disabled && setSelectedSizeIdx(idx)} disabled={disabled}
+                      className={`p-3 rounded-sm border-2 text-center transition-all ${disabled ? "opacity-40 cursor-not-allowed border-border" : effectiveSizeIdx === idx ? "border-primary bg-primary/5" : "border-border hover:border-primary/30"}`}>
+                      <p className="font-body text-foreground"><span className="font-display text-xl font-semibold">{size.roses}</span><span className="text-xs text-muted-foreground ml-1">{t("product.roses")}</span></p>
                       <p className="text-sm font-body font-semibold text-primary mt-1">${price}</p>
-                      {disabled && <p className="text-[10px] text-destructive font-body mt-1">Min. {sizeOptions[minSizeIdx].roses} for {colorCount} colors</p>}
                     </button>
                   );
                 })}
               </div>
             </Section>
 
-            {/* 2. Glitter */}
-            <Section title="Glitter Finish" step={2} subtitle={`+$${Math.ceil(selectedSize.roses / 25) * 8}`}>
-              <div className="flex flex-col gap-4 mb-4">
-                <div className="w-28 h-28 flex-shrink-0 mx-auto">
-                  <img src={glitterRoseImg} alt="Glitter finish rose Miami – Charls Flowers" width={112} height={112} className="w-full h-full object-contain" />
-                </div>
-                <div className="flex-1">
-                  <p className="font-body font-semibold text-foreground">✨ Add Glitter ✨</p>
-                  <p className="text-xs text-muted-foreground font-body">$8 per 25 roses · {selectedSize.roses} roses = +${Math.ceil(selectedSize.roses / 25) * 8}</p>
-                </div>
-              </div>
-              <div className="grid grid-cols-2 gap-3">
-                <button onClick={() => setAddGlitter(true)}
-                  className={`p-4 rounded-sm border-2 text-center transition-all font-body text-sm ${addGlitter ? "border-primary bg-primary/5 text-primary" : "border-border text-muted-foreground hover:border-primary/30"}`}>
-                  Yes {addGlitter && <Check className="w-4 h-4 text-primary mx-auto mt-1" />}
-                </button>
-                <button onClick={() => setAddGlitter(false)}
-                  className={`p-4 rounded-sm border-2 text-center transition-all font-body text-sm ${!addGlitter ? "border-primary bg-primary/5 text-primary" : "border-border text-muted-foreground hover:border-primary/30"}`}>
-                  No {!addGlitter && <Check className="w-4 h-4 text-primary mx-auto mt-1" />}
-                </button>
-              </div>
-            </Section>
-
-            {/* 3. Accessories */}
-            <Section title="Accessories" step={3}>
-              <div className="grid grid-cols-2 gap-3">
-                <button onClick={() => setAccessory(accessory === "note" ? "none" : "note")}
-                  className={`flex flex-col items-center gap-2 p-4 rounded-sm border-2 transition-all font-body text-sm ${accessory === "note" ? "border-primary bg-primary/5 text-primary" : "border-border text-muted-foreground hover:border-primary/30"}`}>
-                  <Type className="w-4 h-4" /> Note <span className="text-xs text-secondary">$3</span>
-                </button>
-                <button onClick={() => setAccessory(accessory === "butterfly" ? "none" : "butterfly")}
-                  className={`flex flex-col items-center gap-2 p-4 rounded-sm border-2 transition-all font-body text-sm ${accessory === "butterfly" ? "border-primary bg-primary/5 text-primary" : "border-border text-muted-foreground hover:border-primary/30"}`}>
-                  <img src={butterflyImg} alt="Butterfly accessory" className="w-8 h-8 object-contain" /> Butterflies <span className="text-xs text-secondary">Free</span>
-                </button>
-              </div>
-              {accessory === "note" && (
-                <textarea value={accessoryText} onChange={(e) => setAccessoryText(e.target.value)} placeholder="Write your note..."
-                  className="w-full mt-4 bg-card border border-border rounded-sm px-4 py-3 font-body text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30 min-h-[100px] resize-none" maxLength={200} />
-              )}
-            </Section>
-
-            {/* 4. Shipping */}
-            <Section title="Shipping" step={4}>
-              <div className="grid grid-cols-2 gap-3 mb-6">
-                <button onClick={() => setDeliveryMethod("pickup")}
-                  className={`flex items-center gap-3 p-5 rounded-sm border-2 transition-all font-body ${deliveryMethod === "pickup" ? "border-primary bg-primary/5" : "border-border hover:border-primary/30"}`}>
-                  <Store className="w-5 h-5 flex-shrink-0" />
-                  <div className="text-left flex-1">
-                    <p className="font-semibold text-sm text-foreground">Store pickup</p>
-                    <p className="text-xs text-muted-foreground">Free</p>
-                  </div>
-                  {deliveryMethod === "pickup" && <Check className="w-4 h-4 text-primary flex-shrink-0" />}
-                </button>
-                <button onClick={() => setDeliveryMethod("delivery")}
-                  className={`flex items-center gap-3 p-5 rounded-sm border-2 transition-all font-body ${deliveryMethod === "delivery" ? "border-primary bg-primary/5" : "border-border hover:border-primary/30"}`}>
-                  <Truck className="w-5 h-5 flex-shrink-0" />
-                  <div className="text-left flex-1">
-                    <p className="font-semibold text-sm text-foreground">Home delivery</p>
-                    <p className="text-xs text-muted-foreground">From $25</p>
-                  </div>
-                  {deliveryMethod === "delivery" && <Check className="w-4 h-4 text-primary flex-shrink-0" />}
-                </button>
-              </div>
-
-              <div className="space-y-4 p-5 rounded-sm border border-border bg-card mb-6">
-                {deliveryMethod === "pickup" ? (
-                  <p className="font-body text-sm text-muted-foreground">
-                    📍 Pickup at: <span className="font-semibold text-foreground">7261 NW 12th St, Miami, FL 33126</span>
-                  </p>
-                ) : (
-                  <>
-                    <p className="font-body font-semibold text-foreground text-sm">Delivery address</p>
-                    <div ref={autocompleteMobileRef} className="relative">
-                      <label className="text-xs text-muted-foreground font-body block mb-1"><MapPin className="w-3 h-3 inline mr-1" />Address <span className="text-destructive">*</span></label>
-                      <div className="relative">
-                        <input type="text" value={addressQuery} onChange={(e) => handleAddressInput(e.target.value)} onFocus={() => predictions.length > 0 && setShowPredictions(true)}
-                          placeholder="Start typing the address..."
-                          className="w-full bg-background border border-border rounded-sm px-3 py-2.5 pr-10 font-body text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30" />
-                        <div className="absolute right-3 top-1/2 -translate-y-1/2">
-                          {autocompleteLoading || distanceLoading ? <Loader2 className="w-4 h-4 text-muted-foreground animate-spin" /> : <Search className="w-4 h-4 text-muted-foreground" />}
-                        </div>
-                      </div>
-                      {showPredictions && predictions.length > 0 && (
-                        <div className="absolute z-50 w-full mt-1 bg-card border border-border rounded-sm shadow-lg max-h-60 overflow-y-auto">
-                          {predictions.map((p) => (
-                            <button key={p.placeId} onClick={() => handleSelectPrediction(p)} className="w-full text-left px-4 py-3 hover:bg-primary/5 transition-colors border-b border-border last:border-b-0">
-                              <p className="font-body text-sm font-medium text-foreground">{p.mainText}</p>
-                              <p className="font-body text-xs text-muted-foreground">{p.secondaryText}</p>
-                            </button>
-                          ))}
-                        </div>
-                      )}
-                    </div>
-                    {selectedAddress && (
-                      <div className="bg-primary/5 border border-primary/20 rounded-sm p-3">
-                        <p className="font-body text-xs text-muted-foreground">Selected address:</p>
-                        <p className="font-body text-sm text-foreground font-medium">{selectedAddress}</p>
-                      </div>
-                    )}
-                    {distanceError && <p className="text-sm font-body text-destructive">{distanceError}</p>}
-                    {deliveryMiles !== null && !distanceTooFar && (
-                      <div className="bg-primary/5 border border-primary/20 rounded-sm p-4">
-                         <p className="font-body text-sm text-foreground">📍 Distance: <span className="font-semibold">{deliveryMiles} miles</span>{deliveryDuration && <span className="text-muted-foreground"> (~{deliveryDuration})</span>}</p>
-                         <p className="font-body text-sm text-primary font-semibold mt-1">Shipping cost: {formatDeliveryCost(deliveryCost)}</p>
-                      </div>
-                    )}
-                    {mapUrl && (
-                      <div className="rounded-sm overflow-hidden border border-border">
-                        <iframe src={mapUrl} width="100%" height="300" style={{ border: 0 }} allowFullScreen loading="lazy" referrerPolicy="no-referrer-when-downgrade" title="Route" />
-                      </div>
-                    )}
-                  </>
-                )}
-              </div>
-
-              {/* Date */}
-              <div className="mb-4">
-                <label className="text-sm font-body font-semibold text-foreground block mb-2"><CalendarIcon className="w-4 h-4 inline mr-1" /> Date</label>
-                <Popover>
-                  <PopoverTrigger asChild>
-                    <button className="w-full flex items-center gap-2 px-4 py-3 rounded-sm border border-border bg-card font-body text-sm text-foreground hover:border-primary/30 transition-all">
-                      <CalendarIcon className="w-4 h-4 text-muted-foreground" />
-                      {deliveryDate ? format(deliveryDate, "PPP", { locale: enUS }) : "Select a date"}
-                    </button>
-                  </PopoverTrigger>
-                  <PopoverContent className="w-auto p-0" align="start">
-                     <Calendar mode="single" selected={deliveryDate} onSelect={(d) => { setDeliveryDate(d); setDeliveryHour(""); }}
-                       disabled={(date) => isBefore(startOfDay(date), startOfDay(todayInMiami()))} className="p-3 pointer-events-auto" locale={enUS}
-                       classNames={{ day_outside: "text-foreground", day_disabled: "text-muted-foreground opacity-50 line-through" }} />
-                  </PopoverContent>
-                </Popover>
-              </div>
-              {deliveryDate && (
-                <div>
-                  <label className="text-sm font-body font-semibold text-foreground block mb-2"><Clock className="w-4 h-4 inline mr-1" /> Time</label>
-                  {availableHours.length > 0 ? (
-                    <div className="flex flex-wrap gap-2">
-                      {availableHours.map((hour) => (
-                        <button key={hour} onClick={() => setDeliveryHour(hour)}
-                          className={`px-4 py-2 rounded-sm border-2 text-sm font-body transition-all ${deliveryHour === hour ? "border-primary bg-primary/5 text-primary" : "border-border text-muted-foreground hover:border-primary/30"}`}>{hour}</button>
-                      ))}
-                    </div>
-                  ) : <p className="text-sm text-muted-foreground font-body">No available hours. Select another day.</p>}
-                </div>
-              )}
-            </Section>
+            {(() => { step = 2; return null; })()}
+            {renderGlitterSection(true)}
+            {renderAccessoriesSection(true)}
+            {renderShippingSection(true, autocompleteMobileRef)}
 
             {/* Mobile sticky bottom bar */}
-            <div className="pb-4" />
-            <div className="sticky bottom-0 z-10">
-              <button onClick={() => handleAddToCart()} disabled={isAdding || variantsLoading}
-                className="w-full bg-primary text-primary-foreground py-4 font-body text-sm tracking-[0.2em] uppercase hover:bg-primary/90 transition-colors disabled:opacity-50">
-                {isAdding ? "..." : variantsLoading ? "..." : t("product.addToCart").toUpperCase()}
-              </button>
-              <div className="bg-card/95 backdrop-blur-md border-x border-b border-border p-3">
-                <div className="flex justify-between items-center gap-3">
-                  <p className="font-body text-[10px] text-muted-foreground leading-tight flex-1 line-clamp-1">
-                    {product.name} · {selectedSize.roses} {t("product.roses")}
-                    {addGlitter && " · Glitter"}
-                    {addCrown && ` · Crown (${crownSize === "gold" ? "Gold" : "Silver"})`}
-                    {accessory !== "none" && ` · ${accessory === "note" ? t("product.note") : t("product.accessories")}`}
-                    {deliveryMethod === "delivery" ? (deliveryMiles && !distanceTooFar ? ` · ${t("product.shipping")} ($${parseFloat(deliveryCost.toFixed(2))})` : ` · ${t("product.shipping")} (${t("checkout.pending")})`) : ` · ${t("product.storePickup")}`}
-                  </p>
+            <div className="pb-2" />
+            <div className={`sticky bottom-0 z-10 transition-transform duration-300 ${showStickyBar ? "translate-y-0" : "translate-y-full"}`}>
+              <div className="bg-card/95 backdrop-blur-md border border-border rounded-sm p-2.5 shadow-xl">
+                <div className="flex items-center justify-between gap-2">
                   <p className="font-display text-lg font-bold text-foreground whitespace-nowrap">
                     ${parseFloat(totalPrice.toFixed(2))}
                   </p>
+                  <div className="flex gap-2">
+                    <button onClick={() => handleAddToCart()} disabled={isAdding || variantsLoading}
+                      className="bg-primary text-primary-foreground px-4 py-2 font-body text-[10px] tracking-widest uppercase hover:bg-primary/90 transition-colors rounded-sm disabled:opacity-50 whitespace-nowrap">
+                      {isAdding ? "..." : t("product.addToCart")}
+                    </button>
+                    <button onClick={handlePayNow} disabled={isAdding || variantsLoading}
+                      className="border-2 border-primary text-primary px-3 py-2 font-body text-[10px] tracking-widest uppercase hover:bg-primary/10 transition-colors rounded-sm whitespace-nowrap disabled:opacity-50">
+                      {isAdding ? "..." : t("product.orderAndPay")}
+                    </button>
+                  </div>
                 </div>
-                <button onClick={handlePayNow} disabled={isAdding || variantsLoading}
-                  className="w-full mt-2 border-2 border-primary text-primary px-4 py-2.5 font-body text-[10px] tracking-widest uppercase hover:bg-primary/10 transition-colors rounded-sm disabled:opacity-50">
-                  {isAdding ? "..." : variantsLoading ? "..." : t("product.orderAndPay")}
-                </button>
               </div>
             </div>
 
