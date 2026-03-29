@@ -559,7 +559,11 @@ const BouquetProductDetail = () => {
                   <h1 className="font-display text-xl font-semibold text-foreground uppercase tracking-wide">{product.name}</h1>
                   <p className="font-display text-xl font-bold text-foreground whitespace-nowrap">${parseFloat(sizePrice.toFixed(2))} <span className="text-xs font-body text-muted-foreground font-normal">USD</span></p>
                 </div>
-                <p className="text-muted-foreground font-body text-sm mt-3 leading-relaxed">{product.description}</p>
+                <div className="text-muted-foreground font-body text-sm mt-3 leading-relaxed space-y-1">
+                  {(language === 'es' && product.descriptionEs ? product.descriptionEs : product.description).split('\n').map((line, i) => (
+                    <p key={i}>{line}</p>
+                  ))}
+                </div>
               </div>
 
               {/* Size */}
