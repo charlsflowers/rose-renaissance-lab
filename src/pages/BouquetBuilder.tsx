@@ -495,14 +495,14 @@ const BouquetBuilder = () => {
             </Section>
 
             {/* 5. Letras o Números */}
-            <Section title="Letters or Numbers (Baby Breath)" step={6} subtitle="Optional">
+            <Section title={t("builder.lettersNumbers")} step={6} subtitle={t("builder.optional")}>
               <div className="flex flex-col md:flex-row gap-4 mb-4">
                 <div className="w-32 h-32 rounded-sm overflow-hidden flex-shrink-0 mx-auto md:mx-0">
                   <img src={lettersImg} alt="Letters in Baby Breath example" className="w-full h-full object-contain" />
                 </div>
                 <div className="flex-1">
-                  <p className="font-body font-semibold text-foreground mb-1">Add Letters or Numbers in Baby Breath</p>
-                  <p className="text-xs text-muted-foreground font-body mb-3">${letterNumberExtraPrice} per letter/number · Max. 4 · Minimum 75 roses</p>
+                  <p className="font-body font-semibold text-foreground mb-1">{t("builder.lettersNumbersDesc")}</p>
+                  <p className="text-xs text-muted-foreground font-body mb-3">${letterNumberExtraPrice} {t("builder.lettersNumbersHint")}</p>
                 </div>
               </div>
               <div className="space-y-4">
@@ -513,7 +513,7 @@ const BouquetBuilder = () => {
                       lettersNumbersType === "letters" ? "border-primary bg-primary/5 text-primary" : "border-border text-muted-foreground hover:border-primary/30"
                     }`}
                   >
-                    <Type className="w-4 h-4" /> Letters
+                    <Type className="w-4 h-4" /> {t("builder.letters")}
                   </button>
                   <button
                     onClick={() => { setLettersNumbersType("numbers"); setSpecialText(""); }}
@@ -521,7 +521,7 @@ const BouquetBuilder = () => {
                       lettersNumbersType === "numbers" ? "border-primary bg-primary/5 text-primary" : "border-border text-muted-foreground hover:border-primary/30"
                     }`}
                   >
-                    <Hash className="w-4 h-4" /> Numbers
+                    <Hash className="w-4 h-4" /> {t("builder.numbers")}
                   </button>
                 </div>
                 <input
@@ -541,18 +541,18 @@ const BouquetBuilder = () => {
                       }
                     }
                   }}
-                  placeholder={lettersNumbersType === "letters" ? "E.g.: LOVE (leave empty if none)" : "E.g.: 2025 (leave empty if none)"}
+                  placeholder={lettersNumbersType === "letters" ? t("builder.typeLetters") : t("builder.typeNumbers")}
                   className="w-full max-w-xs bg-card border border-border rounded-sm px-4 py-3 font-body text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30"
                   maxLength={4}
                 />
-                <p className="text-xs text-muted-foreground font-body">Minimum 75 roses to add letters or numbers. Leave empty if you don't want any.</p>
+                <p className="text-xs text-muted-foreground font-body">{t("builder.minRosesLetters")}</p>
                 {lettersNumbersType === "letters" && (
-                  <p className="text-xs text-muted-foreground font-body">From 3 letters, the minimum is 100 roses.</p>
+                  <p className="text-xs text-muted-foreground font-body">{t("builder.from3Letters")}</p>
                 )}
                 {specialText.length > 0 && (
                   <div className="bg-card border border-border rounded-sm p-4">
                     <p className="font-body text-sm text-muted-foreground">
-                      {specialText.length} {lettersNumbersType === "letters" ? "letters" : "numbers"} × ${letterNumberExtraPrice} ={" "}
+                      {specialText.length} {lettersNumbersType === "letters" ? t("builder.letters").toLowerCase() : t("builder.numbers").toLowerCase()} × ${letterNumberExtraPrice} ={" "}
                       <span className="text-primary font-semibold">+${lettersNumbersCost}</span>
                     </p>
                   </div>
