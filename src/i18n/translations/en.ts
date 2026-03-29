@@ -379,6 +379,20 @@ export const en = {
     title: "Frequently Asked Questions",
   },
 
+  // Bouquet FAQ (translated for CollectionFAQ component)
+  bouquetFaq: {
+    q1: "How many roses can I order in one bouquet?",
+    a1: "Our bouquets range from 50 to 200 roses. Choose any quantity in increments of 25 during checkout.",
+    q2: "What finishes are available?",
+    a2: "We offer three finishes: natural (fresh roses), glitter (sparkle-coated petals), and painted (custom color roses like blue, black, or green).",
+    q3: "Do you offer same-day delivery for bouquets?",
+    a3: "Yes! Order before 3PM for same-day delivery across Miami, up to 87 miles from our shop.",
+    q4: "Can I mix different rose colors in one bouquet?",
+    a4: "Absolutely! Browse our mixed-color collection or use the Custom Bouquet Builder to pick your exact color combination.",
+    q5: "What's the difference between single color and mixed bouquets?",
+    a5: "Single color bouquets feature one rose color for an elegant, uniform look. Mixed bouquets combine 2-4 colors for a vibrant, eye-catching arrangement.",
+  },
+
   // Dialogs
   dialog: {
     basePrice: "Base price:",
