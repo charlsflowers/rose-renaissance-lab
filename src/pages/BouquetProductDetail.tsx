@@ -518,7 +518,7 @@ const BouquetProductDetail = () => {
 
       {/* Customer Notes */}
       <div>
-        <label className="text-sm font-body font-semibold text-foreground block mb-2">📝 {t("product.customerNotes")}</label>
+        <label className="text-sm font-body font-semibold text-foreground block mb-2">{t("product.customerNotes")}</label>
         <textarea value={customerNotes} onChange={(e) => setCustomerNotes(e.target.value)} placeholder={t("product.customerNotesPlaceholder")}
           className="w-full bg-card border border-border rounded-sm px-3 py-2 font-body text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30 min-h-[60px] resize-none" maxLength={500} />
       </div>
