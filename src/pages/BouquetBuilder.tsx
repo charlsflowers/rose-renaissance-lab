@@ -238,8 +238,8 @@ const BouquetBuilder = () => {
 
   const rosesCount = pricingTable[selectedSizeIdx].roses;
 
-  const [addGlitter, setAddGlitter] = useState(false);
-  const glitterCost = addGlitter ? Math.ceil(rosesCount / 25) * 8 : 0;
+  const [addGlitter, setAddGlitter] = useState<boolean | null>(null);
+  const glitterCost = addGlitter === true ? Math.ceil(rosesCount / 25) * 8 : 0;
   const vaseCost = addVase ? vaseOptions[selectedVaseIdx].price : 0;
 
   const crownCost = addCrown ? crownPrice : 0;
