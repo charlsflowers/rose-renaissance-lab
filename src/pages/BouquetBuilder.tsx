@@ -89,6 +89,20 @@ const BouquetBuilder = () => {
 
   const STORE_MAP_URL = `https://www.google.com/maps/embed/v1/place?key=&q=${encodeURIComponent("7261 NW 12th St, Miami, FL 33126")}`;
 
+  // Scroll direction detection for sticky bar
+  const [showStickyBar, setShowStickyBar] = useState(true);
+  const lastScrollY = useRef(0);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentY = window.scrollY;
+      setShowStickyBar(currentY > lastScrollY.current || currentY < 50);
+      lastScrollY.current = currentY;
+    };
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
       if (autocompleteRef.current && !autocompleteRef.current.contains(e.target as Node)) {
