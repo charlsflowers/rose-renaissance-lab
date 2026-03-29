@@ -21,6 +21,10 @@ import crownGoldImg from "@/assets/crown-gold.webp";
 import butterflyImg from "@/assets/butterfly-gold.webp";
 import noteImg from "@/assets/accessory-note.webp";
 import lettersImg from "@/assets/letters-babybreathe.png";
+import vase50Img from "@/assets/vase-50.webp";
+import vase75Img from "@/assets/vase-75.webp";
+import vase100Img from "@/assets/vase-100.webp";
+import ribbonImg from "@/assets/ribbon.webp";
 import {
   colorOptions,
   sizeOptions,
