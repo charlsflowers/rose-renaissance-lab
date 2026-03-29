@@ -581,7 +581,7 @@ const BouquetBuilder = () => {
             </Section>
 
             {/* 7. Extras */}
-            <Section title="Extras" step={8} subtitle="Optional">
+            <Section title={t("builder.extras")} step={8} subtitle={t("builder.optional")}>
               <div className="space-y-4">
                 {/* Crown */}
                 <div>
