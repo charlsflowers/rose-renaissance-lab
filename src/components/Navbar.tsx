@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useCartStore } from "@/stores/cartStore";
+import AnnouncementBar from "@/components/AnnouncementBar";
 import BrandLogo from "@/components/BrandLogo";
 import charlsLogo from "@/assets/charls-logo.png";
 import { Menu, X, ChevronDown, Search as SearchIcon, MapPin, Globe } from "lucide-react";
