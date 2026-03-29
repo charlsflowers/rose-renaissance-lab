@@ -653,10 +653,10 @@ const BouquetProductDetail = () => {
             {renderShippingSection(true, autocompleteMobileRef)}
 
             {/* Mobile sticky bottom bar */}
-            <div className="pb-2" />
-            <div className={`sticky bottom-0 z-10 transition-transform duration-300 ${showStickyBar ? "translate-y-0" : "translate-y-full"}`}>
-              <div className="bg-card/95 backdrop-blur-md border border-border rounded-sm p-2.5 shadow-xl">
-                <div className="flex items-center justify-between gap-2">
+            <div className="h-20" />
+            <div className={`fixed bottom-0 left-0 right-0 z-50 transition-transform duration-300 ${showStickyBar ? "translate-y-0" : "translate-y-full"}`}>
+              <div className="bg-card/95 backdrop-blur-md border-t border-border p-2.5 shadow-xl">
+                <div className="flex items-center justify-between gap-2 container mx-auto px-4">
                   <p className="font-display text-lg font-bold text-foreground whitespace-nowrap">
                     ${parseFloat(totalPrice.toFixed(2))}
                   </p>
