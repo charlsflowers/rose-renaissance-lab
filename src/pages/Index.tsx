@@ -104,28 +104,28 @@ const Index = () => {
       {/* Shipping Options Bar */}
       <section className="py-5 md:py-6 bg-cream border-y border-primary/10">
         <div className="container mx-auto px-6">
-          <div className="flex items-center justify-center gap-6 md:gap-12 flex-wrap">
-            <div className="flex items-center gap-2.5">
-              <div className="w-9 h-9 rounded-full bg-primary/10 flex items-center justify-center">
-                <Store className="w-4 h-4 text-primary" />
+          <div className="flex items-center justify-center gap-4 md:gap-12 flex-nowrap">
+            <div className="flex items-center gap-2 shrink-0">
+              <div className="w-8 h-8 md:w-9 md:h-9 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
+                <Store className="w-3.5 h-3.5 md:w-4 md:h-4 text-primary" />
               </div>
-              <span className="font-body text-[11px] md:text-xs tracking-wider text-foreground uppercase">{t("home.storePickup")}</span>
+              <span className="font-body text-[10px] md:text-xs tracking-wider text-foreground uppercase whitespace-nowrap">{t("home.storePickup")}</span>
             </div>
-            <div className="w-px h-6 bg-primary/15 hidden md:block" />
-            <div className="flex items-center gap-2.5">
-              <div className="w-9 h-9 rounded-full bg-primary/10 flex items-center justify-center">
-                <Truck className="w-4 h-4 text-primary" />
+            <div className="w-px h-6 bg-primary/15 shrink-0" />
+            <div className="flex items-center gap-2 shrink-0">
+              <div className="w-8 h-8 md:w-9 md:h-9 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
+                <Truck className="w-3.5 h-3.5 md:w-4 md:h-4 text-primary" />
               </div>
-              <span className="font-body text-[11px] md:text-xs tracking-wider text-foreground uppercase">{t("home.homeDelivery")}</span>
+              <span className="font-body text-[10px] md:text-xs tracking-wider text-foreground uppercase whitespace-nowrap">{t("home.homeDelivery")}</span>
             </div>
-            <div className="w-px h-6 bg-primary/15 hidden md:block" />
-            <div className="flex items-center gap-2.5">
-              <div className="w-9 h-9 rounded-full bg-primary/10 flex items-center justify-center">
-                <Globe className="w-4 h-4 text-primary" />
+            <div className="w-px h-6 bg-primary/15 shrink-0" />
+            <div className="flex items-center gap-2 shrink-0">
+              <div className="w-8 h-8 md:w-9 md:h-9 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
+                <Globe className="w-3.5 h-3.5 md:w-4 md:h-4 text-primary" />
               </div>
               <div className="flex flex-col items-start gap-0.5">
-                <span className="font-body text-[11px] md:text-xs tracking-wider text-foreground uppercase">{t("home.nationwideShipping")}</span>
-                <span className="font-body text-[9px] md:text-[10px] tracking-widest uppercase text-primary-foreground bg-primary px-2 py-0.5 rounded-full">{t("common.comingSoon")}</span>
+                <span className="font-body text-[10px] md:text-xs tracking-wider text-foreground uppercase whitespace-nowrap">{t("home.nationwideShipping")}</span>
+                <span className="font-body text-[8px] md:text-[10px] tracking-widest uppercase text-primary-foreground bg-primary px-1.5 py-0.5 rounded-full whitespace-nowrap">{t("common.comingSoon")}</span>
               </div>
             </div>
           </div>
