@@ -636,7 +636,7 @@ const BouquetBuilder = () => {
                             className={`px-4 py-2 rounded-sm border text-xs font-body transition-all ${
                               ribbonType === t ? "border-primary bg-primary/10 text-primary" : "border-border text-muted-foreground hover:border-primary/30"
                             }`}>
-                            {t === "names" ? "Names" : "Congratulations"}
+                            {t === undefined ? t : t(`builder.ribbon${t === "names" ? "Names" : "Congrats"}`)}
                           </button>
                         ))}
                       </div>
