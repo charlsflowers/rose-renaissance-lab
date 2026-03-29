@@ -218,6 +218,7 @@ export const es = {
     customerNotes: "Notas del Cliente",
     customerNotesPlaceholder: "Escribe instrucciones especiales para la entrega...",
     butterflies: "Mariposas",
+    youMightAlsoLove: "También te puede gustar",
   },
 
   bouquetProducts: {
@@ -396,7 +397,7 @@ export const es = {
 
   common: {
     comingSoon: "Próximamente",
-    orderBefore3PM: "⏰ Pide antes de las 3PM para envío hoy mismo",
+    orderBefore3PM: "Pide antes de las 3PM para envío hoy mismo",
   },
 
   categories: {

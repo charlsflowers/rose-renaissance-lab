@@ -228,6 +228,7 @@ export const en = {
     customerNotes: "Customer Notes",
     customerNotesPlaceholder: "Write any special instructions for delivery...",
     butterflies: "Butterflies",
+    youMightAlsoLove: "You might also love",
   },
 
   // Bouquet Products listing
@@ -420,7 +421,7 @@ export const en = {
   // Common
   common: {
     comingSoon: "Coming Soon",
-    orderBefore3PM: "⏰ Order before 3PM for same-day delivery today",
+    orderBefore3PM: "Order before 3PM for same-day delivery today",
   },
 
   // Categories

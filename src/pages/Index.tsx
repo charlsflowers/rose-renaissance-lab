@@ -80,7 +80,7 @@ const Index = () => {
             transition={{ duration: 1, ease: "easeOut" }}
             className="max-w-xl"
           >
-            <p className="font-subtitle-script text-gold text-lg md:text-2xl mb-2 md:mb-4">{t("home.heroSubtitle")}</p>
+            <p className="font-subtitle-script text-primary-foreground/70 text-lg md:text-2xl mb-2 md:mb-4">{t("home.heroSubtitle")}</p>
             <h1 className="font-display text-3xl md:text-7xl font-bold text-primary-foreground leading-tight mb-3 md:mb-6">
               {t("home.heroTitle")}
             </h1>
@@ -186,8 +186,7 @@ const Index = () => {
                 <img src={bicolorPassionImg} alt="Fresh Rose Bouquets Miami – Charls Flowers" loading="lazy" width={500} height={500} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
                 <div className="absolute inset-0 bg-foreground/10 group-hover:bg-foreground/20 transition-colors" />
               </div>
-              <div className="flex items-center justify-center gap-2 mb-2">
-                <Sparkles className="w-4 h-4 text-primary" />
+              <div className="text-center mb-2">
                 <h3 className="font-display text-xl font-semibold text-foreground uppercase tracking-wide">{t("home.viewBouquetsBtn")}</h3>
               </div>
             </Link>

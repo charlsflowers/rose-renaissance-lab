@@ -6,15 +6,24 @@ const AnnouncementBar = () => {
   const { language } = useTranslation();
 
   const message = useMemo(() => {
-    const { hours } = getMiamiTime();
-    if (hours < 15) {
+    const { hours, day: dayOfWeek } = getMiamiTime();
+    // Closing hours: Sun=17, Sat=18, Mon-Fri=19
+    const closeHour = dayOfWeek === 0 ? 17 : dayOfWeek === 6 ? 18 : 19;
+    const cutoff = 15; // 3PM
+
+    if (hours < cutoff) {
       return language === "es"
-        ? "⏰ Pide antes de las 3PM para envío hoy mismo"
-        : "⏰ Order before 3PM for same-day delivery today";
+        ? "Pide antes de las 3PM para envío hoy mismo"
+        : "Order before 3PM for same-day delivery today";
+    }
+    if (hours < closeHour) {
+      return language === "es"
+        ? "Pide ahora para entrega mañana"
+        : "Order now for next-day delivery";
     }
     return language === "es"
-      ? "⏰ Pide ahora para entrega mañana"
-      : "⏰ Order now for next-day delivery";
+      ? "Pide ahora para entrega mañana"
+      : "Order now for next-day delivery";
   }, [language]);
 
   return (

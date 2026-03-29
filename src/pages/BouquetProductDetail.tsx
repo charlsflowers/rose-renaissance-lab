@@ -29,7 +29,7 @@ import {
 import glitterRoseImg from "@/assets/glitter-rose.png";
 import crownSilverImg from "@/assets/crown-silver.webp";
 import crownGoldImg from "@/assets/crown-gold.webp";
-import butterflyImg from "@/assets/butterfly-gold.png";
+import butterflyImg from "@/assets/butterfly-gold.webp";
 import noteImg from "@/assets/accessory-note.webp";
 import { Calendar } from "@/components/ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
@@ -338,7 +338,7 @@ const BouquetProductDetail = () => {
       if (customerNotes.trim()) {
         noteLines.push("");
         noteLines.push("NOTAS DEL CLIENTE");
-        noteLines.push(customerNotes.trim());
+        noteLines.push(`📝 Nota del cliente: ${customerNotes.trim()}`);
       }
 
       const cartTotalForFee = basePrice + deliveryCost;
@@ -397,11 +397,11 @@ const BouquetProductDetail = () => {
       <div className="grid grid-cols-2 gap-2">
         <button onClick={() => setAccessory(accessory === "note" ? "none" : "note")}
           className={`flex flex-col items-center gap-1 py-2 px-2 rounded-sm border-2 transition-all font-body text-sm ${accessory === "note" ? "border-primary bg-primary/5 text-primary" : "border-border text-muted-foreground hover:border-primary/30"}`}>
-          <img src={noteImg} alt="Note accessory" className="w-8 h-8 object-contain rounded-sm" /> {t("product.note")} <span className="text-[10px] text-secondary">$3</span>
+          <img src={noteImg} alt="Note accessory" className="w-12 h-12 md:w-8 md:h-8 object-contain rounded-sm" /> {t("product.note")} <span className="text-[10px] text-secondary">$3</span>
         </button>
         <button onClick={() => setAccessory(accessory === "butterfly" ? "none" : "butterfly")}
           className={`flex flex-col items-center gap-1 py-2 px-2 rounded-sm border-2 transition-all font-body text-sm ${accessory === "butterfly" ? "border-primary bg-primary/5 text-primary" : "border-border text-muted-foreground hover:border-primary/30"}`}>
-          <img src={butterflyImg} alt="Butterfly accessory" className="w-8 h-8 object-contain" /> {t("product.butterflies")} <span className="text-[10px] text-secondary">$3</span>
+          <img src={butterflyImg} alt="Butterfly accessory" className="w-12 h-12 md:w-8 md:h-8 object-contain" /> {t("product.butterflies")} <span className="text-[10px] text-secondary">$3</span>
         </button>
       </div>
       {accessory === "note" && (
@@ -518,7 +518,7 @@ const BouquetProductDetail = () => {
 
       {/* Customer Notes */}
       <div>
-        <label className="text-sm font-body font-semibold text-foreground block mb-2">📝 {t("product.customerNotes")}</label>
+        <label className="text-sm font-body font-semibold text-foreground block mb-2">{t("product.customerNotes")}</label>
         <textarea value={customerNotes} onChange={(e) => setCustomerNotes(e.target.value)} placeholder={t("product.customerNotesPlaceholder")}
           className="w-full bg-card border border-border rounded-sm px-3 py-2 font-body text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30 min-h-[60px] resize-none" maxLength={500} />
       </div>
@@ -653,10 +653,10 @@ const BouquetProductDetail = () => {
             {renderShippingSection(true, autocompleteMobileRef)}
 
             {/* Mobile sticky bottom bar */}
-            <div className="pb-2" />
-            <div className={`sticky bottom-0 z-10 transition-transform duration-300 ${showStickyBar ? "translate-y-0" : "translate-y-full"}`}>
-              <div className="bg-card/95 backdrop-blur-md border border-border rounded-sm p-2.5 shadow-xl">
-                <div className="flex items-center justify-between gap-2">
+            <div className="h-20" />
+            <div className={`fixed bottom-0 left-0 right-0 z-50 transition-transform duration-300 ${showStickyBar ? "translate-y-0" : "translate-y-full"}`}>
+              <div className="bg-card/95 backdrop-blur-md border-t border-border p-2.5 shadow-xl">
+                <div className="flex items-center justify-between gap-2 container mx-auto px-4">
                   <p className="font-display text-lg font-bold text-foreground whitespace-nowrap">
                     ${parseFloat(totalPrice.toFixed(2))}
                   </p>
