@@ -215,6 +215,9 @@ export const es = {
     deliveryDateAndTime: "Fecha y hora de entrega",
     orderBefore3PM: "⏰ Pide antes de las 3PM para envío hoy mismo",
     min: "Mín.",
+    customerNotes: "Notas del Cliente",
+    customerNotesPlaceholder: "Escribe instrucciones especiales para la entrega...",
+    butterflies: "Mariposas",
   },
 
   bouquetProducts: {

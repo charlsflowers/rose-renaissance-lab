@@ -225,6 +225,9 @@ export const en = {
     deliveryDateAndTime: "Delivery date & time",
     orderBefore3PM: "⏰ Order before 3PM for same-day delivery today",
     min: "Min.",
+    customerNotes: "Customer Notes",
+    customerNotesPlaceholder: "Write any special instructions for delivery...",
+    butterflies: "Butterflies",
   },
 
   // Bouquet Products listing
