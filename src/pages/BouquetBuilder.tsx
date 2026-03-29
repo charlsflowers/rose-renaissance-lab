@@ -660,61 +660,21 @@ const BouquetBuilder = () => {
             </Section>
 
             {/* 8. AI Preview */}
-            <Section title="Preview" step={9} subtitle="Optional">
+            <Section title={t("builder.aiPreview")} step={9} subtitle={t("builder.optional")}>
               <div className="space-y-4">
-                <p className="text-sm text-muted-foreground font-body">
-                  Generate an approximate image of how your bouquet will look with your chosen options.
-                </p>
-                {selectedColors.length === 0 && (
-                  <p className="text-sm text-destructive font-body">⚠ Please select at least one color before generating a preview.</p>
-                )}
-                {selectedColors.length > 0 && !paperColor && (
-                  <p className="text-sm text-destructive font-body">⚠ Please select a paper color before generating a preview.</p>
-                )}
-                <button
-                  onClick={handleGeneratePreview}
-                  disabled={previewLoading || hasGeneratedPreview || selectedColors.length === 0 || !paperColor}
-                  className="inline-flex items-center gap-3 bg-primary text-primary-foreground px-6 py-3 font-body text-sm tracking-widest uppercase hover:bg-primary/90 transition-colors rounded-sm disabled:opacity-50 disabled:cursor-not-allowed"
-                >
-                  {previewLoading ? (
-                    <>
-                     <Loader2 className="w-4 h-4 animate-spin" />
-                      Generating...
-                    </>
-                  ) : hasGeneratedPreview ? (
-                    <>
-                      <Eye className="w-4 h-4" />
-                      Preview generated
-                    </>
-                  ) : (
-                    <>
-                      <Eye className="w-4 h-4" />
-                      Preview my bouquet
-                    </>
-                  )}
+                <p className="text-sm text-muted-foreground font-body">{t("builder.aiPreviewDesc")}</p>
+                {selectedColors.length === 0 && <p className="text-sm text-destructive font-body">{t("builder.selectColorFirst")}</p>}
+                {selectedColors.length > 0 && !paperColor && <p className="text-sm text-destructive font-body">{t("builder.selectPaperFirst")}</p>}
+                <button onClick={handleGeneratePreview} disabled={previewLoading || hasGeneratedPreview || selectedColors.length === 0 || !paperColor}
+                  className="inline-flex items-center gap-3 bg-primary text-primary-foreground px-6 py-3 font-body text-sm tracking-widest uppercase hover:bg-primary/90 transition-colors rounded-sm disabled:opacity-50 disabled:cursor-not-allowed">
+                  {previewLoading ? (<><Loader2 className="w-4 h-4 animate-spin" />{t("builder.generating")}</>) : hasGeneratedPreview ? (<><Eye className="w-4 h-4" />{t("builder.previewGenerated")}</>) : (<><Eye className="w-4 h-4" />{t("builder.generatePreview")}</>)}
                 </button>
-                {hasGeneratedPreview && (
-                  <p className="text-xs text-muted-foreground">Only one preview is allowed per customization.</p>
-                )}
-
-                {previewError && (
-                  <div className="bg-destructive/10 border border-destructive/20 rounded-sm p-4">
-                    <p className="text-sm font-body text-destructive">{previewError}</p>
-                  </div>
-                )}
-
+                {hasGeneratedPreview && <p className="text-xs text-muted-foreground">{t("builder.previewOnce")}</p>}
+                {previewError && <div className="bg-destructive/10 border border-destructive/20 rounded-sm p-4"><p className="text-sm font-body text-destructive">{previewError}</p></div>}
                 {previewUrl && (
                   <div className="space-y-2">
-                    <div className="relative overflow-hidden rounded-sm border border-border">
-                      <img
-                        src={previewUrl}
-                        alt="Preview of your custom bouquet"
-                        className="w-full h-auto object-contain max-h-[500px]"
-                      />
-                    </div>
-                    <p className="text-xs text-muted-foreground font-body text-center italic">
-                      * Illustrative image. The final result may vary slightly.
-                    </p>
+                    <div className="relative overflow-hidden rounded-sm border border-border"><img src={previewUrl} alt="Preview" className="w-full h-auto object-contain max-h-[500px]" /></div>
+                    <p className="text-xs text-muted-foreground font-body text-center italic">{t("builder.previewDisclaimer")}</p>
                   </div>
                 )}
               </div>
