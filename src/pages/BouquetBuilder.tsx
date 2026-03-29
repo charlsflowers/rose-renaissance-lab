@@ -631,12 +631,12 @@ const BouquetBuilder = () => {
                   {addRibbon && (
                     <div className="mt-3 pl-2 space-y-3">
                       <div className="flex gap-2">
-                        {(["names", "congratulations"] as const).map((t) => (
-                          <button key={t} onClick={() => { setRibbonType(t); setRibbonText(""); }}
+                        {(["names", "congratulations"] as const).map((rt) => (
+                          <button key={rt} onClick={() => { setRibbonType(rt); setRibbonText(""); }}
                             className={`px-4 py-2 rounded-sm border text-xs font-body transition-all ${
-                              ribbonType === t ? "border-primary bg-primary/10 text-primary" : "border-border text-muted-foreground hover:border-primary/30"
+                              ribbonType === rt ? "border-primary bg-primary/10 text-primary" : "border-border text-muted-foreground hover:border-primary/30"
                             }`}>
-                            {t === undefined ? t : t(`builder.ribbon${t === "names" ? "Names" : "Congrats"}`)}
+                            {rt === "names" ? t("builder.ribbonNames") : t("builder.ribbonCongrats")}
                           </button>
                         ))}
                       </div>
