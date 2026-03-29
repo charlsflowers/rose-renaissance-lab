@@ -607,7 +607,7 @@ const BouquetBuilder = () => {
                           <div className="w-16 h-12 overflow-hidden rounded-sm">
                            <img src={opt.size === "silver" ? crownSilverImg : crownGoldImg} alt={opt.label} className="w-full h-full object-contain" />
                           </div>
-                          {opt.label}
+                          {opt.size === "silver" ? t("builder.crownSilver") : t("builder.crownGold")}
                         </button>
                       ))}
                     </div>
