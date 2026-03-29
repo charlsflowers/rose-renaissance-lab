@@ -631,7 +631,11 @@ const BouquetProductDetail = () => {
 
             <div className="text-center">
               <h1 className="font-display text-2xl font-semibold text-foreground">{product.name}</h1>
-              <p className="text-muted-foreground font-body text-sm mt-2">{product.description}</p>
+              <div className="text-muted-foreground font-body text-sm mt-2 space-y-1">
+                {(language === 'es' && product.descriptionEs ? product.descriptionEs : product.description).split('\n').map((line, i) => (
+                  <p key={i}>{line}</p>
+                ))}
+              </div>
             </div>
 
             {/* Size */}
