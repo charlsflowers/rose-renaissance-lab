@@ -218,6 +218,7 @@ export const es = {
     customerNotes: "Notas del Cliente",
     customerNotesPlaceholder: "Escribe instrucciones especiales para la entrega...",
     butterflies: "Mariposas",
+    youMightAlsoLove: "También te puede gustar",
   },
 
   bouquetProducts: {
