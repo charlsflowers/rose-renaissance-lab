@@ -4,6 +4,7 @@ import { format, addHours, isBefore, startOfDay } from "date-fns";
 import { miamiHourNow, todayInMiami, isTodayInMiami } from "@/lib/miamiTime";
 import { supabase } from "@/integrations/supabase/client";
 import { enUS } from "date-fns/locale";
+import { useTranslation } from "@/i18n/LanguageContext";
 import { useCartStore } from "@/stores/cartStore";
 import { toast } from "sonner";
 import { buildCheckoutUrl } from "@/lib/checkout";
@@ -41,6 +42,7 @@ import { Calendar } from "@/components/ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 
 const BouquetBuilder = () => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const addItem = useCartStore(state => state.addItem);
   const [selectedColors, setSelectedColors] = useState<ColorOption[]>([]);
@@ -236,8 +238,8 @@ const BouquetBuilder = () => {
 
   const rosesCount = pricingTable[selectedSizeIdx].roses;
 
-  const [addGlitter, setAddGlitter] = useState(false);
-  const glitterCost = addGlitter ? Math.ceil(rosesCount / 25) * 8 : 0;
+  const [addGlitter, setAddGlitter] = useState<boolean | null>(null);
+  const glitterCost = addGlitter === true ? Math.ceil(rosesCount / 25) * 8 : 0;
   const vaseCost = addVase ? vaseOptions[selectedVaseIdx].price : 0;
 
   const crownCost = addCrown ? crownPrice : 0;
@@ -299,8 +301,8 @@ const BouquetBuilder = () => {
   }, [selectedColors, rosesCount, addGlitter, specialText, addCrown, crownSize, addRibbon, ribbonText]);
 
   const colorCategories = [
-    { key: "natural" as const, label: "Natural" },
-    { key: "painted" as const, label: "Painted" },
+    { key: "natural" as const, label: t("builder.natural") },
+    { key: "painted" as const, label: t("builder.painted") },
   ];
 
   return (
@@ -309,9 +311,9 @@ const BouquetBuilder = () => {
       <div className="pt-24 pb-16">
         <div className="container mx-auto px-6">
           <div className="text-center mb-12">
-            <p className="text-gold font-body text-sm tracking-[0.3em] uppercase mb-2">Customize</p>
+            <p className="text-primary font-body text-sm tracking-[0.3em] uppercase mb-2">{t("builder.customize")}</p>
             <h1 className="font-display text-4xl md:text-5xl font-semibold text-foreground">
-              Build Your Bouquet
+              {t("builder.title")}
             </h1>
           </div>
 
@@ -326,8 +328,8 @@ const BouquetBuilder = () => {
             </div>
 
             {/* 1. Color */}
-            <Section title="Choose Your Bouquet Colors" step={1}>
-              <p className="text-xs text-muted-foreground font-body mb-4">Select up to 3 colors. Tap a selected color to remove it.</p>
+            <Section title={t("builder.chooseColors")} step={1}>
+              <p className="text-xs text-muted-foreground font-body mb-4">{t("builder.colorsHint")}</p>
               {colorCategories.map(({ key, label }) => {
                 const colors = colorOptions.filter((c) => c.category === key);
                 return (
@@ -372,21 +374,21 @@ const BouquetBuilder = () => {
                 );
               })}
               <p className="text-sm font-body text-muted-foreground">
-                Selected: <span className="text-foreground font-semibold">{selectedColors.length > 0 ? selectedColors.map(c => c.nameEn).join(', ') : 'None'}</span>
+                {t("builder.selected")} <span className="text-foreground font-semibold">{selectedColors.length > 0 ? selectedColors.map(c => c.nameEn).join(', ') : t("builder.none")}</span>
               </p>
             </Section>
 
             {/* Paper Color */}
-            <Section title="Paper Color" step={2}>
-              <p className="text-xs text-muted-foreground font-body mb-4">Choose the wrapping paper color</p>
+            <Section title={t("builder.paperColor")} step={2}>
+              <p className="text-xs text-muted-foreground font-body mb-4">{t("builder.paperHint")}</p>
               <PaperColorPicker selected={paperColor} onChange={setPaperColor} />
               <p className="text-sm font-body text-muted-foreground mt-3">
-                Selected: <span className="text-foreground font-semibold">{paperColor}</span>
+                {t("builder.selected")} <span className="text-foreground font-semibold">{paperColor}</span>
               </p>
             </Section>
 
             {/* 2. Size */}
-            <Section title="Number of Roses" step={3}>
+            <Section title={t("product.numberOfRoses")} step={3}>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
                 {pricingTable.map((size, idx) => {
                   const tooFewRoses = size.roses < minRoses;
@@ -407,11 +409,11 @@ const BouquetBuilder = () => {
                       }`}
                     >
                       <p className="font-display text-2xl font-semibold text-foreground">{size.roses}</p>
-                      <p className="text-xs text-muted-foreground font-body">roses</p>
+                      <p className="text-xs text-muted-foreground font-body">{t("builder.roses")}</p>
                       <p className="text-sm font-body font-semibold text-primary mt-1">
                         ${price}
                       </p>
-                      {tooFewRoses && <p className="text-[10px] text-destructive font-body mt-1">Min. {minRoses} roses</p>}
+                      {tooFewRoses && <p className="text-[10px] text-destructive font-body mt-1">{t("product.min")} {minRoses} {t("builder.roses")}</p>}
                     </button>
                   );
                 })}
@@ -419,15 +421,15 @@ const BouquetBuilder = () => {
             </Section>
 
             {/* 3. Glitter */}
-            <Section title="Glitter Finish" step={4}>
+            <Section title={t("builder.glitterFinishTitle")} step={4}>
               <div className="flex flex-col md:flex-row gap-4 mb-4">
                 <div className="w-32 h-32 flex-shrink-0 mx-auto md:mx-0">
                   <img src={glitterRoseImg} alt="Glitter rose example" className="w-full h-full object-contain" />
                 </div>
                 <div className="flex-1">
-                  <p className="font-body font-semibold text-foreground mb-1">✨ Glitter Finish ✨</p>
+                  <p className="font-body font-semibold text-foreground mb-1">{t("builder.glitterFinishDesc")}</p>
                   <p className="text-xs text-muted-foreground font-body mb-3">
-                    $8 per 25 roses · <span className="text-primary font-semibold">+${glitterCost}</span> for {rosesCount} roses
+                    {t("builder.glitterPer25")} · <span className="text-primary font-semibold">+${glitterCost}</span> {t("builder.glitterCostFor")} {rosesCount} {t("builder.roses")}
                   </p>
                 </div>
               </div>
@@ -435,26 +437,26 @@ const BouquetBuilder = () => {
                 <button
                   onClick={() => setAddGlitter(true)}
                   className={`p-4 rounded-sm border-2 text-center transition-all font-body text-sm ${
-                    addGlitter ? "border-primary bg-primary/5 text-primary" : "border-border text-muted-foreground hover:border-primary/30"
+                    addGlitter === true ? "border-primary bg-primary/5 text-primary" : "border-border text-muted-foreground hover:border-primary/30"
                   }`}
                 >
-                  Yes
-                  {addGlitter && <Check className="w-4 h-4 text-primary mx-auto mt-1" />}
+                  {t("builder.yes")}
+                  {addGlitter === true && <Check className="w-4 h-4 text-primary mx-auto mt-1" />}
                 </button>
                 <button
                   onClick={() => setAddGlitter(false)}
                   className={`p-4 rounded-sm border-2 text-center transition-all font-body text-sm ${
-                    !addGlitter ? "border-primary bg-primary/5 text-primary" : "border-border text-muted-foreground hover:border-primary/30"
+                    addGlitter === false ? "border-primary bg-primary/5 text-primary" : "border-border text-muted-foreground hover:border-primary/30"
                   }`}
                 >
-                  No
-                  {!addGlitter && <Check className="w-4 h-4 text-primary mx-auto mt-1" />}
+                  {t("builder.no")}
+                  {addGlitter === false && <Check className="w-4 h-4 text-primary mx-auto mt-1" />}
                 </button>
               </div>
             </Section>
 
             {/* 4. Accessories */}
-            <Section title="Accessories" step={5}>
+            <Section title={t("builder.accessories")} step={5}>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
                 <button
                   onClick={() => setAccessory(accessory === "note" ? "none" : "note")}
@@ -464,8 +466,8 @@ const BouquetBuilder = () => {
                       : "border-border text-muted-foreground hover:border-primary/30"
                   }`}
                 >
-                  <img src={noteImg} alt="Note accessory" className="w-8 h-8 object-contain rounded-sm" />
-                  Note
+                  <img src={noteImg} alt="Note accessory" className="w-10 h-10 md:w-8 md:h-8 object-contain rounded-sm" />
+                  {t("builder.note")}
                   <span className="text-xs text-secondary">$3</span>
                 </button>
                 <button
@@ -476,8 +478,8 @@ const BouquetBuilder = () => {
                       : "border-border text-muted-foreground hover:border-primary/30"
                   }`}
                 >
-                  <img src={butterflyImg} alt="Butterfly accessory" className="w-8 h-8 object-contain" />
-                  Butterflies
+                  <img src={butterflyImg} alt="Butterfly accessory" className="w-10 h-10 md:w-8 md:h-8 object-contain" />
+                  {t("builder.butterflies")}
                   <span className="text-xs text-secondary">$3</span>
                 </button>
               </div>
@@ -485,7 +487,7 @@ const BouquetBuilder = () => {
                 <textarea
                   value={accessoryText}
                   onChange={(e) => setAccessoryText(e.target.value)}
-                  placeholder="Write your note..."
+                  placeholder={t("builder.writeNote")}
                   className="w-full mt-4 bg-card border border-border rounded-sm px-4 py-3 font-body text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30 min-h-[100px] resize-none"
                   maxLength={200}
                 />
@@ -493,14 +495,14 @@ const BouquetBuilder = () => {
             </Section>
 
             {/* 5. Letras o Números */}
-            <Section title="Letters or Numbers (Baby Breath)" step={6} subtitle="Optional">
+            <Section title={t("builder.lettersNumbers")} step={6} subtitle={t("builder.optional")}>
               <div className="flex flex-col md:flex-row gap-4 mb-4">
                 <div className="w-32 h-32 rounded-sm overflow-hidden flex-shrink-0 mx-auto md:mx-0">
                   <img src={lettersImg} alt="Letters in Baby Breath example" className="w-full h-full object-contain" />
                 </div>
                 <div className="flex-1">
-                  <p className="font-body font-semibold text-foreground mb-1">Add Letters or Numbers in Baby Breath</p>
-                  <p className="text-xs text-muted-foreground font-body mb-3">${letterNumberExtraPrice} per letter/number · Max. 4 · Minimum 75 roses</p>
+                  <p className="font-body font-semibold text-foreground mb-1">{t("builder.lettersNumbersDesc")}</p>
+                  <p className="text-xs text-muted-foreground font-body mb-3">${letterNumberExtraPrice} {t("builder.lettersNumbersHint")}</p>
                 </div>
               </div>
               <div className="space-y-4">
@@ -511,7 +513,7 @@ const BouquetBuilder = () => {
                       lettersNumbersType === "letters" ? "border-primary bg-primary/5 text-primary" : "border-border text-muted-foreground hover:border-primary/30"
                     }`}
                   >
-                    <Type className="w-4 h-4" /> Letters
+                    <Type className="w-4 h-4" /> {t("builder.letters")}
                   </button>
                   <button
                     onClick={() => { setLettersNumbersType("numbers"); setSpecialText(""); }}
@@ -519,7 +521,7 @@ const BouquetBuilder = () => {
                       lettersNumbersType === "numbers" ? "border-primary bg-primary/5 text-primary" : "border-border text-muted-foreground hover:border-primary/30"
                     }`}
                   >
-                    <Hash className="w-4 h-4" /> Numbers
+                    <Hash className="w-4 h-4" /> {t("builder.numbers")}
                   </button>
                 </div>
                 <input
@@ -539,18 +541,18 @@ const BouquetBuilder = () => {
                       }
                     }
                   }}
-                  placeholder={lettersNumbersType === "letters" ? "E.g.: LOVE (leave empty if none)" : "E.g.: 2025 (leave empty if none)"}
+                  placeholder={lettersNumbersType === "letters" ? t("builder.typeLetters") : t("builder.typeNumbers")}
                   className="w-full max-w-xs bg-card border border-border rounded-sm px-4 py-3 font-body text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30"
                   maxLength={4}
                 />
-                <p className="text-xs text-muted-foreground font-body">Minimum 75 roses to add letters or numbers. Leave empty if you don't want any.</p>
+                <p className="text-xs text-muted-foreground font-body">{t("builder.minRosesLetters")}</p>
                 {lettersNumbersType === "letters" && (
-                  <p className="text-xs text-muted-foreground font-body">From 3 letters, the minimum is 100 roses.</p>
+                  <p className="text-xs text-muted-foreground font-body">{t("builder.from3Letters")}</p>
                 )}
                 {specialText.length > 0 && (
                   <div className="bg-card border border-border rounded-sm p-4">
                     <p className="font-body text-sm text-muted-foreground">
-                      {specialText.length} {lettersNumbersType === "letters" ? "letters" : "numbers"} × ${letterNumberExtraPrice} ={" "}
+                      {specialText.length} {lettersNumbersType === "letters" ? t("builder.letters").toLowerCase() : t("builder.numbers").toLowerCase()} × ${letterNumberExtraPrice} ={" "}
                       <span className="text-primary font-semibold">+${lettersNumbersCost}</span>
                     </p>
                   </div>
@@ -559,7 +561,7 @@ const BouquetBuilder = () => {
             </Section>
 
             {/* 6. Vase */}
-            <Section title="Vase" step={7} subtitle="Optional">
+            <Section title={t("builder.vase")} step={7} subtitle={t("builder.optional")}>
               <div className="grid grid-cols-3 gap-3">
                 {vaseOptions.map((v, idx) => (
                   <button
@@ -570,7 +572,7 @@ const BouquetBuilder = () => {
                     }`}
                   >
                     <p className="font-display text-lg font-semibold text-foreground">{v.roses}</p>
-                    <p className="text-xs text-muted-foreground font-body">roses</p>
+                    <p className="text-xs text-muted-foreground font-body">{t("builder.roses")}</p>
                     <p className="text-sm font-body font-semibold text-primary">${v.price}</p>
                     {addVase && selectedVaseIdx === idx && <Check className="w-4 h-4 text-primary" />}
                   </button>
@@ -579,7 +581,7 @@ const BouquetBuilder = () => {
             </Section>
 
             {/* 7. Extras */}
-            <Section title="Extras" step={8} subtitle="Optional">
+            <Section title={t("builder.extras")} step={8} subtitle={t("builder.optional")}>
               <div className="space-y-4">
                 {/* Crown */}
                 <div>
@@ -589,8 +591,8 @@ const BouquetBuilder = () => {
                     }`}>
                     <Crown className="w-5 h-5 shrink-0" />
                     <div className="text-left flex-1">
-                      <p className="font-semibold">Crown Tiara</p>
-                      <p className="text-xs">Add a decorative crown</p>
+                      <p className="font-semibold">{t("builder.crown")}</p>
+                      <p className="text-xs">{t("builder.crownDesc")}</p>
                     </div>
                     <span className="text-xs font-semibold">+${crownPrice}</span>
                     {addCrown && <Check className="w-4 h-4 text-primary" />}
@@ -603,9 +605,9 @@ const BouquetBuilder = () => {
                             crownSize === opt.size ? "border-primary bg-primary/10 text-primary" : "border-border text-muted-foreground hover:border-primary/30"
                           }`}>
                           <div className="w-16 h-12 overflow-hidden rounded-sm">
-                            <img src={opt.size === "silver" ? crownSilverImg : crownGoldImg} alt={opt.label} className="w-full h-full object-contain" />
+                           <img src={opt.size === "silver" ? crownSilverImg : crownGoldImg} alt={opt.label} className="w-full h-full object-contain" />
                           </div>
-                          {opt.label}
+                          {opt.size === "silver" ? t("builder.crownSilver") : t("builder.crownGold")}
                         </button>
                       ))}
                     </div>
@@ -620,8 +622,8 @@ const BouquetBuilder = () => {
                     }`}>
                     <Sparkles className="w-5 h-5 shrink-0" />
                     <div className="text-left flex-1">
-                      <p className="font-semibold">Custom Ribbon</p>
-                      <p className="text-xs">With any text you want</p>
+                      <p className="font-semibold">{t("builder.customRibbon")}</p>
+                      <p className="text-xs">{t("builder.ribbonDesc")}</p>
                     </div>
                     <span className="text-xs font-semibold">+${ribbonPrice}</span>
                     {addRibbon && <Check className="w-4 h-4 text-primary" />}
@@ -629,12 +631,12 @@ const BouquetBuilder = () => {
                   {addRibbon && (
                     <div className="mt-3 pl-2 space-y-3">
                       <div className="flex gap-2">
-                        {(["names", "congratulations"] as const).map((t) => (
-                          <button key={t} onClick={() => { setRibbonType(t); setRibbonText(""); }}
+                        {(["names", "congratulations"] as const).map((rt) => (
+                          <button key={rt} onClick={() => { setRibbonType(rt); setRibbonText(""); }}
                             className={`px-4 py-2 rounded-sm border text-xs font-body transition-all ${
-                              ribbonType === t ? "border-primary bg-primary/10 text-primary" : "border-border text-muted-foreground hover:border-primary/30"
+                              ribbonType === rt ? "border-primary bg-primary/10 text-primary" : "border-border text-muted-foreground hover:border-primary/30"
                             }`}>
-                            {t === "names" ? "Names" : "Congratulations"}
+                            {rt === "names" ? t("builder.ribbonNames") : t("builder.ribbonCongrats")}
                           </button>
                         ))}
                       </div>
@@ -649,7 +651,7 @@ const BouquetBuilder = () => {
                         </div>
                       )}
                       <input type="text" value={ribbonText} onChange={(e) => setRibbonText(e.target.value)}
-                        placeholder={ribbonType === "names" ? "e.g. Ana & Carlos" : "e.g. Happy Birthday"}
+                        placeholder={ribbonType === "names" ? t("builder.ribbonNamesPlaceholder") : t("builder.ribbonCongratsPlaceholder")}
                         className="w-full bg-card border border-border rounded-sm px-4 py-3 font-body text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30" />
                     </div>
                   )}
@@ -658,68 +660,28 @@ const BouquetBuilder = () => {
             </Section>
 
             {/* 8. AI Preview */}
-            <Section title="Preview" step={9} subtitle="Optional">
+            <Section title={t("builder.aiPreview")} step={9} subtitle={t("builder.optional")}>
               <div className="space-y-4">
-                <p className="text-sm text-muted-foreground font-body">
-                  Generate an approximate image of how your bouquet will look with your chosen options.
-                </p>
-                {selectedColors.length === 0 && (
-                  <p className="text-sm text-destructive font-body">⚠ Please select at least one color before generating a preview.</p>
-                )}
-                {selectedColors.length > 0 && !paperColor && (
-                  <p className="text-sm text-destructive font-body">⚠ Please select a paper color before generating a preview.</p>
-                )}
-                <button
-                  onClick={handleGeneratePreview}
-                  disabled={previewLoading || hasGeneratedPreview || selectedColors.length === 0 || !paperColor}
-                  className="inline-flex items-center gap-3 bg-primary text-primary-foreground px-6 py-3 font-body text-sm tracking-widest uppercase hover:bg-primary/90 transition-colors rounded-sm disabled:opacity-50 disabled:cursor-not-allowed"
-                >
-                  {previewLoading ? (
-                    <>
-                     <Loader2 className="w-4 h-4 animate-spin" />
-                      Generating...
-                    </>
-                  ) : hasGeneratedPreview ? (
-                    <>
-                      <Eye className="w-4 h-4" />
-                      Preview generated
-                    </>
-                  ) : (
-                    <>
-                      <Eye className="w-4 h-4" />
-                      Preview my bouquet
-                    </>
-                  )}
+                <p className="text-sm text-muted-foreground font-body">{t("builder.aiPreviewDesc")}</p>
+                {selectedColors.length === 0 && <p className="text-sm text-destructive font-body">{t("builder.selectColorFirst")}</p>}
+                {selectedColors.length > 0 && !paperColor && <p className="text-sm text-destructive font-body">{t("builder.selectPaperFirst")}</p>}
+                <button onClick={handleGeneratePreview} disabled={previewLoading || hasGeneratedPreview || selectedColors.length === 0 || !paperColor}
+                  className="inline-flex items-center gap-3 bg-primary text-primary-foreground px-6 py-3 font-body text-sm tracking-widest uppercase hover:bg-primary/90 transition-colors rounded-sm disabled:opacity-50 disabled:cursor-not-allowed">
+                  {previewLoading ? (<><Loader2 className="w-4 h-4 animate-spin" />{t("builder.generating")}</>) : hasGeneratedPreview ? (<><Eye className="w-4 h-4" />{t("builder.previewGenerated")}</>) : (<><Eye className="w-4 h-4" />{t("builder.generatePreview")}</>)}
                 </button>
-                {hasGeneratedPreview && (
-                  <p className="text-xs text-muted-foreground">Only one preview is allowed per customization.</p>
-                )}
-
-                {previewError && (
-                  <div className="bg-destructive/10 border border-destructive/20 rounded-sm p-4">
-                    <p className="text-sm font-body text-destructive">{previewError}</p>
-                  </div>
-                )}
-
+                {hasGeneratedPreview && <p className="text-xs text-muted-foreground">{t("builder.previewOnce")}</p>}
+                {previewError && <div className="bg-destructive/10 border border-destructive/20 rounded-sm p-4"><p className="text-sm font-body text-destructive">{previewError}</p></div>}
                 {previewUrl && (
                   <div className="space-y-2">
-                    <div className="relative overflow-hidden rounded-sm border border-border">
-                      <img
-                        src={previewUrl}
-                        alt="Preview of your custom bouquet"
-                        className="w-full h-auto object-contain max-h-[500px]"
-                      />
-                    </div>
-                    <p className="text-xs text-muted-foreground font-body text-center italic">
-                      * Illustrative image. The final result may vary slightly.
-                    </p>
+                    <div className="relative overflow-hidden rounded-sm border border-border"><img src={previewUrl} alt="Preview" className="w-full h-auto object-contain max-h-[500px]" /></div>
+                    <p className="text-xs text-muted-foreground font-body text-center italic">{t("builder.previewDisclaimer")}</p>
                   </div>
                 )}
               </div>
             </Section>
 
             {/* 9. Delivery */}
-            <Section title="Shipping" step={10}>
+            <Section title={t("builder.shipping")} step={10}>
               <div className="grid grid-cols-2 gap-3 mb-6">
                 <button
                   onClick={() => setDeliveryMethod("pickup")}
@@ -730,9 +692,9 @@ const BouquetBuilder = () => {
                   }`}
                 >
                   <Store className="w-6 h-6" />
-                  <div className="text-center">
-                     <p className="font-semibold text-sm text-foreground">Store pickup</p>
-                     <p className="text-xs text-muted-foreground mt-1">Free</p>
+                   <div className="text-center">
+                     <p className="font-semibold text-sm text-foreground">{t("builder.storePickup")}</p>
+                     <p className="text-xs text-muted-foreground mt-1">{t("builder.free")}</p>
                    </div>
                   {deliveryMethod === "pickup" && <Check className="w-4 h-4 text-primary" />}
                 </button>
@@ -745,9 +707,9 @@ const BouquetBuilder = () => {
                   }`}
                 >
                   <Truck className="w-6 h-6" />
-                  <div className="text-center">
-                     <p className="font-semibold text-sm text-foreground">Home delivery</p>
-                     <p className="text-xs text-muted-foreground mt-1">From $25</p>
+                   <div className="text-center">
+                     <p className="font-semibold text-sm text-foreground">{t("builder.homeDelivery")}</p>
+                     <p className="text-xs text-muted-foreground mt-1">{t("builder.fromPrice")}</p>
                   </div>
                   {deliveryMethod === "delivery" && <Check className="w-4 h-4 text-primary" />}
                 </button>
@@ -757,11 +719,11 @@ const BouquetBuilder = () => {
               <div className="space-y-4 p-5 rounded-sm border border-border bg-card mb-6">
                 {deliveryMethod === "pickup" ? (
                   <p className="font-body text-sm text-muted-foreground">
-                    📍 Pickup at: <span className="font-semibold text-foreground">7261 NW 12th St, Miami, FL 33126</span>
+                    {t("builder.pickupAt")} <span className="font-semibold text-foreground">7261 NW 12th St, Miami, FL 33126</span>
                   </p>
                 ) : (
                   <>
-                <p className="font-body font-semibold text-foreground text-sm">Delivery address</p>
+                <p className="font-body font-semibold text-foreground text-sm">{t("builder.deliveryAddress")}</p>
 
                 {deliveryMethod === "delivery" && (
                   <>
