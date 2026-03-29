@@ -328,8 +328,8 @@ const BouquetBuilder = () => {
             </div>
 
             {/* 1. Color */}
-            <Section title="Choose Your Bouquet Colors" step={1}>
-              <p className="text-xs text-muted-foreground font-body mb-4">Select up to 3 colors. Tap a selected color to remove it.</p>
+            <Section title={t("builder.chooseColors")} step={1}>
+              <p className="text-xs text-muted-foreground font-body mb-4">{t("builder.colorsHint")}</p>
               {colorCategories.map(({ key, label }) => {
                 const colors = colorOptions.filter((c) => c.category === key);
                 return (
