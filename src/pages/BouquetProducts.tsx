@@ -47,10 +47,7 @@ const BouquetProducts = () => {
           <Breadcrumbs items={[{ label: t("nav.home"), to: "/" }, { label: t("nav.bouquets") }]} />
 
           <div className="text-center mb-8">
-            <div className="flex items-center justify-center gap-2 mb-2">
-              <Sparkles className="w-5 h-5 text-primary" />
-             <p className="font-subtitle-script text-gold text-lg md:text-2xl mb-2">{t("bouquetProducts.subtitle")}</p>
-            </div>
+             <p className="font-subtitle-script text-primary text-lg md:text-2xl mb-2">{t("bouquetProducts.subtitle")}</p>
             <h1 className="font-title-retro text-4xl md:text-5xl text-foreground">{t("bouquetProducts.title")}</h1>
             <p className="text-muted-foreground font-body text-sm mt-3 max-w-2xl mx-auto">
               {t("bouquetProducts.description")}{' '}
