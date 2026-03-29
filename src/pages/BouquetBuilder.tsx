@@ -707,9 +707,9 @@ const BouquetBuilder = () => {
                   }`}
                 >
                   <Truck className="w-6 h-6" />
-                  <div className="text-center">
-                     <p className="font-semibold text-sm text-foreground">Home delivery</p>
-                     <p className="text-xs text-muted-foreground mt-1">From $25</p>
+                   <div className="text-center">
+                     <p className="font-semibold text-sm text-foreground">{t("builder.homeDelivery")}</p>
+                     <p className="text-xs text-muted-foreground mt-1">{t("builder.fromPrice")}</p>
                   </div>
                   {deliveryMethod === "delivery" && <Check className="w-4 h-4 text-primary" />}
                 </button>
