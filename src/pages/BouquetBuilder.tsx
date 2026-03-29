@@ -456,7 +456,7 @@ const BouquetBuilder = () => {
             </Section>
 
             {/* 4. Accessories */}
-            <Section title="Accessories" step={5}>
+            <Section title={t("builder.accessories")} step={5}>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
                 <button
                   onClick={() => setAccessory(accessory === "note" ? "none" : "note")}
@@ -466,8 +466,8 @@ const BouquetBuilder = () => {
                       : "border-border text-muted-foreground hover:border-primary/30"
                   }`}
                 >
-                  <img src={noteImg} alt="Note accessory" className="w-8 h-8 object-contain rounded-sm" />
-                  Note
+                  <img src={noteImg} alt="Note accessory" className="w-10 h-10 md:w-8 md:h-8 object-contain rounded-sm" />
+                  {t("builder.note")}
                   <span className="text-xs text-secondary">$3</span>
                 </button>
                 <button
@@ -478,8 +478,8 @@ const BouquetBuilder = () => {
                       : "border-border text-muted-foreground hover:border-primary/30"
                   }`}
                 >
-                  <img src={butterflyImg} alt="Butterfly accessory" className="w-8 h-8 object-contain" />
-                  Butterflies
+                  <img src={butterflyImg} alt="Butterfly accessory" className="w-10 h-10 md:w-8 md:h-8 object-contain" />
+                  {t("builder.butterflies")}
                   <span className="text-xs text-secondary">$3</span>
                 </button>
               </div>
@@ -487,7 +487,7 @@ const BouquetBuilder = () => {
                 <textarea
                   value={accessoryText}
                   onChange={(e) => setAccessoryText(e.target.value)}
-                  placeholder="Write your note..."
+                  placeholder={t("builder.writeNote")}
                   className="w-full mt-4 bg-card border border-border rounded-sm px-4 py-3 font-body text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30 min-h-[100px] resize-none"
                   maxLength={200}
                 />
