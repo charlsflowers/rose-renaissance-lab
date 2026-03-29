@@ -409,7 +409,7 @@ const BouquetBuilder = () => {
                       }`}
                     >
                       <p className="font-display text-2xl font-semibold text-foreground">{size.roses}</p>
-                      <p className="text-xs text-muted-foreground font-body">roses</p>
+                      <p className="text-xs text-muted-foreground font-body">{t("builder.roses")}</p>
                       <p className="text-sm font-body font-semibold text-primary mt-1">
                         ${price}
                       </p>
