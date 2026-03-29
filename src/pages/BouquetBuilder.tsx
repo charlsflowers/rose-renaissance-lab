@@ -605,7 +605,7 @@ const BouquetBuilder = () => {
                             crownSize === opt.size ? "border-primary bg-primary/10 text-primary" : "border-border text-muted-foreground hover:border-primary/30"
                           }`}>
                           <div className="w-16 h-12 overflow-hidden rounded-sm">
-                            <img src={opt.size === "silver" ? crownSilverImg : crownGoldImg} alt={opt.label} className="w-full h-full object-contain" />
+                           <img src={opt.size === "silver" ? crownSilverImg : crownGoldImg} alt={opt.label} className="w-full h-full object-contain" />
                           </div>
                           {opt.label}
                         </button>
