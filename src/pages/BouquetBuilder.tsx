@@ -561,7 +561,7 @@ const BouquetBuilder = () => {
             </Section>
 
             {/* 6. Vase */}
-            <Section title="Vase" step={7} subtitle="Optional">
+            <Section title={t("builder.vase")} step={7} subtitle={t("builder.optional")}>
               <div className="grid grid-cols-3 gap-3">
                 {vaseOptions.map((v, idx) => (
                   <button
@@ -572,7 +572,7 @@ const BouquetBuilder = () => {
                     }`}
                   >
                     <p className="font-display text-lg font-semibold text-foreground">{v.roses}</p>
-                    <p className="text-xs text-muted-foreground font-body">roses</p>
+                    <p className="text-xs text-muted-foreground font-body">{t("builder.roses")}</p>
                     <p className="text-sm font-body font-semibold text-primary">${v.price}</p>
                     {addVase && selectedVaseIdx === idx && <Check className="w-4 h-4 text-primary" />}
                   </button>
