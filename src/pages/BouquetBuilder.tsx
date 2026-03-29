@@ -567,20 +567,24 @@ const BouquetBuilder = () => {
             {/* 6. Vase */}
             <Section title={t("builder.vase")} step={7} subtitle={t("builder.optional")}>
               <div className="grid grid-cols-3 gap-3">
-                {vaseOptions.map((v, idx) => (
-                  <button
-                    key={v.roses}
-                    onClick={() => { setAddVase(!addVase || selectedVaseIdx !== idx); setSelectedVaseIdx(idx); if (addVase && selectedVaseIdx === idx) setAddVase(false); }}
-                    className={`flex flex-col items-center gap-2 p-4 rounded-sm border-2 transition-all ${
-                      addVase && selectedVaseIdx === idx ? "border-primary bg-primary/5" : "border-border hover:border-primary/30"
-                    }`}
-                  >
-                    <p className="font-display text-lg font-semibold text-foreground">{v.roses}</p>
-                    <p className="text-xs text-muted-foreground font-body">{t("builder.roses")}</p>
-                    <p className="text-sm font-body font-semibold text-primary">${v.price}</p>
-                    {addVase && selectedVaseIdx === idx && <Check className="w-4 h-4 text-primary" />}
-                  </button>
-                ))}
+                {vaseOptions.map((v, idx) => {
+                  const vaseImg = idx === 0 ? vase50Img : idx === 1 ? vase75Img : vase100Img;
+                  return (
+                    <button
+                      key={v.roses}
+                      onClick={() => { setAddVase(!addVase || selectedVaseIdx !== idx); setSelectedVaseIdx(idx); if (addVase && selectedVaseIdx === idx) setAddVase(false); }}
+                      className={`flex flex-col items-center gap-2 p-4 rounded-sm border-2 transition-all ${
+                        addVase && selectedVaseIdx === idx ? "border-primary bg-primary/5" : "border-border hover:border-primary/30"
+                      }`}
+                    >
+                      <img src={vaseImg} alt={v.label} className="w-16 h-16 md:w-20 md:h-20 object-contain" />
+                      <p className="font-display text-lg font-semibold text-foreground">{v.roses}</p>
+                      <p className="text-xs text-muted-foreground font-body">{t("builder.roses")}</p>
+                      <p className="text-sm font-body font-semibold text-primary">${v.price}</p>
+                      {addVase && selectedVaseIdx === idx && <Check className="w-4 h-4 text-primary" />}
+                    </button>
+                  );
+                })}
               </div>
             </Section>
 
