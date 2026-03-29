@@ -358,6 +358,19 @@ export const es = {
     title: "Preguntas Frecuentes",
   },
 
+  bouquetFaq: {
+    q1: "¿Cuántas rosas puedo pedir en un ramo?",
+    a1: "Nuestros ramos van de 50 a 200 rosas. Elige cualquier cantidad en incrementos de 25 durante el pedido.",
+    q2: "¿Qué acabados están disponibles?",
+    a2: "Ofrecemos tres acabados: natural (rosas frescas), glitter (pétalos con brillo) y pintado (rosas de colores personalizados como azul, negro o verde).",
+    q3: "¿Ofrecen envío el mismo día para ramos?",
+    a3: "¡Sí! Pide antes de las 3PM para envío el mismo día en todo Miami, hasta 87 millas desde nuestra tienda.",
+    q4: "¿Puedo mezclar diferentes colores de rosas en un ramo?",
+    a4: "¡Por supuesto! Explora nuestra colección de colores mixtos o usa el Creador de Ramos Personalizados para elegir tu combinación exacta de colores.",
+    q5: "¿Cuál es la diferencia entre ramos de un color y mixtos?",
+    a5: "Los ramos de un solo color presentan un color de rosa para un look elegante y uniforme. Los ramos mixtos combinan 2-4 colores para un arreglo vibrante y llamativo.",
+  },
+
   dialog: {
     basePrice: "Precio base:",
     deliveryMethod: "Método de envío",
