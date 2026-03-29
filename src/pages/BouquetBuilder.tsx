@@ -413,7 +413,7 @@ const BouquetBuilder = () => {
                       <p className="text-sm font-body font-semibold text-primary mt-1">
                         ${price}
                       </p>
-                      {tooFewRoses && <p className="text-[10px] text-destructive font-body mt-1">Min. {minRoses} roses</p>}
+                      {tooFewRoses && <p className="text-[10px] text-destructive font-body mt-1">{t("product.min")} {minRoses} {t("builder.roses")}</p>}
                     </button>
                   );
                 })}
