@@ -8,7 +8,7 @@ import JsonLd, { breadcrumbSchema } from "@/components/JsonLd";
 import CollectionFAQ, { useBouquetFAQs } from "@/components/CollectionFAQ";
 import { bouquetProducts, bouquetSizeOptions } from "@/lib/catalogData";
 import { getPrice } from "@/lib/productData";
-import { ArrowLeft, ArrowRight, Sparkles, Lock } from "lucide-react";
+import { ArrowLeft, ArrowRight, Lock } from "lucide-react";
 import { useTranslation } from "@/i18n/LanguageContext";
 
 type FilterType = "all" | "un-color" | "mezclas" | "zodiac";
