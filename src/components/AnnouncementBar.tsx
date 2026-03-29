@@ -6,7 +6,7 @@ const AnnouncementBar = () => {
   const { language } = useTranslation();
 
   const message = useMemo(() => {
-    const { hours, dayOfWeek } = getMiamiTime();
+    const { hours, day: dayOfWeek } = getMiamiTime();
     // Closing hours: Sun=17, Sat=18, Mon-Fri=19
     const closeHour = dayOfWeek === 0 ? 17 : dayOfWeek === 6 ? 18 : 19;
     const cutoff = 15; // 3PM

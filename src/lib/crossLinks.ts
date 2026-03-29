@@ -68,8 +68,6 @@ export const bouquetCrossLinks: Record<string, string[]> = {
   'bq-round-32':  ['bq-round-35', 'bq-round-33', 'bq-round-19'],   // Citrus Refresh
   'bq-zodiac-gemini': ['bq-round-19', 'bq-round-35', 'bq-round-33'],   // Gemini
 
-  // Remaining zodiac
-  'bq-zodiac-leo':       ['bq-round-20', 'bq-round-15', 'bq-round-36'],
   'bq-round-43':  ['bq-round-5', 'bq-round-40', 'bq-round-25'],    // Passionate Love
 
   // Soft Pink  
