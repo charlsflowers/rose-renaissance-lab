@@ -651,7 +651,7 @@ const BouquetBuilder = () => {
                         </div>
                       )}
                       <input type="text" value={ribbonText} onChange={(e) => setRibbonText(e.target.value)}
-                        placeholder={ribbonType === "names" ? "e.g. Ana & Carlos" : "e.g. Happy Birthday"}
+                        placeholder={ribbonType === "names" ? t("builder.ribbonNamesPlaceholder") : t("builder.ribbonCongratsPlaceholder")}
                         className="w-full bg-card border border-border rounded-sm px-4 py-3 font-body text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30" />
                     </div>
                   )}
