@@ -17,7 +17,7 @@ import heroBouquet from "@/assets/hero-cover.webp";
 import glitterRoseImg from "@/assets/glitter-rose.png";
 import crownSilverImg from "@/assets/crown-silver.webp";
 import crownGoldImg from "@/assets/crown-gold.webp";
-import butterflyImg from "@/assets/butterfly-gold.png";
+import butterflyImg from "@/assets/butterfly-gold.webp";
 import noteImg from "@/assets/accessory-note.webp";
 import lettersImg from "@/assets/letters-babybreathe.png";
 import {

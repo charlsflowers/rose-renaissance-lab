@@ -421,7 +421,7 @@ export const en = {
   // Common
   common: {
     comingSoon: "Coming Soon",
-    orderBefore3PM: "⏰ Order before 3PM for same-day delivery today",
+    orderBefore3PM: "Order before 3PM for same-day delivery today",
   },
 
   // Categories

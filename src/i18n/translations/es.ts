@@ -397,7 +397,7 @@ export const es = {
 
   common: {
     comingSoon: "Próximamente",
-    orderBefore3PM: "⏰ Pide antes de las 3PM para envío hoy mismo",
+    orderBefore3PM: "Pide antes de las 3PM para envío hoy mismo",
   },
 
   categories: {
