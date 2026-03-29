@@ -24,6 +24,7 @@ export interface BouquetProduct {
   name: string;
   shopifyHandle: string;
   description: string;
+  descriptionEs?: string;
   image: string;
   image2?: string;
   color: string;
