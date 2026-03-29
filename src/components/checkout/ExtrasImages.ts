@@ -13,7 +13,8 @@ export function getExtraImage(addonName: string): string | null {
   if (lower.includes("crown")) return crownSilverImg;
   if (lower.includes("butterfl")) return butterflyImg;
   if (lower.includes("letter") || lower.includes("number")) return lettersImg;
-  // Vase, ribbon, note, card — no dedicated image asset
+  if (lower.includes("note")) return noteImg;
+  // Vase, ribbon — no dedicated image asset
   return null;
 }
 
