@@ -4,6 +4,7 @@ import { format, addHours, isBefore, startOfDay } from "date-fns";
 import { miamiHourNow, todayInMiami, isTodayInMiami } from "@/lib/miamiTime";
 import { supabase } from "@/integrations/supabase/client";
 import { enUS } from "date-fns/locale";
+import { useTranslation } from "@/i18n/LanguageContext";
 import { useCartStore } from "@/stores/cartStore";
 import { toast } from "sonner";
 import { buildCheckoutUrl } from "@/lib/checkout";
