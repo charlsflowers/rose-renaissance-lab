@@ -131,7 +131,7 @@ const BouquetProducts = () => {
 
       {/* Collection FAQ */}
       <div className="container mx-auto px-6">
-        <CollectionFAQ faqs={bouquetFAQs} />
+        <CollectionFAQ faqs={translatedBouquetFAQs} />
       </div>
 
       {/* CTA */}
