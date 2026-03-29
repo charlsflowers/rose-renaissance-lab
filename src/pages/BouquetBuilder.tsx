@@ -591,8 +591,8 @@ const BouquetBuilder = () => {
                     }`}>
                     <Crown className="w-5 h-5 shrink-0" />
                     <div className="text-left flex-1">
-                      <p className="font-semibold">Crown Tiara</p>
-                      <p className="text-xs">Add a decorative crown</p>
+                      <p className="font-semibold">{t("builder.crown")}</p>
+                      <p className="text-xs">{t("builder.crownDesc")}</p>
                     </div>
                     <span className="text-xs font-semibold">+${crownPrice}</span>
                     {addCrown && <Check className="w-4 h-4 text-primary" />}
