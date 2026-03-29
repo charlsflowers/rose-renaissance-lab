@@ -628,7 +628,7 @@ const BouquetBuilder = () => {
                     className={`w-full flex items-center gap-3 p-4 rounded-sm border-2 transition-all font-body text-sm ${
                       addRibbon ? "border-primary bg-primary/5 text-primary" : "border-border text-muted-foreground hover:border-primary/30"
                     }`}>
-                    <Sparkles className="w-5 h-5 shrink-0" />
+                    <img src={ribbonImg} alt="Custom ribbon" className="w-12 h-12 object-contain shrink-0 rounded-sm" />
                     <div className="text-left flex-1">
                       <p className="font-semibold">{t("builder.customRibbon")}</p>
                       <p className="text-xs">{t("builder.ribbonDesc")}</p>
