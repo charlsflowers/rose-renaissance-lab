@@ -17,6 +17,7 @@ const isZodiac = (id: string) => id.startsWith('bq-zodiac-');
 
 const BouquetProducts = () => {
   const { t } = useTranslation();
+  const translatedBouquetFAQs = useBouquetFAQs();
   const [searchParams] = useSearchParams();
   const initialFilter = (searchParams.get("filter") as FilterType) || "all";
   const [filter, setFilter] = useState<FilterType>(initialFilter);
