@@ -397,11 +397,11 @@ const BouquetProductDetail = () => {
       <div className="grid grid-cols-2 gap-2">
         <button onClick={() => setAccessory(accessory === "note" ? "none" : "note")}
           className={`flex flex-col items-center gap-1 py-2 px-2 rounded-sm border-2 transition-all font-body text-sm ${accessory === "note" ? "border-primary bg-primary/5 text-primary" : "border-border text-muted-foreground hover:border-primary/30"}`}>
-          <img src={noteImg} alt="Note accessory" className="w-12 h-12 md:w-8 md:h-8 object-contain rounded-sm" /> {t("product.note")} <span className="text-[10px] text-secondary">$3</span>
+          <img src={noteImg} alt="Note accessory" className="w-16 h-16 md:w-12 md:h-12 object-contain rounded-sm" /> {t("product.note")} <span className="text-[10px] text-secondary">$3</span>
         </button>
         <button onClick={() => setAccessory(accessory === "butterfly" ? "none" : "butterfly")}
           className={`flex flex-col items-center gap-1 py-2 px-2 rounded-sm border-2 transition-all font-body text-sm ${accessory === "butterfly" ? "border-primary bg-primary/5 text-primary" : "border-border text-muted-foreground hover:border-primary/30"}`}>
-          <img src={butterflyImg} alt="Butterfly accessory" className="w-12 h-12 md:w-8 md:h-8 object-contain" /> {t("product.butterflies")} <span className="text-[10px] text-secondary">$3</span>
+          <img src={butterflyImg} alt="Butterfly accessory" className="w-16 h-16 md:w-12 md:h-12 object-contain" /> {t("product.butterflies")} <span className="text-[10px] text-secondary">$3</span>
         </button>
       </div>
       {accessory === "note" && (
@@ -587,26 +587,26 @@ const BouquetProductDetail = () => {
               {renderAccessoriesSection(false)}
               {renderShippingSection(false, autocompleteDesktopRef)}
 
-              {/* Desktop sticky bottom bar */}
-              <div className={`sticky bottom-0 z-10 transition-transform duration-300 ${showStickyBar ? "translate-y-0" : "translate-y-full"}`}>
-                <div className="bg-primary rounded-sm overflow-hidden">
-                  <button onClick={() => handleAddToCart()} disabled={isAdding || variantsLoading}
-                    className="w-full py-3 font-body text-xs tracking-[0.2em] uppercase text-primary-foreground hover:bg-primary/90 transition-colors disabled:opacity-50">
-                    {isAdding ? "..." : variantsLoading ? "..." : t("product.addToCart").toUpperCase()}
-                  </button>
-                </div>
-                <div className="flex items-center justify-between gap-3 py-2">
+              {/* Desktop bottom bar */}
+              <div className="space-y-3">
+                <div className="flex items-center justify-between">
                   <p className="font-body text-[10px] text-muted-foreground leading-tight flex-1 line-clamp-1">
                     {product.name} · {selectedSize.roses} {t("product.roses")}
                     {addGlitter === true && " · Glitter"}
                     {accessory !== "none" && ` · ${accessory === "note" ? t("product.note") : t("product.butterflies")}`}
                   </p>
                   <p className="font-display text-lg font-bold text-foreground whitespace-nowrap">${parseFloat(totalPrice.toFixed(2))}</p>
-                  <button onClick={handlePayNow} disabled={isAdding || variantsLoading}
-                    className="border-2 border-primary text-primary px-3 py-1.5 font-body text-[10px] tracking-widest uppercase hover:bg-primary/10 transition-colors rounded-sm whitespace-nowrap disabled:opacity-50">
-                    {isAdding ? "..." : t("product.orderAndPay")}
+                </div>
+                <div className="bg-primary rounded-sm overflow-hidden">
+                  <button onClick={() => handleAddToCart()} disabled={isAdding || variantsLoading}
+                    className="w-full py-3 font-body text-xs tracking-[0.2em] uppercase text-primary-foreground hover:bg-primary/90 transition-colors disabled:opacity-50">
+                    {isAdding ? "..." : variantsLoading ? "..." : t("product.addToCart").toUpperCase()}
                   </button>
                 </div>
+                <button onClick={handlePayNow} disabled={isAdding || variantsLoading}
+                  className="w-full border-2 border-primary text-primary py-2.5 font-body text-[10px] tracking-widest uppercase hover:bg-primary/10 transition-colors rounded-sm whitespace-nowrap disabled:opacity-50">
+                  {isAdding ? "..." : t("product.orderAndPay")}
+                </button>
               </div>
             </div>
           </div>
