@@ -900,235 +900,54 @@ const BouquetBuilder = () => {
               )}
             </Section>
 
-            {/* Summary */}
-            <div className="pb-4" />
-            <div className="sticky bottom-0 bg-card/95 backdrop-blur-md border border-border rounded-sm p-3 md:p-6 shadow-xl z-10">
-              <div className="flex flex-col md:flex-row items-center justify-between gap-2 md:gap-4">
-                <div>
-                  <p className="font-body text-[11px] md:text-sm text-muted-foreground leading-tight">
+            {/* Desktop: inline buttons after customer notes area */}
+            <div className="hidden md:block">
+              <div className="space-y-3">
+                <div className="flex items-center justify-between">
+                  <p className="font-body text-[10px] text-muted-foreground leading-tight flex-1 line-clamp-1">
                     {rosesCount} roses · {selectedColors.length > 0 ? selectedColors.map(c => c.nameEn).join(', ') : 'No color'}
-                    {paperColor && ` · Paper: ${paperColor}`}
-                    {specialText && ` · ${lettersNumbersType === "letters" ? "Letters" : "Numbers"}: ${specialText}`}
-                    {addCrown && ` · Crown (${crownSize === "gold" ? "Gold" : "Silver"})`}
-                    {addRibbon && " · Ribbon"}
-                    {accessory !== "none" && ` · ${accessory === "note" ? "Note" : accessory === "card" ? "Card" : "Butterflies"}`}
-                    {addGlitter && " · Glitter"}
-                    {addVase && ` · Vase (${vaseOptions[selectedVaseIdx].label})`}
-                    {deliveryMethod === "delivery" ? (deliveryMiles && !distanceTooFar ? ` · Shipping ${deliveryMiles}mi ($${deliveryCost})` : " · Shipping (pending)") : " · Store pickup"}
+                    {paperColor && ` · ${paperColor}`}
+                    {addGlitter === true && " · Glitter"}
+                    {accessory !== "none" && ` · ${accessory === "note" ? "Note" : "Butterflies"}`}
                   </p>
-                  <p className="font-display text-2xl md:text-3xl font-bold text-foreground whitespace-nowrap">
-                    ${parseFloat(totalPrice.toFixed(2))} <span className="text-xs md:text-sm font-body text-muted-foreground font-normal">USD</span>
-                  </p>
+                  <p className="font-display text-xl font-bold text-foreground whitespace-nowrap">${parseFloat(totalPrice.toFixed(2))}</p>
+                </div>
+                <div className="bg-primary rounded-sm overflow-hidden">
+                  <button
+                    disabled={isAdding || variantsLoading}
+                    onClick={handleBuilderAddToCart}
+                    className="w-full py-3 font-body text-xs tracking-[0.2em] uppercase text-primary-foreground hover:bg-primary/90 transition-colors disabled:opacity-50">
+                    {isAdding ? "..." : variantsLoading ? "..." : t("product.addToCart").toUpperCase()}
+                  </button>
                 </div>
                 <button
                   disabled={isAdding || variantsLoading}
-                  onClick={async () => {
-                    if (deliveryMethod === "delivery" && !selectedAddress) {
-                     toast.error("Please select a delivery address.");
-                      return;
-                    }
-                    if (deliveryMethod === "delivery" && (distanceTooFar || deliveryMiles === null)) {
-                      toast.error("The address is invalid or out of range.");
-                      return;
-                    }
-                    if (!deliveryDate || !deliveryHour) {
-                      toast.error("Please select a date and time.");
-                      return;
-                    }
-
-                    if (variantsLoading) {
-                      toast.error("We are still loading product variants.");
-                      return;
-                    }
-
-                    setIsAdding(true);
-                    try {
-                      console.log(`🛒 [BouquetBuilder] Add to cart clicked — roses=${rosesCount}, Custom Bouquet variant`);
-                      // Use Custom Bouquet product — no variant resolution needed
-
-                      const addons: string[] = [];
-                      if (addCrown) addons.push(`Crown Tiara (${crownSize})`);
-                      if (addRibbon) addons.push("Ribbon");
-                      if (addGlitter) addons.push("Glitter");
-                      if (addVase) addons.push(`Vase (${vaseOptions[selectedVaseIdx].label})`);
-                      if (specialText) addons.push(`${lettersNumbersType === "letters" ? "Letters" : "Numbers"}: ${specialText}`);
-
-                      await addItem({
-                        id: "",
-                        productName: "Custom Bouquet",
-                        bouquetType: "custom",
-                        color: selectedColors.map(c => c.nameEn).join(', '),
-                        roses: rosesCount,
-                        price: basePrice + lettersNumbersCost + crownCost + ribbonCost + glitterCost + vaseCost + accessoryCost,
-                        deliveryCost,
-                        totalPrice,
-                        addons,
-                        accessory,
-                        accessoryText,
-                        ribbonText,
-                        crownSize: addCrown ? crownSize : "",
-                        specialText,
-                        heartColor: "",
-                        glitter: addGlitter,
-                        deliveryMethod,
-                        deliveryName: "",
-                        deliveryPhone: "",
-                        deliveryEmail: "",
-                        deliveryAddress: deliveryMethod === "delivery" ? selectedAddress : "Store pickup",
-                        deliveryZip: deliveryMethod === "delivery" ? deliveryZip : "",
-                        deliveryDate: deliveryDate ? format(deliveryDate, "yyyy-MM-dd") : "",
-                        deliveryHour,
-                        deliveryMiles: deliveryMethod === "delivery" ? deliveryMiles : null,
-                        paperColor,
-                        shopifyVariantId: customBouquetVariantGid,
-                      });
-                      toast.success("Bouquet added to cart!");
-                      navigate("/checkout");
-                    } catch {
-                      toast.error("Failed to add to cart.");
-                    } finally {
-                      setIsAdding(false);
-                    }
-                  }}
-                  className="w-full md:w-auto bg-primary text-primary-foreground px-6 py-3 md:px-10 md:py-4 font-body text-xs md:text-sm tracking-widest uppercase hover:bg-primary/90 transition-colors rounded-sm disabled:opacity-50"
-                >
-                  {isAdding ? "Adding..." : variantsLoading ? "Loading..." : "Add to cart"}
+                  onClick={handleBuilderPayNow}
+                  className="w-full border-2 border-primary text-primary py-2.5 font-body text-[10px] tracking-widest uppercase hover:bg-primary/10 transition-colors rounded-sm disabled:opacity-50">
+                  {isAdding ? "..." : t("product.orderAndPay")}
                 </button>
-                <button
-                  disabled={isAdding || variantsLoading}
-                  onClick={async () => {
-                    if (deliveryMethod === "delivery" && !selectedAddress) {
-                      toast.error("Please select a delivery address.");
-                      return;
-                    }
-                    if (deliveryMethod === "delivery" && (distanceTooFar || deliveryMiles === null)) {
-                      toast.error("The address is invalid or out of range.");
-                      return;
-                    }
-                    if (!deliveryDate || !deliveryHour) {
-                      toast.error("Please select a date and time.");
-                      return;
-                    }
+              </div>
+            </div>
 
-                    if (variantsLoading) {
-                      toast.error("We are still loading product variants.");
-                      return;
-                    }
-
-                    setIsAdding(true);
-                    try {
-                      console.log(`💳 [BouquetBuilder] Pay Now clicked — roses=${rosesCount}, Custom Bouquet variant`);
-                      // Use Custom Bouquet product — no variant resolution needed
-
-                      const addons: string[] = [];
-                      if (addCrown) addons.push(`Crown Tiara (${crownSize})`);
-                      if (addRibbon) addons.push("Ribbon");
-                      if (addGlitter) addons.push("Glitter");
-                      if (addVase) addons.push(`Vase (${vaseOptions[selectedVaseIdx].label})`);
-                      if (specialText) addons.push(`${lettersNumbersType === "letters" ? "Letters" : "Numbers"}: ${specialText}`);
-
-                      await addItem({
-                        id: "",
-                        productName: "Custom Bouquet",
-                        bouquetType: "custom",
-                        color: selectedColors.map(c => c.nameEn).join(', '),
-                        roses: rosesCount,
-                        price: basePrice + lettersNumbersCost + crownCost + ribbonCost + glitterCost + vaseCost + accessoryCost,
-                        deliveryCost,
-                        totalPrice,
-                        addons,
-                        accessory,
-                        accessoryText,
-                        ribbonText,
-                        crownSize: addCrown ? crownSize : "",
-                        specialText,
-                        heartColor: "",
-                        glitter: addGlitter,
-                        deliveryMethod,
-                        deliveryName: "",
-                        deliveryPhone: "",
-                        deliveryEmail: "",
-                        deliveryAddress: deliveryMethod === "delivery" ? selectedAddress : "Store pickup",
-                        deliveryZip: deliveryMethod === "delivery" ? deliveryZip : "",
-                        deliveryDate: deliveryDate ? format(deliveryDate, "yyyy-MM-dd") : "",
-                        deliveryHour,
-                        deliveryMiles: deliveryMethod === "delivery" ? deliveryMiles : null,
-                        paperColor,
-                        shopifyVariantId: customBouquetVariantGid,
-                      });
-                      toast.success("Bouquet added to cart!");
-
-                      const accessories = buildAccessoryLineItems({
-                        glitter: addGlitter,
-                        rosesCount,
-                        accessory,
-                        specialText,
-                        addVase,
-                        vaseRoses: addVase ? vaseOptions[selectedVaseIdx].roses : undefined,
-                        addCrown,
-                        crownSize,
-                        addRibbon,
-                      });
-
-                      const noteLines: string[] = [];
-                      noteLines.push("DATOS DEL ENVÍO");
-                      noteLines.push(`- 🚚 Tipo: ${deliveryMethod === "delivery" ? "Home Delivery" : "Store Pickup"}`);
-                      if (deliveryDate) noteLines.push(`- 📅 Fecha: ${format(deliveryDate, "PPP", { locale: enUS })}`);
-                      if (deliveryHour) noteLines.push(`- ⏰ Hora: ${deliveryHour}`);
-                      if (deliveryMethod === "delivery" && selectedAddress) noteLines.push(`- 📍 Dirección: ${selectedAddress}`);
-
-                      noteLines.push("");
-                      noteLines.push("DATOS DEL PRODUCTO 1");
-                      noteLines.push(`- 🌹 Producto: Custom Bouquet`);
-                      if (selectedColors.length > 0) {
-                        selectedColors.forEach((c, ci) => {
-                          noteLines.push(`- 🌸 Colour ${ci + 1}: ${c.nameEn}`);
-                        });
-                      }
-                      if (paperColor) noteLines.push(`- 📄 Paper color: ${paperColor}`);
-                      if (rosesCount) noteLines.push(`- 🌹 Roses: ${rosesCount}`);
-                      if (addGlitter) noteLines.push(`- ✨ Glitter finish: Yes`);
-                      if (addCrown && crownSize) noteLines.push(`- 👑 Crown: ${crownSize}`);
-                      if (accessory && accessory !== "none") {
-                        const accLabel = accessory === "note" ? "Notes" : accessory === "card" ? "Card" : "Butterflies";
-                        noteLines.push(`- 🦋 Accessory: ${accLabel}`);
-                      }
-                      if (accessoryText) noteLines.push(`- 💌 Card text: ${accessoryText}`);
-                      if (addRibbon && ribbonText) noteLines.push(`- 🎀 Custom ribbon: ${ribbonText}`);
-                      if (specialText) noteLines.push(`- 🔤 Letters or numbers (Baby Breath): ${specialText}`);
-                      if (addVase) noteLines.push(`- 🏺 Vase: ${vaseOptions[selectedVaseIdx].label}`);
-
-                      const cartTotalForFee = (basePrice + lettersNumbersCost + crownCost + ribbonCost + glitterCost + vaseCost + accessoryCost) + deliveryCost;
-                      const serviceFeePrice = cartTotalForFee * 0.05;
-
-                      const finalUrl = buildCheckoutUrl(customBouquetVariantGid, {
-                        deliveryMethod,
-                        deliveryCost,
-                        serviceFee: serviceFeePrice,
-                        deliveryAddress: deliveryMethod === "delivery" ? selectedAddress : undefined,
-                        deliveryCity: deliveryMethod === "delivery" ? deliveryCity : undefined,
-                        deliveryZip: deliveryMethod === "delivery" ? deliveryZip : undefined,
-                        deliveryDate: deliveryDate ? format(deliveryDate, "PPP", { locale: enUS }) : undefined,
-                        deliveryTime: deliveryHour || undefined,
-                        accessories,
-                        note: noteLines.join("\n"),
-                      });
-
-                      if (finalUrl) {
-                        window.location.href = finalUrl;
-                      } else {
-                        toast.error("Could not get checkout URL.");
-                      }
-                    } catch {
-                      toast.error("Failed to add to cart.");
-                    } finally {
-                      setIsAdding(false);
-                    }
-                  }}
-                  className="w-full md:w-auto border-2 border-primary text-primary px-6 py-3 md:px-10 md:py-4 font-body text-xs md:text-sm tracking-widest uppercase hover:bg-primary/10 transition-colors rounded-sm disabled:opacity-50"
-                >
-                  {isAdding ? "Adding..." : "Pay now"}
-                </button>
+            {/* Mobile: fixed bottom bar */}
+            <div className="h-20 md:hidden" />
+            <div className={`fixed bottom-0 left-0 right-0 z-50 md:hidden transition-transform duration-300 ${showStickyBar ? "translate-y-0" : "translate-y-full"}`}>
+              <div className="bg-card/95 backdrop-blur-md border-t border-border p-2.5 shadow-xl">
+                <div className="flex items-center justify-between gap-2 container mx-auto px-4">
+                  <p className="font-display text-lg font-bold text-foreground whitespace-nowrap">
+                    ${parseFloat(totalPrice.toFixed(2))}
+                  </p>
+                  <div className="flex gap-2">
+                    <button onClick={handleBuilderAddToCart} disabled={isAdding || variantsLoading}
+                      className="bg-primary text-primary-foreground px-4 py-2 font-body text-[10px] tracking-widest uppercase hover:bg-primary/90 transition-colors rounded-sm disabled:opacity-50 whitespace-nowrap">
+                      {isAdding ? "..." : t("product.addToCart")}
+                    </button>
+                    <button onClick={handleBuilderPayNow} disabled={isAdding || variantsLoading}
+                      className="border-2 border-primary text-primary px-3 py-2 font-body text-[10px] tracking-widest uppercase hover:bg-primary/10 transition-colors rounded-sm whitespace-nowrap disabled:opacity-50">
+                      {isAdding ? "..." : t("product.orderAndPay")}
+                    </button>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
