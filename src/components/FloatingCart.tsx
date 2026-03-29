@@ -24,7 +24,7 @@ const FloatingCart = () => {
             className="flex items-center gap-3 bg-primary text-primary-foreground px-6 py-3 rounded-full shadow-2xl hover:bg-primary/90 transition-colors font-body"
           >
             <BrandLogo className="w-6 h-6" color="hsl(var(--primary-foreground))" />
-            <span className="text-sm font-semibold">
+            <span className="text-sm font-semibold whitespace-nowrap">
               {totalItems} {totalItems === 1 ? t("floatingCart.item") : t("floatingCart.items")}
             </span>
             <span className="bg-primary-foreground/20 px-3 py-1 rounded-full text-sm font-bold whitespace-nowrap">

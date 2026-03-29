@@ -5,7 +5,7 @@ import Footer from "@/components/Footer";
 import SeoHead from "@/components/SeoHead";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import JsonLd, { breadcrumbSchema } from "@/components/JsonLd";
-import CollectionFAQ, { bouquetFAQs } from "@/components/CollectionFAQ";
+import CollectionFAQ, { useBouquetFAQs } from "@/components/CollectionFAQ";
 import { bouquetProducts, bouquetSizeOptions } from "@/lib/catalogData";
 import { getPrice } from "@/lib/productData";
 import { ArrowLeft, ArrowRight, Sparkles, Lock } from "lucide-react";
@@ -17,6 +17,7 @@ const isZodiac = (id: string) => id.startsWith('bq-zodiac-');
 
 const BouquetProducts = () => {
   const { t } = useTranslation();
+  const translatedBouquetFAQs = useBouquetFAQs();
   const [searchParams] = useSearchParams();
   const initialFilter = (searchParams.get("filter") as FilterType) || "all";
   const [filter, setFilter] = useState<FilterType>(initialFilter);
@@ -130,7 +131,7 @@ const BouquetProducts = () => {
 
       {/* Collection FAQ */}
       <div className="container mx-auto px-6">
-        <CollectionFAQ faqs={bouquetFAQs} />
+        <CollectionFAQ faqs={translatedBouquetFAQs} />
       </div>
 
       {/* CTA */}

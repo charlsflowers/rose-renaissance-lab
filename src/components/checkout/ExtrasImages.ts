@@ -1,9 +1,10 @@
 // Maps addon/extra names to their thumbnail images
 import glitterRoseImg from "@/assets/glitter-rose.png";
-import crownSilverImg from "@/assets/crown-silver.png";
-import crownGoldImg from "@/assets/crown-gold.png";
+import crownSilverImg from "@/assets/crown-silver.webp";
+import crownGoldImg from "@/assets/crown-gold.webp";
 import butterflyImg from "@/assets/butterfly-gold.png";
 import lettersImg from "@/assets/letters-babybreathe.png";
+import noteImg from "@/assets/accessory-note.webp";
 
 export function getExtraImage(addonName: string): string | null {
   const lower = addonName.toLowerCase();
@@ -12,7 +13,8 @@ export function getExtraImage(addonName: string): string | null {
   if (lower.includes("crown")) return crownSilverImg;
   if (lower.includes("butterfl")) return butterflyImg;
   if (lower.includes("letter") || lower.includes("number")) return lettersImg;
-  // Vase, ribbon, note, card — no dedicated image asset
+  if (lower.includes("note")) return noteImg;
+  // Vase, ribbon — no dedicated image asset
   return null;
 }
 

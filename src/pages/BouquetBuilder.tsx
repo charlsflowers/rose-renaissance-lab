@@ -15,9 +15,10 @@ import Navbar from "@/components/Navbar";
 import PaperColorPicker from "@/components/PaperColorPicker";
 import heroBouquet from "@/assets/hero-cover.webp";
 import glitterRoseImg from "@/assets/glitter-rose.png";
-import crownSilverImg from "@/assets/crown-silver.png";
-import crownGoldImg from "@/assets/crown-gold.png";
+import crownSilverImg from "@/assets/crown-silver.webp";
+import crownGoldImg from "@/assets/crown-gold.webp";
 import butterflyImg from "@/assets/butterfly-gold.png";
+import noteImg from "@/assets/accessory-note.webp";
 import lettersImg from "@/assets/letters-babybreathe.png";
 import {
   colorOptions,
@@ -241,7 +242,7 @@ const BouquetBuilder = () => {
 
   const crownCost = addCrown ? crownPrice : 0;
   const ribbonCost = addRibbon ? ribbonPrice : 0;
-  const accessoryCost = accessory === "note" ? 3 : 0;
+  const accessoryCost = accessory === "note" ? 3 : accessory === "butterfly" ? 3 : 0;
 
   const totalPrice = useMemo(() => {
     let total = basePrice + lettersNumbersCost;
@@ -456,15 +457,27 @@ const BouquetBuilder = () => {
             <Section title="Accessories" step={5}>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
                 <button
-                  onClick={() => setAccessory("note")}
+                  onClick={() => setAccessory(accessory === "note" ? "none" : "note")}
                   className={`flex flex-col items-center gap-2 p-4 rounded-sm border-2 transition-all font-body text-sm ${
                     accessory === "note"
                       ? "border-primary bg-primary/5 text-primary"
                       : "border-border text-muted-foreground hover:border-primary/30"
                   }`}
                 >
-                  <Type className="w-4 h-4" />
+                  <img src={noteImg} alt="Note accessory" className="w-8 h-8 object-contain rounded-sm" />
                   Note
+                  <span className="text-xs text-secondary">$3</span>
+                </button>
+                <button
+                  onClick={() => setAccessory(accessory === "butterfly" ? "none" : "butterfly")}
+                  className={`flex flex-col items-center gap-2 p-4 rounded-sm border-2 transition-all font-body text-sm ${
+                    accessory === "butterfly"
+                      ? "border-primary bg-primary/5 text-primary"
+                      : "border-border text-muted-foreground hover:border-primary/30"
+                  }`}
+                >
+                  <img src={butterflyImg} alt="Butterfly accessory" className="w-8 h-8 object-contain" />
+                  Butterflies
                   <span className="text-xs text-secondary">$3</span>
                 </button>
               </div>

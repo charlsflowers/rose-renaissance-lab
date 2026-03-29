@@ -44,6 +44,17 @@ const CollectionFAQ = ({ faqs }: Props) => {
 
 export default CollectionFAQ;
 
+export function useBouquetFAQs(): FAQItem[] {
+  const { t } = useTranslation();
+  return [
+    { question: t("bouquetFaq.q1"), answer: t("bouquetFaq.a1") },
+    { question: t("bouquetFaq.q2"), answer: t("bouquetFaq.a2") },
+    { question: t("bouquetFaq.q3"), answer: t("bouquetFaq.a3") },
+    { question: t("bouquetFaq.q4"), answer: t("bouquetFaq.a4") },
+    { question: t("bouquetFaq.q5"), answer: t("bouquetFaq.a5") },
+  ];
+}
+
 export const bouquetFAQs: FAQItem[] = [
   { question: "How many roses can I order in one bouquet?", answer: "Our bouquets range from 50 to 200 roses. Choose any quantity in increments of 25 during checkout." },
   { question: "What finishes are available?", answer: "We offer three finishes: natural (fresh roses), glitter (sparkle-coated petals), and painted (custom color roses like blue, black, or green)." },
