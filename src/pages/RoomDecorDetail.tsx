@@ -13,7 +13,7 @@ import { seoData } from "@/lib/seoData";
 import SeoHead from "@/components/SeoHead";
 import JsonLd, { productSchema, breadcrumbSchema } from "@/components/JsonLd";
 import Breadcrumbs from "@/components/Breadcrumbs";
-import { buildCheckoutUrl } from "@/lib/checkout";
+import { performApiCheckout } from "@/lib/checkout";
 import {
   ArrowLeft, Check, Truck, CalendarIcon, Clock, MapPin, Search, Loader2, Heart,
 } from "lucide-react";
@@ -209,22 +209,19 @@ const RoomDecorDetail = () => {
       }
 
       const cartTotalForFee = (pkg.price + addonsCost + ribbonCost) + (deliveryMethod === "delivery" ? deliveryCost : 0);
-      const serviceFeePrice = cartTotalForFee * 0.05;
 
-      const finalUrl = buildCheckoutUrl(pkg.shopifyVariantId, {
+      const checkoutUrl = await performApiCheckout({
         deliveryMethod,
         deliveryCost,
-        serviceFee: serviceFeePrice,
+        serviceFeeBase: cartTotalForFee,
         deliveryAddress: deliveryMethod === "delivery" ? selectedAddress : undefined,
         deliveryZip: deliveryMethod === "delivery" ? deliveryZip : undefined,
-        deliveryDate: deliveryDate ? format(deliveryDate, "PPP", { locale: enUS }) : undefined,
-        deliveryTime: deliveryHour || undefined,
         accessories: [],
         note: noteLines.join("\n"),
       });
 
-      if (finalUrl) {
-        window.location.href = finalUrl;
+      if (checkoutUrl) {
+        window.location.href = checkoutUrl;
       } else {
         toast.error("Could not get checkout URL.");
       }
