@@ -1,5 +1,12 @@
 import { useCartStore } from "@/stores/cartStore";
-import type { AccessoryLineItem } from "@/lib/accessoryVariants";
+import { DELIVERY_FEE_VARIANT_GID, type AccessoryLineItem } from "@/lib/accessoryVariants";
+import {
+  addLineToShopifyCart,
+  updateCartNote,
+  updateCartBuyerIdentity,
+  fetchCartCheckoutUrl,
+  type ShippingAddress,
+} from "@/lib/shopify";
 
 const SHOPIFY_CART_BASE_URL = "https://charls-flowers.myshopify.com/cart";
 const DELIVERY_FEE_VARIANT_NUMERIC_ID = "51629708935300";
@@ -134,4 +141,70 @@ export function buildCheckoutUrl(variantId?: string, options?: CheckoutDeliveryO
 
 export function openCheckoutInNewTab(checkoutUrl: string) {
   window.location.href = checkoutUrl;
+}
+
+// ─── Storefront API checkout (replaces permalink flow) ───
+
+const SERVICE_FEE_VARIANT_GID = "gid://shopify/ProductVariant/51654333595780";
+
+export interface ApiCheckoutOptions {
+  deliveryMethod: "pickup" | "delivery";
+  deliveryCost: number;
+  serviceFeeBase: number;
+  deliveryAddress?: string;
+  deliveryZip?: string;
+  accessories: AccessoryLineItem[];
+  note: string;
+}
+
+/**
+ * Perform checkout via Shopify Storefront API.
+ * Adds accessory / delivery / service-fee lines to the existing cart,
+ * sets the order note & buyer identity, then returns the real checkout URL.
+ */
+export async function performApiCheckout(options: ApiCheckoutOptions): Promise<string | null> {
+  const { cartId, checkoutUrl: storedCheckoutUrl } = useCartStore.getState();
+  if (!cartId) return null;
+
+  // Add accessory lines (convert numeric IDs → GIDs when needed)
+  for (const acc of options.accessories) {
+    const gid = acc.variantId.startsWith("gid://")
+      ? acc.variantId
+      : `gid://shopify/ProductVariant/${acc.variantId}`;
+    await addLineToShopifyCart(cartId, gid, acc.quantity);
+  }
+
+  // Add delivery fee
+  if (options.deliveryMethod === "delivery" && options.deliveryCost > 0) {
+    await addLineToShopifyCart(cartId, DELIVERY_FEE_VARIANT_GID, Math.round(options.deliveryCost * 10));
+  }
+
+  // Add service fee (5% of base total)
+  const serviceFeePrice = options.serviceFeeBase * 0.05;
+  const serviceFeeQty = Math.round(serviceFeePrice / 0.10);
+  if (serviceFeeQty > 0) {
+    await addLineToShopifyCart(cartId, SERVICE_FEE_VARIANT_GID, serviceFeeQty);
+  }
+
+  // Update cart note
+  if (options.note) {
+    await updateCartNote(cartId, options.note);
+  }
+
+  // Update buyer identity for delivery
+  if (options.deliveryMethod === "delivery" && options.deliveryAddress) {
+    const parts = options.deliveryAddress.split(",").map(p => p.trim());
+    const parsed: ShippingAddress = {
+      address1: parts[0] || "",
+      city: parts[1] || "",
+      province: "",
+      zip: options.deliveryZip || "",
+      country: "US",
+    };
+    await updateCartBuyerIdentity(cartId, parsed);
+  }
+
+  // Fetch fresh checkout URL from Shopify
+  const freshUrl = await fetchCartCheckoutUrl(cartId);
+  return freshUrl || storedCheckoutUrl;
 }

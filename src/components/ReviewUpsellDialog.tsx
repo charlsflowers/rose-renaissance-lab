@@ -11,7 +11,7 @@ import { useCartStore, type CartItem } from "@/stores/cartStore";
 import { crownOptions, crownPrice, ribbonPrice, ribbonPresets } from "@/lib/productData";
 import { calculateDeliveryCost, formatDeliveryCost } from "@/lib/deliveryPricing";
 import { fetchVariantsByHandle, findVariantByRoses, type ShopifyHandleVariant } from "@/lib/shopifyVariants";
-import { buildCheckoutUrl } from "@/lib/checkout";
+import { performApiCheckout } from "@/lib/checkout";
 import { bouquetProducts } from "@/lib/catalogData";
 import type { ReviewCartData } from "@/components/ReviewCard";
 import { toast } from "sonner";
@@ -220,21 +220,19 @@ const ReviewUpsellDialog = ({ open, onOpenChange, cartData, productLabel, mode }
         if (addRibbon && ribbonText) noteLines.push(`- 🎀 Custom ribbon: ${ribbonText}`);
 
         const cartTotalForFee = cartData.price + deliveryCost;
-        const serviceFeePrice = cartTotalForFee * 0.05;
-        const finalUrl = buildCheckoutUrl(variant.id, {
+
+        const checkoutUrl = await performApiCheckout({
           deliveryMethod,
           deliveryCost,
-          serviceFee: serviceFeePrice,
+          serviceFeeBase: cartTotalForFee,
           deliveryAddress: deliveryMethod === "delivery" ? selectedAddress : undefined,
           deliveryZip: deliveryMethod === "delivery" ? deliveryZip : undefined,
-          deliveryDate: deliveryDate ? format(deliveryDate, "PPP", { locale: enUS }) : undefined,
-          deliveryTime: deliveryHour || undefined,
           accessories,
           note: noteLines.join("\n"),
         });
 
-        if (finalUrl) {
-          window.location.href = finalUrl;
+        if (checkoutUrl) {
+          window.location.href = checkoutUrl;
         } else {
           toast.error("Could not get checkout URL.");
         }

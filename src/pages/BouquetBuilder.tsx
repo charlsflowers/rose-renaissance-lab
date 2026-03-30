@@ -7,7 +7,7 @@ import { enUS } from "date-fns/locale";
 import { useTranslation } from "@/i18n/LanguageContext";
 import { useCartStore } from "@/stores/cartStore";
 import { toast } from "sonner";
-import { buildCheckoutUrl } from "@/lib/checkout";
+import { performApiCheckout } from "@/lib/checkout";
 import { calculateDeliveryCost, formatDeliveryCost } from "@/lib/deliveryPricing";
 import { buildAccessoryLineItems, CUSTOM_BOUQUET_VARIANT_ID } from "@/lib/accessoryVariants";
 import { resolveCustomBouquetVariantId } from "@/lib/customBouquetVariants";
@@ -415,18 +415,18 @@ const BouquetBuilder = () => {
       if (addVase) noteLines.push(`- 🏺 Vase: ${vaseOptions[selectedVaseIdx].label}`);
 
       const cartTotalForFee = (basePrice + lettersNumbersCost + crownCost + ribbonCost + glitterCost + vaseCost + accessoryCost) + deliveryCost;
-      const finalUrl = buildCheckoutUrl(customBouquetVariantGid, {
-        deliveryMethod, deliveryCost, serviceFee: cartTotalForFee * 0.05,
+
+      const checkoutUrl = await performApiCheckout({
+        deliveryMethod,
+        deliveryCost,
+        serviceFeeBase: cartTotalForFee,
         deliveryAddress: deliveryMethod === "delivery" ? selectedAddress : undefined,
-        deliveryCity: deliveryMethod === "delivery" ? deliveryCity : undefined,
         deliveryZip: deliveryMethod === "delivery" ? deliveryZip : undefined,
-        deliveryDate: deliveryDate ? format(deliveryDate, "PPP", { locale: enUS }) : undefined,
-        deliveryTime: deliveryHour || undefined,
         accessories,
         note: noteLines.join("\n"),
       });
 
-      if (finalUrl) window.location.href = finalUrl;
+      if (checkoutUrl) window.location.href = checkoutUrl;
       else toast.error("Could not get checkout URL.");
     } catch { toast.error("Failed to add to cart."); }
     finally { setIsAdding(false); }

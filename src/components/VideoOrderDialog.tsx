@@ -11,7 +11,7 @@ import { useCartStore, type CartItem } from "@/stores/cartStore";
 import { letterNumberExtraPrice, ribbonPrice } from "@/lib/productData";
 import { calculateDeliveryCost, formatDeliveryCost } from "@/lib/deliveryPricing";
 import { fetchVariantsByHandle, findVariantByRoses, toShopifyHandle, type ShopifyHandleVariant } from "@/lib/shopifyVariants";
-import { buildCheckoutUrl } from "@/lib/checkout";
+import { performApiCheckout } from "@/lib/checkout";
 import { buildAccessoryLineItems } from "@/lib/accessoryVariants";
 import type { VideoProduct } from "@/components/ClientVideos";
 import { toast } from "sonner";
@@ -239,21 +239,19 @@ const VideoOrderDialog = ({ video, open, onOpenChange }: Props) => {
         if (specialText) noteLines.push(`- 🔤 Letters or numbers (Baby Breath): ${specialText}`);
 
         const cartTotalForFee = video.basePrice + deliveryCost;
-        const serviceFeePrice = cartTotalForFee * 0.05;
-        const finalUrl = buildCheckoutUrl(variant.id, {
+
+        const checkoutUrl = await performApiCheckout({
           deliveryMethod,
           deliveryCost,
-          serviceFee: serviceFeePrice,
+          serviceFeeBase: cartTotalForFee,
           deliveryAddress: deliveryMethod === "delivery" ? selectedAddress : undefined,
           deliveryZip: deliveryMethod === "delivery" ? deliveryZip : undefined,
-          deliveryDate: deliveryDate ? format(deliveryDate, "PPP", { locale: enUS }) : undefined,
-          deliveryTime: deliveryHour || undefined,
           accessories,
           note: noteLines.join("\n"),
         });
 
-        if (finalUrl) {
-          window.location.href = finalUrl;
+        if (checkoutUrl) {
+          window.location.href = checkoutUrl;
         } else {
           toast.error("Could not get checkout URL.");
         }
