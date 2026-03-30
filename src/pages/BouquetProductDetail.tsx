@@ -12,7 +12,7 @@ import { enUS } from "date-fns/locale";
 import { supabase } from "@/integrations/supabase/client";
 import { useCartStore } from "@/stores/cartStore";
 import { fetchVariantsByHandle, findVariantByRoses, type ShopifyHandleVariant } from "@/lib/shopifyVariants";
-import { buildCheckoutUrl } from "@/lib/checkout";
+import { performApiCheckout } from "@/lib/checkout";
 import { calculateDeliveryCost, formatDeliveryCost } from "@/lib/deliveryPricing";
 import { toast } from "sonner";
 import { buildAccessoryLineItems } from "@/lib/accessoryVariants";
@@ -342,21 +342,19 @@ const BouquetProductDetail = () => {
       }
 
       const cartTotalForFee = basePrice + deliveryCost;
-      const serviceFeePrice = cartTotalForFee * 0.05;
-      const finalUrl = buildCheckoutUrl(variantId, {
+
+      const checkoutUrl = await performApiCheckout({
         deliveryMethod,
         deliveryCost,
-        serviceFee: serviceFeePrice,
+        serviceFeeBase: cartTotalForFee,
         deliveryAddress: deliveryMethod === "delivery" ? selectedAddress : undefined,
         deliveryZip: deliveryMethod === "delivery" ? deliveryZip : undefined,
-        deliveryDate: deliveryDate ? format(deliveryDate, "PPP", { locale: enUS }) : undefined,
-        deliveryTime: deliveryHour || undefined,
         accessories,
         note: noteLines.join("\n"),
       });
 
-      if (finalUrl) {
-        window.location.href = finalUrl;
+      if (checkoutUrl) {
+        window.location.href = checkoutUrl;
       } else {
         toast.error("Could not get checkout URL.");
       }

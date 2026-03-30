@@ -4,7 +4,7 @@ import { enUS } from "date-fns/locale";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import { useCartStore } from "@/stores/cartStore";
-import { buildCheckoutUrl } from "@/lib/checkout";
+import { performApiCheckout } from "@/lib/checkout";
 import { buildAccessoryLineItems } from "@/lib/accessoryVariants";
 import Navbar from "@/components/Navbar";
 import type { DeliveryResult } from "@/components/DeliveryCalculator";
@@ -114,26 +114,23 @@ const Checkout = () => {
       });
 
       const cartTotalForFee = itemsSubtotal + deliveryCost;
-      const serviceFeePrice = cartTotalForFee * 0.05;
 
-      const finalUrl = buildCheckoutUrl(undefined, {
+      const checkoutUrl = await performApiCheckout({
         deliveryMethod: checkoutDeliveryMethod,
         deliveryCost,
-        serviceFee: serviceFeePrice,
+        serviceFeeBase: cartTotalForFee,
         deliveryAddress: checkoutDeliveryMethod === "delivery" ? (deliveryResult?.address || items[0]?.deliveryAddress) : undefined,
         deliveryZip: checkoutDeliveryMethod === "delivery" ? items[0]?.deliveryZip : undefined,
-        deliveryDate: deliveryDate || undefined,
-        deliveryTime: deliveryHour || undefined,
         accessories: accessoryLineItems,
         note: noteLines.join("\n"),
       });
 
-      if (!finalUrl) {
+      if (!checkoutUrl) {
         toast.error("Could not get checkout URL. Please try again.");
         return;
       }
 
-      window.location.href = finalUrl;
+      window.location.href = checkoutUrl;
     } catch (error) {
       console.error("Checkout error:", error);
       toast.error("Error during checkout. Please try again.");
