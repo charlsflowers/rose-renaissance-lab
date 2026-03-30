@@ -82,7 +82,6 @@ export function buildCheckoutUrl(variantId?: string, options?: CheckoutDeliveryO
   }
 
   if (options?.deliveryMethod === "delivery" && options.deliveryCost && options.deliveryCost > 0) {
-    // Home Delivery: $0.10 base price × quantity = delivery cost (e.g. $31.20 → qty 312)
     const deliveryQty = Math.round(options.deliveryCost * 10);
     lineItems.push(`${DELIVERY_FEE_VARIANT_NUMERIC_ID}:${deliveryQty}`);
   }
@@ -92,8 +91,16 @@ export function buildCheckoutUrl(variantId?: string, options?: CheckoutDeliveryO
     lineItems.push(`${SERVICE_FEE_VARIANT_NUMERIC_ID}:${serviceFeeQty}`);
   }
 
-  let checkoutUrl = `${SHOPIFY_CART_BASE_URL}/${lineItems.join(",")}`;
+  // Consolidate duplicate variant IDs by summing quantities
+  const consolidated = new Map<string, number>();
+  for (const entry of lineItems) {
+    const [vid, qtyStr] = entry.split(":");
+    const qty = parseInt(qtyStr, 10) || 1;
+    consolidated.set(vid, (consolidated.get(vid) || 0) + qty);
+  }
+  const finalLines = Array.from(consolidated.entries()).map(([vid, qty]) => `${vid}:${qty}`);
 
+  let checkoutUrl = `${SHOPIFY_CART_BASE_URL}/${finalLines.join(",")}`;
   const params = new URLSearchParams();
   params.set("channel", "online_store");
   const deliveryType = options?.deliveryMethod === "delivery" ? "Home Delivery" : "Store Pickup";
