@@ -109,7 +109,7 @@ export function buildCheckoutUrl(variantId?: string, options?: CheckoutDeliveryO
 
   let checkoutUrl = `${SHOPIFY_CART_BASE_URL}/${finalLines.join(",")}`;
   const params = new URLSearchParams();
-  params.set("channel", "online_store");
+  
   const deliveryType = options?.deliveryMethod === "delivery" ? "Home Delivery" : "Store Pickup";
   params.set("attributes[delivery_type]", deliveryType);
 

@@ -295,13 +295,7 @@ const CART_NOTE_UPDATE_MUTATION = `
 `;
 
 function formatCheckoutUrl(checkoutUrl: string): string {
-  try {
-    const url = new URL(checkoutUrl);
-    url.searchParams.set('channel', 'online_store');
-    return url.toString();
-  } catch {
-    return checkoutUrl;
-  }
+  return checkoutUrl;
 }
 
 function isCartNotFoundError(userErrors: Array<{ field: string[] | null; message: string }>): boolean {
