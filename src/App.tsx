@@ -30,6 +30,7 @@ import SitemapPage from "./pages/SitemapPage";
 import Blog from "./pages/Blog";
 import BlogArticle from "./pages/BlogArticle";
 import LandingPage from "./pages/LandingPage";
+import ScrollToTop from "./components/ScrollToTop";
 
 const queryClient = new QueryClient();
 
@@ -47,6 +48,7 @@ const AppContent = () => {
   useCartSync();
   return (
     <>
+      <ScrollToTop />
       <FloatingCart />
       <Routes>
         <Route path="/" element={<Index />} />
