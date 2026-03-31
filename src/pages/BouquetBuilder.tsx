@@ -368,6 +368,7 @@ const BouquetBuilder = () => {
     if (deliveryMethod === "delivery" && (distanceTooFar || deliveryMiles === null)) { toast.error("The address is invalid or out of range."); return false; }
     if (!deliveryDate || !deliveryHour) { toast.error("Please select a date and time."); return false; }
     if (variantsLoading) { toast.error("We are still loading product variants."); return false; }
+    if (!matchedVariant && selectedColors.length > 0) { toast.error("No Shopify variant found for this combination."); return false; }
     return true;
   };
 
