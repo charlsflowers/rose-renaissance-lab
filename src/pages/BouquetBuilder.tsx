@@ -190,6 +190,13 @@ const BouquetBuilder = () => {
     }
   }, []);
 
+  // Custom Bouquet: resolve variant dynamically based on selected colors + roses
+  const customBouquetVariantNumericId = useMemo(() => {
+    return resolveCustomBouquetVariantId(selectedColors, pricingTable[selectedSizeIdx].roses) || CUSTOM_BOUQUET_VARIANT_ID;
+  }, [selectedColors, selectedSizeIdx]);
+  const customBouquetVariantGid = `gid://shopify/ProductVariant/${customBouquetVariantNumericId}`;
+  const variantsLoading = false;
+
   const minRoses = selectedColors.length >= 3 ? 75 : 50;
 
   // Auto-bump size when 3 colors selected and current size is 50
