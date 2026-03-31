@@ -29,8 +29,7 @@ import {
   colorOptions,
   sizeOptions,
   pricingTable,
-  determinePricingTier,
-  getPrice,
+  getFinishPrice,
   crownOptions,
   ribbonPresets,
   letterNumberExtraPrice,
@@ -39,7 +38,6 @@ import {
   vaseOptions,
   type ColorOption,
   type AccessoryType,
-  type PricingTier,
 } from "@/lib/productData";
 import { Sparkles, Crown, Type, Hash, Check, Bug, Star, Truck, Store, CalendarIcon, Clock, MapPin, Search, Loader2, Eye } from "lucide-react";
 import { Calendar } from "@/components/ui/calendar";
@@ -192,8 +190,6 @@ const BouquetBuilder = () => {
     }
   }, []);
 
-  const pricingTier = useMemo(() => determinePricingTier(selectedColors), [selectedColors]);
-  
   // Custom Bouquet: resolve variant dynamically based on selected colors + roses
   const customBouquetVariantNumericId = useMemo(() => {
     return resolveCustomBouquetVariantId(selectedColors, pricingTable[selectedSizeIdx].roses) || CUSTOM_BOUQUET_VARIANT_ID;
@@ -214,9 +210,9 @@ const BouquetBuilder = () => {
   const lettersNumbersCost = specialText.length > 0 ? specialText.length * letterNumberExtraPrice : 0;
 
   const basePrice = useMemo(() => {
-    const size = pricingTable[selectedSizeIdx];
-    return getPrice(pricingTier, size.roses);
-  }, [selectedSizeIdx, pricingTier]);
+    const roses = pricingTable[selectedSizeIdx].roses;
+    return getFinishPrice(selectedColors, roses);
+  }, [selectedSizeIdx, selectedColors]);
 
   const deliveryCost = deliveryMethod === "delivery" && deliveryMiles && !distanceTooFar ? calculateDeliveryCost(deliveryMiles) : 0;
 
@@ -526,7 +522,7 @@ const BouquetBuilder = () => {
                   const tooFewRoses = size.roses < minRoses;
                   const letterDisabled = specialText.length > 0 && (size.roses < 75 || (specialText.length >= 3 && lettersNumbersType === "letters" && size.roses < 100));
                   const disabled = tooFewRoses || letterDisabled;
-                  const price = getPrice(pricingTier, size.roses);
+                  const price = getFinishPrice(selectedColors, size.roses);
                   return (
                     <button
                       key={size.roses}
