@@ -90,7 +90,7 @@ export function getMinRoses(tier: PricingTier): number {
 export type FinishType = 'natural' | 'rojo' | 'pintado';
 
 export function colorToFinish(color: ColorOption): FinishType {
-  if (color.category === 'red') return 'rojo';
+  if (color.name === 'Rojo' || color.category === 'red') return 'rojo';
   if (color.category === 'painted') return 'pintado';
   return 'natural';
 }
