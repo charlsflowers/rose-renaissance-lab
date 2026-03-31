@@ -369,8 +369,7 @@ const BouquetBuilder = () => {
     if (!deliveryDate || !deliveryHour) { toast.error("Please select a date and time."); return false; }
     if (variantsLoading) { toast.error("We are still loading product variants."); return false; }
     if (!matchedVariant && selectedColors.length > 0) {
-      const mixType = getCustomBouquetType(selectedColors);
-      toast.error(`Esta combinación no está disponible: ${mixType || 'combinación desconocida'} / ${pricingTable[selectedSizeIdx].roses} rosas. Por favor, elige otra combinación.`);
+      toast.error('This combination is not available. Please choose a different color combination.');
       return false;
     }
     return true;
