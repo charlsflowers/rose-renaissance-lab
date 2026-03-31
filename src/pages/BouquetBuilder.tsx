@@ -29,8 +29,7 @@ import {
   colorOptions,
   sizeOptions,
   pricingTable,
-  determinePricingTier,
-  getPrice,
+  getFinishPrice,
   crownOptions,
   ribbonPresets,
   letterNumberExtraPrice,
@@ -39,7 +38,6 @@ import {
   vaseOptions,
   type ColorOption,
   type AccessoryType,
-  type PricingTier,
 } from "@/lib/productData";
 import { Sparkles, Crown, Type, Hash, Check, Bug, Star, Truck, Store, CalendarIcon, Clock, MapPin, Search, Loader2, Eye } from "lucide-react";
 import { Calendar } from "@/components/ui/calendar";
