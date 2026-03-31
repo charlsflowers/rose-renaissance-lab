@@ -15,7 +15,7 @@ export const colorOptions: ColorOption[] = [
   { name: 'Amarillo', nameEn: 'Yellow', hex: '#F5D547', category: 'natural' },
   { name: 'Naranja', nameEn: 'Orange', hex: '#F0913A', category: 'natural' },
   { name: 'Morado', nameEn: 'Purple', hex: '#8B5EA0', category: 'natural' },
-  { name: 'Rojo', nameEn: 'Red', hex: '#C41E3A', category: 'red' },
+  { name: 'Rojo', nameEn: 'Red', hex: '#C41E3A', category: 'natural' },
   // Painted
   { name: 'Negro', nameEn: 'Black', hex: '#1A1A1A', category: 'painted' },
   { name: 'Verde', nameEn: 'Green', hex: '#4CAF50', category: 'painted' },

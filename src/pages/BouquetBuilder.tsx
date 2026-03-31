@@ -483,7 +483,6 @@ const BouquetBuilder = () => {
 
   const colorCategories = [
     { key: "natural" as const, label: t("builder.natural") },
-    { key: "red" as const, label: "Red" },
     { key: "painted" as const, label: t("builder.painted") },
   ];
 
