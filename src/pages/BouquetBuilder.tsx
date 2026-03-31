@@ -556,6 +556,15 @@ const BouquetBuilder = () => {
               </p>
             </Section>
 
+            {/* DEBUG: Shopify variant lookup */}
+            {selectedColors.length > 0 && (
+              <div className="text-xs text-muted-foreground font-mono bg-muted/50 p-2 rounded mb-4 space-y-0.5">
+                <p>Mix Type buscado: <span className="text-foreground font-semibold">{getCustomBouquetType(selectedColors) ?? "null"}</span></p>
+                <p>Roses buscado: <span className="text-foreground font-semibold">{pricingTable[selectedSizeIdx].roses}</span></p>
+                <p>Variante encontrada: <span className={`font-semibold ${matchedVariant ? "text-green-600" : "text-destructive"}`}>{matchedVariant ? `sí (${matchedVariant.id})` : "no"}</span></p>
+              </div>
+            )}
+
             {/* Paper Color */}
             <Section title={t("builder.paperColor")} step={2}>
               <p className="text-xs text-muted-foreground font-body mb-4">{t("builder.paperHint")}</p>
