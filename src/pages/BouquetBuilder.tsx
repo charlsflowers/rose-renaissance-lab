@@ -10,7 +10,8 @@ import { toast } from "sonner";
 import { performApiCheckout } from "@/lib/checkout";
 import { calculateDeliveryCost, formatDeliveryCost } from "@/lib/deliveryPricing";
 import { buildAccessoryLineItems, CUSTOM_BOUQUET_VARIANT_ID } from "@/lib/accessoryVariants";
-import { resolveCustomBouquetVariantId } from "@/lib/customBouquetVariants";
+import { resolveCustomBouquetVariantId, getCustomBouquetType } from "@/lib/customBouquetVariants";
+import { storefrontApiRequest } from "@/lib/shopify";
 
 import Navbar from "@/components/Navbar";
 import PaperColorPicker from "@/components/PaperColorPicker";
