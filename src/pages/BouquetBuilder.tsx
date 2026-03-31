@@ -190,15 +190,6 @@ const BouquetBuilder = () => {
     }
   }, []);
 
-  const pricingTier = useMemo(() => determinePricingTier(selectedColors), [selectedColors]);
-  
-  // Custom Bouquet: resolve variant dynamically based on selected colors + roses
-  const customBouquetVariantNumericId = useMemo(() => {
-    return resolveCustomBouquetVariantId(selectedColors, pricingTable[selectedSizeIdx].roses) || CUSTOM_BOUQUET_VARIANT_ID;
-  }, [selectedColors, selectedSizeIdx]);
-  const customBouquetVariantGid = `gid://shopify/ProductVariant/${customBouquetVariantNumericId}`;
-  const variantsLoading = false;
-
   const minRoses = selectedColors.length >= 3 ? 75 : 50;
 
   // Auto-bump size when 3 colors selected and current size is 50
@@ -212,9 +203,9 @@ const BouquetBuilder = () => {
   const lettersNumbersCost = specialText.length > 0 ? specialText.length * letterNumberExtraPrice : 0;
 
   const basePrice = useMemo(() => {
-    const size = pricingTable[selectedSizeIdx];
-    return getPrice(pricingTier, size.roses);
-  }, [selectedSizeIdx, pricingTier]);
+    const roses = pricingTable[selectedSizeIdx].roses;
+    return getFinishPrice(selectedColors, roses);
+  }, [selectedSizeIdx, selectedColors]);
 
   const deliveryCost = deliveryMethod === "delivery" && deliveryMiles && !distanceTooFar ? calculateDeliveryCost(deliveryMiles) : 0;
 
