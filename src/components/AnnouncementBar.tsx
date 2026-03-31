@@ -13,17 +13,17 @@ const AnnouncementBar = () => {
 
     if (hours < cutoff) {
       return language === "es"
-        ? "Pide antes de las 3PM para envío hoy mismo"
-        : "Order before 3PM for same-day delivery today";
+        ? "Entrega en el mismo día disponible - Pide antes de las 3PM"
+        : "Same-day delivery available - Order before 3PM";
     }
     if (hours < closeHour) {
       return language === "es"
-        ? "Pide ahora para entrega mañana"
-        : "Order now for next-day delivery";
+        ? "Entrega al día siguiente - Pide ahora"
+        : "Next-day delivery - Order now";
     }
     return language === "es"
-      ? "Pide ahora para entrega mañana"
-      : "Order now for next-day delivery";
+      ? "Entrega al día siguiente - Pide ahora"
+      : "Next-day delivery - Order now";
   }, [language]);
 
   return (
