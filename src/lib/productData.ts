@@ -1,4 +1,4 @@
-export type ColorCategory = 'natural' | 'painted';
+export type ColorCategory = 'natural' | 'red' | 'painted';
 
 export interface ColorOption {
   name: string;
