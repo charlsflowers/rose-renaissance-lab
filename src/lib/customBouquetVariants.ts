@@ -18,7 +18,7 @@ type ColorCategoryCount = { natural: number; red: number; painted: number };
 function countCategories(colors: ColorOption[]): ColorCategoryCount {
   const counts: ColorCategoryCount = { natural: 0, red: 0, painted: 0 };
   for (const c of colors) {
-    if (c.name === 'Rojo') {
+    if (c.category === 'red') {
       counts.red++;
     } else if (c.category === 'painted') {
       counts.painted++;
