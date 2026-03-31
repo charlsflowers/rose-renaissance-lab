@@ -571,7 +571,13 @@ const BouquetBuilder = () => {
                   const tooFewRoses = size.roses < minRoses;
                   const letterDisabled = specialText.length > 0 && (size.roses < 75 || (specialText.length >= 3 && lettersNumbersType === "letters" && size.roses < 100));
                   const disabled = tooFewRoses || letterDisabled;
-                  const price = getFinishPrice(selectedColors, size.roses);
+                  // Use Shopify price if available, otherwise local table
+                  const mixType = getCustomBouquetType(selectedColors);
+                  const shopifyMatch = mixType ? shopifyVariants.find(v =>
+                    v.selectedOptions.some(o => o.name === "Mix Type" && o.value === mixType) &&
+                    v.selectedOptions.some(o => o.name === "Roses" && o.value === String(size.roses))
+                  ) : null;
+                  const price = shopifyMatch ? parseFloat(shopifyMatch.price.amount) : getFinishPrice(selectedColors, size.roses);
                   return (
                     <button
                       key={size.roses}
