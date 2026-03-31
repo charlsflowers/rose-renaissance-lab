@@ -233,7 +233,7 @@ const BouquetBuilder = () => {
   const matchedVariant = useMemo(() => {
     if (shopifyVariants.length === 0 || selectedColors.length === 0) return null;
     const mixType = getCustomBouquetType(selectedColors);
-    const rosesStr = String(pricingTable[selectedSizeIdx].roses);
+    const rosesStr = `${pricingTable[selectedSizeIdx].roses} Roses`;
     if (!mixType) return null;
     return shopifyVariants.find(v =>
       v.selectedOptions.some(o => o.name === "Mix Type" && o.value === mixType) &&
@@ -580,7 +580,7 @@ const BouquetBuilder = () => {
                   const mixType = getCustomBouquetType(selectedColors);
                   const shopifyMatch = mixType ? shopifyVariants.find(v =>
                     v.selectedOptions.some(o => o.name === "Mix Type" && o.value === mixType) &&
-                    v.selectedOptions.some(o => o.name === "Roses" && o.value === String(size.roses))
+                    v.selectedOptions.some(o => o.name === "Roses" && o.value === `${size.roses} Roses`)
                   ) : null;
                   const price = shopifyMatch ? parseFloat(shopifyMatch.price.amount) : getFinishPrice(selectedColors, size.roses);
                   return (
