@@ -10,7 +10,8 @@ import { toast } from "sonner";
 import { performApiCheckout } from "@/lib/checkout";
 import { calculateDeliveryCost, formatDeliveryCost } from "@/lib/deliveryPricing";
 import { buildAccessoryLineItems, CUSTOM_BOUQUET_VARIANT_ID } from "@/lib/accessoryVariants";
-import { resolveCustomBouquetVariantId } from "@/lib/customBouquetVariants";
+import { resolveCustomBouquetVariantId, getCustomBouquetType } from "@/lib/customBouquetVariants";
+import { storefrontApiRequest } from "@/lib/shopify";
 
 import Navbar from "@/components/Navbar";
 import PaperColorPicker from "@/components/PaperColorPicker";
@@ -190,12 +191,58 @@ const BouquetBuilder = () => {
     }
   }, []);
 
-  // Custom Bouquet: resolve variant dynamically based on selected colors + roses
-  const customBouquetVariantNumericId = useMemo(() => {
-    return resolveCustomBouquetVariantId(selectedColors, pricingTable[selectedSizeIdx].roses) || CUSTOM_BOUQUET_VARIANT_ID;
-  }, [selectedColors, selectedSizeIdx]);
-  const customBouquetVariantGid = `gid://shopify/ProductVariant/${customBouquetVariantNumericId}`;
-  const variantsLoading = false;
+  // ─── Shopify Storefront API: fetch all variants for "custom-bouquet" once ───
+  interface ShopifyCustomVariant {
+    id: string;
+    price: { amount: string };
+    selectedOptions: Array<{ name: string; value: string }>;
+  }
+  const [shopifyVariants, setShopifyVariants] = useState<ShopifyCustomVariant[]>([]);
+  const [variantsLoading, setVariantsLoading] = useState(true);
+
+  useEffect(() => {
+    const QUERY = `
+      query {
+        productByHandle(handle: "custom-bouquet") {
+          variants(first: 100) {
+            edges {
+              node {
+                id
+                price { amount }
+                selectedOptions { name value }
+              }
+            }
+          }
+        }
+      }
+    `;
+    (async () => {
+      try {
+        const data = await storefrontApiRequest(QUERY);
+        const edges = data?.data?.productByHandle?.variants?.edges ?? [];
+        setShopifyVariants(edges.map((e: { node: ShopifyCustomVariant }) => e.node));
+      } catch (err) {
+        console.error("Failed to load custom-bouquet variants:", err);
+      } finally {
+        setVariantsLoading(false);
+      }
+    })();
+  }, []);
+
+  // Find the matching Shopify variant based on Mix Type + Roses
+  const matchedVariant = useMemo(() => {
+    if (shopifyVariants.length === 0 || selectedColors.length === 0) return null;
+    const mixType = getCustomBouquetType(selectedColors);
+    const rosesStr = String(pricingTable[selectedSizeIdx].roses);
+    if (!mixType) return null;
+    return shopifyVariants.find(v =>
+      v.selectedOptions.some(o => o.name === "Mix Type" && o.value === mixType) &&
+      v.selectedOptions.some(o => o.name === "Roses" && o.value === rosesStr)
+    ) ?? null;
+  }, [shopifyVariants, selectedColors, selectedSizeIdx]);
+
+  const customBouquetVariantGid = matchedVariant?.id
+    ?? `gid://shopify/ProductVariant/${resolveCustomBouquetVariantId(selectedColors, pricingTable[selectedSizeIdx].roses) || CUSTOM_BOUQUET_VARIANT_ID}`;
 
   const minRoses = selectedColors.length >= 3 ? 75 : 50;
 
@@ -209,10 +256,12 @@ const BouquetBuilder = () => {
 
   const lettersNumbersCost = specialText.length > 0 ? specialText.length * letterNumberExtraPrice : 0;
 
+  // Price: use Shopify variant price when available, fall back to local table
   const basePrice = useMemo(() => {
+    if (matchedVariant) return parseFloat(matchedVariant.price.amount);
     const roses = pricingTable[selectedSizeIdx].roses;
     return getFinishPrice(selectedColors, roses);
-  }, [selectedSizeIdx, selectedColors]);
+  }, [matchedVariant, selectedSizeIdx, selectedColors]);
 
   const deliveryCost = deliveryMethod === "delivery" && deliveryMiles && !distanceTooFar ? calculateDeliveryCost(deliveryMiles) : 0;
 
@@ -319,6 +368,7 @@ const BouquetBuilder = () => {
     if (deliveryMethod === "delivery" && (distanceTooFar || deliveryMiles === null)) { toast.error("The address is invalid or out of range."); return false; }
     if (!deliveryDate || !deliveryHour) { toast.error("Please select a date and time."); return false; }
     if (variantsLoading) { toast.error("We are still loading product variants."); return false; }
+    if (!matchedVariant && selectedColors.length > 0) { toast.error("No Shopify variant found for this combination."); return false; }
     return true;
   };
 
@@ -522,7 +572,13 @@ const BouquetBuilder = () => {
                   const tooFewRoses = size.roses < minRoses;
                   const letterDisabled = specialText.length > 0 && (size.roses < 75 || (specialText.length >= 3 && lettersNumbersType === "letters" && size.roses < 100));
                   const disabled = tooFewRoses || letterDisabled;
-                  const price = getFinishPrice(selectedColors, size.roses);
+                  // Use Shopify price if available, otherwise local table
+                  const mixType = getCustomBouquetType(selectedColors);
+                  const shopifyMatch = mixType ? shopifyVariants.find(v =>
+                    v.selectedOptions.some(o => o.name === "Mix Type" && o.value === mixType) &&
+                    v.selectedOptions.some(o => o.name === "Roses" && o.value === String(size.roses))
+                  ) : null;
+                  const price = shopifyMatch ? parseFloat(shopifyMatch.price.amount) : getFinishPrice(selectedColors, size.roses);
                   return (
                     <button
                       key={size.roses}
