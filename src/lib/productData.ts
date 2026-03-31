@@ -47,7 +47,7 @@ export const pricingTable: PricingRow[] = [
 
 export function determinePricingTier(colors: ColorOption[]): PricingTier {
   const count = colors.length;
-  const hasRed = colors.some(c => c.name === 'Rojo');
+  const hasRed = colors.some(c => c.category === 'red');
   const hasPainted = colors.some(c => c.category === 'painted');
   const hasNatural = colors.some(c => c.category === 'natural');
   const allPainted = colors.every(c => c.category === 'painted');
