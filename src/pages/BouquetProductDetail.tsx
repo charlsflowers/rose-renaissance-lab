@@ -607,6 +607,9 @@ const BouquetProductDetail = () => {
                   {isAdding ? "..." : t("product.orderAndPay")}
                 </button>
               </div>
+
+              {/* Desktop cross-links */}
+              <YouMightAlsoLove currentProductId={product.id} />
             </div>
           </div>
 
@@ -659,26 +662,26 @@ const BouquetProductDetail = () => {
             {renderAccessoriesSection(true)}
             {renderShippingSection(true, autocompleteMobileRef)}
 
-            {/* Mobile sticky bottom bar */}
-            <div className="h-20" />
-            <div className={`fixed bottom-0 left-0 right-0 z-50 transition-transform duration-300 ${showStickyBar ? "translate-y-0" : "translate-y-full"}`}>
-              <div className="bg-card/95 backdrop-blur-md border-t border-border p-2.5 shadow-xl">
-                <div className="flex items-center justify-between gap-2 container mx-auto px-4">
-                  <p className="font-display text-lg font-bold text-foreground whitespace-nowrap">
-                    ${parseFloat(totalPrice.toFixed(2))}
-                  </p>
-                  <div className="flex gap-2">
-                    <button onClick={() => handleAddToCart()} disabled={isAdding || variantsLoading}
-                      className="bg-primary text-primary-foreground px-4 py-2 font-body text-[10px] tracking-widest uppercase hover:bg-primary/90 transition-colors rounded-sm disabled:opacity-50 whitespace-nowrap">
-                      {isAdding ? "..." : t("product.addToCart")}
-                    </button>
-                    <button onClick={handlePayNow} disabled={isAdding || variantsLoading}
-                      className="border-2 border-primary text-primary px-3 py-2 font-body text-[10px] tracking-widest uppercase hover:bg-primary/10 transition-colors rounded-sm whitespace-nowrap disabled:opacity-50">
-                      {isAdding ? "..." : t("product.orderAndPay")}
-                    </button>
-                  </div>
-                </div>
+            {/* Mobile inline buttons after customer notes */}
+            <div className="space-y-3">
+              <div className="flex items-center justify-between">
+                <p className="font-body text-[10px] text-muted-foreground leading-tight flex-1 line-clamp-1">
+                  {product.name} · {selectedSize.roses} {t("product.roses")}
+                  {addGlitter === true && " · Glitter"}
+                  {accessory !== "none" && ` · ${accessory === "note" ? t("product.note") : t("product.butterflies")}`}
+                </p>
+                <p className="font-display text-lg font-bold text-foreground whitespace-nowrap">${parseFloat(totalPrice.toFixed(2))}</p>
               </div>
+              <div className="bg-primary rounded-sm overflow-hidden">
+                <button onClick={() => handleAddToCart()} disabled={isAdding || variantsLoading}
+                  className="w-full py-3 font-body text-xs tracking-[0.2em] uppercase text-primary-foreground hover:bg-primary/90 transition-colors disabled:opacity-50">
+                  {isAdding ? "..." : variantsLoading ? "..." : t("product.addToCart").toUpperCase()}
+                </button>
+              </div>
+              <button onClick={handlePayNow} disabled={isAdding || variantsLoading}
+                className="w-full border-2 border-primary text-primary py-2.5 font-body text-[10px] tracking-widest uppercase hover:bg-primary/10 transition-colors rounded-sm whitespace-nowrap disabled:opacity-50">
+                {isAdding ? "..." : t("product.orderAndPay")}
+              </button>
             </div>
 
             {/* Cross-links */}

@@ -353,8 +353,10 @@ export const es = {
   roomDecors: {
     title: "Decoración de Habitación en Miami",
     subtitle: "Transforma cualquier espacio",
-    description: "Crea momentos inolvidables con nuestros paquetes de decoración romántica.",
-    mostPopular: "⭐ Más Popular",
+    description: "Crea momentos inolvidables con nuestros paquetes de decoración romántica. Elige entre",
+    orThe: "o el",
+    deliveryIncluded: "Entrega incluida hasta 10 millas.",
+    mostPopular: "Más Popular",
     whatsIncluded: "Qué Incluye",
     bouquetColor: "Color del Ramo",
     included: "Incluido",
@@ -363,6 +365,17 @@ export const es = {
     writeRibbonText: "Escribe el texto de la cinta...",
     complementaryAddons: "Complementos Adicionales",
     choose: "Elige",
+  },
+
+  roomDecorFaq: {
+    q1: "¿Qué incluye un paquete de decoración de habitación?",
+    a1: "Cada paquete incluye pétalos de rosa, velas, globos y un ramo fresco. El Deluxe Love Package añade elementos románticos extra como luces LED y accesorios premium.",
+    q2: "¿Ustedes montan la decoración?",
+    a2: "¡Sí! Nuestro equipo se encarga de todo el montaje. La entrega e instalación están incluidas hasta 10 millas desde nuestra ubicación en Miami.",
+    q3: "¿Con cuánta anticipación debo reservar?",
+    a3: "Recomendamos reservar con al menos 24 horas de anticipación, aunque los montajes el mismo día pueden estar disponibles. Contáctanos para consultar disponibilidad.",
+    q4: "¿Puedo personalizar la decoración?",
+    a4: "Sí, puedes elegir el color de tu ramo y seleccionar entre los complementos incluidos con tu paquete.",
   },
 
   deliveryCalc: {

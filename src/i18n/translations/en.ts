@@ -369,8 +369,10 @@ export const en = {
   roomDecors: {
     title: "Room Decoration Miami",
     subtitle: "Transform any space",
-    description: "Create unforgettable moments with our romantic room decoration packages.",
-    mostPopular: "⭐ Most Popular",
+    description: "Create unforgettable moments with our romantic room decoration packages. Choose from",
+    orThe: "or the",
+    deliveryIncluded: "Delivery included up to 10 miles.",
+    mostPopular: "Most Popular",
     whatsIncluded: "What's Included",
     bouquetColor: "Bouquet Color",
     included: "Included",
@@ -379,6 +381,18 @@ export const en = {
     writeRibbonText: "Write the ribbon text...",
     complementaryAddons: "Complementary Add-ons",
     choose: "Choose",
+  },
+
+  // Room Decor FAQ
+  roomDecorFaq: {
+    q1: "What's included in a room decoration package?",
+    a1: "Each package includes rose petals, candles, balloons, and a fresh bouquet. The Deluxe Love Package adds extra romantic elements like LED lights and premium accessories.",
+    q2: "Do you set up the room decoration?",
+    a2: "Yes! Our team handles the full setup. Delivery and installation are included up to 10 miles from our Miami location.",
+    q3: "How far in advance should I book?",
+    a3: "We recommend booking at least 24 hours in advance, though same-day setups may be available. Contact us for availability.",
+    q4: "Can I customize the decoration?",
+    a4: "Yes, you can choose your bouquet color and select from complementary add-ons included with your package.",
   },
 
   // Delivery Calculator

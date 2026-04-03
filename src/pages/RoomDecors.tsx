@@ -6,11 +6,20 @@ import Footer from "@/components/Footer";
 import SeoHead from "@/components/SeoHead";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import JsonLd, { breadcrumbSchema } from "@/components/JsonLd";
-import CollectionFAQ, { roomDecorFAQs } from "@/components/CollectionFAQ";
+import CollectionFAQ from "@/components/CollectionFAQ";
 import { roomDecorPackages } from "@/lib/roomDecorData";
+import { useTranslation } from "@/i18n/LanguageContext";
 
 const RoomDecors = () => {
+  const { t } = useTranslation();
   useEffect(() => { window.scrollTo(0, 0); }, []);
+
+  const roomDecorFAQs = [
+    { question: t("roomDecorFaq.q1"), answer: t("roomDecorFaq.a1") },
+    { question: t("roomDecorFaq.q2"), answer: t("roomDecorFaq.a2") },
+    { question: t("roomDecorFaq.q3"), answer: t("roomDecorFaq.a3") },
+    { question: t("roomDecorFaq.q4"), answer: t("roomDecorFaq.a4") },
+  ];
 
   return (
     <div className="min-h-screen bg-background">
@@ -19,16 +28,16 @@ const RoomDecors = () => {
       <Navbar />
       <div className="pt-24 pb-16">
         <div className="container mx-auto px-6">
-          <Breadcrumbs items={[{ label: "Home", to: "/" }, { label: "Room Decors" }]} />
+          <Breadcrumbs items={[{ label: "Home", to: "/" }, { label: t("nav.roomDecors") }]} />
 
           <div className="text-center mb-12">
-            <p className="font-subtitle-script text-gold text-lg md:text-2xl mb-2">Transform any space</p>
-            <h1 className="font-title-retro text-4xl md:text-5xl text-foreground">Room Decoration Miami</h1>
+            <p className="font-subtitle-script text-gold text-lg md:text-2xl mb-2">{t("roomDecors.subtitle")}</p>
+            <h1 className="font-title-retro text-4xl md:text-5xl text-foreground">{t("roomDecors.title")}</h1>
             <p className="text-muted-foreground font-body text-sm mt-3 max-w-lg mx-auto">
-              Create unforgettable moments with our romantic room decoration packages. Choose from{' '}
+              {t("roomDecors.description")}{' '}
                <Link to="/room-decors/love-bomb" className="text-primary hover:underline">Love Bomb</Link>,{' '}
-               <Link to="/room-decors/overly-romantic" className="text-primary hover:underline">Overly Romantic</Link>, or the{' '}
-               <Link to="/room-decors/deluxe-love-package" className="text-primary hover:underline">Deluxe Love Package</Link>. Delivery included up to 10 miles.
+               <Link to="/room-decors/overly-romantic" className="text-primary hover:underline">Overly Romantic</Link>, {t("roomDecors.orThe")}{' '}
+               <Link to="/room-decors/deluxe-love-package" className="text-primary hover:underline">Deluxe Love Package</Link>. {t("roomDecors.deliveryIncluded")}
             </p>
           </div>
 
@@ -42,13 +51,13 @@ const RoomDecors = () => {
                     {pkg.id === 'deluxe-love-package' && (
                       <div className="absolute -top-1 -right-1 z-10">
                         <div className="bg-primary text-primary-foreground px-5 py-1.5 rounded-bl-lg rounded-tr-sm font-body text-xs tracking-wider uppercase font-bold shadow-lg">
-                          Most Popular
+                          {t("roomDecors.mostPopular")}
                         </div>
                       </div>
                     )}
                   </div>
                   <h3 className="font-display text-lg font-semibold text-foreground text-center">{pkg.name}</h3>
-                  <p className="text-primary font-body text-sm font-semibold text-center mt-2">From ${pkg.price}</p>
+                  <p className="text-primary font-body text-sm font-semibold text-center mt-2">{t("product.from")} ${pkg.price}</p>
                 </Link>
               </motion.div>
             ))}
