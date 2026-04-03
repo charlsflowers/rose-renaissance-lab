@@ -37,6 +37,7 @@ const ReviewUpsellDialog = ({ open, onOpenChange, cartData, productLabel, mode }
   const [addRibbon, setAddRibbon] = useState(false);
   const [ribbonType, setRibbonType] = useState<"names" | "congratulations">("names");
   const [ribbonText, setRibbonText] = useState("");
+  const [calendarOpen, setCalendarOpen] = useState(false);
   const [deliveryMethod, setDeliveryMethod] = useState<"pickup" | "delivery">("pickup");
   const [isAdding, setIsAdding] = useState(false);
   const [variantsLoading, setVariantsLoading] = useState(false);
