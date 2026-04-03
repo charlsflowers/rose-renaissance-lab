@@ -1073,55 +1073,38 @@ const BouquetBuilder = () => {
               )}
             </Section>
 
-            {/* Desktop: inline buttons after customer notes area */}
-            <div className="hidden md:block">
-              <div className="space-y-3">
-                <div className="flex items-center justify-between">
-                  <p className="font-body text-[10px] text-muted-foreground leading-tight flex-1 line-clamp-1">
-                    {rosesCount} roses · {selectedColors.length > 0 ? selectedColors.map(c => c.nameEn).join(', ') : 'No color'}
-                    {paperColor && ` · ${paperColor}`}
-                    {addGlitter === true && " · Glitter"}
-                    {accessory !== "none" && ` · ${accessory === "note" ? "Note" : "Butterflies"}`}
-                  </p>
-                  <p className="font-display text-xl font-bold text-foreground whitespace-nowrap">${parseFloat(totalPrice.toFixed(2))}</p>
-                </div>
-                <div className="bg-primary rounded-sm overflow-hidden">
-                  <button
-                    disabled={isAdding || variantsLoading}
-                    onClick={handleBuilderAddToCart}
-                    className="w-full py-3 font-body text-xs tracking-[0.2em] uppercase text-primary-foreground hover:bg-primary/90 transition-colors disabled:opacity-50">
-                    {isAdding ? "..." : variantsLoading ? "..." : t("product.addToCart").toUpperCase()}
-                  </button>
-                </div>
-                <button
-                  disabled={isAdding || variantsLoading}
-                  onClick={handleBuilderPayNow}
-                  className="w-full border-2 border-primary text-primary py-2.5 font-body text-[10px] tracking-widest uppercase hover:bg-primary/10 transition-colors rounded-sm disabled:opacity-50">
-                  {isAdding ? "..." : t("product.orderAndPay")}
-                </button>
-              </div>
+            {/* Customer Notes */}
+            <div>
+              <label className="text-sm font-body font-semibold text-foreground block mb-2">{t("builder.customerNotes")}</label>
+              <textarea value={customerNotes} onChange={(e) => setCustomerNotes(e.target.value)} placeholder={t("builder.customerNotesPlaceholder")}
+                className="w-full bg-card border border-border rounded-sm px-3 py-2 font-body text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30 min-h-[60px] resize-none" maxLength={500} />
             </div>
 
-            {/* Mobile: fixed bottom bar */}
-            <div className="h-20 md:hidden" />
-            <div className={`fixed bottom-0 left-0 right-0 z-50 md:hidden transition-transform duration-300 ${showStickyBar ? "translate-y-0" : "translate-y-full"}`}>
-              <div className="bg-card/95 backdrop-blur-md border-t border-border p-2.5 shadow-xl">
-                <div className="flex items-center justify-between gap-2 container mx-auto px-4">
-                  <p className="font-display text-lg font-bold text-foreground whitespace-nowrap">
-                    ${parseFloat(totalPrice.toFixed(2))}
-                  </p>
-                  <div className="flex gap-2">
-                    <button onClick={handleBuilderAddToCart} disabled={isAdding || variantsLoading}
-                      className="bg-primary text-primary-foreground px-4 py-2 font-body text-[10px] tracking-widest uppercase hover:bg-primary/90 transition-colors rounded-sm disabled:opacity-50 whitespace-nowrap">
-                      {isAdding ? "..." : t("product.addToCart")}
-                    </button>
-                    <button onClick={handleBuilderPayNow} disabled={isAdding || variantsLoading}
-                      className="border-2 border-primary text-primary px-3 py-2 font-body text-[10px] tracking-widest uppercase hover:bg-primary/10 transition-colors rounded-sm whitespace-nowrap disabled:opacity-50">
-                      {isAdding ? "..." : t("product.orderAndPay")}
-                    </button>
-                  </div>
-                </div>
+            {/* Action buttons (desktop & mobile) */}
+            <div className="space-y-3">
+              <div className="flex items-center justify-between">
+                <p className="font-body text-[10px] text-muted-foreground leading-tight flex-1 line-clamp-1">
+                  {rosesCount} roses · {selectedColors.length > 0 ? selectedColors.map(c => c.nameEn).join(', ') : 'No color'}
+                  {paperColor && ` · ${paperColor}`}
+                  {addGlitter === true && " · Glitter"}
+                  {accessory !== "none" && ` · ${accessory === "note" ? "Note" : "Butterflies"}`}
+                </p>
+                <p className="font-display text-xl font-bold text-foreground whitespace-nowrap">${parseFloat(totalPrice.toFixed(2))}</p>
               </div>
+              <div className="bg-primary rounded-sm overflow-hidden">
+                <button
+                  disabled={isAdding || variantsLoading}
+                  onClick={handleBuilderAddToCart}
+                  className="w-full py-3 font-body text-xs tracking-[0.2em] uppercase text-primary-foreground hover:bg-primary/90 transition-colors disabled:opacity-50">
+                  {isAdding ? "..." : variantsLoading ? "..." : t("product.addToCart").toUpperCase()}
+                </button>
+              </div>
+              <button
+                disabled={isAdding || variantsLoading}
+                onClick={handleBuilderPayNow}
+                className="w-full border-2 border-primary text-primary py-2.5 font-body text-[10px] tracking-widest uppercase hover:bg-primary/10 transition-colors rounded-sm disabled:opacity-50">
+                {isAdding ? "..." : t("product.orderAndPay")}
+              </button>
             </div>
           </div>
         </div>
