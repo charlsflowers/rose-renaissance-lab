@@ -465,6 +465,12 @@ const BouquetBuilder = () => {
       if (specialText) noteLines.push(`- 🔤 Letters or numbers (Baby Breath): ${specialText}`);
       if (addVase) noteLines.push(`- 🏺 Vase: ${vaseOptions[selectedVaseIdx].label}`);
 
+      if (customerNotes.trim()) {
+        noteLines.push("");
+        noteLines.push("NOTAS DEL CLIENTE");
+        noteLines.push(`📝 Nota del cliente: ${customerNotes.trim()}`);
+      }
+
       const cartTotalForFee = (basePrice + lettersNumbersCost + crownCost + ribbonCost + glitterCost + vaseCost + accessoryCost) + deliveryCost;
 
       const checkoutUrl = await performApiCheckout({
