@@ -607,6 +607,9 @@ const BouquetProductDetail = () => {
                   {isAdding ? "..." : t("product.orderAndPay")}
                 </button>
               </div>
+
+              {/* Desktop cross-links */}
+              <YouMightAlsoLove currentProductId={product.id} />
             </div>
           </div>
 
