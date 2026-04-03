@@ -65,6 +65,7 @@ const BouquetBuilder = () => {
   const [deliveryMethod, setDeliveryMethod] = useState<"pickup" | "delivery">("pickup");
   const [deliveryDate, setDeliveryDate] = useState<Date>();
   const [deliveryHour, setDeliveryHour] = useState<string>("");
+  const [calendarOpen, setCalendarOpen] = useState(false);
   const [deliveryMiles, setDeliveryMiles] = useState<number | null>(null);
   const [deliveryName, setDeliveryName] = useState("");
   const [deliveryStreet, setDeliveryStreet] = useState("");
