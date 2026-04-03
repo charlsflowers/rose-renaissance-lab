@@ -752,7 +752,7 @@ const BouquetBuilder = () => {
             <Section title={t("builder.vase")} step={7} subtitle={t("builder.optional")}>
               <div className="grid grid-cols-3 gap-3">
                 {vaseOptions.map((v, idx) => {
-                  const vaseImg = idx === 0 ? vase50Img : idx === 1 ? vase75Img : vase100Img;
+                  const vaseImg = vase100Img;
                   return (
                     <button
                       key={v.roses}
