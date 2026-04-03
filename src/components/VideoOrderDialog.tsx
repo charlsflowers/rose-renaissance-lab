@@ -34,6 +34,7 @@ const VideoOrderDialog = ({ video, open, onOpenChange }: Props) => {
   const [deliveryMethod, setDeliveryMethod] = useState<"pickup" | "delivery">("pickup");
   const [deliveryDate, setDeliveryDate] = useState<Date>();
   const [deliveryHour, setDeliveryHour] = useState("");
+  const [calendarOpen, setCalendarOpen] = useState(false);
   const [deliveryMiles, setDeliveryMiles] = useState<number | null>(null);
   const [deliveryZip, setDeliveryZip] = useState("");
   const [deliveryDuration, setDeliveryDuration] = useState("");
