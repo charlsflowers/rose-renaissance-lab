@@ -86,13 +86,11 @@ const LandingPage = () => {
             <div className="rounded-sm overflow-hidden mb-16" style={{ minHeight: 300 }}>
               <iframe
                 title="Charls Flowers Miami Location"
-                src="https://maps.google.com/maps?q=7261+NW+12th+Street+Miami+FL+33126&t=&z=14&ie=UTF8&iwloc=&output=embed"
+                src="https://storage.googleapis.com/maps-solutions-0p9mp01my4/locator-plus/twwi/locator-plus.html"
                 width="100%"
                 height="300"
                 style={{ border: 0 }}
-                allowFullScreen
                 loading="lazy"
-                referrerPolicy="no-referrer-when-downgrade"
               />
             </div>
 
