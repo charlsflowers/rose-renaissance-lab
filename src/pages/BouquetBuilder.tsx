@@ -86,6 +86,7 @@ const BouquetBuilder = () => {
   const autocompleteRef = useRef<HTMLDivElement>(null);
   const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const [paperColor, setPaperColor] = useState("");
+  const [customerNotes, setCustomerNotes] = useState("");
 
   const STORE_MAP_URL = `https://www.google.com/maps/embed/v1/place?key=&q=${encodeURIComponent("7261 NW 12th St, Miami, FL 33126")}`;
 
