@@ -65,6 +65,7 @@ const BouquetBuilder = () => {
   const [deliveryMethod, setDeliveryMethod] = useState<"pickup" | "delivery">("pickup");
   const [deliveryDate, setDeliveryDate] = useState<Date>();
   const [deliveryHour, setDeliveryHour] = useState<string>("");
+  const [calendarOpen, setCalendarOpen] = useState(false);
   const [deliveryMiles, setDeliveryMiles] = useState<number | null>(null);
   const [deliveryName, setDeliveryName] = useState("");
   const [deliveryStreet, setDeliveryStreet] = useState("");
@@ -752,7 +753,7 @@ const BouquetBuilder = () => {
             <Section title={t("builder.vase")} step={7} subtitle={t("builder.optional")}>
               <div className="grid grid-cols-3 gap-3">
                 {vaseOptions.map((v, idx) => {
-                  const vaseImg = idx === 0 ? vase50Img : idx === 1 ? vase75Img : vase100Img;
+                  const vaseImg = vase100Img;
                   return (
                     <button
                       key={v.roses}
@@ -1016,7 +1017,7 @@ const BouquetBuilder = () => {
                 <label className="text-sm font-body font-semibold text-foreground block mb-2">
                   <CalendarIcon className="w-4 h-4 inline mr-1" /> {deliveryMethod === "pickup" ? "Pickup" : "Delivery"} date
                 </label>
-                <Popover>
+                <Popover open={calendarOpen} onOpenChange={setCalendarOpen}>
                   <PopoverTrigger asChild>
                     <button className="w-full md:w-auto flex items-center gap-2 px-4 py-3 rounded-sm border border-border bg-card font-body text-sm text-foreground hover:border-primary/30 transition-all">
                       <CalendarIcon className="w-4 h-4 text-muted-foreground" />
@@ -1030,6 +1031,7 @@ const BouquetBuilder = () => {
                       onSelect={(date) => {
                         setDeliveryDate(date);
                         setDeliveryHour("");
+                        setCalendarOpen(false);
                       }}
                       disabled={(date) => isBefore(startOfDay(date), startOfDay(todayInMiami()))}
                       className="p-3 pointer-events-auto"
