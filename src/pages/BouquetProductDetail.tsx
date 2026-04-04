@@ -412,7 +412,11 @@ const BouquetProductDetail = () => {
     </Section>
   );
 
-  const renderShippingSection = (isMobile = false, autocompleteRef: React.RefObject<HTMLDivElement>) => (
+  const renderShippingSection = (isMobile = false, autocompleteRef: React.RefObject<HTMLDivElement>) => {
+    const calendarOpen = isMobile ? mobileCalendarOpen : desktopCalendarOpen;
+    const setCalendarOpen = isMobile ? setMobileCalendarOpen : setDesktopCalendarOpen;
+
+    return (
     <Section title={t("product.shipping")} step={step++}>
       <div className="grid grid-cols-2 gap-2 mb-4">
         <button onClick={() => setDeliveryMethod("pickup")}
@@ -486,10 +490,9 @@ const BouquetProductDetail = () => {
         )}
       </div>
 
-      {/* Date */}
       <div className="mb-4">
         <label className="text-sm font-body font-semibold text-foreground block mb-2"><CalendarIcon className="w-4 h-4 inline mr-1" /> {t("product.date")}</label>
-        <Popover open={desktopCalendarOpen} onOpenChange={setDesktopCalendarOpen}>
+        <Popover open={calendarOpen} onOpenChange={setCalendarOpen}>
           <PopoverTrigger asChild>
             <button type="button" className="w-full flex items-center gap-2 px-4 py-3 rounded-sm border border-border bg-card font-body text-sm text-foreground hover:border-primary/30 transition-all">
               <CalendarIcon className="w-4 h-4 text-muted-foreground" />
@@ -497,7 +500,7 @@ const BouquetProductDetail = () => {
             </button>
           </PopoverTrigger>
           <PopoverContent className="w-auto p-0" align="start">
-            <Calendar mode="single" selected={deliveryDate} onSelect={(d) => { if (d) { setDeliveryDate(d); setDeliveryHour(""); setDesktopCalendarOpen(false); } }}
+            <Calendar mode="single" selected={deliveryDate} onSelect={(d) => { if (d) { setDeliveryDate(d); setDeliveryHour(""); setCalendarOpen(false); } }}
               disabled={(date) => isBefore(startOfDay(date), startOfDay(todayInMiami())) || date.getDay() === 0} className="p-3 pointer-events-auto" locale={enUS}
               classNames={{ day_outside: "text-foreground", day_disabled: "text-muted-foreground opacity-50 line-through" }} />
           </PopoverContent>
@@ -517,7 +520,6 @@ const BouquetProductDetail = () => {
         </div>
       )}
 
-      {/* Customer Notes */}
       <div>
         <label className="text-sm font-body font-semibold text-foreground block mb-2">{t("product.customerNotes")}</label>
         <textarea value={customerNotes} onChange={(e) => setCustomerNotes(e.target.value)} placeholder={t("product.customerNotesPlaceholder")}
@@ -525,6 +527,7 @@ const BouquetProductDetail = () => {
       </div>
     </Section>
   );
+  };
 
   return (
     <div className="min-h-screen bg-background">
