@@ -261,7 +261,7 @@ export const blogArticles: BlogArticleData[] = [
 
         <h2>Free In-Store Pickup</h2>
         <p>Prefer to pick up your bouquet? We offer free in-store pickup at our location: <strong>7261 NW 12th Street, Miami, FL 33126</strong>. Simply select "Store Pickup" at checkout, choose your preferred pickup time, and we'll have your bouquet ready and waiting.</p>
-        <p>Our store hours are: Monday–Friday 8AM–7PM, Saturday 8AM–6PM, Sunday 8AM–5PM.</p>
+        <p>Our store hours are: Monday–Friday 8AM–7PM, Saturday 8AM–5PM, Sunday Closed.</p>
 
         <h2>Tips for a Smooth Delivery</h2>
         <ul>

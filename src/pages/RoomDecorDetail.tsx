@@ -99,7 +99,8 @@ const RoomDecorDetail = () => {
   const getAvailableHours = (date: Date | undefined) => {
     if (!date) return [];
     const day = date.getDay();
-    const closeHour = day === 0 ? 17 : day === 6 ? 18 : 19;
+    if (day === 0) return []; // Sunday closed
+    const closeHour = day === 6 ? 17 : 19;
     const hours: string[] = [];
     for (let h = 10; h <= closeHour; h++) {
       if (isTodayInMiami(date) && h < minMiamiHour) continue;

@@ -276,10 +276,10 @@ const BouquetBuilder = () => {
     let startHour: number, closeHour: number;
     if (deliveryMethod === "pickup") {
       startHour = 9; // 9:30 rounded to 10:00 first slot
-      closeHour = day === 0 ? 17 : day === 6 ? 18 : 19;
+      closeHour = day === 6 ? 17 : 19;
     } else {
       startHour = 10;
-      closeHour = day === 0 ? 17 : day === 6 ? 18 : 19;
+      closeHour = day === 6 ? 17 : 19;
     }
     const hours: string[] = [];
     const firstSlot = deliveryMethod === "pickup" ? 9.5 : 10;

@@ -7,10 +7,16 @@ const AnnouncementBar = () => {
 
   const message = useMemo(() => {
     const { hours, day: dayOfWeek } = getMiamiTime();
-    // Closing hours: Sun=17, Sat=18, Mon-Fri=19
-    const closeHour = dayOfWeek === 0 ? 17 : dayOfWeek === 6 ? 18 : 19;
+    // Closing hours: Sun=closed, Sat=17, Mon-Fri=19
+    const closeHour = dayOfWeek === 6 ? 17 : 19;
     const cutoff = 15; // 3PM
 
+    // Sunday closed
+    if (dayOfWeek === 0) {
+      return language === "es"
+        ? "Entrega al día siguiente - Pide ahora"
+        : "Next-day delivery - Order now";
+    }
     if (hours < cutoff) {
       return language === "es"
         ? "Entrega en el mismo día disponible - Pide antes de las 3PM"

@@ -87,7 +87,8 @@ const CheckoutSummaryBlock = ({
     const baseHours = deliveryMethod === "pickup" ? PICKUP_HOURS : DELIVERY_HOURS;
     if (!parsedDate) return baseHours;
     const day = parsedDate.getDay();
-    const closeHour = day === 0 ? 17 : day === 6 ? 18 : 19;
+    if (day === 0) return []; // Sunday closed
+    const closeHour = day === 6 ? 17 : 19;
     let filtered = baseHours.filter(h => {
       const match = h.match(/^(\d+):(\d+)\s*(AM|PM)$/i);
       if (!match) return false;
