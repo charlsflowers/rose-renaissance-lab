@@ -273,13 +273,14 @@ const BouquetBuilder = () => {
   const getAvailableHours = (date: Date | undefined) => {
     if (!date) return [];
     const day = date.getDay();
+    if (day === 0) return []; // Sunday closed
     let startHour: number, closeHour: number;
     if (deliveryMethod === "pickup") {
       startHour = 9; // 9:30 rounded to 10:00 first slot
-      closeHour = day === 0 ? 17 : day === 6 ? 18 : 19;
+      closeHour = day === 6 ? 17 : 19;
     } else {
       startHour = 10;
-      closeHour = day === 0 ? 17 : day === 6 ? 18 : 19;
+      closeHour = day === 6 ? 17 : 19;
     }
     const hours: string[] = [];
     const firstSlot = deliveryMethod === "pickup" ? 9.5 : 10;
@@ -1024,7 +1025,7 @@ const BouquetBuilder = () => {
                 <label className="text-sm font-body font-semibold text-foreground block mb-2">
                   <CalendarIcon className="w-4 h-4 inline mr-1" /> {deliveryMethod === "pickup" ? "Pickup" : "Delivery"} date
                 </label>
-                <Popover open={calendarOpen} onOpenChange={(open) => { if (open) setCalendarOpen(true); }}>
+                <Popover open={calendarOpen} onOpenChange={setCalendarOpen}>
                   <PopoverTrigger asChild>
                     <button className="w-full md:w-auto flex items-center gap-2 px-4 py-3 rounded-sm border border-border bg-card font-body text-sm text-foreground hover:border-primary/30 transition-all">
                       <CalendarIcon className="w-4 h-4 text-muted-foreground" />
@@ -1040,7 +1041,7 @@ const BouquetBuilder = () => {
                         setDeliveryHour("");
                         setCalendarOpen(false);
                       }}
-                      disabled={(date) => isBefore(startOfDay(date), startOfDay(todayInMiami()))}
+                      disabled={(date) => isBefore(startOfDay(date), startOfDay(todayInMiami())) || date.getDay() === 0}
                       className="p-3 pointer-events-auto"
                       locale={enUS}
                     />

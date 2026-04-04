@@ -164,7 +164,8 @@ const BouquetProductDetail = () => {
   const getAvailableHours = (date: Date | undefined) => {
     if (!date) return [];
     const day = date.getDay();
-    const closeHour = day === 0 ? 17 : day === 6 ? 18 : 19;
+    if (day === 0) return []; // Sunday closed
+    const closeHour = day === 6 ? 17 : 19;
     const hours: string[] = [];
     if (deliveryMethod === "pickup") {
       if (!isTodayInMiami(date) || 9.5 >= minMiamiHour) {
@@ -487,7 +488,7 @@ const BouquetProductDetail = () => {
       {/* Date */}
       <div className="mb-4">
         <label className="text-sm font-body font-semibold text-foreground block mb-2"><CalendarIcon className="w-4 h-4 inline mr-1" /> {t("product.date")}</label>
-        <Popover open={calendarOpen} onOpenChange={(open) => { if (open) setCalendarOpen(true); }}>
+        <Popover open={calendarOpen} onOpenChange={setCalendarOpen}>
           <PopoverTrigger asChild>
             <button className="w-full flex items-center gap-2 px-4 py-3 rounded-sm border border-border bg-card font-body text-sm text-foreground hover:border-primary/30 transition-all">
               <CalendarIcon className="w-4 h-4 text-muted-foreground" />
@@ -495,8 +496,8 @@ const BouquetProductDetail = () => {
             </button>
           </PopoverTrigger>
           <PopoverContent className="w-auto p-0" align="start">
-            <Calendar mode="single" selected={deliveryDate} onSelect={(d) => { setDeliveryDate(d); setDeliveryHour(""); setCalendarOpen(false); }}
-              disabled={(date) => isBefore(startOfDay(date), startOfDay(todayInMiami()))} className="p-3 pointer-events-auto" locale={enUS}
+            <Calendar mode="single" selected={deliveryDate} onSelect={(d) => { if (d) { setDeliveryDate(d); setDeliveryHour(""); setCalendarOpen(false); } }}
+              disabled={(date) => isBefore(startOfDay(date), startOfDay(todayInMiami())) || date.getDay() === 0} className="p-3 pointer-events-auto" locale={enUS}
               classNames={{ day_outside: "text-foreground", day_disabled: "text-muted-foreground opacity-50 line-through" }} />
           </PopoverContent>
         </Popover>

@@ -42,7 +42,7 @@ const Delivery = () => {
                   <Clock className="w-4 h-4 text-primary mt-0.5 shrink-0" />
                   <div>
                     <p>{t("deliveryPage.minPrep")}</p>
-                    <p>Mon–Fri 8AM–7PM | Sat 8AM–6PM | Sun 8AM–5PM</p>
+                    <p>Mon–Fri 8AM–7PM | Sat 8AM–5PM | Sun Closed</p>
                   </div>
                 </div>
               </div>
@@ -66,7 +66,7 @@ const Delivery = () => {
                   <Clock className="w-4 h-4 text-primary mt-0.5 shrink-0" />
                   <div>
                     <p>{t("deliveryPage.ready")}</p>
-                    <p>Mon–Fri 8AM–7PM | Sat 8AM–6PM | Sun 8AM–5PM</p>
+                    <p>Mon–Fri 8AM–7PM | Sat 8AM–5PM | Sun Closed</p>
                   </div>
                 </div>
               </div>
