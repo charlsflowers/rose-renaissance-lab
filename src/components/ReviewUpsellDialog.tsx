@@ -336,7 +336,7 @@ const ReviewUpsellDialog = ({ open, onOpenChange, cartData, productLabel, mode }
             </label>
             <Popover open={calendarOpen} onOpenChange={setCalendarOpen}>
               <PopoverTrigger asChild>
-                <button className="w-full flex items-center gap-2 px-4 py-3 rounded-sm border border-border bg-card font-body text-sm text-foreground hover:border-primary/30 transition-all">
+                <button type="button" className="w-full flex items-center gap-2 px-4 py-3 rounded-sm border border-border bg-card font-body text-sm text-foreground hover:border-primary/30 transition-all">
                   <CalendarIcon className="w-4 h-4 text-muted-foreground" />
                   {deliveryDate ? format(deliveryDate, "PPP", { locale: enUS }) : "Select a date"}
                 </button>
