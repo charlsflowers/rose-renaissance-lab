@@ -35,7 +35,8 @@ const RoomDecorDetail = () => {
   const deliveryMethod = "delivery" as const;
   const [deliveryDate, setDeliveryDate] = useState<Date>();
   const [deliveryHour, setDeliveryHour] = useState("");
-  const [calendarOpen, setCalendarOpen] = useState(false);
+  const [desktopCalendarOpen, setDesktopCalendarOpen] = useState(false);
+  const [mobileCalendarOpen, setMobileCalendarOpen] = useState(false);
   const [deliveryMiles, setDeliveryMiles] = useState<number | null>(null);
   const [deliveryZip, setDeliveryZip] = useState("");
   const [deliveryDuration, setDeliveryDuration] = useState("");

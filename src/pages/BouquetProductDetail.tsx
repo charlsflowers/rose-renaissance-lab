@@ -67,7 +67,8 @@ const BouquetProductDetail = () => {
   const hasExistingDelivery = !!existingDeliveryItem;
 
   const [deliveryMethod, setDeliveryMethod] = useState<"pickup" | "delivery">(hasExistingDelivery ? "delivery" : "pickup");
-  const [calendarOpen, setCalendarOpen] = useState(false);
+  const [desktopCalendarOpen, setDesktopCalendarOpen] = useState(false);
+  const [mobileCalendarOpen, setMobileCalendarOpen] = useState(false);
   const [deliveryDate, setDeliveryDate] = useState<Date>(() => {
     const existing = cartItems.find(i => i.deliveryDate);
     if (existing?.deliveryDate) {
