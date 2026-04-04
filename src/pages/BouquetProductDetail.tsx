@@ -67,7 +67,8 @@ const BouquetProductDetail = () => {
   const hasExistingDelivery = !!existingDeliveryItem;
 
   const [deliveryMethod, setDeliveryMethod] = useState<"pickup" | "delivery">(hasExistingDelivery ? "delivery" : "pickup");
-  const [calendarOpen, setCalendarOpen] = useState(false);
+  const [desktopCalendarOpen, setDesktopCalendarOpen] = useState(false);
+  const [mobileCalendarOpen, setMobileCalendarOpen] = useState(false);
   const [deliveryDate, setDeliveryDate] = useState<Date>(() => {
     const existing = cartItems.find(i => i.deliveryDate);
     if (existing?.deliveryDate) {
@@ -488,7 +489,7 @@ const BouquetProductDetail = () => {
       {/* Date */}
       <div className="mb-4">
         <label className="text-sm font-body font-semibold text-foreground block mb-2"><CalendarIcon className="w-4 h-4 inline mr-1" /> {t("product.date")}</label>
-        <Popover open={calendarOpen} onOpenChange={setCalendarOpen}>
+        <Popover open={desktopCalendarOpen} onOpenChange={setDesktopCalendarOpen}>
           <PopoverTrigger asChild>
             <button type="button" className="w-full flex items-center gap-2 px-4 py-3 rounded-sm border border-border bg-card font-body text-sm text-foreground hover:border-primary/30 transition-all">
               <CalendarIcon className="w-4 h-4 text-muted-foreground" />
@@ -496,7 +497,7 @@ const BouquetProductDetail = () => {
             </button>
           </PopoverTrigger>
           <PopoverContent className="w-auto p-0" align="start">
-            <Calendar mode="single" selected={deliveryDate} onSelect={(d) => { if (d) { setDeliveryDate(d); setDeliveryHour(""); setCalendarOpen(false); } }}
+            <Calendar mode="single" selected={deliveryDate} onSelect={(d) => { if (d) { setDeliveryDate(d); setDeliveryHour(""); setDesktopCalendarOpen(false); } }}
               disabled={(date) => isBefore(startOfDay(date), startOfDay(todayInMiami())) || date.getDay() === 0} className="p-3 pointer-events-auto" locale={enUS}
               classNames={{ day_outside: "text-foreground", day_disabled: "text-muted-foreground opacity-50 line-through" }} />
           </PopoverContent>
