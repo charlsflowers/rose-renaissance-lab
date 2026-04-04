@@ -69,7 +69,7 @@ const CheckoutSummaryBlock = ({
   };
 
   const today = todayInMiami();
-  const disabledDays = { before: today };
+  const disabledDays = [{ before: today }, { dayOfWeek: [0] }];
 
   const parseDateSafe = (d: string): Date | null => {
     if (!d) return null;
