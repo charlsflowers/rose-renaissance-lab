@@ -342,7 +342,7 @@ const ReviewUpsellDialog = ({ open, onOpenChange, cartData, productLabel, mode }
                 </button>
               </PopoverTrigger>
               <PopoverContent className="w-auto p-0" align="start">
-                <Calendar mode="single" selected={deliveryDate} onSelect={(d) => { setDeliveryDate(d); setDeliveryHour(""); setCalendarOpen(false); }}
+                <Calendar mode="single" selected={deliveryDate} onSelect={(d) => { if (d) { setDeliveryDate(d); setDeliveryHour(""); setCalendarOpen(false); } }}
                   disabled={(date) => isBefore(startOfDay(date), startOfDay(todayInMiami())) || date.getDay() === 0} className="p-3 pointer-events-auto" locale={enUS} />
               </PopoverContent>
             </Popover>
