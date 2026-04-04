@@ -273,6 +273,7 @@ const BouquetBuilder = () => {
   const getAvailableHours = (date: Date | undefined) => {
     if (!date) return [];
     const day = date.getDay();
+    if (day === 0) return []; // Sunday closed
     let startHour: number, closeHour: number;
     if (deliveryMethod === "pickup") {
       startHour = 9; // 9:30 rounded to 10:00 first slot
