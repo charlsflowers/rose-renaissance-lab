@@ -47,7 +47,7 @@ const BouquetProductDetail = () => {
   useEffect(() => {
     if (product) {
       const firstPrice = product.customSizes?.[0]?.price ?? getPrice(product.pricingTier, product.pricingTier === 'mix3red' ? 75 : 50);
-      window.gtag?.('event', 'view_item', {
+      (window as any).gtag?.(('event', 'view_item', {
         currency: 'USD',
         value: firstPrice,
         items: [{ item_id: product.shopifyHandle, item_name: product.name }],
@@ -264,7 +264,7 @@ const BouquetProductDetail = () => {
       if (addVase) addons.push(`Vase (${vaseOptions[selectedVaseIdx].label})`);
 
       // GA4: add_to_cart event
-      window.gtag?.('event', 'add_to_cart', {
+      (window as any).gtag?.(('event', 'add_to_cart', {
         currency: 'USD',
         value: basePrice,
         items: [{ item_id: product.shopifyHandle, item_name: product.name, quantity: 1 }],
