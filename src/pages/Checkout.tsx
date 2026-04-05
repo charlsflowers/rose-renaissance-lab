@@ -14,6 +14,7 @@ import { motion } from "framer-motion";
 import CheckoutOrderItem from "@/components/checkout/CheckoutOrderItem";
 import CheckoutSummaryBlock from "@/components/checkout/CheckoutSummaryBlock";
 import { useTranslation } from "@/i18n/LanguageContext";
+import { getPaperForCartItem } from "@/lib/paperHelper";
 
 const Checkout = () => {
   const { t } = useTranslation();
