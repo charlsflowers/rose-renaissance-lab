@@ -2,6 +2,7 @@ import { useState, useMemo, useCallback, useRef, useEffect } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import { useTranslation } from "@/i18n/LanguageContext";
 import YouMightAlsoLove from "@/components/YouMightAlsoLove";
+import Footer from "@/components/Footer";
 import { format, addHours, isBefore, startOfDay } from "date-fns";
 import { miamiHourNow, todayInMiami, isTodayInMiami } from "@/lib/miamiTime";
 import { seoData } from "@/lib/seoData";
@@ -694,6 +695,7 @@ const BouquetProductDetail = () => {
           </div>
         </div>
       </div>
+      <Footer />
     </div>
   );
 };
