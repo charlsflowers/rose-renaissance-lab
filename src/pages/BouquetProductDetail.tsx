@@ -43,6 +43,18 @@ const BouquetProductDetail = () => {
   const cartItems = useCartStore(state => state.items);
   const product = bouquetProducts.find((b) => b.shopifyHandle === productId || b.id === productId);
 
+  // GA4: view_item event
+  useEffect(() => {
+    if (product) {
+      const firstPrice = product.customSizes?.[0]?.price ?? getPrice(product.pricingTier, product.pricingTier === 'mix3red' ? 75 : 50);
+      window.gtag?.('event', 'view_item', {
+        currency: 'USD',
+        value: firstPrice,
+        items: [{ item_id: product.shopifyHandle, item_name: product.name }],
+      });
+    }
+  }, [product?.shopifyHandle]);
+
   const [selectedSizeIdx, setSelectedSizeIdx] = useState(0);
   const [accessory, setAccessory] = useState<"none" | "note" | "card" | "butterfly">("none");
   const [accessoryText, setAccessoryText] = useState("");
@@ -250,6 +262,13 @@ const BouquetProductDetail = () => {
       const addons: string[] = [];
       if (addGlitter === true) addons.push("Glitter");
       if (addVase) addons.push(`Vase (${vaseOptions[selectedVaseIdx].label})`);
+
+      // GA4: add_to_cart event
+      window.gtag?.('event', 'add_to_cart', {
+        currency: 'USD',
+        value: basePrice,
+        items: [{ item_id: product.shopifyHandle, item_name: product.name, quantity: 1 }],
+      });
 
       const addPromise = addItem({
         id: "",

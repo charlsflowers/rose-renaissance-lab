@@ -49,6 +49,12 @@ const Checkout = () => {
   const canCheckout = !needsAddress || deliveryResult !== null;
 
   const handleCheckout = async () => {
+    // GA4: begin_checkout event
+    window.gtag?.('event', 'begin_checkout', {
+      currency: 'USD',
+      value: itemsSubtotal,
+    });
+
     setIsCheckingOut(true);
     try {
       const noteLines: string[] = [];
