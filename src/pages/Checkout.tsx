@@ -50,7 +50,7 @@ const Checkout = () => {
 
   const handleCheckout = async () => {
     // GA4: begin_checkout event
-    (window as any).gtag?.(('event', 'begin_checkout', {
+    (window as any).gtag?.('event', 'begin_checkout', {
       currency: 'USD',
       value: itemsSubtotal,
     });
