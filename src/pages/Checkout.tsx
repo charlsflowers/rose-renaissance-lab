@@ -14,6 +14,7 @@ import { motion } from "framer-motion";
 import CheckoutOrderItem from "@/components/checkout/CheckoutOrderItem";
 import CheckoutSummaryBlock from "@/components/checkout/CheckoutSummaryBlock";
 import { useTranslation } from "@/i18n/LanguageContext";
+import { getPaperForCartItem } from "@/lib/paperHelper";
 
 const Checkout = () => {
   const { t } = useTranslation();
@@ -82,7 +83,9 @@ const Checkout = () => {
           noteLines.push(`- 🌸 Color: ${item.color}`);
         }
 
-        if (item.paperColor) noteLines.push(`- 📄 Paper color: ${item.paperColor}`);
+        const catalogPaper = getPaperForCartItem(item.productName, item.bouquetType);
+        const paperToShow = catalogPaper || item.paperColor;
+        if (paperToShow) noteLines.push(`- 📄 Paper color: ${paperToShow}`);
         if (item.roses) noteLines.push(`- 🌹 Roses: ${item.roses}`);
         if (item.glitter) noteLines.push(`- ✨ Glitter finish: Yes`);
         if (item.crownSize) noteLines.push(`- 👑 Crown: ${item.crownSize}`);
