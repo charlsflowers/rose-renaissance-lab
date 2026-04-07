@@ -36,6 +36,7 @@ export interface CartItem {
   deliveryMiles: number | null;
   paperColor: string;
   image?: string;
+  customerNotes?: string;
   structuredAddress?: {
     address1: string;
     city: string;
