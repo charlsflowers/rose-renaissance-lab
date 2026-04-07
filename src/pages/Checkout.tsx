@@ -109,6 +109,7 @@ const Checkout = () => {
           noteLines.push("NOTAS DEL CLIENTE");
           noteLines.push(`📝 Nota del cliente: ${item.customerNotes}`);
         }
+      });
 
       const accessoryLineItems = items.flatMap((item) => {
         const vaseAddon = item.addons?.find(a => a.startsWith("Vase"));
