@@ -104,6 +104,11 @@ const Checkout = () => {
         if (item.specialText) noteLines.push(`- 🔤 Letters or numbers (Baby Breath): ${item.specialText}`);
         const vaseAddon = item.addons?.find(a => a.startsWith("Vase"));
         if (vaseAddon) noteLines.push(`- 🏺 Vase: ${vaseAddon}`);
+        if (item.customerNotes) {
+          noteLines.push("");
+          noteLines.push("NOTAS DEL CLIENTE");
+          noteLines.push(`📝 Nota del cliente: ${item.customerNotes}`);
+        }
       });
 
       const accessoryLineItems = items.flatMap((item) => {

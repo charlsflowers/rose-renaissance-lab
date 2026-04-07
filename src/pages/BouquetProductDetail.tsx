@@ -298,6 +298,7 @@ const BouquetProductDetail = () => {
         deliveryMiles: deliveryMethod === "delivery" ? deliveryMiles : null,
         paperColor,
         image: product.image,
+        customerNotes: customerNotes.trim() || undefined,
         structuredAddress: deliveryMethod === "delivery" ? structuredAddress : undefined,
         shopifyVariantId: variant.id,
       });
