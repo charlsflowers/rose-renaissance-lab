@@ -7,9 +7,9 @@ import { ChevronDown } from "lucide-react";
 import { useTranslation } from "@/i18n/LanguageContext";
 
 const FAQ = () => {
-  const { t } = useTranslation();
+  const { t, tRaw } = useTranslation();
   const [openIdx, setOpenIdx] = useState<number | null>(null);
-  const faqs = t("faqPage.faqs") as unknown as Array<{ q: string; a: string }>;
+  const faqs = tRaw("faqPage.faqs") as Array<{ q: string; a: string }>;
 
   return (
     <div className="min-h-screen bg-background">

@@ -10,6 +10,7 @@ interface LanguageContextType {
   language: Language;
   setLanguage: (lang: Language) => void;
   t: (key: string) => string;
+  tRaw: (key: string) => any;
 }
 
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
@@ -30,23 +31,27 @@ export const LanguageProvider = ({ children }: { children: ReactNode }) => {
     document.documentElement.lang = lang;
   }, []);
 
-  const t = useCallback((key: string): string => {
+  const tRaw = useCallback((key: string): any => {
     const keys = key.split(".");
     let value: any = translations[language];
     for (const k of keys) {
       value = value?.[k];
       if (value === undefined) {
-        // Fallback to English
         let fallback: any = translations.en;
         for (const fk of keys) fallback = fallback?.[fk];
-        return typeof fallback === "string" ? fallback : key;
+        return fallback ?? key;
       }
     }
-    return typeof value === "string" ? value : key;
+    return value ?? key;
   }, [language]);
 
+  const t = useCallback((key: string): string => {
+    const result = tRaw(key);
+    return typeof result === "string" ? result : key;
+  }, [tRaw]);
+
   return (
-    <LanguageContext.Provider value={{ language, setLanguage, t }}>
+    <LanguageContext.Provider value={{ language, setLanguage, t, tRaw }}>
       {children}
     </LanguageContext.Provider>
   );

@@ -310,7 +310,7 @@ const Index = () => {
             <p className="text-muted-foreground font-body max-w-lg mx-auto mt-1">{t("home.deliverySubtitleLine2")}</p>
             <p className="text-primary font-body text-sm font-semibold mt-3">{t("home.deliveryAddress")}</p>
           </motion.div>
-          <div className="max-w-2xl mx-auto rounded-sm overflow-hidden border border-border" style={{ aspectRatio: '16/9', minHeight: '300px' }}>
+          <div className="max-w-2xl mx-auto rounded-sm overflow-hidden border border-border aspect-square md:aspect-video" style={{ minHeight: '280px' }}>
             <iframe
               src="https://storage.googleapis.com/maps-solutions-0p9mp01my4/locator-plus/twwi/locator-plus.html"
               width="100%"
