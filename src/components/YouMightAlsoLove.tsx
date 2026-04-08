@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { bouquetProducts } from "@/lib/catalogData";
 import { bouquetCrossLinks } from "@/lib/crossLinks";
 import { getPrice } from "@/lib/productData";
+import ShopifyPrice from "@/components/ShopifyPrice";
 import { useTranslation } from "@/i18n/LanguageContext";
 
 interface Props {

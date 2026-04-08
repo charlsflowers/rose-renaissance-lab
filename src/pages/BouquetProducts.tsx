@@ -8,6 +8,7 @@ import JsonLd, { breadcrumbSchema } from "@/components/JsonLd";
 import CollectionFAQ, { useBouquetFAQs } from "@/components/CollectionFAQ";
 import { bouquetProducts, bouquetSizeOptions } from "@/lib/catalogData";
 import { getPrice } from "@/lib/productData";
+import ShopifyPrice from "@/components/ShopifyPrice";
 import { ArrowLeft, ArrowRight, Lock } from "lucide-react";
 import { useTranslation } from "@/i18n/LanguageContext";
 
