@@ -229,8 +229,10 @@ const BouquetProductDetail = () => {
 
   const colorCount = product.color.split(/,\s*|\s+y\s+/).length;
   const hasCustomSizes = product.customSizes && product.customSizes.length > 0;
-  const sizeOptions = hasCustomSizes ? product.customSizes! : bouquetSizeOptions;
-  const minSizeIdx = hasCustomSizes ? 0 : (colorCount >= 3 ? 1 : 0);
+  const useDynamicSizes = product.shopifyHandle === "bicolor-passion" && productVariants.length > 0;
+  const shopifySizes = useMemo(() => useDynamicSizes ? buildShopifySizeOptions(productVariants) : [], [useDynamicSizes, productVariants]);
+  const sizeOptions = useDynamicSizes ? shopifySizes : (hasCustomSizes ? product.customSizes! : bouquetSizeOptions);
+  const minSizeIdx = useDynamicSizes ? 0 : (hasCustomSizes ? 0 : (colorCount >= 3 ? 1 : 0));
 
   const effectiveSizeIdx = selectedSizeIdx < minSizeIdx ? minSizeIdx : (selectedSizeIdx >= sizeOptions.length ? sizeOptions.length - 1 : selectedSizeIdx);
   const selectedSize = hasCustomSizes ? { roses: sizeOptions[effectiveSizeIdx].roses } : bouquetSizeOptions[effectiveSizeIdx];
