@@ -236,10 +236,10 @@ const BouquetProductDetail = () => {
   const minSizeIdx = useDynamicSizes ? 0 : (hasCustomSizes ? 0 : (colorCount >= 3 ? 1 : 0));
 
   const effectiveSizeIdx = selectedSizeIdx < minSizeIdx ? minSizeIdx : (selectedSizeIdx >= sizeOptions.length ? sizeOptions.length - 1 : selectedSizeIdx);
-  const selectedSize = hasCustomSizes ? { roses: sizeOptions[effectiveSizeIdx].roses } : bouquetSizeOptions[effectiveSizeIdx];
-  const hardcodedSizePrice = hasCustomSizes ? (product.customSizes![effectiveSizeIdx]?.price || 0) : getPrice(product.pricingTier, selectedSize.roses);
-  const shopifyLivePrice = product.shopifyHandle === "bicolor-passion" ? getShopifyPrice(productVariants, selectedSize.roses) : null;
-  const sizePrice = shopifyLivePrice ?? hardcodedSizePrice;
+  const selectedSize = useDynamicSizes ? { roses: sizeOptions[effectiveSizeIdx].roses } : (hasCustomSizes ? { roses: sizeOptions[effectiveSizeIdx].roses } : bouquetSizeOptions[effectiveSizeIdx]);
+  const sizePrice = useDynamicSizes
+    ? (shopifySizes[effectiveSizeIdx]?.price ?? 0)
+    : (hasCustomSizes ? (product.customSizes![effectiveSizeIdx]?.price || 0) : getPrice(product.pricingTier, selectedSize.roses));
   const glitterCost = addGlitter === true ? Math.ceil(selectedSize.roses / 25) * 8 : 0;
   const vaseCost = addVase ? vaseOptions[selectedVaseIdx].price : 0;
   const accessoryCost = accessory === "note" ? 3 : accessory === "butterfly" ? 3 : 0;
