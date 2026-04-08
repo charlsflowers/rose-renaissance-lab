@@ -599,7 +599,7 @@ const BouquetProductDetail = () => {
                   <p className="font-display text-xl font-bold text-foreground whitespace-nowrap">${parseFloat(sizePrice.toFixed(2))} <span className="text-xs font-body text-muted-foreground font-normal">USD</span></p>
                 </div>
                 <div className="text-muted-foreground font-body text-sm mt-3 leading-relaxed space-y-1">
-                  {(language === 'es' && product.descriptionEs ? product.descriptionEs : product.description).split('\n').map((line, i) => (
+                  {replaceDescriptionPrice(language === 'es' && product.descriptionEs ? product.descriptionEs : product.description).split('\n').map((line, i) => (
                     <p key={i}>{line}</p>
                   ))}
                 </div>
@@ -674,7 +674,7 @@ const BouquetProductDetail = () => {
             <div className="text-center">
               <h1 className="font-display text-2xl font-semibold text-foreground">{product.name}</h1>
               <div className="text-muted-foreground font-body text-sm mt-2 space-y-1">
-                {(language === 'es' && product.descriptionEs ? product.descriptionEs : product.description).split('\n').map((line, i) => (
+                {replaceDescriptionPrice(language === 'es' && product.descriptionEs ? product.descriptionEs : product.description).split('\n').map((line, i) => (
                   <p key={i}>{line}</p>
                 ))}
               </div>
