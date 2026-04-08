@@ -247,6 +247,15 @@ const BouquetProductDetail = () => {
   const basePrice = sizePrice + (addCrown ? crownPrice : 0) + (addRibbon ? ribbonPrice : 0) + glitterCost + vaseCost + accessoryCost;
   const totalPrice = basePrice + deliveryCost;
 
+  // Replace "From $X" / "Desde $X" in description with dynamic Shopify price
+  const dynamicMinPrice = useDynamicSizes && shopifySizes.length > 0 ? shopifySizes[0].price : null;
+  const replaceDescriptionPrice = (text: string): string => {
+    if (dynamicMinPrice === null) return text;
+    return text
+      .replace(/From \$\d+(\.\d+)?/i, `From $${dynamicMinPrice}`)
+      .replace(/Desde \$\d+(\.\d+)?/i, `Desde $${dynamicMinPrice}`);
+  };
+
   let step = 1;
 
   const handleAddToCart = async (skipNavigate = false): Promise<string | null> => {
