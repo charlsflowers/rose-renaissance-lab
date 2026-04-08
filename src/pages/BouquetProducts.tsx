@@ -119,7 +119,13 @@ const BouquetProducts = () => {
                   </div>
                   <h3 className="font-display text-lg font-semibold text-foreground text-center">{product.name}</h3>
                   
-                  <p className="text-primary font-body text-sm font-semibold text-center mt-2">{t("product.from")} ${product.customSizes ? product.customSizes[0].price : getPrice(product.pricingTier, (product.pricingTier === 'mix3red' || (product.color.includes(',') && product.pricingTier === 'standard')) ? 75 : 50)}</p>
+                  <p className="text-primary font-body text-sm font-semibold text-center mt-2">
+                    {t("product.from")}{" "}
+                    <ShopifyPrice
+                      handle={product.shopifyHandle}
+                      fallbackPrice={product.customSizes ? product.customSizes[0].price : getPrice(product.pricingTier, (product.pricingTier === 'mix3red' || (product.color.includes(',') && product.pricingTier === 'standard')) ? 75 : 50)}
+                    />
+                  </p>
                 </Link>
               </div>
             ))}
