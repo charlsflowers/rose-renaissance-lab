@@ -12,7 +12,7 @@ import Breadcrumbs from "@/components/Breadcrumbs";
 import { enUS } from "date-fns/locale";
 import { supabase } from "@/integrations/supabase/client";
 import { useCartStore } from "@/stores/cartStore";
-import { fetchVariantsByHandle, findVariantByRoses, type ShopifyHandleVariant } from "@/lib/shopifyVariants";
+import { fetchVariantsByHandle, findVariantByRoses, getShopifyPrice, type ShopifyHandleVariant } from "@/lib/shopifyVariants";
 import { performApiCheckout } from "@/lib/checkout";
 import { calculateDeliveryCost, formatDeliveryCost } from "@/lib/deliveryPricing";
 import { toast } from "sonner";
@@ -234,7 +234,9 @@ const BouquetProductDetail = () => {
 
   const effectiveSizeIdx = selectedSizeIdx < minSizeIdx ? minSizeIdx : (selectedSizeIdx >= sizeOptions.length ? sizeOptions.length - 1 : selectedSizeIdx);
   const selectedSize = hasCustomSizes ? { roses: sizeOptions[effectiveSizeIdx].roses } : bouquetSizeOptions[effectiveSizeIdx];
-  const sizePrice = hasCustomSizes ? (product.customSizes![effectiveSizeIdx]?.price || 0) : getPrice(product.pricingTier, selectedSize.roses);
+  const hardcodedSizePrice = hasCustomSizes ? (product.customSizes![effectiveSizeIdx]?.price || 0) : getPrice(product.pricingTier, selectedSize.roses);
+  const shopifyLivePrice = product.shopifyHandle === "bicolor-passion" ? getShopifyPrice(productVariants, selectedSize.roses) : null;
+  const sizePrice = shopifyLivePrice ?? hardcodedSizePrice;
   const glitterCost = addGlitter === true ? Math.ceil(selectedSize.roses / 25) * 8 : 0;
   const vaseCost = addVase ? vaseOptions[selectedVaseIdx].price : 0;
   const accessoryCost = accessory === "note" ? 3 : accessory === "butterfly" ? 3 : 0;
@@ -596,7 +598,9 @@ const BouquetProductDetail = () => {
                 <div className="grid grid-cols-4 gap-2">
                   {sizeOptions.map((size, idx) => {
                     const disabled = idx < minSizeIdx;
-                    const price = hasCustomSizes ? (size as any).price : getPrice(product.pricingTier, size.roses);
+                    const hardcodedPrice = hasCustomSizes ? (size as any).price : getPrice(product.pricingTier, size.roses);
+                    const livePrice = product.shopifyHandle === "bicolor-passion" ? getShopifyPrice(productVariants, size.roses) : null;
+                    const price = livePrice ?? hardcodedPrice;
                     return (
                       <button key={size.roses} onClick={() => !disabled && setSelectedSizeIdx(idx)} disabled={disabled}
                         className={`p-2 rounded-sm border-2 text-center transition-all ${disabled ? "opacity-40 cursor-not-allowed border-border" : effectiveSizeIdx === idx ? "border-primary bg-primary/5" : "border-border hover:border-primary/30"}`}>
@@ -671,7 +675,9 @@ const BouquetProductDetail = () => {
               <div className="grid grid-cols-2 gap-2">
                 {sizeOptions.map((size, idx) => {
                   const disabled = idx < minSizeIdx;
-                  const price = hasCustomSizes ? (size as any).price : getPrice(product.pricingTier, size.roses);
+                  const hardcodedPrice = hasCustomSizes ? (size as any).price : getPrice(product.pricingTier, size.roses);
+                  const livePrice = product.shopifyHandle === "bicolor-passion" ? getShopifyPrice(productVariants, size.roses) : null;
+                  const price = livePrice ?? hardcodedPrice;
                   return (
                     <button key={size.roses} onClick={() => !disabled && setSelectedSizeIdx(idx)} disabled={disabled}
                       className={`p-3 rounded-sm border-2 text-center transition-all ${disabled ? "opacity-40 cursor-not-allowed border-border" : effectiveSizeIdx === idx ? "border-primary bg-primary/5" : "border-border hover:border-primary/30"}`}>
