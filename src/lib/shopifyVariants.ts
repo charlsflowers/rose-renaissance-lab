@@ -71,6 +71,16 @@ export async function fetchVariantsByHandle(handle: string): Promise<ShopifyHand
   return variants;
 }
 
+/** Get the price (as a number) from a Shopify variant matching a given roses count. */
+export function getShopifyPrice(
+  variants: ShopifyHandleVariant[],
+  rosesCount: number
+): number | null {
+  const variant = findVariantByRoses(variants, rosesCount);
+  if (!variant?.price?.amount) return null;
+  return parseFloat(variant.price.amount);
+}
+
 export function findVariantByRoses(
   variants: ShopifyHandleVariant[],
   rosesCount: number
