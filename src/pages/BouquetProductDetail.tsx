@@ -252,8 +252,8 @@ const BouquetProductDetail = () => {
   const replaceDescriptionPrice = (text: string): string => {
     if (dynamicMinPrice === null) return text;
     return text
-      .replace(/From \$\d+(\.\d+)?/i, `From $${dynamicMinPrice}`)
-      .replace(/Desde \$\d+(\.\d+)?/i, `Desde $${dynamicMinPrice}`);
+      .replace(/From \$\d+(\.\d+)?/i, () => `From $${dynamicMinPrice}`)
+      .replace(/Desde \$\d+(\.\d+)?/i, () => `Desde $${dynamicMinPrice}`);
   };
 
   let step = 1;
