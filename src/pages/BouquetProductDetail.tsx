@@ -12,7 +12,7 @@ import Breadcrumbs from "@/components/Breadcrumbs";
 import { enUS } from "date-fns/locale";
 import { supabase } from "@/integrations/supabase/client";
 import { useCartStore } from "@/stores/cartStore";
-import { fetchVariantsByHandle, findVariantByRoses, getShopifyPrice, type ShopifyHandleVariant } from "@/lib/shopifyVariants";
+import { fetchVariantsByHandle, findVariantByRoses, getShopifyPrice, buildShopifySizeOptions, type ShopifyHandleVariant } from "@/lib/shopifyVariants";
 import { performApiCheckout } from "@/lib/checkout";
 import { calculateDeliveryCost, formatDeliveryCost } from "@/lib/deliveryPricing";
 import { toast } from "sonner";
