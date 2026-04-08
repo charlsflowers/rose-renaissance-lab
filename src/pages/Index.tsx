@@ -59,7 +59,7 @@ const Index = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background overflow-x-hidden">
       <SeoHead title="Charls Flowers Miami | Custom Bouquets & Same-Day Delivery" description="Miami's premier flower shop. Handcrafted bouquets from 50 to 200 roses, natural or glitter finish. Custom designs with AI preview. Same-day delivery up to 87 miles. Free pickup." path="/" />
       <JsonLd data={localBusinessSchema()} />
       <JsonLd data={serviceSchema()} />
@@ -103,29 +103,29 @@ const Index = () => {
 
       {/* Shipping Options Bar */}
       <section className="py-5 md:py-6 bg-cream border-y border-primary/10">
-        <div className="container mx-auto px-6">
-          <div className="flex items-center justify-center gap-4 md:gap-12 flex-nowrap">
-            <div className="flex items-center gap-2 shrink-0">
-              <div className="w-8 h-8 md:w-9 md:h-9 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
-                <Store className="w-3.5 h-3.5 md:w-4 md:h-4 text-primary" />
+        <div className="container mx-auto px-4 md:px-6">
+          <div className="flex items-center justify-center gap-3 md:gap-12 flex-wrap md:flex-nowrap">
+            <div className="flex items-center gap-1.5 md:gap-2">
+              <div className="w-7 h-7 md:w-9 md:h-9 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
+                <Store className="w-3 h-3 md:w-4 md:h-4 text-primary" />
               </div>
-              <span className="font-body text-[10px] md:text-xs tracking-wider text-foreground uppercase whitespace-nowrap">{t("home.storePickup")}</span>
+              <span className="font-body text-[9px] md:text-xs tracking-wider text-foreground uppercase whitespace-nowrap">{t("home.storePickup")}</span>
             </div>
-            <div className="w-px h-6 bg-primary/15 shrink-0" />
-            <div className="flex items-center gap-2 shrink-0">
-              <div className="w-8 h-8 md:w-9 md:h-9 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
-                <Truck className="w-3.5 h-3.5 md:w-4 md:h-4 text-primary" />
+            <div className="hidden md:block w-px h-6 bg-primary/15 shrink-0" />
+            <div className="flex items-center gap-1.5 md:gap-2">
+              <div className="w-7 h-7 md:w-9 md:h-9 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
+                <Truck className="w-3 h-3 md:w-4 md:h-4 text-primary" />
               </div>
-              <span className="font-body text-[10px] md:text-xs tracking-wider text-foreground uppercase whitespace-nowrap">{t("home.homeDelivery")}</span>
+              <span className="font-body text-[9px] md:text-xs tracking-wider text-foreground uppercase whitespace-nowrap">{t("home.homeDelivery")}</span>
             </div>
-            <div className="w-px h-6 bg-primary/15 shrink-0" />
-            <div className="flex items-center gap-2 shrink-0">
-              <div className="w-8 h-8 md:w-9 md:h-9 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
-                <Globe className="w-3.5 h-3.5 md:w-4 md:h-4 text-primary" />
+            <div className="hidden md:block w-px h-6 bg-primary/15 shrink-0" />
+            <div className="flex items-center gap-1.5 md:gap-2">
+              <div className="w-7 h-7 md:w-9 md:h-9 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
+                <Globe className="w-3 h-3 md:w-4 md:h-4 text-primary" />
               </div>
               <div className="flex flex-col items-start gap-0.5">
-                <span className="font-body text-[10px] md:text-xs tracking-wider text-foreground uppercase whitespace-nowrap">{t("home.nationwideShipping")}</span>
-                <span className="font-body text-[8px] md:text-[10px] tracking-widest uppercase text-primary-foreground bg-primary px-1.5 py-0.5 rounded-full whitespace-nowrap">{t("common.comingSoon")}</span>
+                <span className="font-body text-[9px] md:text-xs tracking-wider text-foreground uppercase whitespace-nowrap">{t("home.nationwideShipping")}</span>
+                <span className="font-body text-[7px] md:text-[10px] tracking-widest uppercase text-primary-foreground bg-primary px-1.5 py-0.5 rounded-full whitespace-nowrap">{t("common.comingSoon")}</span>
               </div>
             </div>
           </div>
