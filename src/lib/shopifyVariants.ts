@@ -81,6 +81,21 @@ export function getShopifyPrice(
   return parseFloat(variant.price.amount);
 }
 
+/** Build dynamic size options from Shopify variants (roses count + price). */
+export function buildShopifySizeOptions(
+  variants: ShopifyHandleVariant[]
+): Array<{ roses: number; price: number }> {
+  return variants
+    .map((v) => {
+      const rosesOpt = v.selectedOptions.find((o) => o.name === "Roses");
+      const rosesStr = rosesOpt?.value ?? v.title;
+      const rosesNum = parseInt(rosesStr.replace(/\D/g, ""), 10);
+      const price = v.price?.amount ? parseFloat(v.price.amount) : 0;
+      return isNaN(rosesNum) ? null : { roses: rosesNum, price };
+    })
+    .filter(Boolean) as Array<{ roses: number; price: number }>;
+}
+
 export function findVariantByRoses(
   variants: ShopifyHandleVariant[],
   rosesCount: number
