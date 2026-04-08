@@ -601,9 +601,7 @@ const BouquetProductDetail = () => {
                 <div className="grid grid-cols-4 gap-2">
                   {sizeOptions.map((size, idx) => {
                     const disabled = idx < minSizeIdx;
-                    const hardcodedPrice = hasCustomSizes ? (size as any).price : getPrice(product.pricingTier, size.roses);
-                    const livePrice = product.shopifyHandle === "bicolor-passion" ? getShopifyPrice(productVariants, size.roses) : null;
-                    const price = livePrice ?? hardcodedPrice;
+                    const price = useDynamicSizes ? (size as any).price : (hasCustomSizes ? (size as any).price : getPrice(product.pricingTier, size.roses));
                     return (
                       <button key={size.roses} onClick={() => !disabled && setSelectedSizeIdx(idx)} disabled={disabled}
                         className={`p-2 rounded-sm border-2 text-center transition-all ${disabled ? "opacity-40 cursor-not-allowed border-border" : effectiveSizeIdx === idx ? "border-primary bg-primary/5" : "border-border hover:border-primary/30"}`}>
@@ -678,9 +676,7 @@ const BouquetProductDetail = () => {
               <div className="grid grid-cols-2 gap-2">
                 {sizeOptions.map((size, idx) => {
                   const disabled = idx < minSizeIdx;
-                  const hardcodedPrice = hasCustomSizes ? (size as any).price : getPrice(product.pricingTier, size.roses);
-                  const livePrice = product.shopifyHandle === "bicolor-passion" ? getShopifyPrice(productVariants, size.roses) : null;
-                  const price = livePrice ?? hardcodedPrice;
+                  const price = useDynamicSizes ? (size as any).price : (hasCustomSizes ? (size as any).price : getPrice(product.pricingTier, size.roses));
                   return (
                     <button key={size.roses} onClick={() => !disabled && setSelectedSizeIdx(idx)} disabled={disabled}
                       className={`p-3 rounded-sm border-2 text-center transition-all ${disabled ? "opacity-40 cursor-not-allowed border-border" : effectiveSizeIdx === idx ? "border-primary bg-primary/5" : "border-border hover:border-primary/30"}`}>
