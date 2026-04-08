@@ -216,6 +216,8 @@ const BouquetProductDetail = () => {
     return () => { active = false; };
   }, [product]);
 
+  const shopifySizes = useMemo(() => product && product.shopifyHandle === "bicolor-passion" && productVariants.length > 0 ? buildShopifySizeOptions(productVariants) : [], [product, productVariants]);
+
   if (!product) {
     return (
       <div className="min-h-screen bg-background"><Navbar />
@@ -229,8 +231,7 @@ const BouquetProductDetail = () => {
 
   const colorCount = product.color.split(/,\s*|\s+y\s+/).length;
   const hasCustomSizes = product.customSizes && product.customSizes.length > 0;
-  const useDynamicSizes = product.shopifyHandle === "bicolor-passion" && productVariants.length > 0;
-  const shopifySizes = useMemo(() => useDynamicSizes ? buildShopifySizeOptions(productVariants) : [], [useDynamicSizes, productVariants]);
+  const useDynamicSizes = product.shopifyHandle === "bicolor-passion" && shopifySizes.length > 0;
   const sizeOptions = useDynamicSizes ? shopifySizes : (hasCustomSizes ? product.customSizes! : bouquetSizeOptions);
   const minSizeIdx = useDynamicSizes ? 0 : (hasCustomSizes ? 0 : (colorCount >= 3 ? 1 : 0));
 
