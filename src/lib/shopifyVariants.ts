@@ -8,6 +8,10 @@ const GET_VARIANTS_BY_HANDLE_QUERY = `
           node {
             id
             title
+            price {
+              amount
+              currencyCode
+            }
             selectedOptions {
               name
               value
@@ -22,6 +26,7 @@ const GET_VARIANTS_BY_HANDLE_QUERY = `
 export interface ShopifyHandleVariant {
   id: string;
   title: string;
+  price?: { amount: string; currencyCode: string };
   selectedOptions: Array<{ name: string; value: string }>;
 }
 
