@@ -247,6 +247,15 @@ const BouquetProductDetail = () => {
   const basePrice = sizePrice + (addCrown ? crownPrice : 0) + (addRibbon ? ribbonPrice : 0) + glitterCost + vaseCost + accessoryCost;
   const totalPrice = basePrice + deliveryCost;
 
+  // Replace "From $X" / "Desde $X" in description with dynamic Shopify price
+  const dynamicMinPrice = useDynamicSizes && shopifySizes.length > 0 ? shopifySizes[0].price : null;
+  const replaceDescriptionPrice = (text: string): string => {
+    if (dynamicMinPrice === null) return text;
+    return text
+      .replace(/From \$\d+(\.\d+)?/i, `From $${dynamicMinPrice}`)
+      .replace(/Desde \$\d+(\.\d+)?/i, `Desde $${dynamicMinPrice}`);
+  };
+
   let step = 1;
 
   const handleAddToCart = async (skipNavigate = false): Promise<string | null> => {
@@ -558,7 +567,7 @@ const BouquetProductDetail = () => {
   return (
     <div className="min-h-screen bg-background flex flex-col">
       <SeoHead title={seo?.seoTitle || `${product.name} Miami | Charls Flowers`} description={seo?.seoDescription || product.description} path={`/bouquets/all/${product.shopifyHandle}`} image={product.image} />
-      <JsonLd data={[productSchema(product.name, seo?.seoDescription || product.description, hasCustomSizes ? product.customSizes![0].price : getPrice(product.pricingTier, product.pricingTier === 'mix3red' ? 75 : 50), product.image), breadcrumbSchema([{ name: "Home", url: "https://www.charlsflowers.com" }, { name: "Bouquets", url: "https://www.charlsflowers.com/bouquets" }, { name: product.name, url: `https://www.charlsflowers.com/bouquets/all/${product.shopifyHandle}` }])]} />
+      <JsonLd data={[productSchema(product.name, seo?.seoDescription || product.description, dynamicMinPrice ?? (hasCustomSizes ? product.customSizes![0].price : getPrice(product.pricingTier, product.pricingTier === 'mix3red' ? 75 : 50)), product.image), breadcrumbSchema([{ name: "Home", url: "https://www.charlsflowers.com" }, { name: "Bouquets", url: "https://www.charlsflowers.com/bouquets" }, { name: product.name, url: `https://www.charlsflowers.com/bouquets/all/${product.shopifyHandle}` }])]} />
       <Navbar />
       <div className="pt-20 md:pt-28 pb-16">
         <div className="container mx-auto px-6">
@@ -590,7 +599,7 @@ const BouquetProductDetail = () => {
                   <p className="font-display text-xl font-bold text-foreground whitespace-nowrap">${parseFloat(sizePrice.toFixed(2))} <span className="text-xs font-body text-muted-foreground font-normal">USD</span></p>
                 </div>
                 <div className="text-muted-foreground font-body text-sm mt-3 leading-relaxed space-y-1">
-                  {(language === 'es' && product.descriptionEs ? product.descriptionEs : product.description).split('\n').map((line, i) => (
+                  {replaceDescriptionPrice(language === 'es' && product.descriptionEs ? product.descriptionEs : product.description).split('\n').map((line, i) => (
                     <p key={i}>{line}</p>
                   ))}
                 </div>
@@ -665,7 +674,7 @@ const BouquetProductDetail = () => {
             <div className="text-center">
               <h1 className="font-display text-2xl font-semibold text-foreground">{product.name}</h1>
               <div className="text-muted-foreground font-body text-sm mt-2 space-y-1">
-                {(language === 'es' && product.descriptionEs ? product.descriptionEs : product.description).split('\n').map((line, i) => (
+                {replaceDescriptionPrice(language === 'es' && product.descriptionEs ? product.descriptionEs : product.description).split('\n').map((line, i) => (
                   <p key={i}>{line}</p>
                 ))}
               </div>
