@@ -3,6 +3,9 @@ import { storefrontApiRequest } from "@/lib/shopify";
 const GET_VARIANTS_BY_HANDLE_QUERY = `
   query getVariants($handle: String!) {
     productByHandle(handle: $handle) {
+      metafield(namespace: "custom", key: "paper_color") {
+        value
+      }
       variants(first: 20) {
         edges {
           node {
@@ -40,6 +43,14 @@ export function toShopifyHandle(value: string): string {
     .replace(/^-+|-+$/g, "");
 }
 
+// Module-level cache: Shopify handle → paper color from metafield
+const paperColorCache = new Map<string, string>();
+
+/** Get cached paper color for a product handle (fetched via Storefront API metafield). */
+export function getCachedPaperColor(handle: string): string | null {
+  return paperColorCache.get(handle) ?? null;
+}
+
 export async function fetchVariantsByHandle(handle: string): Promise<ShopifyHandleVariant[]> {
   if (!handle) return [];
 
@@ -57,6 +68,13 @@ export async function fetchVariantsByHandle(handle: string): Promise<ShopifyHand
     console.warn("⚠️ productByHandle returned null — handle not found in Shopify");
     console.groupEnd();
     return [];
+  }
+
+  // Cache paper color from metafield
+  const paperColor = product?.metafield?.value;
+  if (paperColor) {
+    paperColorCache.set(handle, paperColor);
+    console.log(`📄 Paper color metafield: "${paperColor}"`);
   }
 
   const edges = product?.variants?.edges ?? [];
