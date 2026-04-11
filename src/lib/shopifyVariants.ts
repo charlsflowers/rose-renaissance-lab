@@ -3,6 +3,9 @@ import { storefrontApiRequest } from "@/lib/shopify";
 const GET_VARIANTS_BY_HANDLE_QUERY = `
   query getVariants($handle: String!) {
     productByHandle(handle: $handle) {
+      metafield(namespace: "custom", key: "paper_color") {
+        value
+      }
       variants(first: 20) {
         edges {
           node {
