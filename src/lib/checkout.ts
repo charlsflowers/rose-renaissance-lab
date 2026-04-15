@@ -2,11 +2,13 @@ import { useCartStore } from "@/stores/cartStore";
 import { DELIVERY_FEE_VARIANT_GID, type AccessoryLineItem } from "@/lib/accessoryVariants";
 import {
   addLineToShopifyCart,
+  storefrontApiRequest,
   updateCartNote,
   updateCartBuyerIdentity,
   fetchCartCheckoutUrl,
   type ShippingAddress,
 } from "@/lib/shopify";
+import { toast } from "sonner";
 
 const SHOPIFY_CART_BASE_URL = "https://charls-flowers.myshopify.com/cart";
 const DELIVERY_FEE_VARIANT_NUMERIC_ID = "51629708935300";
@@ -166,12 +168,32 @@ export async function performApiCheckout(options: ApiCheckoutOptions): Promise<s
   const { cartId, checkoutUrl: storedCheckoutUrl } = useCartStore.getState();
   if (!cartId) return null;
 
+  // Validate cart still exists in Shopify
+  try {
+    const CART_VALIDATE_QUERY = `query cart($id: ID!) { cart(id: $id) { totalQuantity } }`;
+    const data = await storefrontApiRequest(CART_VALIDATE_QUERY, { id: cartId });
+    const cart = data?.data?.cart;
+    if (!cart || cart.totalQuantity === 0) {
+      useCartStore.getState().clearCart();
+      toast.error("Tu carrito ha expirado, por favor añade el producto de nuevo");
+      return null;
+    }
+  } catch (error) {
+    // Network/API error — don't block, continue with normal flow
+    console.warn("[checkout] Cart validation failed, proceeding anyway:", error);
+  }
+
   // Add accessory lines (convert numeric IDs → GIDs when needed)
   for (const acc of options.accessories) {
     const gid = acc.variantId.startsWith("gid://")
       ? acc.variantId
       : `gid://shopify/ProductVariant/${acc.variantId}`;
-    await addLineToShopifyCart(cartId, gid, acc.quantity);
+    const result = await addLineToShopifyCart(cartId, gid, acc.quantity);
+    if (result.cartNotFound) {
+      useCartStore.getState().clearCart();
+      toast.error("Tu carrito ha expirado, por favor añade el producto de nuevo");
+      return null;
+    }
   }
 
   // Add delivery fee
