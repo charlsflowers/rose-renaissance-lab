@@ -2,11 +2,13 @@ import { useCartStore } from "@/stores/cartStore";
 import { DELIVERY_FEE_VARIANT_GID, type AccessoryLineItem } from "@/lib/accessoryVariants";
 import {
   addLineToShopifyCart,
+  storefrontApiRequest,
   updateCartNote,
   updateCartBuyerIdentity,
   fetchCartCheckoutUrl,
   type ShippingAddress,
 } from "@/lib/shopify";
+import { toast } from "sonner";
 
 const SHOPIFY_CART_BASE_URL = "https://charls-flowers.myshopify.com/cart";
 const DELIVERY_FEE_VARIANT_NUMERIC_ID = "51629708935300";
