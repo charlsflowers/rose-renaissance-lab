@@ -75,7 +75,8 @@ const Checkout = () => {
         noteLines.push(`- 📍 Dirección: ${deliveryResult.address}`);
       }
 
-      items.forEach((item, idx) => {
+      for (let idx = 0; idx < items.length; idx++) {
+        const item = items[idx];
         noteLines.push("");
         noteLines.push(`DATOS DEL PRODUCTO ${idx + 1}`);
         noteLines.push(`- 🌹 Producto: ${item.productName || item.bouquetType}`);
@@ -89,7 +90,7 @@ const Checkout = () => {
           noteLines.push(`- 🌸 Color: ${item.color}`);
         }
 
-        const catalogPaper = getPaperForCartItem(item.productName, item.bouquetType);
+        const catalogPaper = await getPaperForCartItem(item.productName, item.bouquetType);
         const paperToShow = catalogPaper || item.paperColor;
         if (paperToShow) noteLines.push(`- 📄 Paper color: ${paperToShow}`);
         if (item.roses) noteLines.push(`- 🌹 Roses: ${item.roses}`);
@@ -109,7 +110,7 @@ const Checkout = () => {
           noteLines.push("NOTAS DEL CLIENTE");
           noteLines.push(`📝 Nota del cliente: ${item.customerNotes}`);
         }
-      });
+      }
 
       const accessoryLineItems = items.flatMap((item) => {
         const vaseAddon = item.addons?.find(a => a.startsWith("Vase"));
