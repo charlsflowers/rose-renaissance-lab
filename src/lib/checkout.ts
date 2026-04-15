@@ -168,12 +168,32 @@ export async function performApiCheckout(options: ApiCheckoutOptions): Promise<s
   const { cartId, checkoutUrl: storedCheckoutUrl } = useCartStore.getState();
   if (!cartId) return null;
 
+  // Validate cart still exists in Shopify
+  try {
+    const CART_VALIDATE_QUERY = `query cart($id: ID!) { cart(id: $id) { totalQuantity } }`;
+    const data = await storefrontApiRequest(CART_VALIDATE_QUERY, { id: cartId });
+    const cart = data?.data?.cart;
+    if (!cart || cart.totalQuantity === 0) {
+      useCartStore.getState().clearCart();
+      toast.error("Tu carrito ha expirado, por favor añade el producto de nuevo");
+      return null;
+    }
+  } catch (error) {
+    // Network/API error — don't block, continue with normal flow
+    console.warn("[checkout] Cart validation failed, proceeding anyway:", error);
+  }
+
   // Add accessory lines (convert numeric IDs → GIDs when needed)
   for (const acc of options.accessories) {
     const gid = acc.variantId.startsWith("gid://")
       ? acc.variantId
       : `gid://shopify/ProductVariant/${acc.variantId}`;
-    await addLineToShopifyCart(cartId, gid, acc.quantity);
+    const result = await addLineToShopifyCart(cartId, gid, acc.quantity);
+    if (result.cartNotFound) {
+      useCartStore.getState().clearCart();
+      toast.error("Tu carrito ha expirado, por favor añade el producto de nuevo");
+      return null;
+    }
   }
 
   // Add delivery fee
