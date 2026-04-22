@@ -294,7 +294,7 @@ const VideoOrderDialog = ({ video, open, onOpenChange }: Props) => {
                     value={customValues[field.label] || ""}
                     onChange={(e) => setCustomValues(prev => ({ ...prev, [field.label]: e.target.value }))}
                     placeholder={field.placeholder}
-                    className="w-full bg-card border border-border rounded-sm px-4 py-3 font-body text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30"
+                    className="w-full bg-card border border-border rounded-lg px-4 py-3 font-body text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30"
                     maxLength={field.label.toLowerCase().includes("ribbon") ? 50 : 4}
                   />
                 </div>
@@ -324,7 +324,7 @@ const VideoOrderDialog = ({ video, open, onOpenChange }: Props) => {
                 { value: "delivery" as const, label: "Home delivery", icon: Truck },
               ]).map(({ value, label, icon: Icon }) => (
                 <button key={value} onClick={() => setDeliveryMethod(value)}
-                  className={`flex flex-col items-center gap-2 p-4 rounded-sm border-2 transition-all font-body text-xs ${
+                  className={`flex flex-col items-center gap-2 p-4 rounded-lg border-2 transition-all font-body text-xs ${
                     deliveryMethod === value ? "border-primary bg-primary/5 text-primary" : "border-border text-muted-foreground hover:border-primary/30"
                   }`}>
                   <Icon className="w-5 h-5" />
@@ -343,13 +343,13 @@ const VideoOrderDialog = ({ video, open, onOpenChange }: Props) => {
                   <input type="text" value={addressQuery} onChange={(e) => handleAddressInput(e.target.value)}
                     onFocus={() => predictions.length > 0 && setShowPredictions(true)}
                     placeholder="Start typing the address..."
-                    className="w-full bg-background border border-border rounded-sm px-3 py-2.5 pr-10 font-body text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30" />
+                    className="w-full bg-background border border-border rounded-lg px-3 py-2.5 pr-10 font-body text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30" />
                   <div className="absolute right-3 top-1/2 -translate-y-1/2">
                     {autocompleteLoading || distanceLoading ? <Loader2 className="w-4 h-4 text-muted-foreground animate-spin" /> : <Search className="w-4 h-4 text-muted-foreground" />}
                   </div>
                 </div>
                 {showPredictions && predictions.length > 0 && (
-                  <div className="absolute z-50 w-full mt-1 bg-card border border-border rounded-sm shadow-lg max-h-60 overflow-y-auto">
+                  <div className="absolute z-50 w-full mt-1 bg-card border border-border rounded-lg shadow-lg max-h-60 overflow-y-auto">
                     {predictions.map((p) => (
                       <button key={p.placeId} onClick={() => handleSelectPrediction(p)} className="w-full text-left px-4 py-3 hover:bg-primary/5 transition-colors border-b border-border last:border-b-0">
                         <p className="font-body text-sm font-medium text-foreground">{p.mainText}</p>
@@ -360,20 +360,20 @@ const VideoOrderDialog = ({ video, open, onOpenChange }: Props) => {
                 )}
               </div>
               {selectedAddress && (
-                <div className="bg-primary/5 border border-primary/20 rounded-sm p-3">
+                <div className="bg-primary/5 border border-primary/20 rounded-lg p-3">
                   <p className="font-body text-xs text-muted-foreground">Selected address:</p>
                   <p className="font-body text-sm text-foreground font-medium">{selectedAddress}</p>
                 </div>
               )}
               {distanceError && <p className="text-sm font-body text-destructive">{distanceError}</p>}
               {deliveryMiles !== null && !distanceTooFar && (
-                <div className="bg-primary/5 border border-primary/20 rounded-sm p-3">
+                <div className="bg-primary/5 border border-primary/20 rounded-lg p-3">
                   <p className="font-body text-sm text-foreground">📍 Distance: <span className="font-semibold">{deliveryMiles} miles</span>{deliveryDuration && <span className="text-muted-foreground"> (~{deliveryDuration})</span>}</p>
                   <p className="font-body text-sm text-primary font-semibold mt-1">Shipping cost: {formatDeliveryCost(deliveryCost)}</p>
                 </div>
               )}
               {mapUrl && (
-                <div className="rounded-sm overflow-hidden border border-border">
+                <div className="rounded-lg overflow-hidden border border-border">
                   <iframe src={mapUrl} width="100%" height="200" style={{ border: 0 }} allowFullScreen loading="lazy" referrerPolicy="no-referrer-when-downgrade" title="Route" />
                 </div>
               )}
@@ -393,7 +393,7 @@ const VideoOrderDialog = ({ video, open, onOpenChange }: Props) => {
             </label>
             <Popover open={calendarOpen} onOpenChange={setCalendarOpen}>
               <PopoverTrigger asChild>
-                <button type="button" className="w-full flex items-center gap-2 px-4 py-3 rounded-sm border border-border bg-card font-body text-sm text-foreground hover:border-primary/30 transition-all">
+                <button type="button" className="w-full flex items-center gap-2 px-4 py-3 rounded-lg border border-border bg-card font-body text-sm text-foreground hover:border-primary/30 transition-all">
                   <CalendarIcon className="w-4 h-4 text-muted-foreground" />
                   {deliveryDate ? format(deliveryDate, "PPP", { locale: enUS }) : "Select a date"}
                 </button>
@@ -415,7 +415,7 @@ const VideoOrderDialog = ({ video, open, onOpenChange }: Props) => {
                 <div className="flex flex-wrap gap-2">
                   {availableHours.map((hour) => (
                     <button key={hour} onClick={() => setDeliveryHour(hour)}
-                      className={`px-3 py-1.5 rounded-sm border-2 text-xs font-body transition-all ${deliveryHour === hour ? "border-primary bg-primary/5 text-primary" : "border-border text-muted-foreground hover:border-primary/30"}`}>
+                      className={`px-3 py-1.5 rounded-lg border-2 text-xs font-body transition-all ${deliveryHour === hour ? "border-primary bg-primary/5 text-primary" : "border-border text-muted-foreground hover:border-primary/30"}`}>
                       {hour}
                     </button>
                   ))}
@@ -439,14 +439,14 @@ const VideoOrderDialog = ({ video, open, onOpenChange }: Props) => {
             <button
               onClick={() => handleConfirm("cart")}
               disabled={isAdding || variantsLoading}
-              className="inline-flex items-center gap-2 w-full justify-center bg-primary text-primary-foreground px-4 py-3 font-body text-sm tracking-widest uppercase hover:bg-primary/90 transition-colors rounded-sm disabled:opacity-50"
+              className="inline-flex items-center gap-2 w-full justify-center bg-primary text-primary-foreground px-4 py-3 font-body text-sm tracking-widest uppercase hover:bg-primary/90 transition-colors rounded-lg disabled:opacity-50"
             >
               {isAdding || variantsLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : <><ShoppingBag className="w-4 h-4" /> Add to cart</>}
             </button>
             <button
               onClick={() => handleConfirm("buy")}
               disabled={isAdding || variantsLoading || !isDeliveryInfoComplete}
-              className="inline-flex items-center gap-2 w-full justify-center border border-primary text-primary px-4 py-3 font-body text-sm tracking-widest uppercase hover:bg-primary/10 transition-colors rounded-sm disabled:opacity-50"
+              className="inline-flex items-center gap-2 w-full justify-center border border-primary text-primary px-4 py-3 font-body text-sm tracking-widest uppercase hover:bg-primary/10 transition-colors rounded-lg disabled:opacity-50"
             >
               {isAdding || variantsLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : <><CreditCard className="w-4 h-4" /> Order & pay</>}
             </button>

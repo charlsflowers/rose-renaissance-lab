@@ -267,7 +267,7 @@ const ReviewUpsellDialog = ({ open, onOpenChange, cartData, productLabel, mode }
                 { value: "delivery" as const, label: "Home delivery", icon: Truck },
               ]).map(({ value, label, icon: Icon }) => (
                 <button key={value} onClick={() => setDeliveryMethod(value)}
-                  className={`flex flex-col items-center gap-2 p-4 rounded-sm border-2 transition-all font-body text-xs ${
+                  className={`flex flex-col items-center gap-2 p-4 rounded-lg border-2 transition-all font-body text-xs ${
                     deliveryMethod === value ? "border-primary bg-primary/5 text-primary" : "border-border text-muted-foreground hover:border-primary/30"
                   }`}>
                   <Icon className="w-5 h-5" />
@@ -286,13 +286,13 @@ const ReviewUpsellDialog = ({ open, onOpenChange, cartData, productLabel, mode }
                   <input type="text" value={addressQuery} onChange={(e) => handleAddressInput(e.target.value)}
                     onFocus={() => predictions.length > 0 && setShowPredictions(true)}
                     placeholder="Start typing the address..."
-                    className="w-full bg-background border border-border rounded-sm px-3 py-2.5 pr-10 font-body text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30" />
+                    className="w-full bg-background border border-border rounded-lg px-3 py-2.5 pr-10 font-body text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30" />
                   <div className="absolute right-3 top-1/2 -translate-y-1/2">
                     {autocompleteLoading || distanceLoading ? <Loader2 className="w-4 h-4 text-muted-foreground animate-spin" /> : <Search className="w-4 h-4 text-muted-foreground" />}
                   </div>
                 </div>
                 {showPredictions && predictions.length > 0 && (
-                  <div className="absolute z-50 w-full mt-1 bg-card border border-border rounded-sm shadow-lg max-h-60 overflow-y-auto">
+                  <div className="absolute z-50 w-full mt-1 bg-card border border-border rounded-lg shadow-lg max-h-60 overflow-y-auto">
                     {predictions.map((p) => (
                       <button key={p.placeId} onClick={() => handleSelectPrediction(p)} className="w-full text-left px-4 py-3 hover:bg-primary/5 transition-colors border-b border-border last:border-b-0">
                         <p className="font-body text-sm font-medium text-foreground">{p.mainText}</p>
@@ -303,20 +303,20 @@ const ReviewUpsellDialog = ({ open, onOpenChange, cartData, productLabel, mode }
                 )}
               </div>
               {selectedAddress && (
-                <div className="bg-primary/5 border border-primary/20 rounded-sm p-3">
+                <div className="bg-primary/5 border border-primary/20 rounded-lg p-3">
                   <p className="font-body text-xs text-muted-foreground">Selected address:</p>
                   <p className="font-body text-sm text-foreground font-medium">{selectedAddress}</p>
                 </div>
               )}
               {distanceError && <p className="text-sm font-body text-destructive">{distanceError}</p>}
               {deliveryMiles !== null && !distanceTooFar && (
-                <div className="bg-primary/5 border border-primary/20 rounded-sm p-3">
+                <div className="bg-primary/5 border border-primary/20 rounded-lg p-3">
                   <p className="font-body text-sm text-foreground">📍 Distance: <span className="font-semibold">{deliveryMiles} miles</span>{deliveryDuration && <span className="text-muted-foreground"> (~{deliveryDuration})</span>}</p>
                   <p className="font-body text-sm text-primary font-semibold mt-1">Shipping cost: {formatDeliveryCost(deliveryCost)}</p>
                 </div>
               )}
               {mapUrl && (
-                <div className="rounded-sm overflow-hidden border border-border">
+                <div className="rounded-lg overflow-hidden border border-border">
                   <iframe src={mapUrl} width="100%" height="200" style={{ border: 0 }} allowFullScreen loading="lazy" referrerPolicy="no-referrer-when-downgrade" title="Route" />
                 </div>
               )}
@@ -336,7 +336,7 @@ const ReviewUpsellDialog = ({ open, onOpenChange, cartData, productLabel, mode }
             </label>
             <Popover open={calendarOpen} onOpenChange={setCalendarOpen}>
               <PopoverTrigger asChild>
-                <button type="button" className="w-full flex items-center gap-2 px-4 py-3 rounded-sm border border-border bg-card font-body text-sm text-foreground hover:border-primary/30 transition-all">
+                <button type="button" className="w-full flex items-center gap-2 px-4 py-3 rounded-lg border border-border bg-card font-body text-sm text-foreground hover:border-primary/30 transition-all">
                   <CalendarIcon className="w-4 h-4 text-muted-foreground" />
                   {deliveryDate ? format(deliveryDate, "PPP", { locale: enUS }) : "Select a date"}
                 </button>
@@ -358,7 +358,7 @@ const ReviewUpsellDialog = ({ open, onOpenChange, cartData, productLabel, mode }
                 <div className="flex flex-wrap gap-2">
                   {availableHours.map((hour) => (
                     <button key={hour} onClick={() => setDeliveryHour(hour)}
-                      className={`px-3 py-1.5 rounded-sm border-2 text-xs font-body transition-all ${deliveryHour === hour ? "border-primary bg-primary/5 text-primary" : "border-border text-muted-foreground hover:border-primary/30"}`}>
+                      className={`px-3 py-1.5 rounded-lg border-2 text-xs font-body transition-all ${deliveryHour === hour ? "border-primary bg-primary/5 text-primary" : "border-border text-muted-foreground hover:border-primary/30"}`}>
                       {hour}
                     </button>
                   ))}
@@ -369,11 +369,11 @@ const ReviewUpsellDialog = ({ open, onOpenChange, cartData, productLabel, mode }
 
           {/* Glitter */}
           <div className="flex items-start gap-3">
-            <div className="w-14 h-14 rounded-sm overflow-hidden border border-border flex-shrink-0">
+            <div className="w-14 h-14 rounded-lg overflow-hidden border border-border flex-shrink-0">
               <img src={glitterRoseImg} alt="Glitter" className="w-full h-full object-cover" />
             </div>
             <button onClick={() => setAddGlitter(!addGlitter)}
-              className={`flex-1 flex items-center gap-3 p-4 rounded-sm border-2 transition-all font-body text-sm ${
+              className={`flex-1 flex items-center gap-3 p-4 rounded-lg border-2 transition-all font-body text-sm ${
                 addGlitter ? "border-primary bg-primary/5 text-primary" : "border-border text-muted-foreground hover:border-primary/30"
               }`}>
               <Star className={`w-5 h-5 shrink-0 ${addGlitter ? "text-yellow-400 fill-yellow-400" : ""}`} />
@@ -388,7 +388,7 @@ const ReviewUpsellDialog = ({ open, onOpenChange, cartData, productLabel, mode }
           {/* Crown */}
           <div>
             <button onClick={() => setAddCrown(!addCrown)}
-              className={`w-full flex items-center gap-3 p-4 rounded-sm border-2 transition-all font-body text-sm ${
+              className={`w-full flex items-center gap-3 p-4 rounded-lg border-2 transition-all font-body text-sm ${
                 addCrown ? "border-primary bg-primary/5 text-primary" : "border-border text-muted-foreground hover:border-primary/30"
               }`}>
               <Crown className="w-5 h-5 shrink-0" />
@@ -402,10 +402,10 @@ const ReviewUpsellDialog = ({ open, onOpenChange, cartData, productLabel, mode }
               <div className="flex gap-3 mt-3 pl-2">
                 {crownOptions.map((opt) => (
                   <button key={opt.size} onClick={() => setCrownSize(opt.size)}
-                    className={`flex flex-col items-center gap-1 p-3 rounded-sm border-2 text-xs font-body transition-all ${
+                    className={`flex flex-col items-center gap-1 p-3 rounded-lg border-2 text-xs font-body transition-all ${
                       crownSize === opt.size ? "border-primary bg-primary/10 text-primary" : "border-border text-muted-foreground hover:border-primary/30"
                     }`}>
-                    <div className="w-16 h-12 overflow-hidden rounded-sm">
+                    <div className="w-16 h-12 overflow-hidden rounded-lg">
                       <img src={opt.size === "silver" ? crownSilverImg : crownGoldImg} alt={opt.label} className="w-full h-full object-contain" />
                     </div>
                     {opt.label}
@@ -418,7 +418,7 @@ const ReviewUpsellDialog = ({ open, onOpenChange, cartData, productLabel, mode }
           {/* Ribbon */}
           <div>
             <button onClick={() => { setAddRibbon(!addRibbon); if (addRibbon) setRibbonText(""); }}
-              className={`w-full flex items-center gap-3 p-4 rounded-sm border-2 transition-all font-body text-sm ${
+              className={`w-full flex items-center gap-3 p-4 rounded-lg border-2 transition-all font-body text-sm ${
                 addRibbon ? "border-primary bg-primary/5 text-primary" : "border-border text-muted-foreground hover:border-primary/30"
               }`}>
               <Ribbon className="w-5 h-5 shrink-0" />
@@ -433,7 +433,7 @@ const ReviewUpsellDialog = ({ open, onOpenChange, cartData, productLabel, mode }
                 <div className="flex gap-2">
                   {(["names", "congratulations"] as const).map((t) => (
                     <button key={t} onClick={() => { setRibbonType(t); setRibbonText(""); }}
-                      className={`px-4 py-2 rounded-sm border text-xs font-body transition-all ${
+                      className={`px-4 py-2 rounded-lg border text-xs font-body transition-all ${
                         ribbonType === t ? "border-primary bg-primary/10 text-primary" : "border-border text-muted-foreground hover:border-primary/30"
                       }`}>
                       {t === "names" ? "Names" : "Congratulations"}
@@ -444,7 +444,7 @@ const ReviewUpsellDialog = ({ open, onOpenChange, cartData, productLabel, mode }
                   <div className="flex flex-wrap gap-2">
                     {ribbonPresets.map((preset) => (
                       <button key={preset} onClick={() => setRibbonText(preset)}
-                        className={`px-3 py-1.5 rounded-sm border text-xs font-body transition-all ${
+                        className={`px-3 py-1.5 rounded-lg border text-xs font-body transition-all ${
                           ribbonText === preset ? "border-primary bg-primary/10 text-primary" : "border-border text-muted-foreground hover:border-primary/30"
                         }`}>
                         {preset}
@@ -454,7 +454,7 @@ const ReviewUpsellDialog = ({ open, onOpenChange, cartData, productLabel, mode }
                 )}
                 <input type="text" value={ribbonText} onChange={(e) => setRibbonText(e.target.value)}
                   placeholder={ribbonType === "names" ? "e.g. Ana & Carlos" : "e.g. Happy Birthday"}
-                  className="w-full bg-card border border-border rounded-sm px-4 py-3 font-body text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30" />
+                  className="w-full bg-card border border-border rounded-lg px-4 py-3 font-body text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30" />
               </div>
             )}
           </div>
@@ -473,7 +473,7 @@ const ReviewUpsellDialog = ({ open, onOpenChange, cartData, productLabel, mode }
             )}
 
             <button onClick={handleConfirm} disabled={isAdding || variantsLoading || !isDeliveryInfoComplete}
-              className="inline-flex items-center gap-2 w-full justify-center bg-primary text-primary-foreground px-4 py-3 font-body text-sm tracking-widest uppercase hover:bg-primary/90 transition-colors rounded-sm disabled:opacity-50">
+              className="inline-flex items-center gap-2 w-full justify-center bg-primary text-primary-foreground px-4 py-3 font-body text-sm tracking-widest uppercase hover:bg-primary/90 transition-colors rounded-lg disabled:opacity-50">
               {isAdding || variantsLoading ? (
                 <Loader2 className="w-4 h-4 animate-spin" />
               ) : mode === "buy" ? (

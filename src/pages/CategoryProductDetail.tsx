@@ -225,7 +225,7 @@ const CategoryProductDetail = () => {
 
           <div className="max-w-4xl mx-auto space-y-10">
             {/* Product Image */}
-            <div className="relative overflow-hidden rounded-sm bg-muted flex items-center justify-center">
+            <div className="relative overflow-hidden rounded-lg bg-muted flex items-center justify-center">
               {product.image ? (
                 <img src={product.image} alt={`${product.name} Miami – Charls Flowers`} loading="lazy" width={800} height={800} className="w-full h-auto object-contain" />
               ) : (
@@ -250,7 +250,7 @@ const CategoryProductDetail = () => {
             <Section title="Accessories" step={2} subtitle="$3">
               <div className="grid grid-cols-2 gap-3 mb-4">
                 <button onClick={() => setAddNote(!addNote)}
-                  className={`flex items-center justify-center gap-3 p-4 rounded-sm border-2 transition-all font-body text-sm ${addNote ? "border-primary bg-primary/5 text-primary" : "border-border text-muted-foreground hover:border-primary/30"}`}>
+                  className={`flex items-center justify-center gap-3 p-4 rounded-lg border-2 transition-all font-body text-sm ${addNote ? "border-primary bg-primary/5 text-primary" : "border-border text-muted-foreground hover:border-primary/30"}`}>
                   <Type className="w-4 h-4" />
                   <span>Note</span>
                   {addNote && <Check className="w-4 h-4 ml-auto" />}
@@ -258,7 +258,7 @@ const CategoryProductDetail = () => {
               </div>
               {addNote && (
                 <textarea value={noteText} onChange={(e) => setNoteText(e.target.value)} placeholder="Write your note..."
-                  className="w-full mt-2 bg-card border border-border rounded-sm px-4 py-3 font-body text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30 min-h-[100px] resize-none" maxLength={200} />
+                  className="w-full mt-2 bg-card border border-border rounded-lg px-4 py-3 font-body text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30 min-h-[100px] resize-none" maxLength={200} />
               )}
             </Section>
 
@@ -266,18 +266,18 @@ const CategoryProductDetail = () => {
             <Section title="Shipping" step={3}>
               <div className="grid grid-cols-2 gap-3 mb-6">
                 <button onClick={() => setDeliveryMethod("pickup")}
-                  className={`flex flex-col items-center gap-3 p-5 rounded-sm border-2 transition-all font-body ${deliveryMethod === "pickup" ? "border-primary bg-primary/5" : "border-border hover:border-primary/30"}`}>
+                  className={`flex flex-col items-center gap-3 p-5 rounded-lg border-2 transition-all font-body ${deliveryMethod === "pickup" ? "border-primary bg-primary/5" : "border-border hover:border-primary/30"}`}>
                   <Store className="w-6 h-6" /><p className="font-semibold text-sm text-foreground">Store pickup</p><p className="text-xs text-muted-foreground">Free</p>
                   {deliveryMethod === "pickup" && <Check className="w-4 h-4 text-primary" />}
                 </button>
                 <button onClick={() => setDeliveryMethod("delivery")}
-                  className={`flex flex-col items-center gap-3 p-5 rounded-sm border-2 transition-all font-body ${deliveryMethod === "delivery" ? "border-primary bg-primary/5" : "border-border hover:border-primary/30"}`}>
+                  className={`flex flex-col items-center gap-3 p-5 rounded-lg border-2 transition-all font-body ${deliveryMethod === "delivery" ? "border-primary bg-primary/5" : "border-border hover:border-primary/30"}`}>
                   <Truck className="w-6 h-6" /><p className="font-semibold text-sm text-foreground">Home delivery</p><p className="text-xs text-muted-foreground">From $25</p>
                   {deliveryMethod === "delivery" && <Check className="w-4 h-4 text-primary" />}
                 </button>
               </div>
 
-              <div className="space-y-4 p-5 rounded-sm border border-border bg-card mb-6">
+              <div className="space-y-4 p-5 rounded-lg border border-border bg-card mb-6">
                 {deliveryMethod === "pickup" ? (
                   <p className="font-body text-sm text-muted-foreground">
                     📍 Pickup at: <span className="font-semibold text-foreground">7261 NW 12th St, Miami, FL 33126</span>
@@ -290,13 +290,13 @@ const CategoryProductDetail = () => {
                       <div className="relative">
                         <input type="text" value={addressQuery} onChange={(e) => handleAddressInput(e.target.value)} onFocus={() => predictions.length > 0 && setShowPredictions(true)}
                           placeholder="Start typing the address..."
-                          className="w-full bg-background border border-border rounded-sm px-3 py-2.5 pr-10 font-body text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30" />
+                          className="w-full bg-background border border-border rounded-lg px-3 py-2.5 pr-10 font-body text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30" />
                         <div className="absolute right-3 top-1/2 -translate-y-1/2">
                           {autocompleteLoading || distanceLoading ? <Loader2 className="w-4 h-4 text-muted-foreground animate-spin" /> : <Search className="w-4 h-4 text-muted-foreground" />}
                         </div>
                       </div>
                       {showPredictions && predictions.length > 0 && (
-                        <div className="absolute z-50 w-full mt-1 bg-card border border-border rounded-sm shadow-lg max-h-60 overflow-y-auto">
+                        <div className="absolute z-50 w-full mt-1 bg-card border border-border rounded-lg shadow-lg max-h-60 overflow-y-auto">
                           {predictions.map((p) => (
                             <button key={p.placeId} onClick={() => handleSelectPrediction(p)} className="w-full text-left px-4 py-3 hover:bg-primary/5 transition-colors border-b border-border last:border-b-0">
                               <p className="font-body text-sm font-medium text-foreground">{p.mainText}</p>
@@ -307,20 +307,20 @@ const CategoryProductDetail = () => {
                       )}
                     </div>
                     {selectedAddress && (
-                      <div className="bg-primary/5 border border-primary/20 rounded-sm p-3">
+                      <div className="bg-primary/5 border border-primary/20 rounded-lg p-3">
                         <p className="font-body text-xs text-muted-foreground">Selected address:</p>
                         <p className="font-body text-sm text-foreground font-medium">{selectedAddress}</p>
                       </div>
                     )}
                     {distanceError && <p className="text-sm font-body text-destructive">{distanceError}</p>}
                     {deliveryMiles !== null && !distanceTooFar && (
-                      <div className="bg-primary/5 border border-primary/20 rounded-sm p-4">
+                      <div className="bg-primary/5 border border-primary/20 rounded-lg p-4">
                          <p className="font-body text-sm text-foreground">📍 Distance: <span className="font-semibold">{deliveryMiles} miles</span>{deliveryDuration && <span className="text-muted-foreground"> (~{deliveryDuration})</span>}</p>
                          <p className="font-body text-sm text-primary font-semibold mt-1">Shipping cost: {formatDeliveryCost(deliveryCost)}</p>
                       </div>
                     )}
                     {mapUrl && (
-                      <div className="rounded-sm overflow-hidden border border-border">
+                      <div className="rounded-lg overflow-hidden border border-border">
                         <iframe src={mapUrl} width="100%" height="300" style={{ border: 0 }} allowFullScreen loading="lazy" referrerPolicy="no-referrer-when-downgrade" title="Delivery route" />
                       </div>
                     )}
@@ -335,7 +335,7 @@ const CategoryProductDetail = () => {
                 </label>
                 <Popover open={calendarOpen} onOpenChange={setCalendarOpen}>
                   <PopoverTrigger asChild>
-                    <button type="button" className="w-full md:w-auto flex items-center gap-2 px-4 py-3 rounded-sm border border-border bg-card font-body text-sm text-foreground hover:border-primary/30 transition-all">
+                    <button type="button" className="w-full md:w-auto flex items-center gap-2 px-4 py-3 rounded-lg border border-border bg-card font-body text-sm text-foreground hover:border-primary/30 transition-all">
                       <CalendarIcon className="w-4 h-4 text-muted-foreground" />
                       {deliveryDate ? format(deliveryDate, "PPP", { locale: enUS }) : "Select a date"}
                     </button>
@@ -353,7 +353,7 @@ const CategoryProductDetail = () => {
                     <div className="flex flex-wrap gap-2">
                       {availableHours.map((hour) => (
                         <button key={hour} onClick={() => setDeliveryHour(hour)}
-                          className={`px-4 py-2 rounded-sm border-2 text-sm font-body transition-all ${deliveryHour === hour ? "border-primary bg-primary/5 text-primary" : "border-border text-muted-foreground hover:border-primary/30"}`}>{hour}</button>
+                          className={`px-4 py-2 rounded-lg border-2 text-sm font-body transition-all ${deliveryHour === hour ? "border-primary bg-primary/5 text-primary" : "border-border text-muted-foreground hover:border-primary/30"}`}>{hour}</button>
                       ))}
                     </div>
                   ) : <p className="text-sm text-muted-foreground font-body">No available hours. Select another day.</p>}
@@ -362,7 +362,7 @@ const CategoryProductDetail = () => {
             </Section>
 
             {/* Summary */}
-            <div className="sticky bottom-0 bg-card/95 backdrop-blur-md border border-border rounded-sm p-6 shadow-xl">
+            <div className="sticky bottom-0 bg-card/95 backdrop-blur-md border border-border rounded-lg p-6 shadow-xl">
               <div className="flex flex-col md:flex-row items-center justify-between gap-4">
                 <div>
                   <p className="font-body text-sm text-muted-foreground">
@@ -373,11 +373,11 @@ const CategoryProductDetail = () => {
                   <p className="font-display text-3xl font-bold text-foreground">${totalPrice} <span className="text-sm font-body text-muted-foreground font-normal">USD</span></p>
                 </div>
                 <button onClick={handleAddToCart}
-                  className="w-full md:w-auto bg-primary text-primary-foreground px-10 py-4 font-body text-sm tracking-widest uppercase hover:bg-primary/90 transition-colors rounded-sm">
+                  className="w-full md:w-auto bg-primary text-primary-foreground px-10 py-4 font-body text-sm tracking-widest uppercase hover:bg-primary/90 transition-colors rounded-lg">
                   Add to cart
                 </button>
                 <button onClick={handlePayNow}
-                  className="w-full md:w-auto border-2 border-primary text-primary px-10 py-4 font-body text-sm tracking-widest uppercase hover:bg-primary/10 transition-colors rounded-sm">
+                  className="w-full md:w-auto border-2 border-primary text-primary px-10 py-4 font-body text-sm tracking-widest uppercase hover:bg-primary/10 transition-colors rounded-lg">
                   Pay now
                 </button>
               </div>

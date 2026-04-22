@@ -126,7 +126,7 @@ const Navbar = () => {
                   {link.label} <ChevronDown className="w-3 h-3" />
                 </Link>
                 {bouquetDropdownOpen && (
-                  <div className="absolute top-full left-0 mt-1 bg-background border border-border rounded-sm shadow-lg py-2 min-w-[220px] z-50">
+                  <div className="absolute top-full left-0 mt-1 bg-background border border-border rounded-lg shadow-lg py-2 min-w-[220px] z-50">
                     {bouquetSubLinks.map((sub, i) => (
                       sub.active ? (
                         <Link key={i} to={sub.to || "#"} className="block px-4 py-2 text-xs tracking-widest uppercase text-muted-foreground hover:text-primary hover:bg-cream/50 transition-colors" onClick={() => setBouquetDropdownOpen(false)}>
@@ -188,11 +188,11 @@ const Navbar = () => {
                 onChange={(e) => handleSearchChange(e.target.value)}
                 placeholder={t("nav.searchPlaceholder")}
                 autoFocus
-                className="w-full bg-muted border border-border rounded-sm pl-10 pr-4 py-2.5 font-body text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30"
+                className="w-full bg-muted border border-border rounded-lg pl-10 pr-4 py-2.5 font-body text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30"
               />
             </div>
             {(searchResults.length > 0 || placePredictions.length > 0) && (
-              <div className="absolute left-1/2 -translate-x-1/2 w-full max-w-md mt-1 bg-background border border-border rounded-sm shadow-lg z-50 max-h-72 overflow-y-auto">
+              <div className="absolute left-1/2 -translate-x-1/2 w-full max-w-md mt-1 bg-background border border-border rounded-lg shadow-lg z-50 max-h-72 overflow-y-auto">
                 {searchResults.map((item, i) => (
                   <Link
                     key={`s-${i}`}

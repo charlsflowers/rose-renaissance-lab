@@ -165,7 +165,7 @@ const Checkout = () => {
             <p className="text-muted-foreground font-body mb-8">{t("checkout.addBouquet")}</p>
             <button
               onClick={() => navigate(-1)}
-              className="inline-flex items-center gap-2 bg-primary text-primary-foreground px-8 py-4 font-body text-sm tracking-widest uppercase hover:bg-primary/90 transition-colors rounded-sm"
+              className="inline-flex items-center gap-2 bg-primary text-primary-foreground px-8 py-4 font-body text-sm tracking-widest uppercase hover:bg-primary/90 transition-colors rounded-lg"
             >
               <ArrowLeft className="w-4 h-4" />
               {t("checkout.goBack")}
@@ -187,7 +187,7 @@ const Checkout = () => {
           </div>
 
           <div className="max-w-3xl mx-auto space-y-6">
-            <div className="bg-card border-2 border-primary/30 rounded-sm">
+            <div className="bg-card border-2 border-primary/30 rounded-lg">
               <div className="p-6 space-y-6">
                 {items.map((item, idx) => (
                   <CheckoutOrderItem key={item.id} item={item} index={idx} onRemove={removeItem} />

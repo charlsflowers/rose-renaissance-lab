@@ -26,7 +26,7 @@ const YouMightAlsoLove = ({ currentProductId }: Props) => {
       <div className="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-6">
         {related.map(product => (
           <Link key={product.id} to={`/bouquets/all/${product.shopifyHandle}`} className="group block">
-            <div className="relative overflow-hidden rounded-sm mb-3 aspect-square bg-muted">
+            <div className="relative overflow-hidden rounded-lg mb-3 aspect-square bg-muted">
               <img
                 src={product.image}
                 alt={`${product.name} Miami – Charls Flowers`}

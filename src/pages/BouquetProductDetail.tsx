@@ -417,11 +417,11 @@ const BouquetProductDetail = () => {
       </div>
       <div className="grid grid-cols-2 gap-2">
         <button onClick={() => setAddGlitter(true)}
-          className={`py-2 rounded-sm border-2 text-center transition-all font-body text-sm ${addGlitter === true ? "border-primary bg-primary/5 text-primary" : "border-border text-muted-foreground hover:border-primary/30"}`}>
+          className={`py-2 rounded-lg border-2 text-center transition-all font-body text-sm ${addGlitter === true ? "border-primary bg-primary/5 text-primary" : "border-border text-muted-foreground hover:border-primary/30"}`}>
           {t("product.yes")} {addGlitter === true && <Check className="w-3 h-3 text-primary mx-auto mt-0.5" />}
         </button>
         <button onClick={() => setAddGlitter(false)}
-          className={`py-2 rounded-sm border-2 text-center transition-all font-body text-sm ${addGlitter === false ? "border-primary bg-primary/5 text-primary" : "border-border text-muted-foreground hover:border-primary/30"}`}>
+          className={`py-2 rounded-lg border-2 text-center transition-all font-body text-sm ${addGlitter === false ? "border-primary bg-primary/5 text-primary" : "border-border text-muted-foreground hover:border-primary/30"}`}>
           {t("product.no")} {addGlitter === false && <Check className="w-3 h-3 text-primary mx-auto mt-0.5" />}
         </button>
       </div>
@@ -432,17 +432,17 @@ const BouquetProductDetail = () => {
     <Section title={t("product.accessories")} step={step++}>
       <div className="grid grid-cols-2 gap-2">
         <button onClick={() => setAccessory(accessory === "note" ? "none" : "note")}
-          className={`flex flex-col items-center gap-1 py-2 px-2 rounded-sm border-2 transition-all font-body text-sm ${accessory === "note" ? "border-primary bg-primary/5 text-primary" : "border-border text-muted-foreground hover:border-primary/30"}`}>
-          <img src={noteImg} alt="Note accessory" className="w-16 h-16 md:w-12 md:h-12 object-contain rounded-sm" /> {t("product.note")} <span className="text-[10px] text-secondary">$3</span>
+          className={`flex flex-col items-center gap-1 py-2 px-2 rounded-lg border-2 transition-all font-body text-sm ${accessory === "note" ? "border-primary bg-primary/5 text-primary" : "border-border text-muted-foreground hover:border-primary/30"}`}>
+          <img src={noteImg} alt="Note accessory" className="w-16 h-16 md:w-12 md:h-12 object-contain rounded-lg" /> {t("product.note")} <span className="text-[10px] text-secondary">$3</span>
         </button>
         <button onClick={() => setAccessory(accessory === "butterfly" ? "none" : "butterfly")}
-          className={`flex flex-col items-center gap-1 py-2 px-2 rounded-sm border-2 transition-all font-body text-sm ${accessory === "butterfly" ? "border-primary bg-primary/5 text-primary" : "border-border text-muted-foreground hover:border-primary/30"}`}>
+          className={`flex flex-col items-center gap-1 py-2 px-2 rounded-lg border-2 transition-all font-body text-sm ${accessory === "butterfly" ? "border-primary bg-primary/5 text-primary" : "border-border text-muted-foreground hover:border-primary/30"}`}>
           <img src={butterflyImg} alt="Butterfly accessory" className="w-16 h-16 md:w-12 md:h-12 object-contain" /> {t("product.butterflies")} <span className="text-[10px] text-secondary">$3</span>
         </button>
       </div>
       {accessory === "note" && (
         <textarea value={accessoryText} onChange={(e) => setAccessoryText(e.target.value)} placeholder={t("product.writeNote")}
-          className="w-full mt-3 bg-card border border-border rounded-sm px-3 py-2 font-body text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30 min-h-[80px] resize-none" maxLength={200} />
+          className="w-full mt-3 bg-card border border-border rounded-lg px-3 py-2 font-body text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30 min-h-[80px] resize-none" maxLength={200} />
       )}
     </Section>
   );
@@ -455,7 +455,7 @@ const BouquetProductDetail = () => {
     <Section title={t("product.shipping")} step={step++}>
       <div className="grid grid-cols-2 gap-2 mb-4">
         <button onClick={() => setDeliveryMethod("pickup")}
-          className={`flex items-center gap-2 p-3 rounded-sm border-2 transition-all font-body ${deliveryMethod === "pickup" ? "border-primary bg-primary/5" : "border-border hover:border-primary/30"}`}>
+          className={`flex items-center gap-2 p-3 rounded-lg border-2 transition-all font-body ${deliveryMethod === "pickup" ? "border-primary bg-primary/5" : "border-border hover:border-primary/30"}`}>
           <Store className="w-4 h-4 flex-shrink-0" />
           <div className="text-left flex-1">
             <p className="font-semibold text-xs text-foreground">{t("product.storePickup")}</p>
@@ -464,7 +464,7 @@ const BouquetProductDetail = () => {
           {deliveryMethod === "pickup" && <Check className="w-3.5 h-3.5 text-primary flex-shrink-0" />}
         </button>
         <button onClick={() => setDeliveryMethod("delivery")}
-          className={`flex items-center gap-2 p-3 rounded-sm border-2 transition-all font-body ${deliveryMethod === "delivery" ? "border-primary bg-primary/5" : "border-border hover:border-primary/30"}`}>
+          className={`flex items-center gap-2 p-3 rounded-lg border-2 transition-all font-body ${deliveryMethod === "delivery" ? "border-primary bg-primary/5" : "border-border hover:border-primary/30"}`}>
           <Truck className="w-4 h-4 flex-shrink-0" />
           <div className="text-left flex-1">
             <p className="font-semibold text-xs text-foreground">{t("product.homeDelivery")}</p>
@@ -474,7 +474,7 @@ const BouquetProductDetail = () => {
         </button>
       </div>
 
-      <div className="space-y-3 p-4 rounded-sm border border-border bg-card mb-4">
+      <div className="space-y-3 p-4 rounded-lg border border-border bg-card mb-4">
         {deliveryMethod === "pickup" ? (
           <p className="font-body text-sm text-muted-foreground">
             {t("product.pickupAt")} <span className="font-semibold text-foreground">7261 NW 12th St, Miami, FL 33126</span>
@@ -487,13 +487,13 @@ const BouquetProductDetail = () => {
               <div className="relative">
                 <input type="text" value={addressQuery} onChange={(e) => handleAddressInput(e.target.value)} onFocus={() => predictions.length > 0 && setShowPredictions(true)}
                   placeholder={t("product.startTyping")}
-                  className="w-full bg-background border border-border rounded-sm px-3 py-2.5 pr-10 font-body text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30" />
+                  className="w-full bg-background border border-border rounded-lg px-3 py-2.5 pr-10 font-body text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30" />
                 <div className="absolute right-3 top-1/2 -translate-y-1/2">
                   {autocompleteLoading || distanceLoading ? <Loader2 className="w-4 h-4 text-muted-foreground animate-spin" /> : <Search className="w-4 h-4 text-muted-foreground" />}
                 </div>
               </div>
               {showPredictions && predictions.length > 0 && (
-                <div className="absolute z-50 w-full mt-1 bg-card border border-border rounded-sm shadow-lg max-h-60 overflow-y-auto">
+                <div className="absolute z-50 w-full mt-1 bg-card border border-border rounded-lg shadow-lg max-h-60 overflow-y-auto">
                   {predictions.map((p) => (
                     <button key={p.placeId} onClick={() => handleSelectPrediction(p)} className="w-full text-left px-4 py-3 hover:bg-primary/5 transition-colors border-b border-border last:border-b-0">
                       <p className="font-body text-sm font-medium text-foreground">{p.mainText}</p>
@@ -504,20 +504,20 @@ const BouquetProductDetail = () => {
               )}
             </div>
             {selectedAddress && (
-              <div className="bg-primary/5 border border-primary/20 rounded-sm p-3">
+              <div className="bg-primary/5 border border-primary/20 rounded-lg p-3">
                 <p className="font-body text-xs text-muted-foreground">{t("product.selectedAddress")}</p>
                 <p className="font-body text-sm text-foreground font-medium">{selectedAddress}</p>
               </div>
             )}
             {distanceError && <p className="text-sm font-body text-destructive">{distanceError}</p>}
             {deliveryMiles !== null && !distanceTooFar && (
-              <div className="bg-primary/5 border border-primary/20 rounded-sm p-4">
+              <div className="bg-primary/5 border border-primary/20 rounded-lg p-4">
                 <p className="font-body text-sm text-foreground">{t("product.distance")} <span className="font-semibold">{deliveryMiles} {t("product.miles")}</span>{deliveryDuration && <span className="text-muted-foreground"> (~{deliveryDuration})</span>}</p>
                 <p className="font-body text-sm text-primary font-semibold mt-1">{t("product.shippingCost")} {formatDeliveryCost(deliveryCost)}</p>
               </div>
             )}
             {mapUrl && (
-              <div className="rounded-sm overflow-hidden border border-border">
+              <div className="rounded-lg overflow-hidden border border-border">
                 <iframe src={mapUrl} width="100%" height="300" style={{ border: 0 }} allowFullScreen loading="lazy" referrerPolicy="no-referrer-when-downgrade" title="Route" />
               </div>
             )}
@@ -529,7 +529,7 @@ const BouquetProductDetail = () => {
         <label className="text-sm font-body font-semibold text-foreground block mb-2"><CalendarIcon className="w-4 h-4 inline mr-1" /> {t("product.date")}</label>
         <Popover open={calendarOpen} onOpenChange={setCalendarOpen}>
           <PopoverTrigger asChild>
-            <button type="button" className="w-full flex items-center gap-2 px-4 py-3 rounded-sm border border-border bg-card font-body text-sm text-foreground hover:border-primary/30 transition-all">
+            <button type="button" className="w-full flex items-center gap-2 px-4 py-3 rounded-lg border border-border bg-card font-body text-sm text-foreground hover:border-primary/30 transition-all">
               <CalendarIcon className="w-4 h-4 text-muted-foreground" />
               {deliveryDate ? format(deliveryDate, "PPP", { locale: enUS }) : t("product.selectDate")}
             </button>
@@ -548,7 +548,7 @@ const BouquetProductDetail = () => {
             <div className="flex flex-wrap gap-2">
               {availableHours.map((hour) => (
                 <button key={hour} onClick={() => setDeliveryHour(hour)}
-                  className={`px-3 py-1.5 rounded-sm border-2 text-sm font-body transition-all ${deliveryHour === hour ? "border-primary bg-primary/5 text-primary" : "border-border text-muted-foreground hover:border-primary/30"}`}>{hour}</button>
+                  className={`px-3 py-1.5 rounded-lg border-2 text-sm font-body transition-all ${deliveryHour === hour ? "border-primary bg-primary/5 text-primary" : "border-border text-muted-foreground hover:border-primary/30"}`}>{hour}</button>
               ))}
             </div>
           ) : <p className="text-sm text-muted-foreground font-body">No available hours. Select another day.</p>}
@@ -558,7 +558,7 @@ const BouquetProductDetail = () => {
       <div>
         <label className="text-sm font-body font-semibold text-foreground block mb-2">{t("product.customerNotes")}</label>
         <textarea value={customerNotes} onChange={(e) => setCustomerNotes(e.target.value)} placeholder={t("product.customerNotesPlaceholder")}
-          className="w-full bg-card border border-border rounded-sm px-3 py-2 font-body text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30 min-h-[60px] resize-none" maxLength={500} />
+          className="w-full bg-card border border-border rounded-lg px-3 py-2 font-body text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30 min-h-[60px] resize-none" maxLength={500} />
       </div>
     </Section>
   );
@@ -577,7 +577,7 @@ const BouquetProductDetail = () => {
           <div className="hidden md:grid md:grid-cols-[1fr_1fr] lg:grid-cols-[55%_45%] gap-8 max-w-7xl mx-auto">
             {/* Left column — sticky images */}
             <div className="sticky top-28 self-start space-y-3">
-              <div className="relative overflow-hidden rounded-sm bg-muted flex items-center justify-center aspect-square">
+              <div className="relative overflow-hidden rounded-lg bg-muted flex items-center justify-center aspect-square">
                 {product.image ? (
                   <img src={product.image} alt={`${product.name} Miami – Charls Flowers`} width={600} height={600} className="w-full h-full object-contain" />
                 ) : (
@@ -585,7 +585,7 @@ const BouquetProductDetail = () => {
                 )}
               </div>
               {product.image2 && (
-                <div className="relative overflow-hidden rounded-sm bg-muted flex items-center justify-center aspect-square">
+                <div className="relative overflow-hidden rounded-lg bg-muted flex items-center justify-center aspect-square">
                   <img src={product.image2} alt={`${product.name} alternate – Charls Flowers`} loading="lazy" width={600} height={600} className="w-full h-full object-cover" />
                 </div>
               )}
@@ -613,7 +613,7 @@ const BouquetProductDetail = () => {
                     const price = useDynamicSizes ? (size as any).price : (hasCustomSizes ? (size as any).price : getPrice(product.pricingTier, size.roses));
                     return (
                       <button key={size.roses} onClick={() => !disabled && setSelectedSizeIdx(idx)} disabled={disabled}
-                        className={`p-2 rounded-sm border-2 text-center transition-all ${disabled ? "opacity-40 cursor-not-allowed border-border" : effectiveSizeIdx === idx ? "border-primary bg-primary/5" : "border-border hover:border-primary/30"}`}>
+                        className={`p-2 rounded-lg border-2 text-center transition-all ${disabled ? "opacity-40 cursor-not-allowed border-border" : effectiveSizeIdx === idx ? "border-primary bg-primary/5" : "border-border hover:border-primary/30"}`}>
                         <p className="font-body text-foreground"><span className="font-display text-lg font-semibold">{size.roses}</span><span className="text-[10px] text-muted-foreground ml-0.5">{t("product.roses")}</span></p>
                         <p className="text-xs font-body font-semibold text-primary">${price}</p>
                       </button>
@@ -636,14 +636,14 @@ const BouquetProductDetail = () => {
                   </p>
                   <p className="font-display text-lg font-bold text-foreground whitespace-nowrap">${parseFloat(totalPrice.toFixed(2))}</p>
                 </div>
-                <div className="bg-primary rounded-sm overflow-hidden">
+                <div className="bg-primary rounded-lg overflow-hidden">
                   <button onClick={() => handleAddToCart()} disabled={isAdding || variantsLoading}
                     className="w-full py-3 font-body text-xs tracking-[0.2em] uppercase text-primary-foreground hover:bg-primary/90 transition-colors disabled:opacity-50">
                     {isAdding ? "..." : variantsLoading ? "..." : t("product.addToCart").toUpperCase()}
                   </button>
                 </div>
                 <button onClick={handlePayNow} disabled={isAdding || variantsLoading}
-                  className="w-full border-2 border-primary text-primary py-2.5 font-body text-[10px] tracking-widest uppercase hover:bg-primary/10 transition-colors rounded-sm whitespace-nowrap disabled:opacity-50">
+                  className="w-full border-2 border-primary text-primary py-2.5 font-body text-[10px] tracking-widest uppercase hover:bg-primary/10 transition-colors rounded-lg whitespace-nowrap disabled:opacity-50">
                   {isAdding ? "..." : t("product.orderAndPay")}
                 </button>
               </div>
@@ -657,7 +657,7 @@ const BouquetProductDetail = () => {
           <div className="md:hidden max-w-4xl mx-auto space-y-8">
             {/* Mobile images */}
             <div className="flex overflow-x-auto snap-x snap-mandatory scrollbar-hide gap-3 pb-2 -mx-6 px-6 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
-              <div className="w-[88%] flex-none snap-start relative overflow-hidden rounded-sm bg-muted flex items-center justify-center aspect-square">
+              <div className="w-[88%] flex-none snap-start relative overflow-hidden rounded-lg bg-muted flex items-center justify-center aspect-square">
                 {product.image ? (
                   <img src={product.image} alt={`${product.name} Miami – Charls Flowers`} width={600} height={600} className="w-full h-full object-contain pointer-events-none" />
                 ) : (
@@ -665,7 +665,7 @@ const BouquetProductDetail = () => {
                 )}
               </div>
               {product.image2 && (
-                <div className="w-[88%] flex-none snap-start relative overflow-hidden rounded-sm bg-muted flex items-center justify-center aspect-square">
+                <div className="w-[88%] flex-none snap-start relative overflow-hidden rounded-lg bg-muted flex items-center justify-center aspect-square">
                   <img src={product.image2} alt={`${product.name} alternate – Charls Flowers`} loading="lazy" width={600} height={600} className="w-full h-full object-cover pointer-events-none" />
                 </div>
               )}
@@ -688,7 +688,7 @@ const BouquetProductDetail = () => {
                   const price = useDynamicSizes ? (size as any).price : (hasCustomSizes ? (size as any).price : getPrice(product.pricingTier, size.roses));
                   return (
                     <button key={size.roses} onClick={() => !disabled && setSelectedSizeIdx(idx)} disabled={disabled}
-                      className={`p-3 rounded-sm border-2 text-center transition-all ${disabled ? "opacity-40 cursor-not-allowed border-border" : effectiveSizeIdx === idx ? "border-primary bg-primary/5" : "border-border hover:border-primary/30"}`}>
+                      className={`p-3 rounded-lg border-2 text-center transition-all ${disabled ? "opacity-40 cursor-not-allowed border-border" : effectiveSizeIdx === idx ? "border-primary bg-primary/5" : "border-border hover:border-primary/30"}`}>
                       <p className="font-body text-foreground"><span className="font-display text-xl font-semibold">{size.roses}</span><span className="text-xs text-muted-foreground ml-1">{t("product.roses")}</span></p>
                       <p className="text-sm font-body font-semibold text-primary mt-1">${price}</p>
                     </button>
@@ -712,14 +712,14 @@ const BouquetProductDetail = () => {
                 </p>
                 <p className="font-display text-lg font-bold text-foreground whitespace-nowrap">${parseFloat(totalPrice.toFixed(2))}</p>
               </div>
-              <div className="bg-primary rounded-sm overflow-hidden">
+              <div className="bg-primary rounded-lg overflow-hidden">
                 <button onClick={() => handleAddToCart()} disabled={isAdding || variantsLoading}
                   className="w-full py-3 font-body text-xs tracking-[0.2em] uppercase text-primary-foreground hover:bg-primary/90 transition-colors disabled:opacity-50">
                   {isAdding ? "..." : variantsLoading ? "..." : t("product.addToCart").toUpperCase()}
                 </button>
               </div>
               <button onClick={handlePayNow} disabled={isAdding || variantsLoading}
-                className="w-full border-2 border-primary text-primary py-2.5 font-body text-[10px] tracking-widest uppercase hover:bg-primary/10 transition-colors rounded-sm whitespace-nowrap disabled:opacity-50">
+                className="w-full border-2 border-primary text-primary py-2.5 font-body text-[10px] tracking-widest uppercase hover:bg-primary/10 transition-colors rounded-lg whitespace-nowrap disabled:opacity-50">
                 {isAdding ? "..." : t("product.orderAndPay")}
               </button>
             </div>

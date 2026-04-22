@@ -22,7 +22,7 @@ const CollectionFAQ = ({ faqs }: Props) => {
       <h2 className="font-display text-xl font-semibold text-foreground text-center mb-8">{t("collectionFaq.title")}</h2>
       <div className="space-y-2">
         {faqs.map((faq, i) => (
-          <div key={i} className="border border-border rounded-sm overflow-hidden">
+          <div key={i} className="border border-border rounded-lg overflow-hidden">
             <button
               onClick={() => setOpenIdx(openIdx === i ? null : i)}
               className="w-full flex items-center justify-between px-5 py-4 text-left hover:bg-muted/50 transition-colors"

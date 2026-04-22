@@ -38,7 +38,7 @@ const CheckoutOrderItem = ({ item, index, onRemove }: Props) => {
           <img
             src={item.image}
             alt={`${item.bouquetType} bouquet`}
-            className="w-32 h-32 md:w-40 md:h-40 object-cover rounded-sm border border-border"
+            className="w-32 h-32 md:w-40 md:h-40 object-cover rounded-lg border border-border"
           />
         </div>
       )}
@@ -73,9 +73,9 @@ const CheckoutOrderItem = ({ item, index, onRemove }: Props) => {
                 return (
                   <div key={i} className="flex items-center gap-3">
                     {img ? (
-                      <img src={img} alt={addon} className="w-10 h-10 object-cover rounded-sm border border-border flex-shrink-0" />
+                      <img src={img} alt={addon} className="w-10 h-10 object-cover rounded-lg border border-border flex-shrink-0" />
                     ) : (
-                      <div className="w-10 h-10 bg-muted rounded-sm flex items-center justify-center flex-shrink-0">
+                      <div className="w-10 h-10 bg-muted rounded-lg flex items-center justify-center flex-shrink-0">
                         <span className="text-xs text-muted-foreground">✦</span>
                       </div>
                     )}
@@ -90,7 +90,7 @@ const CheckoutOrderItem = ({ item, index, onRemove }: Props) => {
         {/* Special text */}
         {item.specialText && (
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 bg-muted rounded-sm flex items-center justify-center flex-shrink-0">
+            <div className="w-10 h-10 bg-muted rounded-lg flex items-center justify-center flex-shrink-0">
               <span className="text-xs text-muted-foreground font-bold">AB</span>
             </div>
             <div>
@@ -106,9 +106,9 @@ const CheckoutOrderItem = ({ item, index, onRemove }: Props) => {
             {(() => {
               const img = getAccessoryImage(item.accessory);
               return img ? (
-                <img src={img} alt={item.accessory} className="w-10 h-10 object-cover rounded-sm border border-border flex-shrink-0" />
+                <img src={img} alt={item.accessory} className="w-10 h-10 object-cover rounded-lg border border-border flex-shrink-0" />
               ) : (
-                <div className="w-10 h-10 bg-muted rounded-sm flex items-center justify-center flex-shrink-0">
+                <div className="w-10 h-10 bg-muted rounded-lg flex items-center justify-center flex-shrink-0">
                   <span className="text-xs text-muted-foreground">
                     {item.accessory === "note" ? "📝" : item.accessory === "card" ? "💌" : "🦋"}
                   </span>
@@ -128,7 +128,7 @@ const CheckoutOrderItem = ({ item, index, onRemove }: Props) => {
         {/* Ribbon */}
         {item.ribbonText && (
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 bg-muted rounded-sm flex items-center justify-center flex-shrink-0">
+            <div className="w-10 h-10 bg-muted rounded-lg flex items-center justify-center flex-shrink-0">
               <span className="text-xs text-muted-foreground">🎀</span>
             </div>
             <div>

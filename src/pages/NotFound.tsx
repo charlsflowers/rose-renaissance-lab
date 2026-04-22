@@ -27,13 +27,13 @@ const NotFound = () => {
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link
                 to="/bouquets"
-                className="inline-flex items-center gap-3 bg-primary text-primary-foreground px-8 py-4 font-body text-sm tracking-widest uppercase hover:bg-primary/90 transition-colors rounded-sm"
+                className="inline-flex items-center gap-3 bg-primary text-primary-foreground px-8 py-4 font-body text-sm tracking-widest uppercase hover:bg-primary/90 transition-colors rounded-lg"
               >
                 <Sparkles className="w-4 h-4" /> Shop Bouquets
               </Link>
               <Link
                 to="/"
-                className="inline-flex items-center gap-3 border border-primary text-primary px-8 py-4 font-body text-sm tracking-widest uppercase hover:bg-primary/5 transition-colors rounded-sm"
+                className="inline-flex items-center gap-3 border border-primary text-primary px-8 py-4 font-body text-sm tracking-widest uppercase hover:bg-primary/5 transition-colors rounded-lg"
               >
                 <Home className="w-4 h-4" /> Go Home
               </Link>

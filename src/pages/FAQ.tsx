@@ -26,7 +26,7 @@ const FAQ = () => {
 
           <div className="space-y-3">
             {faqs.map((faq, i) => (
-              <div key={i} className="border border-border rounded-sm overflow-hidden">
+              <div key={i} className="border border-border rounded-lg overflow-hidden">
                 <button
                   onClick={() => setOpenIdx(openIdx === i ? null : i)}
                   className="w-full flex items-center justify-between p-5 text-left hover:bg-cream/50 transition-colors"

@@ -248,7 +248,7 @@ const RoomDecorDetail = () => {
           <div className="hidden md:grid md:grid-cols-[1fr_1fr] lg:grid-cols-[55%_45%] gap-8 max-w-6xl mx-auto">
             {/* Left column — sticky image */}
             <div className="sticky top-24 self-start space-y-3">
-              <div className="relative overflow-hidden rounded-sm bg-muted flex items-center justify-center aspect-square">
+              <div className="relative overflow-hidden rounded-lg bg-muted flex items-center justify-center aspect-square">
                  <img src={pkg.image} alt={`${pkg.name} Miami Room Decoration – Charls Flowers`} width={600} height={600} className="w-full h-full object-cover" />
               </div>
             </div>
@@ -265,7 +265,7 @@ const RoomDecorDetail = () => {
               <Section title="What's Included" step={step++}>
                 <div className="space-y-2">
                   {pkg.includes.map((item, idx) => (
-                    <div key={idx} className="flex items-start gap-3 p-3 rounded-sm bg-primary/5 border border-primary/10">
+                    <div key={idx} className="flex items-start gap-3 p-3 rounded-lg bg-primary/5 border border-primary/10">
                       <Heart className="w-4 h-4 text-primary flex-shrink-0 mt-0.5 fill-primary" />
                       <p className="font-body text-sm text-foreground">{item}</p>
                     </div>
@@ -287,7 +287,7 @@ const RoomDecorDetail = () => {
                       <button
                         key={color}
                         onClick={() => setSelectedBouquetColor(color)}
-                      className={`px-4 py-3 rounded-sm border-2 text-center transition-all font-body text-sm whitespace-nowrap ${
+                      className={`px-4 py-3 rounded-lg border-2 text-center transition-all font-body text-sm whitespace-nowrap ${
                           selectedBouquetColor === color
                             ? "border-primary bg-primary/5 text-primary"
                             : "border-border text-muted-foreground hover:border-primary/30"
@@ -306,7 +306,7 @@ const RoomDecorDetail = () => {
                 <Section title="Bouquet Ribbon" step={step++} subtitle={`+$${pkg.ribbonOption.price}`}>
                   <button
                     onClick={() => setAddRibbon(!addRibbon)}
-                    className={`w-full p-4 rounded-sm border-2 transition-all flex items-center gap-4 ${
+                    className={`w-full p-4 rounded-lg border-2 transition-all flex items-center gap-4 ${
                       addRibbon ? "border-primary bg-primary/5" : "border-border hover:border-primary/30"
                     }`}
                   >
@@ -323,7 +323,7 @@ const RoomDecorDetail = () => {
                       onChange={(e) => setRibbonText(e.target.value)}
                       placeholder="Write the ribbon text..."
                       maxLength={40}
-                      className="w-full mt-3 bg-card border border-border rounded-sm px-4 py-3 font-body text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30"
+                      className="w-full mt-3 bg-card border border-border rounded-lg px-4 py-3 font-body text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30"
                     />
                   )}
                 </Section>
@@ -342,7 +342,7 @@ const RoomDecorDetail = () => {
                         <button
                           key={idx}
                           onClick={() => toggleAddon(idx)}
-                          className={`w-full flex items-center gap-3 p-3 rounded-sm border-2 transition-all text-left ${
+                          className={`w-full flex items-center gap-3 p-3 rounded-lg border-2 transition-all text-left ${
                             selected
                               ? "border-primary bg-primary/5"
                               : "border-border hover:border-primary/30"
@@ -364,7 +364,7 @@ const RoomDecorDetail = () => {
 
               {/* Shipping */}
               <Section title="Shipping" step={step++}>
-                <div className="space-y-3 p-4 rounded-sm border border-border bg-card mb-4">
+                <div className="space-y-3 p-4 rounded-lg border border-border bg-card mb-4">
                       <p className="font-body font-semibold text-foreground text-sm">Delivery address</p>
                       <p className="font-body text-xs text-muted-foreground mb-2">
                         🎁 Free delivery within 10 miles · $1.60/mile after
@@ -374,13 +374,13 @@ const RoomDecorDetail = () => {
                         <div className="relative">
                           <input type="text" value={addressQuery} onChange={(e) => handleAddressInput(e.target.value)} onFocus={() => predictions.length > 0 && setShowPredictions(true)}
                             placeholder="Start typing the address..."
-                            className="w-full bg-background border border-border rounded-sm px-3 py-2.5 pr-10 font-body text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30" />
+                            className="w-full bg-background border border-border rounded-lg px-3 py-2.5 pr-10 font-body text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30" />
                           <div className="absolute right-3 top-1/2 -translate-y-1/2">
                             {autocompleteLoading || distanceLoading ? <Loader2 className="w-4 h-4 text-muted-foreground animate-spin" /> : <Search className="w-4 h-4 text-muted-foreground" />}
                           </div>
                         </div>
                         {showPredictions && predictions.length > 0 && (
-                          <div className="absolute z-50 w-full mt-1 bg-card border border-border rounded-sm shadow-lg max-h-60 overflow-y-auto">
+                          <div className="absolute z-50 w-full mt-1 bg-card border border-border rounded-lg shadow-lg max-h-60 overflow-y-auto">
                             {predictions.map((p) => (
                               <button key={p.placeId} onClick={() => handleSelectPrediction(p)} className="w-full text-left px-4 py-3 hover:bg-primary/5 transition-colors border-b border-border last:border-b-0">
                                 <p className="font-body text-sm font-medium text-foreground">{p.mainText}</p>
@@ -391,14 +391,14 @@ const RoomDecorDetail = () => {
                         )}
                       </div>
                       {selectedAddress && (
-                        <div className="bg-primary/5 border border-primary/20 rounded-sm p-3">
+                        <div className="bg-primary/5 border border-primary/20 rounded-lg p-3">
                           <p className="font-body text-xs text-muted-foreground">Selected address:</p>
                           <p className="font-body text-sm text-foreground font-medium">{selectedAddress}</p>
                         </div>
                       )}
                       {distanceError && <p className="text-sm font-body text-destructive">{distanceError}</p>}
                       {deliveryMiles !== null && !distanceTooFar && (
-                        <div className="bg-primary/5 border border-primary/20 rounded-sm p-4">
+                        <div className="bg-primary/5 border border-primary/20 rounded-lg p-4">
                           <p className="font-body text-sm text-foreground">📍 Distance: <span className="font-semibold">{deliveryMiles} miles</span>{deliveryDuration && <span className="text-muted-foreground"> (~{deliveryDuration})</span>}</p>
                           <p className="font-body text-sm text-primary font-semibold mt-1">
                             Shipping: {deliveryCost === 0 ? 'Free ✨' : formatDeliveryCost(deliveryCost)}
@@ -406,7 +406,7 @@ const RoomDecorDetail = () => {
                         </div>
                       )}
                       {mapUrl && (
-                        <div className="rounded-sm overflow-hidden border border-border">
+                        <div className="rounded-lg overflow-hidden border border-border">
                           <iframe src={mapUrl} width="100%" height="250" style={{ border: 0 }} allowFullScreen loading="lazy" referrerPolicy="no-referrer-when-downgrade" title="Route" />
                         </div>
                       )}
@@ -417,7 +417,7 @@ const RoomDecorDetail = () => {
                   <label className="text-sm font-body font-semibold text-foreground block mb-2"><CalendarIcon className="w-4 h-4 inline mr-1" /> Date</label>
                   <Popover open={desktopCalendarOpen} onOpenChange={setDesktopCalendarOpen}>
                     <PopoverTrigger asChild>
-                      <button type="button" className="w-full md:w-auto flex items-center gap-2 px-4 py-3 rounded-sm border border-border bg-card font-body text-sm text-foreground hover:border-primary/30 transition-all">
+                      <button type="button" className="w-full md:w-auto flex items-center gap-2 px-4 py-3 rounded-lg border border-border bg-card font-body text-sm text-foreground hover:border-primary/30 transition-all">
                         <CalendarIcon className="w-4 h-4 text-muted-foreground" />
                         {deliveryDate ? format(deliveryDate, "PPP", { locale: enUS }) : "Select a date"}
                       </button>
@@ -435,7 +435,7 @@ const RoomDecorDetail = () => {
                       <div className="flex flex-wrap gap-2">
                         {availableHours.map((hour) => (
                           <button key={hour} onClick={() => setDeliveryHour(hour)}
-                            className={`px-4 py-2 rounded-sm border-2 text-sm font-body transition-all ${deliveryHour === hour ? "border-primary bg-primary/5 text-primary" : "border-border text-muted-foreground hover:border-primary/30"}`}>{hour}</button>
+                            className={`px-4 py-2 rounded-lg border-2 text-sm font-body transition-all ${deliveryHour === hour ? "border-primary bg-primary/5 text-primary" : "border-border text-muted-foreground hover:border-primary/30"}`}>{hour}</button>
                         ))}
                       </div>
                     ) : <p className="text-sm text-muted-foreground font-body">No available hours. Select another day.</p>}
@@ -445,7 +445,7 @@ const RoomDecorDetail = () => {
 
               {/* Desktop sticky bottom bar */}
               <div className="pb-4" />
-              <div className="sticky bottom-0 bg-card/95 backdrop-blur-md border border-border rounded-sm p-4 shadow-xl z-10">
+              <div className="sticky bottom-0 bg-card/95 backdrop-blur-md border border-border rounded-lg p-4 shadow-xl z-10">
                 <div className="flex items-center justify-between gap-4">
                   <div className="flex-1 pr-4">
                     <p className="font-body text-xs text-muted-foreground leading-tight">
@@ -461,11 +461,11 @@ const RoomDecorDetail = () => {
                   </p>
                   <div className="flex gap-2">
                     <button onClick={handleAddToCart} disabled={isAdding}
-                      className="bg-primary text-primary-foreground px-6 py-3 font-body text-xs tracking-widest uppercase hover:bg-primary/90 transition-colors rounded-sm disabled:opacity-50">
+                      className="bg-primary text-primary-foreground px-6 py-3 font-body text-xs tracking-widest uppercase hover:bg-primary/90 transition-colors rounded-lg disabled:opacity-50">
                       {isAdding ? "Adding..." : "Add to cart"}
                     </button>
                     <button onClick={handlePayNow} disabled={isAdding}
-                      className="border-2 border-primary text-primary px-6 py-3 font-body text-xs tracking-widest uppercase hover:bg-primary/10 transition-colors rounded-sm whitespace-nowrap disabled:opacity-50">
+                      className="border-2 border-primary text-primary px-6 py-3 font-body text-xs tracking-widest uppercase hover:bg-primary/10 transition-colors rounded-lg whitespace-nowrap disabled:opacity-50">
                       {isAdding ? "Adding..." : "Pay now"}
                     </button>
                   </div>
@@ -477,7 +477,7 @@ const RoomDecorDetail = () => {
           {/* ===== MOBILE: stacked layout ===== */}
           <div className="md:hidden space-y-5 max-w-lg mx-auto">
             {/* Image */}
-            <div className="relative overflow-hidden rounded-sm bg-muted flex items-center justify-center aspect-square">
+            <div className="relative overflow-hidden rounded-lg bg-muted flex items-center justify-center aspect-square">
               <img src={pkg.image} alt={`${pkg.name} Miami Room Decoration – Charls Flowers`} width={600} height={600} className="w-full h-full object-cover" />
             </div>
 
@@ -490,7 +490,7 @@ const RoomDecorDetail = () => {
             <Section title="What's Included" step={1}>
               <div className="space-y-2">
                 {pkg.includes.map((item, idx) => (
-                  <div key={idx} className="flex items-start gap-3 p-3 rounded-sm bg-primary/5 border border-primary/10">
+                  <div key={idx} className="flex items-start gap-3 p-3 rounded-lg bg-primary/5 border border-primary/10">
                     <Heart className="w-4 h-4 text-primary flex-shrink-0 mt-0.5 fill-primary" />
                     <p className="font-body text-sm text-foreground">{item}</p>
                   </div>
@@ -512,7 +512,7 @@ const RoomDecorDetail = () => {
                     <button
                       key={color}
                       onClick={() => setSelectedBouquetColor(color)}
-                      className={`px-4 py-3 rounded-sm border-2 text-center transition-all font-body text-sm whitespace-nowrap ${
+                      className={`px-4 py-3 rounded-lg border-2 text-center transition-all font-body text-sm whitespace-nowrap ${
                         selectedBouquetColor === color
                           ? "border-primary bg-primary/5 text-primary"
                           : "border-border text-muted-foreground hover:border-primary/30"
@@ -531,7 +531,7 @@ const RoomDecorDetail = () => {
               <Section title="Bouquet Ribbon" step={pkg.bouquetIncluded ? 3 : 2} subtitle={`+$${pkg.ribbonOption.price}`}>
                 <button
                   onClick={() => setAddRibbon(!addRibbon)}
-                  className={`w-full p-5 rounded-sm border-2 transition-all flex items-center gap-4 ${
+                  className={`w-full p-5 rounded-lg border-2 transition-all flex items-center gap-4 ${
                     addRibbon ? "border-primary bg-primary/5" : "border-border hover:border-primary/30"
                   }`}
                 >
@@ -548,7 +548,7 @@ const RoomDecorDetail = () => {
                     onChange={(e) => setRibbonText(e.target.value)}
                     placeholder="Write the ribbon text..."
                     maxLength={40}
-                    className="w-full mt-3 bg-card border border-border rounded-sm px-4 py-3 font-body text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30"
+                    className="w-full mt-3 bg-card border border-border rounded-lg px-4 py-3 font-body text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30"
                   />
                 )}
               </Section>
@@ -567,7 +567,7 @@ const RoomDecorDetail = () => {
                       <button
                         key={idx}
                         onClick={() => toggleAddon(idx)}
-                        className={`w-full flex items-center gap-3 p-4 rounded-sm border-2 transition-all text-left ${
+                        className={`w-full flex items-center gap-3 p-4 rounded-lg border-2 transition-all text-left ${
                           selected
                             ? "border-primary bg-primary/5"
                             : "border-border hover:border-primary/30"
@@ -589,7 +589,7 @@ const RoomDecorDetail = () => {
 
             {/* Shipping */}
             <Section title="Shipping" step={step + 1}>
-              <div className="space-y-4 p-5 rounded-sm border border-border bg-card mb-6">
+              <div className="space-y-4 p-5 rounded-lg border border-border bg-card mb-6">
                     <p className="font-body font-semibold text-foreground text-sm">Delivery address</p>
                     <p className="font-body text-xs text-muted-foreground mb-2">
                       🎁 Free delivery within 10 miles · $1.60/mile after
@@ -599,13 +599,13 @@ const RoomDecorDetail = () => {
                       <div className="relative">
                         <input type="text" value={addressQuery} onChange={(e) => handleAddressInput(e.target.value)} onFocus={() => predictions.length > 0 && setShowPredictions(true)}
                           placeholder="Start typing the address..."
-                          className="w-full bg-background border border-border rounded-sm px-3 py-2.5 pr-10 font-body text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30" />
+                          className="w-full bg-background border border-border rounded-lg px-3 py-2.5 pr-10 font-body text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30" />
                         <div className="absolute right-3 top-1/2 -translate-y-1/2">
                           {autocompleteLoading || distanceLoading ? <Loader2 className="w-4 h-4 text-muted-foreground animate-spin" /> : <Search className="w-4 h-4 text-muted-foreground" />}
                         </div>
                       </div>
                       {showPredictions && predictions.length > 0 && (
-                        <div className="absolute z-50 w-full mt-1 bg-card border border-border rounded-sm shadow-lg max-h-60 overflow-y-auto">
+                        <div className="absolute z-50 w-full mt-1 bg-card border border-border rounded-lg shadow-lg max-h-60 overflow-y-auto">
                           {predictions.map((p) => (
                             <button key={p.placeId} onClick={() => handleSelectPrediction(p)} className="w-full text-left px-4 py-3 hover:bg-primary/5 transition-colors border-b border-border last:border-b-0">
                               <p className="font-body text-sm font-medium text-foreground">{p.mainText}</p>
@@ -616,14 +616,14 @@ const RoomDecorDetail = () => {
                       )}
                     </div>
                     {selectedAddress && (
-                      <div className="bg-primary/5 border border-primary/20 rounded-sm p-3">
+                      <div className="bg-primary/5 border border-primary/20 rounded-lg p-3">
                         <p className="font-body text-xs text-muted-foreground">Selected address:</p>
                         <p className="font-body text-sm text-foreground font-medium">{selectedAddress}</p>
                       </div>
                     )}
                     {distanceError && <p className="text-sm font-body text-destructive">{distanceError}</p>}
                     {deliveryMiles !== null && !distanceTooFar && (
-                      <div className="bg-primary/5 border border-primary/20 rounded-sm p-4">
+                      <div className="bg-primary/5 border border-primary/20 rounded-lg p-4">
                         <p className="font-body text-sm text-foreground">📍 Distance: <span className="font-semibold">{deliveryMiles} miles</span>{deliveryDuration && <span className="text-muted-foreground"> (~{deliveryDuration})</span>}</p>
                         <p className="font-body text-sm text-primary font-semibold mt-1">
                           Shipping: {deliveryCost === 0 ? 'Free ✨' : formatDeliveryCost(deliveryCost)}
@@ -631,7 +631,7 @@ const RoomDecorDetail = () => {
                       </div>
                     )}
                     {mapUrl && (
-                      <div className="rounded-sm overflow-hidden border border-border">
+                      <div className="rounded-lg overflow-hidden border border-border">
                         <iframe src={mapUrl} width="100%" height="300" style={{ border: 0 }} allowFullScreen loading="lazy" referrerPolicy="no-referrer-when-downgrade" title="Route" />
                       </div>
                     )}
@@ -642,7 +642,7 @@ const RoomDecorDetail = () => {
                 <label className="text-sm font-body font-semibold text-foreground block mb-2"><CalendarIcon className="w-4 h-4 inline mr-1" /> Date</label>
                 <Popover open={mobileCalendarOpen} onOpenChange={setMobileCalendarOpen}>
                   <PopoverTrigger asChild>
-                    <button type="button" className="w-full flex items-center gap-2 px-4 py-3 rounded-sm border border-border bg-card font-body text-sm text-foreground hover:border-primary/30 transition-all">
+                    <button type="button" className="w-full flex items-center gap-2 px-4 py-3 rounded-lg border border-border bg-card font-body text-sm text-foreground hover:border-primary/30 transition-all">
                       <CalendarIcon className="w-4 h-4 text-muted-foreground" />
                       {deliveryDate ? format(deliveryDate, "PPP", { locale: enUS }) : "Select a date"}
                     </button>
@@ -660,7 +660,7 @@ const RoomDecorDetail = () => {
                     <div className="flex flex-wrap gap-2">
                       {availableHours.map((hour) => (
                         <button key={hour} onClick={() => setDeliveryHour(hour)}
-                          className={`px-4 py-2 rounded-sm border-2 text-sm font-body transition-all ${deliveryHour === hour ? "border-primary bg-primary/5 text-primary" : "border-border text-muted-foreground hover:border-primary/30"}`}>{hour}</button>
+                          className={`px-4 py-2 rounded-lg border-2 text-sm font-body transition-all ${deliveryHour === hour ? "border-primary bg-primary/5 text-primary" : "border-border text-muted-foreground hover:border-primary/30"}`}>{hour}</button>
                       ))}
                     </div>
                   ) : <p className="text-sm text-muted-foreground font-body">No available hours. Select another day.</p>}
@@ -670,7 +670,7 @@ const RoomDecorDetail = () => {
 
             {/* Mobile sticky bottom bar */}
             <div className="pb-4" />
-            <div className="sticky bottom-0 bg-card/95 backdrop-blur-md border border-border rounded-sm p-3 shadow-xl z-10">
+            <div className="sticky bottom-0 bg-card/95 backdrop-blur-md border border-border rounded-lg p-3 shadow-xl z-10">
               <div className="flex flex-col gap-2">
                 <div className="flex justify-between items-center gap-3">
                   <p className="font-body text-[10px] text-muted-foreground leading-tight flex-1 line-clamp-1">
@@ -686,11 +686,11 @@ const RoomDecorDetail = () => {
                 </div>
                 <div className="flex w-full gap-2">
                   <button onClick={handleAddToCart} disabled={isAdding}
-                    className="flex-1 bg-primary text-primary-foreground px-4 py-2.5 font-body text-[10px] tracking-widest uppercase hover:bg-primary/90 transition-colors rounded-sm disabled:opacity-50">
+                    className="flex-1 bg-primary text-primary-foreground px-4 py-2.5 font-body text-[10px] tracking-widest uppercase hover:bg-primary/90 transition-colors rounded-lg disabled:opacity-50">
                     {isAdding ? "Adding..." : "Add to cart"}
                   </button>
                   <button onClick={handlePayNow} disabled={isAdding}
-                    className="flex-1 border-2 border-primary text-primary px-4 py-2.5 font-body text-[10px] tracking-widest uppercase hover:bg-primary/10 transition-colors rounded-sm whitespace-nowrap disabled:opacity-50">
+                    className="flex-1 border-2 border-primary text-primary px-4 py-2.5 font-body text-[10px] tracking-widest uppercase hover:bg-primary/10 transition-colors rounded-lg whitespace-nowrap disabled:opacity-50">
                     {isAdding ? "Adding..." : "Pay now"}
                   </button>
                 </div>
