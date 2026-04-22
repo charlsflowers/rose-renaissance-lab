@@ -606,15 +606,16 @@ const BouquetProductDetail = () => {
 
               {/* Size */}
               <Section title={t("product.numberOfRoses")} step={step++}>
-                <div className="grid grid-cols-4 gap-2">
+                <div className="flex flex-wrap gap-2">
                   {sizeOptions.map((size, idx) => {
                     const disabled = idx < minSizeIdx;
                     const price = useDynamicSizes ? (size as any).price : (hasCustomSizes ? (size as any).price : getPrice(product.pricingTier, size.roses));
                     return (
                       <button key={size.roses} onClick={() => !disabled && setSelectedSizeIdx(idx)} disabled={disabled}
-                        className={`p-2 rounded-lg border-2 text-center transition-all ${disabled ? "opacity-40 cursor-not-allowed border-border" : effectiveSizeIdx === idx ? "border-primary bg-primary/5" : "border-border hover:border-primary/30"}`}>
-                        <p className="font-body text-foreground"><span className="font-display text-lg font-semibold">{size.roses}</span><span className="text-[10px] text-muted-foreground ml-0.5">{t("product.roses")}</span></p>
-                        <p className="text-xs font-body font-semibold text-primary">${price}</p>
+                        className={`px-4 py-2 rounded-full border text-center transition-all font-body text-sm ${disabled ? "opacity-40 cursor-not-allowed border-border" : effectiveSizeIdx === idx ? "border-primary bg-primary/15 text-foreground" : "border-primary/30 text-foreground hover:bg-primary/5"}`}>
+                        <span className="font-medium">{size.roses} {t("product.roses")}</span>
+                        <span className="text-xs text-muted-foreground ml-1">·</span>
+                        <span className="text-xs text-primary font-semibold ml-1">${price}</span>
                       </button>
                     );
                   })}
