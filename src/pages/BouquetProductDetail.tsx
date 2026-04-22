@@ -574,7 +574,7 @@ const BouquetProductDetail = () => {
           <Breadcrumbs items={[{ label: "Home", to: "/" }, { label: "Bouquets", to: "/bouquets" }, { label: product.name }]} />
 
           {/* ===== DESKTOP: two-column layout ===== */}
-          <div className="hidden md:grid md:grid-cols-[1fr_1fr] lg:grid-cols-[55%_45%] gap-8 max-w-6xl mx-auto">
+          <div className="hidden md:grid md:grid-cols-[1fr_1fr] lg:grid-cols-[55%_45%] gap-8 max-w-[1500px] mx-auto">
             {/* Left column — sticky images */}
             <div className="sticky top-28 self-start space-y-3">
               <div className="relative overflow-hidden rounded-sm bg-muted flex items-center justify-center aspect-square">
