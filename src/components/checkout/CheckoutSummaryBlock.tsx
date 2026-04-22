@@ -126,7 +126,7 @@ const CheckoutSummaryBlock = ({
           <button
             onClick={() => handleMethodChange("pickup")}
             className={cn(
-              "flex flex-col items-center gap-2 p-4 rounded-sm border-2 transition-all font-body text-xs",
+              "flex flex-col items-center gap-2 p-4 rounded-lg border-2 transition-all font-body text-xs",
               deliveryMethod === "pickup"
                 ? "border-primary bg-primary/5 text-primary"
                 : "border-border text-muted-foreground hover:border-primary/30"
@@ -138,7 +138,7 @@ const CheckoutSummaryBlock = ({
           <button
             onClick={() => handleMethodChange("delivery")}
             className={cn(
-              "flex flex-col items-center gap-2 p-4 rounded-sm border-2 transition-all font-body text-xs",
+              "flex flex-col items-center gap-2 p-4 rounded-lg border-2 transition-all font-body text-xs",
               deliveryMethod === "delivery"
                 ? "border-primary bg-primary/5 text-primary"
                 : "border-border text-muted-foreground hover:border-primary/30"
@@ -213,7 +213,7 @@ const CheckoutSummaryBlock = ({
               <Popover>
                 <PopoverTrigger asChild>
                   <button className={cn(
-                    "w-full flex items-center gap-2 bg-background border border-border rounded-sm px-3 py-2.5 font-body text-sm text-left",
+                    "w-full flex items-center gap-2 bg-background border border-border rounded-lg px-3 py-2.5 font-body text-sm text-left",
                     !deliveryDate && "text-muted-foreground"
                   )}>
                     <CalendarIcon className="w-4 h-4" />
@@ -251,7 +251,7 @@ const CheckoutSummaryBlock = ({
                       setEditingDateTime(false);
                     }}
                     className={cn(
-                      "px-2 py-2 rounded-sm border text-xs font-body transition-all",
+                      "px-2 py-2 rounded-lg border text-xs font-body transition-all",
                       deliveryHour === h
                         ? "border-primary bg-primary/10 text-primary font-semibold"
                         : "border-border text-muted-foreground hover:border-primary/30"
@@ -312,7 +312,7 @@ const CheckoutSummaryBlock = ({
           </div>
           <button
             disabled={!canCheckout || isLoading || isSyncing || isCheckingOut}
-            className="inline-flex items-center gap-2 bg-primary text-primary-foreground px-10 py-4 font-body text-sm tracking-widest uppercase hover:bg-primary/90 transition-colors rounded-sm disabled:opacity-50 disabled:cursor-not-allowed"
+            className="inline-flex items-center gap-2 bg-primary text-primary-foreground px-10 py-4 font-body text-sm tracking-widest uppercase hover:bg-primary/90 transition-colors rounded-lg disabled:opacity-50 disabled:cursor-not-allowed"
             onClick={onCheckout}
           >
             {isLoading || isSyncing || isCheckingOut ? (

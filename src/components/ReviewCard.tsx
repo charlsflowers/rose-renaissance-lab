@@ -44,7 +44,7 @@ const ReviewCard = ({ review, index, dynamicImage }: { review: ReviewData; index
   return (
     <>
       <div className="group">
-        <div className="bg-card rounded-sm overflow-hidden border border-border">
+        <div className="bg-card rounded-lg overflow-hidden border border-border">
           <div className="relative aspect-square overflow-hidden">
             <img
               src={displayImage}
@@ -92,14 +92,14 @@ const ReviewCard = ({ review, index, dynamicImage }: { review: ReviewData; index
             <div className="flex flex-col gap-1.5 sm:gap-2">
               <button
                 onClick={() => openDialog("cart")}
-                className="inline-flex items-center gap-1.5 w-full justify-center bg-primary text-primary-foreground px-3 py-2 sm:py-2.5 font-body text-[9px] sm:text-xs tracking-wider sm:tracking-widest uppercase hover:bg-primary/90 transition-colors rounded-sm"
+                className="inline-flex items-center gap-1.5 w-full justify-center bg-primary text-primary-foreground px-3 py-2 sm:py-2.5 font-body text-[9px] sm:text-xs tracking-wider sm:tracking-widest uppercase hover:bg-primary/90 transition-colors rounded-lg"
               >
                 <ShoppingBag className="w-3 h-3 shrink-0" />
                 {t("reviews.addToCart")}
               </button>
               <button
                 onClick={() => openDialog("buy")}
-                className="inline-flex items-center gap-1.5 w-full justify-center border border-primary text-primary px-3 py-2 sm:py-2.5 font-body text-[9px] sm:text-xs tracking-wider sm:tracking-widest uppercase hover:bg-primary/10 transition-colors rounded-sm"
+                className="inline-flex items-center gap-1.5 w-full justify-center border border-primary text-primary px-3 py-2 sm:py-2.5 font-body text-[9px] sm:text-xs tracking-wider sm:tracking-widest uppercase hover:bg-primary/10 transition-colors rounded-lg"
               >
                 <CreditCard className="w-3 h-3 shrink-0" />
                 {t("reviews.orderAndPay")}

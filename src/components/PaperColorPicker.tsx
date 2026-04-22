@@ -33,13 +33,13 @@ const PaperColorPicker = ({ selected, onChange }: PaperColorPickerProps) => {
           <button
             key={paper.name}
             onClick={() => onChange(paper.name)}
-            className={`relative flex flex-col items-center gap-2 p-1.5 rounded-sm border-2 transition-all ${
+            className={`relative flex flex-col items-center gap-2 p-1.5 rounded-lg border-2 transition-all ${
               selected === paper.name
                 ? "border-primary scale-105 shadow-md"
                 : "border-transparent hover:border-primary/30 hover:scale-105"
             }`}
           >
-            <div className="w-16 h-16 rounded-sm overflow-hidden">
+            <div className="w-16 h-16 rounded-lg overflow-hidden">
               <img
                 src={paper.image}
                 alt={`${paper.name} paper`}

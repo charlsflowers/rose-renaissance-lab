@@ -40,17 +40,17 @@ const LandingPage = () => {
 
             {/* Services */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-16">
-              <div className="bg-cream rounded-sm p-6 text-center">
+              <div className="bg-cream rounded-lg p-6 text-center">
                 <Truck className="w-8 h-8 text-primary mx-auto mb-3" />
                 <h3 className="font-display text-lg font-semibold text-foreground mb-2">Same-Day Delivery</h3>
                 <p className="font-body text-sm text-muted-foreground">Order before 3PM for delivery today. Up to 87 miles from Miami.</p>
               </div>
-              <div className="bg-cream rounded-sm p-6 text-center">
+              <div className="bg-cream rounded-lg p-6 text-center">
                 <Store className="w-8 h-8 text-primary mx-auto mb-3" />
                 <h3 className="font-display text-lg font-semibold text-foreground mb-2">Free Pickup</h3>
                 <p className="font-body text-sm text-muted-foreground">Pick up for free at 7261 NW 12th St, Miami, FL 33126.</p>
               </div>
-              <div className="bg-cream rounded-sm p-6 text-center">
+              <div className="bg-cream rounded-lg p-6 text-center">
                 <Sparkles className="w-8 h-8 text-primary mx-auto mb-3" />
                 <h3 className="font-display text-lg font-semibold text-foreground mb-2">Custom Bouquets</h3>
                 <p className="font-body text-sm text-muted-foreground">Design your own bouquet with AI preview. 50-200 roses, any color.</p>
@@ -58,17 +58,17 @@ const LandingPage = () => {
             </div>
 
             {/* Delivery Rates */}
-            <div className="bg-card border border-border rounded-sm p-8 mb-16">
+            <div className="bg-card border border-border rounded-lg p-8 mb-16">
               <h2 className="font-display text-2xl font-semibold text-foreground mb-6 text-center">Delivery Rates</h2>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-lg mx-auto">
-                <div className="flex items-center gap-3 p-4 bg-primary/5 rounded-sm">
+                <div className="flex items-center gap-3 p-4 bg-primary/5 rounded-lg">
                   <MapPin className="w-5 h-5 text-primary shrink-0" />
                   <div>
                     <p className="font-body text-sm font-semibold text-foreground">0–5 miles</p>
                     <p className="font-body text-xs text-muted-foreground">$20 flat rate</p>
                   </div>
                 </div>
-                <div className="flex items-center gap-3 p-4 bg-primary/5 rounded-sm">
+                <div className="flex items-center gap-3 p-4 bg-primary/5 rounded-lg">
                   <Truck className="w-5 h-5 text-primary shrink-0" />
                   <div>
                     <p className="font-body text-sm font-semibold text-foreground">5–87 miles</p>
@@ -83,7 +83,7 @@ const LandingPage = () => {
             </div>
 
             {/* Map */}
-            <div className="rounded-sm overflow-hidden mb-16" style={{ minHeight: 300 }}>
+            <div className="rounded-lg overflow-hidden mb-16" style={{ minHeight: 300 }}>
               <iframe
                 title="Charls Flowers Miami Location"
                 src="https://storage.googleapis.com/maps-solutions-0p9mp01my4/locator-plus/twwi/locator-plus.html"
@@ -96,10 +96,10 @@ const LandingPage = () => {
 
             {/* CTAs */}
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link to="/bouquets" className="inline-flex items-center justify-center gap-2 bg-primary text-primary-foreground px-8 py-4 font-body text-sm tracking-widest uppercase hover:bg-primary/90 transition-colors rounded-sm">
+              <Link to="/bouquets" className="inline-flex items-center justify-center gap-2 bg-primary text-primary-foreground px-8 py-4 font-body text-sm tracking-widest uppercase hover:bg-primary/90 transition-colors rounded-lg">
                 Shop Bouquets <ArrowRight className="w-4 h-4" />
               </Link>
-              <Link to="/bouquets/personalizar" className="inline-flex items-center justify-center gap-2 border border-primary text-primary px-8 py-4 font-body text-sm tracking-widest uppercase hover:bg-primary/5 transition-colors rounded-sm">
+              <Link to="/bouquets/personalizar" className="inline-flex items-center justify-center gap-2 border border-primary text-primary px-8 py-4 font-body text-sm tracking-widest uppercase hover:bg-primary/5 transition-colors rounded-lg">
                 Custom Bouquet <Sparkles className="w-4 h-4" />
               </Link>
             </div>

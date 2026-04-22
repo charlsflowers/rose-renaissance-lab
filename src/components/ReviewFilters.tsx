@@ -31,7 +31,7 @@ const ReviewFilters = ({ active, onChange }: ReviewFiltersProps) => {
             key={f.value}
             onClick={() => !isLocked && onChange(f.value)}
             disabled={isLocked}
-            className={`px-5 py-2.5 font-body text-xs tracking-widest uppercase rounded-sm transition-colors inline-flex items-center gap-1.5 ${
+            className={`px-5 py-2.5 font-body text-xs tracking-widest uppercase rounded-lg transition-colors inline-flex items-center gap-1.5 ${
               isLocked
                 ? "bg-muted text-muted-foreground/40 cursor-not-allowed border border-border"
                 : active === f.value

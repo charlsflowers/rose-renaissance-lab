@@ -102,7 +102,7 @@ const VideoCard = ({ video, index, onOrder, orderLabel }: { video: VideoProduct;
       </div>
       <button
         onClick={() => onOrder(video)}
-        className="mt-3 w-full inline-flex items-center justify-center gap-2 bg-primary text-primary-foreground px-4 py-2.5 font-body text-xs tracking-widest uppercase rounded-sm hover:bg-primary/90 transition-colors"
+        className="mt-3 w-full inline-flex items-center justify-center gap-2 bg-primary text-primary-foreground px-4 py-2.5 font-body text-xs tracking-widest uppercase rounded-lg hover:bg-primary/90 transition-colors"
       >
         <ShoppingBag className="w-3.5 h-3.5" />
         {orderLabel}

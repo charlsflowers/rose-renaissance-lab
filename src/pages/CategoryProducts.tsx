@@ -49,7 +49,7 @@ const CategoryProducts = () => {
             {products.map((product) => (
               <div key={product.id}>
                 <Link to={`/categoria/${slug}/${product.id}`} className="group block">
-                  <div className="relative overflow-hidden rounded-sm mb-4 aspect-square bg-muted">
+                  <div className="relative overflow-hidden rounded-lg mb-4 aspect-square bg-muted">
                     {product.image ? (
                       <img src={product.image} alt={`${product.name} Miami – Charls Flowers`} loading="lazy" width={400} height={400} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
                     ) : (

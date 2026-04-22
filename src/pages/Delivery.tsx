@@ -24,7 +24,7 @@ const Delivery = () => {
 
           <div className="grid md:grid-cols-2 gap-8 mb-12">
             {/* Delivery */}
-            <div className="bg-cream rounded-sm p-8">
+            <div className="bg-cream rounded-lg p-8">
               <div className="flex items-center gap-3 mb-5">
                 <Truck className="w-6 h-6 text-primary" />
                 <h2 className="font-display text-xl font-semibold text-foreground">{t("deliveryPage.homeDelivery")}</h2>
@@ -49,7 +49,7 @@ const Delivery = () => {
             </div>
 
             {/* Pickup */}
-            <div className="bg-cream rounded-sm p-8">
+            <div className="bg-cream rounded-lg p-8">
               <div className="flex items-center gap-3 mb-5">
                 <Store className="w-6 h-6 text-primary" />
                 <h2 className="font-display text-xl font-semibold text-foreground">{t("deliveryPage.freePickup")}</h2>
@@ -74,7 +74,7 @@ const Delivery = () => {
           </div>
 
           {/* Map */}
-          <div className="aspect-video rounded-sm overflow-hidden border border-border mb-12" style={{ minHeight: 300 }}>
+          <div className="aspect-video rounded-lg overflow-hidden border border-border mb-12" style={{ minHeight: 300 }}>
             <iframe
               src={`https://www.google.com/maps/embed/v1/place?key=${GOOGLE_MAPS_API_KEY}&q=7261+NW+12th+Street,Miami,FL+33126&center=25.7617,-80.3999&zoom=14`}
               width="100%" height="100%" style={{ border: 0 }} allowFullScreen loading="lazy" referrerPolicy="no-referrer-when-downgrade"
@@ -84,7 +84,7 @@ const Delivery = () => {
 
           <div className="text-center">
             <p className="font-body text-xs text-muted-foreground mb-6">{t("deliveryPage.internationalShipping")}</p>
-            <Link to="/bouquets" className="inline-flex items-center gap-3 bg-primary text-primary-foreground px-8 py-4 font-body text-sm tracking-widest uppercase hover:bg-primary/90 transition-colors rounded-sm">
+            <Link to="/bouquets" className="inline-flex items-center gap-3 bg-primary text-primary-foreground px-8 py-4 font-body text-sm tracking-widest uppercase hover:bg-primary/90 transition-colors rounded-lg">
               {t("deliveryPage.orderNow")}
             </Link>
           </div>

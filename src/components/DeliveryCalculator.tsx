@@ -143,7 +143,7 @@ const DeliveryCalculator = ({ onResult }: Props) => {
             onChange={(e) => handleAddressInput(e.target.value)}
             onFocus={() => predictions.length > 0 && setShowPredictions(true)}
             placeholder="Start typing the address..."
-            className="w-full bg-background border border-border rounded-sm px-3 py-2.5 pr-10 font-body text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30"
+            className="w-full bg-background border border-border rounded-lg px-3 py-2.5 pr-10 font-body text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30"
           />
           <div className="absolute right-3 top-1/2 -translate-y-1/2">
             {autocompleteLoading || distanceLoading ? (
@@ -155,7 +155,7 @@ const DeliveryCalculator = ({ onResult }: Props) => {
         </div>
 
         {showPredictions && predictions.length > 0 && (
-          <div className="absolute z-50 w-full mt-1 bg-card border border-border rounded-sm shadow-lg max-h-60 overflow-y-auto">
+          <div className="absolute z-50 w-full mt-1 bg-card border border-border rounded-lg shadow-lg max-h-60 overflow-y-auto">
             {predictions.map((p) => (
               <button
                 key={p.placeId}
@@ -171,7 +171,7 @@ const DeliveryCalculator = ({ onResult }: Props) => {
       </div>
 
       {selectedAddress && (
-        <div className="bg-primary/5 border border-primary/20 rounded-sm p-3">
+        <div className="bg-primary/5 border border-primary/20 rounded-lg p-3">
           <p className="font-body text-xs text-muted-foreground">Selected address:</p>
           <p className="font-body text-sm text-foreground font-medium">{selectedAddress}</p>
         </div>
@@ -185,7 +185,7 @@ const DeliveryCalculator = ({ onResult }: Props) => {
       )}
 
       {deliveryMiles !== null && !distanceTooFar && (
-        <div className="bg-primary/5 border border-primary/20 rounded-sm p-4">
+        <div className="bg-primary/5 border border-primary/20 rounded-lg p-4">
           <p className="font-body text-sm text-foreground">
             📍 Distance: <span className="font-semibold">{deliveryMiles} miles</span>
             {deliveryDuration && <span className="text-muted-foreground"> (~{deliveryDuration})</span>}
@@ -197,7 +197,7 @@ const DeliveryCalculator = ({ onResult }: Props) => {
       )}
 
       {mapUrl && (
-        <div className="rounded-sm overflow-hidden border border-border">
+        <div className="rounded-lg overflow-hidden border border-border">
           <iframe
             src={mapUrl}
             width="100%"

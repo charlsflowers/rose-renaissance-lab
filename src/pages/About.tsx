@@ -42,7 +42,7 @@ const About = () => {
           {/* Features */}
           <div className="grid grid-cols-2 md:grid-cols-3 gap-6 mb-12">
             {features.map((f, i) => (
-              <div key={i} className="bg-cream rounded-sm p-5 text-center">
+              <div key={i} className="bg-cream rounded-lg p-5 text-center">
                 <f.icon className="w-6 h-6 text-primary mx-auto mb-2" />
                 <p className="font-display text-sm font-semibold text-foreground">{f.title}</p>
                 <p className="font-body text-xs text-muted-foreground">{f.desc}</p>
@@ -51,7 +51,7 @@ const About = () => {
           </div>
 
           <div className="text-center">
-            <Link to="/bouquets" className="inline-flex items-center gap-3 bg-primary text-primary-foreground px-8 py-4 font-body text-sm tracking-widest uppercase hover:bg-primary/90 transition-colors rounded-sm">
+            <Link to="/bouquets" className="inline-flex items-center gap-3 bg-primary text-primary-foreground px-8 py-4 font-body text-sm tracking-widest uppercase hover:bg-primary/90 transition-colors rounded-lg">
               {t("about.shopBouquets")}
             </Link>
           </div>

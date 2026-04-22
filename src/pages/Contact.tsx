@@ -55,15 +55,15 @@ const Contact = () => {
 
             {/* Contact Form */}
             <form className="space-y-4" onSubmit={(e) => { e.preventDefault(); }}>
-              <input type="text" placeholder={t("contact.yourName")} className="w-full bg-card border border-border rounded-sm px-4 py-3 font-body text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30" />
-              <input type="email" placeholder={t("contact.yourEmail")} className="w-full bg-card border border-border rounded-sm px-4 py-3 font-body text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30" />
-              <textarea placeholder={t("contact.yourMessage")} rows={5} className="w-full bg-card border border-border rounded-sm px-4 py-3 font-body text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30 resize-none" />
-              <button type="submit" className="bg-primary text-primary-foreground px-8 py-3 font-body text-sm tracking-widest uppercase hover:bg-primary/90 transition-colors rounded-sm w-full">{t("contact.sendMessage")}</button>
+              <input type="text" placeholder={t("contact.yourName")} className="w-full bg-card border border-border rounded-lg px-4 py-3 font-body text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30" />
+              <input type="email" placeholder={t("contact.yourEmail")} className="w-full bg-card border border-border rounded-lg px-4 py-3 font-body text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30" />
+              <textarea placeholder={t("contact.yourMessage")} rows={5} className="w-full bg-card border border-border rounded-lg px-4 py-3 font-body text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30 resize-none" />
+              <button type="submit" className="bg-primary text-primary-foreground px-8 py-3 font-body text-sm tracking-widest uppercase hover:bg-primary/90 transition-colors rounded-lg w-full">{t("contact.sendMessage")}</button>
             </form>
           </div>
 
           {/* Google Maps */}
-          <div className="aspect-square md:aspect-video rounded-sm overflow-hidden border border-border" style={{ minHeight: 280 }}>
+          <div className="aspect-square md:aspect-video rounded-lg overflow-hidden border border-border" style={{ minHeight: 280 }}>
             <iframe
               src="https://storage.googleapis.com/maps-solutions-0p9mp01my4/locator-plus/twwi/locator-plus.html"
               width="100%" height="100%" style={{ border: 0 }} loading="lazy"

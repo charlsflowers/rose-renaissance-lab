@@ -509,7 +509,7 @@ const BouquetBuilder = () => {
 
           <div className="max-w-4xl mx-auto space-y-10">
             {/* Product Image */}
-            <div className="relative overflow-hidden rounded-sm aspect-[16/9] mb-2">
+            <div className="relative overflow-hidden rounded-lg aspect-[16/9] mb-2">
               <img
                 src={heroBouquet}
                 alt="Custom bouquet"
@@ -597,7 +597,7 @@ const BouquetBuilder = () => {
                       key={size.roses}
                       onClick={() => !disabled && setSelectedSizeIdx(idx)}
                       disabled={disabled}
-                      className={`p-4 rounded-sm border-2 text-center transition-all ${
+                      className={`p-4 rounded-lg border-2 text-center transition-all ${
                         selectedSizeIdx === idx
                           ? "border-primary bg-primary/5"
                           : disabled
@@ -633,7 +633,7 @@ const BouquetBuilder = () => {
               <div className="grid grid-cols-2 gap-3">
                 <button
                   onClick={() => setAddGlitter(true)}
-                  className={`p-4 rounded-sm border-2 text-center transition-all font-body text-sm ${
+                  className={`p-4 rounded-lg border-2 text-center transition-all font-body text-sm ${
                     addGlitter === true ? "border-primary bg-primary/5 text-primary" : "border-border text-muted-foreground hover:border-primary/30"
                   }`}
                 >
@@ -642,7 +642,7 @@ const BouquetBuilder = () => {
                 </button>
                 <button
                   onClick={() => setAddGlitter(false)}
-                  className={`p-4 rounded-sm border-2 text-center transition-all font-body text-sm ${
+                  className={`p-4 rounded-lg border-2 text-center transition-all font-body text-sm ${
                     addGlitter === false ? "border-primary bg-primary/5 text-primary" : "border-border text-muted-foreground hover:border-primary/30"
                   }`}
                 >
@@ -657,19 +657,19 @@ const BouquetBuilder = () => {
               <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
                 <button
                   onClick={() => setAccessory(accessory === "note" ? "none" : "note")}
-                  className={`flex flex-col items-center gap-2 p-4 rounded-sm border-2 transition-all font-body text-sm ${
+                  className={`flex flex-col items-center gap-2 p-4 rounded-lg border-2 transition-all font-body text-sm ${
                     accessory === "note"
                       ? "border-primary bg-primary/5 text-primary"
                       : "border-border text-muted-foreground hover:border-primary/30"
                   }`}
                 >
-                  <img src={noteImg} alt="Note accessory" className="w-16 h-16 md:w-14 md:h-14 object-contain rounded-sm" />
+                  <img src={noteImg} alt="Note accessory" className="w-16 h-16 md:w-14 md:h-14 object-contain rounded-lg" />
                   {t("builder.note")}
                   <span className="text-xs text-secondary">$3</span>
                 </button>
                 <button
                   onClick={() => setAccessory(accessory === "butterfly" ? "none" : "butterfly")}
-                  className={`flex flex-col items-center gap-2 p-4 rounded-sm border-2 transition-all font-body text-sm ${
+                  className={`flex flex-col items-center gap-2 p-4 rounded-lg border-2 transition-all font-body text-sm ${
                     accessory === "butterfly"
                       ? "border-primary bg-primary/5 text-primary"
                       : "border-border text-muted-foreground hover:border-primary/30"
@@ -685,7 +685,7 @@ const BouquetBuilder = () => {
                   value={accessoryText}
                   onChange={(e) => setAccessoryText(e.target.value)}
                   placeholder={t("builder.writeNote")}
-                  className="w-full mt-4 bg-card border border-border rounded-sm px-4 py-3 font-body text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30 min-h-[100px] resize-none"
+                  className="w-full mt-4 bg-card border border-border rounded-lg px-4 py-3 font-body text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30 min-h-[100px] resize-none"
                   maxLength={200}
                 />
               )}
@@ -694,7 +694,7 @@ const BouquetBuilder = () => {
             {/* 5. Letras o Números */}
             <Section title={t("builder.lettersNumbers")} step={6} subtitle={t("builder.optional")}>
               <div className="flex flex-col md:flex-row gap-4 mb-4">
-                <div className="w-32 h-32 rounded-sm overflow-hidden flex-shrink-0 mx-auto md:mx-0">
+                <div className="w-32 h-32 rounded-lg overflow-hidden flex-shrink-0 mx-auto md:mx-0">
                   <img src={lettersImg} alt="Letters in Baby Breath example" className="w-full h-full object-contain" />
                 </div>
                 <div className="flex-1">
@@ -706,7 +706,7 @@ const BouquetBuilder = () => {
                 <div className="flex gap-3">
                   <button
                     onClick={() => { setLettersNumbersType("letters"); setSpecialText(""); }}
-                    className={`flex items-center gap-2 px-4 py-2 rounded-sm border-2 text-sm font-body transition-all ${
+                    className={`flex items-center gap-2 px-4 py-2 rounded-lg border-2 text-sm font-body transition-all ${
                       lettersNumbersType === "letters" ? "border-primary bg-primary/5 text-primary" : "border-border text-muted-foreground hover:border-primary/30"
                     }`}
                   >
@@ -714,7 +714,7 @@ const BouquetBuilder = () => {
                   </button>
                   <button
                     onClick={() => { setLettersNumbersType("numbers"); setSpecialText(""); }}
-                    className={`flex items-center gap-2 px-4 py-2 rounded-sm border-2 text-sm font-body transition-all ${
+                    className={`flex items-center gap-2 px-4 py-2 rounded-lg border-2 text-sm font-body transition-all ${
                       lettersNumbersType === "numbers" ? "border-primary bg-primary/5 text-primary" : "border-border text-muted-foreground hover:border-primary/30"
                     }`}
                   >
@@ -739,7 +739,7 @@ const BouquetBuilder = () => {
                     }
                   }}
                   placeholder={lettersNumbersType === "letters" ? t("builder.typeLetters") : t("builder.typeNumbers")}
-                  className="w-full max-w-xs bg-card border border-border rounded-sm px-4 py-3 font-body text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30"
+                  className="w-full max-w-xs bg-card border border-border rounded-lg px-4 py-3 font-body text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30"
                   maxLength={4}
                 />
                 <p className="text-xs text-muted-foreground font-body">{t("builder.minRosesLetters")}</p>
@@ -747,7 +747,7 @@ const BouquetBuilder = () => {
                   <p className="text-xs text-muted-foreground font-body">{t("builder.from3Letters")}</p>
                 )}
                 {specialText.length > 0 && (
-                  <div className="bg-card border border-border rounded-sm p-4">
+                  <div className="bg-card border border-border rounded-lg p-4">
                     <p className="font-body text-sm text-muted-foreground">
                       {specialText.length} {lettersNumbersType === "letters" ? t("builder.letters").toLowerCase() : t("builder.numbers").toLowerCase()} × ${letterNumberExtraPrice} ={" "}
                       <span className="text-primary font-semibold">+${lettersNumbersCost}</span>
@@ -766,7 +766,7 @@ const BouquetBuilder = () => {
                     <button
                       key={v.roses}
                       onClick={() => { setAddVase(!addVase || selectedVaseIdx !== idx); setSelectedVaseIdx(idx); if (addVase && selectedVaseIdx === idx) setAddVase(false); }}
-                      className={`flex flex-col items-center gap-2 p-4 rounded-sm border-2 transition-all ${
+                      className={`flex flex-col items-center gap-2 p-4 rounded-lg border-2 transition-all ${
                         addVase && selectedVaseIdx === idx ? "border-primary bg-primary/5" : "border-border hover:border-primary/30"
                       }`}
                     >
@@ -787,10 +787,10 @@ const BouquetBuilder = () => {
                 {/* Crown */}
                 <div>
                   <button onClick={() => setAddCrown(!addCrown)}
-                    className={`w-full flex items-center gap-3 p-4 rounded-sm border-2 transition-all font-body text-sm ${
+                    className={`w-full flex items-center gap-3 p-4 rounded-lg border-2 transition-all font-body text-sm ${
                       addCrown ? "border-primary bg-primary/5 text-primary" : "border-border text-muted-foreground hover:border-primary/30"
                     }`}>
-                    <img src={crownGoldImg} alt="Crown Tiara" className="w-12 h-12 object-contain shrink-0 rounded-sm" />
+                    <img src={crownGoldImg} alt="Crown Tiara" className="w-12 h-12 object-contain shrink-0 rounded-lg" />
                     <div className="text-left flex-1">
                       <p className="font-semibold">{t("builder.crown")}</p>
                       <p className="text-xs">{t("builder.crownDesc")}</p>
@@ -802,10 +802,10 @@ const BouquetBuilder = () => {
                     <div className="flex gap-3 mt-3 pl-2">
                       {crownOptions.map((opt) => (
                         <button key={opt.size} onClick={() => setCrownSize(opt.size)}
-                          className={`flex flex-col items-center gap-1 p-3 rounded-sm border-2 text-xs font-body transition-all ${
+                          className={`flex flex-col items-center gap-1 p-3 rounded-lg border-2 text-xs font-body transition-all ${
                             crownSize === opt.size ? "border-primary bg-primary/10 text-primary" : "border-border text-muted-foreground hover:border-primary/30"
                           }`}>
-                          <div className="w-16 h-12 overflow-hidden rounded-sm">
+                          <div className="w-16 h-12 overflow-hidden rounded-lg">
                            <img src={opt.size === "silver" ? crownSilverImg : crownGoldImg} alt={opt.label} className="w-full h-full object-contain" />
                           </div>
                           {opt.size === "silver" ? t("builder.crownSilver") : t("builder.crownGold")}
@@ -818,10 +818,10 @@ const BouquetBuilder = () => {
                 {/* Ribbon */}
                 <div>
                   <button onClick={() => { setAddRibbon(!addRibbon); if (addRibbon) setRibbonText(""); }}
-                    className={`w-full flex items-center gap-3 p-4 rounded-sm border-2 transition-all font-body text-sm ${
+                    className={`w-full flex items-center gap-3 p-4 rounded-lg border-2 transition-all font-body text-sm ${
                       addRibbon ? "border-primary bg-primary/5 text-primary" : "border-border text-muted-foreground hover:border-primary/30"
                     }`}>
-                    <img src={ribbonImg} alt="Custom ribbon" className="w-12 h-12 object-contain shrink-0 rounded-sm" />
+                    <img src={ribbonImg} alt="Custom ribbon" className="w-12 h-12 object-contain shrink-0 rounded-lg" />
                     <div className="text-left flex-1">
                       <p className="font-semibold">{t("builder.customRibbon")}</p>
                       <p className="text-xs">{t("builder.ribbonDesc")}</p>
@@ -834,7 +834,7 @@ const BouquetBuilder = () => {
                       <div className="flex gap-2">
                         {(["names", "congratulations"] as const).map((rt) => (
                           <button key={rt} onClick={() => { setRibbonType(rt); setRibbonText(""); }}
-                            className={`px-4 py-2 rounded-sm border text-xs font-body transition-all ${
+                            className={`px-4 py-2 rounded-lg border text-xs font-body transition-all ${
                               ribbonType === rt ? "border-primary bg-primary/10 text-primary" : "border-border text-muted-foreground hover:border-primary/30"
                             }`}>
                             {rt === "names" ? t("builder.ribbonNames") : t("builder.ribbonCongrats")}
@@ -845,7 +845,7 @@ const BouquetBuilder = () => {
                         <div className="flex flex-wrap gap-2">
                           {ribbonPresets.map((preset) => (
                             <button key={preset} onClick={() => setRibbonText(preset)}
-                              className={`px-3 py-1.5 rounded-sm border text-xs font-body transition-all ${
+                              className={`px-3 py-1.5 rounded-lg border text-xs font-body transition-all ${
                                 ribbonText === preset ? "border-primary bg-primary/10 text-primary" : "border-border text-muted-foreground hover:border-primary/30"
                               }`}>{preset}</button>
                           ))}
@@ -853,7 +853,7 @@ const BouquetBuilder = () => {
                       )}
                       <input type="text" value={ribbonText} onChange={(e) => setRibbonText(e.target.value)}
                         placeholder={ribbonType === "names" ? t("builder.ribbonNamesPlaceholder") : t("builder.ribbonCongratsPlaceholder")}
-                        className="w-full bg-card border border-border rounded-sm px-4 py-3 font-body text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30" />
+                        className="w-full bg-card border border-border rounded-lg px-4 py-3 font-body text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30" />
                     </div>
                   )}
                 </div>
@@ -867,14 +867,14 @@ const BouquetBuilder = () => {
                 {selectedColors.length === 0 && <p className="text-sm text-destructive font-body">{t("builder.selectColorFirst")}</p>}
                 {selectedColors.length > 0 && !paperColor && <p className="text-sm text-destructive font-body">{t("builder.selectPaperFirst")}</p>}
                 <button onClick={handleGeneratePreview} disabled={previewLoading || hasGeneratedPreview || selectedColors.length === 0 || !paperColor}
-                  className="inline-flex items-center gap-3 bg-primary text-primary-foreground px-6 py-3 font-body text-sm tracking-widest uppercase hover:bg-primary/90 transition-colors rounded-sm disabled:opacity-50 disabled:cursor-not-allowed">
+                  className="inline-flex items-center gap-3 bg-primary text-primary-foreground px-6 py-3 font-body text-sm tracking-widest uppercase hover:bg-primary/90 transition-colors rounded-lg disabled:opacity-50 disabled:cursor-not-allowed">
                   {previewLoading ? (<><Loader2 className="w-4 h-4 animate-spin" />{t("builder.generating")}</>) : hasGeneratedPreview ? (<><Eye className="w-4 h-4" />{t("builder.previewGenerated")}</>) : (<><Eye className="w-4 h-4" />{t("builder.generatePreview")}</>)}
                 </button>
                 {hasGeneratedPreview && <p className="text-xs text-muted-foreground">{t("builder.previewOnce")}</p>}
-                {previewError && <div className="bg-destructive/10 border border-destructive/20 rounded-sm p-4"><p className="text-sm font-body text-destructive">{previewError}</p></div>}
+                {previewError && <div className="bg-destructive/10 border border-destructive/20 rounded-lg p-4"><p className="text-sm font-body text-destructive">{previewError}</p></div>}
                 {previewUrl && (
                   <div className="space-y-2">
-                    <div className="relative overflow-hidden rounded-sm border border-border"><img src={previewUrl} alt="Preview" className="w-full h-auto object-contain max-h-[500px]" /></div>
+                    <div className="relative overflow-hidden rounded-lg border border-border"><img src={previewUrl} alt="Preview" className="w-full h-auto object-contain max-h-[500px]" /></div>
                     <p className="text-xs text-muted-foreground font-body text-center italic">{t("builder.previewDisclaimer")}</p>
                   </div>
                 )}
@@ -886,7 +886,7 @@ const BouquetBuilder = () => {
               <div className="grid grid-cols-2 gap-3 mb-6">
                 <button
                   onClick={() => setDeliveryMethod("pickup")}
-                  className={`flex flex-col items-center gap-3 p-5 rounded-sm border-2 transition-all font-body ${
+                  className={`flex flex-col items-center gap-3 p-5 rounded-lg border-2 transition-all font-body ${
                     deliveryMethod === "pickup"
                       ? "border-primary bg-primary/5"
                       : "border-border hover:border-primary/30"
@@ -901,7 +901,7 @@ const BouquetBuilder = () => {
                 </button>
                 <button
                   onClick={() => setDeliveryMethod("delivery")}
-                  className={`flex flex-col items-center gap-3 p-5 rounded-sm border-2 transition-all font-body ${
+                  className={`flex flex-col items-center gap-3 p-5 rounded-lg border-2 transition-all font-body ${
                     deliveryMethod === "delivery"
                       ? "border-primary bg-primary/5"
                       : "border-border hover:border-primary/30"
@@ -917,7 +917,7 @@ const BouquetBuilder = () => {
               </div>
 
               {/* Delivery Data */}
-              <div className="space-y-4 p-5 rounded-sm border border-border bg-card mb-6">
+              <div className="space-y-4 p-5 rounded-lg border border-border bg-card mb-6">
                 {deliveryMethod === "pickup" ? (
                   <p className="font-body text-sm text-muted-foreground">
                     {t("builder.pickupAt")} <span className="font-semibold text-foreground">7261 NW 12th St, Miami, FL 33126</span>
@@ -940,7 +940,7 @@ const BouquetBuilder = () => {
                           onChange={(e) => handleAddressInput(e.target.value)}
                           onFocus={() => predictions.length > 0 && setShowPredictions(true)}
                           placeholder="Start typing the address..."
-                          className="w-full bg-background border border-border rounded-sm px-3 py-2.5 pr-10 font-body text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30"
+                          className="w-full bg-background border border-border rounded-lg px-3 py-2.5 pr-10 font-body text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30"
                           required
                         />
                         <div className="absolute right-3 top-1/2 -translate-y-1/2">
@@ -953,7 +953,7 @@ const BouquetBuilder = () => {
                       </div>
 
                       {showPredictions && predictions.length > 0 && (
-                        <div className="absolute z-50 w-full mt-1 bg-card border border-border rounded-sm shadow-lg max-h-60 overflow-y-auto">
+                        <div className="absolute z-50 w-full mt-1 bg-card border border-border rounded-lg shadow-lg max-h-60 overflow-y-auto">
                           {predictions.map((p) => (
                             <button
                               key={p.placeId}
@@ -969,7 +969,7 @@ const BouquetBuilder = () => {
                     </div>
 
                     {selectedAddress && (
-                      <div className="bg-primary/5 border border-primary/20 rounded-sm p-3">
+                      <div className="bg-primary/5 border border-primary/20 rounded-lg p-3">
                         <p className="font-body text-xs text-muted-foreground">Selected address:</p>
                         <p className="font-body text-sm text-foreground font-medium">{selectedAddress}</p>
                       </div>
@@ -980,7 +980,7 @@ const BouquetBuilder = () => {
                     )}
 
                     {deliveryMiles !== null && !distanceTooFar && (
-                      <div className="bg-primary/5 border border-primary/20 rounded-sm p-4">
+                      <div className="bg-primary/5 border border-primary/20 rounded-lg p-4">
                         <p className="font-body text-sm text-foreground">
                            📍 Distance: <span className="font-semibold">{deliveryMiles} miles</span>
                            {deliveryDuration && <span className="text-muted-foreground"> (~{deliveryDuration})</span>}
@@ -992,7 +992,7 @@ const BouquetBuilder = () => {
                     )}
 
                     {mapUrl ? (
-                      <div className="rounded-sm overflow-hidden border border-border">
+                      <div className="rounded-lg overflow-hidden border border-border">
                         <iframe
                           src={mapUrl}
                           width="100%"
@@ -1005,7 +1005,7 @@ const BouquetBuilder = () => {
                          />
                       </div>
                     ) : (
-                      <div className="rounded-sm overflow-hidden border border-border bg-muted flex items-center justify-center h-48">
+                      <div className="rounded-lg overflow-hidden border border-border bg-muted flex items-center justify-center h-48">
                         <div className="text-center">
                           <MapPin className="w-8 h-8 text-muted-foreground mx-auto mb-2" />
                           <p className="font-body text-sm text-muted-foreground">
@@ -1027,7 +1027,7 @@ const BouquetBuilder = () => {
                 </label>
                 <Popover open={calendarOpen} onOpenChange={setCalendarOpen}>
                   <PopoverTrigger asChild>
-                    <button type="button" className="w-full md:w-auto flex items-center gap-2 px-4 py-3 rounded-sm border border-border bg-card font-body text-sm text-foreground hover:border-primary/30 transition-all">
+                    <button type="button" className="w-full md:w-auto flex items-center gap-2 px-4 py-3 rounded-lg border border-border bg-card font-body text-sm text-foreground hover:border-primary/30 transition-all">
                       <CalendarIcon className="w-4 h-4 text-muted-foreground" />
                       {deliveryDate ? format(deliveryDate, "PPP", { locale: enUS }) : "Select a date"}
                     </button>
@@ -1063,7 +1063,7 @@ const BouquetBuilder = () => {
                         <button
                           key={hour}
                           onClick={() => setDeliveryHour(hour)}
-                          className={`px-4 py-2 rounded-sm border-2 text-sm font-body transition-all ${
+                          className={`px-4 py-2 rounded-lg border-2 text-sm font-body transition-all ${
                             deliveryHour === hour
                               ? "border-primary bg-primary/5 text-primary"
                               : "border-border text-muted-foreground hover:border-primary/30"
@@ -1086,7 +1086,7 @@ const BouquetBuilder = () => {
             <div>
               <label className="text-sm font-body font-semibold text-foreground block mb-2">{t("builder.customerNotes")}</label>
               <textarea value={customerNotes} onChange={(e) => setCustomerNotes(e.target.value)} placeholder={t("builder.customerNotesPlaceholder")}
-                className="w-full bg-card border border-border rounded-sm px-3 py-2 font-body text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30 min-h-[60px] resize-none" maxLength={500} />
+                className="w-full bg-card border border-border rounded-lg px-3 py-2 font-body text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30 min-h-[60px] resize-none" maxLength={500} />
             </div>
 
             {/* Action buttons (desktop & mobile) */}
@@ -1100,7 +1100,7 @@ const BouquetBuilder = () => {
                 </p>
                 <p className="font-display text-xl font-bold text-foreground whitespace-nowrap">${parseFloat(totalPrice.toFixed(2))}</p>
               </div>
-              <div className="bg-primary rounded-sm overflow-hidden">
+              <div className="bg-primary rounded-lg overflow-hidden">
                 <button
                   disabled={isAdding || variantsLoading}
                   onClick={handleBuilderAddToCart}
@@ -1111,7 +1111,7 @@ const BouquetBuilder = () => {
               <button
                 disabled={isAdding || variantsLoading}
                 onClick={handleBuilderPayNow}
-                className="w-full border-2 border-primary text-primary py-2.5 font-body text-[10px] tracking-widest uppercase hover:bg-primary/10 transition-colors rounded-sm disabled:opacity-50">
+                className="w-full border-2 border-primary text-primary py-2.5 font-body text-[10px] tracking-widest uppercase hover:bg-primary/10 transition-colors rounded-lg disabled:opacity-50">
                 {isAdding ? "..." : t("product.orderAndPay")}
               </button>
             </div>

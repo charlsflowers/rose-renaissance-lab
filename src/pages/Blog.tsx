@@ -28,7 +28,7 @@ const Blog = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-5xl mx-auto">
             {blogArticles.map((article) => (
               <Link key={article.slug} to={`/blog/${article.slug}`} className="group block">
-                <div className="relative overflow-hidden rounded-sm mb-4 aspect-video bg-muted">
+                <div className="relative overflow-hidden rounded-lg mb-4 aspect-video bg-muted">
                   <img src={article.image} alt={`${article.title} – Charls Flowers Miami`} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" loading="lazy" width={500} height={280} />
                   <div className="absolute inset-0 bg-foreground/5 group-hover:bg-foreground/15 transition-colors" />
                 </div>

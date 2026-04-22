@@ -88,7 +88,7 @@ const BouquetProducts = () => {
             {filteredProducts.map((product) => (
               <div key={product.id}>
                 <Link to={`/bouquets/all/${product.shopifyHandle}`} className="group block">
-                  <div className="relative overflow-hidden rounded-sm mb-4 aspect-square bg-muted">
+                  <div className="relative overflow-hidden rounded-lg mb-4 aspect-square bg-muted">
                     {product.image ? (
                       <>
                         <img 
@@ -144,7 +144,7 @@ const BouquetProducts = () => {
           <h2 className="font-title-retro text-3xl md:text-4xl text-primary-foreground mb-4">{t("bouquetProducts.cantFind")}</h2>
           <p className="text-primary-foreground/80 font-body mb-8 max-w-md mx-auto">{t("bouquetProducts.cantFindDesc")}</p>
           <Link to="/bouquets/personalizar"
-            className="inline-flex items-center gap-3 bg-background text-foreground px-8 py-4 font-body text-sm tracking-widest uppercase hover:bg-background/90 transition-colors rounded-sm">
+            className="inline-flex items-center gap-3 bg-background text-foreground px-8 py-4 font-body text-sm tracking-widest uppercase hover:bg-background/90 transition-colors rounded-lg">
             {t("bouquetProducts.customizeNow")} <ArrowRight className="w-4 h-4" />
           </Link>
         </div>

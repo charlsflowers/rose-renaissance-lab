@@ -89,11 +89,11 @@ const Index = () => {
             </p>
             <div className="flex flex-col sm:flex-row gap-3 md:gap-4">
               <Link to="/bouquets"
-                className="inline-flex items-center justify-center gap-2 bg-primary text-primary-foreground px-5 md:px-8 py-3 md:py-4 font-body text-xs md:text-sm tracking-widest uppercase hover:bg-primary/90 transition-colors rounded-sm">
+                className="inline-flex items-center justify-center gap-2 bg-primary text-primary-foreground px-5 md:px-8 py-3 md:py-4 font-body text-xs md:text-sm tracking-widest uppercase hover:bg-primary/90 transition-colors rounded-lg">
                 {t("home.viewBouquets")} <ArrowRight className="w-3.5 h-3.5 md:w-4 md:h-4" />
               </Link>
               <Link to="/bouquets/personalizar"
-                className="inline-flex items-center justify-center gap-2 border border-primary-foreground/50 text-primary-foreground px-5 md:px-8 py-3 md:py-4 font-body text-xs md:text-sm tracking-widest uppercase hover:bg-primary-foreground/10 transition-colors rounded-sm">
+                className="inline-flex items-center justify-center gap-2 border border-primary-foreground/50 text-primary-foreground px-5 md:px-8 py-3 md:py-4 font-body text-xs md:text-sm tracking-widest uppercase hover:bg-primary-foreground/10 transition-colors rounded-lg">
                 {t("home.buildYourBouquet")} <Sparkles className="w-3.5 h-3.5 md:w-4 md:h-4" />
               </Link>
             </div>
@@ -146,10 +146,10 @@ const Index = () => {
                 <motion.div key={item.slug} initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5, delay: i * 0.1 }}>
                   {isComingSoon ? (
                     <div className="block opacity-50 cursor-not-allowed">
-                      <div className="relative overflow-hidden rounded-sm mb-4 aspect-square">
+                      <div className="relative overflow-hidden rounded-lg mb-4 aspect-square">
                          <img src={item.img} alt={`${item.title} Miami – Charls Flowers`} loading="lazy" width={400} height={400} className="w-full h-full object-cover grayscale" />
                         <div className="absolute inset-0 bg-foreground/30 flex items-center justify-center">
-                          <div className="bg-foreground/70 px-3 py-1.5 rounded-sm flex items-center gap-1.5">
+                          <div className="bg-foreground/70 px-3 py-1.5 rounded-lg flex items-center gap-1.5">
                             <Lock className="w-3.5 h-3.5 text-primary-foreground" />
                             <span className="font-body text-[10px] text-primary-foreground tracking-widest uppercase">{t("common.comingSoon")}</span>
                           </div>
@@ -159,7 +159,7 @@ const Index = () => {
                     </div>
                   ) : (
                     <Link to={item.isRoute ? `/${item.slug}` : `/categoria/${item.slug}`} className="group block">
-                       <div className="relative overflow-hidden rounded-sm mb-4 aspect-square">
+                       <div className="relative overflow-hidden rounded-lg mb-4 aspect-square">
                         <img src={item.img} alt={`${item.title} Miami – Charls Flowers`} loading="lazy" width={400} height={400} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
                         <div className="absolute inset-0 bg-foreground/10 group-hover:bg-foreground/25 transition-colors" />
                       </div>
@@ -182,7 +182,7 @@ const Index = () => {
 
           <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }} className="max-w-md mx-auto">
             <Link to="/bouquets" className="group block">
-              <div className="relative overflow-hidden rounded-sm mb-5 aspect-square">
+              <div className="relative overflow-hidden rounded-lg mb-5 aspect-square">
                 <img src={bicolorPassionImg} alt="Fresh Rose Bouquets Miami – Charls Flowers" loading="lazy" width={500} height={500} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
                 <div className="absolute inset-0 bg-foreground/10 group-hover:bg-foreground/20 transition-colors" />
               </div>
@@ -242,7 +242,7 @@ const Index = () => {
               {t("home.customizeDescription")}
             </p>
             <Link to="/bouquets/personalizar"
-              className="inline-flex items-center gap-3 bg-primary text-primary-foreground px-8 py-4 font-body text-sm tracking-widest uppercase hover:bg-primary/90 transition-colors rounded-sm">
+              className="inline-flex items-center gap-3 bg-primary text-primary-foreground px-8 py-4 font-body text-sm tracking-widest uppercase hover:bg-primary/90 transition-colors rounded-lg">
               {t("home.customize")} <ArrowRight className="w-4 h-4" />
             </Link>
           </motion.div>
@@ -277,7 +277,7 @@ const Index = () => {
             <h2 className="font-display text-3xl md:text-4xl font-semibold text-primary-foreground mb-4">{t("home.ctaPrice")}</h2>
             <p className="text-primary-foreground/80 font-body mb-8 max-w-md mx-auto">{t("home.ctaDescription")}</p>
             <Link to="/bouquets/personalizar"
-              className="inline-flex items-center gap-3 bg-background text-foreground px-8 py-4 font-body text-sm tracking-widest uppercase hover:bg-background/90 transition-colors rounded-sm">
+              className="inline-flex items-center gap-3 bg-background text-foreground px-8 py-4 font-body text-sm tracking-widest uppercase hover:bg-background/90 transition-colors rounded-lg">
               {t("home.customizeNow")} <ArrowRight className="w-4 h-4" />
             </Link>
           </motion.div>
@@ -310,7 +310,7 @@ const Index = () => {
             <p className="text-muted-foreground font-body max-w-lg mx-auto mt-1">{t("home.deliverySubtitleLine2")}</p>
             <p className="text-primary font-body text-sm font-semibold mt-3">{t("home.deliveryAddress")}</p>
           </motion.div>
-          <div className="max-w-2xl mx-auto rounded-sm overflow-hidden border border-border aspect-square md:aspect-video" style={{ minHeight: '280px' }}>
+          <div className="max-w-2xl mx-auto rounded-lg overflow-hidden border border-border aspect-square md:aspect-video" style={{ minHeight: '280px' }}>
             <iframe
               src="https://storage.googleapis.com/maps-solutions-0p9mp01my4/locator-plus/twwi/locator-plus.html"
               width="100%"
