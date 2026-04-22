@@ -594,10 +594,9 @@ const BouquetProductDetail = () => {
             {/* Right column */}
             <div className="space-y-5">
               <div>
-                <div className="flex items-start justify-between gap-4">
-                  <h1 className="font-display text-xl font-semibold text-foreground uppercase tracking-wide">{product.name}</h1>
-                  <p className="font-display text-xl font-bold text-foreground whitespace-nowrap">${parseFloat(sizePrice.toFixed(2))} <span className="text-xs font-body text-muted-foreground font-normal">USD</span></p>
-                </div>
+                <h1 className="font-display text-3xl md:text-4xl font-semibold text-foreground">{product.name}</h1>
+                <p className="font-display text-2xl font-semibold text-foreground mt-2">${parseFloat(sizePrice.toFixed(2))}</p>
+                <p className="font-body italic text-sm text-muted-foreground mt-1">Subtotal ${parseFloat(totalPrice.toFixed(2))}</p>
                 <div className="text-muted-foreground font-body text-sm mt-3 leading-relaxed space-y-1">
                   {replaceDescriptionPrice(language === 'es' && product.descriptionEs ? product.descriptionEs : product.description).split('\n').map((line, i) => (
                     <p key={i}>{line}</p>
