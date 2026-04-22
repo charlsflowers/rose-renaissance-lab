@@ -656,8 +656,8 @@ const BouquetProductDetail = () => {
           {/* ===== MOBILE: stacked layout ===== */}
           <div className="md:hidden max-w-4xl mx-auto space-y-8">
             {/* Mobile images */}
-            <div className="flex overflow-x-auto snap-x snap-mandatory scrollbar-hide gap-3 pb-2 w-full">
-              <div className="w-full flex-none snap-center relative overflow-hidden rounded-sm bg-muted flex items-center justify-center aspect-square">
+            <div className="flex overflow-x-auto snap-x snap-mandatory scrollbar-hide gap-3 pb-2 -mx-6 px-6 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
+              <div className="w-[88%] flex-none snap-start relative overflow-hidden rounded-sm bg-muted flex items-center justify-center aspect-square">
                 {product.image ? (
                   <img src={product.image} alt={`${product.name} Miami – Charls Flowers`} width={600} height={600} className="w-full h-full object-contain pointer-events-none" />
                 ) : (
@@ -665,7 +665,7 @@ const BouquetProductDetail = () => {
                 )}
               </div>
               {product.image2 && (
-                <div className="w-full flex-none snap-center relative overflow-hidden rounded-sm bg-muted flex items-center justify-center aspect-square">
+                <div className="w-[88%] flex-none snap-start relative overflow-hidden rounded-sm bg-muted flex items-center justify-center aspect-square">
                   <img src={product.image2} alt={`${product.name} alternate – Charls Flowers`} loading="lazy" width={600} height={600} className="w-full h-full object-cover pointer-events-none" />
                 </div>
               )}
