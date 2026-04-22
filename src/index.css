@@ -103,6 +103,11 @@
     -webkit-text-fill-color: transparent;
     background-clip: text;
   }
+
+  .container-tfp {
+    @apply mx-auto w-full px-6;
+    max-width: 1400px;
+  }
 }
 
 /* Global rounded corners for all images */
