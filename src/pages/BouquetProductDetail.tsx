@@ -415,14 +415,14 @@ const BouquetProductDetail = () => {
           <p className="text-[11px] text-muted-foreground font-body">{t("product.glitterDesc")} · {selectedSize.roses} roses = +${Math.ceil(selectedSize.roses / 25) * 8}</p>
         </div>
       </div>
-      <div className="grid grid-cols-2 gap-2">
-        <button onClick={() => setAddGlitter(true)}
-          className={`py-2 rounded-lg border-2 text-center transition-all font-body text-sm ${addGlitter === true ? "border-primary bg-primary/5 text-primary" : "border-border text-muted-foreground hover:border-primary/30"}`}>
-          {t("product.yes")} {addGlitter === true && <Check className="w-3 h-3 text-primary mx-auto mt-0.5" />}
-        </button>
+      <div className="flex gap-2">
         <button onClick={() => setAddGlitter(false)}
-          className={`py-2 rounded-lg border-2 text-center transition-all font-body text-sm ${addGlitter === false ? "border-primary bg-primary/5 text-primary" : "border-border text-muted-foreground hover:border-primary/30"}`}>
-          {t("product.no")} {addGlitter === false && <Check className="w-3 h-3 text-primary mx-auto mt-0.5" />}
+          className={`flex-1 py-2.5 rounded-full border text-center transition-all font-body text-sm ${addGlitter === false ? "border-primary bg-primary/15 text-foreground" : "border-primary/30 text-foreground hover:bg-primary/5"}`}>
+          {t("product.no")}
+        </button>
+        <button onClick={() => setAddGlitter(true)}
+          className={`flex-1 py-2.5 rounded-full border text-center transition-all font-body text-sm ${addGlitter === true ? "border-primary bg-primary/15 text-foreground" : "border-primary/30 text-foreground hover:bg-primary/5"}`}>
+          {t("product.yes")}
         </button>
       </div>
     </Section>
@@ -454,23 +454,15 @@ const BouquetProductDetail = () => {
     return (
     <Section title={t("product.shipping")} step={step++}>
       <div className="grid grid-cols-2 gap-2 mb-4">
-        <button onClick={() => setDeliveryMethod("pickup")}
-          className={`flex items-center gap-2 p-3 rounded-lg border-2 transition-all font-body ${deliveryMethod === "pickup" ? "border-primary bg-primary/5" : "border-border hover:border-primary/30"}`}>
-          <Store className="w-4 h-4 flex-shrink-0" />
-          <div className="text-left flex-1">
-            <p className="font-semibold text-xs text-foreground">{t("product.storePickup")}</p>
-            <p className="text-xs text-muted-foreground">{t("product.free")}</p>
-          </div>
-          {deliveryMethod === "pickup" && <Check className="w-3.5 h-3.5 text-primary flex-shrink-0" />}
-        </button>
         <button onClick={() => setDeliveryMethod("delivery")}
-          className={`flex items-center gap-2 p-3 rounded-lg border-2 transition-all font-body ${deliveryMethod === "delivery" ? "border-primary bg-primary/5" : "border-border hover:border-primary/30"}`}>
+          className={`flex items-center justify-center gap-2 px-4 py-3 rounded-full border transition-all font-body text-sm ${deliveryMethod === "delivery" ? "border-primary bg-primary/15 text-foreground" : "border-primary/30 text-foreground hover:bg-primary/5"}`}>
           <Truck className="w-4 h-4 flex-shrink-0" />
-          <div className="text-left flex-1">
-            <p className="font-semibold text-xs text-foreground">{t("product.homeDelivery")}</p>
-            <p className="text-xs text-muted-foreground">{t("product.fromPrice")}</p>
-          </div>
-          {deliveryMethod === "delivery" && <Check className="w-3.5 h-3.5 text-primary flex-shrink-0" />}
+          <span className="font-medium">{t("product.homeDelivery")}</span>
+        </button>
+        <button onClick={() => setDeliveryMethod("pickup")}
+          className={`flex items-center justify-center gap-2 px-4 py-3 rounded-full border transition-all font-body text-sm ${deliveryMethod === "pickup" ? "border-primary bg-primary/15 text-foreground" : "border-primary/30 text-foreground hover:bg-primary/5"}`}>
+          <Store className="w-4 h-4 flex-shrink-0" />
+          <span className="font-medium">{t("product.storePickup")}</span>
         </button>
       </div>
 
@@ -594,10 +586,9 @@ const BouquetProductDetail = () => {
             {/* Right column */}
             <div className="space-y-5">
               <div>
-                <div className="flex items-start justify-between gap-4">
-                  <h1 className="font-display text-xl font-semibold text-foreground uppercase tracking-wide">{product.name}</h1>
-                  <p className="font-display text-xl font-bold text-foreground whitespace-nowrap">${parseFloat(sizePrice.toFixed(2))} <span className="text-xs font-body text-muted-foreground font-normal">USD</span></p>
-                </div>
+                <h1 className="font-display text-3xl md:text-4xl font-semibold text-foreground">{product.name}</h1>
+                <p className="font-display text-2xl font-semibold text-foreground mt-2">${parseFloat(sizePrice.toFixed(2))}</p>
+                <p className="font-body italic text-sm text-muted-foreground mt-1">Subtotal ${parseFloat(totalPrice.toFixed(2))}</p>
                 <div className="text-muted-foreground font-body text-sm mt-3 leading-relaxed space-y-1">
                   {replaceDescriptionPrice(language === 'es' && product.descriptionEs ? product.descriptionEs : product.description).split('\n').map((line, i) => (
                     <p key={i}>{line}</p>
@@ -607,15 +598,16 @@ const BouquetProductDetail = () => {
 
               {/* Size */}
               <Section title={t("product.numberOfRoses")} step={step++}>
-                <div className="grid grid-cols-4 gap-2">
+                <div className="flex flex-wrap gap-2">
                   {sizeOptions.map((size, idx) => {
                     const disabled = idx < minSizeIdx;
                     const price = useDynamicSizes ? (size as any).price : (hasCustomSizes ? (size as any).price : getPrice(product.pricingTier, size.roses));
                     return (
                       <button key={size.roses} onClick={() => !disabled && setSelectedSizeIdx(idx)} disabled={disabled}
-                        className={`p-2 rounded-lg border-2 text-center transition-all ${disabled ? "opacity-40 cursor-not-allowed border-border" : effectiveSizeIdx === idx ? "border-primary bg-primary/5" : "border-border hover:border-primary/30"}`}>
-                        <p className="font-body text-foreground"><span className="font-display text-lg font-semibold">{size.roses}</span><span className="text-[10px] text-muted-foreground ml-0.5">{t("product.roses")}</span></p>
-                        <p className="text-xs font-body font-semibold text-primary">${price}</p>
+                        className={`px-4 py-2 rounded-full border text-center transition-all font-body text-sm ${disabled ? "opacity-40 cursor-not-allowed border-border" : effectiveSizeIdx === idx ? "border-primary bg-primary/15 text-foreground" : "border-primary/30 text-foreground hover:bg-primary/5"}`}>
+                        <span className="font-medium">{size.roses} {t("product.roses")}</span>
+                        <span className="text-xs text-muted-foreground ml-1">·</span>
+                        <span className="text-xs text-primary font-semibold ml-1">${price}</span>
                       </button>
                     );
                   })}
@@ -737,8 +729,7 @@ const BouquetProductDetail = () => {
 const Section = ({ title, step, subtitle, children }: { title: string; step: number; subtitle?: string; children: React.ReactNode }) => (
   <div>
     <div className="flex items-center gap-2 mb-3">
-      <span className="w-6 h-6 rounded-full bg-primary text-primary-foreground flex items-center justify-center font-display text-xs font-semibold">{step}</span>
-      <h2 className="font-display text-base font-semibold text-foreground">{title}</h2>
+      <h2 className="font-body text-xs font-semibold text-muted-foreground uppercase tracking-[0.2em]">{title}</h2>
       {subtitle && <span className="bg-secondary text-secondary-foreground text-[10px] px-1.5 py-0.5 rounded-full font-body">{subtitle}</span>}
     </div>
     {children}
