@@ -737,8 +737,7 @@ const BouquetProductDetail = () => {
 const Section = ({ title, step, subtitle, children }: { title: string; step: number; subtitle?: string; children: React.ReactNode }) => (
   <div>
     <div className="flex items-center gap-2 mb-3">
-      <span className="w-6 h-6 rounded-full bg-primary text-primary-foreground flex items-center justify-center font-display text-xs font-semibold">{step}</span>
-      <h2 className="font-display text-base font-semibold text-foreground">{title}</h2>
+      <h2 className="font-body text-xs font-semibold text-muted-foreground uppercase tracking-[0.2em]">{title}</h2>
       {subtitle && <span className="bg-secondary text-secondary-foreground text-[10px] px-1.5 py-0.5 rounded-full font-body">{subtitle}</span>}
     </div>
     {children}
