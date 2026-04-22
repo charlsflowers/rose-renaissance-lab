@@ -415,14 +415,14 @@ const BouquetProductDetail = () => {
           <p className="text-[11px] text-muted-foreground font-body">{t("product.glitterDesc")} · {selectedSize.roses} roses = +${Math.ceil(selectedSize.roses / 25) * 8}</p>
         </div>
       </div>
-      <div className="grid grid-cols-2 gap-2">
-        <button onClick={() => setAddGlitter(true)}
-          className={`py-2 rounded-lg border-2 text-center transition-all font-body text-sm ${addGlitter === true ? "border-primary bg-primary/5 text-primary" : "border-border text-muted-foreground hover:border-primary/30"}`}>
-          {t("product.yes")} {addGlitter === true && <Check className="w-3 h-3 text-primary mx-auto mt-0.5" />}
-        </button>
+      <div className="flex gap-2">
         <button onClick={() => setAddGlitter(false)}
-          className={`py-2 rounded-lg border-2 text-center transition-all font-body text-sm ${addGlitter === false ? "border-primary bg-primary/5 text-primary" : "border-border text-muted-foreground hover:border-primary/30"}`}>
-          {t("product.no")} {addGlitter === false && <Check className="w-3 h-3 text-primary mx-auto mt-0.5" />}
+          className={`flex-1 py-2.5 rounded-full border text-center transition-all font-body text-sm ${addGlitter === false ? "border-primary bg-primary/15 text-foreground" : "border-primary/30 text-foreground hover:bg-primary/5"}`}>
+          {t("product.no")}
+        </button>
+        <button onClick={() => setAddGlitter(true)}
+          className={`flex-1 py-2.5 rounded-full border text-center transition-all font-body text-sm ${addGlitter === true ? "border-primary bg-primary/15 text-foreground" : "border-primary/30 text-foreground hover:bg-primary/5"}`}>
+          {t("product.yes")}
         </button>
       </div>
     </Section>
