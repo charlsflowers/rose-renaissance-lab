@@ -454,23 +454,15 @@ const BouquetProductDetail = () => {
     return (
     <Section title={t("product.shipping")} step={step++}>
       <div className="grid grid-cols-2 gap-2 mb-4">
-        <button onClick={() => setDeliveryMethod("pickup")}
-          className={`flex items-center gap-2 p-3 rounded-lg border-2 transition-all font-body ${deliveryMethod === "pickup" ? "border-primary bg-primary/5" : "border-border hover:border-primary/30"}`}>
-          <Store className="w-4 h-4 flex-shrink-0" />
-          <div className="text-left flex-1">
-            <p className="font-semibold text-xs text-foreground">{t("product.storePickup")}</p>
-            <p className="text-xs text-muted-foreground">{t("product.free")}</p>
-          </div>
-          {deliveryMethod === "pickup" && <Check className="w-3.5 h-3.5 text-primary flex-shrink-0" />}
-        </button>
         <button onClick={() => setDeliveryMethod("delivery")}
-          className={`flex items-center gap-2 p-3 rounded-lg border-2 transition-all font-body ${deliveryMethod === "delivery" ? "border-primary bg-primary/5" : "border-border hover:border-primary/30"}`}>
+          className={`flex items-center justify-center gap-2 px-4 py-3 rounded-full border transition-all font-body text-sm ${deliveryMethod === "delivery" ? "border-primary bg-primary/15 text-foreground" : "border-primary/30 text-foreground hover:bg-primary/5"}`}>
           <Truck className="w-4 h-4 flex-shrink-0" />
-          <div className="text-left flex-1">
-            <p className="font-semibold text-xs text-foreground">{t("product.homeDelivery")}</p>
-            <p className="text-xs text-muted-foreground">{t("product.fromPrice")}</p>
-          </div>
-          {deliveryMethod === "delivery" && <Check className="w-3.5 h-3.5 text-primary flex-shrink-0" />}
+          <span className="font-medium">{t("product.homeDelivery")}</span>
+        </button>
+        <button onClick={() => setDeliveryMethod("pickup")}
+          className={`flex items-center justify-center gap-2 px-4 py-3 rounded-full border transition-all font-body text-sm ${deliveryMethod === "pickup" ? "border-primary bg-primary/15 text-foreground" : "border-primary/30 text-foreground hover:bg-primary/5"}`}>
+          <Store className="w-4 h-4 flex-shrink-0" />
+          <span className="font-medium">{t("product.storePickup")}</span>
         </button>
       </div>
 
