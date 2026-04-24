@@ -7,6 +7,7 @@ import { useCartSync } from "@/hooks/useCartSync";
 import FloatingCart from "@/components/FloatingCart";
 import { landingPages } from "@/lib/landingPagesData";
 import { bouquetProducts } from "@/lib/catalogData";
+import { roomDecorPackages } from "@/lib/roomDecorData";
 import Index from "./pages/Index";
 import BouquetBuilder from "./pages/BouquetBuilder";
 import Checkout from "./pages/Checkout";
@@ -44,6 +45,23 @@ const OldBouquetRedirect = () => {
   return <BouquetProductDetail />;
 };
 
+/** Redirect Shopify-style URLs (/products/:handle) coming from Meta/Instagram ads */
+const ShopifyProductRedirect = () => {
+  const { handle } = useParams<{ handle: string }>();
+  if (!handle) return <Navigate to="/" replace />;
+
+  // Check room decor packages first (love-bomb, overly-romantic, deluxe-love-package)
+  const roomDecor = roomDecorPackages.find(p => p.shopifyHandle === handle);
+  if (roomDecor) return <Navigate to={`/room-decors/${roomDecor.id}`} replace />;
+
+  // Then check bouquets
+  const bouquet = bouquetProducts.find(p => p.shopifyHandle === handle);
+  if (bouquet) return <Navigate to={`/bouquets/round/${bouquet.shopifyHandle}`} replace />;
+
+  // Unknown handle → fall back to bouquets listing
+  return <Navigate to="/bouquets" replace />;
+};
+
 const AppContent = () => {
   useCartSync();
   return (
@@ -52,6 +70,7 @@ const AppContent = () => {
       <FloatingCart />
       <Routes>
         <Route path="/" element={<Index />} />
+        <Route path="/products/:handle" element={<ShopifyProductRedirect />} />
         <Route path="/categoria/:slug" element={<CategoryProducts />} />
         <Route path="/categoria/:slug/:productId" element={<CategoryProductDetail />} />
         <Route path="/bouquets/personalizar" element={<BouquetBuilder />} />
