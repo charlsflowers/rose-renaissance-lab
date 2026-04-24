@@ -70,6 +70,7 @@ const AppContent = () => {
       <FloatingCart />
       <Routes>
         <Route path="/" element={<Index />} />
+        <Route path="/products/:handle" element={<ShopifyProductRedirect />} />
         <Route path="/categoria/:slug" element={<CategoryProducts />} />
         <Route path="/categoria/:slug/:productId" element={<CategoryProductDetail />} />
         <Route path="/bouquets/personalizar" element={<BouquetBuilder />} />
