@@ -201,8 +201,8 @@ export async function performApiCheckout(options: ApiCheckoutOptions): Promise<s
     await addLineToShopifyCart(cartId, DELIVERY_FEE_VARIANT_GID, Math.round(options.deliveryCost * 10));
   }
 
-  // Add service fee (5% of base total)
-  const serviceFeePrice = options.serviceFeeBase * 0.05;
+  // Add service fee (4.5% of base total)
+  const serviceFeePrice = options.serviceFeeBase * 0.045;
   const serviceFeeQty = Math.round(serviceFeePrice / 0.10);
   if (serviceFeeQty > 0) {
     await addLineToShopifyCart(cartId, SERVICE_FEE_VARIANT_GID, serviceFeeQty);
