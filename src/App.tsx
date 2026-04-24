@@ -7,6 +7,7 @@ import { useCartSync } from "@/hooks/useCartSync";
 import FloatingCart from "@/components/FloatingCart";
 import { landingPages } from "@/lib/landingPagesData";
 import { bouquetProducts } from "@/lib/catalogData";
+import { roomDecorPackages } from "@/lib/roomDecorData";
 import Index from "./pages/Index";
 import BouquetBuilder from "./pages/BouquetBuilder";
 import Checkout from "./pages/Checkout";
