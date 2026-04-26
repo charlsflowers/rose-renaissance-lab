@@ -3,18 +3,23 @@ import { MapPin, Phone, Clock } from "lucide-react";
 import JsonLd, { organizationSchema } from "@/components/JsonLd";
 import { useTranslation } from "@/i18n/LanguageContext";
 import charlsLogo from "@/assets/charls-logo.png";
-import WaveDivider from "@/components/WaveDivider";
 
 const Footer = () => {
   const { t } = useTranslation();
 
   return (
-    <>
-      <WaveDivider position="bottom" className="-mb-px" />
-      <footer className="bg-primary pt-10 pb-8">
-        <JsonLd data={organizationSchema()} />
-        <div className="container mx-auto px-6">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 mb-12">
+    <footer className="relative bg-primary pt-20 pb-8 overflow-hidden">
+      <JsonLd data={organizationSchema()} />
+      {/* Decorative waves inside the red footer (same effect as the ticker) */}
+      <div className="absolute top-0 left-0 w-full h-[55px] z-10 overflow-hidden pointer-events-none">
+        <svg className="h-full animate-wave" style={{ width: "200%", minWidth: "3840px" }} viewBox="0 0 2880 60" preserveAspectRatio="none">
+          <path d="M0,60 C360,20 720,50 1080,30 C1440,10 1800,50 2160,25 C2520,5 2880,40 2880,40 L2880,60 Z" fill="hsl(var(--primary-foreground))" opacity="0.12" />
+          <path d="M0,60 C480,35 960,55 1440,40 C1920,25 2400,50 2880,35 L2880,60 Z" fill="hsl(var(--primary-foreground))" opacity="0.18" />
+          <path d="M0,60 C320,48 640,56 960,50 C1280,44 1600,54 1920,48 C2240,42 2560,52 2880,46 L2880,60 Z" fill="hsl(var(--primary-foreground))" opacity="0.25" />
+        </svg>
+      </div>
+      <div className="container mx-auto px-6 relative z-20">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 mb-12">
           {/* Col 1 — Info */}
           <div>
             <img src={charlsLogo} alt="Charls Flowers" className="h-10 w-auto mb-3 brightness-0 invert" width={120} height={40} />
@@ -88,7 +93,6 @@ const Footer = () => {
         </div>
       </div>
     </footer>
-    </>
   );
 };
 
