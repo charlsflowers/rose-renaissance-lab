@@ -405,6 +405,12 @@ export const es = {
   floatingCart: {
     item: "artículo",
     items: "artículos",
+    yourCart: "Tu carrito",
+    empty: "Tu carrito está vacío",
+    subtotal: "Subtotal",
+    viewCart: "Ver carrito y finalizar compra",
+    continueShopping: "Seguir comprando",
+    remove: "Eliminar",
   },
 
   landing: {
