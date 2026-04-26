@@ -300,7 +300,6 @@ const Index = () => {
           <path d="M0,60 C320,48 640,56 960,50 C1280,44 1600,54 1920,48 C2240,42 2560,52 2880,46 L2880,60 L0,60 Z" fill="hsl(var(--background))" opacity="1" />
         </svg>
       </div>
-      </section>
 
       {/* Occasions — SEO H3 section */}
       <section className="py-16 md:py-20 bg-background">
