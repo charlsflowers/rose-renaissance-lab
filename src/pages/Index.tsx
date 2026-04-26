@@ -21,7 +21,6 @@ import cestasImg from "@/assets/cestas.jpg";
 import jarronesImg from "@/assets/jarrones.jpg";
 import ososImg from "@/assets/osos.jpg";
 import heartBouquet from "@/assets/heart-bouquet.jpg";
-import WaveDivider from "@/components/WaveDivider";
 const bicolorPassionImg = 'https://cdn.shopify.com/s/files/1/0979/1671/5140/files/16.png?v=1774610789';
 const deluxeLoveImg = 'https://cdn.shopify.com/s/files/1/0979/1671/5140/files/3_adaa192a-8c9b-41b5-8586-cb7e13640829.png?v=1774615718';
 
@@ -272,33 +271,33 @@ const Index = () => {
       </section>
 
       {/* CTA */}
-      {/* Wave transition from white to red CTA */}
-      <div className="relative w-full h-[55px] overflow-hidden pointer-events-none -mb-px" aria-hidden="true">
-        <svg className="h-full animate-wave-reverse" style={{ width: "200%", minWidth: "3840px" }} viewBox="0 0 2880 60" preserveAspectRatio="none">
-          <path d="M0,0 C360,40 720,10 1080,30 C1440,50 1800,10 2160,35 C2520,55 2880,20 2880,20 L2880,60 L0,60 Z" fill="hsl(var(--primary))" opacity="0.3" />
-          <path d="M0,0 C480,25 960,5 1440,20 C1920,35 2400,10 2880,25 L2880,60 L0,60 Z" fill="hsl(var(--primary))" opacity="0.55" />
-          <path d="M0,0 C320,12 640,4 960,10 C1280,16 1600,6 1920,12 C2240,18 2560,8 2880,14 L2880,60 L0,60 Z" fill="hsl(var(--primary))" opacity="0.8" />
-        </svg>
-      </div>
-      <section className="relative py-12 bg-primary overflow-hidden">
-        <div className="container mx-auto px-6 text-center relative z-20">
-          <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
-            <h2 className="font-display text-3xl md:text-4xl font-semibold text-primary-foreground mb-4">{t("home.ctaPrice")}</h2>
-            <p className="text-primary-foreground/80 font-body mb-8 max-w-md mx-auto">{t("home.ctaDescription")}</p>
-            <Link to="/bouquets/personalizar"
-              className="inline-flex items-center gap-3 bg-background text-foreground px-8 py-4 font-body text-sm tracking-widest uppercase hover:bg-background/90 transition-colors rounded-lg">
-              {t("home.customizeNow")} <ArrowRight className="w-4 h-4" />
-            </Link>
-          </motion.div>
+      <div className="relative mt-[-1px]">
+        <div className="absolute -top-[50px] left-0 w-full h-[55px] z-10 overflow-hidden pointer-events-none">
+          <svg className="h-full animate-wave" style={{ width: "200%", minWidth: "3840px" }} viewBox="0 0 2880 60" preserveAspectRatio="none">
+            <path d="M0,60 C360,20 720,50 1080,30 C1440,10 1800,50 2160,25 C2520,5 2880,40 2880,40 L2880,60 Z" fill="hsl(var(--primary))" opacity="0.3" />
+            <path d="M0,60 C480,35 960,55 1440,40 C1920,25 2400,50 2880,35 L2880,60 Z" fill="hsl(var(--primary))" opacity="0.55" />
+            <path d="M0,60 C320,48 640,56 960,50 C1280,44 1600,54 1920,48 C2240,42 2560,52 2880,46 L2880,60 Z" fill="hsl(var(--primary))" opacity="0.8" />
+          </svg>
         </div>
-      </section>
-      {/* Wave transition from red CTA back to white */}
-      <div className="relative w-full h-[55px] overflow-hidden pointer-events-none -mt-px bg-primary" aria-hidden="true">
-        <svg className="h-full animate-wave" style={{ width: "200%", minWidth: "3840px" }} viewBox="0 0 2880 60" preserveAspectRatio="none">
-          <path d="M0,60 C360,20 720,50 1080,30 C1440,10 1800,50 2160,25 C2520,5 2880,40 2880,40 L2880,60 L0,60 Z" fill="hsl(var(--background))" opacity="0.3" />
-          <path d="M0,60 C480,35 960,55 1440,40 C1920,25 2400,50 2880,35 L2880,60 L0,60 Z" fill="hsl(var(--background))" opacity="0.55" />
-          <path d="M0,60 C320,48 640,56 960,50 C1280,44 1600,54 1920,48 C2240,42 2560,52 2880,46 L2880,60 L0,60 Z" fill="hsl(var(--background))" opacity="1" />
-        </svg>
+        <section className="bg-primary py-20 overflow-hidden">
+          <div className="container mx-auto px-6 text-center relative z-20">
+            <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
+              <h2 className="font-display text-3xl md:text-4xl font-semibold text-primary-foreground mb-4">{t("home.ctaPrice")}</h2>
+              <p className="text-primary-foreground/80 font-body mb-8 max-w-md mx-auto">{t("home.ctaDescription")}</p>
+              <Link to="/bouquets/personalizar"
+                className="inline-flex items-center gap-3 bg-background text-foreground px-8 py-4 font-body text-sm tracking-widest uppercase hover:bg-background/90 transition-colors rounded-lg">
+                {t("home.customizeNow")} <ArrowRight className="w-4 h-4" />
+              </Link>
+            </motion.div>
+          </div>
+        </section>
+        <div className="absolute -bottom-[50px] left-0 w-full h-[55px] z-10 overflow-hidden pointer-events-none">
+          <svg className="h-full animate-wave-reverse" style={{ width: "200%", minWidth: "3840px" }} viewBox="0 0 2880 60" preserveAspectRatio="none">
+            <path d="M0,0 C360,40 720,10 1080,30 C1440,50 1800,10 2160,35 C2520,55 2880,20 2880,20 L2880,0 Z" fill="hsl(var(--primary))" opacity="0.3" />
+            <path d="M0,0 C480,25 960,5 1440,20 C1920,35 2400,10 2880,25 L2880,0 Z" fill="hsl(var(--primary))" opacity="0.55" />
+            <path d="M0,0 C320,12 640,4 960,10 C1280,16 1600,6 1920,12 C2240,18 2560,8 2880,14 L2880,0 Z" fill="hsl(var(--primary))" opacity="0.8" />
+          </svg>
+        </div>
       </div>
 
       {/* Occasions — SEO H3 section */}
