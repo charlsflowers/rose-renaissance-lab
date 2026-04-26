@@ -68,7 +68,7 @@ const FloatingCart = () => {
                       )}
                     </div>
                     <div className="flex-1 min-w-0">
-                      <p className="font-body text-sm font-semibold text-foreground truncate">
+                      <p className="font-body text-base font-semibold text-foreground truncate">
                         {item.productName || item.bouquetType}
                       </p>
                       <p className="font-body text-xs text-muted-foreground mt-0.5">
@@ -76,7 +76,7 @@ const FloatingCart = () => {
                         {item.color ? ` · ${item.color}` : ""}
                       </p>
                       <div className="flex items-center justify-between mt-1.5">
-                        <p className="font-body text-sm font-semibold text-foreground">
+                        <p className="font-body text-base font-semibold text-foreground">
                           ${parseFloat(item.totalPrice.toFixed(2))}
                         </p>
                         <button
