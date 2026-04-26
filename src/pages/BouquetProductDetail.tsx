@@ -1,5 +1,5 @@
 import { useState, useMemo, useCallback, useRef, useEffect } from "react";
-import { useParams, Link, useNavigate } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import { useTranslation } from "@/i18n/LanguageContext";
 import YouMightAlsoLove from "@/components/YouMightAlsoLove";
 import Footer from "@/components/Footer";
@@ -38,7 +38,6 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 const BouquetProductDetail = () => {
   const { t, language } = useTranslation();
   const { type, productId } = useParams<{ type: string; productId: string }>();
-  const navigate = useNavigate();
   const addItem = useCartStore(state => state.addItem);
   const cartItems = useCartStore(state => state.items);
   const product = bouquetProducts.find((b) => b.shopifyHandle === productId || b.id === productId);
