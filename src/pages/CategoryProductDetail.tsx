@@ -38,6 +38,7 @@ const CategoryProductDetail = () => {
   const [deliveryMiles, setDeliveryMiles] = useState<number | null>(null);
   const [deliveryName, setDeliveryName] = useState("");
   const [deliveryZip, setDeliveryZip] = useState("");
+  const [structuredAddress, setStructuredAddress] = useState<{ address1: string; city: string; province: string; zip: string; country: string } | undefined>(undefined);
   const [deliveryEmail, setDeliveryEmail] = useState("");
   const [deliveryPhone, setDeliveryPhone] = useState("");
   const [deliveryDuration, setDeliveryDuration] = useState("");
@@ -72,6 +73,7 @@ const CategoryProductDetail = () => {
 
   const handleAddressInput = useCallback((value: string) => {
     setAddressQuery(value); setSelectedAddress(""); setDeliveryMiles(null); setMapUrl(""); setDistanceError("");
+    setStructuredAddress(undefined);
     if (debounceRef.current) clearTimeout(debounceRef.current);
     debounceRef.current = setTimeout(() => fetchPredictions(value), 350);
   }, [fetchPredictions]);
@@ -87,7 +89,13 @@ const CategoryProductDetail = () => {
         const { data, error } = await supabase.functions.invoke("calculate-distance", { body: { fullAddress: prediction.description } });
         if (error) throw new Error("Connection error");
         if (data.error) { setDistanceError(data.error); if (data.tooFar) { setDistanceTooFar(true); setDeliveryMiles(data.miles); } }
-        else { setDeliveryMiles(data.miles); setDeliveryDuration(data.duration); if (data.mapUrl) setMapUrl(data.mapUrl); }
+        else {
+          setDeliveryMiles(data.miles); setDeliveryDuration(data.duration); if (data.mapUrl) setMapUrl(data.mapUrl);
+          if (data.structuredAddress) {
+            setStructuredAddress(data.structuredAddress);
+            if (data.structuredAddress.zip) setDeliveryZip(data.structuredAddress.zip);
+          }
+        }
       } catch (e: any) { setDistanceError(e.message || "Error calculating distance"); }
       finally { setDistanceLoading(false); }
     })();
@@ -156,6 +164,7 @@ const CategoryProductDetail = () => {
       deliveryHour,
       deliveryMiles: deliveryMethod === "delivery" ? deliveryMiles : null,
       paperColor,
+      structuredAddress: deliveryMethod === "delivery" ? structuredAddress : undefined,
       shopifyVariantId: "", // Coming Soon categories - no Shopify product yet
     });
     toast.success("Product added to cart!");
@@ -175,7 +184,9 @@ const CategoryProductDetail = () => {
         }
         // Update shipping address
         if (deliveryMethod === "delivery" && selectedAddress) {
-          const parsed: ShippingAddress = { address1: selectedAddress.split(",")[0] || "", city: selectedAddress.split(",")[1]?.trim() || "", province: "", zip: deliveryZip, country: "US" };
+          const parsed: ShippingAddress = structuredAddress
+            ? { address1: structuredAddress.address1, city: structuredAddress.city, province: structuredAddress.province, zip: structuredAddress.zip || deliveryZip, country: structuredAddress.country || "US" }
+            : { address1: selectedAddress.split(",")[0] || "", city: selectedAddress.split(",")[1]?.trim() || "", province: "", zip: deliveryZip, country: "US" };
           await updateCartBuyerIdentity(cartId, parsed);
         }
         // Build structured order notes
