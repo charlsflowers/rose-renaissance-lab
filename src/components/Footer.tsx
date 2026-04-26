@@ -3,14 +3,16 @@ import { MapPin, Phone, Clock } from "lucide-react";
 import JsonLd, { organizationSchema } from "@/components/JsonLd";
 import { useTranslation } from "@/i18n/LanguageContext";
 import charlsLogo from "@/assets/charls-logo.png";
+import WaveDivider from "@/components/WaveDivider";
 
 const Footer = () => {
   const { t } = useTranslation();
 
   return (
-    <footer className="bg-primary pt-16 pb-8">
+    <footer className="bg-primary pb-8">
       <JsonLd data={organizationSchema()} />
-      <div className="container mx-auto px-6">
+      <WaveDivider position="top" />
+      <div className="container mx-auto px-6 pt-10">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 mb-12">
           {/* Col 1 — Info */}
           <div>
