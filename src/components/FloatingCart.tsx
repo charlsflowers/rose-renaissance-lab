@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useCartStore } from "@/stores/cartStore";
 import BrandLogo from "@/components/BrandLogo";
