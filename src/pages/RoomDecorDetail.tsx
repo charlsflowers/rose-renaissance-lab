@@ -39,6 +39,7 @@ const RoomDecorDetail = () => {
   const [mobileCalendarOpen, setMobileCalendarOpen] = useState(false);
   const [deliveryMiles, setDeliveryMiles] = useState<number | null>(null);
   const [deliveryZip, setDeliveryZip] = useState("");
+  const [structuredAddress, setStructuredAddress] = useState<{ address1: string; city: string; province: string; zip: string; country: string } | undefined>(undefined);
   const [deliveryDuration, setDeliveryDuration] = useState("");
   const [distanceLoading, setDistanceLoading] = useState(false);
   const [distanceError, setDistanceError] = useState("");
@@ -74,6 +75,7 @@ const RoomDecorDetail = () => {
 
   const handleAddressInput = useCallback((value: string) => {
     setAddressQuery(value); setSelectedAddress(""); setDeliveryMiles(null); setMapUrl(""); setDistanceError("");
+    setStructuredAddress(undefined);
     if (debounceRef.current) clearTimeout(debounceRef.current);
     debounceRef.current = setTimeout(() => fetchPredictions(value), 350);
   }, [fetchPredictions]);
@@ -89,7 +91,13 @@ const RoomDecorDetail = () => {
         const { data, error } = await supabase.functions.invoke("calculate-distance", { body: { fullAddress: prediction.description } });
         if (error) throw new Error("Connection error");
         if (data.error) { setDistanceError(data.error); if (data.tooFar) { setDistanceTooFar(true); setDeliveryMiles(data.miles); } }
-        else { setDeliveryMiles(data.miles); setDeliveryDuration(data.duration); if (data.mapUrl) setMapUrl(data.mapUrl); }
+        else {
+          setDeliveryMiles(data.miles); setDeliveryDuration(data.duration); if (data.mapUrl) setMapUrl(data.mapUrl);
+          if (data.structuredAddress) {
+            setStructuredAddress(data.structuredAddress);
+            if (data.structuredAddress.zip) setDeliveryZip(data.structuredAddress.zip);
+          }
+        }
       } catch (e: any) { setDistanceError(e.message || "Error calculating distance"); }
       finally { setDistanceLoading(false); }
     })();
@@ -177,6 +185,7 @@ const RoomDecorDetail = () => {
         deliveryHour,
         deliveryMiles: deliveryMethod === "delivery" ? deliveryMiles : null,
         paperColor: "",
+        structuredAddress: deliveryMethod === "delivery" ? structuredAddress : undefined,
         shopifyVariantId: pkg.shopifyVariantId,
         image: pkg.image,
       });
@@ -219,6 +228,7 @@ const RoomDecorDetail = () => {
         serviceFeeBase: cartTotalForFee,
         deliveryAddress: deliveryMethod === "delivery" ? selectedAddress : undefined,
         deliveryZip: deliveryMethod === "delivery" ? deliveryZip : undefined,
+        structuredAddress: deliveryMethod === "delivery" ? structuredAddress : undefined,
         accessories: [],
         note: noteLines.join("\n"),
       });
@@ -424,7 +434,7 @@ const RoomDecorDetail = () => {
                     </PopoverTrigger>
                     <PopoverContent className="w-auto p-0" align="start">
                       <Calendar mode="single" selected={deliveryDate} onSelect={(d) => { if (d) { setDeliveryDate(d); setDeliveryHour(""); setDesktopCalendarOpen(false); } }}
-                        disabled={(date) => isBefore(startOfDay(date), startOfDay(todayInMiami())) || date.getDay() === 0 || (date >= new Date(2026, 3, 27) && date <= new Date(2026, 4, 12))} className="p-3 pointer-events-auto" locale={enUS} />
+                        disabled={(date) => isBefore(startOfDay(date), startOfDay(todayInMiami())) || date.getDay() === 0 || (date >= new Date(2026, 4, 1) && date <= new Date(2026, 4, 12))} className="p-3 pointer-events-auto" locale={enUS} />
                     </PopoverContent>
                   </Popover>
                 </div>
@@ -649,7 +659,7 @@ const RoomDecorDetail = () => {
                   </PopoverTrigger>
                   <PopoverContent className="w-auto p-0" align="start">
                     <Calendar mode="single" selected={deliveryDate} onSelect={(d) => { if (d) { setDeliveryDate(d); setDeliveryHour(""); setMobileCalendarOpen(false); } }}
-                      disabled={(date) => isBefore(startOfDay(date), startOfDay(todayInMiami())) || date.getDay() === 0 || (date >= new Date(2026, 3, 27) && date <= new Date(2026, 4, 12))} className="p-3 pointer-events-auto" locale={enUS} />
+                      disabled={(date) => isBefore(startOfDay(date), startOfDay(todayInMiami())) || date.getDay() === 0 || (date >= new Date(2026, 4, 1) && date <= new Date(2026, 4, 12))} className="p-3 pointer-events-auto" locale={enUS} />
                   </PopoverContent>
                 </Popover>
               </div>

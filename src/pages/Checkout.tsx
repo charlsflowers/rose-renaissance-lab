@@ -136,6 +136,9 @@ const Checkout = () => {
         serviceFeeBase: cartTotalForFee,
         deliveryAddress: checkoutDeliveryMethod === "delivery" ? (deliveryResult?.address || items[0]?.deliveryAddress) : undefined,
         deliveryZip: checkoutDeliveryMethod === "delivery" ? items[0]?.deliveryZip : undefined,
+        structuredAddress: checkoutDeliveryMethod === "delivery"
+          ? (deliveryResult?.structuredAddress || items.find((i) => i.structuredAddress)?.structuredAddress)
+          : undefined,
         accessories: accessoryLineItems,
         note: noteLines.join("\n"),
       });
