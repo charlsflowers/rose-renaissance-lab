@@ -9,11 +9,12 @@ const Footer = () => {
   const { t } = useTranslation();
 
   return (
-    <footer className="bg-primary pb-8">
-      <JsonLd data={organizationSchema()} />
-      <WaveDivider position="top" />
-      <div className="container mx-auto px-6 pt-10">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 mb-12">
+    <>
+      <WaveDivider position="bottom" className="-mb-px" />
+      <footer className="bg-primary pt-10 pb-8">
+        <JsonLd data={organizationSchema()} />
+        <div className="container mx-auto px-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 mb-12">
           {/* Col 1 — Info */}
           <div>
             <img src={charlsLogo} alt="Charls Flowers" className="h-10 w-auto mb-3 brightness-0 invert" width={120} height={40} />
@@ -87,6 +88,7 @@ const Footer = () => {
         </div>
       </div>
     </footer>
+    </>
   );
 };
 
