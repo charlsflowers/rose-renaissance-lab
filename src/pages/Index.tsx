@@ -233,7 +233,6 @@ const Index = () => {
       </div>
 
       {/* Customize your Bouquet */}
-      <WaveDivider position="top" />
       <section className="py-16 md:py-20 bg-background">
         <div className="container mx-auto px-6 text-center">
           <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.8 }}>
@@ -250,7 +249,6 @@ const Index = () => {
           </motion.div>
         </div>
       </section>
-      <WaveDivider position="bottom" />
 
       {/* Client Videos */}
       <ClientVideos />
@@ -274,6 +272,7 @@ const Index = () => {
       </section>
 
       {/* CTA */}
+      <WaveDivider position="top" />
       <section className="py-20 bg-primary">
         <div className="container mx-auto px-6 text-center">
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
@@ -286,6 +285,7 @@ const Index = () => {
           </motion.div>
         </div>
       </section>
+      <WaveDivider position="bottom" />
 
       {/* Occasions — SEO H3 section */}
       <section className="py-16 md:py-20 bg-background">
