@@ -428,7 +428,7 @@ export const en = {
     yourCart: "Your cart",
     empty: "Your cart is empty",
     subtotal: "Subtotal",
-    viewCart: "View cart and check out",
+    viewCart: "Buy now",
     continueShopping: "Continue shopping",
     remove: "Remove",
   },
