@@ -12,9 +12,10 @@ const FloatingCart = () => {
   const items = useCartStore(state => state.items);
   const removeItem = useCartStore(state => state.removeItem);
   const isLoading = useCartStore(state => state.isLoading);
+  const open = useCartStore(state => state.isOpen);
+  const setOpen = useCartStore(state => state.setOpen);
   const totalItems = items.length;
   const cartTotal = items.reduce((sum, i) => sum + i.totalPrice, 0);
-  const [open, setOpen] = useState(false);
 
   return (
     <>

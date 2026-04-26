@@ -55,6 +55,8 @@ interface CartStore {
   checkoutUrl: string | null;
   isLoading: boolean;
   isSyncing: boolean;
+  isOpen: boolean;
+  setOpen: (open: boolean) => void;
   addItem: (item: Omit<CartItem, 'shopifyLineId'>) => Promise<void>;
   removeItem: (id: string) => Promise<void>;
   clearCart: () => void;
@@ -71,6 +73,8 @@ export const useCartStore = create<CartStore>()(
       checkoutUrl: null,
       isLoading: false,
       isSyncing: false,
+      isOpen: false,
+      setOpen: (open) => set({ isOpen: open }),
 
       get totalItems() {
         return get().items.length;
@@ -99,10 +103,11 @@ export const useCartStore = create<CartStore>()(
                 cartId: result.cartId,
                 checkoutUrl: result.checkoutUrl,
                 items: [...get().items, newItem],
+                isOpen: true,
               });
             } else {
               // Still add locally even if Shopify fails
-              set({ items: [...get().items, newItem] });
+              set({ items: [...get().items, newItem], isOpen: true });
             }
           } else {
             // Add line to existing cart
@@ -117,18 +122,19 @@ export const useCartStore = create<CartStore>()(
                   cartId: newResult.cartId,
                   checkoutUrl: newResult.checkoutUrl,
                   items: [newItem],
+                  isOpen: true,
                 });
               }
             } else if (result.success) {
               newItem.shopifyLineId = result.lineId ?? null;
-              set({ items: [...get().items, newItem] });
+              set({ items: [...get().items, newItem], isOpen: true });
             } else {
-              set({ items: [...get().items, newItem] });
+              set({ items: [...get().items, newItem], isOpen: true });
             }
           }
         } catch (error) {
           console.error('Failed to add item to Shopify cart:', error);
-          set({ items: [...get().items, newItem] });
+          set({ items: [...get().items, newItem], isOpen: true });
         } finally {
           set({ isLoading: false });
         }
