@@ -21,6 +21,7 @@ import cestasImg from "@/assets/cestas.jpg";
 import jarronesImg from "@/assets/jarrones.jpg";
 import ososImg from "@/assets/osos.jpg";
 import heartBouquet from "@/assets/heart-bouquet.jpg";
+import WaveDivider from "@/components/WaveDivider";
 const bicolorPassionImg = 'https://cdn.shopify.com/s/files/1/0979/1671/5140/files/16.png?v=1774610789';
 const deluxeLoveImg = 'https://cdn.shopify.com/s/files/1/0979/1671/5140/files/3_adaa192a-8c9b-41b5-8586-cb7e13640829.png?v=1774615718';
 
@@ -232,6 +233,7 @@ const Index = () => {
       </div>
 
       {/* Customize your Bouquet */}
+      <WaveDivider position="top" />
       <section className="py-16 md:py-20 bg-background">
         <div className="container mx-auto px-6 text-center">
           <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.8 }}>
@@ -248,6 +250,7 @@ const Index = () => {
           </motion.div>
         </div>
       </section>
+      <WaveDivider position="bottom" />
 
       {/* Client Videos */}
       <ClientVideos />
