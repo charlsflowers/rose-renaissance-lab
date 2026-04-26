@@ -234,7 +234,7 @@ const CategoryProductDetail = () => {
             <ArrowLeft className="w-4 h-4" /> Back
           </Link>
 
-          <div className="max-w-4xl mx-auto space-y-10">
+          <div className="max-w-4xl lg:max-w-5xl mx-auto space-y-10 lg:space-y-12">
             {/* Product Image */}
             <div className="relative overflow-hidden rounded-lg bg-muted flex items-center justify-center">
               {product.image ? (
@@ -247,8 +247,8 @@ const CategoryProductDetail = () => {
             </div>
 
             <div className="text-center">
-              <h1 className="font-display text-3xl md:text-4xl font-semibold text-foreground">{product.name}</h1>
-              <p className="text-muted-foreground font-body mt-2">{product.description}</p>
+              <h1 className="font-display text-3xl md:text-4xl lg:text-5xl font-semibold text-foreground">{product.name}</h1>
+              <p className="text-muted-foreground font-body lg:text-lg mt-2 lg:mt-3">{product.description}</p>
             </div>
 
             {/* Paper Color */}
@@ -376,19 +376,19 @@ const CategoryProductDetail = () => {
             <div className="sticky bottom-0 bg-card/95 backdrop-blur-md border border-border rounded-lg p-6 shadow-xl">
               <div className="flex flex-col md:flex-row items-center justify-between gap-4">
                 <div>
-                  <p className="font-body text-sm text-muted-foreground">
+                  <p className="font-body text-sm lg:text-base text-muted-foreground">
                     {product.name} · {selectedSize.label}
                     {addNote && " · Note"}{addCard && " · Card"}
                     {deliveryMethod === "delivery" ? (deliveryMiles && !distanceTooFar ? ` · Shipping ($${deliveryCost})` : " · Shipping (pending)") : " · Pickup"}
                   </p>
-                  <p className="font-display text-3xl font-bold text-foreground">${totalPrice} <span className="text-sm font-body text-muted-foreground font-normal">USD</span></p>
+                  <p className="font-display text-3xl lg:text-4xl font-bold text-foreground">${totalPrice} <span className="text-sm font-body text-muted-foreground font-normal">USD</span></p>
                 </div>
                 <button onClick={handleAddToCart}
-                  className="w-full md:w-auto bg-primary text-primary-foreground px-10 py-4 font-body text-sm tracking-widest uppercase hover:bg-primary/90 transition-colors rounded-lg">
+                  className="w-full md:w-auto bg-primary text-primary-foreground px-10 lg:px-12 py-4 lg:py-5 font-body text-sm lg:text-base tracking-widest uppercase hover:bg-primary/90 transition-colors rounded-lg">
                   Add to cart
                 </button>
                 <button onClick={handlePayNow}
-                  className="w-full md:w-auto border-2 border-primary text-primary px-10 py-4 font-body text-sm tracking-widest uppercase hover:bg-primary/10 transition-colors rounded-lg">
+                  className="w-full md:w-auto border-2 border-primary text-primary px-10 lg:px-12 py-4 lg:py-5 font-body text-sm lg:text-base tracking-widest uppercase hover:bg-primary/10 transition-colors rounded-lg">
                   Pay now
                 </button>
               </div>
