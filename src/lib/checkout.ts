@@ -155,6 +155,13 @@ export interface ApiCheckoutOptions {
   serviceFeeBase: number;
   deliveryAddress?: string;
   deliveryZip?: string;
+  structuredAddress?: {
+    address1: string;
+    city: string;
+    province: string;
+    zip: string;
+    country: string;
+  };
   accessories: AccessoryLineItem[];
   note: string;
 }
@@ -215,14 +222,31 @@ export async function performApiCheckout(options: ApiCheckoutOptions): Promise<s
 
   // Update buyer identity for delivery
   if (options.deliveryMethod === "delivery" && options.deliveryAddress) {
-    const parts = options.deliveryAddress.split(",").map(p => p.trim());
-    const parsed: ShippingAddress = {
-      address1: parts[0] || "",
-      city: parts[1] || "",
-      province: "",
-      zip: options.deliveryZip || "",
-      country: "US",
-    };
+    // Prefer the structured address from Google Places (has province + zip).
+    // Fall back to the first cart item's stored structuredAddress.
+    // Last resort: parse the raw address string (may miss state/zip).
+    const itemStructured = useCartStore.getState().items.find(i => i.structuredAddress)?.structuredAddress;
+    const source = options.structuredAddress || itemStructured;
+
+    let parsed: ShippingAddress;
+    if (source && source.address1) {
+      parsed = {
+        address1: source.address1,
+        city: source.city || "",
+        province: source.province || "",
+        zip: source.zip || options.deliveryZip || "",
+        country: source.country || "US",
+      };
+    } else {
+      const fallback = parseAddress(options.deliveryAddress, "", options.deliveryZip || "");
+      parsed = {
+        address1: fallback.address1,
+        city: fallback.city,
+        province: fallback.state,
+        zip: fallback.zip,
+        country: "US",
+      };
+    }
     await updateCartBuyerIdentity(cartId, parsed);
   }
 
