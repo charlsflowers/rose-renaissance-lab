@@ -12,7 +12,7 @@ const Footer = () => {
     <footer className="bg-primary pb-8">
       <JsonLd data={organizationSchema()} />
       <WaveDivider position="top" />
-      <div className="container mx-auto px-6">
+      <div className="container mx-auto px-6 pt-10">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 mb-12">
           {/* Col 1 — Info */}
           <div>
