@@ -567,7 +567,7 @@ const BouquetProductDetail = () => {
           <Breadcrumbs items={[{ label: "Home", to: "/" }, { label: "Bouquets", to: "/bouquets" }, { label: product.name }]} />
 
           {/* ===== DESKTOP: two-column layout ===== */}
-          <div className="hidden md:grid md:grid-cols-[1fr_1fr] lg:grid-cols-[55%_45%] gap-8 max-w-7xl mx-auto">
+          <div className="hidden md:grid md:grid-cols-[1fr_1fr] lg:grid-cols-[55%_45%] gap-10 lg:gap-16 max-w-7xl mx-auto">
             {/* Left column — sticky images */}
             <div className="sticky top-28 self-start space-y-3">
               <div className="relative overflow-hidden rounded-lg bg-muted flex items-center justify-center aspect-square">
@@ -585,10 +585,10 @@ const BouquetProductDetail = () => {
             </div>
 
             {/* Right column */}
-            <div className="space-y-5 lg:space-y-7">
+            <div className="space-y-6 lg:space-y-8">
               <div>
-                <h1 className="font-display text-3xl md:text-4xl lg:text-5xl font-semibold text-foreground">{product.name}</h1>
-                <p className="font-display text-2xl lg:text-3xl font-semibold text-foreground mt-2 lg:mt-3">${parseFloat(sizePrice.toFixed(2))}</p>
+                <h1 className="font-display text-4xl md:text-5xl lg:text-6xl font-semibold text-foreground leading-tight">{product.name}</h1>
+                <p className="font-display text-3xl lg:text-4xl font-semibold text-foreground mt-3 lg:mt-4">${parseFloat(sizePrice.toFixed(2))}</p>
                 <p className="font-body italic text-sm lg:text-base text-muted-foreground mt-1">Subtotal ${parseFloat(totalPrice.toFixed(2))}</p>
                 <div className="text-muted-foreground font-body text-sm lg:text-base mt-3 lg:mt-4 leading-relaxed space-y-1">
                   {replaceDescriptionPrice(language === 'es' && product.descriptionEs ? product.descriptionEs : product.description).split('\n').map((line, i) => (

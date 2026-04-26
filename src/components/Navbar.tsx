@@ -20,6 +20,7 @@ interface PlacePrediction {
 const Navbar = () => {
   const { t, language, setLanguage } = useTranslation();
   const totalItems = useCartStore(state => state.items.length);
+  const setCartOpen = useCartStore(state => state.setOpen);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [bouquetDropdownOpen, setBouquetDropdownOpen] = useState(false);
   const [mobileBouquetOpen, setMobileBouquetOpen] = useState(false);
@@ -165,14 +166,19 @@ const Navbar = () => {
             <SearchIcon className="w-5 h-5" />
           </button>
 
-          <Link to="/checkout" className="relative hover:text-primary transition-colors text-foreground">
+          <button
+            type="button"
+            onClick={() => setCartOpen(true)}
+            aria-label="Open cart"
+            className="relative hover:text-primary transition-colors text-foreground"
+          >
             <BrandLogo className="w-7 h-7" />
             {totalItems > 0 && (
               <span className="absolute -top-2 -right-2 w-5 h-5 bg-primary text-primary-foreground text-xs rounded-full flex items-center justify-center font-body font-semibold">
                 {totalItems}
               </span>
             )}
-          </Link>
+          </button>
         </div>
       </div>
 
