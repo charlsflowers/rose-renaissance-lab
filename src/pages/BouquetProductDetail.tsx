@@ -585,12 +585,12 @@ const BouquetProductDetail = () => {
             </div>
 
             {/* Right column */}
-            <div className="space-y-5">
+            <div className="space-y-5 lg:space-y-7">
               <div>
-                <h1 className="font-display text-3xl md:text-4xl font-semibold text-foreground">{product.name}</h1>
-                <p className="font-display text-2xl font-semibold text-foreground mt-2">${parseFloat(sizePrice.toFixed(2))}</p>
-                <p className="font-body italic text-sm text-muted-foreground mt-1">Subtotal ${parseFloat(totalPrice.toFixed(2))}</p>
-                <div className="text-muted-foreground font-body text-sm mt-3 leading-relaxed space-y-1">
+                <h1 className="font-display text-3xl md:text-4xl lg:text-5xl font-semibold text-foreground">{product.name}</h1>
+                <p className="font-display text-2xl lg:text-3xl font-semibold text-foreground mt-2 lg:mt-3">${parseFloat(sizePrice.toFixed(2))}</p>
+                <p className="font-body italic text-sm lg:text-base text-muted-foreground mt-1">Subtotal ${parseFloat(totalPrice.toFixed(2))}</p>
+                <div className="text-muted-foreground font-body text-sm lg:text-base mt-3 lg:mt-4 leading-relaxed space-y-1">
                   {replaceDescriptionPrice(language === 'es' && product.descriptionEs ? product.descriptionEs : product.description).split('\n').map((line, i) => (
                     <p key={i}>{line}</p>
                   ))}
@@ -622,21 +622,21 @@ const BouquetProductDetail = () => {
               {/* Desktop bottom bar */}
               <div className="space-y-3">
                 <div className="flex items-center justify-between">
-                  <p className="font-body text-[10px] text-muted-foreground leading-tight flex-1 line-clamp-1">
+                  <p className="font-body text-[10px] lg:text-xs text-muted-foreground leading-tight flex-1 line-clamp-1">
                     {product.name} · {selectedSize.roses} {t("product.roses")}
                     {addGlitter === true && " · Glitter"}
                     {accessory !== "none" && ` · ${accessory === "note" ? t("product.note") : t("product.butterflies")}`}
                   </p>
-                  <p className="font-display text-lg font-bold text-foreground whitespace-nowrap">${parseFloat(totalPrice.toFixed(2))}</p>
+                  <p className="font-display text-lg lg:text-2xl font-bold text-foreground whitespace-nowrap">${parseFloat(totalPrice.toFixed(2))}</p>
                 </div>
                 <div className="bg-primary rounded-lg overflow-hidden">
                   <button onClick={() => handleAddToCart()} disabled={isAdding || variantsLoading}
-                    className="w-full py-3 font-body text-xs tracking-[0.2em] uppercase text-primary-foreground hover:bg-primary/90 transition-colors disabled:opacity-50">
+                    className="w-full py-3 lg:py-4 font-body text-xs lg:text-sm tracking-[0.2em] uppercase text-primary-foreground hover:bg-primary/90 transition-colors disabled:opacity-50">
                     {isAdding ? "..." : variantsLoading ? "..." : t("product.addToCart").toUpperCase()}
                   </button>
                 </div>
                 <button onClick={handlePayNow} disabled={isAdding || variantsLoading}
-                  className="w-full border-2 border-primary text-primary py-2.5 font-body text-[10px] tracking-widest uppercase hover:bg-primary/10 transition-colors rounded-lg whitespace-nowrap disabled:opacity-50">
+                  className="w-full border-2 border-primary text-primary py-2.5 lg:py-3.5 font-body text-[10px] lg:text-xs tracking-widest uppercase hover:bg-primary/10 transition-colors rounded-lg whitespace-nowrap disabled:opacity-50">
                   {isAdding ? "..." : t("product.orderAndPay")}
                 </button>
               </div>
