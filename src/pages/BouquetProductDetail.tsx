@@ -387,6 +387,7 @@ const BouquetProductDetail = () => {
         serviceFeeBase: cartTotalForFee,
         deliveryAddress: deliveryMethod === "delivery" ? selectedAddress : undefined,
         deliveryZip: deliveryMethod === "delivery" ? deliveryZip : undefined,
+        structuredAddress: deliveryMethod === "delivery" ? structuredAddress : undefined,
         accessories,
         note: noteLines.join("\n"),
       });
