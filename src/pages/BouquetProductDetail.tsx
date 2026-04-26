@@ -321,13 +321,12 @@ const BouquetProductDetail = () => {
       await Promise.race([addPromise, timeout]);
 
       toast.success("Bouquet added to cart!");
-      if (!skipNavigate) navigate("/checkout");
       return variant.id;
     } catch (error) {
       toast.error("Failed to add to cart.");
       return null;
     } finally {
-      if (!skipNavigate) setIsAdding(false);
+      setIsAdding(false);
     }
   };
 
