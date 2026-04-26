@@ -422,7 +422,6 @@ const BouquetBuilder = () => {
     try {
       await addItem(buildCartItem());
       toast.success("Bouquet added to cart!");
-      navigate("/checkout");
     } catch { toast.error("Failed to add to cart."); }
     finally { setIsAdding(false); }
   };
