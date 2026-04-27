@@ -331,7 +331,7 @@ const BouquetProductDetail = () => {
         deliveryHour,
         deliveryMiles: deliveryMethod === "delivery" ? deliveryMiles : null,
         paperColor,
-        image: product.image,
+        image: primaryImage,
         customerNotes: customerNotes.trim() || undefined,
         structuredAddress: deliveryMethod === "delivery" ? structuredAddress : undefined,
         shopifyVariantId: variant.id,
@@ -512,8 +512,8 @@ const BouquetProductDetail = () => {
 
   return (
     <div className="min-h-screen bg-background flex flex-col">
-      <SeoHead title={seo?.seoTitle || `${product.name} Miami | Charls Flowers`} description={seo?.seoDescription || product.description} path={`/bouquets/all/${product.shopifyHandle}`} image={product.image} />
-      <JsonLd data={[productSchema(product.name, seo?.seoDescription || product.description, dynamicMinPrice ?? (hasCustomSizes ? product.customSizes![0].price : getPrice(product.pricingTier, product.pricingTier === 'mix3red' ? 75 : 50)), product.image), breadcrumbSchema([{ name: "Home", url: "https://www.charlsflowers.com" }, { name: "Bouquets", url: "https://www.charlsflowers.com/bouquets" }, { name: product.name, url: `https://www.charlsflowers.com/bouquets/all/${product.shopifyHandle}` }])]} />
+      <SeoHead title={seo?.seoTitle || `${product.name} Miami | Charls Flowers`} description={seo?.seoDescription || product.description} path={`/bouquets/all/${product.shopifyHandle}`} image={primaryImage} />
+      <JsonLd data={[productSchema(product.name, seo?.seoDescription || product.description, dynamicMinPrice ?? (hasCustomSizes ? product.customSizes![0].price : getPrice(product.pricingTier, product.pricingTier === 'mix3red' ? 75 : 50)), primaryImage), breadcrumbSchema([{ name: "Home", url: "https://www.charlsflowers.com" }, { name: "Bouquets", url: "https://www.charlsflowers.com/bouquets" }, { name: product.name, url: `https://www.charlsflowers.com/bouquets/all/${product.shopifyHandle}` }])]} />
       <Navbar />
       <div className="pt-20 md:pt-28 pb-16">
         <div className="container mx-auto px-6">
@@ -524,15 +524,15 @@ const BouquetProductDetail = () => {
             {/* Left column — sticky images */}
             <div className="sticky top-28 self-start space-y-3">
               <div className="relative overflow-hidden rounded-lg bg-muted flex items-center justify-center aspect-square">
-                {product.image ? (
-                  <img src={product.image} alt={`${product.name} Miami – Charls Flowers`} width={600} height={600} className="w-full h-full object-contain" />
+                {primaryImage ? (
+                  <img src={primaryImage} alt={`${product.name} Miami – Charls Flowers`} width={600} height={600} className="w-full h-full object-contain" />
                 ) : (
                   <div className="w-full h-full flex items-center justify-center"><span className="font-display text-6xl text-muted-foreground/20">🌹</span></div>
                 )}
               </div>
-              {product.image2 && (
+              {secondaryImage && (
                 <div className="relative overflow-hidden rounded-lg bg-muted flex items-center justify-center aspect-square">
-                  <img src={product.image2} alt={`${product.name} alternate – Charls Flowers`} loading="lazy" width={600} height={600} className="w-full h-full object-cover" />
+                  <img src={secondaryImage} alt={`${product.name} alternate – Charls Flowers`} loading="lazy" width={600} height={600} className="w-full h-full object-cover" />
                 </div>
               )}
             </div>
@@ -597,15 +597,15 @@ const BouquetProductDetail = () => {
             {/* Mobile images */}
             <div className="flex overflow-x-auto snap-x snap-mandatory scrollbar-hide gap-3 pb-2 -mx-6 px-6 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
               <div className="w-[88%] flex-none snap-start relative overflow-hidden rounded-lg bg-muted flex items-center justify-center aspect-square">
-                {product.image ? (
-                  <img src={product.image} alt={`${product.name} Miami – Charls Flowers`} width={600} height={600} className="w-full h-full object-contain pointer-events-none" />
+                {primaryImage ? (
+                  <img src={primaryImage} alt={`${product.name} Miami – Charls Flowers`} width={600} height={600} className="w-full h-full object-contain pointer-events-none" />
                 ) : (
                   <div className="w-full h-full flex items-center justify-center"><span className="font-display text-6xl text-muted-foreground/20">🌹</span></div>
                 )}
               </div>
-              {product.image2 && (
+              {secondaryImage && (
                 <div className="w-[88%] flex-none snap-start relative overflow-hidden rounded-lg bg-muted flex items-center justify-center aspect-square">
-                  <img src={product.image2} alt={`${product.name} alternate – Charls Flowers`} loading="lazy" width={600} height={600} className="w-full h-full object-cover pointer-events-none" />
+                  <img src={secondaryImage} alt={`${product.name} alternate – Charls Flowers`} loading="lazy" width={600} height={600} className="w-full h-full object-cover pointer-events-none" />
                 </div>
               )}
             </div>
