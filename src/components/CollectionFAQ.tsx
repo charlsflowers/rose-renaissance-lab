@@ -52,6 +52,7 @@ export function useBouquetFAQs(): FAQItem[] {
     { question: t("bouquetFaq.q3"), answer: t("bouquetFaq.a3") },
     { question: t("bouquetFaq.q4"), answer: t("bouquetFaq.a4") },
     { question: t("bouquetFaq.q5"), answer: t("bouquetFaq.a5") },
+    { question: t("bouquetFaq.q6"), answer: t("bouquetFaq.a6") },
   ];
 }
 

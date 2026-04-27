@@ -468,6 +468,8 @@ export const en = {
     a4: "Absolutely! Browse our mixed-color collection or use the Custom Bouquet Builder to pick your exact color combination.",
     q5: "What's the difference between single color and mixed bouquets?",
     a5: "Single color bouquets feature one rose color for an elegant, uniform look. Mixed bouquets combine 2-4 colors for a vibrant, eye-catching arrangement.",
+    q6: "How long do the roses last?",
+    a6: "Our fresh roses typically stay beautiful for 7–10 days when kept in a cool place away from direct sunlight. Trim the stems and change water every 2 days for maximum freshness.",
   },
 
   // Dialogs

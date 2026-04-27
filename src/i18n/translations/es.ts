@@ -445,6 +445,8 @@ export const es = {
     a4: "¡Por supuesto! Explora nuestra colección de colores mixtos o usa el Creador de Ramos Personalizados para elegir tu combinación exacta de colores.",
     q5: "¿Cuál es la diferencia entre ramos de un color y mixtos?",
     a5: "Los ramos de un solo color presentan un color de rosa para un look elegante y uniforme. Los ramos mixtos combinan 2-4 colores para un arreglo vibrante y llamativo.",
+    q6: "¿Cuánto duran las rosas?",
+    a6: "Nuestras rosas frescas suelen mantenerse hermosas entre 7 y 10 días si se guardan en un lugar fresco y lejos de la luz solar directa. Recorta los tallos y cambia el agua cada 2 días para máxima frescura.",
   },
 
   dialog: {
