@@ -221,6 +221,17 @@ const BouquetProductDetail = () => {
 
   const shopifySizes = useMemo(() => product && productVariants.length > 0 ? buildShopifySizeOptions(productVariants) : [], [product, productVariants]);
 
+  // Default selection: 200 Roses (maximize conversion). Falls back to last available size.
+  useEffect(() => {
+    if (!product) return;
+    const hasCustom = product.customSizes && product.customSizes.length > 0;
+    const useDynamic = shopifySizes.length > 0;
+    const opts = useDynamic ? shopifySizes : (hasCustom ? product.customSizes! : bouquetSizeOptions);
+    if (!opts.length) return;
+    const idx200 = opts.findIndex((o: any) => o.roses === 200);
+    setSelectedSizeIdx(idx200 >= 0 ? idx200 : opts.length - 1);
+  }, [product?.shopifyHandle, shopifySizes.length]);
+
   if (!product) {
     return (
       <div className="min-h-screen bg-background"><Navbar />
