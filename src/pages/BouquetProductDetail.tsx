@@ -567,7 +567,7 @@ const BouquetProductDetail = () => {
               {renderShippingSection(false, autocompleteDesktopRef)}
 
               {/* Desktop bottom bar */}
-              <div className="space-y-3">
+              <div ref={orderButtonsRef} className="space-y-3">
                 <div className="flex items-center justify-between">
                   <p className="font-body text-[10px] lg:text-xs text-muted-foreground leading-tight flex-1 line-clamp-1">
                     {product.name} · {selectedSize.roses} {t("product.roses")}
@@ -576,20 +576,13 @@ const BouquetProductDetail = () => {
                   </p>
                   <p className="font-display text-lg lg:text-2xl font-bold text-foreground whitespace-nowrap">${parseFloat(totalPrice.toFixed(2))}</p>
                 </div>
-                <div className="bg-primary rounded-lg overflow-hidden">
-                  <button onClick={() => handleAddToCart()} disabled={isAdding || variantsLoading}
-                    className="w-full py-3 lg:py-4 font-body text-xs lg:text-sm tracking-[0.2em] uppercase text-primary-foreground hover:bg-primary/90 transition-colors disabled:opacity-50">
-                    {isAdding ? "..." : variantsLoading ? "..." : t("product.addToCart").toUpperCase()}
-                  </button>
-                </div>
-                <button onClick={handlePayNow} disabled={isAdding || variantsLoading}
-                  className="w-full border-2 border-primary text-primary py-2.5 lg:py-3.5 font-body text-[10px] lg:text-xs tracking-widest uppercase hover:bg-primary/10 transition-colors rounded-lg whitespace-nowrap disabled:opacity-50">
-                  {isAdding ? "..." : t("product.orderAndPay")}
+                <button onClick={handleOrderNow} disabled={isAdding || variantsLoading}
+                  className="w-full bg-primary text-primary-foreground py-4 lg:py-5 font-body text-sm lg:text-base tracking-[0.25em] uppercase font-semibold hover:bg-primary/90 transition-colors rounded-lg disabled:opacity-50">
+                  {isAdding ? "..." : variantsLoading ? "..." : "Order Now"}
                 </button>
+                <PaymentIcons size={22} className="pt-1" />
               </div>
 
-              {/* Desktop cross-links */}
-              <YouMightAlsoLove currentProductId={product.id} />
             </div>
           </div>
 
@@ -643,7 +636,7 @@ const BouquetProductDetail = () => {
             {renderShippingSection(true, autocompleteMobileRef)}
 
             {/* Mobile inline buttons after customer notes */}
-            <div className="space-y-3">
+            <div ref={orderButtonsRef} className="space-y-3">
               <div className="flex items-center justify-between">
                 <p className="font-body text-[10px] text-muted-foreground leading-tight flex-1 line-clamp-1">
                   {product.name} · {selectedSize.roses} {t("product.roses")}
@@ -652,23 +645,44 @@ const BouquetProductDetail = () => {
                 </p>
                 <p className="font-display text-lg font-bold text-foreground whitespace-nowrap">${parseFloat(totalPrice.toFixed(2))}</p>
               </div>
-              <div className="bg-primary rounded-lg overflow-hidden">
-                <button onClick={() => handleAddToCart()} disabled={isAdding || variantsLoading}
-                  className="w-full py-3 font-body text-xs tracking-[0.2em] uppercase text-primary-foreground hover:bg-primary/90 transition-colors disabled:opacity-50">
-                  {isAdding ? "..." : variantsLoading ? "..." : t("product.addToCart").toUpperCase()}
-                </button>
-              </div>
-              <button onClick={handlePayNow} disabled={isAdding || variantsLoading}
-                className="w-full border-2 border-primary text-primary py-2.5 font-body text-[10px] tracking-widest uppercase hover:bg-primary/10 transition-colors rounded-lg whitespace-nowrap disabled:opacity-50">
-                {isAdding ? "..." : t("product.orderAndPay")}
+              <button onClick={handleOrderNow} disabled={isAdding || variantsLoading}
+                className="w-full bg-primary text-primary-foreground py-4 font-body text-sm tracking-[0.25em] uppercase font-semibold hover:bg-primary/90 transition-colors rounded-lg disabled:opacity-50">
+                {isAdding ? "..." : variantsLoading ? "..." : "Order Now"}
               </button>
+              <PaymentIcons size={22} className="pt-1" />
             </div>
-
-            {/* Cross-links */}
-            <YouMightAlsoLove currentProductId={product.id} />
           </div>
+
+          {/* FAQs (shared desktop + mobile, before related products) */}
+          <CollectionFAQ faqs={bouquetFAQs} />
+
+          {/* Cross-links — related products */}
+          <YouMightAlsoLove currentProductId={product.id} />
         </div>
       </div>
+
+      {/* Sticky Order Now bar — appears when the inline button leaves the viewport */}
+      {showStickyBar && (
+        <div className="fixed bottom-0 inset-x-0 z-40 bg-background/95 backdrop-blur border-t border-border shadow-lg">
+          <div className="container mx-auto px-4 py-3 flex items-center gap-3">
+            <div className="flex-1 min-w-0">
+              <p className="font-body text-xs text-muted-foreground truncate">
+                {product.name} · {selectedSize.roses} {t("product.roses")}
+                {addGlitter === true && " · Glitter"}
+              </p>
+              <p className="font-display text-base font-bold text-foreground">${parseFloat(totalPrice.toFixed(2))}</p>
+            </div>
+            <button
+              onClick={handleOrderNow}
+              disabled={isAdding || variantsLoading}
+              className="bg-primary text-primary-foreground px-6 py-3 font-body text-xs sm:text-sm tracking-[0.2em] uppercase font-semibold hover:bg-primary/90 transition-colors rounded-lg disabled:opacity-50 whitespace-nowrap"
+            >
+              {isAdding ? "..." : "Order Now"}
+            </button>
+          </div>
+        </div>
+      )}
+
       <Footer />
     </div>
   );
