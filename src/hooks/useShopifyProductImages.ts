@@ -1,0 +1,99 @@
+import { useEffect, useState } from "react";
+import { storefrontApiRequest } from "@/lib/shopify";
+
+/**
+ * Fetches product images live from Shopify Storefront API by handle.
+ * Order returned: [primary, secondary, review]. The third image is reserved
+ * for the reviews section (do NOT use it as primary/secondary in PDP).
+ *
+ * Cached in-memory per handle so we don't refetch on every render.
+ */
+
+const QUERY = `
+  query getImages($handle: String!) {
+    productByHandle(handle: $handle) {
+      images(first: 5) {
+        edges { node { url altText } }
+      }
+    }
+  }
+`;
+
+type ImageSet = { primary?: string; secondary?: string; review?: string };
+
+const cache = new Map<string, ImageSet>();
+const inflight = new Map<string, Promise<ImageSet>>();
+
+async function fetchImages(handle: string): Promise<ImageSet> {
+  if (cache.has(handle)) return cache.get(handle)!;
+  if (inflight.has(handle)) return inflight.get(handle)!;
+
+  const promise = (async () => {
+    const result: ImageSet = {};
+    try {
+      const data = await storefrontApiRequest(QUERY, { handle });
+      const edges = data?.data?.productByHandle?.images?.edges ?? [];
+      result.primary = edges[0]?.node?.url;
+      result.secondary = edges[1]?.node?.url;
+      result.review = edges[2]?.node?.url;
+    } catch (err) {
+      console.error(`[useShopifyProductImages] Failed for ${handle}:`, err);
+    }
+    cache.set(handle, result);
+    return result;
+  })();
+
+  inflight.set(handle, promise);
+  return promise;
+}
+
+/** Hook: returns live Shopify images for a single handle. */
+export function useShopifyProductImages(handle: string | undefined): ImageSet {
+  const [images, setImages] = useState<ImageSet>(() =>
+    handle ? cache.get(handle) ?? {} : {}
+  );
+
+  useEffect(() => {
+    if (!handle) return;
+    let active = true;
+    fetchImages(handle).then((res) => {
+      if (active) setImages(res);
+    });
+    return () => {
+      active = false;
+    };
+  }, [handle]);
+
+  return images;
+}
+
+/** Hook: returns a Map<handle, ImageSet> for many handles at once. */
+export function useShopifyProductImagesBatch(handles: string[]): Map<string, ImageSet> {
+  const key = handles.join(",");
+  const [map, setMap] = useState<Map<string, ImageSet>>(() => {
+    const m = new Map<string, ImageSet>();
+    handles.forEach((h) => {
+      const c = cache.get(h);
+      if (c) m.set(h, c);
+    });
+    return m;
+  });
+
+  useEffect(() => {
+    let active = true;
+    Promise.all(
+      handles.map(async (h) => [h, await fetchImages(h)] as const)
+    ).then((entries) => {
+      if (!active) return;
+      const m = new Map<string, ImageSet>();
+      entries.forEach(([h, set]) => m.set(h, set));
+      setMap(m);
+    });
+    return () => {
+      active = false;
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [key]);
+
+  return map;
+}
