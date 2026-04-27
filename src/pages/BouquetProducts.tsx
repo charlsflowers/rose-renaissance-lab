@@ -9,6 +9,7 @@ import CollectionFAQ, { useBouquetFAQs } from "@/components/CollectionFAQ";
 import { bouquetProducts, bouquetSizeOptions } from "@/lib/catalogData";
 import { getPrice } from "@/lib/productData";
 import ShopifyPrice from "@/components/ShopifyPrice";
+import BouquetCardImage from "@/components/BouquetCardImage";
 import { ArrowLeft, ArrowRight, Lock } from "lucide-react";
 import { useTranslation } from "@/i18n/LanguageContext";
 
@@ -89,32 +90,12 @@ const BouquetProducts = () => {
               <div key={product.id}>
                 <Link to={`/bouquets/all/${product.shopifyHandle}`} className="group block">
                   <div className="relative overflow-hidden rounded-lg mb-4 aspect-square bg-muted">
-                    {product.image ? (
-                      <>
-                        <img 
-                          src={product.image} 
-                          alt={`${product.name} Miami – Charls Flowers`} 
-                          loading="lazy"
-                          width={400}
-                          height={400}
-                          className={`w-full h-full object-cover transition-all duration-700 group-hover:scale-105 ${product.image2 ? 'md:group-hover:opacity-0' : ''}`} 
-                        />
-                        {product.image2 && (
-                          <img 
-                            src={product.image2} 
-                            alt={`${product.name} Miami alternate view – Charls Flowers`} 
-                            loading="lazy"
-                            width={400}
-                            height={400}
-                            className="absolute inset-0 w-full h-full object-cover opacity-0 md:group-hover:opacity-100 transition-all duration-700 md:group-hover:scale-105 hidden md:block" 
-                          />
-                        )}
-                      </>
-                    ) : (
-                      <div className="w-full h-full flex items-center justify-center">
-                        <span className="font-display text-4xl text-muted-foreground/30">🌹</span>
-                      </div>
-                    )}
+                    <BouquetCardImage
+                      handle={product.shopifyHandle}
+                      name={product.name}
+                      fallback={product.image}
+                      fallback2={product.image2}
+                    />
                     <div className="absolute inset-0 bg-foreground/5 group-hover:bg-foreground/15 transition-colors" />
                   </div>
                   <h3 className="font-display text-lg font-semibold text-foreground text-center">{product.name}</h3>
