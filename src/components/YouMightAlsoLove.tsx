@@ -3,6 +3,7 @@ import { bouquetProducts } from "@/lib/catalogData";
 import { bouquetCrossLinks } from "@/lib/crossLinks";
 import { getPrice } from "@/lib/productData";
 import ShopifyPrice from "@/components/ShopifyPrice";
+import BouquetCardImage from "@/components/BouquetCardImage";
 import { useTranslation } from "@/i18n/LanguageContext";
 
 interface Props {
@@ -27,13 +28,12 @@ const YouMightAlsoLove = ({ currentProductId }: Props) => {
         {related.map(product => (
           <Link key={product.id} to={`/bouquets/all/${product.shopifyHandle}`} className="group block">
             <div className="relative overflow-hidden rounded-lg mb-3 aspect-square bg-muted">
-              <img
-                src={product.image}
-                alt={`${product.name} Miami – Charls Flowers`}
-                loading="lazy"
-                width={400}
-                height={400}
-                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+              <BouquetCardImage
+                handle={product.shopifyHandle}
+                name={product.name}
+                fallback={product.image}
+                fallback2={product.image2}
+                enableHoverSwap={false}
               />
               <div className="absolute inset-0 bg-foreground/5 group-hover:bg-foreground/15 transition-colors" />
             </div>
