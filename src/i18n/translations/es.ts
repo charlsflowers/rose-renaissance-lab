@@ -408,7 +408,7 @@ export const es = {
     yourCart: "Tu carrito",
     empty: "Tu carrito está vacío",
     subtotal: "Subtotal",
-    viewCart: "Comprar ahora",
+    viewCart: "CONTINUAR AL CHECKOUT SEGURO",
     continueShopping: "Seguir comprando",
     remove: "Eliminar",
   },
