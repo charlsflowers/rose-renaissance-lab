@@ -13,6 +13,7 @@ import { enUS } from "date-fns/locale";
 import { supabase } from "@/integrations/supabase/client";
 import { useCartStore } from "@/stores/cartStore";
 import { fetchVariantsByHandle, findVariantByRoses, getShopifyPrice, buildShopifySizeOptions, type ShopifyHandleVariant } from "@/lib/shopifyVariants";
+import { useShopifyProductImages } from "@/hooks/useShopifyProductImages";
 import { performApiCheckout } from "@/lib/checkout";
 import { calculateDeliveryCost, formatDeliveryCost } from "@/lib/deliveryPricing";
 import { toast } from "sonner";
@@ -45,6 +46,11 @@ const BouquetProductDetail = () => {
   const cartItems = useCartStore(state => state.items);
   const product = bouquetProducts.find((b) => b.shopifyHandle === productId || b.id === productId);
   const bouquetFAQs = useBouquetFAQs();
+
+  // Live Shopify images (1st = primary, 2nd = secondary). Fallback to local data while loading.
+  const liveImages = useShopifyProductImages(product?.shopifyHandle);
+  const primaryImage = liveImages.primary || product?.image;
+  const secondaryImage = liveImages.secondary || product?.image2;
 
   // GA4: view_item event
   useEffect(() => {
