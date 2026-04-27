@@ -19,6 +19,8 @@ import { toast } from "sonner";
 import { buildAccessoryLineItems } from "@/lib/accessoryVariants";
 import Navbar from "@/components/Navbar";
 import PaperColorPicker from "@/components/PaperColorPicker";
+import PaymentIcons from "@/components/PaymentIcons";
+import CollectionFAQ, { useBouquetFAQs } from "@/components/CollectionFAQ";
 import { bouquetProducts, bouquetSizeOptions } from "@/lib/catalogData";
 import {
   crownOptions, ribbonPresets, crownPrice, ribbonPrice, letterNumberExtraPrice, vaseOptions, getPrice,
@@ -39,8 +41,10 @@ const BouquetProductDetail = () => {
   const { t, language } = useTranslation();
   const { type, productId } = useParams<{ type: string; productId: string }>();
   const addItem = useCartStore(state => state.addItem);
+  const setCartOpen = useCartStore(state => state.setOpen);
   const cartItems = useCartStore(state => state.items);
   const product = bouquetProducts.find((b) => b.shopifyHandle === productId || b.id === productId);
+  const bouquetFAQs = useBouquetFAQs();
 
   // GA4: view_item event
   useEffect(() => {
@@ -110,19 +114,19 @@ const BouquetProductDetail = () => {
   const autocompleteMobileRef = useRef<HTMLDivElement>(null);
   const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  // Scroll direction detection for sticky bar
-  const [showStickyBar, setShowStickyBar] = useState(true);
-  const lastScrollY = useRef(0);
-
+  // Sticky bar visibility — show when main "Order Now" button leaves viewport
+  const [showStickyBar, setShowStickyBar] = useState(false);
+  const orderButtonsRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
-    const handleScroll = () => {
-      const currentY = window.scrollY;
-      setShowStickyBar(currentY > lastScrollY.current || currentY < 50);
-      lastScrollY.current = currentY;
-    };
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+    const el = orderButtonsRef.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => setShowStickyBar(!entry.isIntersecting),
+      { threshold: 0, rootMargin: "0px 0px -10px 0px" }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, [product?.shopifyHandle]);
 
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
@@ -216,6 +220,17 @@ const BouquetProductDetail = () => {
   }, [product]);
 
   const shopifySizes = useMemo(() => product && productVariants.length > 0 ? buildShopifySizeOptions(productVariants) : [], [product, productVariants]);
+
+  // Default selection: 200 Roses (maximize conversion). Falls back to last available size.
+  useEffect(() => {
+    if (!product) return;
+    const hasCustom = product.customSizes && product.customSizes.length > 0;
+    const useDynamic = shopifySizes.length > 0;
+    const opts = useDynamic ? shopifySizes : (hasCustom ? product.customSizes! : bouquetSizeOptions);
+    if (!opts.length) return;
+    const idx200 = opts.findIndex((o: any) => o.roses === 200);
+    setSelectedSizeIdx(idx200 >= 0 ? idx200 : opts.length - 1);
+  }, [product?.shopifyHandle, shopifySizes.length]);
 
   if (!product) {
     return (
@@ -329,77 +344,11 @@ const BouquetProductDetail = () => {
     }
   };
 
-  const handlePayNow = async () => {
+  // Order Now: add to cart and open the side drawer (no redirect to checkout)
+  const handleOrderNow = async () => {
     const variantId = await handleAddToCart(true);
-    if (!variantId) { setIsAdding(false); return; }
-
-    try {
-      const accessories = buildAccessoryLineItems({
-        glitter: addGlitter === true,
-        rosesCount: selectedSize.roses,
-        accessory,
-        specialText,
-        addVase,
-        vaseRoses: addVase ? vaseOptions[selectedVaseIdx].roses : undefined,
-        addCrown,
-        crownSize,
-        addRibbon,
-      });
-
-      const noteLines: string[] = [];
-      noteLines.push("DATOS DEL ENVÍO");
-      noteLines.push(`- 🚚 Tipo: ${deliveryMethod === "delivery" ? "Home Delivery" : "Store Pickup"}`);
-      if (deliveryDate) noteLines.push(`- 📅 Fecha: ${format(deliveryDate, "PPP", { locale: enUS })}`);
-      noteLines.push(`- ⏰ Hora: ${deliveryHour || "No especificada"}`);
-      if (deliveryMethod === "delivery" && selectedAddress) noteLines.push(`- 📍 Dirección: ${selectedAddress}`);
-
-      noteLines.push("");
-      noteLines.push("DATOS DEL PRODUCTO 1");
-      noteLines.push(`- 🌹 Producto: ${product.name}`);
-      if (product.color) noteLines.push(`- 🌸 Color: ${product.color}`);
-      if (paperColor) noteLines.push(`- 📄 Paper color: ${paperColor}`);
-      noteLines.push(`- 🌹 Roses: ${selectedSize.roses}`);
-      if (addGlitter === true) noteLines.push(`- ✨ Glitter finish: Yes`);
-      if (addCrown && crownSize) noteLines.push(`- 👑 Crown: ${crownSize}`);
-      if (accessory && accessory !== "none") {
-        const accLabel = accessory === "note" ? "Notes" : accessory === "card" ? "Card" : "Butterflies";
-        noteLines.push(`- 🦋 Accessory: ${accLabel}`);
-      }
-      if (accessoryText) noteLines.push(`- 💌 Card text: ${accessoryText}`);
-      if (ribbonText) noteLines.push(`- 🎀 Custom ribbon: ${ribbonText}`);
-      if (specialText) noteLines.push(`- 🔤 Letters or numbers (Baby Breath): ${specialText}`);
-      const vaseAddon = addVase ? vaseOptions[selectedVaseIdx] : null;
-      if (vaseAddon) noteLines.push(`- 🏺 Vase: ${vaseAddon.label}`);
-
-      if (customerNotes.trim()) {
-        noteLines.push("");
-        noteLines.push("NOTAS DEL CLIENTE");
-        noteLines.push(`📝 Nota del cliente: ${customerNotes.trim()}`);
-      }
-
-      const cartTotalForFee = basePrice + deliveryCost;
-
-      const checkoutUrl = await performApiCheckout({
-        deliveryMethod,
-        deliveryCost,
-        serviceFeeBase: cartTotalForFee,
-        deliveryAddress: deliveryMethod === "delivery" ? selectedAddress : undefined,
-        deliveryZip: deliveryMethod === "delivery" ? deliveryZip : undefined,
-        structuredAddress: deliveryMethod === "delivery" ? structuredAddress : undefined,
-        accessories,
-        note: noteLines.join("\n"),
-      });
-
-      if (checkoutUrl) {
-        window.location.href = checkoutUrl;
-      } else {
-        toast.error("Could not get checkout URL.");
-      }
-    } catch (error) {
-      toast.error("Checkout error. Please try again.");
-    } finally {
-      setIsAdding(false);
-    }
+    if (!variantId) return;
+    setCartOpen(true);
   };
 
   // Shared rendering functions
@@ -618,7 +567,7 @@ const BouquetProductDetail = () => {
               {renderShippingSection(false, autocompleteDesktopRef)}
 
               {/* Desktop bottom bar */}
-              <div className="space-y-3">
+              <div ref={orderButtonsRef} className="space-y-3">
                 <div className="flex items-center justify-between">
                   <p className="font-body text-[10px] lg:text-xs text-muted-foreground leading-tight flex-1 line-clamp-1">
                     {product.name} · {selectedSize.roses} {t("product.roses")}
@@ -627,20 +576,13 @@ const BouquetProductDetail = () => {
                   </p>
                   <p className="font-display text-lg lg:text-2xl font-bold text-foreground whitespace-nowrap">${parseFloat(totalPrice.toFixed(2))}</p>
                 </div>
-                <div className="bg-primary rounded-lg overflow-hidden">
-                  <button onClick={() => handleAddToCart()} disabled={isAdding || variantsLoading}
-                    className="w-full py-3 lg:py-4 font-body text-xs lg:text-sm tracking-[0.2em] uppercase text-primary-foreground hover:bg-primary/90 transition-colors disabled:opacity-50">
-                    {isAdding ? "..." : variantsLoading ? "..." : t("product.addToCart").toUpperCase()}
-                  </button>
-                </div>
-                <button onClick={handlePayNow} disabled={isAdding || variantsLoading}
-                  className="w-full border-2 border-primary text-primary py-2.5 lg:py-3.5 font-body text-[10px] lg:text-xs tracking-widest uppercase hover:bg-primary/10 transition-colors rounded-lg whitespace-nowrap disabled:opacity-50">
-                  {isAdding ? "..." : t("product.orderAndPay")}
+                <button onClick={handleOrderNow} disabled={isAdding || variantsLoading}
+                  className="w-full bg-primary text-primary-foreground py-4 lg:py-5 font-body text-sm lg:text-base tracking-[0.25em] uppercase font-semibold hover:bg-primary/90 transition-colors rounded-lg disabled:opacity-50">
+                  {isAdding ? "..." : variantsLoading ? "..." : "Order Now"}
                 </button>
+                <PaymentIcons size={22} className="pt-1" />
               </div>
 
-              {/* Desktop cross-links */}
-              <YouMightAlsoLove currentProductId={product.id} />
             </div>
           </div>
 
@@ -694,7 +636,7 @@ const BouquetProductDetail = () => {
             {renderShippingSection(true, autocompleteMobileRef)}
 
             {/* Mobile inline buttons after customer notes */}
-            <div className="space-y-3">
+            <div ref={orderButtonsRef} className="space-y-3">
               <div className="flex items-center justify-between">
                 <p className="font-body text-[10px] text-muted-foreground leading-tight flex-1 line-clamp-1">
                   {product.name} · {selectedSize.roses} {t("product.roses")}
@@ -703,23 +645,44 @@ const BouquetProductDetail = () => {
                 </p>
                 <p className="font-display text-lg font-bold text-foreground whitespace-nowrap">${parseFloat(totalPrice.toFixed(2))}</p>
               </div>
-              <div className="bg-primary rounded-lg overflow-hidden">
-                <button onClick={() => handleAddToCart()} disabled={isAdding || variantsLoading}
-                  className="w-full py-3 font-body text-xs tracking-[0.2em] uppercase text-primary-foreground hover:bg-primary/90 transition-colors disabled:opacity-50">
-                  {isAdding ? "..." : variantsLoading ? "..." : t("product.addToCart").toUpperCase()}
-                </button>
-              </div>
-              <button onClick={handlePayNow} disabled={isAdding || variantsLoading}
-                className="w-full border-2 border-primary text-primary py-2.5 font-body text-[10px] tracking-widest uppercase hover:bg-primary/10 transition-colors rounded-lg whitespace-nowrap disabled:opacity-50">
-                {isAdding ? "..." : t("product.orderAndPay")}
+              <button onClick={handleOrderNow} disabled={isAdding || variantsLoading}
+                className="w-full bg-primary text-primary-foreground py-4 font-body text-sm tracking-[0.25em] uppercase font-semibold hover:bg-primary/90 transition-colors rounded-lg disabled:opacity-50">
+                {isAdding ? "..." : variantsLoading ? "..." : "Order Now"}
               </button>
+              <PaymentIcons size={22} className="pt-1" />
             </div>
-
-            {/* Cross-links */}
-            <YouMightAlsoLove currentProductId={product.id} />
           </div>
+
+          {/* FAQs (shared desktop + mobile, before related products) */}
+          <CollectionFAQ faqs={bouquetFAQs} />
+
+          {/* Cross-links — related products */}
+          <YouMightAlsoLove currentProductId={product.id} />
         </div>
       </div>
+
+      {/* Sticky Order Now bar — appears when the inline button leaves the viewport */}
+      {showStickyBar && (
+        <div className="fixed bottom-0 inset-x-0 z-40 bg-background/95 backdrop-blur border-t border-border shadow-lg">
+          <div className="container mx-auto px-4 py-3 flex items-center gap-3">
+            <div className="flex-1 min-w-0">
+              <p className="font-body text-xs text-muted-foreground truncate">
+                {product.name} · {selectedSize.roses} {t("product.roses")}
+                {addGlitter === true && " · Glitter"}
+              </p>
+              <p className="font-display text-base font-bold text-foreground">${parseFloat(totalPrice.toFixed(2))}</p>
+            </div>
+            <button
+              onClick={handleOrderNow}
+              disabled={isAdding || variantsLoading}
+              className="bg-primary text-primary-foreground px-6 py-3 font-body text-xs sm:text-sm tracking-[0.2em] uppercase font-semibold hover:bg-primary/90 transition-colors rounded-lg disabled:opacity-50 whitespace-nowrap"
+            >
+              {isAdding ? "..." : "Order Now"}
+            </button>
+          </div>
+        </div>
+      )}
+
       <Footer />
     </div>
   );

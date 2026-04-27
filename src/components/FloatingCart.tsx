@@ -4,7 +4,8 @@ import BrandLogo from "@/components/BrandLogo";
 import { motion, AnimatePresence } from "framer-motion";
 import { useTranslation } from "@/i18n/LanguageContext";
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
-import { X } from "lucide-react";
+import { Trash2 } from "lucide-react";
+import PaymentIcons from "@/components/PaymentIcons";
 
 const FloatingCart = () => {
   const { t } = useTranslation();
@@ -83,9 +84,10 @@ const FloatingCart = () => {
                           type="button"
                           disabled={isLoading}
                           onClick={() => removeItem(item.id)}
-                          className="text-xs text-muted-foreground hover:text-primary transition-colors font-body underline disabled:opacity-50"
+                          aria-label={t("floatingCart.remove")}
+                          className="p-1.5 rounded-md text-muted-foreground hover:text-primary hover:bg-primary/5 transition-colors disabled:opacity-50"
                         >
-                          {t("floatingCart.remove")}
+                          <Trash2 className="w-4 h-4" />
                         </button>
                       </div>
                     </div>
@@ -112,6 +114,7 @@ const FloatingCart = () => {
               >
                 {t("floatingCart.viewCart")}
               </Link>
+              <PaymentIcons className="pt-1" size={22} />
               <button
                 type="button"
                 onClick={() => setOpen(false)}

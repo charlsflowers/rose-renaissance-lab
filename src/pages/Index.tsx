@@ -12,7 +12,6 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import SeoHead from "@/components/SeoHead";
 import JsonLd, { localBusinessSchema, serviceSchema, websiteSchema, faqSchema, homepageFaqs } from "@/components/JsonLd";
-import ClientVideos from "@/components/ClientVideos";
 import { useTranslation } from "@/i18n/LanguageContext";
 import heroBouquet from "@/assets/hero-cover.webp";
 import arreglosImg from "@/assets/arreglos.jpg";
@@ -248,9 +247,6 @@ const Index = () => {
           </motion.div>
         </div>
       </section>
-
-      {/* Client Videos */}
-      <ClientVideos />
 
       {/* Reviews */}
       <section className="py-16 md:py-20">
