@@ -344,77 +344,11 @@ const BouquetProductDetail = () => {
     }
   };
 
-  const handlePayNow = async () => {
+  // Order Now: add to cart and open the side drawer (no redirect to checkout)
+  const handleOrderNow = async () => {
     const variantId = await handleAddToCart(true);
-    if (!variantId) { setIsAdding(false); return; }
-
-    try {
-      const accessories = buildAccessoryLineItems({
-        glitter: addGlitter === true,
-        rosesCount: selectedSize.roses,
-        accessory,
-        specialText,
-        addVase,
-        vaseRoses: addVase ? vaseOptions[selectedVaseIdx].roses : undefined,
-        addCrown,
-        crownSize,
-        addRibbon,
-      });
-
-      const noteLines: string[] = [];
-      noteLines.push("DATOS DEL ENVÍO");
-      noteLines.push(`- 🚚 Tipo: ${deliveryMethod === "delivery" ? "Home Delivery" : "Store Pickup"}`);
-      if (deliveryDate) noteLines.push(`- 📅 Fecha: ${format(deliveryDate, "PPP", { locale: enUS })}`);
-      noteLines.push(`- ⏰ Hora: ${deliveryHour || "No especificada"}`);
-      if (deliveryMethod === "delivery" && selectedAddress) noteLines.push(`- 📍 Dirección: ${selectedAddress}`);
-
-      noteLines.push("");
-      noteLines.push("DATOS DEL PRODUCTO 1");
-      noteLines.push(`- 🌹 Producto: ${product.name}`);
-      if (product.color) noteLines.push(`- 🌸 Color: ${product.color}`);
-      if (paperColor) noteLines.push(`- 📄 Paper color: ${paperColor}`);
-      noteLines.push(`- 🌹 Roses: ${selectedSize.roses}`);
-      if (addGlitter === true) noteLines.push(`- ✨ Glitter finish: Yes`);
-      if (addCrown && crownSize) noteLines.push(`- 👑 Crown: ${crownSize}`);
-      if (accessory && accessory !== "none") {
-        const accLabel = accessory === "note" ? "Notes" : accessory === "card" ? "Card" : "Butterflies";
-        noteLines.push(`- 🦋 Accessory: ${accLabel}`);
-      }
-      if (accessoryText) noteLines.push(`- 💌 Card text: ${accessoryText}`);
-      if (ribbonText) noteLines.push(`- 🎀 Custom ribbon: ${ribbonText}`);
-      if (specialText) noteLines.push(`- 🔤 Letters or numbers (Baby Breath): ${specialText}`);
-      const vaseAddon = addVase ? vaseOptions[selectedVaseIdx] : null;
-      if (vaseAddon) noteLines.push(`- 🏺 Vase: ${vaseAddon.label}`);
-
-      if (customerNotes.trim()) {
-        noteLines.push("");
-        noteLines.push("NOTAS DEL CLIENTE");
-        noteLines.push(`📝 Nota del cliente: ${customerNotes.trim()}`);
-      }
-
-      const cartTotalForFee = basePrice + deliveryCost;
-
-      const checkoutUrl = await performApiCheckout({
-        deliveryMethod,
-        deliveryCost,
-        serviceFeeBase: cartTotalForFee,
-        deliveryAddress: deliveryMethod === "delivery" ? selectedAddress : undefined,
-        deliveryZip: deliveryMethod === "delivery" ? deliveryZip : undefined,
-        structuredAddress: deliveryMethod === "delivery" ? structuredAddress : undefined,
-        accessories,
-        note: noteLines.join("\n"),
-      });
-
-      if (checkoutUrl) {
-        window.location.href = checkoutUrl;
-      } else {
-        toast.error("Could not get checkout URL.");
-      }
-    } catch (error) {
-      toast.error("Checkout error. Please try again.");
-    } finally {
-      setIsAdding(false);
-    }
+    if (!variantId) return;
+    setCartOpen(true);
   };
 
   // Shared rendering functions
