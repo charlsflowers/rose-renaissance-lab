@@ -19,6 +19,8 @@ import { toast } from "sonner";
 import { buildAccessoryLineItems } from "@/lib/accessoryVariants";
 import Navbar from "@/components/Navbar";
 import PaperColorPicker from "@/components/PaperColorPicker";
+import PaymentIcons from "@/components/PaymentIcons";
+import CollectionFAQ, { useBouquetFAQs } from "@/components/CollectionFAQ";
 import { bouquetProducts, bouquetSizeOptions } from "@/lib/catalogData";
 import {
   crownOptions, ribbonPresets, crownPrice, ribbonPrice, letterNumberExtraPrice, vaseOptions, getPrice,
@@ -39,8 +41,10 @@ const BouquetProductDetail = () => {
   const { t, language } = useTranslation();
   const { type, productId } = useParams<{ type: string; productId: string }>();
   const addItem = useCartStore(state => state.addItem);
+  const setCartOpen = useCartStore(state => state.setOpen);
   const cartItems = useCartStore(state => state.items);
   const product = bouquetProducts.find((b) => b.shopifyHandle === productId || b.id === productId);
+  const bouquetFAQs = useBouquetFAQs();
 
   // GA4: view_item event
   useEffect(() => {
@@ -110,19 +114,19 @@ const BouquetProductDetail = () => {
   const autocompleteMobileRef = useRef<HTMLDivElement>(null);
   const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  // Scroll direction detection for sticky bar
-  const [showStickyBar, setShowStickyBar] = useState(true);
-  const lastScrollY = useRef(0);
-
+  // Sticky bar visibility — show when main "Order Now" button leaves viewport
+  const [showStickyBar, setShowStickyBar] = useState(false);
+  const orderButtonsRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
-    const handleScroll = () => {
-      const currentY = window.scrollY;
-      setShowStickyBar(currentY > lastScrollY.current || currentY < 50);
-      lastScrollY.current = currentY;
-    };
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+    const el = orderButtonsRef.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => setShowStickyBar(!entry.isIntersecting),
+      { threshold: 0, rootMargin: "0px 0px -10px 0px" }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, [product?.shopifyHandle]);
 
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
