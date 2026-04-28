@@ -12,6 +12,7 @@ import ShopifyPrice from "@/components/ShopifyPrice";
 import BouquetCardImage from "@/components/BouquetCardImage";
 import { ArrowLeft, ArrowRight, Lock } from "lucide-react";
 import { useTranslation } from "@/i18n/LanguageContext";
+import WaveDivider from "@/components/WaveDivider";
 
 type FilterType = "all" | "un-color" | "mezclas" | "zodiac";
 
@@ -175,6 +176,7 @@ const BouquetProducts = () => {
       </div>
 
       {/* CTA */}
+      <WaveDivider position="top" color="hsl(var(--primary))" />
       <section className="py-20 bg-primary">
         <div className="container mx-auto px-6 text-center">
           <h2 className="font-title-retro text-3xl md:text-4xl text-primary-foreground mb-4">{t("bouquetProducts.cantFind")}</h2>
