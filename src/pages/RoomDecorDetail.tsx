@@ -18,22 +18,23 @@ import SeoHead from "@/components/SeoHead";
 import JsonLd, { productSchema, breadcrumbSchema } from "@/components/JsonLd";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import {
-  ArrowLeft, Check, Truck, CalendarIcon, Clock, MapPin, Search, Loader2, Heart,
+  ArrowLeft, Check, Truck, CalendarIcon, Clock, MapPin, Search, Loader2, Heart, ChevronDown, ChevronUp,
 } from "lucide-react";
 import { Calendar } from "@/components/ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 
 const RoomDecorDetail = () => {
   const { packageId } = useParams<{ packageId: string }>();
-  const { t } = useTranslation();
+  const { t, language } = useTranslation();
   const addItem = useCartStore(state => state.addItem);
   const pkg = roomDecorPackages.find(p => p.id === packageId);
 
-  const [selectedBouquetColor, setSelectedBouquetColor] = useState(roomDecorBouquetColors[0]);
+  const [selectedBouquetColor, setSelectedBouquetColor] = useState(roomDecorBouquetColors[0].name);
   const [selectedAddons, setSelectedAddons] = useState<number[]>([]);
   const [addRibbon, setAddRibbon] = useState(false);
   const [ribbonText, setRibbonText] = useState("");
   const [isAdding, setIsAdding] = useState(false);
+  const [includesOpen, setIncludesOpen] = useState(false);
 
   // Delivery state
   const deliveryMethod = "delivery" as const;
@@ -139,7 +140,10 @@ const RoomDecorDetail = () => {
   const toggleAddon = (idx: number) => {
     setSelectedAddons(prev => {
       if (prev.includes(idx)) return prev.filter(i => i !== idx);
-      if (prev.length >= pkg.maxAddons) return [...prev.slice(1), idx];
+      if (prev.length >= pkg.maxAddons) {
+        toast.error(t("roomDecors.maxAddonsReached"));
+        return prev;
+      }
       return [...prev, idx];
     });
   };
