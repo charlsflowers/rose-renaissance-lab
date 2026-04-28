@@ -14,7 +14,6 @@ import { storefrontApiRequest } from "@/lib/shopify";
 
 import Navbar from "@/components/Navbar";
 import PaperColorPicker from "@/components/PaperColorPicker";
-import heroBouquet from "@/assets/hero-cover.webp";
 import glitterRoseImg from "@/assets/glitter-rose.png";
 import crownSilverImg from "@/assets/crown-silver.webp";
 import crownGoldImg from "@/assets/crown-gold.webp";
@@ -508,8 +507,14 @@ const BouquetBuilder = () => {
             {/* Product Image */}
             <div className="relative overflow-hidden rounded-lg aspect-[16/9] mb-2">
               <img
-                src={heroBouquet}
+                src="https://cdn.shopify.com/s/files/1/0979/1671/5140/files/FOTO_DE_PORTADA.png?width=1920&v=1777400632"
+                srcSet="https://cdn.shopify.com/s/files/1/0979/1671/5140/files/FOTO_DE_PORTADA.png?width=640&v=1777400632 640w, https://cdn.shopify.com/s/files/1/0979/1671/5140/files/FOTO_DE_PORTADA.png?width=1024&v=1777400632 1024w, https://cdn.shopify.com/s/files/1/0979/1671/5140/files/FOTO_DE_PORTADA.png?width=1440&v=1777400632 1440w, https://cdn.shopify.com/s/files/1/0979/1671/5140/files/FOTO_DE_PORTADA.png?width=1920&v=1777400632 1920w"
+                sizes="100vw"
+                width={1920}
+                height={1080}
                 alt="Custom bouquet"
+                loading="lazy"
+                decoding="async"
                 className="w-full h-full object-cover"
               />
             </div>
