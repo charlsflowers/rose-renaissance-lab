@@ -21,6 +21,7 @@ import { buildAccessoryLineItems } from "@/lib/accessoryVariants";
 import Navbar from "@/components/Navbar";
 import PaperColorPicker from "@/components/PaperColorPicker";
 import PaymentIcons from "@/components/PaymentIcons";
+import ProductTrustBlock from "@/components/ProductTrustBlock";
 import CollectionFAQ, { useBouquetFAQs } from "@/components/CollectionFAQ";
 import { bouquetProducts, bouquetSizeOptions } from "@/lib/catalogData";
 import {
@@ -597,6 +598,7 @@ const BouquetProductDetail = () => {
                   {isAdding ? "..." : variantsLoading ? "..." : "Order Now"}
                 </button>
                 <PaymentIcons size={22} className="pt-1" />
+                <ProductTrustBlock />
               </div>
 
             </div>
@@ -666,6 +668,7 @@ const BouquetProductDetail = () => {
                 {isAdding ? "..." : variantsLoading ? "..." : "Order Now"}
               </button>
               <PaymentIcons size={22} className="pt-1" />
+              <ProductTrustBlock />
             </div>
           </div>
 
