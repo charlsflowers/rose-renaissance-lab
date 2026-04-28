@@ -381,13 +381,13 @@ const BouquetProductDetail = () => {
         </div>
       </div>
       <div className="flex gap-2">
-        <button onClick={() => setAddGlitter(false)}
-          className={`flex-1 py-2.5 rounded-full border text-center transition-all font-body text-sm ${addGlitter === false ? "border-primary bg-primary/15 text-foreground" : "border-primary/30 text-foreground hover:bg-primary/5"}`}>
-          {t("product.no")}
-        </button>
         <button onClick={() => setAddGlitter(true)}
           className={`flex-1 py-2.5 rounded-full border text-center transition-all font-body text-sm ${addGlitter === true ? "border-primary bg-primary/15 text-foreground" : "border-primary/30 text-foreground hover:bg-primary/5"}`}>
           {t("product.yes")}
+        </button>
+        <button onClick={() => setAddGlitter(false)}
+          className={`flex-1 py-2.5 rounded-full border text-center transition-all font-body text-sm ${addGlitter === false ? "border-primary bg-primary/15 text-foreground" : "border-primary/30 text-foreground hover:bg-primary/5"}`}>
+          {t("product.no")}
         </button>
       </div>
     </Section>
