@@ -44,6 +44,25 @@ export const en = {
     secureCheckout: "Secure checkout powered by Shopify",
     copyright: "© 2026 Charls Flowers Miami. All rights reserved.",
     tagline: "Miami's premier flower shop — custom bouquets & same-day delivery.",
+    cookiePreferences: "Cookie preferences",
+  },
+
+  // Cookie banner & preferences
+  cookies: {
+    title: "We value your privacy",
+    description: "We use cookies to improve your experience, analyze traffic, and personalize ads. You can accept all, reject all, or customize your preferences.",
+    acceptAll: "Accept all",
+    rejectAll: "Reject all",
+    customize: "Customize",
+    learnMore: "Learn more",
+    save: "Save preferences",
+    necessary: "Necessary (always on)",
+    necessaryDesc: "Required for the site to work: session, cart, language and consent.",
+    analytics: "Analytics",
+    analyticsDesc: "Helps us understand how visitors use our site",
+    marketing: "Marketing",
+    marketingDesc: "Used to show relevant ads on Google and other platforms",
+    preferencesTitle: "Cookie preferences",
   },
 
   // Homepage

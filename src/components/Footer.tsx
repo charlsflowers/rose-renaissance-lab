@@ -4,6 +4,7 @@ import JsonLd, { organizationSchema } from "@/components/JsonLd";
 import { useTranslation } from "@/i18n/LanguageContext";
 import charlsLogo from "@/assets/charls-logo.png";
 import PaymentIcons from "@/components/PaymentIcons";
+import { openCookiePreferences } from "@/hooks/useCookieConsent";
 
 const Footer = () => {
   const { t } = useTranslation();
@@ -72,6 +73,13 @@ const Footer = () => {
               ].map(link => (
                 <Link key={link.to} to={link.to} className="hover:text-primary transition-colors">{link.label}</Link>
               ))}
+              <button
+                type="button"
+                onClick={openCookiePreferences}
+                className="text-left hover:text-primary transition-colors"
+              >
+                {t("footer.cookiePreferences")}
+              </button>
             </div>
           </div>
 

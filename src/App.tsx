@@ -6,6 +6,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, Navigate, useParams } from "react-router-dom";
 import { useCartSync } from "@/hooks/useCartSync";
 import FloatingCart from "@/components/FloatingCart";
+import CookieBanner from "@/components/CookieBanner";
 import { landingPages } from "@/lib/landingPagesData";
 import { bouquetProducts } from "@/lib/catalogData";
 import { roomDecorPackages } from "@/lib/roomDecorData";
@@ -73,6 +74,7 @@ const AppContent = () => {
     <>
       <ScrollToTop />
       <FloatingCart />
+      <CookieBanner />
       <Suspense
         fallback={
           <div className="min-h-screen flex items-center justify-center bg-background">
