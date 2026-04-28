@@ -61,7 +61,18 @@ const Index = () => {
       {/* Hero */}
       <section className="relative h-[70vh] md:h-screen flex items-end md:items-center overflow-hidden">
         <div className="absolute inset-0">
-          <img src={heroBouquet} alt="Charls Flowers Miami – Fresh Handcrafted Rose Bouquets Same-Day Delivery" className="w-full h-full object-cover object-center" fetchPriority="high" width={1920} height={1080} />
+          <img
+            src="https://cdn.shopify.com/s/files/1/0979/1671/5140/files/FOTO_DE_PORTADA.png?width=1920&v=1777400632"
+            srcSet="https://cdn.shopify.com/s/files/1/0979/1671/5140/files/FOTO_DE_PORTADA.png?width=640&v=1777400632 640w, https://cdn.shopify.com/s/files/1/0979/1671/5140/files/FOTO_DE_PORTADA.png?width=1024&v=1777400632 1024w, https://cdn.shopify.com/s/files/1/0979/1671/5140/files/FOTO_DE_PORTADA.png?width=1440&v=1777400632 1440w, https://cdn.shopify.com/s/files/1/0979/1671/5140/files/FOTO_DE_PORTADA.png?width=1920&v=1777400632 1920w"
+            sizes="100vw"
+            width={1920}
+            height={1080}
+            alt="Charls Flowers Miami – Fresh Handcrafted Rose Bouquets Same-Day Delivery"
+            fetchPriority="high"
+            loading="eager"
+            decoding="async"
+            className="w-full h-full object-cover object-center"
+          />
           <div className="absolute inset-0 bg-gradient-to-t md:bg-gradient-to-r from-foreground/85 via-foreground/50 to-transparent" />
         </div>
         <div className="container relative z-10 mx-auto px-4 md:px-6 pb-10 md:pb-0">
