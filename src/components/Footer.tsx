@@ -3,6 +3,7 @@ import { MapPin, Phone, Clock } from "lucide-react";
 import JsonLd, { organizationSchema } from "@/components/JsonLd";
 import { useTranslation } from "@/i18n/LanguageContext";
 import charlsLogo from "@/assets/charls-logo.png";
+import PaymentIcons from "@/components/PaymentIcons";
 
 const Footer = () => {
   const { t } = useTranslation();
@@ -82,7 +83,8 @@ const Footer = () => {
               <a href="https://www.facebook.com/charlsflowers" target="_blank" rel="noopener noreferrer" className="hover:text-primary transition-colors">Facebook</a>
               <a href="https://www.tiktok.com/@charlsflowers" target="_blank" rel="noopener noreferrer" className="hover:text-primary transition-colors">TikTok</a>
             </div>
-            <p className="font-body text-[10px] text-primary-foreground/40">{t("footer.payments")}</p>
+            <p className="font-body text-[10px] text-primary-foreground/40 mb-2">{t("footer.payments")}</p>
+            <PaymentIcons size={20} />
           </div>
         </div>
 

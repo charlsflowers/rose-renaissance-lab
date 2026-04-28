@@ -38,7 +38,7 @@ export const es = {
     hoursLine1: "Lunes – Viernes: 8AM – 7PM",
     hoursLine2: "Sábado: 8AM – 5PM",
     hoursLine3: "Domingo: Cerrado",
-    payments: "Visa · Mastercard · Amex · PayPal · Shop Pay",
+    payments: "Visa · Mastercard · Amex · Apple Pay · Google Pay · Shop Pay · Zelle",
     secureCheckout: "Pago seguro a través de Shopify",
     copyright: "© 2026 Charls Flowers Miami. Todos los derechos reservados.",
     tagline: "La florería premium de Miami — ramos personalizados y envío el mismo día.",
