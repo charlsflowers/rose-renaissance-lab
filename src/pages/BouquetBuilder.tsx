@@ -537,7 +537,7 @@ const BouquetBuilder = () => {
                                 setSelectedColors(prev => [...prev, color]);
                               }
                             }}
-                            className={`relative w-12 h-12 rounded-full border-2 transition-all ${
+                            className={`relative w-9 h-9 md:w-10 md:h-10 rounded-full border-2 transition-all ${
                               isSelected
                                 ? "border-primary scale-110 shadow-lg"
                                 : selectedColors.length >= 3
@@ -549,7 +549,7 @@ const BouquetBuilder = () => {
                             disabled={!isSelected && selectedColors.length >= 3}
                           >
                             {isSelected && (
-                              <Check className={`w-4 h-4 absolute inset-0 m-auto ${
+                              <Check className={`w-3.5 h-3.5 absolute inset-0 m-auto ${
                                 ["Negro", "Azul", "Morado"].includes(color.name) ? "text-primary-foreground" : "text-foreground"
                               }`} />
                             )}
