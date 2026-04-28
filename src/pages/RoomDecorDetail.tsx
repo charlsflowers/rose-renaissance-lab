@@ -203,50 +203,6 @@ const RoomDecorDetail = () => {
     }
   };
 
-  const handlePayNow = async () => {
-    const success = await handleAddToCart();
-    if (!success) return;
-
-    try {
-      const noteLines: string[] = [];
-      noteLines.push("DATOS DEL ENVÍO");
-      noteLines.push(`- 🚚 Tipo: ${deliveryMethod === "delivery" ? "Home Delivery" : "Store Pickup"}`);
-      if (deliveryDate) noteLines.push(`- 📅 Fecha: ${format(deliveryDate, "PPP", { locale: enUS })}`);
-      if (deliveryHour) noteLines.push(`- ⏰ Hora: ${deliveryHour}`);
-      if (deliveryMethod === "delivery" && selectedAddress) noteLines.push(`- 📍 Dirección: ${selectedAddress}`);
-      noteLines.push("");
-      noteLines.push("DATOS DEL PRODUCTO 1");
-      noteLines.push(`- 🌹 Producto: ${pkg.name}`);
-      if (pkg.bouquetIncluded && selectedBouquetColor) noteLines.push(`- 🌸 Bouquet color: ${selectedBouquetColor}`);
-      if (addRibbon && ribbonText) noteLines.push(`- 🎀 Custom ribbon: ${ribbonText}`);
-      if (selectedAddons.length > 0) {
-        const addonLabels = selectedAddons.map(idx => pkg.addons[idx]?.label).filter(Boolean);
-        noteLines.push(`- 🎁 Add-ons: ${addonLabels.join(", ")}`);
-      }
-
-      const cartTotalForFee = (pkg.price + addonsCost + ribbonCost) + (deliveryMethod === "delivery" ? deliveryCost : 0);
-
-      const checkoutUrl = await performApiCheckout({
-        deliveryMethod,
-        deliveryCost,
-        serviceFeeBase: cartTotalForFee,
-        deliveryAddress: deliveryMethod === "delivery" ? selectedAddress : undefined,
-        deliveryZip: deliveryMethod === "delivery" ? deliveryZip : undefined,
-        structuredAddress: deliveryMethod === "delivery" ? structuredAddress : undefined,
-        accessories: [],
-        note: noteLines.join("\n"),
-      });
-
-      if (checkoutUrl) {
-        window.location.href = checkoutUrl;
-      } else {
-        toast.error("Could not get checkout URL.");
-      }
-    } catch {
-      toast.error("Checkout error. Please try again.");
-    }
-  };
-
   let step = 1;
 
   return (
