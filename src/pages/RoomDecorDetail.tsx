@@ -676,36 +676,29 @@ const RoomDecorDetail = () => {
             </Section>
 
             {/* Mobile sticky bottom bar */}
-            <div className="pb-4" />
-            <div className="sticky bottom-0 bg-card/95 backdrop-blur-md border border-border rounded-lg p-3 shadow-xl z-10">
-              <div className="flex flex-col gap-2">
-                <div className="flex justify-between items-center gap-3">
-                  <p className="font-body text-[10px] text-muted-foreground leading-tight flex-1 line-clamp-1">
-                    {pkg.name}
-                    {pkg.bouquetIncluded && ` · ${selectedBouquetColor} bouquet`}
-                    {addRibbon && " · Ribbon"}
-                    {selectedAddons.length > 0 && ` · ${selectedAddons.length} add-on${selectedAddons.length > 1 ? 's' : ''}`}
-                    {deliveryMethod === "delivery" ? (deliveryMiles && !distanceTooFar ? ` · Shipping (${deliveryCost === 0 ? 'Free' : formatDeliveryCost(deliveryCost)})` : " · Shipping (pending)") : " · Pickup"}
-                  </p>
-                  <p className="font-display text-lg font-bold text-foreground whitespace-nowrap">
-                    ${totalPrice}
-                  </p>
-                </div>
-                <div className="flex w-full gap-2">
-                  <button onClick={handleAddToCart} disabled={isAdding}
-                    className="flex-1 bg-primary text-primary-foreground px-4 py-2.5 font-body text-[10px] tracking-widest uppercase hover:bg-primary/90 transition-colors rounded-lg disabled:opacity-50">
-                    {isAdding ? "Adding..." : "Add to cart"}
-                  </button>
-                  <button onClick={handlePayNow} disabled={isAdding}
-                    className="flex-1 border-2 border-primary text-primary px-4 py-2.5 font-body text-[10px] tracking-widest uppercase hover:bg-primary/10 transition-colors rounded-lg whitespace-nowrap disabled:opacity-50">
-                    {isAdding ? "Adding..." : "Pay now"}
-                  </button>
-                </div>
+            <div className="space-y-3">
+              <div className="flex items-center justify-between">
+                <p className="font-body text-[10px] text-muted-foreground leading-tight flex-1 line-clamp-1 pr-3">
+                  {pkg.name}
+                  {pkg.bouquetIncluded && ` · ${selectedBouquetColor} bouquet`}
+                  {addRibbon && " · Ribbon"}
+                  {selectedAddons.length > 0 && ` · ${selectedAddons.length} add-on${selectedAddons.length > 1 ? 's' : ''}`}
+                </p>
+                <p className="font-display text-lg font-bold text-foreground whitespace-nowrap">
+                  ${parseFloat(totalPrice.toFixed(2))}
+                </p>
               </div>
+              <button onClick={handleAddToCart} disabled={isAdding}
+                className="w-full bg-primary text-primary-foreground py-4 font-body text-sm tracking-[0.25em] uppercase font-semibold hover:bg-primary/90 transition-colors rounded-lg disabled:opacity-50">
+                {isAdding ? "..." : t("product.orderAndPay")}
+              </button>
+              <PaymentIcons size={22} className="pt-1" />
+              <ProductTrustBlock />
             </div>
           </div>
         </div>
       </div>
+      <Footer />
     </div>
   );
 };
