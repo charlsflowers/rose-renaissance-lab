@@ -215,16 +215,16 @@ const RoomDecorDetail = () => {
           <Breadcrumbs items={[{ label: "Home", to: "/" }, { label: "Room Decors", to: "/room-decors" }, { label: pkg.name }]} />
 
           {/* ===== DESKTOP: two-column layout ===== */}
-          <div className="hidden lg:grid lg:grid-cols-[55%_45%] gap-8 max-w-6xl mx-auto">
+          <div className="hidden lg:grid lg:grid-cols-[minmax(0,11fr)_minmax(0,9fr)] gap-8 max-w-6xl mx-auto">
             {/* Left column — sticky image */}
-            <div className="sticky top-24 self-start space-y-3">
+            <div className="sticky top-24 self-start space-y-3 min-w-0">
               <div className="relative overflow-hidden rounded-lg bg-muted flex items-center justify-center aspect-square">
                  <img src={pkg.image} alt={`${pkg.name} Miami Room Decoration – Charls Flowers`} width={600} height={600} className="w-full h-full object-cover" />
               </div>
             </div>
 
             {/* Right column — product details & options */}
-            <div className="space-y-5 lg:space-y-7">
+            <div className="min-w-0 space-y-5 lg:space-y-7">
               <div>
                 <h1 className="font-display text-2xl lg:text-4xl font-semibold text-foreground">{pkg.name}</h1>
                 <p className="text-muted-foreground font-body text-sm lg:text-base mt-1 lg:mt-2">{pkg.description}</p>

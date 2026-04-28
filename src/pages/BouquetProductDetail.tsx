@@ -531,7 +531,7 @@ const BouquetProductDetail = () => {
           <Breadcrumbs items={[{ label: "Home", to: "/" }, { label: "Bouquets", to: "/bouquets" }, { label: product.name }]} />
 
           {/* ===== DESKTOP: two-column layout ===== */}
-          <div className="hidden lg:grid lg:grid-cols-[55%_45%] gap-10 lg:gap-16 max-w-7xl mx-auto">
+          <div className="hidden lg:grid lg:grid-cols-[minmax(0,11fr)_minmax(0,9fr)] gap-10 lg:gap-16 max-w-7xl mx-auto">
             {/* Left column — sticky images */}
             <div className="sticky top-28 self-start space-y-3 min-w-0">
               <div className="relative overflow-hidden rounded-lg bg-muted flex items-center justify-center aspect-square">
@@ -549,7 +549,7 @@ const BouquetProductDetail = () => {
             </div>
 
             {/* Right column */}
-            <div className="space-y-6 lg:space-y-8">
+            <div className="min-w-0 space-y-6 lg:space-y-8">
               <div>
                 <h1 className="font-display text-4xl md:text-5xl lg:text-6xl font-semibold text-foreground leading-tight">{product.name}</h1>
                 <p className="font-display text-3xl lg:text-4xl font-semibold text-foreground mt-3 lg:mt-4">${parseFloat(sizePrice.toFixed(2))}</p>
