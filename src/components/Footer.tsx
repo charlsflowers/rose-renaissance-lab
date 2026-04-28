@@ -3,6 +3,7 @@ import { MapPin, Phone, Clock } from "lucide-react";
 import JsonLd, { organizationSchema } from "@/components/JsonLd";
 import { useTranslation } from "@/i18n/LanguageContext";
 import charlsLogo from "@/assets/charls-logo.png";
+import PaymentIcons from "@/components/PaymentIcons";
 
 const Footer = () => {
   const { t } = useTranslation();
