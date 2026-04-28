@@ -605,7 +605,7 @@ const BouquetProductDetail = () => {
           </div>
 
           {/* ===== MOBILE: stacked layout ===== */}
-          <div className="md:hidden max-w-4xl mx-auto space-y-8">
+          <div className="lg:hidden max-w-4xl mx-auto space-y-8">
             {/* Mobile images */}
             <div className="flex overflow-x-auto snap-x snap-mandatory scrollbar-hide gap-3 pb-2 -mx-6 px-6 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
               <div className="w-[88%] flex-none snap-start relative overflow-hidden rounded-lg bg-muted flex items-center justify-center aspect-square">
