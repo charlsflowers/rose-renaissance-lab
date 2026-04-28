@@ -1,11 +1,17 @@
-import { Link } from "react-router-dom";
+import { useState } from "react";
+import { format } from "date-fns";
+import { enUS } from "date-fns/locale";
+import { toast } from "sonner";
 import { useCartStore } from "@/stores/cartStore";
 import BrandLogo from "@/components/BrandLogo";
 import { motion, AnimatePresence } from "framer-motion";
 import { useTranslation } from "@/i18n/LanguageContext";
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
-import { Trash2 } from "lucide-react";
+import { Trash2, Loader2 } from "lucide-react";
 import PaymentIcons from "@/components/PaymentIcons";
+import { performApiCheckout } from "@/lib/checkout";
+import { buildAccessoryLineItems } from "@/lib/accessoryVariants";
+import { getPaperForCartItem } from "@/lib/paperHelper";
 
 const FloatingCart = () => {
   const { t } = useTranslation();
@@ -16,6 +22,126 @@ const FloatingCart = () => {
   const setOpen = useCartStore(state => state.setOpen);
   const totalItems = items.length;
   const cartTotal = items.reduce((sum, i) => sum + i.totalPrice, 0);
+  const [isCheckingOut, setIsCheckingOut] = useState(false);
+
+  const itemsSubtotal = parseFloat(items.reduce((sum, i) => sum + i.price, 0).toFixed(2));
+  const deliveryItem = items.find((i) => i.deliveryMethod === "delivery" && i.deliveryAddress && i.deliveryAddress !== "Store pickup");
+  const checkoutDeliveryMethod: "pickup" | "delivery" = deliveryItem ? "delivery" : "pickup";
+  const deliveryCost = deliveryItem ? (deliveryItem.deliveryCost || 0) : 0;
+
+  const handleCheckout = async () => {
+    if (items.length === 0) return;
+
+    (window as any).gtag?.('event', 'begin_checkout', {
+      currency: 'USD',
+      value: itemsSubtotal,
+    });
+
+    setIsCheckingOut(true);
+    try {
+      const itemWithDate = items.find((i) => i.deliveryDate);
+      const itemWithHour = items.find((i) => i.deliveryHour);
+      const deliveryDate = itemWithDate?.deliveryDate || "";
+      const deliveryHour = itemWithHour?.deliveryHour || "";
+
+      const noteLines: string[] = [];
+      noteLines.push("DATOS DEL ENVÍO");
+      noteLines.push(`- 🚚 Tipo: ${checkoutDeliveryMethod === "delivery" ? "Home Delivery" : "Store Pickup"}`);
+
+      if (deliveryDate) {
+        const dateObj = /^\d{4}-\d{2}-\d{2}$/.test(deliveryDate)
+          ? new Date(deliveryDate + "T00:00:00")
+          : new Date(deliveryDate);
+        const formattedDate = !isNaN(dateObj.getTime())
+          ? format(dateObj, "PPP", { locale: enUS })
+          : deliveryDate;
+        noteLines.push(`- 📅 Fecha: ${formattedDate}`);
+      }
+      if (deliveryHour) noteLines.push(`- ⏰ Hora: ${deliveryHour}`);
+      if (checkoutDeliveryMethod === "delivery" && deliveryItem) {
+        noteLines.push(`- 📍 Dirección: ${deliveryItem.deliveryAddress}`);
+      }
+
+      for (let idx = 0; idx < items.length; idx++) {
+        const item = items[idx];
+        noteLines.push("");
+        noteLines.push(`DATOS DEL PRODUCTO ${idx + 1}`);
+        noteLines.push(`- 🌹 Producto: ${item.productName || item.bouquetType}`);
+
+        if (item.bouquetType === "custom" && item.color) {
+          const colors = item.color.split(",").map(c => c.trim()).filter(Boolean);
+          colors.forEach((c, ci) => {
+            noteLines.push(`- 🌸 Colour ${ci + 1}: ${c}`);
+          });
+        } else if (item.color) {
+          noteLines.push(`- 🌸 Color: ${item.color}`);
+        }
+
+        const catalogPaper = await getPaperForCartItem(item.productName, item.bouquetType);
+        const paperToShow = catalogPaper || item.paperColor;
+        if (paperToShow) noteLines.push(`- 📄 Paper color: ${paperToShow}`);
+        if (item.roses) noteLines.push(`- 🌹 Roses: ${item.roses}`);
+        if (item.glitter) noteLines.push(`- ✨ Glitter finish: Yes`);
+        if (item.crownSize) noteLines.push(`- 👑 Crown: ${item.crownSize}`);
+        if (item.accessory && item.accessory !== "none") {
+          const accLabel = item.accessory === "note" ? "Notes" : item.accessory === "card" ? "Card" : "Butterflies";
+          noteLines.push(`- 🦋 Accessory: ${accLabel}`);
+        }
+        if (item.accessoryText) noteLines.push(`- 💌 Card text: ${item.accessoryText}`);
+        if (item.ribbonText) noteLines.push(`- 🎀 Custom ribbon: ${item.ribbonText}`);
+        if (item.specialText) noteLines.push(`- 🔤 Letters or numbers (Baby Breath): ${item.specialText}`);
+        const vaseAddon = item.addons?.find(a => a.startsWith("Vase"));
+        if (vaseAddon) noteLines.push(`- 🏺 Vase: ${vaseAddon}`);
+        if (item.customerNotes) {
+          noteLines.push("");
+          noteLines.push("NOTAS DEL CLIENTE");
+          noteLines.push(`📝 Nota del cliente: ${item.customerNotes}`);
+        }
+      }
+
+      const accessoryLineItems = items.flatMap((item) => {
+        const vaseAddon = item.addons?.find(a => a.startsWith("Vase"));
+        const vaseRosesMatch = vaseAddon?.match(/\((\d+)/);
+        return buildAccessoryLineItems({
+          glitter: item.glitter,
+          rosesCount: item.roses,
+          accessory: item.accessory,
+          specialText: item.specialText,
+          addVase: !!vaseAddon,
+          vaseRoses: vaseRosesMatch ? parseInt(vaseRosesMatch[1], 10) : undefined,
+          addCrown: !!item.crownSize,
+          crownSize: item.crownSize,
+          addRibbon: !!item.ribbonText,
+        });
+      });
+
+      const cartTotalForFee = itemsSubtotal + deliveryCost;
+
+      const checkoutUrl = await performApiCheckout({
+        deliveryMethod: checkoutDeliveryMethod,
+        deliveryCost,
+        serviceFeeBase: cartTotalForFee,
+        deliveryAddress: checkoutDeliveryMethod === "delivery" ? deliveryItem?.deliveryAddress : undefined,
+        deliveryZip: checkoutDeliveryMethod === "delivery" ? deliveryItem?.deliveryZip : undefined,
+        structuredAddress: checkoutDeliveryMethod === "delivery" ? deliveryItem?.structuredAddress : undefined,
+        accessories: accessoryLineItems,
+        note: noteLines.join("\n"),
+      });
+
+      if (!checkoutUrl) {
+        toast.error("Could not get checkout URL. Please try again.");
+        return;
+      }
+
+      setOpen(false);
+      window.location.href = checkoutUrl;
+    } catch (error) {
+      console.error("Checkout error:", error);
+      toast.error("Error during checkout. Please try again.");
+    } finally {
+      setIsCheckingOut(false);
+    }
+  };
 
   return (
     <>
@@ -107,13 +233,15 @@ const FloatingCart = () => {
                   ${parseFloat(cartTotal.toFixed(2))}
                 </span>
               </div>
-              <Link
-                to="/checkout"
-                onClick={() => setOpen(false)}
-                className="block w-full text-center bg-primary text-primary-foreground py-3 rounded-lg font-body text-sm tracking-widest uppercase hover:bg-primary/90 transition-colors"
+              <button
+                type="button"
+                onClick={handleCheckout}
+                disabled={isCheckingOut || isLoading}
+                className="flex items-center justify-center gap-2 w-full text-center bg-primary text-primary-foreground py-3 rounded-lg font-body text-sm tracking-widest uppercase hover:bg-primary/90 transition-colors disabled:opacity-50"
               >
+                {isCheckingOut && <Loader2 className="w-4 h-4 animate-spin" />}
                 {t("floatingCart.viewCart")}
-              </Link>
+              </button>
               <PaymentIcons className="pt-1" size={22} />
               <button
                 type="button"
