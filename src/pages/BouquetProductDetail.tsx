@@ -128,7 +128,7 @@ const BouquetProductDetail = () => {
   useEffect(() => {
     const desktopEl = orderButtonsDesktopRef.current;
     const mobileEl = orderButtonsMobileRef.current;
-    const targets = [desktopEl, mobileEl].filter(Boolean) as HTMLDivElement[];
+    const targets = [desktopEl, mobileEl].filter(Boolean) as HTMLElement[];
     if (targets.length === 0) return;
     // Track visibility per element; sticky shows only when ALL visible targets are out of view.
     const visibility = new WeakMap<Element, boolean>();
