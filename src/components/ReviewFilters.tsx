@@ -23,7 +23,7 @@ const ReviewFilters = ({ active, onChange }: ReviewFiltersProps) => {
   ];
 
   return (
-    <div className="flex flex-wrap justify-center gap-3 mb-12">
+    <div className="flex md:flex-wrap md:justify-center gap-2 md:gap-3 mb-8 md:mb-12 overflow-x-auto md:overflow-visible -mx-4 px-4 md:mx-0 md:px-0 snap-x snap-mandatory scrollbar-hide">
       {filters.map((f) => {
         const isLocked = comingSoonCategories.includes(f.value);
         return (
@@ -31,7 +31,7 @@ const ReviewFilters = ({ active, onChange }: ReviewFiltersProps) => {
             key={f.value}
             onClick={() => !isLocked && onChange(f.value)}
             disabled={isLocked}
-            className={`px-5 py-2.5 font-body text-xs tracking-widest uppercase rounded-lg transition-colors inline-flex items-center gap-1.5 ${
+            className={`shrink-0 snap-start px-4 md:px-5 py-2 md:py-2.5 font-body text-[11px] md:text-xs tracking-widest uppercase rounded-lg transition-colors inline-flex items-center gap-1.5 ${
               isLocked
                 ? "bg-muted text-muted-foreground/40 cursor-not-allowed border border-border"
                 : active === f.value
