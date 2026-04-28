@@ -7,7 +7,7 @@ import BrandLogo from "@/components/BrandLogo";
 import { motion, AnimatePresence } from "framer-motion";
 import { useTranslation } from "@/i18n/LanguageContext";
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
-import { Trash2, Loader2 } from "lucide-react";
+import { Trash2, Loader2, X } from "lucide-react";
 import PaymentIcons from "@/components/PaymentIcons";
 import { performApiCheckout } from "@/lib/checkout";
 import { buildAccessoryLineItems } from "@/lib/accessoryVariants";
@@ -171,11 +171,27 @@ const FloatingCart = () => {
       </AnimatePresence>
 
       <Sheet open={open} onOpenChange={setOpen}>
-        <SheetContent side="right" className="w-full sm:max-w-md p-0 flex flex-col">
-          <SheetHeader className="px-6 pt-6 pb-4 border-b">
-            <SheetTitle className="font-display text-xl text-foreground">
-              {t("floatingCart.yourCart")} ({totalItems})
-            </SheetTitle>
+        <SheetContent
+          side="right"
+          className="w-full sm:max-w-md p-0 flex flex-col [&>button.absolute]:hidden"
+        >
+          <SheetHeader className="px-6 pt-5 pb-4 border-b">
+            <div className="flex items-center justify-between gap-3">
+              <SheetTitle className="font-display text-xl text-foreground flex items-center gap-2.5 m-0">
+                <BrandLogo className="w-7 h-7" />
+                <span>
+                  {t("floatingCart.yourCart")} ({totalItems})
+                </span>
+              </SheetTitle>
+              <button
+                type="button"
+                onClick={() => setOpen(false)}
+                aria-label="Close cart"
+                className="-mr-1 w-10 h-10 rounded-full flex items-center justify-center text-foreground hover:bg-muted active:bg-muted transition-colors"
+              >
+                <X className="w-6 h-6" strokeWidth={2.4} />
+              </button>
+            </div>
           </SheetHeader>
 
           <div className="flex-1 overflow-y-auto px-6 py-4">
