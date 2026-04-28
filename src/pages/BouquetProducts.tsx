@@ -17,6 +17,30 @@ type FilterType = "all" | "un-color" | "mezclas" | "zodiac";
 
 const isZodiac = (id: string) => id.startsWith('bq-zodiac-');
 
+// Manual display order requested by store owner. Handles not listed appear after, in catalog order.
+const MANUAL_ORDER: string[] = [
+  // Reds / passion
+  'total-passion', 'bicolor-passion', 'passionate-love', 'elegant-passion', 'classic-tricolor', 'iberian-passion',
+  // Contrast / bee
+  'elegant-contrast', 'imperial-bee',
+  // Pink / fire mixes
+  'pink-symphony', 'fire-sun', 'tricolor-love', 'intense-romance',
+  // Zodiac highlights
+  'scorpio-bouquet', 'libra-bouquet', 'virgo-bouquet', 'leo-bouquet', 'gemini-bouquet',
+  // Single colors
+  'pure-white', 'hot-pink-blush', 'soft-pink', 'purple-charm', 'orange-sunset', 'radiant-sun',
+  'red-sweetness', 'orange-citrus', 'infinite-tenderness', 'light-citrus', 'spring-garden',
+  'pink-white-dawn', 'warm-sunset', 'magic-pastel', 'soft-spring', 'citrus-refresh',
+];
+
+const sortByManualOrder = <T extends { shopifyHandle: string }>(items: T[]): T[] => {
+  const idx = (h: string) => {
+    const i = MANUAL_ORDER.indexOf(h);
+    return i === -1 ? Number.MAX_SAFE_INTEGER : i;
+  };
+  return [...items].sort((a, b) => idx(a.shopifyHandle) - idx(b.shopifyHandle));
+};
+
 const BouquetProducts = () => {
   const { t } = useTranslation();
   const translatedBouquetFAQs = useBouquetFAQs();
@@ -31,13 +55,15 @@ const BouquetProducts = () => {
     setFilter(urlFilter);
   }, [searchParams]);
 
-  const filteredProducts = bouquetProducts.filter((product) => {
-    if (filter === "zodiac") return isZodiac(product.id);
-    if (filter === "all") return true;
-    if (isZodiac(product.id)) return false;
-    const isMix = product.color.includes(" y ") || product.color.includes(", ") || product.color.includes(" y");
-    return filter === "mezclas" ? isMix : !isMix;
-  });
+  const filteredProducts = sortByManualOrder(
+    bouquetProducts.filter((product) => {
+      if (filter === "zodiac") return isZodiac(product.id);
+      if (filter === "all") return true;
+      if (isZodiac(product.id)) return false;
+      const isMix = product.color.includes(" y ") || product.color.includes(", ") || product.color.includes(" y");
+      return filter === "mezclas" ? isMix : !isMix;
+    })
+  );
 
   return (
     <div className="min-h-screen bg-background">
