@@ -1075,18 +1075,10 @@ const BouquetBuilder = () => {
                 </p>
                 <p className="font-display text-xl font-bold text-foreground whitespace-nowrap">${parseFloat(totalPrice.toFixed(2))}</p>
               </div>
-              <div className="bg-primary rounded-lg overflow-hidden">
-                <button
-                  disabled={isAdding || variantsLoading}
-                  onClick={handleBuilderAddToCart}
-                  className="w-full py-3 font-body text-xs tracking-[0.2em] uppercase text-primary-foreground hover:bg-primary/90 transition-colors disabled:opacity-50">
-                  {isAdding ? "..." : variantsLoading ? "..." : t("product.addToCart").toUpperCase()}
-                </button>
-              </div>
               <button
                 disabled={isAdding || variantsLoading}
                 onClick={handleBuilderPayNow}
-                className="w-full border-2 border-primary text-primary py-2.5 font-body text-[10px] tracking-widest uppercase hover:bg-primary/10 transition-colors rounded-lg disabled:opacity-50">
+                className="w-full bg-primary text-primary-foreground py-4 font-body text-sm tracking-[0.25em] uppercase font-semibold hover:bg-primary/90 transition-colors rounded-lg disabled:opacity-50">
                 {isAdding ? "..." : t("product.orderAndPay")}
               </button>
             </div>
