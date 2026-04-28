@@ -324,11 +324,12 @@ const Index = () => {
           </motion.div>
           <div className="max-w-2xl mx-auto rounded-lg overflow-hidden border border-border aspect-square md:aspect-video" style={{ minHeight: '280px' }}>
             <iframe
-              src="https://storage.googleapis.com/maps-solutions-0p9mp01my4/locator-plus/twwi/locator-plus.html"
+              src="https://www.google.com/maps?q=7261+NW+12th+St,+Miami,+FL+33126&z=12&output=embed"
               width="100%"
               height="100%"
               style={{ border: 0 }}
               loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
               title="Charls Flowers Miami Location"
             />
           </div>
