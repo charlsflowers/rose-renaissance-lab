@@ -26,13 +26,18 @@ export interface RoomDecorPackage {
 }
 
 /** Natural bouquet colors available (all natural EXCEPT red) */
-export const roomDecorBouquetColors = [
-  'White',
-  'Hot Pink',
-  'Pink',
-  'Purple',
-  'Orange',
-  'Yellow',
+export interface RoomDecorBouquetColor {
+  name: string;
+  image: string;
+}
+
+export const roomDecorBouquetColors: RoomDecorBouquetColor[] = [
+  { name: 'White',    image: `${CDN}/7_66d51745-8450-43cc-9f6d-acf138fc2d81.png?v=1774610955` },
+  { name: 'Hot Pink', image: `${CDN}/10_13e615d2-0e75-4583-a1bf-5b44f823ed23.png?v=1774610956` },
+  { name: 'Pink',     image: `${CDN}/5_e69dee54-c820-4910-95cb-130b55626cda.png?v=1774610955` },
+  { name: 'Purple',   image: `${CDN}/6_76f89215-f151-4ae3-858e-7b39b5aeb37f.png?v=1774610954` },
+  { name: 'Orange',   image: `${CDN}/2_4ce938e3-ed17-43ba-93c8-4bb90bd8f839.png?v=1774610955` },
+  { name: 'Yellow',   image: `${CDN}/4_64454122-543f-42d2-b5dd-0c63e33d023e.png?v=1774610954` },
 ];
 
 export const roomDecorPackages: RoomDecorPackage[] = [
