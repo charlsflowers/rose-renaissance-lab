@@ -1,9 +1,10 @@
 const icons = [
-  { src: "/payment-icons/visa.svg", alt: "Visa" },
-  { src: "/payment-icons/mastercard.svg", alt: "Mastercard" },
-  { src: "/payment-icons/amex.svg", alt: "American Express" },
-  { src: "/payment-icons/apple-pay.svg", alt: "Apple Pay" },
-  { src: "/payment-icons/google-pay.svg", alt: "Google Pay" },
+  { src: "/payment-icons/visa.webp", alt: "Visa" },
+  { src: "/payment-icons/mastercard.webp", alt: "Mastercard" },
+  { src: "/payment-icons/amex.webp", alt: "American Express" },
+  { src: "/payment-icons/apple-pay.webp", alt: "Apple Pay" },
+  { src: "/payment-icons/google-pay.webp", alt: "Google Pay" },
+  { src: "/payment-icons/shop-pay.webp", alt: "Shop Pay" },
   { src: "/payment-icons/zelle.svg", alt: "Zelle" },
 ];
 
