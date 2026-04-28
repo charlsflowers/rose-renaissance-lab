@@ -221,6 +221,38 @@ export const es = {
     youMightAlsoLove: "También te puede gustar",
   },
 
+  // Bloque de confianza del producto (badges + FAQ)
+  trustBlock: {
+    sameDayLocal: "Entrega Local el Mismo Día",
+    bestPrice: "Mejor Precio en Miami",
+    faqs: [
+      {
+        q: "¿De verdad entregan el mismo día en Miami?",
+        a: "Sí. Haz tu pedido antes de las 3:00 PM (hora de Miami) de lunes a sábado y elaboraremos a mano y entregaremos tu ramo el mismo día, en cualquier punto a hasta 87 millas de nuestra tienda en Miami. Los pedidos posteriores a las 3:00 PM se programan para el siguiente día disponible.",
+      },
+      {
+        q: "¿Por qué vuestros precios son más bajos que los de otras floristerías en Miami?",
+        a: "Trabajamos directamente con nuestros cultivadores y eliminamos a los intermediarios, así que pagas por las rosas y por la artesanía, no por el sobreprecio del comercio tradicional. Creemos firmemente que las flores de máxima calidad deben ser accesibles y no un lujo reservado para ocasiones especiales.",
+      },
+      {
+        q: "¿Qué tan frescas son las rosas?",
+        a: "Cada ramo se monta bajo pedido usando rosas premium que recibimos frescas cada semana. Los tallos se hidratan y acondicionan el mismo día que salen de nuestra tienda, por eso ofrecemos entrega local el mismo día: tus flores llegan en su punto óptimo de frescura.",
+      },
+      {
+        q: "¿Puedo personalizar el ramo?",
+        a: "Por supuesto. Puedes elegir el número de rosas (50–200), añadir acabado glitter, incluir una nota escrita a mano o mariposas, e incluso crear un ramo totalmente personalizado desde cero con nuestro Bouquet Builder. Las combinaciones de colores, el papel y los extras los decides tú.",
+      },
+      {
+        q: "Envío y entrega",
+        a: "Envío a domicilio: $25 fijo para las primeras 5 millas, luego $1.60 por cada milla adicional (hasta 87 millas). Recogida en tienda: Gratis, lista 2 horas después de realizar el pedido. Horario: Lun–Vie 8AM–7PM · Sáb 8AM–6PM · Dom 8AM–5PM (hora de Miami). Los pedidos realizados antes de las 3:00 PM califican para entrega el mismo día.",
+      },
+      {
+        q: "Política de devoluciones y reembolsos",
+        a: "Como cada ramo es personalizado y perecedero, en general no se admiten cancelaciones ni reembolsos una vez realizado el pedido. Si nos contactas dentro de la primera hora tras hacer el pedido en charlsflowerscorp@gmail.com, normalmente podemos emitir un reembolso completo (la preparación aún no habrá comenzado). Si algo llega dañado o incorrecto, escríbenos el mismo día y lo solucionaremos.",
+      },
+    ],
+  },
+
   bouquetProducts: {
     subtitle: "Ramos artesanales",
     title: "Ramos",

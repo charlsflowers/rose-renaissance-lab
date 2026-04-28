@@ -7,13 +7,16 @@ import { supabase } from "@/integrations/supabase/client";
 import { useCartStore } from "@/stores/cartStore";
 import { toast } from "sonner";
 import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
+import PaymentIcons from "@/components/PaymentIcons";
+import ProductTrustBlock from "@/components/ProductTrustBlock";
+import { useTranslation } from "@/i18n/LanguageContext";
 import { roomDecorPackages, roomDecorBouquetColors } from "@/lib/roomDecorData";
 import { calculateRoomDecorDeliveryCost, formatDeliveryCost } from "@/lib/deliveryPricing";
 import { seoData } from "@/lib/seoData";
 import SeoHead from "@/components/SeoHead";
 import JsonLd, { productSchema, breadcrumbSchema } from "@/components/JsonLd";
 import Breadcrumbs from "@/components/Breadcrumbs";
-import { performApiCheckout } from "@/lib/checkout";
 import {
   ArrowLeft, Check, Truck, CalendarIcon, Clock, MapPin, Search, Loader2, Heart,
 } from "lucide-react";
@@ -22,6 +25,7 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 
 const RoomDecorDetail = () => {
   const { packageId } = useParams<{ packageId: string }>();
+  const { t } = useTranslation();
   const addItem = useCartStore(state => state.addItem);
   const pkg = roomDecorPackages.find(p => p.id === packageId);
 
@@ -196,50 +200,6 @@ const RoomDecorDetail = () => {
       return false;
     } finally {
       setIsAdding(false);
-    }
-  };
-
-  const handlePayNow = async () => {
-    const success = await handleAddToCart();
-    if (!success) return;
-
-    try {
-      const noteLines: string[] = [];
-      noteLines.push("DATOS DEL ENVÍO");
-      noteLines.push(`- 🚚 Tipo: ${deliveryMethod === "delivery" ? "Home Delivery" : "Store Pickup"}`);
-      if (deliveryDate) noteLines.push(`- 📅 Fecha: ${format(deliveryDate, "PPP", { locale: enUS })}`);
-      if (deliveryHour) noteLines.push(`- ⏰ Hora: ${deliveryHour}`);
-      if (deliveryMethod === "delivery" && selectedAddress) noteLines.push(`- 📍 Dirección: ${selectedAddress}`);
-      noteLines.push("");
-      noteLines.push("DATOS DEL PRODUCTO 1");
-      noteLines.push(`- 🌹 Producto: ${pkg.name}`);
-      if (pkg.bouquetIncluded && selectedBouquetColor) noteLines.push(`- 🌸 Bouquet color: ${selectedBouquetColor}`);
-      if (addRibbon && ribbonText) noteLines.push(`- 🎀 Custom ribbon: ${ribbonText}`);
-      if (selectedAddons.length > 0) {
-        const addonLabels = selectedAddons.map(idx => pkg.addons[idx]?.label).filter(Boolean);
-        noteLines.push(`- 🎁 Add-ons: ${addonLabels.join(", ")}`);
-      }
-
-      const cartTotalForFee = (pkg.price + addonsCost + ribbonCost) + (deliveryMethod === "delivery" ? deliveryCost : 0);
-
-      const checkoutUrl = await performApiCheckout({
-        deliveryMethod,
-        deliveryCost,
-        serviceFeeBase: cartTotalForFee,
-        deliveryAddress: deliveryMethod === "delivery" ? selectedAddress : undefined,
-        deliveryZip: deliveryMethod === "delivery" ? deliveryZip : undefined,
-        structuredAddress: deliveryMethod === "delivery" ? structuredAddress : undefined,
-        accessories: [],
-        note: noteLines.join("\n"),
-      });
-
-      if (checkoutUrl) {
-        window.location.href = checkoutUrl;
-      } else {
-        toast.error("Could not get checkout URL.");
-      }
-    } catch {
-      toast.error("Checkout error. Please try again.");
     }
   };
 
@@ -454,32 +414,24 @@ const RoomDecorDetail = () => {
               </Section>
 
               {/* Desktop sticky bottom bar */}
-              <div className="pb-4" />
-              <div className="sticky bottom-0 bg-card/95 backdrop-blur-md border border-border rounded-lg p-4 lg:p-5 shadow-xl z-10">
-                <div className="flex items-center justify-between gap-4">
-                  <div className="flex-1 pr-4">
-                    <p className="font-body text-xs lg:text-sm text-muted-foreground leading-tight">
-                      {pkg.name}
-                      {pkg.bouquetIncluded && ` · ${selectedBouquetColor} bouquet`}
-                      {addRibbon && " · Ribbon"}
-                      {selectedAddons.length > 0 && ` · ${selectedAddons.length} add-on${selectedAddons.length > 1 ? 's' : ''}`}
-                      {deliveryMethod === "delivery" ? (deliveryMiles && !distanceTooFar ? ` · Shipping (${deliveryCost === 0 ? 'Free' : formatDeliveryCost(deliveryCost)})` : " · Shipping (pending)") : " · Pickup"}
-                    </p>
-                  </div>
-                  <p className="font-display text-2xl lg:text-3xl font-bold text-foreground whitespace-nowrap">
-                    ${totalPrice} <span className="text-xs font-body text-muted-foreground font-normal">USD</span>
+              <div className="space-y-3">
+                <div className="flex items-center justify-between">
+                  <p className="font-body text-xs lg:text-sm text-muted-foreground leading-tight flex-1 line-clamp-1 pr-3">
+                    {pkg.name}
+                    {pkg.bouquetIncluded && ` · ${selectedBouquetColor} bouquet`}
+                    {addRibbon && " · Ribbon"}
+                    {selectedAddons.length > 0 && ` · ${selectedAddons.length} add-on${selectedAddons.length > 1 ? 's' : ''}`}
                   </p>
-                  <div className="flex gap-2">
-                    <button onClick={handleAddToCart} disabled={isAdding}
-                      className="bg-primary text-primary-foreground px-6 lg:px-8 py-3 lg:py-4 font-body text-xs lg:text-sm tracking-widest uppercase hover:bg-primary/90 transition-colors rounded-lg disabled:opacity-50">
-                      {isAdding ? "Adding..." : "Add to cart"}
-                    </button>
-                    <button onClick={handlePayNow} disabled={isAdding}
-                      className="border-2 border-primary text-primary px-6 lg:px-8 py-3 lg:py-4 font-body text-xs lg:text-sm tracking-widest uppercase hover:bg-primary/10 transition-colors rounded-lg whitespace-nowrap disabled:opacity-50">
-                      {isAdding ? "Adding..." : "Pay now"}
-                    </button>
-                  </div>
+                  <p className="font-display text-xl lg:text-2xl font-bold text-foreground whitespace-nowrap">
+                    ${parseFloat(totalPrice.toFixed(2))}
+                  </p>
                 </div>
+                <button onClick={handleAddToCart} disabled={isAdding}
+                  className="w-full bg-primary text-primary-foreground py-4 lg:py-5 font-body text-sm lg:text-base tracking-[0.25em] uppercase font-semibold hover:bg-primary/90 transition-colors rounded-lg disabled:opacity-50">
+                  {isAdding ? "..." : t("product.orderAndPay")}
+                </button>
+                <PaymentIcons size={22} className="pt-1" />
+                <ProductTrustBlock />
               </div>
             </div>
           </div>
@@ -679,36 +631,29 @@ const RoomDecorDetail = () => {
             </Section>
 
             {/* Mobile sticky bottom bar */}
-            <div className="pb-4" />
-            <div className="sticky bottom-0 bg-card/95 backdrop-blur-md border border-border rounded-lg p-3 shadow-xl z-10">
-              <div className="flex flex-col gap-2">
-                <div className="flex justify-between items-center gap-3">
-                  <p className="font-body text-[10px] text-muted-foreground leading-tight flex-1 line-clamp-1">
-                    {pkg.name}
-                    {pkg.bouquetIncluded && ` · ${selectedBouquetColor} bouquet`}
-                    {addRibbon && " · Ribbon"}
-                    {selectedAddons.length > 0 && ` · ${selectedAddons.length} add-on${selectedAddons.length > 1 ? 's' : ''}`}
-                    {deliveryMethod === "delivery" ? (deliveryMiles && !distanceTooFar ? ` · Shipping (${deliveryCost === 0 ? 'Free' : formatDeliveryCost(deliveryCost)})` : " · Shipping (pending)") : " · Pickup"}
-                  </p>
-                  <p className="font-display text-lg font-bold text-foreground whitespace-nowrap">
-                    ${totalPrice}
-                  </p>
-                </div>
-                <div className="flex w-full gap-2">
-                  <button onClick={handleAddToCart} disabled={isAdding}
-                    className="flex-1 bg-primary text-primary-foreground px-4 py-2.5 font-body text-[10px] tracking-widest uppercase hover:bg-primary/90 transition-colors rounded-lg disabled:opacity-50">
-                    {isAdding ? "Adding..." : "Add to cart"}
-                  </button>
-                  <button onClick={handlePayNow} disabled={isAdding}
-                    className="flex-1 border-2 border-primary text-primary px-4 py-2.5 font-body text-[10px] tracking-widest uppercase hover:bg-primary/10 transition-colors rounded-lg whitespace-nowrap disabled:opacity-50">
-                    {isAdding ? "Adding..." : "Pay now"}
-                  </button>
-                </div>
+            <div className="space-y-3">
+              <div className="flex items-center justify-between">
+                <p className="font-body text-[10px] text-muted-foreground leading-tight flex-1 line-clamp-1 pr-3">
+                  {pkg.name}
+                  {pkg.bouquetIncluded && ` · ${selectedBouquetColor} bouquet`}
+                  {addRibbon && " · Ribbon"}
+                  {selectedAddons.length > 0 && ` · ${selectedAddons.length} add-on${selectedAddons.length > 1 ? 's' : ''}`}
+                </p>
+                <p className="font-display text-lg font-bold text-foreground whitespace-nowrap">
+                  ${parseFloat(totalPrice.toFixed(2))}
+                </p>
               </div>
+              <button onClick={handleAddToCart} disabled={isAdding}
+                className="w-full bg-primary text-primary-foreground py-4 font-body text-sm tracking-[0.25em] uppercase font-semibold hover:bg-primary/90 transition-colors rounded-lg disabled:opacity-50">
+                {isAdding ? "..." : t("product.orderAndPay")}
+              </button>
+              <PaymentIcons size={22} className="pt-1" />
+              <ProductTrustBlock />
             </div>
           </div>
         </div>
       </div>
+      <Footer />
     </div>
   );
 };

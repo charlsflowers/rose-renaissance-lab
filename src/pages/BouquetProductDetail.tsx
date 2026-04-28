@@ -595,7 +595,7 @@ const BouquetProductDetail = () => {
                 </div>
                 <button onClick={handleOrderNow} disabled={isAdding || variantsLoading}
                   className="w-full bg-primary text-primary-foreground py-4 lg:py-5 font-body text-sm lg:text-base tracking-[0.25em] uppercase font-semibold hover:bg-primary/90 transition-colors rounded-lg disabled:opacity-50">
-                  {isAdding ? "..." : variantsLoading ? "..." : "Order Now"}
+                  {isAdding ? "..." : variantsLoading ? "..." : t("product.orderAndPay")}
                 </button>
                 <PaymentIcons size={22} className="pt-1" />
                 <ProductTrustBlock />
@@ -665,7 +665,7 @@ const BouquetProductDetail = () => {
               </div>
               <button onClick={handleOrderNow} disabled={isAdding || variantsLoading}
                 className="w-full bg-primary text-primary-foreground py-4 font-body text-sm tracking-[0.25em] uppercase font-semibold hover:bg-primary/90 transition-colors rounded-lg disabled:opacity-50">
-                {isAdding ? "..." : variantsLoading ? "..." : "Order Now"}
+                {isAdding ? "..." : variantsLoading ? "..." : t("product.orderAndPay")}
               </button>
               <PaymentIcons size={22} className="pt-1" />
               <ProductTrustBlock />
@@ -696,7 +696,7 @@ const BouquetProductDetail = () => {
               disabled={isAdding || variantsLoading}
               className="bg-primary text-primary-foreground px-6 py-3 font-body text-xs sm:text-sm tracking-[0.2em] uppercase font-semibold hover:bg-primary/90 transition-colors rounded-lg disabled:opacity-50 whitespace-nowrap"
             >
-              {isAdding ? "..." : "Order Now"}
+              {isAdding ? "..." : t("product.orderAndPay")}
             </button>
           </div>
         </div>
