@@ -1040,7 +1040,7 @@ const BouquetBuilder = () => {
                           setCalendarOpen(false);
                         }
                       }}
-                      disabled={(date) => isBefore(startOfDay(date), startOfDay(todayInMiami())) || date.getDay() === 0}
+                      disabled={(date) => isBefore(startOfDay(date), startOfDay(todayInMiami())) || (date >= new Date(2026, 4, 1) && date <= new Date(2026, 4, 12))}
                       className="p-3 pointer-events-auto"
                       locale={enUS}
                     />
