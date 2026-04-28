@@ -14,7 +14,6 @@ import { storefrontApiRequest } from "@/lib/shopify";
 
 import Navbar from "@/components/Navbar";
 import PaperColorPicker from "@/components/PaperColorPicker";
-import heroBouquet from "@/assets/hero-cover.webp";
 import glitterRoseImg from "@/assets/glitter-rose.png";
 import crownSilverImg from "@/assets/crown-silver.webp";
 import crownGoldImg from "@/assets/crown-gold.webp";
