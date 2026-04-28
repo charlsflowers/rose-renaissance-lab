@@ -303,6 +303,8 @@ export const en = {
     numbers: "Numbers",
     typeLetters: "E.g.: LOVE (leave empty if none)",
     typeNumbers: "E.g.: 2025 (leave empty if none)",
+    typeLettersNumbers: "E.g.: LOVE, 2025 or A1B2",
+    lettersNumbersCombo: "You can choose letters, numbers or a combination of both — maximum 4 characters.",
     minRosesLetters: "Minimum 75 roses to add letters or numbers. Leave empty if you don't want any.",
     from3Letters: "From 3 letters, the minimum is 100 roses.",
     crown: "Crown Tiara",

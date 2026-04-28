@@ -291,6 +291,8 @@ export const es = {
     numbers: "Números",
     typeLetters: "Ej.: LOVE (deja vacío si no quieres)",
     typeNumbers: "Ej.: 2025 (deja vacío si no quieres)",
+    typeLettersNumbers: "Ej.: LOVE, 2025 o A1B2",
+    lettersNumbersCombo: "Puedes elegir letras, números o una combinación de ambos — máximo 4 caracteres.",
     minRosesLetters: "Mínimo 75 rosas para agregar letras o números. Deja vacío si no quieres.",
     from3Letters: "A partir de 3 letras, el mínimo es 100 rosas.",
     crown: "Corona Tiara",
