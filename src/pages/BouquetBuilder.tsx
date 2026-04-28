@@ -697,56 +697,34 @@ const BouquetBuilder = () => {
                 <div className="flex-1">
                   <p className="font-body font-semibold text-foreground mb-1">{t("builder.lettersNumbersDesc")}</p>
                   <p className="text-xs text-muted-foreground font-body mb-3">${letterNumberExtraPrice} {t("builder.lettersNumbersHint")}</p>
+                  <p className="text-xs text-foreground font-body">{t("builder.lettersNumbersCombo")}</p>
                 </div>
               </div>
               <div className="space-y-4">
-                <div className="flex gap-3">
-                  <button
-                    onClick={() => { setLettersNumbersType("letters"); setSpecialText(""); }}
-                    className={`flex items-center gap-2 px-4 py-2 rounded-lg border-2 text-sm font-body transition-all ${
-                      lettersNumbersType === "letters" ? "border-primary bg-primary/5 text-primary" : "border-border text-muted-foreground hover:border-primary/30"
-                    }`}
-                  >
-                    <Type className="w-4 h-4" /> {t("builder.letters")}
-                  </button>
-                  <button
-                    onClick={() => { setLettersNumbersType("numbers"); setSpecialText(""); }}
-                    className={`flex items-center gap-2 px-4 py-2 rounded-lg border-2 text-sm font-body transition-all ${
-                      lettersNumbersType === "numbers" ? "border-primary bg-primary/5 text-primary" : "border-border text-muted-foreground hover:border-primary/30"
-                    }`}
-                  >
-                    <Hash className="w-4 h-4" /> {t("builder.numbers")}
-                  </button>
-                </div>
                 <input
                   type="text"
                   value={specialText}
                   onChange={(e) => {
-                    const val = lettersNumbersType === "numbers"
-                      ? e.target.value.replace(/[^0-9]/g, "")
-                      : e.target.value.toUpperCase().replace(/[^A-Z]/g, "");
+                    const val = e.target.value.toUpperCase().replace(/[^A-Z0-9]/g, "");
                     setSpecialText(val);
                     if (val.length > 0) {
                       const minRoses75Idx = sizeOptions.findIndex(s => s.roses >= 75);
                       if (selectedSizeIdx < minRoses75Idx) setSelectedSizeIdx(minRoses75Idx);
-                      if (lettersNumbersType === "letters" && val.length >= 3) {
+                      if (val.length >= 3) {
                         const minIdx = sizeOptions.findIndex(s => s.roses >= 100);
                         if (selectedSizeIdx < minIdx) setSelectedSizeIdx(minIdx);
                       }
                     }
                   }}
-                  placeholder={lettersNumbersType === "letters" ? t("builder.typeLetters") : t("builder.typeNumbers")}
+                  placeholder={t("builder.typeLettersNumbers")}
                   className="w-full max-w-xs bg-card border border-border rounded-lg px-4 py-3 font-body text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30"
                   maxLength={4}
                 />
                 <p className="text-xs text-muted-foreground font-body">{t("builder.minRosesLetters")}</p>
-                {lettersNumbersType === "letters" && (
-                  <p className="text-xs text-muted-foreground font-body">{t("builder.from3Letters")}</p>
-                )}
                 {specialText.length > 0 && (
                   <div className="bg-card border border-border rounded-lg p-4">
                     <p className="font-body text-sm text-muted-foreground">
-                      {specialText.length} {lettersNumbersType === "letters" ? t("builder.letters").toLowerCase() : t("builder.numbers").toLowerCase()} × ${letterNumberExtraPrice} ={" "}
+                      {specialText.length} × ${letterNumberExtraPrice} ={" "}
                       <span className="text-primary font-semibold">+${lettersNumbersCost}</span>
                     </p>
                   </div>
