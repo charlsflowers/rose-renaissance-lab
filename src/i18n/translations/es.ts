@@ -42,6 +42,24 @@ export const es = {
     secureCheckout: "Pago seguro a través de Shopify",
     copyright: "© 2026 Charls Flowers Miami. Todos los derechos reservados.",
     tagline: "La florería premium de Miami — ramos personalizados y envío el mismo día.",
+    cookiePreferences: "Preferencias de cookies",
+  },
+
+  cookies: {
+    title: "Valoramos tu privacidad",
+    description: "Usamos cookies para mejorar tu experiencia, analizar el tráfico y personalizar anuncios. Puedes aceptar todas, rechazar o personalizar tus preferencias.",
+    acceptAll: "Aceptar todas",
+    rejectAll: "Rechazar todas",
+    customize: "Personalizar",
+    learnMore: "Más información",
+    save: "Guardar preferencias",
+    necessary: "Necesarias (siempre activas)",
+    necessaryDesc: "Requeridas para el funcionamiento del sitio: sesión, carrito, idioma y consentimiento.",
+    analytics: "Analíticas",
+    analyticsDesc: "Nos ayuda a entender cómo se usa el sitio",
+    marketing: "Marketing",
+    marketingDesc: "Sirve para mostrar anuncios relevantes en Google y otras plataformas",
+    preferencesTitle: "Preferencias de cookies",
   },
 
   home: {
