@@ -41,7 +41,7 @@ const RoomDecors = () => {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-8 max-w-5xl mx-auto">
             {roomDecorPackages.map((pkg, idx) => (
               <motion.div key={pkg.id} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: idx * 0.15 }}>
                 <Link to={`/room-decors/${pkg.id}`} className="group block">
@@ -50,13 +50,13 @@ const RoomDecors = () => {
                     <div className="absolute inset-0 bg-foreground/5 group-hover:bg-foreground/15 transition-colors" />
                     {pkg.id === 'deluxe-love-package' && (
                       <div className="absolute -top-1 -right-1 z-10">
-                        <div className="bg-primary text-primary-foreground px-5 py-1.5 rounded-bl-lg rounded-tr-sm font-body text-xs tracking-wider uppercase font-bold shadow-lg">
+                        <div className="bg-primary text-primary-foreground px-2.5 md:px-5 py-1 md:py-1.5 rounded-bl-lg rounded-tr-sm font-body text-[9px] md:text-xs tracking-wider uppercase font-bold shadow-lg">
                           {t("roomDecors.mostPopular")}
                         </div>
                       </div>
                     )}
                   </div>
-                  <h3 className="font-display text-lg font-semibold text-foreground text-center">{pkg.name}</h3>
+                  <h3 className="font-display text-sm md:text-lg font-semibold text-foreground text-center">{pkg.name}</h3>
                   <p className="text-primary font-body text-sm font-semibold text-center mt-2">{t("product.from")} ${pkg.price}</p>
                 </Link>
               </motion.div>
