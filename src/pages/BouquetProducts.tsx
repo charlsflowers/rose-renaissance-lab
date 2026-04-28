@@ -17,25 +17,47 @@ type FilterType = "all" | "un-color" | "mezclas" | "zodiac";
 
 const isZodiac = (id: string) => id.startsWith('bq-zodiac-');
 
-// Manual display order requested by store owner. Handles not listed appear after, in catalog order.
-const MANUAL_ORDER: string[] = [
-  // Reds / passion
-  'total-passion', 'bicolor-passion', 'passionate-love', 'elegant-passion', 'classic-tricolor', 'iberian-passion',
-  // Contrast / bee
+// Manual display orders by profitability, requested by store owner.
+// Handles not listed appear after, in catalog order.
+const ORDER_ALL: string[] = [
+  'aries-bouquet', 'pisces-bouquet', 'cancer-bouquet', 'taurus-bouquet',
+  'blue-sky', 'deep-night', 'green-fresh',
+  'aquarius-bouquet', 'capricorn-bouquet', 'sagittarius-bouquet',
+  'total-passion',
+  'night-day', 'white-ocean', 'dark-pink-elegance',
+  'dark-romance', 'bicolor-passion', 'passionate-love', 'elegant-passion', 'classic-tricolor', 'iberian-passion',
   'elegant-contrast', 'imperial-bee',
-  // Pink / fire mixes
   'pink-symphony', 'fire-sun', 'tricolor-love', 'intense-romance',
-  // Zodiac highlights
   'scorpio-bouquet', 'libra-bouquet', 'virgo-bouquet', 'leo-bouquet', 'gemini-bouquet',
-  // Single colors
   'pure-white', 'hot-pink-blush', 'soft-pink', 'purple-charm', 'orange-sunset', 'radiant-sun',
   'red-sweetness', 'orange-citrus', 'infinite-tenderness', 'light-citrus', 'spring-garden',
   'pink-white-dawn', 'warm-sunset', 'magic-pastel', 'soft-spring', 'citrus-refresh',
 ];
 
-const sortByManualOrder = <T extends { shopifyHandle: string }>(items: T[]): T[] => {
+const ORDER_ZODIAC: string[] = [
+  'aries-bouquet', 'pisces-bouquet', 'cancer-bouquet', 'taurus-bouquet',
+  'aquarius-bouquet', 'capricorn-bouquet', 'sagittarius-bouquet',
+  'scorpio-bouquet', 'libra-bouquet', 'virgo-bouquet', 'leo-bouquet', 'gemini-bouquet',
+];
+
+const ORDER_SINGLE: string[] = [
+  'blue-sky', 'deep-night', 'green-fresh', 'total-passion', 'iberian-passion',
+  'pure-white', 'hot-pink-blush', 'soft-pink', 'purple-charm', 'orange-sunset',
+  'radiant-sun', 'red-sweetness', 'orange-citrus', 'infinite-tenderness',
+  'light-citrus', 'spring-garden',
+];
+
+const ORDER_MIXED: string[] = [
+  'night-day', 'white-ocean', 'dark-pink-elegance', 'dark-romance',
+  'bicolor-passion', 'passionate-love', 'elegant-passion', 'classic-tricolor',
+  'elegant-contrast', 'imperial-bee', 'pink-symphony', 'fire-sun',
+  'tricolor-love', 'intense-romance', 'pink-white-dawn', 'warm-sunset',
+  'magic-pastel', 'soft-spring', 'citrus-refresh',
+];
+
+const sortByOrder = <T extends { shopifyHandle: string }>(items: T[], order: string[]): T[] => {
   const idx = (h: string) => {
-    const i = MANUAL_ORDER.indexOf(h);
+    const i = order.indexOf(h);
     return i === -1 ? Number.MAX_SAFE_INTEGER : i;
   };
   return [...items].sort((a, b) => idx(a.shopifyHandle) - idx(b.shopifyHandle));
@@ -55,14 +77,21 @@ const BouquetProducts = () => {
     setFilter(urlFilter);
   }, [searchParams]);
 
-  const filteredProducts = sortByManualOrder(
+  const orderForFilter =
+    filter === "zodiac" ? ORDER_ZODIAC :
+    filter === "un-color" ? ORDER_SINGLE :
+    filter === "mezclas" ? ORDER_MIXED :
+    ORDER_ALL;
+
+  const filteredProducts = sortByOrder(
     bouquetProducts.filter((product) => {
       if (filter === "zodiac") return isZodiac(product.id);
       if (filter === "all") return true;
       if (isZodiac(product.id)) return false;
       const isMix = product.color.includes(" y ") || product.color.includes(", ") || product.color.includes(" y");
       return filter === "mezclas" ? isMix : !isMix;
-    })
+    }),
+    orderForFilter
   );
 
   return (
