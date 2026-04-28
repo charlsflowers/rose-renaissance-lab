@@ -1,7 +1,7 @@
 import { GOOGLE_MAPS_API_KEY } from "@/lib/constants";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { ArrowRight, Heart, Sparkles, Star, Lock, Store, Truck, Globe } from "lucide-react";
+import { ArrowRight, Heart, Sparkles, Star, Lock, Store, Truck, Globe, Flower2 } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import SeoHead from "@/components/SeoHead";
@@ -238,6 +238,37 @@ const Index = () => {
               {t("home.customize")} <ArrowRight className="w-4 h-4" />
             </Link>
           </motion.div>
+        </div>
+      </section>
+
+      {/* Why Charls Flowers */}
+      <section className="py-16 md:py-20 bg-background">
+        <div className="container mx-auto px-6">
+          <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.8 }} className="text-center mb-10">
+            <h2 className="font-title-retro text-4xl md:text-5xl text-primary mb-4">{t("home.whyUs.title")}</h2>
+            <p className="text-muted-foreground font-body max-w-lg mx-auto">{t("home.whyUs.subtitle")}</p>
+          </motion.div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-6xl mx-auto">
+            {[
+              { Icon: Flower2, title: t("home.whyUs.value1Title"), desc: t("home.whyUs.value1Desc") },
+              { Icon: Truck, title: t("home.whyUs.value2Title"), desc: t("home.whyUs.value2Desc") },
+              { Icon: Sparkles, title: t("home.whyUs.value3Title"), desc: t("home.whyUs.value3Desc") },
+              { Icon: Heart, title: t("home.whyUs.value4Title"), desc: t("home.whyUs.value4Desc") },
+            ].map(({ Icon, title, desc }, i) => (
+              <motion.div
+                key={title}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: i * 0.1 }}
+                className="flex flex-col items-center text-center px-4"
+              >
+                <Icon className="h-10 w-10 text-primary mb-4" strokeWidth={1.5} />
+                <h3 className="font-display text-lg font-semibold text-foreground uppercase tracking-wide mb-2">{title}</h3>
+                <p className="text-muted-foreground font-body text-sm leading-relaxed">{desc}</p>
+              </motion.div>
+            ))}
+          </div>
         </div>
       </section>
 

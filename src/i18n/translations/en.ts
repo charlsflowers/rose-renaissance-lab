@@ -81,8 +81,18 @@ export const en = {
     customizeTitle: "Build Your Custom Bouquet with AI Preview",
     customizeDescription: "Create a unique bouquet by choosing color, size, accessories, and more.",
     customize: "Customize",
-    reviewsTitle: "What our customers say",
-    reviewsSubtitle: "Like what you see? Order it directly from here.",
+    whyUs: {
+      title: "Why Charls Flowers",
+      subtitle: "What makes us Miami's premier flower shop",
+      value1Title: "Premium Roses",
+      value1Desc: "Imported, hand-selected, long-lasting blooms in every bouquet.",
+      value2Title: "Same-Day Delivery",
+      value2Desc: "Up to 87 miles across Miami. Order today, delivered today.",
+      value3Title: "Custom Designs",
+      value3Desc: "Personalized bouquets from 50 to 200 roses, your way.",
+      value4Title: "Hand-Crafted with Love",
+      value4Desc: "Every bouquet made to order by our floral artisans.",
+    },
     ctaPrice: "From $76 USD",
     ctaDescription: "Customize every detail: color, size, accessories, and more.",
     customizeNow: "Customize now",
@@ -386,19 +396,6 @@ export const en = {
     shippingMi: "Shipping",
     customerNotes: "Customer Notes",
     customerNotesPlaceholder: "Write any special instructions for the delivery...",
-  },
-
-  // Reviews
-  reviews: {
-    addToCart: "Add to cart",
-    orderAndPay: "Order now",
-    bouquets: "Bouquets",
-    custom: "Custom",
-    arrangements: "Arrangements",
-    boxes: "Boxes",
-    baskets: "Baskets",
-    vases: "Vases",
-    bears: "Bears",
   },
 
   // Client Videos
