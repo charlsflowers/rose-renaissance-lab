@@ -97,7 +97,7 @@ const ReviewCard = ({ review, index, dynamicImage }: { review: ReviewData; index
               onClick={() => openDialog("cart")}
               className="w-full bg-primary text-primary-foreground px-3 py-2.5 font-body text-[10px] sm:text-xs tracking-widest uppercase font-semibold hover:bg-primary/90 transition-colors rounded-lg"
             >
-              Order Now
+              {t("product.orderAndPay")}
             </button>
           </div>
         </div>
