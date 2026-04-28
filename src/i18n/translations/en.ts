@@ -40,7 +40,7 @@ export const en = {
     hoursLine1: "Monday – Friday: 8AM – 7PM",
     hoursLine2: "Saturday: 8AM – 5PM",
     hoursLine3: "Sunday: Closed",
-    payments: "Visa · Mastercard · Amex · PayPal · Shop Pay",
+    payments: "Visa · Mastercard · Amex · Apple Pay · Google Pay · Shop Pay · Zelle",
     secureCheckout: "Secure checkout powered by Shopify",
     copyright: "© 2026 Charls Flowers Miami. All rights reserved.",
     tagline: "Miami's premier flower shop — custom bouquets & same-day delivery.",
