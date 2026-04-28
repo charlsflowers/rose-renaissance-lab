@@ -7,7 +7,6 @@ import Footer from "@/components/Footer";
 import SeoHead from "@/components/SeoHead";
 import JsonLd, { localBusinessSchema, serviceSchema, websiteSchema, faqSchema, homepageFaqs } from "@/components/JsonLd";
 import { useTranslation } from "@/i18n/LanguageContext";
-import heroBouquet from "@/assets/hero-cover.webp";
 import arreglosImg from "@/assets/arreglos.jpg";
 import cajasImg from "@/assets/cajas.jpg";
 import cestasImg from "@/assets/cestas.jpg";
