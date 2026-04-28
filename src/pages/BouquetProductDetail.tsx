@@ -531,9 +531,9 @@ const BouquetProductDetail = () => {
           <Breadcrumbs items={[{ label: "Home", to: "/" }, { label: "Bouquets", to: "/bouquets" }, { label: product.name }]} />
 
           {/* ===== DESKTOP: two-column layout ===== */}
-          <div className="hidden md:grid md:grid-cols-[1fr_1fr] lg:grid-cols-[55%_45%] gap-10 lg:gap-16 max-w-7xl mx-auto">
+          <div className="hidden lg:grid lg:grid-cols-[55%_45%] gap-10 lg:gap-16 max-w-7xl mx-auto">
             {/* Left column — sticky images */}
-            <div className="sticky top-28 self-start space-y-3">
+            <div className="sticky top-28 self-start space-y-3 min-w-0">
               <div className="relative overflow-hidden rounded-lg bg-muted flex items-center justify-center aspect-square">
                 {primaryImage ? (
                   <img src={primaryImage} alt={`${product.name} Miami – Charls Flowers`} width={600} height={600} className="w-full h-full object-contain" />
@@ -605,7 +605,7 @@ const BouquetProductDetail = () => {
           </div>
 
           {/* ===== MOBILE: stacked layout ===== */}
-          <div className="md:hidden max-w-4xl mx-auto space-y-8">
+          <div className="lg:hidden max-w-4xl mx-auto space-y-8">
             {/* Mobile images */}
             <div className="flex overflow-x-auto snap-x snap-mandatory scrollbar-hide gap-3 pb-2 -mx-6 px-6 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
               <div className="w-[88%] flex-none snap-start relative overflow-hidden rounded-lg bg-muted flex items-center justify-center aspect-square">
