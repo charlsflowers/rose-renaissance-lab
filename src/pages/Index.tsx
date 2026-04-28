@@ -66,6 +66,7 @@ const Index = () => {
       <JsonLd data={faqSchema(homepageFaqs)} />
       <Navbar />
 
+      <main>
       {/* Hero */}
       <section className="relative h-[70vh] md:h-screen flex items-end md:items-center overflow-hidden">
         <div className="absolute inset-0">
@@ -342,6 +343,7 @@ const Index = () => {
         </div>
       </section>
 
+      </main>
       <Footer />
     </div>
   );
