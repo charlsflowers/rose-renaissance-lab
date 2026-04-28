@@ -18,22 +18,23 @@ import SeoHead from "@/components/SeoHead";
 import JsonLd, { productSchema, breadcrumbSchema } from "@/components/JsonLd";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import {
-  ArrowLeft, Check, Truck, CalendarIcon, Clock, MapPin, Search, Loader2, Heart,
+  ArrowLeft, Check, Truck, CalendarIcon, Clock, MapPin, Search, Loader2, Heart, ChevronDown, ChevronUp,
 } from "lucide-react";
 import { Calendar } from "@/components/ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 
 const RoomDecorDetail = () => {
   const { packageId } = useParams<{ packageId: string }>();
-  const { t } = useTranslation();
+  const { t, language } = useTranslation();
   const addItem = useCartStore(state => state.addItem);
   const pkg = roomDecorPackages.find(p => p.id === packageId);
 
-  const [selectedBouquetColor, setSelectedBouquetColor] = useState(roomDecorBouquetColors[0]);
+  const [selectedBouquetColor, setSelectedBouquetColor] = useState(roomDecorBouquetColors[0].name);
   const [selectedAddons, setSelectedAddons] = useState<number[]>([]);
   const [addRibbon, setAddRibbon] = useState(false);
   const [ribbonText, setRibbonText] = useState("");
   const [isAdding, setIsAdding] = useState(false);
+  const [includesOpen, setIncludesOpen] = useState(false);
 
   // Delivery state
   const deliveryMethod = "delivery" as const;
@@ -139,7 +140,10 @@ const RoomDecorDetail = () => {
   const toggleAddon = (idx: number) => {
     setSelectedAddons(prev => {
       if (prev.includes(idx)) return prev.filter(i => i !== idx);
-      if (prev.length >= pkg.maxAddons) return [...prev.slice(1), idx];
+      if (prev.length >= pkg.maxAddons) {
+        toast.error(t("roomDecors.maxAddonsReached"));
+        return prev;
+      }
       return [...prev, idx];
     });
   };
@@ -227,53 +231,72 @@ const RoomDecorDetail = () => {
             <div className="min-w-0 space-y-5 lg:space-y-7">
               <div>
                 <h1 className="font-display text-2xl lg:text-4xl font-semibold text-foreground">{pkg.name}</h1>
-                <p className="text-muted-foreground font-body text-sm lg:text-base mt-1 lg:mt-2">{pkg.description}</p>
+                <p className="text-muted-foreground font-body text-sm lg:text-base mt-1 lg:mt-2">{language === "es" && pkg.descriptionEs ? pkg.descriptionEs : pkg.description}</p>
                 <p className="font-display text-xl lg:text-3xl font-bold text-foreground mt-2 lg:mt-3">${pkg.price} <span className="text-xs lg:text-sm font-body text-muted-foreground font-normal">USD</span></p>
               </div>
 
               {/* What's included */}
-              <Section title="What's Included" step={step++}>
-                <div className="space-y-2">
-                  {pkg.includes.map((item, idx) => (
-                    <div key={idx} className="flex items-start gap-3 p-3 rounded-lg bg-primary/5 border border-primary/10">
-                      <Heart className="w-4 h-4 text-primary flex-shrink-0 mt-0.5 fill-primary" />
-                      <p className="font-body text-sm text-foreground">{item}</p>
-                    </div>
-                  ))}
-                </div>
+              <Section title={t("roomDecors.whatsIncluded")} step={step++}>
+                <button
+                  type="button"
+                  onClick={() => setIncludesOpen(o => !o)}
+                  className="w-full flex items-center justify-between p-3 rounded-lg bg-primary/5 border border-primary/10 text-left hover:bg-primary/10 transition-colors"
+                  aria-expanded={includesOpen}
+                >
+                  <span className="font-body text-sm font-semibold text-foreground">
+                    {includesOpen ? t("roomDecors.hide") : t("roomDecors.show")} ({(language === "es" && pkg.includesEs ? pkg.includesEs : pkg.includes).length})
+                  </span>
+                  {includesOpen ? <ChevronUp className="w-4 h-4 text-primary" /> : <ChevronDown className="w-4 h-4 text-primary" />}
+                </button>
+                {includesOpen && (
+                  <div className="space-y-2 mt-3">
+                    {(language === "es" && pkg.includesEs ? pkg.includesEs : pkg.includes).map((item, idx) => (
+                      <div key={idx} className="flex items-start gap-3 p-3 rounded-lg bg-primary/5 border border-primary/10">
+                        <Heart className="w-4 h-4 text-primary flex-shrink-0 mt-0.5 fill-primary" />
+                        <p className="font-body text-sm text-foreground">{item}</p>
+                      </div>
+                    ))}
+                  </div>
+                )}
                 {pkg.bouquetIncluded?.restrictionsApply && (
-                  <p className="text-xs text-muted-foreground font-body mt-3 italic">* Restrictions Apply</p>
+                  <p className="text-xs text-muted-foreground font-body mt-3 italic">{t("roomDecors.restrictionsApply")}</p>
                 )}
               </Section>
 
               {/* Bouquet color selection */}
               {pkg.bouquetIncluded && (
-                <Section title="Bouquet Color" step={step++} subtitle="Included">
+                <Section title={t("roomDecors.bouquetColor")} step={step++} subtitle={t("roomDecors.included")}>
                   <p className="text-xs text-muted-foreground font-body mb-4">
-                    Choose the color for your {pkg.bouquetIncluded.roses}-rose bouquet
+                    {t("roomDecors.chooseColorFor")} {pkg.bouquetIncluded.roses} {t("roomDecors.roseBouquet")}
                   </p>
-                  <div className="flex flex-wrap gap-3">
-                    {roomDecorBouquetColors.map(color => (
-                      <button
-                        key={color}
-                        onClick={() => setSelectedBouquetColor(color)}
-                      className={`px-4 py-3 rounded-lg border-2 text-center transition-all font-body text-sm whitespace-nowrap ${
-                          selectedBouquetColor === color
-                            ? "border-primary bg-primary/5 text-primary"
-                            : "border-border text-muted-foreground hover:border-primary/30"
-                        }`}
-                      >
-                        {color}
-                        {selectedBouquetColor === color && <Check className="w-3 h-3 mx-auto mt-1 text-primary" />}
-                      </button>
-                    ))}
+                  <div className="grid grid-cols-3 gap-3">
+                    {roomDecorBouquetColors.map(color => {
+                      const isActive = selectedBouquetColor === color.name;
+                      return (
+                        <button
+                          key={color.name}
+                          onClick={() => setSelectedBouquetColor(color.name)}
+                          className={`relative rounded-lg border-2 overflow-hidden transition-all ${
+                            isActive ? "border-primary shadow-md" : "border-border hover:border-primary/30"
+                          }`}
+                        >
+                          <div className="aspect-square bg-muted">
+                            <img src={color.image} alt={`${color.name} rose bouquet`} loading="lazy" className="w-full h-full object-cover" />
+                          </div>
+                          <div className={`px-2 py-1.5 font-body text-[11px] text-center ${isActive ? "bg-primary text-primary-foreground" : "bg-card text-foreground"}`}>
+                            {color.name}
+                          </div>
+                          {isActive && <Check className="absolute top-1.5 right-1.5 w-4 h-4 text-primary-foreground bg-primary rounded-full p-0.5" />}
+                        </button>
+                      );
+                    })}
                   </div>
                 </Section>
               )}
 
               {/* Ribbon option (Overly Romantic) */}
               {pkg.ribbonOption && (
-                <Section title="Bouquet Ribbon" step={step++} subtitle={`+$${pkg.ribbonOption.price}`}>
+                <Section title={t("roomDecors.bouquetRibbon")} step={step++} subtitle={`+$${pkg.ribbonOption.price}`}>
                   <button
                     onClick={() => setAddRibbon(!addRibbon)}
                     className={`w-full p-4 rounded-lg border-2 transition-all flex items-center gap-4 ${
@@ -281,7 +304,7 @@ const RoomDecorDetail = () => {
                     }`}
                   >
                     <div className="text-left flex-1">
-                      <p className="font-body font-semibold text-foreground text-sm">Add a ribbon to the bouquet</p>
+                      <p className="font-body font-semibold text-foreground text-sm">{t("roomDecors.addRibbon")}</p>
                       <p className="text-xs text-muted-foreground font-body">+${pkg.ribbonOption.price}</p>
                     </div>
                     {addRibbon && <Check className="w-5 h-5 text-primary" />}
@@ -291,7 +314,7 @@ const RoomDecorDetail = () => {
                       type="text"
                       value={ribbonText}
                       onChange={(e) => setRibbonText(e.target.value)}
-                      placeholder="Write the ribbon text..."
+                      placeholder={t("roomDecors.writeRibbonText")}
                       maxLength={40}
                       className="w-full mt-3 bg-card border border-border rounded-lg px-4 py-3 font-body text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30"
                     />
@@ -301,9 +324,9 @@ const RoomDecorDetail = () => {
 
               {/* Complementary add-ons */}
               {pkg.addons.length > 0 && (
-                <Section title="Complementary Add-ons" step={step++} subtitle={`Choose ${pkg.maxAddons}`}>
+                <Section title={t("roomDecors.complementaryAddons")} step={step++} subtitle={`${t("roomDecors.choose")} ${pkg.maxAddons}`}>
                   <p className="text-xs text-muted-foreground font-body mb-4">
-                    You may choose {pkg.maxAddons} complementary add-on{pkg.maxAddons > 1 ? 's' : ''}
+                    {t("roomDecors.youMayChoose")} {pkg.maxAddons} {pkg.maxAddons > 1 ? t("roomDecors.addons") : t("roomDecors.addon")}
                   </p>
                   <div className="space-y-2">
                     {pkg.addons.map((addon, idx) => {
@@ -319,7 +342,7 @@ const RoomDecorDetail = () => {
                           }`}
                         >
                           <div className="flex-1">
-                            <p className="font-body text-sm text-foreground">{addon.label}</p>
+                            <p className="font-body text-sm text-foreground">{language === "es" && addon.labelEs ? addon.labelEs : addon.label}</p>
                             {addon.price > 0 && (
                               <p className="text-xs text-muted-foreground font-body">+${addon.price}</p>
                             )}
@@ -445,52 +468,71 @@ const RoomDecorDetail = () => {
 
             <div className="text-center">
               <h1 className="font-display text-3xl font-semibold text-foreground">{pkg.name}</h1>
-              <p className="text-muted-foreground font-body mt-2">{pkg.description}</p>
+              <p className="text-muted-foreground font-body mt-2">{language === "es" && pkg.descriptionEs ? pkg.descriptionEs : pkg.description}</p>
             </div>
 
             {/* What's included */}
-            <Section title="What's Included" step={1}>
-              <div className="space-y-2">
-                {pkg.includes.map((item, idx) => (
-                  <div key={idx} className="flex items-start gap-3 p-3 rounded-lg bg-primary/5 border border-primary/10">
-                    <Heart className="w-4 h-4 text-primary flex-shrink-0 mt-0.5 fill-primary" />
-                    <p className="font-body text-sm text-foreground">{item}</p>
-                  </div>
-                ))}
-              </div>
+            <Section title={t("roomDecors.whatsIncluded")} step={1}>
+              <button
+                type="button"
+                onClick={() => setIncludesOpen(o => !o)}
+                className="w-full flex items-center justify-between p-3 rounded-lg bg-primary/5 border border-primary/10 text-left hover:bg-primary/10 transition-colors"
+                aria-expanded={includesOpen}
+              >
+                <span className="font-body text-sm font-semibold text-foreground">
+                  {includesOpen ? t("roomDecors.hide") : t("roomDecors.show")} ({(language === "es" && pkg.includesEs ? pkg.includesEs : pkg.includes).length})
+                </span>
+                {includesOpen ? <ChevronUp className="w-4 h-4 text-primary" /> : <ChevronDown className="w-4 h-4 text-primary" />}
+              </button>
+              {includesOpen && (
+                <div className="space-y-2 mt-3">
+                  {(language === "es" && pkg.includesEs ? pkg.includesEs : pkg.includes).map((item, idx) => (
+                    <div key={idx} className="flex items-start gap-3 p-3 rounded-lg bg-primary/5 border border-primary/10">
+                      <Heart className="w-4 h-4 text-primary flex-shrink-0 mt-0.5 fill-primary" />
+                      <p className="font-body text-sm text-foreground">{item}</p>
+                    </div>
+                  ))}
+                </div>
+              )}
               {pkg.bouquetIncluded?.restrictionsApply && (
-                <p className="text-xs text-muted-foreground font-body mt-3 italic">* Restrictions Apply</p>
+                <p className="text-xs text-muted-foreground font-body mt-3 italic">{t("roomDecors.restrictionsApply")}</p>
               )}
             </Section>
 
             {/* Bouquet color selection */}
             {pkg.bouquetIncluded && (
-              <Section title="Bouquet Color" step={2} subtitle="Included">
+              <Section title={t("roomDecors.bouquetColor")} step={2} subtitle={t("roomDecors.included")}>
                 <p className="text-xs text-muted-foreground font-body mb-4">
-                  Choose the color for your {pkg.bouquetIncluded.roses}-rose bouquet
+                  {t("roomDecors.chooseColorFor")} {pkg.bouquetIncluded.roses} {t("roomDecors.roseBouquet")}
                 </p>
-                <div className="flex flex-wrap gap-3">
-                  {roomDecorBouquetColors.map(color => (
-                    <button
-                      key={color}
-                      onClick={() => setSelectedBouquetColor(color)}
-                      className={`px-4 py-3 rounded-lg border-2 text-center transition-all font-body text-sm whitespace-nowrap ${
-                        selectedBouquetColor === color
-                          ? "border-primary bg-primary/5 text-primary"
-                          : "border-border text-muted-foreground hover:border-primary/30"
-                      }`}
-                    >
-                      {color}
-                      {selectedBouquetColor === color && <Check className="w-3 h-3 mx-auto mt-1 text-primary" />}
-                    </button>
-                  ))}
+                <div className="grid grid-cols-3 gap-3">
+                  {roomDecorBouquetColors.map(color => {
+                    const isActive = selectedBouquetColor === color.name;
+                    return (
+                      <button
+                        key={color.name}
+                        onClick={() => setSelectedBouquetColor(color.name)}
+                        className={`relative rounded-lg border-2 overflow-hidden transition-all ${
+                          isActive ? "border-primary shadow-md" : "border-border hover:border-primary/30"
+                        }`}
+                      >
+                        <div className="aspect-square bg-muted">
+                          <img src={color.image} alt={`${color.name} rose bouquet`} loading="lazy" className="w-full h-full object-cover" />
+                        </div>
+                        <div className={`px-2 py-1.5 font-body text-[11px] text-center ${isActive ? "bg-primary text-primary-foreground" : "bg-card text-foreground"}`}>
+                          {color.name}
+                        </div>
+                        {isActive && <Check className="absolute top-1.5 right-1.5 w-4 h-4 text-primary-foreground bg-primary rounded-full p-0.5" />}
+                      </button>
+                    );
+                  })}
                 </div>
               </Section>
             )}
 
             {/* Ribbon option */}
             {pkg.ribbonOption && (
-              <Section title="Bouquet Ribbon" step={pkg.bouquetIncluded ? 3 : 2} subtitle={`+$${pkg.ribbonOption.price}`}>
+              <Section title={t("roomDecors.bouquetRibbon")} step={pkg.bouquetIncluded ? 3 : 2} subtitle={`+$${pkg.ribbonOption.price}`}>
                 <button
                   onClick={() => setAddRibbon(!addRibbon)}
                   className={`w-full p-5 rounded-lg border-2 transition-all flex items-center gap-4 ${
@@ -498,7 +540,7 @@ const RoomDecorDetail = () => {
                   }`}
                 >
                   <div className="text-left flex-1">
-                    <p className="font-body font-semibold text-foreground">Add a ribbon to the bouquet</p>
+                    <p className="font-body font-semibold text-foreground">{t("roomDecors.addRibbon")}</p>
                     <p className="text-xs text-muted-foreground font-body">+${pkg.ribbonOption.price}</p>
                   </div>
                   {addRibbon && <Check className="w-5 h-5 text-primary" />}
@@ -508,7 +550,7 @@ const RoomDecorDetail = () => {
                     type="text"
                     value={ribbonText}
                     onChange={(e) => setRibbonText(e.target.value)}
-                    placeholder="Write the ribbon text..."
+                    placeholder={t("roomDecors.writeRibbonText")}
                     maxLength={40}
                     className="w-full mt-3 bg-card border border-border rounded-lg px-4 py-3 font-body text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30"
                   />
@@ -518,9 +560,9 @@ const RoomDecorDetail = () => {
 
             {/* Complementary add-ons */}
             {pkg.addons.length > 0 && (
-              <Section title="Complementary Add-ons" step={step} subtitle={`Choose ${pkg.maxAddons}`}>
+              <Section title={t("roomDecors.complementaryAddons")} step={step} subtitle={`${t("roomDecors.choose")} ${pkg.maxAddons}`}>
                 <p className="text-xs text-muted-foreground font-body mb-4">
-                  You may choose {pkg.maxAddons} complementary add-on{pkg.maxAddons > 1 ? 's' : ''}
+                  {t("roomDecors.youMayChoose")} {pkg.maxAddons} {pkg.maxAddons > 1 ? t("roomDecors.addons") : t("roomDecors.addon")}
                 </p>
                 <div className="space-y-2">
                   {pkg.addons.map((addon, idx) => {
@@ -536,7 +578,7 @@ const RoomDecorDetail = () => {
                         }`}
                       >
                         <div className="flex-1">
-                          <p className="font-body text-sm text-foreground">{addon.label}</p>
+                          <p className="font-body text-sm text-foreground">{language === "es" && addon.labelEs ? addon.labelEs : addon.label}</p>
                           {addon.price > 0 && (
                             <p className="text-xs text-muted-foreground font-body">+${addon.price}</p>
                           )}
