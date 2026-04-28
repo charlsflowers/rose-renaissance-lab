@@ -232,12 +232,12 @@ const Index = () => {
 
       {/* Customize your Bouquet */}
       <section className="py-16 md:py-20 bg-background">
-        <div className="container mx-auto px-6 text-center">
+        <div className="container mx-auto px-6 text-left md:text-center">
           <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.8 }}>
             <h2 className="font-title-retro text-4xl md:text-5xl text-primary mb-6">
               {t("home.customizeTitle")}
             </h2>
-            <p className="text-muted-foreground font-body mb-8 max-w-md mx-auto">
+            <p className="text-muted-foreground font-body mb-8 max-w-md md:mx-auto">
               {t("home.customizeDescription")}
             </p>
             <Link to="/bouquets/personalizar"
@@ -251,9 +251,9 @@ const Index = () => {
       {/* Reviews */}
       <section className="py-16 md:py-20">
         <div className="container mx-auto px-6">
-          <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.8 }} className="text-center mb-10">
+          <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.8 }} className="text-left md:text-center mb-10">
             <h2 className="font-title-retro text-4xl md:text-5xl text-primary mb-4">{t("home.reviewsTitle")}</h2>
-            <p className="text-muted-foreground font-body max-w-lg mx-auto">{t("home.reviewsSubtitle")}</p>
+            <p className="text-muted-foreground font-body max-w-lg md:mx-auto">{t("home.reviewsSubtitle")}</p>
           </motion.div>
 
           <ReviewFilters active={reviewCategory} onChange={setReviewCategory} />
@@ -316,19 +316,20 @@ const Index = () => {
       {/* Same-Day Delivery + Google Maps */}
       <section className="py-16 md:py-20">
         <div className="container mx-auto px-6">
-          <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.8 }} className="text-center mb-8">
+          <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.8 }} className="text-left md:text-center mb-8">
             <h2 className="font-title-retro text-4xl md:text-5xl text-primary mb-4">{t("home.deliveryTitle")}</h2>
-            <p className="text-muted-foreground font-body max-w-lg mx-auto">{t("home.deliverySubtitleLine1")}</p>
-            <p className="text-muted-foreground font-body max-w-lg mx-auto mt-1">{t("home.deliverySubtitleLine2")}</p>
+            <p className="text-muted-foreground font-body max-w-lg md:mx-auto">{t("home.deliverySubtitleLine1")}</p>
+            <p className="text-muted-foreground font-body max-w-lg md:mx-auto mt-1">{t("home.deliverySubtitleLine2")}</p>
             <p className="text-primary font-body text-sm font-semibold mt-3">{t("home.deliveryAddress")}</p>
           </motion.div>
           <div className="max-w-2xl mx-auto rounded-lg overflow-hidden border border-border aspect-square md:aspect-video" style={{ minHeight: '280px' }}>
             <iframe
-              src="https://storage.googleapis.com/maps-solutions-0p9mp01my4/locator-plus/twwi/locator-plus.html"
+              src="https://www.google.com/maps?q=7261+NW+12th+St,+Miami,+FL+33126&z=12&output=embed"
               width="100%"
               height="100%"
               style={{ border: 0 }}
               loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
               title="Charls Flowers Miami Location"
             />
           </div>

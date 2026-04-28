@@ -381,13 +381,13 @@ const BouquetProductDetail = () => {
         </div>
       </div>
       <div className="flex gap-2">
-        <button onClick={() => setAddGlitter(false)}
-          className={`flex-1 py-2.5 rounded-full border text-center transition-all font-body text-sm ${addGlitter === false ? "border-primary bg-primary/15 text-foreground" : "border-primary/30 text-foreground hover:bg-primary/5"}`}>
-          {t("product.no")}
-        </button>
         <button onClick={() => setAddGlitter(true)}
           className={`flex-1 py-2.5 rounded-full border text-center transition-all font-body text-sm ${addGlitter === true ? "border-primary bg-primary/15 text-foreground" : "border-primary/30 text-foreground hover:bg-primary/5"}`}>
           {t("product.yes")}
+        </button>
+        <button onClick={() => setAddGlitter(false)}
+          className={`flex-1 py-2.5 rounded-full border text-center transition-all font-body text-sm ${addGlitter === false ? "border-primary bg-primary/15 text-foreground" : "border-primary/30 text-foreground hover:bg-primary/5"}`}>
+          {t("product.no")}
         </button>
       </div>
     </Section>
@@ -493,7 +493,7 @@ const BouquetProductDetail = () => {
           </PopoverTrigger>
           <PopoverContent className="w-auto p-0" align="start">
             <Calendar mode="single" selected={deliveryDate} onSelect={(d) => { if (d) { setDeliveryDate(d); setDeliveryHour(""); setCalendarOpen(false); } }}
-              disabled={(date) => isBefore(startOfDay(date), startOfDay(todayInMiami())) || date.getDay() === 0 || (date >= new Date(2026, 4, 1) && date <= new Date(2026, 4, 12))} className="p-3 pointer-events-auto" locale={enUS}
+              disabled={(date) => isBefore(startOfDay(date), startOfDay(todayInMiami())) || (date >= new Date(2026, 4, 1) && date <= new Date(2026, 4, 12))} className="p-3 pointer-events-auto" locale={enUS}
               classNames={{ day_outside: "text-foreground", day_disabled: "text-muted-foreground opacity-50 line-through" }} />
           </PopoverContent>
         </Popover>

@@ -201,8 +201,8 @@ const DeliveryCalculator = ({ onResult }: Props) => {
           <iframe
             src={mapUrl}
             width="100%"
-            height="250"
-            style={{ border: 0 }}
+            style={{ border: 0, height: "320px" }}
+            className="w-full md:!h-[280px]"
             allowFullScreen
             loading="lazy"
             referrerPolicy="no-referrer-when-downgrade"

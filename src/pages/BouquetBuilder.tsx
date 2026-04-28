@@ -537,7 +537,7 @@ const BouquetBuilder = () => {
                                 setSelectedColors(prev => [...prev, color]);
                               }
                             }}
-                            className={`relative w-12 h-12 rounded-full border-2 transition-all ${
+                            className={`relative w-9 h-9 md:w-10 md:h-10 rounded-full border-2 transition-all ${
                               isSelected
                                 ? "border-primary scale-110 shadow-lg"
                                 : selectedColors.length >= 3
@@ -549,7 +549,7 @@ const BouquetBuilder = () => {
                             disabled={!isSelected && selectedColors.length >= 3}
                           >
                             {isSelected && (
-                              <Check className={`w-4 h-4 absolute inset-0 m-auto ${
+                              <Check className={`w-3.5 h-3.5 absolute inset-0 m-auto ${
                                 ["Negro", "Azul", "Morado"].includes(color.name) ? "text-primary-foreground" : "text-foreground"
                               }`} />
                             )}
@@ -697,56 +697,34 @@ const BouquetBuilder = () => {
                 <div className="flex-1">
                   <p className="font-body font-semibold text-foreground mb-1">{t("builder.lettersNumbersDesc")}</p>
                   <p className="text-xs text-muted-foreground font-body mb-3">${letterNumberExtraPrice} {t("builder.lettersNumbersHint")}</p>
+                  <p className="text-xs text-foreground font-body">{t("builder.lettersNumbersCombo")}</p>
                 </div>
               </div>
               <div className="space-y-4">
-                <div className="flex gap-3">
-                  <button
-                    onClick={() => { setLettersNumbersType("letters"); setSpecialText(""); }}
-                    className={`flex items-center gap-2 px-4 py-2 rounded-lg border-2 text-sm font-body transition-all ${
-                      lettersNumbersType === "letters" ? "border-primary bg-primary/5 text-primary" : "border-border text-muted-foreground hover:border-primary/30"
-                    }`}
-                  >
-                    <Type className="w-4 h-4" /> {t("builder.letters")}
-                  </button>
-                  <button
-                    onClick={() => { setLettersNumbersType("numbers"); setSpecialText(""); }}
-                    className={`flex items-center gap-2 px-4 py-2 rounded-lg border-2 text-sm font-body transition-all ${
-                      lettersNumbersType === "numbers" ? "border-primary bg-primary/5 text-primary" : "border-border text-muted-foreground hover:border-primary/30"
-                    }`}
-                  >
-                    <Hash className="w-4 h-4" /> {t("builder.numbers")}
-                  </button>
-                </div>
                 <input
                   type="text"
                   value={specialText}
                   onChange={(e) => {
-                    const val = lettersNumbersType === "numbers"
-                      ? e.target.value.replace(/[^0-9]/g, "")
-                      : e.target.value.toUpperCase().replace(/[^A-Z]/g, "");
+                    const val = e.target.value.toUpperCase().replace(/[^A-Z0-9]/g, "");
                     setSpecialText(val);
                     if (val.length > 0) {
                       const minRoses75Idx = sizeOptions.findIndex(s => s.roses >= 75);
                       if (selectedSizeIdx < minRoses75Idx) setSelectedSizeIdx(minRoses75Idx);
-                      if (lettersNumbersType === "letters" && val.length >= 3) {
+                      if (val.length >= 3) {
                         const minIdx = sizeOptions.findIndex(s => s.roses >= 100);
                         if (selectedSizeIdx < minIdx) setSelectedSizeIdx(minIdx);
                       }
                     }
                   }}
-                  placeholder={lettersNumbersType === "letters" ? t("builder.typeLetters") : t("builder.typeNumbers")}
+                  placeholder={t("builder.typeLettersNumbers")}
                   className="w-full max-w-xs bg-card border border-border rounded-lg px-4 py-3 font-body text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30"
                   maxLength={4}
                 />
                 <p className="text-xs text-muted-foreground font-body">{t("builder.minRosesLetters")}</p>
-                {lettersNumbersType === "letters" && (
-                  <p className="text-xs text-muted-foreground font-body">{t("builder.from3Letters")}</p>
-                )}
                 {specialText.length > 0 && (
                   <div className="bg-card border border-border rounded-lg p-4">
                     <p className="font-body text-sm text-muted-foreground">
-                      {specialText.length} {lettersNumbersType === "letters" ? t("builder.letters").toLowerCase() : t("builder.numbers").toLowerCase()} × ${letterNumberExtraPrice} ={" "}
+                      {specialText.length} × ${letterNumberExtraPrice} ={" "}
                       <span className="text-primary font-semibold">+${lettersNumbersCost}</span>
                     </p>
                   </div>
@@ -1040,7 +1018,7 @@ const BouquetBuilder = () => {
                           setCalendarOpen(false);
                         }
                       }}
-                      disabled={(date) => isBefore(startOfDay(date), startOfDay(todayInMiami())) || date.getDay() === 0}
+                      disabled={(date) => isBefore(startOfDay(date), startOfDay(todayInMiami())) || (date >= new Date(2026, 4, 1) && date <= new Date(2026, 4, 12))}
                       className="p-3 pointer-events-auto"
                       locale={enUS}
                     />
@@ -1097,18 +1075,10 @@ const BouquetBuilder = () => {
                 </p>
                 <p className="font-display text-xl font-bold text-foreground whitespace-nowrap">${parseFloat(totalPrice.toFixed(2))}</p>
               </div>
-              <div className="bg-primary rounded-lg overflow-hidden">
-                <button
-                  disabled={isAdding || variantsLoading}
-                  onClick={handleBuilderAddToCart}
-                  className="w-full py-3 font-body text-xs tracking-[0.2em] uppercase text-primary-foreground hover:bg-primary/90 transition-colors disabled:opacity-50">
-                  {isAdding ? "..." : variantsLoading ? "..." : t("product.addToCart").toUpperCase()}
-                </button>
-              </div>
               <button
                 disabled={isAdding || variantsLoading}
                 onClick={handleBuilderPayNow}
-                className="w-full border-2 border-primary text-primary py-2.5 font-body text-[10px] tracking-widest uppercase hover:bg-primary/10 transition-colors rounded-lg disabled:opacity-50">
+                className="w-full bg-primary text-primary-foreground py-4 font-body text-sm tracking-[0.25em] uppercase font-semibold hover:bg-primary/90 transition-colors rounded-lg disabled:opacity-50">
                 {isAdding ? "..." : t("product.orderAndPay")}
               </button>
             </div>
