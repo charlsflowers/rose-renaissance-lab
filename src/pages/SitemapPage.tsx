@@ -4,8 +4,15 @@ import Footer from "@/components/Footer";
 import SeoHead from "@/components/SeoHead";
 import { landingPages } from "@/lib/landingPagesData";
 import { blogArticles } from "@/lib/blogData";
+import { bouquetProducts } from "@/lib/catalogData";
+import { roomDecorPackages } from "@/lib/roomDecorData";
 
 const Sitemap = () => {
+  // Deduplicate bouquets by shopifyHandle (unique key for the route)
+  const uniqueBouquets = Array.from(
+    new Map(bouquetProducts.map((p) => [p.shopifyHandle, p])).values()
+  );
+
   const sections = [
     { title: "Main Pages", links: [
       { to: "/", label: "Home" },
@@ -18,6 +25,12 @@ const Sitemap = () => {
       { to: "/faq", label: "FAQ" },
       { to: "/blog", label: "Blog" },
     ]},
+    { title: "Bouquets", links: uniqueBouquets.map(p => ({
+      to: `/bouquets/all/${p.shopifyHandle}`, label: p.name,
+    }))},
+    { title: "Room Decors", links: roomDecorPackages.map(pkg => ({
+      to: `/room-decors/${pkg.id}`, label: pkg.name,
+    }))},
     { title: "Blog Articles", links: blogArticles.map(a => ({
       to: `/blog/${a.slug}`, label: a.title.split('|')[0].trim(),
     }))},
