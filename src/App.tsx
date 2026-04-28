@@ -1,3 +1,4 @@
+import { lazy, Suspense } from "react";
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -8,30 +9,34 @@ import FloatingCart from "@/components/FloatingCart";
 import { landingPages } from "@/lib/landingPagesData";
 import { bouquetProducts } from "@/lib/catalogData";
 import { roomDecorPackages } from "@/lib/roomDecorData";
-import Index from "./pages/Index";
-import BouquetBuilder from "./pages/BouquetBuilder";
-import Checkout from "./pages/Checkout";
-import NotFound from "./pages/NotFound";
-import CategoryProducts from "./pages/CategoryProducts";
-import CategoryProductDetail from "./pages/CategoryProductDetail";
-import BouquetProducts from "./pages/BouquetProducts";
-import BouquetProductDetail from "./pages/BouquetProductDetail";
-import RoomDecors from "./pages/RoomDecors";
-import RoomDecorDetail from "./pages/RoomDecorDetail";
-import About from "./pages/About";
-import Contact from "./pages/Contact";
-import Delivery from "./pages/Delivery";
-import FAQ from "./pages/FAQ";
-import PrivacyPolicy from "./pages/PrivacyPolicy";
-import TermsOfService from "./pages/TermsOfService";
-import RefundPolicy from "./pages/RefundPolicy";
-import ShippingPolicy from "./pages/ShippingPolicy";
-import CookiePolicy from "./pages/CookiePolicy";
-import SitemapPage from "./pages/SitemapPage";
-import Blog from "./pages/Blog";
-import BlogArticle from "./pages/BlogArticle";
-import LandingPage from "./pages/LandingPage";
 import ScrollToTop from "./components/ScrollToTop";
+
+// Eager: Index (LCP/home) + NotFound (tiny fallback) stay in main bundle
+import Index from "./pages/Index";
+import NotFound from "./pages/NotFound";
+
+// Lazy-loaded route components (code-split)
+const BouquetBuilder = lazy(() => import("./pages/BouquetBuilder"));
+const Checkout = lazy(() => import("./pages/Checkout"));
+const CategoryProducts = lazy(() => import("./pages/CategoryProducts"));
+const CategoryProductDetail = lazy(() => import("./pages/CategoryProductDetail"));
+const BouquetProducts = lazy(() => import("./pages/BouquetProducts"));
+const BouquetProductDetail = lazy(() => import("./pages/BouquetProductDetail"));
+const RoomDecors = lazy(() => import("./pages/RoomDecors"));
+const RoomDecorDetail = lazy(() => import("./pages/RoomDecorDetail"));
+const About = lazy(() => import("./pages/About"));
+const Contact = lazy(() => import("./pages/Contact"));
+const Delivery = lazy(() => import("./pages/Delivery"));
+const FAQ = lazy(() => import("./pages/FAQ"));
+const PrivacyPolicy = lazy(() => import("./pages/PrivacyPolicy"));
+const TermsOfService = lazy(() => import("./pages/TermsOfService"));
+const RefundPolicy = lazy(() => import("./pages/RefundPolicy"));
+const ShippingPolicy = lazy(() => import("./pages/ShippingPolicy"));
+const CookiePolicy = lazy(() => import("./pages/CookiePolicy"));
+const SitemapPage = lazy(() => import("./pages/SitemapPage"));
+const Blog = lazy(() => import("./pages/Blog"));
+const BlogArticle = lazy(() => import("./pages/BlogArticle"));
+const LandingPage = lazy(() => import("./pages/LandingPage"));
 
 const queryClient = new QueryClient();
 
@@ -68,6 +73,13 @@ const AppContent = () => {
     <>
       <ScrollToTop />
       <FloatingCart />
+      <Suspense
+        fallback={
+          <div className="min-h-screen flex items-center justify-center bg-background">
+            <div className="w-10 h-10 border-2 border-primary/20 border-t-primary rounded-full animate-spin" />
+          </div>
+        }
+      >
       <Routes>
         <Route path="/" element={<Index />} />
         <Route path="/products/:handle" element={<ShopifyProductRedirect />} />
@@ -99,6 +111,7 @@ const AppContent = () => {
         <Route path="/checkout" element={<Checkout />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
+      </Suspense>
     </>
   );
 };
