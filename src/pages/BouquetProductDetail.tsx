@@ -16,6 +16,7 @@ import { fetchVariantsByHandle, findVariantByRoses, getShopifyPrice, buildShopif
 import { useShopifyProductImages } from "@/hooks/useShopifyProductImages";
 import { performApiCheckout } from "@/lib/checkout";
 import { calculateDeliveryCost, formatDeliveryCost } from "@/lib/deliveryPricing";
+import { trackMetaEvent } from "@/lib/metaPixel";
 import { toast } from "sonner";
 import { buildAccessoryLineItems } from "@/lib/accessoryVariants";
 import Navbar from "@/components/Navbar";
@@ -61,6 +62,13 @@ const BouquetProductDetail = () => {
         currency: 'USD',
         value: firstPrice,
         items: [{ item_id: product.shopifyHandle, item_name: product.name }],
+      });
+      trackMetaEvent('ViewContent', {
+        content_ids: [product.shopifyHandle],
+        content_name: product.name,
+        content_type: 'product',
+        value: firstPrice,
+        currency: 'USD',
       });
     }
   }, [product?.shopifyHandle]);
@@ -313,6 +321,12 @@ const BouquetProductDetail = () => {
         currency: 'USD',
         value: basePrice,
         items: [{ item_id: product.shopifyHandle, item_name: product.name, quantity: 1 }],
+      });
+      trackMetaEvent('AddToCart', {
+        content_ids: [product.shopifyHandle],
+        content_name: product.name,
+        value: basePrice,
+        currency: 'USD',
       });
 
       const addPromise = addItem({

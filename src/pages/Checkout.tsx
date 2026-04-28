@@ -6,6 +6,7 @@ import { toast } from "sonner";
 import { useCartStore } from "@/stores/cartStore";
 import { performApiCheckout } from "@/lib/checkout";
 import { buildAccessoryLineItems } from "@/lib/accessoryVariants";
+import { trackMetaEvent } from "@/lib/metaPixel";
 import Navbar from "@/components/Navbar";
 import type { DeliveryResult } from "@/components/DeliveryCalculator";
 import { ArrowLeft } from "lucide-react";
@@ -53,6 +54,11 @@ const Checkout = () => {
     (window as any).gtag?.('event', 'begin_checkout', {
       currency: 'USD',
       value: itemsSubtotal,
+    });
+    trackMetaEvent('InitiateCheckout', {
+      value: itemsSubtotal,
+      currency: 'USD',
+      num_items: items.length,
     });
 
     setIsCheckingOut(true);
