@@ -5,7 +5,7 @@ const icons = [
   { src: "/payment-icons/apple-pay.webp", alt: "Apple Pay" },
   { src: "/payment-icons/google-pay.webp", alt: "Google Pay" },
   { src: "/payment-icons/shop-pay.webp", alt: "Shop Pay" },
-  { src: "/payment-icons/zelle.svg", alt: "Zelle" },
+  { src: "/payment-icons/zelle.webp", alt: "Zelle" },
 ];
 
 interface Props {
@@ -15,18 +15,22 @@ interface Props {
 
 const PaymentIcons = ({ className = "", size = 24 }: Props) => (
   <div
-    className={`flex items-center justify-center flex-wrap gap-2 ${className}`}
+    className={`flex items-center justify-center flex-wrap gap-3 ${className}`}
     aria-label="Accepted payment methods"
   >
     {icons.map((icon) => (
-      <img
+      <div
         key={icon.alt}
-        src={icon.src}
-        alt={icon.alt}
-        loading="lazy"
-        style={{ height: size, width: "auto" }}
-        className="object-contain opacity-90"
-      />
+        style={{ height: size, width: size * 1.6 }}
+        className="flex items-center justify-center"
+      >
+        <img
+          src={icon.src}
+          alt={icon.alt}
+          loading="lazy"
+          className="max-h-full max-w-full object-contain opacity-90"
+        />
+      </div>
     ))}
   </div>
 );
