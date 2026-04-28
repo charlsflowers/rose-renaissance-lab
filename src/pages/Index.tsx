@@ -1,13 +1,7 @@
-import { useState } from "react";
 import { GOOGLE_MAPS_API_KEY } from "@/lib/constants";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { ArrowRight, Heart, Sparkles, Star, Lock, Store, Truck, Globe } from "lucide-react";
-import ReviewCard from "@/components/ReviewCard";
-import type { ReviewCategory } from "@/components/ReviewCard";
-import ReviewFilters from "@/components/ReviewFilters";
-import { reviews } from "@/lib/reviewsData";
-import { useShopifyReviewImages } from "@/hooks/useShopifyReviewImages";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import SeoHead from "@/components/SeoHead";
@@ -27,8 +21,6 @@ const comingSoonSlugs = ["arreglos", "cajas", "cestas", "jarrones", "osos"];
 
 const Index = () => {
   const { t } = useTranslation();
-  const [reviewCategory, setReviewCategory] = useState<ReviewCategory>("bouquets");
-  const shopifyReviewImages = useShopifyReviewImages(reviews);
   const categories = [
     { img: bicolorPassionImg, title: t("categories.bouquets"), slug: "bouquets", isRoute: true },
     { img: arreglosImg, title: t("categories.arrangements"), slug: "arreglos" },
@@ -246,24 +238,6 @@ const Index = () => {
               {t("home.customize")} <ArrowRight className="w-4 h-4" />
             </Link>
           </motion.div>
-        </div>
-      </section>
-
-      {/* Reviews */}
-      <section className="py-16 md:py-20">
-        <div className="container mx-auto px-6">
-          <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.8 }} className="text-left md:text-center mb-10">
-            <h2 className="font-title-retro text-4xl md:text-5xl text-primary mb-4">{t("home.reviewsTitle")}</h2>
-            <p className="text-muted-foreground font-body max-w-lg md:mx-auto">{t("home.reviewsSubtitle")}</p>
-          </motion.div>
-
-          <ReviewFilters active={reviewCategory} onChange={setReviewCategory} />
-
-          <div className="grid grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 max-w-5xl mx-auto">
-            {reviews.filter((r) => r.category === reviewCategory).map((review, i) => (
-              <ReviewCard key={review.id} review={review} index={i} dynamicImage={shopifyReviewImages.get(review.id)} />
-            ))}
-          </div>
         </div>
       </section>
 
