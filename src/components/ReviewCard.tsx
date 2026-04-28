@@ -81,10 +81,10 @@ const ReviewCard = ({ review, index, dynamicImage }: { review: ReviewData; index
                   </div>
                 )}
               </div>
-              <p className="font-display text-sm font-semibold text-foreground inline-flex items-center gap-1">
+              <p className="font-display text-xs font-semibold text-foreground inline-flex items-center gap-1">
                 {review.name}
                 <BadgeCheck
-                  className="w-4 h-4 text-white fill-[#16a34a]"
+                  className="w-3.5 h-3.5 text-white fill-[#16a34a]"
                   aria-label="Verified buyer"
                 />
               </p>

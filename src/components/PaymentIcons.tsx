@@ -4,7 +4,6 @@ const icons = [
   { src: "/payment-icons/amex.svg", alt: "American Express" },
   { src: "/payment-icons/apple-pay.svg", alt: "Apple Pay" },
   { src: "/payment-icons/google-pay.svg", alt: "Google Pay" },
-  { src: "/payment-icons/shop-pay.svg", alt: "Shop Pay" },
   { src: "/payment-icons/zelle.svg", alt: "Zelle" },
 ];
 
