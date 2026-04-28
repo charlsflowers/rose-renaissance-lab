@@ -56,7 +56,7 @@ const ShopifyProductRedirect = () => {
 
   // Then check bouquets
   const bouquet = bouquetProducts.find(p => p.shopifyHandle === handle);
-  if (bouquet) return <Navigate to={`/bouquets/round/${bouquet.shopifyHandle}`} replace />;
+  if (bouquet) return <Navigate to={`/bouquets/all/${bouquet.shopifyHandle}`} replace />;
 
   // Unknown handle → fall back to bouquets listing
   return <Navigate to="/bouquets" replace />;
