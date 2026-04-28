@@ -276,7 +276,7 @@ const Navbar = () => {
               className="flex items-center gap-2 hover:text-primary transition-colors py-2 mt-1"
             >
               <Globe className="w-4 h-4" />
-              {language === "en" ? "Español" : "English"}
+              {language === "en" ? "English" : "Español"}
             </button>
           </div>
         </div>
