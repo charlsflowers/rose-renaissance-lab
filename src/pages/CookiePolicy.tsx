@@ -1,6 +1,8 @@
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import SeoHead from "@/components/SeoHead";
+import { Button } from "@/components/ui/button";
+import { openCookiePreferences } from "@/hooks/useCookieConsent";
 
 const CookiePolicy = () => (
   <div className="min-h-screen bg-background">
@@ -23,6 +25,16 @@ const CookiePolicy = () => (
           <p>Enable enhanced features and personalization, including Google Maps embeds for our Miami location.</p>
           <h2 className="font-display text-lg font-semibold text-foreground pt-4">Your Choices</h2>
           <p>You can manage cookies through your browser settings. Note that disabling essential cookies may affect your ability to place orders.</p>
+          <h2 className="font-display text-lg font-semibold text-foreground pt-4">Cookies We Use</h2>
+          <ul className="list-disc pl-5 space-y-1">
+            <li><strong>Necessary:</strong> session, shopping cart, language preference and cookie consent storage. Always active.</li>
+            <li><strong>Analytics:</strong> Google Analytics 4 and Microsoft Clarity. Help us measure traffic and improve the site. Off by default.</li>
+            <li><strong>Marketing:</strong> Google Ads conversion and remarketing tags. Used to show relevant ads. Off by default.</li>
+          </ul>
+          <p>You can change your preferences at any time:</p>
+          <Button variant="outline" size="sm" onClick={openCookiePreferences} className="mt-2">
+            Manage cookie preferences
+          </Button>
           <h2 className="font-display text-lg font-semibold text-foreground pt-4">Contact Us</h2>
           <p><a href="mailto:charlsflowerscorp@gmail.com" className="text-primary hover:underline">charlsflowerscorp@gmail.com</a><br/>7261 NW 12th St, Miami, FL 33126</p>
         </div>
