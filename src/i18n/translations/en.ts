@@ -428,7 +428,7 @@ export const en = {
     yourCart: "Your cart",
     empty: "Your cart is empty",
     subtotal: "Subtotal",
-    viewCart: "CONTINUE TO SAFE CHECKOUT",
+    viewCart: "BUY NOW",
     continueShopping: "Continue shopping",
     remove: "Remove",
   },
