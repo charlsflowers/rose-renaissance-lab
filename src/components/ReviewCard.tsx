@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Star, ShoppingBag, CreditCard } from "lucide-react";
+import { Star, ShoppingBag, CreditCard, BadgeCheck } from "lucide-react";
 import { motion } from "framer-motion";
 import ReviewUpsellDialog from "@/components/ReviewUpsellDialog";
 import { useTranslation } from "@/i18n/LanguageContext";
@@ -81,8 +81,12 @@ const ReviewCard = ({ review, index, dynamicImage }: { review: ReviewData; index
                   </div>
                 )}
               </div>
-              <p className="font-display text-sm font-semibold text-foreground">
+              <p className="font-display text-sm font-semibold text-foreground inline-flex items-center gap-1">
                 {review.name}
+                <BadgeCheck
+                  className="w-4 h-4 text-white fill-[#16a34a]"
+                  aria-label="Verified buyer"
+                />
               </p>
             </div>
             <p className="font-body text-xs text-muted-foreground mb-4">
