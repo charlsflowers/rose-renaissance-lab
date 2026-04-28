@@ -231,6 +231,38 @@ export const en = {
     youMightAlsoLove: "You might also love",
   },
 
+  // Product trust block (badges + FAQ)
+  trustBlock: {
+    sameDayLocal: "Same-Day Local Delivery",
+    bestPrice: "Best Price in Miami",
+    faqs: [
+      {
+        q: "Do you really deliver the same day in Miami?",
+        a: "Yes. Place your order before 3:00 PM (Miami time) Monday through Saturday and we will hand-craft and deliver your bouquet the same day, anywhere up to 87 miles from our Miami shop. Orders placed after 3:00 PM are scheduled for the next available day.",
+      },
+      {
+        q: "Why are your prices lower than other Miami florists?",
+        a: "We work directly with our growers and skip the middlemen, so you pay for the roses and the craftsmanship — not for inflated retail markups. We firmly believe top-quality flowers should be accessible, not a luxury you only get on special occasions.",
+      },
+      {
+        q: "How fresh are the roses?",
+        a: "Every bouquet is assembled to order using premium roses received fresh weekly. Stems are hydrated and conditioned the same day they leave our shop, which is why we offer same-day local delivery — your flowers arrive at peak freshness.",
+      },
+      {
+        q: "Can I customize the bouquet?",
+        a: "Absolutely. You can pick the number of roses (50–200), add a glitter finish, include a handwritten note or butterflies, and even build a fully custom bouquet from scratch with our Bouquet Builder. Color combinations, paper and extras are all up to you.",
+      },
+      {
+        q: "Shipping & Delivery",
+        a: "Home Delivery: $25 flat for the first 5 miles, then $1.60 per additional mile (up to 87 miles). Store Pickup: Free, ready 2 hours after your order is placed. Hours: Mon–Fri 8AM–7PM · Sat 8AM–6PM · Sun 8AM–5PM (Miami time). Orders placed before 3:00 PM qualify for same-day delivery.",
+      },
+      {
+        q: "Return & Refund Policy",
+        a: "Because every bouquet is customized, personalized and perishable, cancellations and refunds are generally not available once the order is placed. If you contact us within 1 hour of ordering at charlsflowerscorp@gmail.com, we can usually issue a full refund (preparation has not yet started). If anything arrives damaged or incorrect, reach out the same day and we will make it right.",
+      },
+    ],
+  },
+
   // Bouquet Products listing
   bouquetProducts: {
     subtitle: "Handcrafted bouquets",
