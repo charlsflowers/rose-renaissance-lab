@@ -52,6 +52,15 @@ const OldBouquetRedirect = () => {
   return <BouquetProductDetail />;
 };
 
+/** Defensive redirect for /room-decors/:packageId when prefixed with rd-* (legacy/duplicate URLs) */
+const RoomDecorRedirect = () => {
+  const { packageId } = useParams<{ packageId: string }>();
+  if (packageId?.startsWith("rd-")) {
+    return <Navigate to={`/room-decors/${packageId.slice(3)}`} replace />;
+  }
+  return <RoomDecorDetail />;
+};
+
 /** Redirect Shopify-style URLs (/products/:handle) coming from Meta/Instagram ads */
 const ShopifyProductRedirect = () => {
   const { handle } = useParams<{ handle: string }>();
@@ -94,10 +103,8 @@ const AppContent = () => {
         <Route path="/bouquets/personalizar" element={<BouquetBuilder />} />
         <Route path="/bouquets/:type/:productId" element={<OldBouquetRedirect />} />
         <Route path="/bouquets" element={<BouquetProducts />} />
-        <Route path="/room-decors/rd-love-bomb" element={<Navigate to="/room-decors/love-bomb" replace />} />
-        <Route path="/room-decors/rd-overly-romantic" element={<Navigate to="/room-decors/overly-romantic" replace />} />
         <Route path="/room-decors/rd-deluxe-love" element={<Navigate to="/room-decors/deluxe-love-package" replace />} />
-        <Route path="/room-decors/:packageId" element={<RoomDecorDetail />} />
+        <Route path="/room-decors/:packageId" element={<RoomDecorRedirect />} />
         <Route path="/room-decors" element={<RoomDecors />} />
         <Route path="/about" element={<About />} />
         <Route path="/contact" element={<Contact />} />
