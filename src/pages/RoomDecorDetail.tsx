@@ -7,6 +7,10 @@ import { supabase } from "@/integrations/supabase/client";
 import { useCartStore } from "@/stores/cartStore";
 import { toast } from "sonner";
 import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
+import PaymentIcons from "@/components/PaymentIcons";
+import ProductTrustBlock from "@/components/ProductTrustBlock";
+import { useTranslation } from "@/i18n/LanguageContext";
 import { roomDecorPackages, roomDecorBouquetColors } from "@/lib/roomDecorData";
 import { calculateRoomDecorDeliveryCost, formatDeliveryCost } from "@/lib/deliveryPricing";
 import { seoData } from "@/lib/seoData";
@@ -22,6 +26,7 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 
 const RoomDecorDetail = () => {
   const { packageId } = useParams<{ packageId: string }>();
+  const { t } = useTranslation();
   const addItem = useCartStore(state => state.addItem);
   const pkg = roomDecorPackages.find(p => p.id === packageId);
 
