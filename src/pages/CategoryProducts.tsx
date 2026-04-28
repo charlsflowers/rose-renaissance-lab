@@ -30,6 +30,7 @@ const CategoryProducts = () => {
         title={`${category.title} Miami | Coming Soon – Charls Flowers`}
         description={`Premium ${category.title.toLowerCase()} coming soon to Charls Flowers Miami.`}
         path={`/categoria/${slug}`}
+        noindex
       />
       <JsonLd data={breadcrumbSchema([
         { name: "Home", url: "https://www.charlsflowers.com" },

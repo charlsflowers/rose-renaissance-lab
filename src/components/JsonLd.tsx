@@ -73,11 +73,6 @@ export const websiteSchema = () => ({
   "@type": "WebSite",
   name: "Charls Flowers",
   url: "https://www.charlsflowers.com",
-  potentialAction: {
-    "@type": "SearchAction",
-    target: "https://www.charlsflowers.com/search?q={search_term_string}",
-    "query-input": "required name=search_term_string",
-  },
 });
 
 export const organizationSchema = () => ({
@@ -85,7 +80,7 @@ export const organizationSchema = () => ({
   "@type": "Organization",
   name: "Charls Flowers",
   url: "https://www.charlsflowers.com",
-  logo: "https://www.charlsflowers.com/logo.png",
+  logo: "https://storage.googleapis.com/gpt-engineer-file-uploads/pPT3n7ZwBuTW9aMFgpnKH957a2Y2/social-images/social-1773180724629-LOGO_charls.webp",
   telephone: "904-442-4042",
   address: {
     "@type": "PostalAddress",
@@ -147,7 +142,7 @@ export const articleSchema = (headline: string, slug: string, datePublished: str
   publisher: {
     "@type": "Organization",
     name: "Charls Flowers",
-    logo: { "@type": "ImageObject", url: "https://www.charlsflowers.com/logo.png" },
+    logo: { "@type": "ImageObject", url: "https://storage.googleapis.com/gpt-engineer-file-uploads/pPT3n7ZwBuTW9aMFgpnKH957a2Y2/social-images/social-1773180724629-LOGO_charls.webp" },
   },
   datePublished,
   dateModified: datePublished,

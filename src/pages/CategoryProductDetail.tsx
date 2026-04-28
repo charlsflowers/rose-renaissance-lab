@@ -10,6 +10,7 @@ import { fetchCartCheckoutUrl, updateCartNote, addLineToShopifyCart, updateCartB
 import { DELIVERY_FEE_VARIANT_GID } from "@/lib/accessoryVariants";
 import { calculateDeliveryCost, formatDeliveryCost } from "@/lib/deliveryPricing";
 import Navbar from "@/components/Navbar";
+import SeoHead from "@/components/SeoHead";
 import PaperColorPicker from "@/components/PaperColorPicker";
 import { categoryProducts } from "@/lib/catalogData";
 import { ArrowLeft, Check, Store, Truck, CalendarIcon, Clock, MapPin, Search, Loader2, Type, Sparkles } from "lucide-react";
@@ -227,6 +228,12 @@ const CategoryProductDetail = () => {
 
   return (
     <div className="min-h-screen bg-background">
+      <SeoHead
+        title={`${product.name} Miami | Coming Soon – Charls Flowers`}
+        description={`Premium ${product.name.toLowerCase()} coming soon to Charls Flowers Miami.`}
+        path={`/categoria/${slug}/${productId}`}
+        noindex
+      />
       <Navbar />
       <div className="pt-24 pb-16">
         <div className="container mx-auto px-6">
