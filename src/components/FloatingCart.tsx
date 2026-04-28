@@ -175,7 +175,7 @@ const FloatingCart = () => {
           side="right"
           className="w-full sm:max-w-md p-0 flex flex-col [&>button.absolute]:hidden"
         >
-          <SheetHeader className="px-6 pt-5 pb-4 border-b">
+          <SheetHeader className="px-6 pt-12 pb-4 border-b">
             <div className="flex items-center justify-between gap-3">
               <SheetTitle className="font-display text-xl text-foreground flex items-center gap-2.5 m-0">
                 <BrandLogo className="w-7 h-7" />
