@@ -1,4 +1,4 @@
-import { lazy, Suspense } from "react";
+import { lazy, Suspense, useEffect } from "react";
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -10,6 +10,7 @@ import CookieBanner from "@/components/CookieBanner";
 import { landingPages } from "@/lib/landingPagesData";
 import { bouquetProducts } from "@/lib/catalogData";
 import { roomDecorPackages } from "@/lib/roomDecorData";
+import { captureTrackingParams } from "@/lib/trackingParams";
 import ScrollToTop from "./components/ScrollToTop";
 
 // Eager: Index (LCP/home) + NotFound (tiny fallback) stay in main bundle
@@ -70,6 +71,9 @@ const ShopifyProductRedirect = () => {
 
 const AppContent = () => {
   useCartSync();
+  useEffect(() => {
+    captureTrackingParams();
+  }, []);
   return (
     <>
       <ScrollToTop />

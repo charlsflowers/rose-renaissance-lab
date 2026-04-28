@@ -9,6 +9,7 @@ import {
   type ShippingAddress,
 } from "@/lib/shopify";
 import { toast } from "sonner";
+import { appendTrackingParamsToUrl } from "@/lib/trackingParams";
 
 const SHOPIFY_CART_BASE_URL = "https://charls-flowers.myshopify.com/cart";
 const DELIVERY_FEE_VARIANT_NUMERIC_ID = "51629708935300";
@@ -138,7 +139,7 @@ export function buildCheckoutUrl(variantId?: string, options?: CheckoutDeliveryO
   const query = params.toString();
   if (query) checkoutUrl += `?${query}`;
 
-  return checkoutUrl;
+  return appendTrackingParamsToUrl(checkoutUrl);
 }
 
 export function openCheckoutInNewTab(checkoutUrl: string) {
@@ -260,11 +261,11 @@ export async function performApiCheckout(options: ApiCheckoutOptions): Promise<s
     try {
       const url = new URL(baseUrl);
       url.searchParams.set("delivery_method", "pick-up");
-      return url.toString();
+      return appendTrackingParamsToUrl(url.toString());
     } catch {
-      return baseUrl;
+      return appendTrackingParamsToUrl(baseUrl);
     }
   }
 
-  return baseUrl;
+  return appendTrackingParamsToUrl(baseUrl);
 }

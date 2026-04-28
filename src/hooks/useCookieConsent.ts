@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
+import { initMetaPixel, revokeMetaPixel } from "@/lib/metaPixel";
 
 export type ConsentState = {
   analytics: boolean;
@@ -33,6 +34,13 @@ const pushConsentUpdate = (analytics: boolean, marketing: boolean) => {
     // Fallback: push directly to dataLayer
     (window as any).dataLayer = (window as any).dataLayer || [];
     (window as any).dataLayer.push(["consent", "update", payload]);
+  }
+
+  // Meta Pixel: lazy init / revoke based on marketing consent.
+  if (marketing) {
+    initMetaPixel();
+  } else {
+    revokeMetaPixel();
   }
 };
 
