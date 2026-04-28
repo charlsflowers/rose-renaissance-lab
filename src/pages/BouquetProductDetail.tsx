@@ -122,15 +122,25 @@ const BouquetProductDetail = () => {
 
   // Sticky bar visibility — show when main "Order Now" button leaves viewport
   const [showStickyBar, setShowStickyBar] = useState(false);
-  const orderButtonsRef = useRef<HTMLDivElement>(null);
+  const orderButtonsDesktopRef = useRef<HTMLDivElement>(null);
+  const orderButtonsMobileRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
-    const el = orderButtonsRef.current;
-    if (!el) return;
+    const desktopEl = orderButtonsDesktopRef.current;
+    const mobileEl = orderButtonsMobileRef.current;
+    const targets = [desktopEl, mobileEl].filter(Boolean) as HTMLDivElement[];
+    if (targets.length === 0) return;
+    // Track visibility per element; sticky shows only when ALL visible targets are out of view.
+    const visibility = new WeakMap<Element, boolean>();
     const observer = new IntersectionObserver(
-      ([entry]) => setShowStickyBar(!entry.isIntersecting),
+      (entries) => {
+        entries.forEach((entry) => visibility.set(entry.target, entry.isIntersecting));
+        // If any tracked target is currently visible (in its breakpoint), hide sticky.
+        const anyVisible = targets.some((t) => visibility.get(t));
+        setShowStickyBar(!anyVisible);
+      },
       { threshold: 0, rootMargin: "0px 0px -10px 0px" }
     );
-    observer.observe(el);
+    targets.forEach((t) => observer.observe(t));
     return () => observer.disconnect();
   }, [product?.shopifyHandle]);
 
@@ -573,7 +583,7 @@ const BouquetProductDetail = () => {
               {renderShippingSection(false, autocompleteDesktopRef)}
 
               {/* Desktop bottom bar */}
-              <div ref={orderButtonsRef} className="space-y-3">
+              <div ref={orderButtonsDesktopRef} className="space-y-3">
                 <div className="flex items-center justify-between">
                   <p className="font-body text-[10px] lg:text-xs text-muted-foreground leading-tight flex-1 line-clamp-1">
                     {product.name} · {selectedSize.roses} {t("product.roses")}
@@ -642,7 +652,7 @@ const BouquetProductDetail = () => {
             {renderShippingSection(true, autocompleteMobileRef)}
 
             {/* Mobile inline buttons after customer notes */}
-            <div ref={orderButtonsRef} className="space-y-3">
+            <div ref={orderButtonsMobileRef} className="space-y-3">
               <div className="flex items-center justify-between">
                 <p className="font-body text-[10px] text-muted-foreground leading-tight flex-1 line-clamp-1">
                   {product.name} · {selectedSize.roses} {t("product.roses")}
