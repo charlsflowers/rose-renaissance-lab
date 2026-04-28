@@ -252,5 +252,19 @@ export async function performApiCheckout(options: ApiCheckoutOptions): Promise<s
 
   // Fetch fresh checkout URL from Shopify
   const freshUrl = await fetchCartCheckoutUrl(cartId);
-  return freshUrl || storedCheckoutUrl;
+  const baseUrl = freshUrl || storedCheckoutUrl;
+  if (!baseUrl) return null;
+
+  // Force pickup as the preselected delivery method when applicable.
+  if (options.deliveryMethod === "pickup") {
+    try {
+      const url = new URL(baseUrl);
+      url.searchParams.set("delivery_method", "pick-up");
+      return url.toString();
+    } catch {
+      return baseUrl;
+    }
+  }
+
+  return baseUrl;
 }
