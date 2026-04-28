@@ -2,7 +2,7 @@ const icons = [
   { src: "/payment-icons/visa.webp", alt: "Visa" },
   { src: "/payment-icons/mastercard.webp", alt: "Mastercard" },
   { src: "/payment-icons/amex.webp", alt: "American Express" },
-  { src: "/payment-icons/apple-pay.webp?v=2", alt: "Apple Pay" },
+  { src: "/payment-icons/apple-pay.webp?v=3", alt: "Apple Pay" },
   { src: "/payment-icons/google-pay.webp", alt: "Google Pay" },
   { src: "/payment-icons/shop-pay.webp", alt: "Shop Pay" },
   { src: "/payment-icons/zelle.webp?v=2", alt: "Zelle" },
