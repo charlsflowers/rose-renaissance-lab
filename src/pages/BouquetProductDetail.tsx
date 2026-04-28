@@ -123,12 +123,12 @@ const BouquetProductDetail = () => {
 
   // Sticky bar visibility — show when main "Order Now" button leaves viewport
   const [showStickyBar, setShowStickyBar] = useState(false);
-  const orderButtonsDesktopRef = useRef<HTMLDivElement>(null);
-  const orderButtonsMobileRef = useRef<HTMLDivElement>(null);
+  const orderButtonsDesktopRef = useRef<HTMLButtonElement>(null);
+  const orderButtonsMobileRef = useRef<HTMLButtonElement>(null);
   useEffect(() => {
     const desktopEl = orderButtonsDesktopRef.current;
     const mobileEl = orderButtonsMobileRef.current;
-    const targets = [desktopEl, mobileEl].filter(Boolean) as HTMLDivElement[];
+    const targets = [desktopEl, mobileEl].filter(Boolean) as HTMLElement[];
     if (targets.length === 0) return;
     // Track visibility per element; sticky shows only when ALL visible targets are out of view.
     const visibility = new WeakMap<Element, boolean>();
@@ -584,7 +584,7 @@ const BouquetProductDetail = () => {
               {renderShippingSection(false, autocompleteDesktopRef)}
 
               {/* Desktop bottom bar */}
-              <div ref={orderButtonsDesktopRef} className="space-y-3">
+              <div className="space-y-3">
                 <div className="flex items-center justify-between">
                   <p className="font-body text-[10px] lg:text-xs text-muted-foreground leading-tight flex-1 line-clamp-1">
                     {product.name} · {selectedSize.roses} {t("product.roses")}
@@ -593,7 +593,7 @@ const BouquetProductDetail = () => {
                   </p>
                   <p className="font-display text-lg lg:text-2xl font-bold text-foreground whitespace-nowrap">${parseFloat(totalPrice.toFixed(2))}</p>
                 </div>
-                <button onClick={handleOrderNow} disabled={isAdding || variantsLoading}
+                <button ref={orderButtonsDesktopRef} onClick={handleOrderNow} disabled={isAdding || variantsLoading}
                   className="w-full bg-primary text-primary-foreground py-4 lg:py-5 font-body text-sm lg:text-base tracking-[0.25em] uppercase font-semibold hover:bg-primary/90 transition-colors rounded-lg disabled:opacity-50">
                   {isAdding ? "..." : variantsLoading ? "..." : t("product.orderAndPay")}
                 </button>
@@ -654,7 +654,7 @@ const BouquetProductDetail = () => {
             {renderShippingSection(true, autocompleteMobileRef)}
 
             {/* Mobile inline buttons after customer notes */}
-            <div ref={orderButtonsMobileRef} className="space-y-3">
+            <div className="space-y-3">
               <div className="flex items-center justify-between">
                 <p className="font-body text-[10px] text-muted-foreground leading-tight flex-1 line-clamp-1">
                   {product.name} · {selectedSize.roses} {t("product.roses")}
@@ -663,7 +663,7 @@ const BouquetProductDetail = () => {
                 </p>
                 <p className="font-display text-lg font-bold text-foreground whitespace-nowrap">${parseFloat(totalPrice.toFixed(2))}</p>
               </div>
-              <button onClick={handleOrderNow} disabled={isAdding || variantsLoading}
+              <button ref={orderButtonsMobileRef} onClick={handleOrderNow} disabled={isAdding || variantsLoading}
                 className="w-full bg-primary text-primary-foreground py-4 font-body text-sm tracking-[0.25em] uppercase font-semibold hover:bg-primary/90 transition-colors rounded-lg disabled:opacity-50">
                 {isAdding ? "..." : variantsLoading ? "..." : t("product.orderAndPay")}
               </button>
