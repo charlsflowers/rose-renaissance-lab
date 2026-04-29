@@ -52,6 +52,7 @@ export const es = {
     rejectAll: "Rechazar todas",
     customize: "Personalizar",
     learnMore: "Más información",
+    learnMoreAriaLabel: "Saber más sobre nuestra política de cookies",
     save: "Guardar preferencias",
     necessary: "Necesarias (siempre activas)",
     necessaryDesc: "Requeridas para el funcionamiento del sitio: sesión, carrito, idioma y consentimiento.",
