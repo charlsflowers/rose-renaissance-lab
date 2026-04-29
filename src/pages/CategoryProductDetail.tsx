@@ -9,6 +9,7 @@ import { toast } from "sonner";
 import { fetchCartCheckoutUrl, updateCartNote, addLineToShopifyCart, updateCartBuyerIdentity, type ShippingAddress } from "@/lib/shopify";
 import { DELIVERY_FEE_VARIANT_GID } from "@/lib/accessoryVariants";
 import { calculateDeliveryCost, formatDeliveryCost } from "@/lib/deliveryPricing";
+import { trackMetaEvent } from "@/lib/metaPixel";
 import Navbar from "@/components/Navbar";
 import SeoHead from "@/components/SeoHead";
 import PaperColorPicker from "@/components/PaperColorPicker";
@@ -23,6 +24,30 @@ const CategoryProductDetail = () => {
 
   const products = slug ? categoryProducts[slug] || [] : [];
   const product = products.find((p) => p.id === productId);
+
+  // GA4 + Meta: view_item / ViewContent
+  useEffect(() => {
+    if (!product) return;
+    const price = product.sizes?.[0]?.price ?? 0;
+    (window as any).gtag?.('event', 'view_item', {
+      currency: 'USD',
+      value: price,
+      items: [{
+        item_id: product.id,
+        item_name: product.name,
+        item_category: slug || 'category',
+        price,
+        quantity: 1,
+      }],
+    });
+    trackMetaEvent('ViewContent', {
+      content_ids: [product.id],
+      content_name: product.name,
+      content_type: 'product',
+      value: price,
+      currency: 'USD',
+    });
+  }, [product?.id, slug]);
 
   const [selectedSizeIdx] = useState(0);
   const [noteText, setNoteText] = useState("");
@@ -137,6 +162,25 @@ const CategoryProductDetail = () => {
     if (deliveryMethod === "delivery" && !selectedAddress) { toast.error("Please select a delivery address."); return false; }
     if (deliveryMethod === "delivery" && (distanceTooFar || deliveryMiles === null)) { toast.error("The address is invalid or out of range."); return false; }
     if (!deliveryDate || !deliveryHour) { toast.error("Please select a date and time."); return false; }
+
+    // GA4 + Meta: add_to_cart / AddToCart
+    (window as any).gtag?.('event', 'add_to_cart', {
+      currency: 'USD',
+      value: selectedSize.price,
+      items: [{
+        item_id: product.id,
+        item_name: product.name,
+        item_category: slug || 'category',
+        price: selectedSize.price,
+        quantity: 1,
+      }],
+    });
+    trackMetaEvent('AddToCart', {
+      content_ids: [product.id],
+      content_name: product.name,
+      value: selectedSize.price,
+      currency: 'USD',
+    });
 
     addItem({
       id: "",
