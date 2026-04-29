@@ -61,7 +61,11 @@ const CookieBanner = () => {
                 <p className="font-display text-sm font-semibold text-foreground">{t("cookies.title")}</p>
                 <p className="font-body text-xs text-muted-foreground mt-1">
                   {t("cookies.description")}{" "}
-                  <Link to="/cookie-policy" className="text-primary underline-offset-2 hover:underline">
+                  <Link
+                    to="/cookie-policy"
+                    className="text-primary underline underline-offset-2"
+                    aria-label={t("cookies.learnMoreAriaLabel")}
+                  >
                     {t("cookies.learnMore")}
                   </Link>
                 </p>

@@ -24,6 +24,13 @@ export const en = {
     valentinesDayFlowers: "Valentine's Day Flowers",
     weddingBouquets: "Wedding Bouquets",
     customBouquetBuilder: "Custom Bouquet Builder",
+    aria: {
+      openMenu: "Open menu",
+      closeMenu: "Close menu",
+      changeLanguage: "Change language",
+      search: "Search",
+      openCart: "Open cart",
+    },
   },
 
   // Footer
@@ -55,6 +62,7 @@ export const en = {
     rejectAll: "Reject all",
     customize: "Customize",
     learnMore: "Learn more",
+    learnMoreAriaLabel: "Learn more about our cookie policy",
     save: "Save preferences",
     necessary: "Necessary (always on)",
     necessaryDesc: "Required for the site to work: session, cart, language and consent.",

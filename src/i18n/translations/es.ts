@@ -23,6 +23,13 @@ export const es = {
     valentinesDayFlowers: "Flores para San Valentín",
     weddingBouquets: "Ramos de Boda",
     customBouquetBuilder: "Creador de Ramos Personalizados",
+    aria: {
+      openMenu: "Abrir menú",
+      closeMenu: "Cerrar menú",
+      changeLanguage: "Cambiar idioma",
+      search: "Buscar",
+      openCart: "Abrir carrito",
+    },
   },
 
   footer: {
@@ -52,6 +59,7 @@ export const es = {
     rejectAll: "Rechazar todas",
     customize: "Personalizar",
     learnMore: "Más información",
+    learnMoreAriaLabel: "Saber más sobre nuestra política de cookies",
     save: "Guardar preferencias",
     necessary: "Necesarias (siempre activas)",
     necessaryDesc: "Requeridas para el funcionamiento del sitio: sesión, carrito, idioma y consentimiento.",
