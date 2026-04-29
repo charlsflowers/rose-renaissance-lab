@@ -55,6 +55,7 @@ export const en = {
     rejectAll: "Reject all",
     customize: "Customize",
     learnMore: "Learn more",
+    learnMoreAriaLabel: "Learn more about our cookie policy",
     save: "Save preferences",
     necessary: "Necessary (always on)",
     necessaryDesc: "Required for the site to work: session, cart, language and consent.",
