@@ -11,6 +11,7 @@ import { landingPages } from "@/lib/landingPagesData";
 import { bouquetProducts } from "@/lib/catalogData";
 import { roomDecorPackages } from "@/lib/roomDecorData";
 import { captureTrackingParams } from "@/lib/trackingParams";
+import { usePageTracking } from "@/hooks/usePageTracking";
 import ScrollToTop from "./components/ScrollToTop";
 
 // Eager: Index (LCP/home) + NotFound (tiny fallback) stay in main bundle
@@ -80,6 +81,7 @@ const ShopifyProductRedirect = () => {
 
 const AppContent = () => {
   useCartSync();
+  usePageTracking();
   useEffect(() => {
     captureTrackingParams();
   }, []);
