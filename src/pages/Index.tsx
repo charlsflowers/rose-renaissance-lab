@@ -62,8 +62,8 @@ const Index = () => {
       <section className="relative h-[70vh] md:h-screen flex items-end md:items-center overflow-hidden">
         <div className="absolute inset-0">
           <img
-            src="https://cdn.shopify.com/s/files/1/0979/1671/5140/files/FOTO_DE_PORTADA.png?width=1920&v=1777400632&format=webp"
-            srcSet="https://cdn.shopify.com/s/files/1/0979/1671/5140/files/FOTO_DE_PORTADA.png?width=640&v=1777400632&format=webp 640w, https://cdn.shopify.com/s/files/1/0979/1671/5140/files/FOTO_DE_PORTADA.png?width=1024&v=1777400632&format=webp 1024w, https://cdn.shopify.com/s/files/1/0979/1671/5140/files/FOTO_DE_PORTADA.png?width=1440&v=1777400632&format=webp 1440w, https://cdn.shopify.com/s/files/1/0979/1671/5140/files/FOTO_DE_PORTADA.png?width=1920&v=1777400632&format=webp 1920w"
+            src="https://cdn.shopify.com/s/files/1/0979/1671/5140/files/FOTO_DE_PORTADA.webp?width=1920&v=1777440449"
+            srcSet="https://cdn.shopify.com/s/files/1/0979/1671/5140/files/FOTO_DE_PORTADA.webp?width=640&v=1777440449 640w, https://cdn.shopify.com/s/files/1/0979/1671/5140/files/FOTO_DE_PORTADA.webp?width=1024&v=1777440449 1024w, https://cdn.shopify.com/s/files/1/0979/1671/5140/files/FOTO_DE_PORTADA.webp?width=1440&v=1777440449 1440w, https://cdn.shopify.com/s/files/1/0979/1671/5140/files/FOTO_DE_PORTADA.webp?width=1920&v=1777440449 1920w"
             sizes="100vw"
             width={1920}
             height={1080}
