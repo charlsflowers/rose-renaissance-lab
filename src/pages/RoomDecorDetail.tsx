@@ -13,6 +13,7 @@ import ProductTrustBlock from "@/components/ProductTrustBlock";
 import { useTranslation } from "@/i18n/LanguageContext";
 import { roomDecorPackages, roomDecorBouquetColors } from "@/lib/roomDecorData";
 import { calculateRoomDecorDeliveryCost, formatDeliveryCost } from "@/lib/deliveryPricing";
+import { trackMetaEvent } from "@/lib/metaPixel";
 import { seoData } from "@/lib/seoData";
 import SeoHead from "@/components/SeoHead";
 import JsonLd, { productSchema, breadcrumbSchema } from "@/components/JsonLd";
@@ -60,6 +61,29 @@ const RoomDecorDetail = () => {
 
   const seo = pkg ? seoData[pkg.shopifyHandle] : undefined;
   useEffect(() => { window.scrollTo(0, 0); }, [pkg]);
+
+  // GA4 + Meta: view_item / ViewContent
+  useEffect(() => {
+    if (!pkg) return;
+    (window as any).gtag?.('event', 'view_item', {
+      currency: 'USD',
+      value: pkg.price,
+      items: [{
+        item_id: pkg.shopifyHandle,
+        item_name: pkg.name,
+        item_category: 'room-decor',
+        price: pkg.price,
+        quantity: 1,
+      }],
+    });
+    trackMetaEvent('ViewContent', {
+      content_ids: [pkg.shopifyHandle],
+      content_name: pkg.name,
+      content_type: 'product',
+      value: pkg.price,
+      currency: 'USD',
+    });
+  }, [pkg?.shopifyHandle]);
 
   useEffect(() => {
     const handler = (e: MouseEvent) => {
@@ -165,6 +189,26 @@ const RoomDecorDetail = () => {
       selectedAddons.forEach(idx => addons.push(pkg.addons[idx].label));
       if (pkg.bouquetIncluded) addons.push(`Bouquet: ${selectedBouquetColor}`);
       if (addRibbon) addons.push(`Ribbon: "${ribbonText}"`);
+
+      // GA4 + Meta: add_to_cart / AddToCart
+      const itemPrice = pkg.price + addonsCost + ribbonCost;
+      (window as any).gtag?.('event', 'add_to_cart', {
+        currency: 'USD',
+        value: itemPrice,
+        items: [{
+          item_id: pkg.shopifyHandle,
+          item_name: pkg.name,
+          item_category: 'room-decor',
+          price: itemPrice,
+          quantity: 1,
+        }],
+      });
+      trackMetaEvent('AddToCart', {
+        content_ids: [pkg.shopifyHandle],
+        content_name: pkg.name,
+        value: itemPrice,
+        currency: 'USD',
+      });
 
       await addItem({
         id: "",
