@@ -28,6 +28,26 @@ const Checkout = () => {
 
   const itemsSubtotal = parseFloat(items.reduce((sum, i) => sum + i.price, 0).toFixed(2));
 
+  // GA4: remove_from_cart wrapper around the store action.
+  // Mirrors the pattern used in src/components/FloatingCart.tsx (GA4-only, no Meta Pixel).
+  // Fires once per click; gtag is a silent no-op when consent is denied (Consent Mode v2).
+  const handleRemoveItem = (id: string) => {
+    const item = items.find((i) => i.id === id);
+    if (item) {
+      (window as any).gtag?.('event', 'remove_from_cart', {
+        currency: 'USD',
+        value: parseFloat(item.price.toFixed(2)),
+        items: [{
+          item_id: item.shopifyVariantId || item.bouquetType,
+          item_name: item.productName || item.bouquetType,
+          price: parseFloat(item.price.toFixed(2)),
+          quantity: 1,
+        }],
+      });
+    }
+    removeItem(id);
+  };
+
   const existingDeliveryItem = items.find((i) => i.deliveryMethod === "delivery" && i.deliveryAddress && i.deliveryAddress !== "Store pickup");
 
   const [checkoutDeliveryMethod, setCheckoutDeliveryMethod] = useState<"pickup" | "delivery">(
@@ -199,7 +219,7 @@ const Checkout = () => {
             <div className="bg-card border-2 border-primary/30 rounded-lg">
               <div className="p-6 space-y-6">
                 {items.map((item, idx) => (
-                  <CheckoutOrderItem key={item.id} item={item} index={idx} onRemove={removeItem} />
+                  <CheckoutOrderItem key={item.id} item={item} index={idx} onRemove={handleRemoveItem} />
                 ))}
               </div>
 
