@@ -257,7 +257,7 @@ const FloatingCart = () => {
                         <button
                           type="button"
                           disabled={isLoading}
-                          onClick={() => removeItem(item.id)}
+                          onClick={() => handleRemoveItem(item.id)}
                           aria-label={t("floatingCart.remove")}
                           className="p-1.5 rounded-md text-muted-foreground hover:text-primary hover:bg-primary/5 transition-colors disabled:opacity-50"
                         >
