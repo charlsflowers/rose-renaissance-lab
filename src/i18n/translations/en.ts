@@ -24,6 +24,13 @@ export const en = {
     valentinesDayFlowers: "Valentine's Day Flowers",
     weddingBouquets: "Wedding Bouquets",
     customBouquetBuilder: "Custom Bouquet Builder",
+    aria: {
+      openMenu: "Open menu",
+      closeMenu: "Close menu",
+      changeLanguage: "Change language",
+      search: "Search",
+      openCart: "Open cart",
+    },
   },
 
   // Footer
