@@ -180,7 +180,7 @@ const Navbar = () => {
           <button
             type="button"
             onClick={() => setCartOpen(true)}
-            aria-label="Open cart"
+            aria-label={t("nav.aria.openCart")}
             className="relative hover:text-primary transition-colors text-foreground"
           >
             <BrandLogo className="w-7 h-7" />
