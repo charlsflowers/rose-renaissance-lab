@@ -11,6 +11,7 @@ import { calculateDeliveryCost, formatDeliveryCost } from "@/lib/deliveryPricing
 import { buildAccessoryLineItems, CUSTOM_BOUQUET_VARIANT_ID } from "@/lib/accessoryVariants";
 import { resolveCustomBouquetVariantId, getCustomBouquetType } from "@/lib/customBouquetVariants";
 import { storefrontApiRequest } from "@/lib/shopify";
+import { trackMetaEvent } from "@/lib/metaPixel";
 
 import Navbar from "@/components/Navbar";
 import PaperColorPicker from "@/components/PaperColorPicker";
@@ -413,10 +414,33 @@ const BouquetBuilder = () => {
     };
   };
 
+  // GA4 + Meta: add_to_cart for the custom bouquet
+  const trackBuilderAddToCart = () => {
+    const itemPrice = basePrice + lettersNumbersCost + crownCost + ribbonCost + glitterCost + vaseCost + accessoryCost;
+    (window as any).gtag?.('event', 'add_to_cart', {
+      currency: 'USD',
+      value: itemPrice,
+      items: [{
+        item_id: 'custom-bouquet',
+        item_name: 'Custom Bouquet',
+        item_category: 'custom',
+        price: itemPrice,
+        quantity: 1,
+      }],
+    });
+    trackMetaEvent('AddToCart', {
+      content_ids: ['custom-bouquet'],
+      content_name: 'Custom Bouquet',
+      value: itemPrice,
+      currency: 'USD',
+    });
+  };
+
   const handleBuilderAddToCart = async () => {
     if (!validateBuilder()) return;
     setIsAdding(true);
     try {
+      trackBuilderAddToCart();
       await addItem(buildCartItem());
       toast.success("Bouquet added to cart!");
     } catch { toast.error("Failed to add to cart."); }
@@ -427,6 +451,7 @@ const BouquetBuilder = () => {
     if (!validateBuilder()) return;
     setIsAdding(true);
     try {
+      trackBuilderAddToCart();
       await addItem(buildCartItem());
       toast.success("Bouquet added to cart!");
 
