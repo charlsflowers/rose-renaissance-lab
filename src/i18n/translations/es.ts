@@ -23,6 +23,13 @@ export const es = {
     valentinesDayFlowers: "Flores para San Valentín",
     weddingBouquets: "Ramos de Boda",
     customBouquetBuilder: "Creador de Ramos Personalizados",
+    aria: {
+      openMenu: "Abrir menú",
+      closeMenu: "Cerrar menú",
+      changeLanguage: "Cambiar idioma",
+      search: "Buscar",
+      openCart: "Abrir carrito",
+    },
   },
 
   footer: {
