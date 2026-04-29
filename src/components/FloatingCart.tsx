@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { format } from "date-fns";
 import { enUS } from "date-fns/locale";
 import { toast } from "sonner";
@@ -29,13 +29,45 @@ const FloatingCart = () => {
   const checkoutDeliveryMethod: "pickup" | "delivery" = deliveryItem ? "delivery" : "pickup";
   const deliveryCost = deliveryItem ? (deliveryItem.deliveryCost || 0) : 0;
 
+  // GA4: view_cart fires only on the closed→open transition
+  const wasOpenRef = useRef(open);
+  useEffect(() => {
+    if (!wasOpenRef.current && open) {
+      (window as any).gtag?.('event', 'view_cart', {
+        currency: 'USD',
+        value: parseFloat(cartTotal.toFixed(2)),
+        items: items.map(i => ({
+          item_id: i.shopifyVariantId || i.bouquetType,
+          item_name: i.productName || i.bouquetType,
+          item_category: i.bouquetType,
+          price: parseFloat(i.price.toFixed(2)),
+          quantity: 1,
+        })),
+      });
+    }
+    wasOpenRef.current = open;
+  }, [open]);
+
+  // GA4: remove_from_cart wrapper around the store action
+  const handleRemoveItem = (id: string) => {
+    const item = items.find(i => i.id === id);
+    if (item) {
+      (window as any).gtag?.('event', 'remove_from_cart', {
+        currency: 'USD',
+        value: parseFloat(item.price.toFixed(2)),
+        items: [{
+          item_id: item.shopifyVariantId || item.bouquetType,
+          item_name: item.productName || item.bouquetType,
+          price: parseFloat(item.price.toFixed(2)),
+          quantity: 1,
+        }],
+      });
+    }
+    removeItem(id);
+  };
+
   const handleCheckout = async () => {
     if (items.length === 0) return;
-
-    (window as any).gtag?.('event', 'begin_checkout', {
-      currency: 'USD',
-      value: itemsSubtotal,
-    });
 
     setIsCheckingOut(true);
     try {
