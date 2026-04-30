@@ -446,7 +446,7 @@ export const landingPages: LandingPageData[] = [
         'South Beach (1st–23rd Street, Ocean Drive, Collins, Washington)',
         'Mid-Beach (Faena District, Fontainebleau, Eden Roc, Edition)',
         'North Beach and Surfside',
-        'Fisher Island (with prior coordination for ferry delivery)',
+        'Fisher Island (driver coordinates ferry — standard delivery rate, no surcharge)',
         'Star Island, Hibiscus Island and Palm Island',
         'South of Fifth (SoFi)',
         'Sunset Harbour and West Avenue condos',
@@ -463,7 +463,7 @@ export const landingPages: LandingPageData[] = [
         'Yacht and superyacht deliveries at Miami Beach Marina',
       ],
       deliveryTitle: 'Delivery information for Miami Beach',
-      deliveryParagraph: "Miami Beach addresses sit roughly 8–12 miles from our atelier across the causeways, so most deliveries cost $20 (for the first 5 miles) plus $1.60 per additional mile — typically landing in the $25–$32 range. Maximum delivery distance is 87 miles. Every order needs a minimum of 2 hours of preparation. For same-day delivery, place your order before 3PM Miami time — orders placed after the cutoff are scheduled for the next available window. Delivery hours are Monday to Friday 8AM–7PM, Saturday 8AM–6PM and Sunday 8AM–5PM. Free pickup is also available at 7261 NW 12th Street, Miami FL 33126. Fisher Island deliveries require prior coordination since access is by ferry only. Full details on our shipping policy page.",
+      deliveryParagraph: "Miami Beach addresses sit roughly 8–12 miles from our atelier across the causeways, so most deliveries cost $20 (for the first 5 miles) plus $1.60 per additional mile — typically landing in the $25–$32 range. Maximum delivery distance is 87 miles. Every order needs a minimum of 2 hours of preparation. For same-day delivery, place your order before 3PM Miami time — orders placed after the cutoff are scheduled for the next available window. Delivery hours are Monday to Friday 8AM–7PM, Saturday 8AM–6PM and Sunday 8AM–5PM. Free pickup is also available at 7261 NW 12th Street, Miami FL 33126. Fisher Island deliveries are charged at the standard rate — our driver handles the ferry coordination at no extra cost. Full details on our shipping policy page.",
       faqTitle: 'Miami Beach delivery FAQs',
       faqs: [
         {
@@ -471,8 +471,7 @@ export const landingPages: LandingPageData[] = [
           answer: 'Yes — we deliver to all major Miami Beach hotels including Faena, The Setai, The Edition, Fontainebleau, W South Beach, 1 Hotel, Eden Roc and many more. We coordinate with the concierge for in-room delivery or guest pickup.',
         },
         {
-          question: 'Can you deliver to Fisher Island?',
-          answer: "Yes, with prior coordination. Fisher Island is only accessible by ferry, so we schedule delivery in advance with the island's security and use the resident or visitor ferry. Please place your order with at least 24 hours of notice so we can coordinate the ferry window; the standard delivery rate ($20 for the first 5 miles plus $1.60 per additional mile) applies.",
+          answer: "Yes. Fisher Island is only accessible by ferry, but our driver handles the ferry coordination directly with the island's security — there is no additional charge. The standard delivery rate applies ($20 for the first 5 miles plus $1.60 per additional mile), calculated from our atelier to the island.",
         },
         {
           question: 'Do you deliver to yachts at Miami Beach Marina?',

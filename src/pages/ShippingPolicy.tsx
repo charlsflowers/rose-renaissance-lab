@@ -17,6 +17,7 @@ const ShippingPolicy = () => (
             <li><strong>More than 5 miles, up to 87 miles:</strong> $20 for the first 5 miles + $1.60 for each additional mile.</li>
           </ul>
           <p className="italic">Example: For a 10-mile delivery, the cost would be: $20 (first 5 miles) + (10-5) × $1.60 = <strong>$28</strong>.</p>
+          <p><strong>Taxes:</strong> All orders are subject to a 7% sales tax (6% Florida State + 1% Miami-Dade County), calculated and shown at checkout.</p>
           <h2 className="font-display text-lg font-semibold text-foreground pt-4">Order Preparation</h2>
           <ul className="list-disc pl-5 space-y-2">
             <li>All orders need a <strong>minimum of 2 hours</strong> to be prepared.</li>
