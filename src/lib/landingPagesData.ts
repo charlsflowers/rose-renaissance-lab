@@ -471,6 +471,7 @@ export const landingPages: LandingPageData[] = [
           answer: 'Yes — we deliver to all major Miami Beach hotels including Faena, The Setai, The Edition, Fontainebleau, W South Beach, 1 Hotel, Eden Roc and many more. We coordinate with the concierge for in-room delivery or guest pickup.',
         },
         {
+          question: 'Can you deliver to Fisher Island?',
           answer: "Yes. Fisher Island is only accessible by ferry, but our driver handles the ferry coordination directly with the island's security — there is no additional charge. The standard delivery rate applies ($20 for the first 5 miles plus $1.60 per additional mile), calculated from our atelier to the island.",
         },
         {
