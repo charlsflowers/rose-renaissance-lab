@@ -1,3 +1,36 @@
+export interface LandingFAQ {
+  question: string;
+  answer: string;
+}
+
+/** Extended SEO content (per-page unique copy for indexable landings). */
+export interface LandingSeoContent {
+  /** Short H2 + intro paragraph for "Why we deliver here". */
+  whyTitle: string;
+  whyParagraph: string;
+  /** "Zones we cover" list. */
+  zonesTitle: string;
+  zonesIntro: string;
+  zones: string[];
+  /** "Popular occasions" list. */
+  occasionsTitle: string;
+  occasionsIntro: string;
+  occasions: string[];
+  /** Delivery info section (heading + bullet copy, sourced from official policy). */
+  deliveryTitle: string;
+  deliveryParagraph: string;
+  /** FAQ block (4 entries — used for FAQPage schema + UI). */
+  faqTitle: string;
+  faqs: LandingFAQ[];
+  /** Internal links block (label + slug) — rendered at end. */
+  internalLinksTitle: string;
+  internalLinks: { label: string; slug: string }[];
+  /** Final CTA copy. */
+  ctaLabel: string;
+  /** Schema.org areaServed name (city / neighborhood). */
+  areaServed: string;
+}
+
 export interface LandingPageData {
   slug: string;
   h1: string;
@@ -5,6 +38,8 @@ export interface LandingPageData {
   seoDescription: string;
   intro: string;
   type: 'neighborhood' | 'seasonal' | 'niche';
+  /** When present, the page renders the extended SEO layout instead of the default. */
+  seo?: LandingSeoContent;
 }
 
 export const landingPages: LandingPageData[] = [
