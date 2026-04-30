@@ -40,6 +40,7 @@ const SitemapPage = lazy(() => import("./pages/SitemapPage"));
 const Blog = lazy(() => import("./pages/Blog"));
 const BlogArticle = lazy(() => import("./pages/BlogArticle"));
 const LandingPage = lazy(() => import("./pages/LandingPage"));
+const StudioPage = lazy(() => import("./pages/StudioPage"));
 
 const queryClient = new QueryClient();
 
@@ -120,6 +121,7 @@ const AppContent = () => {
         <Route path="/sitemap" element={<SitemapPage />} />
         <Route path="/blog" element={<Blog />} />
         <Route path="/blog/:slug" element={<BlogArticle />} />
+        <Route path="/studio/*" element={<StudioPage />} />
         {landingPages.map(page => (
           <Route key={page.slug} path={`/${page.slug}`} element={<LandingPage />} />
         ))}
