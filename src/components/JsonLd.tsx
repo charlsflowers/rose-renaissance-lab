@@ -46,16 +46,6 @@ export const localBusinessSchema = () => ({
     geoMidpoint: { "@type": "GeoCoordinates", latitude: 25.7617, longitude: -80.3999 },
     geoRadius: "140000",
   },
-  hasOfferCatalog: {
-    "@type": "OfferCatalog",
-    name: "Flower Arrangements Miami",
-    itemListElement: [
-      { "@type": "Offer", itemOffered: { "@type": "Product", name: "Custom Bouquets Miami" } },
-      { "@type": "Offer", itemOffered: { "@type": "Product", name: "Single Color Bouquets Miami" } },
-      { "@type": "Offer", itemOffered: { "@type": "Product", name: "Mixed Bouquets Miami" } },
-      { "@type": "Offer", itemOffered: { "@type": "Product", name: "Room Decoration Miami" } },
-    ],
-  },
 });
 
 export const serviceSchema = () => ({
