@@ -3,5 +3,6 @@ Allow: /
 Disallow: /checkout
 Disallow: /cart
 Disallow: /account
+Disallow: /studio
 
 Sitemap: https://www.charlsflowers.com/sitemap.xml
