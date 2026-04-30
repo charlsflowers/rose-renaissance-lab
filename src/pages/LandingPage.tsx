@@ -112,6 +112,18 @@ const LandingPage = () => {
               {/* Internal links */}
               <LandingInternalLinks title={seo.internalLinksTitle} links={seo.internalLinks} />
 
+              {/* Map */}
+              <div className="rounded-lg overflow-hidden mb-12" style={{ minHeight: 300 }}>
+                <iframe
+                  title={`Charls Flowers Miami — ${seo.areaServed} delivery area`}
+                  src="https://storage.googleapis.com/maps-solutions-0p9mp01my4/locator-plus/twwi/locator-plus.html"
+                  width="100%"
+                  height="300"
+                  style={{ border: 0 }}
+                  loading="lazy"
+                />
+              </div>
+
               {/* CTA */}
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <Link to="/bouquets" className="inline-flex items-center justify-center gap-2 bg-primary text-primary-foreground px-8 py-4 font-body text-sm tracking-widest uppercase hover:bg-primary/90 transition-colors rounded-lg">
