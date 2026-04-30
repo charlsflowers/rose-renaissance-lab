@@ -1,7 +1,8 @@
 import { createClient, type SanityClient } from "@sanity/client";
 import imageUrlBuilder from "@sanity/image-url";
-import type { SanityImageSource } from "@sanity/image-url/lib/types/types";
 import type { PortableTextBlock } from "@portabletext/react";
+
+type SanityImageSource = Parameters<ReturnType<typeof imageUrlBuilder>["image"]>[0];
 
 export const sanityClient: SanityClient = createClient({
   projectId: "8326wvly",
