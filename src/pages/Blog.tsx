@@ -1,11 +1,12 @@
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import SeoHead from "@/components/SeoHead";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import JsonLd, { breadcrumbSchema } from "@/components/JsonLd";
-import { blogArticles } from "@/lib/blogData";
+import { fetchBlogPosts, urlFor } from "@/lib/sanity";
 import { ArrowRight } from "lucide-react";
 import { useTranslation } from "@/i18n/LanguageContext";
 
@@ -26,6 +27,12 @@ const blogCollectionSchema = {
 const Blog = () => {
   const { t } = useTranslation();
   useEffect(() => { window.scrollTo(0, 0); }, []);
+
+  const { data: posts = [], isLoading } = useQuery({
+    queryKey: ["blog-posts", "en"],
+    queryFn: () => fetchBlogPosts("en"),
+    staleTime: 5 * 60 * 1000,
+  });
 
   return (
     <div className="min-h-screen bg-background">
@@ -96,26 +103,37 @@ const Blog = () => {
               Doral), occasion guides, and honest notes on what works — written by the people
               who actually arrange and deliver the flowers, not by an AI content farm.
             </p>
-            <p className="text-sm text-muted-foreground italic">
-              New articles are on the way. In the meantime, browse our{" "}
-              <Link to="/bouquets" className="text-primary hover:underline">bouquet collection</Link>,
-              the{" "}
-              <Link to="/room-decors" className="text-primary hover:underline">room decoration packages</Link>,
-              or our{" "}
-              <Link to="/faq" className="text-primary hover:underline">FAQ</Link>.
-            </p>
           </section>
 
-          {blogArticles.length > 0 ? (
+          {isLoading ? (
+            <div className="max-w-2xl mx-auto text-center py-10">
+              <div className="w-8 h-8 border-2 border-primary/20 border-t-primary rounded-full animate-spin mx-auto" />
+            </div>
+          ) : posts.length > 0 ? (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-5xl mx-auto">
-              {blogArticles.map((article) => (
-                <Link key={article.slug} to={`/blog/${article.slug}`} className="group block">
+              {posts.map((article) => (
+                <Link
+                  key={article._id}
+                  to={`/blog/${article.slug.current}`}
+                  className="group block"
+                >
                   <div className="relative overflow-hidden rounded-lg mb-4 aspect-video bg-muted">
-                    <img src={article.image} alt={`${article.title} – Charls Flowers Miami`} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" loading="lazy" width={500} height={280} />
+                    <img
+                      src={urlFor(article.mainImage).width(800).height(450).fit("crop").auto("format").url()}
+                      alt={article.mainImage.alt || `${article.title} – Charls Flowers Miami`}
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                      loading="lazy"
+                      width={500}
+                      height={280}
+                    />
                     <div className="absolute inset-0 bg-foreground/5 group-hover:bg-foreground/15 transition-colors" />
                   </div>
-                  <p className="font-body text-xs text-muted-foreground mb-1">{new Date(article.datePublished).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</p>
-                  <h2 className="font-display text-lg font-semibold text-foreground group-hover:text-primary transition-colors mb-2">{article.title}</h2>
+                  <p className="font-body text-xs text-muted-foreground mb-1">
+                    {new Date(article.publishedAt).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
+                  </p>
+                  <h2 className="font-display text-lg font-semibold text-foreground group-hover:text-primary transition-colors mb-2">
+                    {article.title}
+                  </h2>
                   <p className="font-body text-sm text-muted-foreground mb-3">{article.excerpt}</p>
                   <span className="font-body text-xs text-primary tracking-widest uppercase inline-flex items-center gap-1">
                     {t("blogPage.readMore")} <ArrowRight className="w-3 h-3" />

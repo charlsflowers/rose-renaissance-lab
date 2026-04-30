@@ -45,7 +45,6 @@ const extractStringField = (src, key) => {
 
 const catalogSrc   = read("src/lib/catalogData.ts");
 const landingSrc   = read("src/lib/landingPagesData.ts");
-const blogSrc      = read("src/lib/blogData.tsx");
 const roomDecorSrc = read("src/lib/roomDecorData.ts");
 
 // All category slugs (ALL of them are currently "Coming Soon" — excluded from sitemap)
@@ -56,11 +55,33 @@ const categorySlugs = extractStringField(
 
 const bouquetHandles  = extractStringField(catalogSrc, "shopifyHandle");
 const landingSlugs    = extractStringField(landingSrc, "slug");
-const blogSlugs       = extractStringField(blogSrc, "slug");
 const roomDecorIds    = extractStringField(
   roomDecorSrc.split("export const roomDecorPackages")[1] ?? "",
   "id",
 );
+
+// Fetch published blog post slugs from Sanity at build time
+const SANITY_PROJECT_ID = "8326wvly";
+const SANITY_DATASET = "production";
+const SANITY_API_VERSION = "2024-01-01";
+
+let blogSlugs = [];
+try {
+  const groq = encodeURIComponent(
+    `*[_type == "post" && defined(slug.current) && (!defined(language) || language == "en")].slug.current`,
+  );
+  const url = `https://${SANITY_PROJECT_ID}.apicdn.sanity.io/v${SANITY_API_VERSION}/data/query/${SANITY_DATASET}?query=${groq}`;
+  const res = await fetch(url);
+  if (res.ok) {
+    const json = await res.json();
+    blogSlugs = Array.isArray(json.result) ? json.result.filter((s) => typeof s === "string") : [];
+    console.log(`[sitemap] fetched ${blogSlugs.length} blog slug(s) from Sanity`);
+  } else {
+    console.warn(`[sitemap] Sanity fetch failed (${res.status}); blog posts will be omitted`);
+  }
+} catch (err) {
+  console.warn(`[sitemap] Sanity fetch error: ${err.message}; blog posts will be omitted`);
+}
 
 // ───────────────────────── url builder ─────────────────────────
 

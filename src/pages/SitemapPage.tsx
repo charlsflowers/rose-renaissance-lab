@@ -1,13 +1,20 @@
 import { Link } from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import SeoHead from "@/components/SeoHead";
 import { landingPages } from "@/lib/landingPagesData";
-import { blogArticles } from "@/lib/blogData";
+import { fetchBlogPosts } from "@/lib/sanity";
 import { bouquetProducts } from "@/lib/catalogData";
 import { roomDecorPackages } from "@/lib/roomDecorData";
 
 const Sitemap = () => {
+  const { data: blogPosts = [] } = useQuery({
+    queryKey: ["sitemap-blog-posts"],
+    queryFn: () => fetchBlogPosts("en"),
+    staleTime: 5 * 60 * 1000,
+  });
+
   // Deduplicate bouquets by shopifyHandle (unique key for the route)
   const uniqueBouquets = Array.from(
     new Map(bouquetProducts.map((p) => [p.shopifyHandle, p])).values()
@@ -31,8 +38,8 @@ const Sitemap = () => {
     { title: "Room Decors", links: roomDecorPackages.map(pkg => ({
       to: `/room-decors/${pkg.id}`, label: pkg.name,
     }))},
-    { title: "Blog Articles", links: blogArticles.map(a => ({
-      to: `/blog/${a.slug}`, label: a.title.split('|')[0].trim(),
+    { title: "Blog Articles", links: blogPosts.map(a => ({
+      to: `/blog/${a.slug.current}`, label: a.title.split('|')[0].trim(),
     }))},
     { title: "Landing Pages", links: landingPages.map(p => ({
       to: `/${p.slug}`, label: p.h1.replace(/ [–—|].*/g, ''),

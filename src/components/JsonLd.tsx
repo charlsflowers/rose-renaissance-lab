@@ -147,6 +147,40 @@ export const articleSchema = (headline: string, slug: string, datePublished: str
   url: `https://www.charlsflowers.com/blog/${slug}`,
 });
 
+export const blogPostingSchema = (args: {
+  headline: string;
+  slug: string;
+  datePublished: string;
+  dateModified?: string;
+  image?: string;
+  description?: string;
+  author?: string;
+  inLanguage?: string;
+}) => {
+  const url = `https://www.charlsflowers.com/blog/${args.slug}`;
+  return {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    headline: args.headline,
+    ...(args.description ? { description: args.description } : {}),
+    ...(args.image ? { image: args.image } : {}),
+    datePublished: args.datePublished,
+    dateModified: args.dateModified || args.datePublished,
+    inLanguage: args.inLanguage || "en-US",
+    author: { "@type": "Organization", name: args.author || "Charls Flowers" },
+    publisher: {
+      "@type": "Organization",
+      name: "Charls Flowers",
+      logo: {
+        "@type": "ImageObject",
+        url: "https://storage.googleapis.com/gpt-engineer-file-uploads/pPT3n7ZwBuTW9aMFgpnKH957a2Y2/social-images/social-1773180724629-LOGO_charls.webp",
+      },
+    },
+    mainEntityOfPage: { "@type": "WebPage", "@id": url },
+    url,
+  };
+};
+
 export const homepageFaqs = [
   { question: "Do you offer same-day flower delivery in Miami?", answer: "Yes! We offer same-day delivery across Miami up to 87 miles. Order before 3PM and your bouquet will be delivered today. Minimum 2 hours preparation time." },
   { question: "How much does flower delivery cost in Miami?", answer: "$20 flat rate for 0-5 miles. $1.60 per mile from 5 to 87 miles. Free in-store pickup available at 7261 NW 12th Street, Miami FL 33126." },
