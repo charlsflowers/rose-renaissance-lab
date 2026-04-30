@@ -1,17 +1,22 @@
 import { useEffect } from "react";
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, Navigate } from "react-router-dom";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import SeoHead from "@/components/SeoHead";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import JsonLd, { articleSchema } from "@/components/JsonLd";
-import { getBlogArticle } from "@/lib/blogData";
+import { getBlogArticle, retiredBlogSlugs } from "@/lib/blogData";
 
 const BlogArticle = () => {
   const { slug } = useParams<{ slug: string }>();
   const article = slug ? getBlogArticle(slug) : undefined;
 
   useEffect(() => { window.scrollTo(0, 0); }, [slug]);
+
+  // 301-equivalent redirect for retired blog posts → /blog (preserves SEO equity)
+  if (slug && retiredBlogSlugs.includes(slug)) {
+    return <Navigate to="/blog" replace />;
+  }
 
   if (!article) {
     return (
