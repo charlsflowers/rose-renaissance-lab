@@ -1,3 +1,36 @@
+export interface LandingFAQ {
+  question: string;
+  answer: string;
+}
+
+/** Extended SEO content (per-page unique copy for indexable landings). */
+export interface LandingSeoContent {
+  /** Short H2 + intro paragraph for "Why we deliver here". */
+  whyTitle: string;
+  whyParagraph: string;
+  /** "Zones we cover" list. */
+  zonesTitle: string;
+  zonesIntro: string;
+  zones: string[];
+  /** "Popular occasions" list. */
+  occasionsTitle: string;
+  occasionsIntro: string;
+  occasions: string[];
+  /** Delivery info section (heading + bullet copy, sourced from official policy). */
+  deliveryTitle: string;
+  deliveryParagraph: string;
+  /** FAQ block (4 entries — used for FAQPage schema + UI). */
+  faqTitle: string;
+  faqs: LandingFAQ[];
+  /** Internal links block (label + slug) — rendered at end. */
+  internalLinksTitle: string;
+  internalLinks: { label: string; slug: string }[];
+  /** Final CTA copy. */
+  ctaLabel: string;
+  /** Schema.org areaServed name (city / neighborhood). */
+  areaServed: string;
+}
+
 export interface LandingPageData {
   slug: string;
   h1: string;
@@ -5,6 +38,8 @@ export interface LandingPageData {
   seoDescription: string;
   intro: string;
   type: 'neighborhood' | 'seasonal' | 'niche';
+  /** When present, the page renders the extended SEO layout instead of the default. */
+  seo?: LandingSeoContent;
 }
 
 export const landingPages: LandingPageData[] = [
@@ -43,11 +78,68 @@ export const landingPages: LandingPageData[] = [
   },
   {
     slug: 'flower-delivery-brickell',
-    h1: 'Flower Delivery Brickell | Same-Day – Charls Flowers Miami',
-    seoTitle: 'Flower Delivery Brickell | Same-Day Roses – Charls Flowers',
-    seoDescription: 'Same-day flower delivery to Brickell from Charls Flowers Miami. Premium bouquets from 50 to 200 roses. Glitter or natural finish.',
-    intro: 'Surprise someone special in Brickell with a premium handcrafted bouquet from Charls Flowers. We deliver same-day throughout Brickell — from luxury condos to office buildings. Choose from over 40 bouquet designs, or create your own with our AI-powered custom builder. From 50 to 200 roses, natural or glitter finish.',
+    h1: 'Luxury Flower Delivery in Brickell, Miami',
+    seoTitle: "Flower Delivery Brickell Miami | Luxury Bouquets to Condos & Hotels | Charl's Flowers",
+    seoDescription: 'Premium flower delivery to Brickell condos, offices and hotels. Service to Brickell City Centre, Four Seasons, SLS, Mandarin Oriental and all Brickell Avenue.',
+    intro: "Brickell is Miami's financial heart, full of high-rise condos, executive offices and luxury hotels where every detail matters. At Charl's Flowers we deliver premium fresh bouquets directly to Brickell Avenue, Brickell Key and Brickell City Centre, with the discretion and presentation that this neighborhood expects. Whether it's a corporate gift, a romantic surprise to a 30th-floor condo, or a hotel suite delivery for a guest, our service has Brickell covered.",
     type: 'neighborhood',
+    seo: {
+      whyTitle: 'Why we deliver in Brickell',
+      whyParagraph: "Brickell concentrates more luxury condo towers per square mile than any other Miami neighborhood. Our delivery team knows the building protocols at Echo Brickell, Reach, Rise, SLS Lux, Brickell Flatiron and Panorama Tower — including doorman procedures and concierge handoff. We understand that timing matters when sending flowers to a busy executive at Brickell City Centre or to a guest checking into the Four Seasons. That local expertise is why we're the preferred florist for Brickell residents and the businesses that operate here.",
+      zonesTitle: 'Areas we cover in Brickell',
+      zonesIntro: 'We deliver across the entire Brickell area, including these specific buildings and zones:',
+      zones: [
+        'Brickell City Centre (offices and residences)',
+        'Four Seasons Hotel & Tower Brickell',
+        'SLS Brickell Hotel and SLS Lux',
+        'Mandarin Oriental Miami (Brickell Key)',
+        'Brickell Flatiron, Echo Brickell, Reach, Rise, Panorama Tower',
+        '1010 Brickell, Icon Brickell, The Plaza on Brickell',
+        'Office towers along Brickell Avenue and Brickell Bay Drive',
+        'Brickell Key residential towers (Carbonell, Asia, Three Tequesta Point)',
+        'Mary Brickell Village area',
+      ],
+      occasionsTitle: 'Popular occasions in Brickell',
+      occasionsIntro: 'These are the most common reasons our Brickell clients order flowers from us:',
+      occasions: [
+        'Corporate gifts and client appreciation deliveries to Brickell offices',
+        'Romantic surprises delivered to high-rise condos',
+        'Hotel guest welcome bouquets at Four Seasons, SLS and Mandarin Oriental',
+        'Birthday and anniversary deliveries to Brickell residents',
+        'Sympathy and get-well arrangements to Mercy Hospital nearby',
+        'Executive assistant orders for partners, VIP clients and board members',
+      ],
+      deliveryTitle: 'Delivery information for Brickell',
+      deliveryParagraph: "Brickell sits within our core delivery radius from our Miami atelier, so most addresses fall close to our flat-rate zone. Our delivery rate is $20 for the first 0–5 miles and $1.60 per additional mile, up to 87 miles total. Every order needs a minimum of 2 hours of preparation. For same-day delivery, place your order before 3PM Miami time — orders placed after the cutoff are scheduled for the next available window. Our delivery hours are Monday to Friday 8AM–7PM, Saturday 8AM–6PM and Sunday 8AM–5PM. Free pickup is also available at 7261 NW 12th Street, Miami FL 33126. Full details are on our shipping policy page.",
+      faqTitle: 'Brickell delivery FAQs',
+      faqs: [
+        {
+          question: 'Do you deliver to Brickell City Centre offices?',
+          answer: 'Yes. We deliver directly to the office towers at Brickell City Centre (Three Brickell City Centre, Two Brickell City Centre and SLS Lux). Our courier coordinates with reception or the security desk to ensure the recipient receives the bouquet personally during business hours.',
+        },
+        {
+          question: 'Can you deliver to a guest staying at the Four Seasons or SLS Brickell?',
+          answer: "Absolutely. We work regularly with Brickell luxury hotels and follow the concierge handoff process for each property. Just include the guest's full name and check-in date when ordering, and we coordinate directly with the concierge.",
+        },
+        {
+          question: 'How is delivery handled at Brickell high-rise condos?',
+          answer: "All major Brickell condos (Echo, Reach, Rise, Brickell Flatiron, Panorama, etc.) accept floral deliveries through their doorman or concierge. We follow each building's specific protocol so your bouquet always reaches the right resident.",
+        },
+        {
+          question: 'What is your delivery timing policy for Brickell?',
+          answer: 'Brickell orders follow our standard policy: a minimum of 2 hours preparation time, with same-day delivery available for orders placed before 3PM Miami time. Delivery rate is $20 for the first 0–5 miles and $1.60 per additional mile. Brickell typically falls within or close to our flat-rate zone from our NW 12th Street atelier. Delivery hours: Mon–Fri 8AM–7PM, Sat 8AM–6PM, Sun 8AM–5PM.',
+        },
+      ],
+      internalLinksTitle: "If you're looking for flower delivery in nearby areas, we also serve:",
+      internalLinks: [
+        { label: 'Flower Delivery Miami Beach', slug: 'flower-delivery-miami-beach' },
+        { label: 'Flower Delivery Coral Gables', slug: 'flower-delivery-coral-gables' },
+        { label: 'Flower Delivery Wynwood', slug: 'flower-delivery-wynwood' },
+        { label: 'Main Miami Flower Shop', slug: 'flower-shop-miami' },
+      ],
+      ctaLabel: 'Order Brickell Flower Delivery',
+      areaServed: 'Brickell, Miami',
+    },
   },
   {
     slug: 'flower-delivery-wynwood',
@@ -93,11 +185,70 @@ export const landingPages: LandingPageData[] = [
   // Niche pages
   {
     slug: 'flower-shop-miami',
-    h1: 'Flower Shop Miami | Premium Bouquets & Same-Day Delivery – Charls Flowers',
-    seoTitle: 'Flower Shop Miami | Premium Bouquets & Same-Day Delivery – Charls Flowers',
-    seoDescription: "Looking for a flower shop in Miami? Charls Flowers offers handcrafted bouquets from 50 to 200 roses, same-day delivery up to 87 miles, and free pickup. Custom designs with AI preview.",
-    intro: "Welcome to Charls Flowers — Miami's premier flower shop specializing in handcrafted rose bouquets. We offer the largest selection of bouquets in Miami with over 40 designs, from single color to mixed and zodiac-inspired arrangements. Every bouquet is made with 50 to 200 fresh roses and available in natural, glitter, or painted finish. Our unique AI-powered custom bouquet builder lets you preview your arrangement before ordering. Same-day delivery across Miami up to 87 miles, or free in-store pickup at our location in NW 12th Street.",
+    h1: "Charl's Flowers — Miami's Luxury Flower Shop",
+    seoTitle: "Flower Shop Miami | Luxury Florist with Citywide Delivery | Charl's Flowers",
+    seoDescription: "Charl's Flowers is Miami's luxury florist. Delivery to Brickell, Miami Beach, Coral Gables, Wynwood, Doral, Kendall and Hialeah. Premium arrangements made fresh daily.",
+    intro: "Charl's Flowers is a Miami-based luxury florist delivering premium fresh arrangements across all of Miami-Dade. We're not a wire service or a marketplace — every bouquet is designed and arranged in our Miami atelier, using flowers sourced fresh each week. Citywide delivery to Brickell, Miami Beach, Coral Gables, Wynwood, Doral, Kendall, Hialeah and the surrounding neighborhoods.",
     type: 'niche',
+    seo: {
+      whyTitle: 'Why order from us in Miami',
+      whyParagraph: "Most flower deliveries in Miami come from wire services that pass orders to the cheapest available florist — meaning what arrives often doesn't match the photo. We work differently: every order goes through our atelier, where each arrangement is designed by hand. Our flowers arrive directly from premium growers (Ecuador, Holland and local Florida farms) and are stored in cooled conditions until designed. The result is arrangements that last longer, look fresher and arrive looking like the photo.",
+      zonesTitle: 'Areas we cover across Miami',
+      zonesIntro: 'We deliver to every major Miami neighborhood, including:',
+      zones: [
+        'Brickell — luxury condos, offices and hotels',
+        'Miami Beach — South Beach, Mid-Beach, North Beach and Fisher Island',
+        'Coral Gables — homes, weddings and Biltmore Hotel area',
+        'Wynwood and Design District — galleries, studios and lofts',
+        'Doral — corporate offices and family homes',
+        'Kendall, Pinecrest and Palmetto Bay — residential deliveries',
+        'Hialeah and Hialeah Gardens — bilingual service',
+        'Edgewater, Midtown, Aventura, Sunny Isles (on request)',
+      ],
+      occasionsTitle: 'Popular occasions across Miami',
+      occasionsIntro: 'What our Miami clients order most often:',
+      occasions: [
+        'Birthday and anniversary deliveries',
+        'Corporate gifts and weekly office programs',
+        'Hotel guest welcome bouquets',
+        'Wedding flowers and event florals',
+        'Sympathy arrangements and funeral flowers',
+        'Photoshoot and content creation florals',
+      ],
+      deliveryTitle: 'Delivery information across Miami',
+      deliveryParagraph: "We deliver across Miami-Dade up to 87 miles from our atelier. Our delivery rate is $20 for the first 0–5 miles and $1.60 per additional mile. Every order needs a minimum of 2 hours of preparation. Same-day delivery is available for orders placed before 3PM Miami time; orders placed after the cutoff are scheduled for the next available window. Delivery hours are Monday to Friday 8AM–7PM, Saturday 8AM–6PM and Sunday 8AM–5PM. Free in-store pickup is available at 7261 NW 12th Street, Miami FL 33126. Full details on our shipping policy page.",
+      faqTitle: 'Miami flower shop FAQs',
+      faqs: [
+        {
+          question: "What makes Charl's Flowers different from other Miami florists?",
+          answer: "Three things: every arrangement is designed by hand in our Miami atelier (no wire service handoffs), our flowers arrive fresh weekly from premium growers, and our delivery team knows the protocols at Miami's hotels, condo towers and gated communities — meaning your bouquet arrives properly and on time.",
+        },
+        {
+          question: 'Which Miami neighborhoods do you deliver to?',
+          answer: 'We deliver to every major Miami-Dade neighborhood including Brickell, Miami Beach, Coral Gables, Wynwood, Design District, Doral, Kendall, Pinecrest, Palmetto Bay, Hialeah, Edgewater, Midtown, Aventura and Sunny Isles. Each neighborhood has a dedicated page with specific delivery details.',
+        },
+        {
+          question: 'What are your delivery times and costs?',
+          answer: 'Our delivery rate is $20 for the first 0–5 miles and $1.60 per additional mile, up to 87 miles total. Every order requires a minimum of 2 hours preparation. Same-day delivery is available for orders placed before 3PM Miami time. Delivery hours: Monday to Friday 8AM–7PM, Saturday 8AM–6PM and Sunday 8AM–5PM. Free pickup is available at 7261 NW 12th Street, Miami FL 33126.',
+        },
+        {
+          question: 'Do you offer corporate or weekly subscription programs?',
+          answer: 'Yes. We work with hotels, restaurants, offices and showrooms across Miami on weekly fresh flower programs. Custom designs, rotating palettes, and dedicated delivery slots. Contact us for a corporate quote.',
+        },
+      ],
+      internalLinksTitle: 'Browse our delivery pages by neighborhood:',
+      internalLinks: [
+        { label: 'Flower Delivery Brickell', slug: 'flower-delivery-brickell' },
+        { label: 'Flower Delivery Miami Beach', slug: 'flower-delivery-miami-beach' },
+        { label: 'Flower Delivery Coral Gables', slug: 'flower-delivery-coral-gables' },
+        { label: 'Flower Delivery Wynwood', slug: 'flower-delivery-wynwood' },
+        { label: 'Flower Delivery Doral', slug: 'flower-delivery-doral' },
+        { label: 'Flower Delivery Kendall', slug: 'flower-delivery-kendall' },
+        { label: 'Flower Delivery Hialeah', slug: 'flower-delivery-hialeah' },
+      ],
+      ctaLabel: 'Browse Our Collections',
+      areaServed: 'Miami, Florida',
+    },
   },
   {
     slug: 'quinceanera-bouquets-miami',

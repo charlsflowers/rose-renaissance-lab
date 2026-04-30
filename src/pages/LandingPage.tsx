@@ -4,6 +4,11 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import SeoHead from "@/components/SeoHead";
 import Breadcrumbs from "@/components/Breadcrumbs";
+import JsonLd, { localBusinessSchema, faqSchema, breadcrumbSchema } from "@/components/JsonLd";
+import LandingZonesList from "@/components/landing/LandingZonesList";
+import LandingOccasions from "@/components/landing/LandingOccasions";
+import LandingFAQ from "@/components/landing/LandingFAQ";
+import LandingInternalLinks from "@/components/landing/LandingInternalLinks";
 import { getLandingPage } from "@/lib/landingPagesData";
 import { ArrowRight, MapPin, Truck, Store, Clock, Sparkles } from "lucide-react";
 
@@ -22,6 +27,104 @@ const LandingPage = () => {
           <p className="text-muted-foreground font-body">Page not found</p>
           <Link to="/" className="text-primary font-body underline mt-4 inline-block">Go home</Link>
         </div>
+      </div>
+    );
+  }
+
+  // Extended SEO layout (per-page unique content + LocalBusiness/FAQPage schema).
+  if (page.seo) {
+    const seo = page.seo;
+    const breadcrumbLabel = page.h1.split("|")[0].split("—")[0].trim();
+    const localBusiness = {
+      ...localBusinessSchema(),
+      areaServed: { "@type": "Place", name: seo.areaServed },
+    };
+    return (
+      <div className="min-h-screen bg-background">
+        <SeoHead title={page.seoTitle} description={page.seoDescription} path={`/${page.slug}`} />
+        <JsonLd data={[
+          localBusiness,
+          faqSchema(seo.faqs.map(f => ({ question: f.question, answer: f.answer }))),
+          breadcrumbSchema([
+            { name: "Home", url: "https://www.charlsflowers.com" },
+            { name: breadcrumbLabel, url: `https://www.charlsflowers.com/${page.slug}` },
+          ]),
+        ]} />
+        <Navbar />
+        <div className="pt-24 pb-16">
+          <div className="container mx-auto px-6">
+            <Breadcrumbs items={[{ label: "Home", to: "/" }, { label: breadcrumbLabel }]} />
+            <div className="max-w-3xl mx-auto">
+              <h1 className="font-title-retro text-3xl md:text-5xl text-foreground mb-6">{page.h1}</h1>
+              <p className="text-muted-foreground font-body text-base md:text-lg leading-relaxed mb-12">{page.intro}</p>
+
+              {/* Why we deliver here */}
+              <section className="mb-16">
+                <h2 className="font-display text-2xl font-semibold text-foreground mb-3">{seo.whyTitle}</h2>
+                <p className="font-body text-base text-foreground leading-relaxed">{seo.whyParagraph}</p>
+              </section>
+
+              {/* Zones */}
+              <LandingZonesList title={seo.zonesTitle} intro={seo.zonesIntro} zones={seo.zones} />
+
+              {/* Occasions */}
+              <LandingOccasions title={seo.occasionsTitle} intro={seo.occasionsIntro} occasions={seo.occasions} />
+
+              {/* Delivery info */}
+              <section className="mb-16 bg-card border border-border rounded-lg p-6">
+                <h2 className="font-display text-2xl font-semibold text-foreground mb-3 flex items-center gap-2">
+                  <Truck className="w-5 h-5 text-primary" /> {seo.deliveryTitle}
+                </h2>
+                <p className="font-body text-sm text-muted-foreground leading-relaxed mb-4">{seo.deliveryParagraph}</p>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-3 mt-4">
+                  <div className="flex items-center gap-2 p-3 bg-primary/5 rounded-lg">
+                    <MapPin className="w-4 h-4 text-primary shrink-0" />
+                    <div>
+                      <p className="font-body text-xs font-semibold text-foreground">$20</p>
+                      <p className="font-body text-xs text-muted-foreground">First 0–5 miles</p>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-2 p-3 bg-primary/5 rounded-lg">
+                    <Clock className="w-4 h-4 text-primary shrink-0" />
+                    <div>
+                      <p className="font-body text-xs font-semibold text-foreground">2 hours</p>
+                      <p className="font-body text-xs text-muted-foreground">Min. preparation</p>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-2 p-3 bg-primary/5 rounded-lg">
+                    <Store className="w-4 h-4 text-primary shrink-0" />
+                    <div>
+                      <p className="font-body text-xs font-semibold text-foreground">Free pickup</p>
+                      <p className="font-body text-xs text-muted-foreground">7261 NW 12th St</p>
+                    </div>
+                  </div>
+                </div>
+                <div className="mt-4">
+                  <Link to="/shipping-policy" className="font-body text-xs text-primary hover:underline">
+                    See full shipping policy →
+                  </Link>
+                </div>
+              </section>
+
+              {/* FAQ */}
+              <LandingFAQ title={seo.faqTitle} faqs={seo.faqs} />
+
+              {/* Internal links */}
+              <LandingInternalLinks title={seo.internalLinksTitle} links={seo.internalLinks} />
+
+              {/* CTA */}
+              <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                <Link to="/bouquets" className="inline-flex items-center justify-center gap-2 bg-primary text-primary-foreground px-8 py-4 font-body text-sm tracking-widest uppercase hover:bg-primary/90 transition-colors rounded-lg">
+                  {seo.ctaLabel} <ArrowRight className="w-4 h-4" />
+                </Link>
+                <Link to="/bouquets/personalizar" className="inline-flex items-center justify-center gap-2 border border-primary text-primary px-8 py-4 font-body text-sm tracking-widest uppercase hover:bg-primary/5 transition-colors rounded-lg">
+                  Custom Bouquet <Sparkles className="w-4 h-4" />
+                </Link>
+              </div>
+            </div>
+          </div>
+        </div>
+        <Footer />
       </div>
     );
   }
