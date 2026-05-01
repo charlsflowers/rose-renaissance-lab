@@ -60,6 +60,46 @@ const roomDecorIds    = extractStringField(
   "id",
 );
 
+// ───────────────────────── Mother's Day (live from Shopify) ─────────────────────────
+// Fetch Mother's Day collection products dynamically so any product added in Shopify
+// to the `mothers-day` collection appears in the sitemap automatically — no code edit needed.
+
+const SHOPIFY_DOMAIN = "charls-flowers.myshopify.com";
+const SHOPIFY_API_VERSION = "2024-01";
+const SHOPIFY_TOKEN = "4e7516581c2c609bb77d69b5f1786a9b";
+const MOTHERS_DAY_HANDLE = "mothers-day";
+
+let mothersDayHandles = [];
+try {
+  const query = `
+    query {
+      collection(handle: "${MOTHERS_DAY_HANDLE}") {
+        products(first: 50) { edges { node { handle } } }
+      }
+    }`;
+  const res = await fetch(
+    `https://${SHOPIFY_DOMAIN}/api/${SHOPIFY_API_VERSION}/graphql.json`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "X-Shopify-Storefront-Access-Token": SHOPIFY_TOKEN,
+      },
+      body: JSON.stringify({ query }),
+    },
+  );
+  if (res.ok) {
+    const json = await res.json();
+    const edges = json?.data?.collection?.products?.edges ?? [];
+    mothersDayHandles = edges.map((e) => e.node.handle).filter(Boolean);
+    console.log(`[sitemap] fetched ${mothersDayHandles.length} Mother's Day product(s) from Shopify`);
+  } else {
+    console.warn(`[sitemap] Shopify fetch failed (${res.status}); Mother's Day products will be omitted`);
+  }
+} catch (err) {
+  console.warn(`[sitemap] Shopify fetch error: ${err.message}; Mother's Day products will be omitted`);
+}
+
 // Fetch published blog post slugs from Sanity at build time
 const SANITY_PROJECT_ID = "8326wvly";
 const SANITY_DATASET = "production";
@@ -100,6 +140,7 @@ push("/",                       "weekly",  "1.0");
 push("/bouquets",               "weekly",  "0.8");
 push("/bouquets/personalizar",  "monthly", "0.8");
 push("/room-decors",            "weekly",  "0.8");
+push("/mothers-day",            "weekly",  "0.9");
 push("/about",                  "monthly", "0.4");
 push("/contact",                "monthly", "0.4");
 push("/delivery",               "monthly", "0.4");
@@ -117,6 +158,11 @@ push("/cookie-policy",    "monthly", "0.4");
 // 2. Bouquet products (priority 0.8)
 for (const handle of bouquetHandles) {
   push(`/bouquets/all/${handle}`, "weekly", "0.8");
+}
+
+// 2b. Mother's Day products — live from Shopify collection (priority 0.9, seasonal high)
+for (const handle of mothersDayHandles) {
+  push(`/bouquets/mothers-day/${handle}`, "weekly", "0.9");
 }
 
 // 3. Room decor packages (priority 0.8)
@@ -164,10 +210,11 @@ writeFileSync(outPath, xml, "utf8");
 const counts = {
   total: urls.length,
   bouquets: bouquetHandles.length,
+  mothersDay: mothersDayHandles.length,
   landings: landingSlugs.length,
   blog: blogSlugs.length,
   roomDecors: roomDecorIds.length,
   excludedCategories: categorySlugs.length,
 };
 console.log(`[sitemap] wrote ${outPath}`);
-console.log(`[sitemap] urls=${counts.total} bouquets=${counts.bouquets} landings=${counts.landings} blog=${counts.blog} roomDecors=${counts.roomDecors} (excluded comingSoon categories=${counts.excludedCategories})`);
+console.log(`[sitemap] urls=${counts.total} bouquets=${counts.bouquets} mothersDay=${counts.mothersDay} landings=${counts.landings} blog=${counts.blog} roomDecors=${counts.roomDecors} (excluded comingSoon categories=${counts.excludedCategories})`);
