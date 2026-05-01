@@ -486,23 +486,6 @@ export const es = {
     remove: "Eliminar",
   },
 
-  landing: {
-    sameDayDelivery: "Envío el Mismo Día",
-    sameDayDeliveryDesc: "Pide antes de las 3PM para entrega hoy. Hasta 87 millas desde Miami.",
-    freePickup: "Recogida Gratis",
-    freePickupDesc: "Recoge gratis en 7261 NW 12th St, Miami, FL 33126.",
-    customBouquets: "Ramos Personalizados",
-    customBouquetsDesc: "Diseña tu propio ramo con vista previa de IA. 50-200 rosas, cualquier color.",
-    deliveryRates: "Tarifas de Envío",
-    zeroToFive: "0–5 millas",
-    flatRate: "$25 tarifa fija",
-    fiveToEightySeven: "5–87 millas",
-    perMile: "$1.60 por milla",
-    minPrepTime: "Tiempo mínimo de preparación: 2 horas",
-    shopBouquets: "Ver Ramos",
-    customBouquet: "Ramo Personalizado",
-  },
-
   collectionFaq: {
     title: "Preguntas Frecuentes",
   },
