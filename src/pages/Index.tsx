@@ -7,6 +7,10 @@ import Footer from "@/components/Footer";
 import SeoHead from "@/components/SeoHead";
 import JsonLd, { localBusinessSchema, serviceSchema, websiteSchema, faqSchema, homepageFaqs } from "@/components/JsonLd";
 import { useTranslation } from "@/i18n/LanguageContext";
+import { isMothersDayPromoActive } from "@/lib/mothersDayPromo";
+import MothersDayHero from "@/components/MothersDayHero";
+import MothersDayBanner from "@/components/MothersDayBanner";
+import MothersDayCollectionSection from "@/components/MothersDayCollectionSection";
 import arreglosImg from "@/assets/arreglos.jpg";
 import cajasImg from "@/assets/cajas.jpg";
 import cestasImg from "@/assets/cestas.jpg";
@@ -20,6 +24,7 @@ const comingSoonSlugs = ["arreglos", "cajas", "cestas", "jarrones", "osos"];
 
 const Index = () => {
   const { t } = useTranslation();
+  const promoActive = isMothersDayPromoActive();
   const categories = [
     { img: bicolorPassionImg, title: t("categories.bouquets"), slug: "bouquets", isRoute: true },
     { img: arreglosImg, title: t("categories.arrangements"), slug: "arreglos" },

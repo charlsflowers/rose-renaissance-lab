@@ -12,6 +12,7 @@ import { buildAccessoryLineItems, CUSTOM_BOUQUET_VARIANT_ID } from "@/lib/access
 import { resolveCustomBouquetVariantId, getCustomBouquetType } from "@/lib/customBouquetVariants";
 import { storefrontApiRequest } from "@/lib/shopify";
 import { trackMetaEvent } from "@/lib/metaPixel";
+import { isMothersDayPromoActive } from "@/lib/mothersDayPromo";
 
 import Navbar from "@/components/Navbar";
 import PaperColorPicker from "@/components/PaperColorPicker";
@@ -1106,11 +1107,21 @@ const BouquetBuilder = () => {
                 <p className="font-display text-xl font-bold text-foreground whitespace-nowrap">${parseFloat(totalPrice.toFixed(2))}</p>
               </div>
               <button
-                disabled={isAdding || variantsLoading}
+                disabled={isAdding || variantsLoading || isMothersDayPromoActive()}
                 onClick={handleBuilderPayNow}
                 className="w-full bg-primary text-primary-foreground py-4 font-body text-sm tracking-[0.25em] uppercase font-semibold hover:bg-primary/90 transition-colors rounded-lg disabled:opacity-50">
-                {isAdding ? "..." : t("product.orderAndPay")}
+                {isMothersDayPromoActive()
+                  ? "Available May 13"
+                  : isAdding ? "..." : t("product.orderAndPay")}
               </button>
+              {isMothersDayPromoActive() && (
+                <p className="text-center text-xs text-muted-foreground font-body">
+                  Custom bouquets pause during our Mother's Day Special Edition.{" "}
+                  <a href="/mothers-day" className="text-primary hover:underline font-semibold">
+                    Shop Mother's Day →
+                  </a>
+                </p>
+              )}
             </div>
           </div>
         </div>
