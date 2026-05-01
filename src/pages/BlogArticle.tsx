@@ -10,6 +10,7 @@ import JsonLd, { blogPostingSchema, breadcrumbSchema } from "@/components/JsonLd
 import { fetchBlogPost, urlFor, type SanityImage } from "@/lib/sanity";
 import { retiredBlogSlugs } from "@/lib/blogData";
 import { landingPages } from "@/lib/landingPagesData";
+import { useTranslation } from "@/i18n/LanguageContext";
 
 const BASE_URL = "https://www.charlsflowers.com";
 
@@ -59,6 +60,7 @@ const portableTextComponents: PortableTextComponents = {
 
 const BlogArticle = () => {
   const { slug } = useParams<{ slug: string }>();
+  const { t, language } = useTranslation();
   useEffect(() => { window.scrollTo(0, 0); }, [slug]);
 
   // 301-equivalent redirect for retired AI-generated posts
@@ -89,8 +91,8 @@ const BlogArticle = () => {
       <div className="min-h-screen bg-background">
         <Navbar />
         <div className="pt-24 text-center">
-          <p className="text-muted-foreground font-body">Article not found</p>
-          <Link to="/blog" className="text-primary font-body underline mt-4 inline-block">Back to blog</Link>
+          <p className="text-muted-foreground font-body">{t("blogArticle.articleNotFound")}</p>
+          <Link to="/blog" className="text-primary font-body underline mt-4 inline-block">{t("blogArticle.backToBlog")}</Link>
         </div>
       </div>
     );
@@ -140,12 +142,12 @@ const BlogArticle = () => {
       <Navbar />
       <div className="pt-24 pb-16" lang={inLanguage}>
         <div className="container mx-auto px-6">
-          <Breadcrumbs items={[{ label: "Home", to: "/" }, { label: "Blog", to: "/blog" }, { label: article.title }]} />
+          <Breadcrumbs items={[{ label: t("sitemap.links.home"), to: "/" }, { label: t("sitemap.links.blog"), to: "/blog" }, { label: article.title }]} />
 
           <article className="max-w-3xl mx-auto">
             <div className="mb-8">
               <p className="font-body text-xs text-muted-foreground mb-2">
-                {new Date(article.publishedAt).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
+                {new Date(article.publishedAt).toLocaleDateString(language === "es" ? "es-ES" : "en-US", { year: 'numeric', month: 'long', day: 'numeric' })}
               </p>
               <h1 className="font-title-retro text-3xl md:text-4xl text-foreground mb-4">{article.title}</h1>
               {article.excerpt && (
@@ -178,7 +180,7 @@ const BlogArticle = () => {
             {relatedLandings.length > 0 && (
               <section className="mt-12 pt-8 border-t border-border">
                 <h2 className="font-display text-xl font-semibold text-foreground mb-4">
-                  Related delivery zones & guides
+                  {t("blogArticle.relatedZones")}
                 </h2>
                 <ul className="space-y-2">
                   {relatedLandings.map((rel) => (
