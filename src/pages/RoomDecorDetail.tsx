@@ -538,7 +538,7 @@ const RoomDecorDetail = () => {
 
             <div className="text-center">
               <h1 className="font-display text-3xl font-semibold text-foreground">{pkg.name}</h1>
-              <p className="text-muted-foreground font-body mt-2 text-left">{language === "es" && pkg.descriptionEs ? pkg.descriptionEs : pkg.description}</p>
+              <p className="text-muted-foreground font-body mt-2 text-left">{resolvedDescription}</p>
             </div>
 
             {/* What's included */}
