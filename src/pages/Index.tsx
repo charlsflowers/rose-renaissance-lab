@@ -63,6 +63,12 @@ const Index = () => {
       <Navbar />
 
       <main>
+      {promoActive && (
+        <>
+          <MothersDayHero />
+          <MothersDayBanner />
+        </>
+      )}
       {/* Hero */}
       <section className="relative h-[70vh] md:h-screen flex items-end md:items-center overflow-hidden">
         <div className="absolute inset-0">
