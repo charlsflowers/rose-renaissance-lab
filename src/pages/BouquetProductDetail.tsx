@@ -267,6 +267,13 @@ const BouquetProductDetail = () => {
 
   const shopifySizes = useMemo(() => product && productVariants.length > 0 ? buildShopifySizeOptions(productVariants) : [], [product, productVariants]);
 
+  // Mother's Day: default the crown finish to "silver" (instead of the standard "small").
+  useEffect(() => {
+    if (isMothersDayContext && crownSize !== "silver" && crownSize !== "gold") {
+      setCrownSize("silver");
+    }
+  }, [isMothersDayContext]);
+
   // Default selection: 200 Roses (maximize conversion). Falls back to last available size.
   useEffect(() => {
     if (!product) return;
