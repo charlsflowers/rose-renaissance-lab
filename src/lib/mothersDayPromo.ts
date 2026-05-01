@@ -11,7 +11,7 @@
  */
 import { getMiamiTime } from "@/lib/miamiTime";
 
-export const MOTHERS_DAY_FLAG_ENABLED = false;
+export const MOTHERS_DAY_FLAG_ENABLED = true;
 
 // Inclusive range. Format: YYYY-MM-DD in Miami local date.
 export const MOTHERS_DAY_START = "2026-05-01";
