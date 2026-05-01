@@ -287,14 +287,18 @@ const Navbar = () => {
                 <div key={link.to}>
                   <button
                     onClick={() => setMobileBouquetOpen(!mobileBouquetOpen)}
-                    className="w-full flex items-center justify-between hover:text-primary transition-colors py-2 border-b border-border"
+                    className={`w-full flex items-center justify-between transition-colors py-2 border-b border-border ${promoActive ? "opacity-50 cursor-not-allowed" : "hover:text-primary"}`}
                   >
                     {link.label} <ChevronDown className={`w-3 h-3 transition-transform ${mobileBouquetOpen ? 'rotate-180' : ''}`} />
                   </button>
                   {mobileBouquetOpen && (
                     <div className="pl-4 py-1 space-y-1">
                       {bouquetSubLinks.map((sub, i) => (
-                        sub.active ? (
+                        promoActive && sub.active ? (
+                          <span key={i} aria-disabled="true" className="block py-1.5 text-xs tracking-widest uppercase text-muted-foreground/50 cursor-not-allowed">
+                            {sub.label} <span className="text-[9px] normal-case">— Available May 13</span>
+                          </span>
+                        ) : sub.active ? (
                           <Link key={i} to={sub.to || "#"} onClick={() => setMobileOpen(false)} className="block py-1.5 text-xs tracking-widest uppercase text-muted-foreground hover:text-primary transition-colors">
                             {sub.label}
                           </Link>
@@ -308,9 +312,15 @@ const Navbar = () => {
                   )}
                 </div>
               ) : (
-                <Link key={link.to} to={link.to!} onClick={() => setMobileOpen(false)} className="hover:text-primary transition-colors py-2 border-b border-border last:border-b-0">
-                  {link.label}
-                </Link>
+                promoActive && (link.to === "/room-decors" || link.to === "/bouquets/personalizar") ? (
+                  <span key={link.to} aria-disabled="true" className="opacity-50 cursor-not-allowed py-2 border-b border-border last:border-b-0">
+                    {link.label} <span className="text-[9px] normal-case">— Available May 13</span>
+                  </span>
+                ) : (
+                  <Link key={link.to} to={link.to!} onClick={() => setMobileOpen(false)} className="hover:text-primary transition-colors py-2 border-b border-border last:border-b-0">
+                    {link.label}
+                  </Link>
+                )
               )
             ))}
 
