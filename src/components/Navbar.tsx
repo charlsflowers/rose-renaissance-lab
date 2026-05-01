@@ -131,13 +131,32 @@ const Navbar = () => {
           {navLinks.map((link) => (
             link.hasDropdown ? (
               <div key={link.to} className="relative" onMouseEnter={() => setBouquetDropdownOpen(true)} onMouseLeave={() => setBouquetDropdownOpen(false)}>
-                <Link to={link.to} className="hover:text-primary transition-colors whitespace-nowrap inline-flex items-center gap-1">
-                  {link.label} <ChevronDown className="w-3 h-3" />
-                </Link>
+                {promoActive ? (
+                  <span
+                    aria-disabled="true"
+                    title="Available May 13"
+                    className="opacity-50 cursor-not-allowed whitespace-nowrap inline-flex items-center gap-1"
+                  >
+                    {link.label} <ChevronDown className="w-3 h-3" />
+                  </span>
+                ) : (
+                  <Link to={link.to} className="hover:text-primary transition-colors whitespace-nowrap inline-flex items-center gap-1">
+                    {link.label} <ChevronDown className="w-3 h-3" />
+                  </Link>
+                )}
                 {bouquetDropdownOpen && (
                   <div className="absolute top-full left-0 mt-1 bg-background border border-border rounded-lg shadow-lg py-2 min-w-[220px] z-50">
                     {bouquetSubLinks.map((sub, i) => (
-                      sub.active ? (
+                      promoActive && sub.active ? (
+                        <span
+                          key={i}
+                          aria-disabled="true"
+                          title="Available May 13"
+                          className="block px-4 py-2 text-xs tracking-widest uppercase text-muted-foreground/50 cursor-not-allowed"
+                        >
+                          {sub.label} <span className="text-[9px] normal-case">— Available May 13</span>
+                        </span>
+                      ) : sub.active ? (
                         <Link key={i} to={sub.to || "#"} className="block px-4 py-2 text-xs tracking-widest uppercase text-muted-foreground hover:text-primary hover:bg-cream/50 transition-colors" onClick={() => setBouquetDropdownOpen(false)}>
                           {sub.label}
                         </Link>
@@ -151,9 +170,20 @@ const Navbar = () => {
                 )}
               </div>
             ) : (
-              <Link key={link.to} to={link.to!} className="hover:text-primary transition-colors whitespace-nowrap">
-                {link.label}
-              </Link>
+              promoActive && (link.to === "/room-decors" || link.to === "/bouquets/personalizar") ? (
+                <span
+                  key={link.to}
+                  aria-disabled="true"
+                  title="Available May 13"
+                  className="opacity-50 cursor-not-allowed whitespace-nowrap"
+                >
+                  {link.label}
+                </span>
+              ) : (
+                <Link key={link.to} to={link.to!} className="hover:text-primary transition-colors whitespace-nowrap">
+                  {link.label}
+                </Link>
+              )
             )
           ))}
         </div>
