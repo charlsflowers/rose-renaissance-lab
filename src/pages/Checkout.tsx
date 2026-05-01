@@ -237,7 +237,7 @@ const Checkout = () => {
                 setDeliveryHour={setDeliveryHour}
                 canCheckout={canCheckout}
                 isLoading={isLoading}
-                isSyncing={isSyncing}
+                isSyncing={false}
                 isCheckingOut={isCheckingOut}
                 onCheckout={handleCheckout}
               />
