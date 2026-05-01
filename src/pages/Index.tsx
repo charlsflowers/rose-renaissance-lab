@@ -1,4 +1,4 @@
-import { GOOGLE_MAPS_API_KEY } from "@/lib/constants";
+import { GOOGLE_MAPS_API_KEY, FOTO_DE_PORTADA, FOTO_DE_PORTADA_SRCSET } from "@/lib/constants";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { ArrowRight, Heart, Sparkles, Star, Lock, Store, Truck, Globe, Flower2 } from "lucide-react";
@@ -75,8 +75,8 @@ const Index = () => {
       <section className="relative h-[70vh] md:h-screen flex items-end md:items-center overflow-hidden">
         <div className="absolute inset-0">
           <img
-            src="https://cdn.shopify.com/s/files/1/0979/1671/5140/files/FOTO_DE_PORTADA.webp?width=1920&v=1777440449"
-            srcSet="https://cdn.shopify.com/s/files/1/0979/1671/5140/files/FOTO_DE_PORTADA.webp?width=640&v=1777440449 640w, https://cdn.shopify.com/s/files/1/0979/1671/5140/files/FOTO_DE_PORTADA.webp?width=1024&v=1777440449 1024w, https://cdn.shopify.com/s/files/1/0979/1671/5140/files/FOTO_DE_PORTADA.webp?width=1440&v=1777440449 1440w, https://cdn.shopify.com/s/files/1/0979/1671/5140/files/FOTO_DE_PORTADA.webp?width=1920&v=1777440449 1920w"
+            src={FOTO_DE_PORTADA}
+            srcSet={FOTO_DE_PORTADA_SRCSET}
             sizes="100vw"
             width={1920}
             height={1080}
