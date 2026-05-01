@@ -19,6 +19,7 @@ import { seoData } from "@/lib/seoData";
 import SeoHead from "@/components/SeoHead";
 import JsonLd, { productSchema, breadcrumbSchema } from "@/components/JsonLd";
 import Breadcrumbs from "@/components/Breadcrumbs";
+import { useShopifyProductDescription } from "@/hooks/useShopifyProductDescription";
 import {
   ArrowLeft, Check, Truck, CalendarIcon, Clock, MapPin, Search, Loader2, Heart, ChevronDown, ChevronUp,
 } from "lucide-react";
@@ -62,6 +63,27 @@ const RoomDecorDetail = () => {
   const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const seo = pkg ? seoData[pkg.shopifyHandle] : undefined;
+
+  // Live Shopify description + SEO (single source of truth). Falls back to hardcoded
+  // values while loading or if Shopify returns nothing for a given field.
+  const { data: shopifyDesc } = useShopifyProductDescription(pkg?.shopifyHandle);
+  const resolvedDescription = (() => {
+    if (!pkg) return "";
+    if (language === "es") {
+      return shopifyDesc.descriptionEs || pkg.descriptionEs || shopifyDesc.description || pkg.description;
+    }
+    return shopifyDesc.description || pkg.description;
+  })();
+  const resolvedSeoTitle =
+    (language === "es" ? shopifyDesc.seoTitleEs : undefined) ||
+    shopifyDesc.seoTitle ||
+    seo?.seoTitle ||
+    (pkg ? `${pkg.name} Miami | Room Decoration – Charls Flowers` : "");
+  const resolvedSeoDescription =
+    (language === "es" ? shopifyDesc.seoDescriptionEs : undefined) ||
+    shopifyDesc.seoDescription ||
+    seo?.seoDescription ||
+    (pkg?.description ?? "");
   useEffect(() => { window.scrollTo(0, 0); }, [pkg]);
 
   // GA4 + Meta: view_item / ViewContent
@@ -257,8 +279,8 @@ const RoomDecorDetail = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      <SeoHead title={seo?.seoTitle || `${pkg.name} Miami | Room Decoration – Charls Flowers`} description={seo?.seoDescription || pkg.description} path={`/room-decors/${pkg.id}`} image={pkg.image} />
-      <JsonLd data={[productSchema(pkg.name, seo?.seoDescription || pkg.description, pkg.price, pkg.image), breadcrumbSchema([{ name: "Home", url: "https://www.charlsflowers.com" }, { name: "Room Decors", url: "https://www.charlsflowers.com/room-decors" }, { name: pkg.name, url: `https://www.charlsflowers.com/room-decors/${pkg.id}` }])]} />
+      <SeoHead title={resolvedSeoTitle} description={resolvedSeoDescription} path={`/room-decors/${pkg.id}`} image={pkg.image} />
+      <JsonLd data={[productSchema(pkg.name, resolvedSeoDescription, pkg.price, pkg.image), breadcrumbSchema([{ name: "Home", url: "https://www.charlsflowers.com" }, { name: "Room Decors", url: "https://www.charlsflowers.com/room-decors" }, { name: pkg.name, url: `https://www.charlsflowers.com/room-decors/${pkg.id}` }])]} />
       <Navbar />
       <div className="pt-16 md:pt-24 pb-16">
         <div className="container mx-auto px-6">
@@ -277,7 +299,7 @@ const RoomDecorDetail = () => {
             <div className="min-w-0 space-y-5 lg:space-y-7">
               <div>
                 <h1 className="font-display text-2xl lg:text-4xl font-semibold text-foreground">{pkg.name}</h1>
-                <p className="text-muted-foreground font-body text-sm lg:text-base mt-1 lg:mt-2">{language === "es" && pkg.descriptionEs ? pkg.descriptionEs : pkg.description}</p>
+                <p className="text-muted-foreground font-body text-sm lg:text-base mt-1 lg:mt-2">{resolvedDescription}</p>
                 <p className="font-display text-xl lg:text-3xl font-bold text-foreground mt-2 lg:mt-3">${pkg.price} <span className="text-xs lg:text-sm font-body text-muted-foreground font-normal">USD</span></p>
               </div>
 
@@ -516,7 +538,7 @@ const RoomDecorDetail = () => {
 
             <div className="text-center">
               <h1 className="font-display text-3xl font-semibold text-foreground">{pkg.name}</h1>
-              <p className="text-muted-foreground font-body mt-2 text-left">{language === "es" && pkg.descriptionEs ? pkg.descriptionEs : pkg.description}</p>
+              <p className="text-muted-foreground font-body mt-2 text-left">{resolvedDescription}</p>
             </div>
 
             {/* What's included */}

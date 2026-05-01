@@ -14,6 +14,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { useCartStore } from "@/stores/cartStore";
 import { fetchVariantsByHandle, findVariantByRoses, getShopifyPrice, buildShopifySizeOptions, type ShopifyHandleVariant } from "@/lib/shopifyVariants";
 import { useShopifyProductImages } from "@/hooks/useShopifyProductImages";
+import { useShopifyProductDescription } from "@/hooks/useShopifyProductDescription";
 import { performApiCheckout } from "@/lib/checkout";
 import { calculateDeliveryCost, formatDeliveryCost } from "@/lib/deliveryPricing";
 import { trackMetaEvent } from "@/lib/metaPixel";
@@ -246,6 +247,31 @@ const BouquetProductDetail = () => {
   const availableHours = getAvailableHours(deliveryDate);
 
   const seo = product ? seoData[product.shopifyHandle] : undefined;
+
+  // Live Shopify description + SEO (single source of truth). Falls back to hardcoded
+  // values while loading or if Shopify returns nothing for a given field.
+  const { data: shopifyDesc } = useShopifyProductDescription(product?.shopifyHandle);
+
+  // Resolved description for UI (cascade: ES metafield → hardcoded ES → Shopify EN → hardcoded EN)
+  const resolvedDescription = (() => {
+    if (!product) return "";
+    if (language === "es") {
+      return shopifyDesc.descriptionEs || product.descriptionEs || shopifyDesc.description || product.description;
+    }
+    return shopifyDesc.description || product.description;
+  })();
+
+  // Resolved SEO (cascade: Shopify ES metafield → hardcoded seoData → Shopify EN native → fallback)
+  const resolvedSeoTitle =
+    (language === "es" ? shopifyDesc.seoTitleEs : undefined) ||
+    shopifyDesc.seoTitle ||
+    seo?.seoTitle ||
+    (product ? `${product.name} Miami | Charls Flowers` : "");
+  const resolvedSeoDescription =
+    (language === "es" ? shopifyDesc.seoDescriptionEs : undefined) ||
+    shopifyDesc.seoDescription ||
+    seo?.seoDescription ||
+    (product?.description ?? "");
 
   useEffect(() => {
     if (!product) return;
@@ -710,8 +736,8 @@ const BouquetProductDetail = () => {
 
   return (
     <div className="min-h-screen bg-background flex flex-col">
-      <SeoHead title={seo?.seoTitle || `${product.name} Miami | Charls Flowers`} description={seo?.seoDescription || product.description} path={`/bouquets/all/${product.shopifyHandle}`} image={primaryImage} />
-      <JsonLd data={[productSchema(product.name, seo?.seoDescription || product.description, dynamicMinPrice ?? (hasCustomSizes ? product.customSizes![0].price : getPrice(product.pricingTier, product.pricingTier === 'mix3red' ? 75 : 50)), primaryImage), breadcrumbSchema([{ name: "Home", url: "https://www.charlsflowers.com" }, { name: "Bouquets", url: "https://www.charlsflowers.com/bouquets" }, { name: product.name, url: `https://www.charlsflowers.com/bouquets/all/${product.shopifyHandle}` }])]} />
+      <SeoHead title={resolvedSeoTitle} description={resolvedSeoDescription} path={`/bouquets/all/${product.shopifyHandle}`} image={primaryImage} />
+      <JsonLd data={[productSchema(product.name, resolvedSeoDescription, dynamicMinPrice ?? (hasCustomSizes ? product.customSizes![0].price : getPrice(product.pricingTier, product.pricingTier === 'mix3red' ? 75 : 50)), primaryImage), breadcrumbSchema([{ name: "Home", url: "https://www.charlsflowers.com" }, { name: "Bouquets", url: "https://www.charlsflowers.com/bouquets" }, { name: product.name, url: `https://www.charlsflowers.com/bouquets/all/${product.shopifyHandle}` }])]} />
       <Navbar />
       <div className="pt-20 md:pt-28 pb-16">
         <div className="container mx-auto px-6">
@@ -742,7 +768,7 @@ const BouquetProductDetail = () => {
                 <p className="font-display text-3xl lg:text-4xl font-semibold text-foreground mt-3 lg:mt-4">${parseFloat(sizePrice.toFixed(2))}</p>
                 <p className="font-body italic text-sm lg:text-base text-muted-foreground mt-1">Subtotal ${parseFloat(totalPrice.toFixed(2))}</p>
                 <div className="text-muted-foreground font-body text-sm lg:text-base mt-3 lg:mt-4 leading-relaxed space-y-1">
-                  {replaceDescriptionPrice(language === 'es' && product.descriptionEs ? product.descriptionEs : product.description).split('\n').map((line, i) => (
+                  {replaceDescriptionPrice(resolvedDescription).split('\n').map((line, i) => (
                     <p key={i}>{line}</p>
                   ))}
                 </div>
@@ -823,7 +849,7 @@ const BouquetProductDetail = () => {
             <div className="text-center">
               <h1 className="font-display text-2xl font-semibold text-foreground">{product.name}</h1>
               <div className="text-muted-foreground font-body text-sm mt-2 space-y-1 text-left">
-                {replaceDescriptionPrice(language === 'es' && product.descriptionEs ? product.descriptionEs : product.description).split('\n').map((line, i) => (
+                {replaceDescriptionPrice(resolvedDescription).split('\n').map((line, i) => (
                   <p key={i}>{line}</p>
                 ))}
               </div>
