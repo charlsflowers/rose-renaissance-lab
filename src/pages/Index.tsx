@@ -1,5 +1,5 @@
 import { GOOGLE_MAPS_API_KEY, FOTO_DE_PORTADA, FOTO_DE_PORTADA_SRCSET } from "@/lib/constants";
-import { Link } from "react-router-dom";
+import { Link } from "@/i18n/LocalizedRouter";
 import { motion } from "framer-motion";
 import { ArrowRight, Heart, Sparkles, Star, Lock, Store, Truck, Globe, Flower2 } from "lucide-react";
 import Navbar from "@/components/Navbar";

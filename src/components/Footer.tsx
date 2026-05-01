@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link } from "@/i18n/LocalizedRouter";
 import { MapPin, Phone, Clock } from "lucide-react";
 import JsonLd, { organizationSchema } from "@/components/JsonLd";
 import { useTranslation } from "@/i18n/LanguageContext";

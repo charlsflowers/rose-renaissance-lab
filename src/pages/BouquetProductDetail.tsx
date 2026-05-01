@@ -1,5 +1,6 @@
 import { useState, useMemo, useCallback, useRef, useEffect } from "react";
-import { useParams, Link } from "react-router-dom";
+import { useParams } from "react-router-dom";
+import { Link } from "@/i18n/LocalizedRouter";
 import { useTranslation } from "@/i18n/LanguageContext";
 import YouMightAlsoLove from "@/components/YouMightAlsoLove";
 import Footer from "@/components/Footer";

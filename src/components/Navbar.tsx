@@ -1,5 +1,7 @@
 import { useState, useEffect, useRef, useCallback } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate as useRRNavigate } from "react-router-dom";
+import { Link, useNavigate } from "@/i18n/LocalizedRouter";
+import { localizePath, stripLangPrefix } from "@/i18n/LanguageContext";
 import { useCartStore } from "@/stores/cartStore";
 import AnnouncementBar from "@/components/AnnouncementBar";
 import BrandLogo from "@/components/BrandLogo";
@@ -32,6 +34,8 @@ const Navbar = () => {
   const [loadingPlaces, setLoadingPlaces] = useState(false);
   const [langMenuOpen, setLangMenuOpen] = useState(false);
   const navigate = useNavigate();
+  const rrNavigate = useRRNavigate();
+  const location = useLocation();
   const debounceRef = useRef<ReturnType<typeof setTimeout>>();
 
   const bouquetSubLinks = [
@@ -98,7 +102,10 @@ const Navbar = () => {
   };
 
   const toggleLang = () => {
-    setLanguage(language === "en" ? "es" : "en");
+    const nextLang = language === "en" ? "es" : "en";
+    const cleanPath = stripLangPrefix(location.pathname);
+    const target = localizePath(cleanPath, nextLang) + location.search + location.hash;
+    rrNavigate(target);
   };
 
   return (

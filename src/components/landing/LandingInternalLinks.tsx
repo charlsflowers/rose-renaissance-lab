@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link } from "@/i18n/LocalizedRouter";
 import { ArrowRight } from "lucide-react";
 
 interface Props {

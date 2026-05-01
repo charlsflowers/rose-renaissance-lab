@@ -1,5 +1,6 @@
 import { useEffect } from "react";
-import { useParams, Link, Navigate } from "react-router-dom";
+import { useParams, Navigate as RRNavigate } from "react-router-dom";
+import { Link, Navigate } from "@/i18n/LocalizedRouter";
 import { useQuery } from "@tanstack/react-query";
 import { PortableText, type PortableTextComponents } from "@portabletext/react";
 import Navbar from "@/components/Navbar";
@@ -96,6 +97,12 @@ const BlogArticle = () => {
         </div>
       </div>
     );
+  }
+
+  // If user is browsing ES but the post only exists in EN (no ES translation in Sanity),
+  // redirect to the EN URL. Use raw Navigate (not localized) to avoid the /es prefix.
+  if (language === "es" && article.language !== "es") {
+    return <RRNavigate to={`/blog/${article.slug.current}`} replace />;
   }
 
   const imageUrl = urlFor(article.mainImage).width(1200).height(675).fit("crop").auto("format").url();
