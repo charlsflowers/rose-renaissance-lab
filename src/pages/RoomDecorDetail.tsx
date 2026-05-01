@@ -279,8 +279,8 @@ const RoomDecorDetail = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      <SeoHead title={seo?.seoTitle || `${pkg.name} Miami | Room Decoration – Charls Flowers`} description={seo?.seoDescription || pkg.description} path={`/room-decors/${pkg.id}`} image={pkg.image} />
-      <JsonLd data={[productSchema(pkg.name, seo?.seoDescription || pkg.description, pkg.price, pkg.image), breadcrumbSchema([{ name: "Home", url: "https://www.charlsflowers.com" }, { name: "Room Decors", url: "https://www.charlsflowers.com/room-decors" }, { name: pkg.name, url: `https://www.charlsflowers.com/room-decors/${pkg.id}` }])]} />
+      <SeoHead title={resolvedSeoTitle} description={resolvedSeoDescription} path={`/room-decors/${pkg.id}`} image={pkg.image} />
+      <JsonLd data={[productSchema(pkg.name, resolvedSeoDescription, pkg.price, pkg.image), breadcrumbSchema([{ name: "Home", url: "https://www.charlsflowers.com" }, { name: "Room Decors", url: "https://www.charlsflowers.com/room-decors" }, { name: pkg.name, url: `https://www.charlsflowers.com/room-decors/${pkg.id}` }])]} />
       <Navbar />
       <div className="pt-16 md:pt-24 pb-16">
         <div className="container mx-auto px-6">
@@ -299,7 +299,7 @@ const RoomDecorDetail = () => {
             <div className="min-w-0 space-y-5 lg:space-y-7">
               <div>
                 <h1 className="font-display text-2xl lg:text-4xl font-semibold text-foreground">{pkg.name}</h1>
-                <p className="text-muted-foreground font-body text-sm lg:text-base mt-1 lg:mt-2">{language === "es" && pkg.descriptionEs ? pkg.descriptionEs : pkg.description}</p>
+                <p className="text-muted-foreground font-body text-sm lg:text-base mt-1 lg:mt-2">{resolvedDescription}</p>
                 <p className="font-display text-xl lg:text-3xl font-bold text-foreground mt-2 lg:mt-3">${pkg.price} <span className="text-xs lg:text-sm font-body text-muted-foreground font-normal">USD</span></p>
               </div>
 
