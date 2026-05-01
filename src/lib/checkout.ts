@@ -259,20 +259,21 @@ export async function performApiCheckout(options: ApiCheckoutOptions): Promise<s
     lines: finalLines,
     note: options.note,
     deliveryAddress,
+    attributes: [
+      {
+        key: "Delivery Type",
+        value: options.deliveryMethod === "delivery" ? "Home Delivery" : "Store Pickup",
+      },
+    ],
   });
 
   if (!result?.checkoutUrl) return null;
 
-  // Force pickup as the preselected delivery method when applicable.
-  if (options.deliveryMethod === "pickup") {
-    try {
-      const url = new URL(result.checkoutUrl);
-      url.searchParams.set("delivery_method", "pick-up");
-      return appendTrackingParamsToUrl(url.toString());
-    } catch {
-      return appendTrackingParamsToUrl(result.checkoutUrl);
-    }
-  }
-
+  // Note: Shopify Checkout (non-permalink) ignores ?delivery_method query params.
+  // The preselection is driven by:
+  //   - whether buyerIdentity.deliveryAddressPreferences is sent (delivery only)
+  //   - the order of shipping methods configured in Shopify Admin
+  //     (Settings → Shipping & Delivery — Local pickup must be listed first
+  //      to be the default when no address is sent).
   return appendTrackingParamsToUrl(result.checkoutUrl);
 }
