@@ -25,6 +25,8 @@ import PaymentIcons from "@/components/PaymentIcons";
 import ProductTrustBlock from "@/components/ProductTrustBlock";
 import CollectionFAQ, { useBouquetFAQs } from "@/components/CollectionFAQ";
 import { bouquetProducts, bouquetSizeOptions } from "@/lib/catalogData";
+import { useMothersDayBouquetByHandle } from "@/lib/mothersDayProducts";
+import { isMothersDayPromoActive, isMothersDayHandle } from "@/lib/mothersDayPromo";
 import {
   crownOptions, ribbonPresets, crownPrice, ribbonPrice, letterNumberExtraPrice, vaseOptions, getPrice,
 } from "@/lib/productData";
@@ -46,7 +48,22 @@ const BouquetProductDetail = () => {
   const addItem = useCartStore(state => state.addItem);
   const setCartOpen = useCartStore(state => state.setOpen);
   const cartItems = useCartStore(state => state.items);
-  const product = bouquetProducts.find((b) => b.shopifyHandle === productId || b.id === productId);
+
+  // Mother's Day virtual catalog (live from Shopify) — used when type === "mothers-day"
+  // or when the productId handle ends with "-mothers-day-edition".
+  const isMothersDayContext = type === "mothers-day" || isMothersDayHandle(productId);
+  const { product: mothersDayProduct, loading: mothersDayLoading } =
+    useMothersDayBouquetByHandle(isMothersDayContext ? productId : undefined);
+
+  const standardProduct = bouquetProducts.find(
+    (b) => b.shopifyHandle === productId || b.id === productId
+  );
+  const product = isMothersDayContext ? mothersDayProduct : standardProduct;
+
+  // Promo active AND this product is NOT a Mother's Day item ⇒ block purchase.
+  const promoActive = isMothersDayPromoActive();
+  const purchaseBlocked = promoActive && !isMothersDayContext;
+
   const bouquetFAQs = useBouquetFAQs();
 
   // Live Shopify images (1st = primary, 2nd = secondary). Fallback to local data while loading.
@@ -258,6 +275,16 @@ const BouquetProductDetail = () => {
   }, [product?.shopifyHandle, shopifySizes.length]);
 
   if (!product) {
+    // While the Mother's Day collection is loading, show a spinner instead of "Product not found"
+    if (isMothersDayContext && mothersDayLoading) {
+      return (
+        <div className="min-h-screen bg-background"><Navbar />
+          <div className="pt-32 flex justify-center">
+            <div className="w-10 h-10 border-2 border-primary/20 border-t-primary rounded-full animate-spin" />
+          </div>
+        </div>
+      );
+    }
     return (
       <div className="min-h-screen bg-background"><Navbar />
         <div className="pt-24 text-center">
