@@ -7,7 +7,7 @@
  * Each product is mapped to a virtual `BouquetProduct` so it can be rendered
  * by the existing BouquetProductDetail page with zero changes to that template.
  */
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { storefrontApiRequest } from "@/lib/shopify";
 import type { BouquetProduct } from "@/lib/catalogData";
 import { MOTHERS_DAY_COLLECTION_HANDLE } from "@/lib/mothersDayPromo";
@@ -144,7 +144,10 @@ export function useMothersDayBouquets(): {
     };
   }, []);
 
-  return { products: raw.map(toVirtualBouquet), raw, loading };
+  // Memoize to keep stable references across renders — otherwise consumers
+  // that depend on `products` / `product` will re-run effects infinitely.
+  const products = useMemo(() => raw.map(toVirtualBouquet), [raw]);
+  return { products, raw, loading };
 }
 
 /** Resolve a single Mother's Day virtual bouquet by handle (used by product detail page). */
@@ -153,6 +156,9 @@ export function useMothersDayBouquetByHandle(handle: string | undefined): {
   loading: boolean;
 } {
   const { products, loading } = useMothersDayBouquets();
-  const product = handle ? products.find((p) => p.shopifyHandle === handle) ?? null : null;
+  const product = useMemo(
+    () => (handle ? products.find((p) => p.shopifyHandle === handle) ?? null : null),
+    [products, handle]
+  );
   return { product, loading };
 }
