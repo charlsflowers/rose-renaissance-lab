@@ -270,6 +270,7 @@ export async function createShopifyCartFull(input: {
   lines: CartFullLine[];
   note?: string;
   deliveryAddress?: ShippingAddress;
+  attributes?: Array<{ key: string; value: string }>;
 }): Promise<{ cartId: string; checkoutUrl: string } | null> {
   if (input.lines.length === 0) {
     console.error('createShopifyCartFull called with no lines');
@@ -285,6 +286,10 @@ export async function createShopifyCartFull(input: {
 
   if (input.note) {
     cartInput.note = input.note;
+  }
+
+  if (input.attributes && input.attributes.length > 0) {
+    cartInput.attributes = input.attributes;
   }
 
   if (input.deliveryAddress && input.deliveryAddress.address1) {
