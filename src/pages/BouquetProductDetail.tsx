@@ -267,6 +267,13 @@ const BouquetProductDetail = () => {
 
   const shopifySizes = useMemo(() => product && productVariants.length > 0 ? buildShopifySizeOptions(productVariants) : [], [product, productVariants]);
 
+  // Mother's Day: default the crown finish to "silver" (instead of the standard "small").
+  useEffect(() => {
+    if (isMothersDayContext && crownSize !== "silver" && crownSize !== "gold") {
+      setCrownSize("silver");
+    }
+  }, [isMothersDayContext]);
+
   // Default selection: 200 Roses (maximize conversion). Falls back to last available size.
   useEffect(() => {
     if (!product) return;
@@ -310,11 +317,15 @@ const BouquetProductDetail = () => {
   const sizePrice = useDynamicSizes
     ? (shopifySizes[effectiveSizeIdx]?.price ?? 0)
     : (hasCustomSizes ? (product.customSizes![effectiveSizeIdx]?.price || 0) : getPrice(product.pricingTier, selectedSize.roses));
-  const glitterCost = addGlitter === true ? Math.ceil(selectedSize.roses / 25) * 8 : 0;
-  const vaseCost = addVase ? vaseOptions[selectedVaseIdx].price : 0;
-  const accessoryCost = accessory === "note" ? 3 : accessory === "butterfly" ? 3 : 0;
+  const glitterCost = !isMothersDayContext && addGlitter === true ? Math.ceil(selectedSize.roses / 25) * 8 : 0;
+  const vaseCost = !isMothersDayContext && addVase ? vaseOptions[selectedVaseIdx].price : 0;
+  const accessoryCost = !isMothersDayContext && (accessory === "note" ? 3 : accessory === "butterfly" ? 3 : 0);
   const deliveryCost = deliveryMethod === "delivery" && deliveryMiles && !distanceTooFar ? calculateDeliveryCost(deliveryMiles) : 0;
-  const basePrice = sizePrice + (addCrown ? crownPrice : 0) + (addRibbon ? ribbonPrice : 0) + glitterCost + vaseCost + accessoryCost;
+  // Mother's Day: Crown + Butterflies + Ribbon are bundled in the Shopify variant price.
+  // Standard products: addons are charged on top of the base size price.
+  const basePrice = isMothersDayContext
+    ? sizePrice
+    : sizePrice + (addCrown ? crownPrice : 0) + (addRibbon ? ribbonPrice : 0) + glitterCost + vaseCost + (accessoryCost || 0);
   const totalPrice = basePrice + deliveryCost;
 
   // Replace "From $X" / "Desde $X" in description with dynamic Shopify price
@@ -344,8 +355,8 @@ const BouquetProductDetail = () => {
       if (!variant) { toast.error("Could not resolve product variant."); return null; }
 
       const addons: string[] = [];
-      if (addGlitter === true) addons.push("Glitter");
-      if (addVase) addons.push(`Vase (${vaseOptions[selectedVaseIdx].label})`);
+      if (!isMothersDayContext && addGlitter === true) addons.push("Glitter");
+      if (!isMothersDayContext && addVase) addons.push(`Vase (${vaseOptions[selectedVaseIdx].label})`);
 
       // GA4: add_to_cart event
       (window as any).gtag?.('event', 'add_to_cart', {
@@ -370,13 +381,14 @@ const BouquetProductDetail = () => {
         deliveryCost,
         totalPrice,
         addons,
-        accessory,
-        accessoryText,
-        ribbonText,
-        crownSize: addCrown ? crownSize : "",
-        specialText,
+        // In Mother's Day mode the only optional add-on is the card "note".
+        accessory: isMothersDayContext ? (accessory === "note" ? "note" : "none") : accessory,
+        accessoryText: isMothersDayContext ? (accessory === "note" ? accessoryText : "") : accessoryText,
+        ribbonText: isMothersDayContext ? ribbonText : ribbonText,
+        crownSize: isMothersDayContext ? crownSize : (addCrown ? crownSize : ""),
+        specialText: isMothersDayContext ? "" : specialText,
         heartColor: product.type === "heart" ? (product.color === "Rosa" ? "pink" : "red") : "",
-        glitter: addGlitter === true,
+        glitter: !isMothersDayContext && addGlitter === true,
         deliveryMethod,
         deliveryName: "",
         deliveryPhone: "",
@@ -389,6 +401,7 @@ const BouquetProductDetail = () => {
         paperColor,
         image: primaryImage,
         customerNotes: customerNotes.trim() || undefined,
+        isMothersDay: isMothersDayContext,
         structuredAddress: deliveryMethod === "delivery" ? structuredAddress : undefined,
         shopifyVariantId: variant.id,
       });
@@ -453,6 +466,116 @@ const BouquetProductDetail = () => {
       {accessory === "note" && (
         <textarea value={accessoryText} onChange={(e) => setAccessoryText(e.target.value)} placeholder={t("product.writeNote")}
           className="w-full mt-3 bg-card border border-border rounded-lg px-3 py-2 font-body text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30 min-h-[80px] resize-none" maxLength={200} />
+      )}
+    </Section>
+  );
+
+  // ─── Mother's Day: Accessories Included (Crown + Butterflies + Ribbon bundled) ───
+  const renderMothersDayAccessoriesSection = () => (
+    <div>
+      <div className="flex items-center gap-2 mb-2">
+        <h2 className="font-body text-xs font-semibold text-muted-foreground uppercase tracking-[0.2em]">
+          Accessories Included
+        </h2>
+        <span className="bg-primary text-primary-foreground text-[10px] px-2 py-0.5 rounded-full font-body font-semibold tracking-wider">
+          INCLUDED
+        </span>
+      </div>
+      <p className="font-body text-xs text-muted-foreground mb-4">
+        The following accessories are included in the price:
+      </p>
+
+      <div className="space-y-4">
+        {/* Crown — required choice between Silver / Gold */}
+        <div className="rounded-lg border border-border bg-card p-3">
+          <div className="flex items-center gap-2 mb-3">
+            <p className="font-body font-semibold text-foreground text-sm flex-1">Crown</p>
+            <span className="text-[10px] text-muted-foreground font-body">Choose finish</span>
+          </div>
+          <div className="grid grid-cols-2 gap-2">
+            <button
+              type="button"
+              onClick={() => setCrownSize("silver")}
+              className={`flex flex-col items-center gap-1 py-2 px-2 rounded-lg border-2 transition-all font-body text-sm ${
+                crownSize === "silver"
+                  ? "border-primary bg-primary/5 text-primary"
+                  : "border-border text-muted-foreground hover:border-primary/30"
+              }`}
+            >
+              <img src={crownSilverImg} alt="Silver crown" className="w-16 h-16 object-contain" />
+              Silver
+            </button>
+            <button
+              type="button"
+              onClick={() => setCrownSize("gold")}
+              className={`flex flex-col items-center gap-1 py-2 px-2 rounded-lg border-2 transition-all font-body text-sm ${
+                crownSize === "gold"
+                  ? "border-primary bg-primary/5 text-primary"
+                  : "border-border text-muted-foreground hover:border-primary/30"
+              }`}
+            >
+              <img src={crownGoldImg} alt="Gold crown" className="w-16 h-16 object-contain" />
+              Gold
+            </button>
+          </div>
+        </div>
+
+        {/* Butterflies — fixed */}
+        <div className="rounded-lg border border-border bg-card p-3 flex items-center gap-3">
+          <img src={butterflyImg} alt="Gold butterfly" className="w-14 h-14 object-contain flex-shrink-0" />
+          <div className="flex-1 min-w-0">
+            <p className="font-body font-semibold text-foreground text-sm">Butterflies</p>
+            <p className="text-xs text-muted-foreground font-body">Included: 1 Gold Butterfly</p>
+          </div>
+          <Check className="w-5 h-5 text-primary flex-shrink-0" />
+        </div>
+
+        {/* Personalized Ribbon — text input */}
+        <div className="rounded-lg border border-border bg-card p-3">
+          <p className="font-body font-semibold text-foreground text-sm mb-2">Personalized Ribbon</p>
+          <input
+            type="text"
+            value={ribbonText}
+            onChange={(e) => setRibbonText(e.target.value)}
+            placeholder="Write the text for your ribbon (e.g. Happy Mother's Day)"
+            maxLength={60}
+            className="w-full bg-background border border-border rounded-lg px-3 py-2 font-body text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30"
+          />
+          <p className="text-[11px] text-muted-foreground font-body mt-1">
+            Leave empty if you prefer no text on the ribbon.
+          </p>
+        </div>
+      </div>
+    </div>
+  );
+
+  // ─── Mother's Day: Optional Add-ons (only Notes / card message) ───
+  const renderMothersDayOptionalSection = () => (
+    <Section title="Optional Add-ons" step={step++}>
+      <button
+        type="button"
+        onClick={() => setAccessory(accessory === "note" ? "none" : "note")}
+        className={`w-full flex items-center gap-3 py-2 px-3 rounded-lg border-2 transition-all font-body text-sm ${
+          accessory === "note"
+            ? "border-primary bg-primary/5 text-primary"
+            : "border-border text-muted-foreground hover:border-primary/30"
+        }`}
+      >
+        <img src={noteImg} alt="Note card" className="w-12 h-12 object-contain rounded-lg" />
+        <span className="flex-1 text-left">
+          <span className="block font-semibold text-foreground">Add a note</span>
+          <span className="block text-[11px] text-muted-foreground">Free message card with your bouquet</span>
+        </span>
+        {accessory === "note" && <Check className="w-4 h-4 text-primary" />}
+      </button>
+      {accessory === "note" && (
+        <textarea
+          value={accessoryText}
+          onChange={(e) => setAccessoryText(e.target.value)}
+          placeholder={t("product.writeNote")}
+          className="w-full mt-3 bg-card border border-border rounded-lg px-3 py-2 font-body text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30 min-h-[80px] resize-none"
+          maxLength={200}
+        />
       )}
     </Section>
   );
@@ -636,8 +759,17 @@ const BouquetProductDetail = () => {
                 </div>
               </Section>
 
-              {renderGlitterSection(false)}
-              {renderAccessoriesSection(false)}
+              {isMothersDayContext ? (
+                <>
+                  {renderMothersDayAccessoriesSection()}
+                  {renderMothersDayOptionalSection()}
+                </>
+              ) : (
+                <>
+                  {renderGlitterSection(false)}
+                  {renderAccessoriesSection(false)}
+                </>
+              )}
               {renderShippingSection(false, autocompleteDesktopRef)}
 
               {/* Desktop bottom bar */}
@@ -645,7 +777,7 @@ const BouquetProductDetail = () => {
                 <div className="flex items-center justify-between">
                   <p className="font-body text-[10px] lg:text-xs text-muted-foreground leading-tight flex-1 line-clamp-1">
                     {product.name} · {selectedSize.roses} {t("product.roses")}
-                    {addGlitter === true && " · Glitter"}
+                    {!isMothersDayContext && addGlitter === true && " · Glitter"}
                     {accessory !== "none" && ` · ${accessory === "note" ? t("product.note") : t("product.butterflies")}`}
                   </p>
                   <p className="font-display text-lg lg:text-2xl font-bold text-foreground whitespace-nowrap">${parseFloat(totalPrice.toFixed(2))}</p>
@@ -708,8 +840,17 @@ const BouquetProductDetail = () => {
             </Section>
 
             {(() => { step = 2; return null; })()}
-            {renderGlitterSection(true)}
-            {renderAccessoriesSection(true)}
+            {isMothersDayContext ? (
+              <>
+                {renderMothersDayAccessoriesSection()}
+                {renderMothersDayOptionalSection()}
+              </>
+            ) : (
+              <>
+                {renderGlitterSection(true)}
+                {renderAccessoriesSection(true)}
+              </>
+            )}
             {renderShippingSection(true, autocompleteMobileRef)}
 
             {/* Mobile inline buttons after customer notes */}
@@ -717,7 +858,7 @@ const BouquetProductDetail = () => {
               <div className="flex items-center justify-between">
                 <p className="font-body text-[10px] text-muted-foreground leading-tight flex-1 line-clamp-1">
                   {product.name} · {selectedSize.roses} {t("product.roses")}
-                  {addGlitter === true && " · Glitter"}
+                  {!isMothersDayContext && addGlitter === true && " · Glitter"}
                   {accessory !== "none" && ` · ${accessory === "note" ? t("product.note") : t("product.butterflies")}`}
                 </p>
                 <p className="font-display text-lg font-bold text-foreground whitespace-nowrap">${parseFloat(totalPrice.toFixed(2))}</p>
@@ -748,7 +889,7 @@ const BouquetProductDetail = () => {
             <div className="flex-1 min-w-0">
               <p className="font-body text-xs text-muted-foreground truncate">
                 {product.name} · {selectedSize.roses} {t("product.roses")}
-                {addGlitter === true && " · Glitter"}
+                {!isMothersDayContext && addGlitter === true && " · Glitter"}
               </p>
               <p className="font-display text-base font-bold text-foreground">${parseFloat(totalPrice.toFixed(2))}</p>
             </div>

@@ -104,6 +104,9 @@ const Checkout = () => {
         const item = items[idx];
         noteLines.push("");
         noteLines.push(`DATOS DEL PRODUCTO ${idx + 1}`);
+        if (item.isMothersDay) {
+          noteLines.push(`- 🎀 Mother's Day Edition`);
+        }
         noteLines.push(`- 🌹 Producto: ${item.productName || item.bouquetType}`);
 
         if (item.bouquetType === "custom" && item.color) {
@@ -120,13 +123,24 @@ const Checkout = () => {
         if (paperToShow) noteLines.push(`- 📄 Paper color: ${paperToShow}`);
         if (item.roses) noteLines.push(`- 🌹 Roses: ${item.roses}`);
         if (item.glitter) noteLines.push(`- ✨ Glitter finish: Yes`);
-        if (item.crownSize) noteLines.push(`- 👑 Crown: ${item.crownSize}`);
-        if (item.accessory && item.accessory !== "none") {
-          const accLabel = item.accessory === "note" ? "Notes" : item.accessory === "card" ? "Card" : "Butterflies";
-          noteLines.push(`- 🦋 Accessory: ${accLabel}`);
+        if (item.isMothersDay) {
+          // Bundled accessories — always present, structured for the production team.
+          const crownChoice = item.crownSize ? item.crownSize.charAt(0).toUpperCase() + item.crownSize.slice(1) : "Silver";
+          noteLines.push(`- 👑 Crown: ${crownChoice} (included)`);
+          noteLines.push(`- 🦋 Butterflies: 1 Gold (included)`);
+          noteLines.push(`- 🎀 Ribbon: ${item.ribbonText ? `"${item.ribbonText}"` : "(no text)"} (included)`);
+          if (item.accessory === "note" && item.accessoryText) {
+            noteLines.push(`- 💌 Card text: ${item.accessoryText}`);
+          }
+        } else {
+          if (item.crownSize) noteLines.push(`- 👑 Crown: ${item.crownSize}`);
+          if (item.accessory && item.accessory !== "none") {
+            const accLabel = item.accessory === "note" ? "Notes" : item.accessory === "card" ? "Card" : "Butterflies";
+            noteLines.push(`- 🦋 Accessory: ${accLabel}`);
+          }
+          if (item.accessoryText) noteLines.push(`- 💌 Card text: ${item.accessoryText}`);
+          if (item.ribbonText) noteLines.push(`- 🎀 Custom ribbon: ${item.ribbonText}`);
         }
-        if (item.accessoryText) noteLines.push(`- 💌 Card text: ${item.accessoryText}`);
-        if (item.ribbonText) noteLines.push(`- 🎀 Custom ribbon: ${item.ribbonText}`);
         if (item.specialText) noteLines.push(`- 🔤 Letters or numbers (Baby Breath): ${item.specialText}`);
         const vaseAddon = item.addons?.find(a => a.startsWith("Vase"));
         if (vaseAddon) noteLines.push(`- 🏺 Vase: ${vaseAddon}`);
@@ -140,6 +154,21 @@ const Checkout = () => {
       const accessoryLineItems = items.flatMap((item) => {
         const vaseAddon = item.addons?.find(a => a.startsWith("Vase"));
         const vaseRosesMatch = vaseAddon?.match(/\((\d+)/);
+        // Mother's Day items have Crown + Butterflies + Ribbon BUNDLED into the Shopify
+        // variant price. Do NOT create separate line items for them or the customer would
+        // be charged twice. Notes are still added (they are a free $0 add-on variant).
+        if (item.isMothersDay) {
+          return buildAccessoryLineItems({
+            glitter: false,
+            rosesCount: item.roses,
+            accessory: item.accessory === "note" ? "note" : "none",
+            specialText: "",
+            addVase: false,
+            addCrown: false,
+            crownSize: "",
+            addRibbon: false,
+          });
+        }
         return buildAccessoryLineItems({
           glitter: item.glitter,
           rosesCount: item.roses,
