@@ -752,8 +752,17 @@ const BouquetProductDetail = () => {
                 </div>
               </Section>
 
-              {renderGlitterSection(false)}
-              {renderAccessoriesSection(false)}
+              {isMothersDayContext ? (
+                <>
+                  {renderMothersDayAccessoriesSection()}
+                  {renderMothersDayOptionalSection()}
+                </>
+              ) : (
+                <>
+                  {renderGlitterSection(false)}
+                  {renderAccessoriesSection(false)}
+                </>
+              )}
               {renderShippingSection(false, autocompleteDesktopRef)}
 
               {/* Desktop bottom bar */}
@@ -761,7 +770,7 @@ const BouquetProductDetail = () => {
                 <div className="flex items-center justify-between">
                   <p className="font-body text-[10px] lg:text-xs text-muted-foreground leading-tight flex-1 line-clamp-1">
                     {product.name} · {selectedSize.roses} {t("product.roses")}
-                    {addGlitter === true && " · Glitter"}
+                    {!isMothersDayContext && addGlitter === true && " · Glitter"}
                     {accessory !== "none" && ` · ${accessory === "note" ? t("product.note") : t("product.butterflies")}`}
                   </p>
                   <p className="font-display text-lg lg:text-2xl font-bold text-foreground whitespace-nowrap">${parseFloat(totalPrice.toFixed(2))}</p>
@@ -824,8 +833,17 @@ const BouquetProductDetail = () => {
             </Section>
 
             {(() => { step = 2; return null; })()}
-            {renderGlitterSection(true)}
-            {renderAccessoriesSection(true)}
+            {isMothersDayContext ? (
+              <>
+                {renderMothersDayAccessoriesSection()}
+                {renderMothersDayOptionalSection()}
+              </>
+            ) : (
+              <>
+                {renderGlitterSection(true)}
+                {renderAccessoriesSection(true)}
+              </>
+            )}
             {renderShippingSection(true, autocompleteMobileRef)}
 
             {/* Mobile inline buttons after customer notes */}
@@ -833,7 +851,7 @@ const BouquetProductDetail = () => {
               <div className="flex items-center justify-between">
                 <p className="font-body text-[10px] text-muted-foreground leading-tight flex-1 line-clamp-1">
                   {product.name} · {selectedSize.roses} {t("product.roses")}
-                  {addGlitter === true && " · Glitter"}
+                  {!isMothersDayContext && addGlitter === true && " · Glitter"}
                   {accessory !== "none" && ` · ${accessory === "note" ? t("product.note") : t("product.butterflies")}`}
                 </p>
                 <p className="font-display text-lg font-bold text-foreground whitespace-nowrap">${parseFloat(totalPrice.toFixed(2))}</p>
@@ -864,7 +882,7 @@ const BouquetProductDetail = () => {
             <div className="flex-1 min-w-0">
               <p className="font-body text-xs text-muted-foreground truncate">
                 {product.name} · {selectedSize.roses} {t("product.roses")}
-                {addGlitter === true && " · Glitter"}
+                {!isMothersDayContext && addGlitter === true && " · Glitter"}
               </p>
               <p className="font-display text-base font-bold text-foreground">${parseFloat(totalPrice.toFixed(2))}</p>
             </div>
