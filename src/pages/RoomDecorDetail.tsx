@@ -19,6 +19,7 @@ import { seoData } from "@/lib/seoData";
 import SeoHead from "@/components/SeoHead";
 import JsonLd, { productSchema, breadcrumbSchema } from "@/components/JsonLd";
 import Breadcrumbs from "@/components/Breadcrumbs";
+import { useShopifyProductDescription } from "@/hooks/useShopifyProductDescription";
 import {
   ArrowLeft, Check, Truck, CalendarIcon, Clock, MapPin, Search, Loader2, Heart, ChevronDown, ChevronUp,
 } from "lucide-react";
@@ -62,6 +63,27 @@ const RoomDecorDetail = () => {
   const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const seo = pkg ? seoData[pkg.shopifyHandle] : undefined;
+
+  // Live Shopify description + SEO (single source of truth). Falls back to hardcoded
+  // values while loading or if Shopify returns nothing for a given field.
+  const { data: shopifyDesc } = useShopifyProductDescription(pkg?.shopifyHandle);
+  const resolvedDescription = (() => {
+    if (!pkg) return "";
+    if (language === "es") {
+      return shopifyDesc.descriptionEs || pkg.descriptionEs || shopifyDesc.description || pkg.description;
+    }
+    return shopifyDesc.description || pkg.description;
+  })();
+  const resolvedSeoTitle =
+    (language === "es" ? shopifyDesc.seoTitleEs : undefined) ||
+    shopifyDesc.seoTitle ||
+    seo?.seoTitle ||
+    (pkg ? `${pkg.name} Miami | Room Decoration – Charls Flowers` : "");
+  const resolvedSeoDescription =
+    (language === "es" ? shopifyDesc.seoDescriptionEs : undefined) ||
+    shopifyDesc.seoDescription ||
+    seo?.seoDescription ||
+    (pkg?.description ?? "");
   useEffect(() => { window.scrollTo(0, 0); }, [pkg]);
 
   // GA4 + Meta: view_item / ViewContent
