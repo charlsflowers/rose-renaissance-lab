@@ -31,6 +31,8 @@ export interface CartItem {
   paperColor: string;
   image?: string;
   customerNotes?: string;
+  // Mother's Day Edition flag — accessories are bundled into the variant price.
+  isMothersDay?: boolean;
   structuredAddress?: {
     address1: string;
     city: string;
