@@ -1,8 +1,8 @@
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { ArrowRight, Calendar, Flower2 } from "lucide-react";
-import { useMothersDayBouquets } from "@/lib/mothersDayProducts";
 import { useTranslation } from "@/i18n/LanguageContext";
+import { FOTO_DE_PORTADA, FOTO_DE_PORTADA_SRCSET } from "@/lib/constants";
 
 /**
  * Hero shown on the home page during the Mother's Day promo (May 1–12, 2026).
@@ -11,14 +11,6 @@ import { useTranslation } from "@/i18n/LanguageContext";
  */
 const MothersDayHero = () => {
   const { language } = useTranslation();
-  const { products } = useMothersDayBouquets();
-
-  // Prefer "Total Passion" for hero, otherwise first product.
-  const featured =
-    products.find((p) => p.shopifyHandle.startsWith("total-passion")) ??
-    products.find((p) => p.shopifyHandle.startsWith("pure-white")) ??
-    products[0];
-  const bgImage = featured?.image;
 
   return (
     <section
@@ -26,19 +18,20 @@ const MothersDayHero = () => {
       aria-label="Mother's Day Special Edition"
     >
       <div className="absolute inset-0">
-        {bgImage ? (
-          <img
-            src={bgImage}
-            alt="Mother's Day Special Edition Bouquets Miami – Charls Flowers"
-            className="w-full h-full object-cover object-center"
-            fetchPriority="high"
-            loading="eager"
-            decoding="async"
-          />
-        ) : (
-          <div className="w-full h-full bg-gradient-to-br from-primary/40 via-primary/20 to-background" />
-        )}
-        <div className="absolute inset-0 bg-gradient-to-t md:bg-gradient-to-r from-foreground/85 via-foreground/55 to-foreground/10" />
+        <img
+          src={FOTO_DE_PORTADA}
+          srcSet={FOTO_DE_PORTADA_SRCSET}
+          sizes="100vw"
+          width={1920}
+          height={1080}
+          alt="Mother's Day Special Edition Bouquets Miami – Charls Flowers"
+          className="w-full h-full object-cover object-center"
+          fetchPriority="high"
+          loading="eager"
+          decoding="async"
+        />
+        {/* Slightly stronger overlay than standard hero to keep Mother's Day copy legible */}
+        <div className="absolute inset-0 bg-gradient-to-t md:bg-gradient-to-r from-foreground/90 via-foreground/65 to-foreground/15" />
       </div>
 
       <div className="container relative z-10 mx-auto px-4 md:px-6 pb-10 md:pb-0">
