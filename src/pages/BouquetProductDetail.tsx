@@ -635,9 +635,11 @@ const BouquetProductDetail = () => {
                   <p className="font-display text-lg lg:text-2xl font-bold text-foreground whitespace-nowrap">${parseFloat(totalPrice.toFixed(2))}</p>
                 </div>
                 <button ref={orderButtonsDesktopRef} onClick={handleOrderNow} disabled={isAdding || variantsLoading}
-                  className="w-full bg-primary text-primary-foreground py-4 lg:py-5 font-body text-sm lg:text-base tracking-[0.25em] uppercase font-semibold hover:bg-primary/90 transition-colors rounded-lg disabled:opacity-50">
+                  className="w-full bg-primary text-primary-foreground py-4 lg:py-5 font-body text-sm lg:text-base tracking-[0.25em] uppercase font-semibold hover:bg-primary/90 transition-colors rounded-lg disabled:opacity-50"
+                  hidden={purchaseBlocked}>
                   {isAdding ? "..." : variantsLoading ? "..." : t("product.orderAndPay")}
                 </button>
+                {purchaseBlocked && <PurchaseBlockedNotice />}
                 <PaymentIcons size={22} className="pt-1" />
                 <ProductTrustBlock />
               </div>
@@ -705,9 +707,11 @@ const BouquetProductDetail = () => {
                 <p className="font-display text-lg font-bold text-foreground whitespace-nowrap">${parseFloat(totalPrice.toFixed(2))}</p>
               </div>
               <button ref={orderButtonsMobileRef} onClick={handleOrderNow} disabled={isAdding || variantsLoading}
-                className="w-full bg-primary text-primary-foreground py-4 font-body text-sm tracking-[0.25em] uppercase font-semibold hover:bg-primary/90 transition-colors rounded-lg disabled:opacity-50">
+                className="w-full bg-primary text-primary-foreground py-4 font-body text-sm tracking-[0.25em] uppercase font-semibold hover:bg-primary/90 transition-colors rounded-lg disabled:opacity-50"
+                hidden={purchaseBlocked}>
                 {isAdding ? "..." : variantsLoading ? "..." : t("product.orderAndPay")}
               </button>
+              {purchaseBlocked && <PurchaseBlockedNotice />}
               <PaymentIcons size={22} className="pt-1" />
               <ProductTrustBlock />
             </div>
@@ -722,7 +726,7 @@ const BouquetProductDetail = () => {
       </div>
 
       {/* Sticky Order Now bar — appears when the inline button leaves the viewport */}
-      {showStickyBar && (
+      {showStickyBar && !purchaseBlocked && (
         <div className="fixed bottom-0 inset-x-0 z-40 bg-background/95 backdrop-blur border-t border-border shadow-lg">
           <div className="container mx-auto px-4 py-3 flex items-center gap-3">
             <div className="flex-1 min-w-0">
