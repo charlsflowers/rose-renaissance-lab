@@ -4,7 +4,6 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, Navigate, useParams } from "react-router-dom";
-import { useCartSync } from "@/hooks/useCartSync";
 import FloatingCart from "@/components/FloatingCart";
 import CookieBanner from "@/components/CookieBanner";
 import { landingPages } from "@/lib/landingPagesData";
@@ -81,7 +80,6 @@ const ShopifyProductRedirect = () => {
 };
 
 const AppContent = () => {
-  useCartSync();
   usePageTracking();
   useEffect(() => {
     captureTrackingParams();
