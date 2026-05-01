@@ -557,6 +557,78 @@ export const es = {
     roomDecors: "Decoración",
   },
 
+  // Páginas varias (404, sitemap, shell de landing, UI del blog)
+  notFound: {
+    seoTitle: "Página no encontrada – Charls Flowers Miami",
+    seoDescription: "Esta página no existe. Explora nuestra colección de ramos o vuelve a la página de inicio.",
+    errorLabel: "Error 404",
+    title: "¡Ups! Esta página no existe.",
+    subtitle: "Pero tenemos los ramos más bonitos de Miami.",
+    shopBouquets: "Ver Ramos",
+    goHome: "Ir al Inicio",
+  },
+
+  sitemap: {
+    seoTitle: "Mapa del Sitio – Charls Flowers Miami",
+    seoDescription: "Mapa del sitio completo de Charls Flowers Miami. Explora todas las páginas, productos y recursos.",
+    title: "Mapa del Sitio",
+    sections: {
+      mainPages: "Páginas principales",
+      bouquets: "Ramos",
+      roomDecors: "Decoración",
+      blogArticles: "Artículos del blog",
+      landingPages: "Páginas de zonas",
+      legal: "Legal",
+    },
+    links: {
+      home: "Inicio",
+      bouquets: "Ramos",
+      customBouquetBuilder: "Personalizador de Ramos",
+      roomDecors: "Decoración",
+      delivery: "Envío",
+      about: "Nosotros",
+      contact: "Contacto",
+      faq: "Preguntas frecuentes",
+      blog: "Blog",
+      privacyPolicy: "Política de Privacidad",
+      termsOfService: "Términos del Servicio",
+      refundPolicy: "Política de Reembolsos y Devoluciones",
+      shippingPolicy: "Política de Envío",
+      cookiePolicy: "Política de Cookies",
+    },
+  },
+
+  landing: {
+    pageNotFound: "Página no encontrada",
+    goHome: "Ir al inicio",
+    sameDayDelivery: "Entrega el mismo día",
+    sameDayDeliveryDesc: "Pide antes de las 15:00 para recibir hoy. Hasta 87 millas desde Miami.",
+    freePickup: "Recogida gratuita",
+    freePickupDesc: "Recoge gratis en 7261 NW 12th St, Miami, FL 33126.",
+    customBouquets: "Ramos personalizados",
+    customBouquetsDesc: "Diseña tu propio ramo con vista previa por IA. De 50 a 200 rosas, en cualquier color.",
+    deliveryRatesTitle: "Tarifas de envío",
+    rateClose: "0–5 millas",
+    rateCloseDetail: "20 USD tarifa fija",
+    rateFar: "5–87 millas",
+    rateFarDetail: "1,60 USD por milla",
+    minPreparation: "Tiempo mínimo de preparación: 2 horas",
+    shopBouquetsCta: "Ver Ramos",
+    customBouquetCta: "Ramo Personalizado",
+    seoFirstMiles: "Primeras 0–5 millas",
+    seoTwoHours: "2 horas",
+    seoMinPrep: "Preparación mínima",
+    seoFreePickup: "Recogida gratuita",
+    seoSeeShipping: "Ver política de envío completa →",
+    mapTitle: "Ubicación de Charls Flowers Miami",
+  },
+
+  blogArticle: {
+    articleNotFound: "Artículo no encontrado",
+    backToBlog: "Volver al blog",
+    relatedZones: "Zonas de entrega y guías relacionadas",
+  },
+
   // Páginas legales
   legal: {
     lastUpdated: "Última actualización: 21 de marzo de 2026",
