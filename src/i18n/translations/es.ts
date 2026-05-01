@@ -644,7 +644,7 @@ export const es = {
       damagesItem2Strong: "defectuoso, dañado o equivocado",
       damagesItem2Mid: ", contáctanos de inmediato en ",
       damagesItem2End: " para que podamos evaluar la incidencia y resolverla.",
-      exceptionsHeading: "Excepciones / Productos no devolubles",
+      exceptionsHeading: "Excepciones / Productos no devolvibles",
       exceptionsItems: [
         "Todas las flores, plantas y productos perecederos",
         "Productos personalizados o hechos a medida",
