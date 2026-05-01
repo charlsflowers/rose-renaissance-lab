@@ -60,9 +60,13 @@ const BouquetProductDetail = () => {
   );
   const product = isMothersDayContext ? mothersDayProduct : standardProduct;
 
-  // Promo active AND this product is NOT a Mother's Day item ⇒ block purchase.
+  // Block purchase in two scenarios:
+  // 1) Promo ACTIVE + standard product (not a Mother's Day item) → blocked during promo.
+  // 2) Promo INACTIVE + Mother's Day product → page still live (SEO) but Add to Cart disabled.
   const promoActive = isMothersDayPromoActive();
-  const purchaseBlocked = promoActive && !isMothersDayContext;
+  const purchaseBlocked =
+    (promoActive && !isMothersDayContext) ||
+    (!promoActive && isMothersDayContext);
 
   const bouquetFAQs = useBouquetFAQs();
 
@@ -651,7 +655,7 @@ const BouquetProductDetail = () => {
                   hidden={purchaseBlocked}>
                   {isAdding ? "..." : variantsLoading ? "..." : t("product.orderAndPay")}
                 </button>
-                {purchaseBlocked && <PurchaseBlockedNotice />}
+                {purchaseBlocked && <PurchaseBlockedNotice promoActive={promoActive} isMothersDayContext={isMothersDayContext} />}
                 <PaymentIcons size={22} className="pt-1" />
                 <ProductTrustBlock />
               </div>
@@ -723,7 +727,7 @@ const BouquetProductDetail = () => {
                 hidden={purchaseBlocked}>
                 {isAdding ? "..." : variantsLoading ? "..." : t("product.orderAndPay")}
               </button>
-              {purchaseBlocked && <PurchaseBlockedNotice />}
+              {purchaseBlocked && <PurchaseBlockedNotice promoActive={promoActive} isMothersDayContext={isMothersDayContext} />}
               <PaymentIcons size={22} className="pt-1" />
               <ProductTrustBlock />
             </div>
@@ -774,22 +778,39 @@ const Section = ({ title, step, subtitle, children }: { title: string; step: num
   </div>
 );
 
-const PurchaseBlockedNotice = () => (
-  <div className="rounded-lg border-2 border-primary/30 bg-primary/5 p-4 space-y-2">
-    <p className="font-body text-sm font-semibold text-foreground text-center">
-      Available again on May 13, 2026
-    </p>
-    <p className="font-body text-xs text-muted-foreground text-center">
-      During our Mother's Day Special Edition (May 1 – May 12), only the Mother's Day collection
-      is available for purchase.
-    </p>
-    <Link
-      to="/mothers-day"
-      className="block text-center text-primary hover:underline font-body text-xs tracking-wider uppercase font-semibold pt-1"
-    >
-      Check out our Mother's Day Collection →
-    </Link>
-  </div>
-);
+const PurchaseBlockedNotice = ({
+  promoActive,
+  isMothersDayContext,
+}: {
+  promoActive: boolean;
+  isMothersDayContext: boolean;
+}) => {
+  // Case A: promo active + standard product → invite to Mother's Day collection
+  // Case B: promo ended + Mother's Day product → "see you next year"
+  const promoEnded = !promoActive && isMothersDayContext;
+
+  return (
+    <div className="rounded-lg border-2 border-primary/30 bg-primary/5 p-4 space-y-2">
+      <p className="font-body text-sm font-semibold text-foreground text-center">
+        {promoEnded
+          ? "Mother's Day promo ended — see you next year"
+          : "Available again on May 13, 2026"}
+      </p>
+      <p className="font-body text-xs text-muted-foreground text-center">
+        {promoEnded
+          ? "Our Mother's Day Special Edition runs May 1 – May 12 every year. This collection will be available for purchase again next May."
+          : "During our Mother's Day Special Edition (May 1 – May 12), only the Mother's Day collection is available for purchase."}
+      </p>
+      {!promoEnded && (
+        <Link
+          to="/mothers-day"
+          className="block text-center text-primary hover:underline font-body text-xs tracking-wider uppercase font-semibold pt-1"
+        >
+          Check out our Mother's Day Collection →
+        </Link>
+      )}
+    </div>
+  );
+};
 
 export default BouquetProductDetail;
