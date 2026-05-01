@@ -319,13 +319,18 @@ const BouquetProductDetail = () => {
     : (hasCustomSizes ? (product.customSizes![effectiveSizeIdx]?.price || 0) : getPrice(product.pricingTier, selectedSize.roses));
   const glitterCost = !isMothersDayContext && addGlitter === true ? Math.ceil(selectedSize.roses / 25) * 8 : 0;
   const vaseCost = !isMothersDayContext && addVase ? vaseOptions[selectedVaseIdx].price : 0;
-  const accessoryCost = !isMothersDayContext && (accessory === "note" ? 3 : accessory === "butterfly" ? 3 : 0);
+  // Note add-on costs $3 for BOTH standard and Mother's Day products.
+  // Butterflies are bundled for MD; only standard products charge $3 for them.
+  const accessoryCost = accessory === "note"
+    ? 3
+    : (!isMothersDayContext && accessory === "butterfly" ? 3 : 0);
   const deliveryCost = deliveryMethod === "delivery" && deliveryMiles && !distanceTooFar ? calculateDeliveryCost(deliveryMiles) : 0;
   // Mother's Day: Crown + Butterflies + Ribbon are bundled in the Shopify variant price.
-  // Standard products: addons are charged on top of the base size price.
+  // The optional Note add-on is still charged separately ($3).
+  // Standard products: all addons are charged on top of the base size price.
   const basePrice = isMothersDayContext
-    ? sizePrice
-    : sizePrice + (addCrown ? crownPrice : 0) + (addRibbon ? ribbonPrice : 0) + glitterCost + vaseCost + (accessoryCost || 0);
+    ? sizePrice + accessoryCost
+    : sizePrice + (addCrown ? crownPrice : 0) + (addRibbon ? ribbonPrice : 0) + glitterCost + vaseCost + accessoryCost;
   const totalPrice = basePrice + deliveryCost;
 
   // Replace "From $X" / "Desde $X" in description with dynamic Shopify price
@@ -563,8 +568,10 @@ const BouquetProductDetail = () => {
       >
         <img src={noteImg} alt="Note card" className="w-12 h-12 object-contain rounded-lg" />
         <span className="flex-1 text-left">
-          <span className="block font-semibold text-foreground">Add a note</span>
-          <span className="block text-[11px] text-muted-foreground">Free message card with your bouquet</span>
+          <span className="block font-semibold text-foreground">
+            Add a note <span className="text-secondary font-normal">+$3</span>
+          </span>
+          <span className="block text-[11px] text-muted-foreground">Personalized message card with your bouquet</span>
         </span>
         {accessory === "note" && <Check className="w-4 h-4 text-primary" />}
       </button>
