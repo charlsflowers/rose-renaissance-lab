@@ -13,6 +13,7 @@ import BouquetCardImage from "@/components/BouquetCardImage";
 import { ArrowLeft, ArrowRight, Lock } from "lucide-react";
 import { useTranslation } from "@/i18n/LanguageContext";
 import WaveDivider from "@/components/WaveDivider";
+import { isMothersDayPromoActive } from "@/lib/mothersDayPromo";
 
 type FilterType = "all" | "un-color" | "mezclas" | "zodiac";
 
@@ -70,6 +71,7 @@ const BouquetProducts = () => {
   const [searchParams] = useSearchParams();
   const initialFilter = (searchParams.get("filter") as FilterType) || "all";
   const [filter, setFilter] = useState<FilterType>(initialFilter);
+  const promoActive = isMothersDayPromoActive();
 
   useEffect(() => { window.scrollTo(0, 0); }, []);
 
@@ -153,6 +155,13 @@ const BouquetProducts = () => {
                       fallback2={product.image2}
                     />
                     <div className="absolute inset-0 bg-foreground/5 group-hover:bg-foreground/15 transition-colors" />
+                    {promoActive && (
+                      <div className="absolute -top-1 -right-1 z-10">
+                        <div className="bg-primary text-primary-foreground px-2 md:px-3 py-1 rounded-bl-lg rounded-tr-sm font-body text-[8px] md:text-[10px] tracking-wider uppercase font-bold shadow-lg">
+                          Available May 13
+                        </div>
+                      </div>
+                    )}
                   </div>
                   <h3 className="font-display text-lg font-semibold text-foreground text-center">{product.name}</h3>
                   

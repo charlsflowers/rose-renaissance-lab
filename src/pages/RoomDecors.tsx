@@ -9,9 +9,11 @@ import JsonLd, { breadcrumbSchema } from "@/components/JsonLd";
 import CollectionFAQ from "@/components/CollectionFAQ";
 import { roomDecorPackages } from "@/lib/roomDecorData";
 import { useTranslation } from "@/i18n/LanguageContext";
+import { isMothersDayPromoActive } from "@/lib/mothersDayPromo";
 
 const RoomDecors = () => {
   const { t } = useTranslation();
+  const promoActive = isMothersDayPromoActive();
   useEffect(() => { window.scrollTo(0, 0); }, []);
 
   const roomDecorFAQs = [
@@ -53,6 +55,11 @@ const RoomDecors = () => {
                         <div className="bg-primary text-primary-foreground px-2.5 md:px-5 py-1 md:py-1.5 rounded-bl-lg rounded-tr-sm font-body text-[9px] md:text-xs tracking-wider uppercase font-bold shadow-lg">
                           {t("roomDecors.mostPopular")}
                         </div>
+                      </div>
+                    )}
+                    {promoActive && (
+                      <div className="absolute bottom-2 left-2 right-2 z-10 bg-primary text-primary-foreground px-2 py-1.5 rounded-md font-body text-[10px] md:text-xs tracking-wider uppercase font-bold shadow-lg text-center">
+                        Available May 13
                       </div>
                     )}
                   </div>
