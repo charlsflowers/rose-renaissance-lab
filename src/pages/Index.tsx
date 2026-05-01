@@ -101,14 +101,34 @@ const Index = () => {
               {t("home.heroDescription")}
             </p>
             <div className="flex flex-col sm:flex-row gap-3 md:gap-4">
-              <Link to="/bouquets"
-                className="inline-flex items-center justify-center gap-2 bg-primary text-primary-foreground px-5 md:px-8 py-3 md:py-4 font-body text-xs md:text-sm tracking-widest uppercase hover:bg-primary/90 transition-colors rounded-lg">
-                {t("home.viewBouquets")} <ArrowRight className="w-3.5 h-3.5 md:w-4 md:h-4" />
-              </Link>
-              <Link to="/bouquets/personalizar"
-                className="inline-flex items-center justify-center gap-2 border border-primary-foreground/50 text-primary-foreground px-5 md:px-8 py-3 md:py-4 font-body text-xs md:text-sm tracking-widest uppercase hover:bg-primary-foreground/10 transition-colors rounded-lg">
-                {t("home.buildYourBouquet")} <Sparkles className="w-3.5 h-3.5 md:w-4 md:h-4" />
-              </Link>
+              {promoActive ? (
+                <div className="flex flex-col items-start gap-1">
+                  <button type="button" disabled aria-disabled="true"
+                    className="inline-flex items-center justify-center gap-2 bg-primary text-primary-foreground px-5 md:px-8 py-3 md:py-4 font-body text-xs md:text-sm tracking-widest uppercase rounded-lg opacity-50 cursor-not-allowed pointer-events-none">
+                    {t("home.viewBouquets")} <ArrowRight className="w-3.5 h-3.5 md:w-4 md:h-4" />
+                  </button>
+                  <span className="text-[10px] md:text-xs tracking-widest uppercase text-primary-foreground/80 font-body">Available May 13</span>
+                </div>
+              ) : (
+                <Link to="/bouquets"
+                  className="inline-flex items-center justify-center gap-2 bg-primary text-primary-foreground px-5 md:px-8 py-3 md:py-4 font-body text-xs md:text-sm tracking-widest uppercase hover:bg-primary/90 transition-colors rounded-lg">
+                  {t("home.viewBouquets")} <ArrowRight className="w-3.5 h-3.5 md:w-4 md:h-4" />
+                </Link>
+              )}
+              {promoActive ? (
+                <div className="flex flex-col items-start gap-1">
+                  <button type="button" disabled aria-disabled="true"
+                    className="inline-flex items-center justify-center gap-2 border border-primary-foreground/50 text-primary-foreground px-5 md:px-8 py-3 md:py-4 font-body text-xs md:text-sm tracking-widest uppercase rounded-lg opacity-50 cursor-not-allowed pointer-events-none">
+                    {t("home.buildYourBouquet")} <Sparkles className="w-3.5 h-3.5 md:w-4 md:h-4" />
+                  </button>
+                  <span className="text-[10px] md:text-xs tracking-widest uppercase text-primary-foreground/80 font-body">Available May 13</span>
+                </div>
+              ) : (
+                <Link to="/bouquets/personalizar"
+                  className="inline-flex items-center justify-center gap-2 border border-primary-foreground/50 text-primary-foreground px-5 md:px-8 py-3 md:py-4 font-body text-xs md:text-sm tracking-widest uppercase hover:bg-primary-foreground/10 transition-colors rounded-lg">
+                  {t("home.buildYourBouquet")} <Sparkles className="w-3.5 h-3.5 md:w-4 md:h-4" />
+                </Link>
+              )}
             </div>
           </motion.div>
         </div>
@@ -155,6 +175,7 @@ const Index = () => {
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-7 gap-5">
             {categories.map((item, i) => {
               const isComingSoon = comingSoonSlugs.includes(item.slug);
+              const isBlockedByPromo = promoActive && (item.slug === "bouquets" || item.slug === "room-decors");
               return (
                 <motion.div key={item.slug} initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5, delay: i * 0.1 }}>
                   {isComingSoon ? (
@@ -165,6 +186,18 @@ const Index = () => {
                           <div className="bg-foreground/70 px-3 py-1.5 rounded-lg flex items-center gap-1.5">
                             <Lock className="w-3.5 h-3.5 text-primary-foreground" />
                             <span className="font-body text-[10px] text-primary-foreground tracking-widest uppercase">{t("common.comingSoon")}</span>
+                          </div>
+                        </div>
+                      </div>
+                      <h3 className="font-display text-lg font-semibold text-muted-foreground text-center uppercase tracking-wide">{item.title}</h3>
+                    </div>
+                  ) : isBlockedByPromo ? (
+                    <div className="block opacity-50 cursor-not-allowed pointer-events-none" aria-disabled="true">
+                      <div className="relative overflow-hidden rounded-lg mb-4 aspect-square">
+                        <img src={item.img} alt={`${item.title} Miami – Charls Flowers`} loading="lazy" width={400} height={400} className="w-full h-full object-cover" />
+                        <div className="absolute inset-0 bg-foreground/30 flex items-center justify-center">
+                          <div className="bg-foreground/70 px-3 py-1.5 rounded-lg">
+                            <span className="font-body text-[10px] text-primary-foreground tracking-widest uppercase">Available May 13</span>
                           </div>
                         </div>
                       </div>
@@ -195,15 +228,31 @@ const Index = () => {
           </motion.div>
 
           <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }} className="max-w-md mx-auto">
-            <Link to="/bouquets" className="group block">
-              <div className="relative overflow-hidden rounded-lg mb-5 aspect-square">
-                <img src={bicolorPassionImg} alt="Fresh Rose Bouquets Miami – Charls Flowers" loading="lazy" width={500} height={500} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
-                <div className="absolute inset-0 bg-foreground/10 group-hover:bg-foreground/20 transition-colors" />
+            {promoActive ? (
+              <div className="block opacity-50 cursor-not-allowed pointer-events-none" aria-disabled="true">
+                <div className="relative overflow-hidden rounded-lg mb-5 aspect-square">
+                  <img src={bicolorPassionImg} alt="Fresh Rose Bouquets Miami – Charls Flowers" loading="lazy" width={500} height={500} className="w-full h-full object-cover" />
+                  <div className="absolute inset-0 bg-foreground/30 flex items-center justify-center">
+                    <div className="bg-foreground/70 px-3 py-1.5 rounded-lg">
+                      <span className="font-body text-[10px] text-primary-foreground tracking-widest uppercase">Available May 13</span>
+                    </div>
+                  </div>
+                </div>
+                <div className="text-center mb-2">
+                  <h3 className="font-display text-xl font-semibold text-foreground uppercase tracking-wide">{t("home.viewBouquetsBtn")}</h3>
+                </div>
               </div>
-              <div className="text-center mb-2">
-                <h3 className="font-display text-xl font-semibold text-foreground uppercase tracking-wide">{t("home.viewBouquetsBtn")}</h3>
-              </div>
-            </Link>
+            ) : (
+              <Link to="/bouquets" className="group block">
+                <div className="relative overflow-hidden rounded-lg mb-5 aspect-square">
+                  <img src={bicolorPassionImg} alt="Fresh Rose Bouquets Miami – Charls Flowers" loading="lazy" width={500} height={500} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
+                  <div className="absolute inset-0 bg-foreground/10 group-hover:bg-foreground/20 transition-colors" />
+                </div>
+                <div className="text-center mb-2">
+                  <h3 className="font-display text-xl font-semibold text-foreground uppercase tracking-wide">{t("home.viewBouquetsBtn")}</h3>
+                </div>
+              </Link>
+            )}
           </motion.div>
         </div>
       </section>
@@ -255,10 +304,20 @@ const Index = () => {
             <p className="text-muted-foreground font-body mb-8 max-w-md md:mx-auto">
               {t("home.customizeDescription")}
             </p>
-            <Link to="/bouquets/personalizar"
-              className="inline-flex items-center gap-3 bg-primary text-primary-foreground px-8 py-4 font-body text-sm tracking-widest uppercase hover:bg-primary/90 transition-colors rounded-lg">
-              {t("home.customize")} <ArrowRight className="w-4 h-4" />
-            </Link>
+            {promoActive ? (
+              <div className="inline-flex flex-col items-center gap-1">
+                <button type="button" disabled aria-disabled="true"
+                  className="inline-flex items-center gap-3 bg-primary text-primary-foreground px-8 py-4 font-body text-sm tracking-widest uppercase rounded-lg opacity-50 cursor-not-allowed pointer-events-none">
+                  {t("home.customize")} <ArrowRight className="w-4 h-4" />
+                </button>
+                <span className="text-[10px] md:text-xs tracking-widest uppercase text-muted-foreground font-body">Available May 13</span>
+              </div>
+            ) : (
+              <Link to="/bouquets/personalizar"
+                className="inline-flex items-center gap-3 bg-primary text-primary-foreground px-8 py-4 font-body text-sm tracking-widest uppercase hover:bg-primary/90 transition-colors rounded-lg">
+                {t("home.customize")} <ArrowRight className="w-4 h-4" />
+              </Link>
+            )}
           </motion.div>
         </div>
       </section>
@@ -308,10 +367,20 @@ const Index = () => {
             <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
               <h2 className="font-display text-3xl md:text-4xl font-semibold text-primary-foreground mb-4">{t("home.ctaPrice")}</h2>
               <p className="text-primary-foreground/80 font-body mb-8 max-w-md mx-auto">{t("home.ctaDescription")}</p>
-              <Link to="/bouquets/personalizar"
-                className="inline-flex items-center gap-3 bg-background text-foreground px-8 py-4 font-body text-sm tracking-widest uppercase hover:bg-background/90 transition-colors rounded-lg">
-                {t("home.customizeNow")} <ArrowRight className="w-4 h-4" />
-              </Link>
+              {promoActive ? (
+                <div className="inline-flex flex-col items-center gap-1">
+                  <button type="button" disabled aria-disabled="true"
+                    className="inline-flex items-center gap-3 bg-background text-foreground px-8 py-4 font-body text-sm tracking-widest uppercase rounded-lg opacity-50 cursor-not-allowed pointer-events-none">
+                    {t("home.customizeNow")} <ArrowRight className="w-4 h-4" />
+                  </button>
+                  <span className="text-[10px] md:text-xs tracking-widest uppercase text-primary-foreground/80 font-body">Available May 13</span>
+                </div>
+              ) : (
+                <Link to="/bouquets/personalizar"
+                  className="inline-flex items-center gap-3 bg-background text-foreground px-8 py-4 font-body text-sm tracking-widest uppercase hover:bg-background/90 transition-colors rounded-lg">
+                  {t("home.customizeNow")} <ArrowRight className="w-4 h-4" />
+                </Link>
+              )}
             </motion.div>
           </div>
         </section>
