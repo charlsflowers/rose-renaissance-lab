@@ -125,14 +125,19 @@ try {
 
 // ───────────────────────── url builder ─────────────────────────
 
-/** @type {{loc: string, changefreq: string, priority: string}[]} */
+/**
+ * Each URL entry holds the EN-style path and metadata. We emit each path twice
+ * in the sitemap (EN + ES) with cross-referenced xhtml:link alternates, except
+ * for paths flagged `enOnly` (e.g. blog posts that don't have an ES translation yet).
+ *
+ * @type {{path: string, changefreq: string, priority: string, enOnly?: boolean}[]}
+ */
 const urls = [];
 const seen = new Set();
-const push = (path, changefreq, priority) => {
-  const loc = `${BASE_URL}${path}`;
-  if (seen.has(loc)) return;
-  seen.add(loc);
-  urls.push({ loc, changefreq, priority });
+const push = (path, changefreq, priority, opts = {}) => {
+  if (seen.has(path)) return;
+  seen.add(path);
+  urls.push({ path, changefreq, priority, enOnly: !!opts.enOnly });
 };
 
 // 1. Static main routes (priority 1.0 / 0.8 / 0.4)
@@ -177,7 +182,9 @@ for (const slug of landingSlugs) {
 
 // 5. Blog posts (priority 0.6)
 for (const slug of blogSlugs) {
-  push(`/blog/${slug}`, "weekly", "0.6");
+  // Sanity currently only stores EN posts. When ES posts are added (filter by language=es
+  // server-side), drop the `enOnly` flag for those slugs so alternates are emitted.
+  push(`/blog/${slug}`, "weekly", "0.6", { enOnly: true });
 }
 
 // NOTE: Category routes (/categoria/:slug) are intentionally excluded —
@@ -186,20 +193,49 @@ void categorySlugs;
 
 // ───────────────────────── render xml ─────────────────────────
 
+const enHref = (path) => `${BASE_URL}${path === "/" ? "" : path}`;
+const esHref = (path) => `${BASE_URL}${path === "/" ? "/es" : `/es${path}`}`;
+
+/** Render a single <url> entry. */
+const renderUrl = (loc, lastmod, changefreq, priority, alternates) => {
+  const altTags = alternates
+    .map((a) => `    <xhtml:link rel="alternate" hreflang="${a.hreflang}" href="${a.href}"/>`)
+    .join("\n");
+  return (
+    `  <url>\n` +
+    `    <loc>${loc}</loc>\n` +
+    `    <lastmod>${lastmod}</lastmod>\n` +
+    `    <changefreq>${changefreq}</changefreq>\n` +
+    `    <priority>${priority}</priority>\n` +
+    (altTags ? altTags + "\n" : "") +
+    `  </url>`
+  );
+};
+
+const blocks = [];
+for (const u of urls) {
+  const en = enHref(u.path);
+  const es = esHref(u.path);
+
+  if (u.enOnly) {
+    // Single EN entry, no alternates.
+    blocks.push(renderUrl(en, TODAY, u.changefreq, u.priority, []));
+    continue;
+  }
+
+  const alternates = [
+    { hreflang: "en", href: en },
+    { hreflang: "es", href: es },
+    { hreflang: "x-default", href: en },
+  ];
+  blocks.push(renderUrl(en, TODAY, u.changefreq, u.priority, alternates));
+  blocks.push(renderUrl(es, TODAY, u.changefreq, u.priority, alternates));
+}
+
 const xml =
   `<?xml version="1.0" encoding="UTF-8"?>\n` +
-  `<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n` +
-  urls
-    .map(
-      (u) =>
-        `  <url>\n` +
-        `    <loc>${u.loc}</loc>\n` +
-        `    <lastmod>${TODAY}</lastmod>\n` +
-        `    <changefreq>${u.changefreq}</changefreq>\n` +
-        `    <priority>${u.priority}</priority>\n` +
-        `  </url>`,
-    )
-    .join("\n") +
+  `<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">\n` +
+  blocks.join("\n") +
   `\n</urlset>\n`;
 
 const outPath = resolve(ROOT, "public/sitemap.xml");
@@ -208,7 +244,8 @@ writeFileSync(outPath, xml, "utf8");
 // ───────────────────────── report ─────────────────────────
 
 const counts = {
-  total: urls.length,
+  totalPaths: urls.length,
+  totalUrls: blocks.length,
   bouquets: bouquetHandles.length,
   mothersDay: mothersDayHandles.length,
   landings: landingSlugs.length,
@@ -217,4 +254,4 @@ const counts = {
   excludedCategories: categorySlugs.length,
 };
 console.log(`[sitemap] wrote ${outPath}`);
-console.log(`[sitemap] urls=${counts.total} bouquets=${counts.bouquets} mothersDay=${counts.mothersDay} landings=${counts.landings} blog=${counts.blog} roomDecors=${counts.roomDecors} (excluded comingSoon categories=${counts.excludedCategories})`);
+console.log(`[sitemap] paths=${counts.totalPaths} urls=${counts.totalUrls} bouquets=${counts.bouquets} mothersDay=${counts.mothersDay} landings=${counts.landings} blog=${counts.blog} roomDecors=${counts.roomDecors} (excluded comingSoon categories=${counts.excludedCategories})`);
