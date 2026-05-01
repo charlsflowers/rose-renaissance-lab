@@ -9,6 +9,7 @@ import { bouquetProducts } from "@/lib/catalogData";
 import { roomDecorPackages } from "@/lib/roomDecorData";
 import { supabase } from "@/integrations/supabase/client";
 import { useTranslation, type Language } from "@/i18n/LanguageContext";
+import { isMothersDayPromoActive } from "@/lib/mothersDayPromo";
 
 interface PlacePrediction {
   placeId: string;
@@ -19,6 +20,7 @@ interface PlacePrediction {
 
 const Navbar = () => {
   const { t, language, setLanguage } = useTranslation();
+  const promoActive = isMothersDayPromoActive();
   const totalItems = useCartStore(state => state.items.length);
   const setCartOpen = useCartStore(state => state.setOpen);
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -37,6 +39,7 @@ const Navbar = () => {
     { to: "/bouquets?filter=un-color", label: t("nav.singleColor"), active: true },
     { to: "/bouquets?filter=mezclas", label: t("nav.mixedBouquets"), active: true },
     { to: "/bouquets?filter=zodiac", label: t("nav.zodiacBouquets"), active: true },
+    { to: "/bouquets/personalizar", label: t("nav.customBouquets"), active: true },
     { label: t("nav.anniversaries"), active: false },
     { label: t("nav.birthdayBouquets"), active: false },
     { label: t("nav.babyShowerBouquets"), active: false },
@@ -128,13 +131,32 @@ const Navbar = () => {
           {navLinks.map((link) => (
             link.hasDropdown ? (
               <div key={link.to} className="relative" onMouseEnter={() => setBouquetDropdownOpen(true)} onMouseLeave={() => setBouquetDropdownOpen(false)}>
-                <Link to={link.to} className="hover:text-primary transition-colors whitespace-nowrap inline-flex items-center gap-1">
-                  {link.label} <ChevronDown className="w-3 h-3" />
-                </Link>
+                {promoActive ? (
+                  <span
+                    aria-disabled="true"
+                    title="Available May 13"
+                    className="opacity-50 cursor-not-allowed whitespace-nowrap inline-flex items-center gap-1"
+                  >
+                    {link.label} <ChevronDown className="w-3 h-3" />
+                  </span>
+                ) : (
+                  <Link to={link.to} className="hover:text-primary transition-colors whitespace-nowrap inline-flex items-center gap-1">
+                    {link.label} <ChevronDown className="w-3 h-3" />
+                  </Link>
+                )}
                 {bouquetDropdownOpen && (
                   <div className="absolute top-full left-0 mt-1 bg-background border border-border rounded-lg shadow-lg py-2 min-w-[220px] z-50">
                     {bouquetSubLinks.map((sub, i) => (
-                      sub.active ? (
+                      promoActive && sub.active ? (
+                        <span
+                          key={i}
+                          aria-disabled="true"
+                          title="Available May 13"
+                          className="block px-4 py-2 text-xs tracking-widest uppercase text-muted-foreground/50 cursor-not-allowed"
+                        >
+                          {sub.label} <span className="text-[9px] normal-case">— Available May 13</span>
+                        </span>
+                      ) : sub.active ? (
                         <Link key={i} to={sub.to || "#"} className="block px-4 py-2 text-xs tracking-widest uppercase text-muted-foreground hover:text-primary hover:bg-cream/50 transition-colors" onClick={() => setBouquetDropdownOpen(false)}>
                           {sub.label}
                         </Link>
@@ -148,9 +170,20 @@ const Navbar = () => {
                 )}
               </div>
             ) : (
-              <Link key={link.to} to={link.to!} className="hover:text-primary transition-colors whitespace-nowrap">
-                {link.label}
-              </Link>
+              promoActive && (link.to === "/room-decors" || link.to === "/bouquets/personalizar") ? (
+                <span
+                  key={link.to}
+                  aria-disabled="true"
+                  title="Available May 13"
+                  className="opacity-50 cursor-not-allowed whitespace-nowrap"
+                >
+                  {link.label}
+                </span>
+              ) : (
+                <Link key={link.to} to={link.to!} className="hover:text-primary transition-colors whitespace-nowrap">
+                  {link.label}
+                </Link>
+              )
             )
           ))}
         </div>
@@ -254,14 +287,18 @@ const Navbar = () => {
                 <div key={link.to}>
                   <button
                     onClick={() => setMobileBouquetOpen(!mobileBouquetOpen)}
-                    className="w-full flex items-center justify-between hover:text-primary transition-colors py-2 border-b border-border"
+                    className={`w-full flex items-center justify-between transition-colors py-2 border-b border-border ${promoActive ? "opacity-50 cursor-not-allowed" : "hover:text-primary"}`}
                   >
                     {link.label} <ChevronDown className={`w-3 h-3 transition-transform ${mobileBouquetOpen ? 'rotate-180' : ''}`} />
                   </button>
                   {mobileBouquetOpen && (
                     <div className="pl-4 py-1 space-y-1">
                       {bouquetSubLinks.map((sub, i) => (
-                        sub.active ? (
+                        promoActive && sub.active ? (
+                          <span key={i} aria-disabled="true" className="block py-1.5 text-xs tracking-widest uppercase text-muted-foreground/50 cursor-not-allowed">
+                            {sub.label} <span className="text-[9px] normal-case">— Available May 13</span>
+                          </span>
+                        ) : sub.active ? (
                           <Link key={i} to={sub.to || "#"} onClick={() => setMobileOpen(false)} className="block py-1.5 text-xs tracking-widest uppercase text-muted-foreground hover:text-primary transition-colors">
                             {sub.label}
                           </Link>
@@ -275,9 +312,15 @@ const Navbar = () => {
                   )}
                 </div>
               ) : (
-                <Link key={link.to} to={link.to!} onClick={() => setMobileOpen(false)} className="hover:text-primary transition-colors py-2 border-b border-border last:border-b-0">
-                  {link.label}
-                </Link>
+                promoActive && (link.to === "/room-decors" || link.to === "/bouquets/personalizar") ? (
+                  <span key={link.to} aria-disabled="true" className="opacity-50 cursor-not-allowed py-2 border-b border-border last:border-b-0">
+                    {link.label} <span className="text-[9px] normal-case">— Available May 13</span>
+                  </span>
+                ) : (
+                  <Link key={link.to} to={link.to!} onClick={() => setMobileOpen(false)} className="hover:text-primary transition-colors py-2 border-b border-border last:border-b-0">
+                    {link.label}
+                  </Link>
+                )
               )
             ))}
 
