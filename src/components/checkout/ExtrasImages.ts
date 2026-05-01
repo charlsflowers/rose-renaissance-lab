@@ -1,9 +1,9 @@
 // Maps addon/extra names to their thumbnail images
-import glitterRoseImg from "@/assets/glitter-rose.png";
+import glitterRoseImg from "@/assets/glitter-rose.webp";
 import crownSilverImg from "@/assets/crown-silver.webp";
 import crownGoldImg from "@/assets/crown-gold.webp";
 import butterflyImg from "@/assets/butterfly-gold.webp";
-import lettersImg from "@/assets/letters-babybreathe.png";
+import lettersImg from "@/assets/letters-babybreathe.webp";
 import noteImg from "@/assets/accessory-note.webp";
 
 export function getExtraImage(addonName: string): string | null {
