@@ -36,7 +36,7 @@ import {
   ArrowLeft, Check, Store, Truck, CalendarIcon, Clock, MapPin, Search, Loader2,
   Type, Sparkles, Star, Hash,
 } from "lucide-react";
-import glitterRoseImg from "@/assets/glitter-rose.png";
+import glitterRoseImg from "@/assets/glitter-rose.webp";
 import crownSilverImg from "@/assets/crown-silver.webp";
 import crownGoldImg from "@/assets/crown-gold.webp";
 import butterflyImg from "@/assets/butterfly-gold.webp";
