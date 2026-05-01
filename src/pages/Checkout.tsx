@@ -22,7 +22,6 @@ const Checkout = () => {
   const items = useCartStore((state) => state.items);
   const removeItem = useCartStore((state) => state.removeItem);
   const isLoading = useCartStore((state) => state.isLoading);
-  const isSyncing = useCartStore((state) => state.isSyncing);
   const navigate = useNavigate();
   const [isCheckingOut, setIsCheckingOut] = useState(false);
 
