@@ -60,9 +60,13 @@ const BouquetProductDetail = () => {
   );
   const product = isMothersDayContext ? mothersDayProduct : standardProduct;
 
-  // Promo active AND this product is NOT a Mother's Day item ⇒ block purchase.
+  // Block purchase in two scenarios:
+  // 1) Promo ACTIVE + standard product (not a Mother's Day item) → blocked during promo.
+  // 2) Promo INACTIVE + Mother's Day product → page still live (SEO) but Add to Cart disabled.
   const promoActive = isMothersDayPromoActive();
-  const purchaseBlocked = promoActive && !isMothersDayContext;
+  const purchaseBlocked =
+    (promoActive && !isMothersDayContext) ||
+    (!promoActive && isMothersDayContext);
 
   const bouquetFAQs = useBouquetFAQs();
 
