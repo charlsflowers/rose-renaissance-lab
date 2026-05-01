@@ -1,19 +1,20 @@
 import { useCartStore } from "@/stores/cartStore";
-import { DELIVERY_FEE_VARIANT_GID, type AccessoryLineItem } from "@/lib/accessoryVariants";
 import {
-  addLineToShopifyCart,
-  storefrontApiRequest,
-  updateCartNote,
-  updateCartBuyerIdentity,
-  fetchCartCheckoutUrl,
+  DELIVERY_FEE_VARIANT_GID,
+  type AccessoryLineItem,
+} from "@/lib/accessoryVariants";
+import {
+  createShopifyCartFull,
+  type CartFullLine,
   type ShippingAddress,
 } from "@/lib/shopify";
-import { toast } from "sonner";
 import { appendTrackingParamsToUrl } from "@/lib/trackingParams";
 
-const SHOPIFY_CART_BASE_URL = "https://charls-flowers.myshopify.com/cart";
 const DELIVERY_FEE_VARIANT_NUMERIC_ID = "51629708935300";
 const SERVICE_FEE_VARIANT_NUMERIC_ID = "51654333595780";
+const SERVICE_FEE_VARIANT_GID = `gid://shopify/ProductVariant/${SERVICE_FEE_VARIANT_NUMERIC_ID}`;
+
+const SHOPIFY_CART_BASE_URL = "https://charls-flowers.myshopify.com/cart";
 
 type CheckoutDeliveryOptions = {
   deliveryMethod?: "pickup" | "delivery";
@@ -41,6 +42,12 @@ function toNumericVariantId(variantId?: string): string | null {
   return numericId || null;
 }
 
+function toGid(variantId: string): string {
+  return variantId.startsWith("gid://")
+    ? variantId
+    : `gid://shopify/ProductVariant/${variantId}`;
+}
+
 function parseAddress(address: string, city = "", zip = ""): ParsedAddress {
   const parts = address.split(",").map((p) => p.trim()).filter(Boolean);
   const address1 = parts[0] || "";
@@ -57,9 +64,8 @@ function parseAddress(address: string, city = "", zip = ""): ParsedAddress {
 }
 
 /**
- * Build a Shopify cart permalink.
- * If variantId is provided, builds a single-item URL.
- * Otherwise builds from all cart items.
+ * Legacy permalink builder. Still used by some "buy now" buttons that need a
+ * shareable URL synchronously. Not used by the main checkout flow.
  */
 export function buildCheckoutUrl(variantId?: string, options?: CheckoutDeliveryOptions): string | null {
   const lineItems: string[] = [];
@@ -112,7 +118,7 @@ export function buildCheckoutUrl(variantId?: string, options?: CheckoutDeliveryO
 
   let checkoutUrl = `${SHOPIFY_CART_BASE_URL}/${finalLines.join(",")}`;
   const params = new URLSearchParams();
-  
+
   const deliveryType = options?.deliveryMethod === "delivery" ? "Home Delivery" : "Store Pickup";
   params.set("attributes[delivery_type]", deliveryType);
 
@@ -146,9 +152,7 @@ export function openCheckoutInNewTab(checkoutUrl: string) {
   window.location.href = checkoutUrl;
 }
 
-// ─── Storefront API checkout (replaces permalink flow) ───
-
-const SERVICE_FEE_VARIANT_GID = "gid://shopify/ProductVariant/51654333595780";
+// ─── Storefront API checkout (deferred-cart-creation flow) ───
 
 export interface ApiCheckoutOptions {
   deliveryMethod: "pickup" | "delivery";
@@ -168,70 +172,70 @@ export interface ApiCheckoutOptions {
 }
 
 /**
- * Perform checkout via Shopify Storefront API.
- * Adds accessory / delivery / service-fee lines to the existing cart,
- * sets the order note & buyer identity, then returns the real checkout URL.
+ * Build the full Shopify cart in a SINGLE API call (cartCreate) at the
+ * moment the user clicks "Continue to Safe Checkout".
+ *
+ * This is the only path that creates a Shopify cart — there is no earlier
+ * "lightweight" cart that could be picked up by Shop Pay or abandoned-cart
+ * emails without the service fee / delivery / notes.
  */
 export async function performApiCheckout(options: ApiCheckoutOptions): Promise<string | null> {
-  const { cartId, checkoutUrl: storedCheckoutUrl } = useCartStore.getState();
-  if (!cartId) return null;
+  const items = useCartStore.getState().items;
 
-  // Validate cart still exists in Shopify
-  try {
-    const CART_VALIDATE_QUERY = `query cart($id: ID!) { cart(id: $id) { totalQuantity } }`;
-    const data = await storefrontApiRequest(CART_VALIDATE_QUERY, { id: cartId });
-    const cart = data?.data?.cart;
-    if (!cart || cart.totalQuantity === 0) {
-      useCartStore.getState().clearCart();
-      toast.error("Tu carrito ha expirado, por favor añade el producto de nuevo");
-      return null;
-    }
-  } catch (error) {
-    // Network/API error — don't block, continue with normal flow
-    console.warn("[checkout] Cart validation failed, proceeding anyway:", error);
-  }
+  // 1) Product lines (skip items without a Shopify variant — e.g. "Coming Soon" categories)
+  const productLines: CartFullLine[] = items
+    .filter((item) => item.shopifyVariantId && item.shopifyVariantId.length > 0)
+    .map((item) => ({
+      merchandiseId: toGid(item.shopifyVariantId),
+      quantity: 1,
+    }));
 
-  // Add accessory lines (convert numeric IDs → GIDs when needed)
-  for (const acc of options.accessories) {
-    const gid = acc.variantId.startsWith("gid://")
-      ? acc.variantId
-      : `gid://shopify/ProductVariant/${acc.variantId}`;
-    const result = await addLineToShopifyCart(cartId, gid, acc.quantity);
-    if (result.cartNotFound) {
-      useCartStore.getState().clearCart();
-      toast.error("Tu carrito ha expirado, por favor añade el producto de nuevo");
-      return null;
-    }
-  }
+  // 2) Accessory lines
+  const accessoryLines: CartFullLine[] = options.accessories.map((acc) => ({
+    merchandiseId: toGid(acc.variantId),
+    quantity: acc.quantity,
+  }));
 
-  // Add delivery fee
+  // 3) Delivery fee line
+  const deliveryLines: CartFullLine[] = [];
   if (options.deliveryMethod === "delivery" && options.deliveryCost > 0) {
-    await addLineToShopifyCart(cartId, DELIVERY_FEE_VARIANT_GID, Math.round(options.deliveryCost * 10));
+    deliveryLines.push({
+      merchandiseId: DELIVERY_FEE_VARIANT_GID,
+      quantity: Math.round(options.deliveryCost * 10),
+    });
   }
 
-  // Add service fee (4.5% of base total)
+  // 4) Service fee (4.5% of subtotal + delivery)
   const serviceFeePrice = options.serviceFeeBase * 0.045;
   const serviceFeeQty = Math.round(serviceFeePrice / 0.10);
-  if (serviceFeeQty > 0) {
-    await addLineToShopifyCart(cartId, SERVICE_FEE_VARIANT_GID, serviceFeeQty);
+  const serviceLines: CartFullLine[] =
+    serviceFeeQty > 0
+      ? [{ merchandiseId: SERVICE_FEE_VARIANT_GID, quantity: serviceFeeQty }]
+      : [];
+
+  // Consolidate duplicate variant ids (sum quantities)
+  const allLines = [...productLines, ...accessoryLines, ...deliveryLines, ...serviceLines];
+  const consolidated = new Map<string, number>();
+  for (const line of allLines) {
+    consolidated.set(line.merchandiseId, (consolidated.get(line.merchandiseId) || 0) + line.quantity);
+  }
+  const finalLines: CartFullLine[] = Array.from(consolidated.entries()).map(
+    ([merchandiseId, quantity]) => ({ merchandiseId, quantity })
+  );
+
+  if (finalLines.length === 0) {
+    console.error("[performApiCheckout] No cart lines to send to Shopify");
+    return null;
   }
 
-  // Update cart note
-  if (options.note) {
-    await updateCartNote(cartId, options.note);
-  }
-
-  // Update buyer identity for delivery
+  // 5) Buyer identity (shipping address)
+  let deliveryAddress: ShippingAddress | undefined;
   if (options.deliveryMethod === "delivery" && options.deliveryAddress) {
-    // Prefer the structured address from Google Places (has province + zip).
-    // Fall back to the first cart item's stored structuredAddress.
-    // Last resort: parse the raw address string (may miss state/zip).
-    const itemStructured = useCartStore.getState().items.find(i => i.structuredAddress)?.structuredAddress;
+    const itemStructured = items.find((i) => i.structuredAddress)?.structuredAddress;
     const source = options.structuredAddress || itemStructured;
 
-    let parsed: ShippingAddress;
     if (source && source.address1) {
-      parsed = {
+      deliveryAddress = {
         address1: source.address1,
         city: source.city || "",
         province: source.province || "",
@@ -240,7 +244,7 @@ export async function performApiCheckout(options: ApiCheckoutOptions): Promise<s
       };
     } else {
       const fallback = parseAddress(options.deliveryAddress, "", options.deliveryZip || "");
-      parsed = {
+      deliveryAddress = {
         address1: fallback.address1,
         city: fallback.city,
         province: fallback.state,
@@ -248,24 +252,27 @@ export async function performApiCheckout(options: ApiCheckoutOptions): Promise<s
         country: "US",
       };
     }
-    await updateCartBuyerIdentity(cartId, parsed);
   }
 
-  // Fetch fresh checkout URL from Shopify
-  const freshUrl = await fetchCartCheckoutUrl(cartId);
-  const baseUrl = freshUrl || storedCheckoutUrl;
-  if (!baseUrl) return null;
+  // 6) Single cartCreate call with everything baked in
+  const result = await createShopifyCartFull({
+    lines: finalLines,
+    note: options.note,
+    deliveryAddress,
+  });
+
+  if (!result?.checkoutUrl) return null;
 
   // Force pickup as the preselected delivery method when applicable.
   if (options.deliveryMethod === "pickup") {
     try {
-      const url = new URL(baseUrl);
+      const url = new URL(result.checkoutUrl);
       url.searchParams.set("delivery_method", "pick-up");
       return appendTrackingParamsToUrl(url.toString());
     } catch {
-      return appendTrackingParamsToUrl(baseUrl);
+      return appendTrackingParamsToUrl(result.checkoutUrl);
     }
   }
 
-  return appendTrackingParamsToUrl(baseUrl);
+  return appendTrackingParamsToUrl(result.checkoutUrl);
 }
