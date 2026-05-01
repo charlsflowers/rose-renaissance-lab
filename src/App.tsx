@@ -40,6 +40,7 @@ const Blog = lazy(() => import("./pages/Blog"));
 const BlogArticle = lazy(() => import("./pages/BlogArticle"));
 const LandingPage = lazy(() => import("./pages/LandingPage"));
 const StudioPage = lazy(() => import("./pages/StudioPage"));
+const MothersDayCollection = lazy(() => import("./pages/MothersDayCollection"));
 
 const queryClient = new QueryClient();
 
@@ -51,6 +52,13 @@ const OldBouquetRedirect = () => {
     if (product) return <Navigate to={`/bouquets/${type}/${product.shopifyHandle}`} replace />;
   }
   return <BouquetProductDetail />;
+};
+
+/** 301 redirect: /mothers-day/<handle> → /bouquets/mothers-day/<handle> */
+const MothersDayProductRedirect = () => {
+  const { handle } = useParams<{ handle: string }>();
+  if (!handle) return <Navigate to="/mothers-day" replace />;
+  return <Navigate to={`/bouquets/mothers-day/${handle}`} replace />;
 };
 
 /** Defensive redirect for /room-decors/:packageId when prefixed with rd-* (legacy/duplicate URLs) */
@@ -104,6 +112,8 @@ const AppContent = () => {
         <Route path="/bouquets/personalizar" element={<BouquetBuilder />} />
         <Route path="/bouquets/:type/:productId" element={<OldBouquetRedirect />} />
         <Route path="/bouquets" element={<BouquetProducts />} />
+        <Route path="/mothers-day" element={<MothersDayCollection />} />
+        <Route path="/mothers-day/:handle" element={<MothersDayProductRedirect />} />
         <Route path="/room-decors/rd-deluxe-love" element={<Navigate to="/room-decors/deluxe-love-package" replace />} />
         <Route path="/room-decors/:packageId" element={<RoomDecorRedirect />} />
         <Route path="/room-decors" element={<RoomDecors />} />

@@ -25,6 +25,8 @@ import PaymentIcons from "@/components/PaymentIcons";
 import ProductTrustBlock from "@/components/ProductTrustBlock";
 import CollectionFAQ, { useBouquetFAQs } from "@/components/CollectionFAQ";
 import { bouquetProducts, bouquetSizeOptions } from "@/lib/catalogData";
+import { useMothersDayBouquetByHandle } from "@/lib/mothersDayProducts";
+import { isMothersDayPromoActive, isMothersDayHandle } from "@/lib/mothersDayPromo";
 import {
   crownOptions, ribbonPresets, crownPrice, ribbonPrice, letterNumberExtraPrice, vaseOptions, getPrice,
 } from "@/lib/productData";
@@ -46,7 +48,22 @@ const BouquetProductDetail = () => {
   const addItem = useCartStore(state => state.addItem);
   const setCartOpen = useCartStore(state => state.setOpen);
   const cartItems = useCartStore(state => state.items);
-  const product = bouquetProducts.find((b) => b.shopifyHandle === productId || b.id === productId);
+
+  // Mother's Day virtual catalog (live from Shopify) — used when type === "mothers-day"
+  // or when the productId handle ends with "-mothers-day-edition".
+  const isMothersDayContext = type === "mothers-day" || isMothersDayHandle(productId);
+  const { product: mothersDayProduct, loading: mothersDayLoading } =
+    useMothersDayBouquetByHandle(isMothersDayContext ? productId : undefined);
+
+  const standardProduct = bouquetProducts.find(
+    (b) => b.shopifyHandle === productId || b.id === productId
+  );
+  const product = isMothersDayContext ? mothersDayProduct : standardProduct;
+
+  // Promo active AND this product is NOT a Mother's Day item ⇒ block purchase.
+  const promoActive = isMothersDayPromoActive();
+  const purchaseBlocked = promoActive && !isMothersDayContext;
+
   const bouquetFAQs = useBouquetFAQs();
 
   // Live Shopify images (1st = primary, 2nd = secondary). Fallback to local data while loading.
@@ -258,6 +275,16 @@ const BouquetProductDetail = () => {
   }, [product?.shopifyHandle, shopifySizes.length]);
 
   if (!product) {
+    // While the Mother's Day collection is loading, show a spinner instead of "Product not found"
+    if (isMothersDayContext && mothersDayLoading) {
+      return (
+        <div className="min-h-screen bg-background"><Navbar />
+          <div className="pt-32 flex justify-center">
+            <div className="w-10 h-10 border-2 border-primary/20 border-t-primary rounded-full animate-spin" />
+          </div>
+        </div>
+      );
+    }
     return (
       <div className="min-h-screen bg-background"><Navbar />
         <div className="pt-24 text-center">
@@ -608,9 +635,11 @@ const BouquetProductDetail = () => {
                   <p className="font-display text-lg lg:text-2xl font-bold text-foreground whitespace-nowrap">${parseFloat(totalPrice.toFixed(2))}</p>
                 </div>
                 <button ref={orderButtonsDesktopRef} onClick={handleOrderNow} disabled={isAdding || variantsLoading}
-                  className="w-full bg-primary text-primary-foreground py-4 lg:py-5 font-body text-sm lg:text-base tracking-[0.25em] uppercase font-semibold hover:bg-primary/90 transition-colors rounded-lg disabled:opacity-50">
+                  className="w-full bg-primary text-primary-foreground py-4 lg:py-5 font-body text-sm lg:text-base tracking-[0.25em] uppercase font-semibold hover:bg-primary/90 transition-colors rounded-lg disabled:opacity-50"
+                  hidden={purchaseBlocked}>
                   {isAdding ? "..." : variantsLoading ? "..." : t("product.orderAndPay")}
                 </button>
+                {purchaseBlocked && <PurchaseBlockedNotice />}
                 <PaymentIcons size={22} className="pt-1" />
                 <ProductTrustBlock />
               </div>
@@ -678,9 +707,11 @@ const BouquetProductDetail = () => {
                 <p className="font-display text-lg font-bold text-foreground whitespace-nowrap">${parseFloat(totalPrice.toFixed(2))}</p>
               </div>
               <button ref={orderButtonsMobileRef} onClick={handleOrderNow} disabled={isAdding || variantsLoading}
-                className="w-full bg-primary text-primary-foreground py-4 font-body text-sm tracking-[0.25em] uppercase font-semibold hover:bg-primary/90 transition-colors rounded-lg disabled:opacity-50">
+                className="w-full bg-primary text-primary-foreground py-4 font-body text-sm tracking-[0.25em] uppercase font-semibold hover:bg-primary/90 transition-colors rounded-lg disabled:opacity-50"
+                hidden={purchaseBlocked}>
                 {isAdding ? "..." : variantsLoading ? "..." : t("product.orderAndPay")}
               </button>
+              {purchaseBlocked && <PurchaseBlockedNotice />}
               <PaymentIcons size={22} className="pt-1" />
               <ProductTrustBlock />
             </div>
@@ -695,7 +726,7 @@ const BouquetProductDetail = () => {
       </div>
 
       {/* Sticky Order Now bar — appears when the inline button leaves the viewport */}
-      {showStickyBar && (
+      {showStickyBar && !purchaseBlocked && (
         <div className="fixed bottom-0 inset-x-0 z-40 bg-background/95 backdrop-blur border-t border-border shadow-lg">
           <div className="container mx-auto px-4 py-3 flex items-center gap-3">
             <div className="flex-1 min-w-0">
@@ -728,6 +759,24 @@ const Section = ({ title, step, subtitle, children }: { title: string; step: num
       {subtitle && <span className="bg-secondary text-secondary-foreground text-[10px] px-1.5 py-0.5 rounded-full font-body">{subtitle}</span>}
     </div>
     {children}
+  </div>
+);
+
+const PurchaseBlockedNotice = () => (
+  <div className="rounded-lg border-2 border-primary/30 bg-primary/5 p-4 space-y-2">
+    <p className="font-body text-sm font-semibold text-foreground text-center">
+      Available again on May 13, 2026
+    </p>
+    <p className="font-body text-xs text-muted-foreground text-center">
+      During our Mother's Day Special Edition (May 1 – May 12), only the Mother's Day collection
+      is available for purchase.
+    </p>
+    <Link
+      to="/mothers-day"
+      className="block text-center text-primary hover:underline font-body text-xs tracking-wider uppercase font-semibold pt-1"
+    >
+      Check out our Mother's Day Collection →
+    </Link>
   </div>
 );
 

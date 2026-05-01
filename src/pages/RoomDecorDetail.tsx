@@ -13,6 +13,7 @@ import ProductTrustBlock from "@/components/ProductTrustBlock";
 import { useTranslation } from "@/i18n/LanguageContext";
 import { roomDecorPackages, roomDecorBouquetColors } from "@/lib/roomDecorData";
 import { calculateRoomDecorDeliveryCost, formatDeliveryCost } from "@/lib/deliveryPricing";
+import { isMothersDayPromoActive } from "@/lib/mothersDayPromo";
 import { trackMetaEvent } from "@/lib/metaPixel";
 import { seoData } from "@/lib/seoData";
 import SeoHead from "@/components/SeoHead";
@@ -29,6 +30,7 @@ const RoomDecorDetail = () => {
   const { t, language } = useTranslation();
   const addItem = useCartStore(state => state.addItem);
   const pkg = roomDecorPackages.find(p => p.id === packageId);
+  const purchaseBlocked = isMothersDayPromoActive();
 
   const [selectedBouquetColor, setSelectedBouquetColor] = useState(roomDecorBouquetColors[0].name);
   const [selectedAddons, setSelectedAddons] = useState<number[]>([]);
@@ -494,9 +496,11 @@ const RoomDecorDetail = () => {
                   </p>
                 </div>
                 <button onClick={handleAddToCart} disabled={isAdding}
-                  className="w-full bg-primary text-primary-foreground py-4 lg:py-5 font-body text-sm lg:text-base tracking-[0.25em] uppercase font-semibold hover:bg-primary/90 transition-colors rounded-lg disabled:opacity-50">
+                  className="w-full bg-primary text-primary-foreground py-4 lg:py-5 font-body text-sm lg:text-base tracking-[0.25em] uppercase font-semibold hover:bg-primary/90 transition-colors rounded-lg disabled:opacity-50"
+                  hidden={purchaseBlocked}>
                   {isAdding ? "..." : t("product.orderAndPay")}
                 </button>
+                {purchaseBlocked && <RoomDecorPromoBlock />}
                 <PaymentIcons size={22} className="pt-1" />
                 <ProductTrustBlock />
               </div>
@@ -730,9 +734,11 @@ const RoomDecorDetail = () => {
                 </p>
               </div>
               <button onClick={handleAddToCart} disabled={isAdding}
-                className="w-full bg-primary text-primary-foreground py-4 font-body text-sm tracking-[0.25em] uppercase font-semibold hover:bg-primary/90 transition-colors rounded-lg disabled:opacity-50">
+                className="w-full bg-primary text-primary-foreground py-4 font-body text-sm tracking-[0.25em] uppercase font-semibold hover:bg-primary/90 transition-colors rounded-lg disabled:opacity-50"
+                hidden={purchaseBlocked}>
                 {isAdding ? "..." : t("product.orderAndPay")}
               </button>
+              {purchaseBlocked && <RoomDecorPromoBlock />}
               <PaymentIcons size={22} className="pt-1" />
               <ProductTrustBlock />
             </div>
@@ -752,6 +758,24 @@ const Section = ({ title, step, subtitle, children }: { title: string; step: num
       {subtitle && <span className="bg-secondary text-secondary-foreground text-[10px] px-1.5 py-0.5 rounded-full font-body">{subtitle}</span>}
     </div>
     {children}
+  </div>
+);
+
+const RoomDecorPromoBlock = () => (
+  <div className="rounded-lg border-2 border-primary/30 bg-primary/5 p-4 space-y-2">
+    <p className="font-body text-sm font-semibold text-foreground text-center">
+      Available again on May 13, 2026
+    </p>
+    <p className="font-body text-xs text-muted-foreground text-center">
+      During our Mother's Day Special Edition (May 1 – May 12), only the Mother's Day collection
+      is available for purchase.
+    </p>
+    <Link
+      to="/mothers-day"
+      className="block text-center text-primary hover:underline font-body text-xs tracking-wider uppercase font-semibold pt-1"
+    >
+      Check out our Mother's Day Collection →
+    </Link>
   </div>
 );
 
