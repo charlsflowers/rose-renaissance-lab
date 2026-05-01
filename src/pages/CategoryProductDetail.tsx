@@ -6,8 +6,7 @@ import { enUS } from "date-fns/locale";
 import { supabase } from "@/integrations/supabase/client";
 import { useCartStore } from "@/stores/cartStore";
 import { toast } from "sonner";
-import { fetchCartCheckoutUrl, updateCartNote, addLineToShopifyCart, updateCartBuyerIdentity, type ShippingAddress } from "@/lib/shopify";
-import { DELIVERY_FEE_VARIANT_GID } from "@/lib/accessoryVariants";
+import { performApiCheckout } from "@/lib/checkout";
 import { calculateDeliveryCost, formatDeliveryCost } from "@/lib/deliveryPricing";
 import { trackMetaEvent } from "@/lib/metaPixel";
 import Navbar from "@/components/Navbar";
@@ -218,22 +217,7 @@ const CategoryProductDetail = () => {
 
   const handlePayNow = async () => {
     if (handleAddToCart()) {
-      const cartId = useCartStore.getState().cartId;
-      const storedCheckoutUrl = useCartStore.getState().checkoutUrl;
-      if (!cartId) { toast.error("Could not start checkout."); return; }
-
       try {
-        // Add delivery fee
-        if (deliveryMethod === "delivery" && deliveryCost > 0) {
-          await addLineToShopifyCart(cartId, DELIVERY_FEE_VARIANT_GID, Math.round(deliveryCost * 10));
-        }
-        // Update shipping address
-        if (deliveryMethod === "delivery" && selectedAddress) {
-          const parsed: ShippingAddress = structuredAddress
-            ? { address1: structuredAddress.address1, city: structuredAddress.city, province: structuredAddress.province, zip: structuredAddress.zip || deliveryZip, country: structuredAddress.country || "US" }
-            : { address1: selectedAddress.split(",")[0] || "", city: selectedAddress.split(",")[1]?.trim() || "", province: "", zip: deliveryZip, country: "US" };
-          await updateCartBuyerIdentity(cartId, parsed);
-        }
         // Build structured order notes
         const noteLines: string[] = [];
         noteLines.push("DATOS DEL ENVÍO");
@@ -247,20 +231,21 @@ const CategoryProductDetail = () => {
         if (selectedSize.label) noteLines.push(`- 📦 Size: ${selectedSize.label}`);
         if (addNote && noteText) noteLines.push(`- 💌 Note: ${noteText}`);
         if (addCard && cardText) noteLines.push(`- 💌 Card text: ${cardText}`);
-        await updateCartNote(cartId, noteLines.join("\n"));
 
-        // Add 4.5% Service Fee
-        const SERVICE_FEE_VARIANT_GID = "gid://shopify/ProductVariant/51654333595780";
         const cartTotalForFee = selectedSize.price + deliveryCost;
-        const serviceFeePrice = cartTotalForFee * 0.045;
-        const serviceFeeQty = Math.round(serviceFeePrice / 0.10);
-        await addLineToShopifyCart(cartId, SERVICE_FEE_VARIANT_GID, serviceFeeQty);
+        const checkoutUrl = await performApiCheckout({
+          deliveryMethod,
+          deliveryCost,
+          serviceFeeBase: cartTotalForFee,
+          deliveryAddress: deliveryMethod === "delivery" ? selectedAddress : undefined,
+          deliveryZip: deliveryMethod === "delivery" ? deliveryZip : undefined,
+          structuredAddress: deliveryMethod === "delivery" ? structuredAddress : undefined,
+          accessories: [],
+          note: noteLines.join("\n"),
+        });
 
-        // Redirect
-        const freshUrl = await fetchCartCheckoutUrl(cartId);
-        const finalUrl = freshUrl || storedCheckoutUrl;
-        if (finalUrl) {
-          window.location.href = finalUrl;
+        if (checkoutUrl) {
+          window.location.href = checkoutUrl;
         } else {
           toast.error("Could not get checkout URL.");
         }

@@ -1,11 +1,5 @@
 import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
-import {
-  createShopifyCart,
-  addLineToShopifyCart,
-  removeLineFromShopifyCart,
-  fetchShopifyCart,
-} from '@/lib/shopify';
 
 export interface CartItem {
   // Local display data
@@ -44,35 +38,36 @@ export interface CartItem {
     zip: string;
     country: string;
   };
-  // Shopify-specific
+  // Shopify variant id (GID). Empty string for "Coming Soon" categories.
   shopifyVariantId: string;
-  shopifyLineId: string | null;
 }
 
 interface CartStore {
   items: CartItem[];
-  cartId: string | null;
-  checkoutUrl: string | null;
   isLoading: boolean;
-  isSyncing: boolean;
   isOpen: boolean;
   setOpen: (open: boolean) => void;
-  addItem: (item: Omit<CartItem, 'shopifyLineId'>) => Promise<void>;
+  addItem: (item: Omit<CartItem, 'id'> & { id?: string }) => Promise<void>;
   removeItem: (id: string) => Promise<void>;
   clearCart: () => void;
-  syncCart: () => Promise<void>;
   totalItems: number;
   cartTotal: number;
 }
 
+/**
+ * Local-only cart store.
+ *
+ * The Shopify cart is NOT created here — it is created in a single call
+ * from `performApiCheckout()` at the moment the user clicks "Continue to
+ * Safe Checkout". This guarantees that any checkoutUrl Shopify ever sees
+ * (Shop Pay, abandoned-cart emails, express checkouts) already contains
+ * the service fee, delivery fee, and order notes.
+ */
 export const useCartStore = create<CartStore>()(
   persist(
     (set, get) => ({
       items: [],
-      cartId: null,
-      checkoutUrl: null,
       isLoading: false,
-      isSyncing: false,
       isOpen: false,
       setOpen: (open) => set({ isOpen: open }),
 
@@ -85,117 +80,35 @@ export const useCartStore = create<CartStore>()(
       },
 
       addItem: async (item) => {
-        const { cartId, clearCart } = get();
-        const localId = crypto.randomUUID();
-        const newItem: CartItem = { ...item, id: localId, shopifyLineId: null };
-
-        // No line item properties — product details go in cart note instead
-        // so they're visible to merchant in admin but hidden from customer checkout
-
-        set({ isLoading: true });
-        try {
-          if (!cartId) {
-            // Create new Shopify cart
-            const result = await createShopifyCart(item.shopifyVariantId, 1);
-            if (result) {
-              newItem.shopifyLineId = result.lineId;
-              set({
-                cartId: result.cartId,
-                checkoutUrl: result.checkoutUrl,
-                items: [...get().items, newItem],
-                isOpen: true,
-              });
-            } else {
-              // Still add locally even if Shopify fails
-              set({ items: [...get().items, newItem], isOpen: true });
-            }
-          } else {
-            // Add line to existing cart
-            const result = await addLineToShopifyCart(cartId, item.shopifyVariantId, 1);
-            if (result.cartNotFound) {
-              // Cart expired, create new one
-              const newResult = await createShopifyCart(item.shopifyVariantId, 1);
-              if (newResult) {
-                newItem.shopifyLineId = newResult.lineId;
-                // Keep only the new item since old cart is gone
-                set({
-                  cartId: newResult.cartId,
-                  checkoutUrl: newResult.checkoutUrl,
-                  items: [newItem],
-                  isOpen: true,
-                });
-              }
-            } else if (result.success) {
-              newItem.shopifyLineId = result.lineId ?? null;
-              set({ items: [...get().items, newItem], isOpen: true });
-            } else {
-              set({ items: [...get().items, newItem], isOpen: true });
-            }
-          }
-        } catch (error) {
-          console.error('Failed to add item to Shopify cart:', error);
-          set({ items: [...get().items, newItem], isOpen: true });
-        } finally {
-          set({ isLoading: false });
-        }
+        const localId = item.id && item.id.length > 0 ? item.id : crypto.randomUUID();
+        const newItem: CartItem = { ...(item as CartItem), id: localId };
+        set({ items: [...get().items, newItem], isOpen: true });
       },
 
       removeItem: async (id) => {
-        const { items, cartId, clearCart } = get();
-        const item = items.find(i => i.id === id);
-        if (!item) return;
-
-        set({ isLoading: true });
-        try {
-          if (cartId && item.shopifyLineId) {
-            const result = await removeLineFromShopifyCart(cartId, item.shopifyLineId);
-            if (result.cartNotFound) {
-              clearCart();
-              return;
-            }
-          }
-          const newItems = get().items.filter(i => i.id !== id);
-          if (newItems.length === 0) {
-            clearCart();
-          } else {
-            set({ items: newItems });
-          }
-        } catch (error) {
-          console.error('Failed to remove item:', error);
-          set({ items: get().items.filter(i => i.id !== id) });
-        } finally {
-          set({ isLoading: false });
+        const newItems = get().items.filter((i) => i.id !== id);
+        if (newItems.length === 0) {
+          get().clearCart();
+        } else {
+          set({ items: newItems });
         }
       },
 
-      clearCart: () => set({ items: [], cartId: null, checkoutUrl: null }),
-
-      syncCart: async () => {
-        const { cartId, isSyncing, clearCart } = get();
-        if (!cartId || isSyncing) return;
-
-        set({ isSyncing: true });
-        try {
-          const result = await fetchShopifyCart(cartId);
-          if (!result.exists || result.totalQuantity === 0) {
-            clearCart();
-          }
-        } catch (error) {
-          console.error('Failed to sync cart:', error);
-        } finally {
-          set({ isSyncing: false });
-        }
-      },
-
+      clearCart: () => set({ items: [] }),
     }),
     {
       name: 'charls-shopify-cart',
+      version: 2,
       storage: createJSONStorage(() => localStorage),
-      partialize: (state) => ({
-        items: state.items,
-        cartId: state.cartId,
-        checkoutUrl: state.checkoutUrl,
-      }),
+      // Migrate from v1 (which persisted cartId/checkoutUrl) by dropping them.
+      migrate: (persistedState: unknown, _version: number) => {
+        if (persistedState && typeof persistedState === 'object') {
+          const s = persistedState as Record<string, unknown>;
+          return { items: Array.isArray(s.items) ? s.items : [] };
+        }
+        return { items: [] };
+      },
+      partialize: (state) => ({ items: state.items }),
     }
   )
 );
