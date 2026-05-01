@@ -762,4 +762,22 @@ const Section = ({ title, step, subtitle, children }: { title: string; step: num
   </div>
 );
 
+const PurchaseBlockedNotice = () => (
+  <div className="rounded-lg border-2 border-primary/30 bg-primary/5 p-4 space-y-2">
+    <p className="font-body text-sm font-semibold text-foreground text-center">
+      Available again on May 13, 2026
+    </p>
+    <p className="font-body text-xs text-muted-foreground text-center">
+      During our Mother's Day Special Edition (May 1 – May 12), only the Mother's Day collection
+      is available for purchase.
+    </p>
+    <Link
+      to="/mothers-day"
+      className="block text-center text-primary hover:underline font-body text-xs tracking-wider uppercase font-semibold pt-1"
+    >
+      Check out our Mother's Day Collection →
+    </Link>
+  </div>
+);
+
 export default BouquetProductDetail;
