@@ -310,11 +310,15 @@ const BouquetProductDetail = () => {
   const sizePrice = useDynamicSizes
     ? (shopifySizes[effectiveSizeIdx]?.price ?? 0)
     : (hasCustomSizes ? (product.customSizes![effectiveSizeIdx]?.price || 0) : getPrice(product.pricingTier, selectedSize.roses));
-  const glitterCost = addGlitter === true ? Math.ceil(selectedSize.roses / 25) * 8 : 0;
-  const vaseCost = addVase ? vaseOptions[selectedVaseIdx].price : 0;
-  const accessoryCost = accessory === "note" ? 3 : accessory === "butterfly" ? 3 : 0;
+  const glitterCost = !isMothersDayContext && addGlitter === true ? Math.ceil(selectedSize.roses / 25) * 8 : 0;
+  const vaseCost = !isMothersDayContext && addVase ? vaseOptions[selectedVaseIdx].price : 0;
+  const accessoryCost = !isMothersDayContext && (accessory === "note" ? 3 : accessory === "butterfly" ? 3 : 0);
   const deliveryCost = deliveryMethod === "delivery" && deliveryMiles && !distanceTooFar ? calculateDeliveryCost(deliveryMiles) : 0;
-  const basePrice = sizePrice + (addCrown ? crownPrice : 0) + (addRibbon ? ribbonPrice : 0) + glitterCost + vaseCost + accessoryCost;
+  // Mother's Day: Crown + Butterflies + Ribbon are bundled in the Shopify variant price.
+  // Standard products: addons are charged on top of the base size price.
+  const basePrice = isMothersDayContext
+    ? sizePrice
+    : sizePrice + (addCrown ? crownPrice : 0) + (addRibbon ? ribbonPrice : 0) + glitterCost + vaseCost + (accessoryCost || 0);
   const totalPrice = basePrice + deliveryCost;
 
   // Replace "From $X" / "Desde $X" in description with dynamic Shopify price
@@ -344,8 +348,8 @@ const BouquetProductDetail = () => {
       if (!variant) { toast.error("Could not resolve product variant."); return null; }
 
       const addons: string[] = [];
-      if (addGlitter === true) addons.push("Glitter");
-      if (addVase) addons.push(`Vase (${vaseOptions[selectedVaseIdx].label})`);
+      if (!isMothersDayContext && addGlitter === true) addons.push("Glitter");
+      if (!isMothersDayContext && addVase) addons.push(`Vase (${vaseOptions[selectedVaseIdx].label})`);
 
       // GA4: add_to_cart event
       (window as any).gtag?.('event', 'add_to_cart', {
@@ -370,13 +374,14 @@ const BouquetProductDetail = () => {
         deliveryCost,
         totalPrice,
         addons,
-        accessory,
-        accessoryText,
-        ribbonText,
-        crownSize: addCrown ? crownSize : "",
-        specialText,
+        // In Mother's Day mode the only optional add-on is the card "note".
+        accessory: isMothersDayContext ? (accessory === "note" ? "note" : "none") : accessory,
+        accessoryText: isMothersDayContext ? (accessory === "note" ? accessoryText : "") : accessoryText,
+        ribbonText: isMothersDayContext ? ribbonText : ribbonText,
+        crownSize: isMothersDayContext ? crownSize : (addCrown ? crownSize : ""),
+        specialText: isMothersDayContext ? "" : specialText,
         heartColor: product.type === "heart" ? (product.color === "Rosa" ? "pink" : "red") : "",
-        glitter: addGlitter === true,
+        glitter: !isMothersDayContext && addGlitter === true,
         deliveryMethod,
         deliveryName: "",
         deliveryPhone: "",
@@ -389,6 +394,7 @@ const BouquetProductDetail = () => {
         paperColor,
         image: primaryImage,
         customerNotes: customerNotes.trim() || undefined,
+        isMothersDay: isMothersDayContext,
         structuredAddress: deliveryMethod === "delivery" ? structuredAddress : undefined,
         shopifyVariantId: variant.id,
       });
