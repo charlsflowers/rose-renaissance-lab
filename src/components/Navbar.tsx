@@ -9,6 +9,7 @@ import { bouquetProducts } from "@/lib/catalogData";
 import { roomDecorPackages } from "@/lib/roomDecorData";
 import { supabase } from "@/integrations/supabase/client";
 import { useTranslation, type Language } from "@/i18n/LanguageContext";
+import { isMothersDayPromoActive } from "@/lib/mothersDayPromo";
 
 interface PlacePrediction {
   placeId: string;
@@ -19,6 +20,7 @@ interface PlacePrediction {
 
 const Navbar = () => {
   const { t, language, setLanguage } = useTranslation();
+  const promoActive = isMothersDayPromoActive();
   const totalItems = useCartStore(state => state.items.length);
   const setCartOpen = useCartStore(state => state.setOpen);
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -37,6 +39,7 @@ const Navbar = () => {
     { to: "/bouquets?filter=un-color", label: t("nav.singleColor"), active: true },
     { to: "/bouquets?filter=mezclas", label: t("nav.mixedBouquets"), active: true },
     { to: "/bouquets?filter=zodiac", label: t("nav.zodiacBouquets"), active: true },
+    { to: "/bouquets/personalizar", label: t("nav.customBouquets"), active: true },
     { label: t("nav.anniversaries"), active: false },
     { label: t("nav.birthdayBouquets"), active: false },
     { label: t("nav.babyShowerBouquets"), active: false },
