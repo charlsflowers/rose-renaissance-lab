@@ -67,9 +67,11 @@ const Index = () => {
         <>
           <MothersDayHero />
           <MothersDayBanner />
+          <MothersDayCollectionSection />
         </>
       )}
       {/* Hero */}
+      {!promoActive && (
       <section className="relative h-[70vh] md:h-screen flex items-end md:items-center overflow-hidden">
         <div className="absolute inset-0">
           <img
@@ -101,38 +103,19 @@ const Index = () => {
               {t("home.heroDescription")}
             </p>
             <div className="flex flex-col sm:flex-row gap-3 md:gap-4">
-              {promoActive ? (
-                <div className="flex flex-col items-start gap-1">
-                  <button type="button" disabled aria-disabled="true"
-                    className="inline-flex items-center justify-center gap-2 bg-primary text-primary-foreground px-5 md:px-8 py-3 md:py-4 font-body text-xs md:text-sm tracking-widest uppercase rounded-lg opacity-50 cursor-not-allowed pointer-events-none">
-                    {t("home.viewBouquets")} <ArrowRight className="w-3.5 h-3.5 md:w-4 md:h-4" />
-                  </button>
-                  <span className="text-[10px] md:text-xs tracking-widest uppercase text-primary-foreground/80 font-body">Available May 13</span>
-                </div>
-              ) : (
-                <Link to="/bouquets"
-                  className="inline-flex items-center justify-center gap-2 bg-primary text-primary-foreground px-5 md:px-8 py-3 md:py-4 font-body text-xs md:text-sm tracking-widest uppercase hover:bg-primary/90 transition-colors rounded-lg">
-                  {t("home.viewBouquets")} <ArrowRight className="w-3.5 h-3.5 md:w-4 md:h-4" />
-                </Link>
-              )}
-              {promoActive ? (
-                <div className="flex flex-col items-start gap-1">
-                  <button type="button" disabled aria-disabled="true"
-                    className="inline-flex items-center justify-center gap-2 border border-primary-foreground/50 text-primary-foreground px-5 md:px-8 py-3 md:py-4 font-body text-xs md:text-sm tracking-widest uppercase rounded-lg opacity-50 cursor-not-allowed pointer-events-none">
-                    {t("home.buildYourBouquet")} <Sparkles className="w-3.5 h-3.5 md:w-4 md:h-4" />
-                  </button>
-                  <span className="text-[10px] md:text-xs tracking-widest uppercase text-primary-foreground/80 font-body">Available May 13</span>
-                </div>
-              ) : (
-                <Link to="/bouquets/personalizar"
-                  className="inline-flex items-center justify-center gap-2 border border-primary-foreground/50 text-primary-foreground px-5 md:px-8 py-3 md:py-4 font-body text-xs md:text-sm tracking-widest uppercase hover:bg-primary-foreground/10 transition-colors rounded-lg">
-                  {t("home.buildYourBouquet")} <Sparkles className="w-3.5 h-3.5 md:w-4 md:h-4" />
-                </Link>
-              )}
+              <Link to="/bouquets"
+                className="inline-flex items-center justify-center gap-2 bg-primary text-primary-foreground px-5 md:px-8 py-3 md:py-4 font-body text-xs md:text-sm tracking-widest uppercase hover:bg-primary/90 transition-colors rounded-lg">
+                {t("home.viewBouquets")} <ArrowRight className="w-3.5 h-3.5 md:w-4 md:h-4" />
+              </Link>
+              <Link to="/bouquets/personalizar"
+                className="inline-flex items-center justify-center gap-2 border border-primary-foreground/50 text-primary-foreground px-5 md:px-8 py-3 md:py-4 font-body text-xs md:text-sm tracking-widest uppercase hover:bg-primary-foreground/10 transition-colors rounded-lg">
+                {t("home.buildYourBouquet")} <Sparkles className="w-3.5 h-3.5 md:w-4 md:h-4" />
+              </Link>
             </div>
           </motion.div>
         </div>
       </section>
+      )}
 
       {/* Shipping Options Bar */}
       <section className="py-5 md:py-6 bg-cream border-y border-primary/10">
@@ -222,7 +205,6 @@ const Index = () => {
       {/* Bouquets */}
       <section className="py-16 md:py-20">
         <div className="container mx-auto px-6">
-          {promoActive && <MothersDayCollectionSection />}
           <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.8 }} className="text-center mb-10">
             <h2 className="font-title-retro text-4xl md:text-5xl text-primary">{t("home.bouquetsTitle")}</h2>
           </motion.div>
