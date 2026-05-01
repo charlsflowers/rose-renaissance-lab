@@ -7,11 +7,13 @@ import { landingPages } from "@/lib/landingPagesData";
 import { fetchBlogPosts } from "@/lib/sanity";
 import { bouquetProducts } from "@/lib/catalogData";
 import { roomDecorPackages } from "@/lib/roomDecorData";
+import { useTranslation } from "@/i18n/LanguageContext";
 
 const Sitemap = () => {
+  const { t, language } = useTranslation();
   const { data: blogPosts = [] } = useQuery({
-    queryKey: ["sitemap-blog-posts"],
-    queryFn: () => fetchBlogPosts("en"),
+    queryKey: ["sitemap-blog-posts", language],
+    queryFn: () => fetchBlogPosts(language),
     staleTime: 5 * 60 * 1000,
   });
 
@@ -21,45 +23,45 @@ const Sitemap = () => {
   );
 
   const sections = [
-    { title: "Main Pages", links: [
-      { to: "/", label: "Home" },
-      { to: "/bouquets", label: "Bouquets" },
-      { to: "/bouquets/personalizar", label: "Custom Bouquet Builder" },
-      { to: "/room-decors", label: "Room Decors" },
-      { to: "/delivery", label: "Delivery" },
-      { to: "/about", label: "About" },
-      { to: "/contact", label: "Contact" },
-      { to: "/faq", label: "FAQ" },
-      { to: "/blog", label: "Blog" },
+    { title: t("sitemap.sections.mainPages"), links: [
+      { to: "/", label: t("sitemap.links.home") },
+      { to: "/bouquets", label: t("sitemap.links.bouquets") },
+      { to: "/bouquets/personalizar", label: t("sitemap.links.customBouquetBuilder") },
+      { to: "/room-decors", label: t("sitemap.links.roomDecors") },
+      { to: "/delivery", label: t("sitemap.links.delivery") },
+      { to: "/about", label: t("sitemap.links.about") },
+      { to: "/contact", label: t("sitemap.links.contact") },
+      { to: "/faq", label: t("sitemap.links.faq") },
+      { to: "/blog", label: t("sitemap.links.blog") },
     ]},
-    { title: "Bouquets", links: uniqueBouquets.map(p => ({
+    { title: t("sitemap.sections.bouquets"), links: uniqueBouquets.map(p => ({
       to: `/bouquets/all/${p.shopifyHandle}`, label: p.name,
     }))},
-    { title: "Room Decors", links: roomDecorPackages.map(pkg => ({
+    { title: t("sitemap.sections.roomDecors"), links: roomDecorPackages.map(pkg => ({
       to: `/room-decors/${pkg.id}`, label: pkg.name,
     }))},
-    { title: "Blog Articles", links: blogPosts.map(a => ({
+    { title: t("sitemap.sections.blogArticles"), links: blogPosts.map(a => ({
       to: `/blog/${a.slug.current}`, label: a.title.split('|')[0].trim(),
     }))},
-    { title: "Landing Pages", links: landingPages.map(p => ({
+    { title: t("sitemap.sections.landingPages"), links: landingPages.map(p => ({
       to: `/${p.slug}`, label: p.h1.replace(/ [–—|].*/g, ''),
     }))},
-    { title: "Legal", links: [
-      { to: "/privacy-policy", label: "Privacy Policy" },
-      { to: "/terms-of-service", label: "Terms of Service" },
-      { to: "/refund-policy", label: "Refund & Return Policy" },
-      { to: "/shipping-policy", label: "Shipping Policy" },
-      { to: "/cookie-policy", label: "Cookie Policy" },
+    { title: t("sitemap.sections.legal"), links: [
+      { to: "/privacy-policy", label: t("sitemap.links.privacyPolicy") },
+      { to: "/terms-of-service", label: t("sitemap.links.termsOfService") },
+      { to: "/refund-policy", label: t("sitemap.links.refundPolicy") },
+      { to: "/shipping-policy", label: t("sitemap.links.shippingPolicy") },
+      { to: "/cookie-policy", label: t("sitemap.links.cookiePolicy") },
     ]},
   ];
 
   return (
     <div className="min-h-screen bg-background">
-      <SeoHead title="Sitemap – Charls Flowers Miami" description="Complete sitemap of Charls Flowers Miami. Browse all pages, products, and resources." path="/sitemap" />
+      <SeoHead title={t("sitemap.seoTitle")} description={t("sitemap.seoDescription")} path="/sitemap" />
       <Navbar />
       <div className="pt-24 pb-16">
         <div className="container mx-auto px-6 max-w-3xl">
-          <h1 className="font-title-retro text-4xl text-primary text-center mb-10">Sitemap</h1>
+          <h1 className="font-title-retro text-4xl text-primary text-center mb-10">{t("sitemap.title")}</h1>
           <div className="space-y-10">
             {sections.map(section => (
               <div key={section.title}>

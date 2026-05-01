@@ -506,24 +506,6 @@ export const en = {
     remove: "Remove",
   },
 
-  // Landing Pages
-  landing: {
-    sameDayDelivery: "Same-Day Delivery",
-    sameDayDeliveryDesc: "Order before 3PM for delivery today. Up to 87 miles from Miami.",
-    freePickup: "Free Pickup",
-    freePickupDesc: "Pick up for free at 7261 NW 12th St, Miami, FL 33126.",
-    customBouquets: "Custom Bouquets",
-    customBouquetsDesc: "Design your own bouquet with AI preview. 50-200 roses, any color.",
-    deliveryRates: "Delivery Rates",
-    zeroToFive: "0–5 miles",
-    flatRate: "$25 flat rate",
-    fiveToEightySeven: "5–87 miles",
-    perMile: "$1.60 per mile",
-    minPrepTime: "Minimum 2 hours preparation time",
-    shopBouquets: "Shop Bouquets",
-    customBouquet: "Custom Bouquet",
-  },
-
   // Collection FAQ
   collectionFaq: {
     title: "Frequently Asked Questions",
@@ -581,6 +563,78 @@ export const en = {
     vases: "Vases",
     bears: "Bears",
     roomDecors: "Room Decors",
+  },
+
+  // Misc pages (404, sitemap, landing shell, blog UI)
+  notFound: {
+    seoTitle: "Page Not Found – Charls Flowers Miami",
+    seoDescription: "This page doesn't exist. Browse our beautiful bouquet collection or go back home.",
+    errorLabel: "Error 404",
+    title: "Oops! This page doesn't exist.",
+    subtitle: "But we have the most beautiful bouquets in Miami.",
+    shopBouquets: "Shop Bouquets",
+    goHome: "Go Home",
+  },
+
+  sitemap: {
+    seoTitle: "Sitemap – Charls Flowers Miami",
+    seoDescription: "Complete sitemap of Charls Flowers Miami. Browse all pages, products, and resources.",
+    title: "Sitemap",
+    sections: {
+      mainPages: "Main Pages",
+      bouquets: "Bouquets",
+      roomDecors: "Room Decors",
+      blogArticles: "Blog Articles",
+      landingPages: "Landing Pages",
+      legal: "Legal",
+    },
+    links: {
+      home: "Home",
+      bouquets: "Bouquets",
+      customBouquetBuilder: "Custom Bouquet Builder",
+      roomDecors: "Room Decors",
+      delivery: "Delivery",
+      about: "About",
+      contact: "Contact",
+      faq: "FAQ",
+      blog: "Blog",
+      privacyPolicy: "Privacy Policy",
+      termsOfService: "Terms of Service",
+      refundPolicy: "Refund & Return Policy",
+      shippingPolicy: "Shipping Policy",
+      cookiePolicy: "Cookie Policy",
+    },
+  },
+
+  landing: {
+    pageNotFound: "Page not found",
+    goHome: "Go home",
+    sameDayDelivery: "Same-Day Delivery",
+    sameDayDeliveryDesc: "Order before 3PM for delivery today. Up to 87 miles from Miami.",
+    freePickup: "Free Pickup",
+    freePickupDesc: "Pick up for free at 7261 NW 12th St, Miami, FL 33126.",
+    customBouquets: "Custom Bouquets",
+    customBouquetsDesc: "Design your own bouquet with AI preview. 50-200 roses, any color.",
+    deliveryRatesTitle: "Delivery Rates",
+    rateClose: "0–5 miles",
+    rateCloseDetail: "$20 flat rate",
+    rateFar: "5–87 miles",
+    rateFarDetail: "$1.60 per mile",
+    minPreparation: "Minimum 2 hours preparation time",
+    shopBouquetsCta: "Shop Bouquets",
+    customBouquetCta: "Custom Bouquet",
+    seoFirstMiles: "First 0–5 miles",
+    seoTwoHours: "2 hours",
+    seoMinPrep: "Min. preparation",
+    seoFreePickup: "Free pickup",
+    seoSeeShipping: "See full shipping policy →",
+    mapTitle: "Charls Flowers Miami Location",
+  },
+
+  blogArticle: {
+    articleNotFound: "Article not found",
+    backToBlog: "Back to blog",
+    relatedZones: "Related delivery zones & guides",
   },
 
   // Legal pages
