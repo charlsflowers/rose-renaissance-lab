@@ -534,7 +534,19 @@ const BouquetProductDetail = () => {
           </PopoverTrigger>
           <PopoverContent className="w-auto p-0" align="start">
             <Calendar mode="single" selected={deliveryDate} onSelect={(d) => { if (d) { setDeliveryDate(d); setDeliveryHour(""); setCalendarOpen(false); } }}
-              disabled={(date) => isBefore(startOfDay(date), startOfDay(todayInMiami())) || (date >= new Date(2026, 4, 1) && date <= new Date(2026, 4, 12))} className="p-3 pointer-events-auto" locale={enUS}
+              disabled={(date) => {
+                const day = startOfDay(date);
+                const today = startOfDay(todayInMiami());
+                if (isBefore(day, today)) return true;
+                const promoStart = new Date(2026, 4, 1);
+                const promoEnd = new Date(2026, 4, 12);
+                if (isMothersDayContext) {
+                  // Mother's Day product pages: ONLY allow May 1–12, 2026
+                  return day < promoStart || day > promoEnd;
+                }
+                // Standard product pages: BLOCK May 1–12 window
+                return day >= promoStart && day <= promoEnd;
+              }} className="p-3 pointer-events-auto" locale={enUS}
               classNames={{ day_outside: "text-foreground", day_disabled: "text-muted-foreground opacity-50 line-through" }} />
           </PopoverContent>
         </Popover>
