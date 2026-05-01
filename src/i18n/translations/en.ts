@@ -506,24 +506,6 @@ export const en = {
     remove: "Remove",
   },
 
-  // Landing Pages
-  landing: {
-    sameDayDelivery: "Same-Day Delivery",
-    sameDayDeliveryDesc: "Order before 3PM for delivery today. Up to 87 miles from Miami.",
-    freePickup: "Free Pickup",
-    freePickupDesc: "Pick up for free at 7261 NW 12th St, Miami, FL 33126.",
-    customBouquets: "Custom Bouquets",
-    customBouquetsDesc: "Design your own bouquet with AI preview. 50-200 roses, any color.",
-    deliveryRates: "Delivery Rates",
-    zeroToFive: "0–5 miles",
-    flatRate: "$25 flat rate",
-    fiveToEightySeven: "5–87 miles",
-    perMile: "$1.60 per mile",
-    minPrepTime: "Minimum 2 hours preparation time",
-    shopBouquets: "Shop Bouquets",
-    customBouquet: "Custom Bouquet",
-  },
-
   // Collection FAQ
   collectionFaq: {
     title: "Frequently Asked Questions",
