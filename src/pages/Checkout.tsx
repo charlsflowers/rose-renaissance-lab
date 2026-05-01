@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { format } from "date-fns";
 import { enUS } from "date-fns/locale";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "@/i18n/LocalizedRouter";
 import { toast } from "sonner";
 import { useCartStore } from "@/stores/cartStore";
 import { performApiCheckout } from "@/lib/checkout";

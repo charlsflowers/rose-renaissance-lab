@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link } from "@/i18n/LocalizedRouter";
 import { motion } from "framer-motion";
 import { ArrowRight, Calendar, Flower2 } from "lucide-react";
 import { useTranslation } from "@/i18n/LanguageContext";

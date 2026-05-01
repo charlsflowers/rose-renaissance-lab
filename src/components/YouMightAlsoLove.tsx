@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link } from "@/i18n/LocalizedRouter";
 import { bouquetProducts } from "@/lib/catalogData";
 import { bouquetCrossLinks } from "@/lib/crossLinks";
 import { getPrice } from "@/lib/productData";

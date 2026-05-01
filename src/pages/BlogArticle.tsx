@@ -1,5 +1,6 @@
 import { useEffect } from "react";
-import { useParams, Link, Navigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
+import { Link, Navigate } from "@/i18n/LocalizedRouter";
 import { useQuery } from "@tanstack/react-query";
 import { PortableText, type PortableTextComponents } from "@portabletext/react";
 import Navbar from "@/components/Navbar";

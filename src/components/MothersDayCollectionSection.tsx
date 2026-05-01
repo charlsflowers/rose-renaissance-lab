@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link } from "@/i18n/LocalizedRouter";
 import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import { useMothersDayBouquets } from "@/lib/mothersDayProducts";

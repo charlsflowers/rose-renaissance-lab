@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef, useCallback } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "@/i18n/LocalizedRouter";
 import { useCartStore } from "@/stores/cartStore";
 import AnnouncementBar from "@/components/AnnouncementBar";
 import BrandLogo from "@/components/BrandLogo";

@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link } from "@/i18n/LocalizedRouter";
 import { motion } from "framer-motion";
 import { ArrowRight, Calendar, Flower2 } from "lucide-react";
 import Navbar from "@/components/Navbar";
