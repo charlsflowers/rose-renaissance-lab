@@ -12,6 +12,7 @@ import { roomDecorPackages } from "@/lib/roomDecorData";
 import { captureTrackingParams } from "@/lib/trackingParams";
 import { usePageTracking } from "@/hooks/usePageTracking";
 import ScrollToTop from "./components/ScrollToTop";
+import { LanguageProvider } from "./i18n/LanguageContext";
 
 // Eager: Index (LCP/home) + NotFound (tiny fallback) stay in main bundle
 import Index from "./pages/Index";
@@ -92,6 +93,42 @@ const AppContent = () => {
   useEffect(() => {
     captureTrackingParams();
   }, []);
+  // Routes are mounted twice: once at root (EN) and once under /es (ES).
+  // The path strings inside `renderRoutes` are RELATIVE — no leading slash.
+  const renderRoutes = () => (
+    <>
+      <Route index element={<Index />} />
+      <Route path="products/:handle" element={<ShopifyProductRedirect />} />
+      <Route path="categoria/:slug" element={<CategoryProducts />} />
+      <Route path="categoria/:slug/:productId" element={<CategoryProductDetail />} />
+      <Route path="bouquets/personalizar" element={<BouquetBuilder />} />
+      <Route path="bouquets/:type/:productId" element={<OldBouquetRedirect />} />
+      <Route path="bouquets" element={<BouquetProducts />} />
+      <Route path="mothers-day" element={<MothersDayCollection />} />
+      <Route path="mothers-day/:handle" element={<MothersDayProductRedirect />} />
+      <Route path="room-decors/rd-deluxe-love" element={<Navigate to="/room-decors/deluxe-love-package" replace />} />
+      <Route path="room-decors/:packageId" element={<RoomDecorRedirect />} />
+      <Route path="room-decors" element={<RoomDecors />} />
+      <Route path="about" element={<About />} />
+      <Route path="contact" element={<Contact />} />
+      <Route path="delivery" element={<Delivery />} />
+      <Route path="faq" element={<FAQ />} />
+      <Route path="privacy-policy" element={<PrivacyPolicy />} />
+      <Route path="terms-of-service" element={<TermsOfService />} />
+      <Route path="refund-policy" element={<RefundPolicy />} />
+      <Route path="shipping-policy" element={<ShippingPolicy />} />
+      <Route path="cookie-policy" element={<CookiePolicy />} />
+      <Route path="sitemap" element={<SitemapPage />} />
+      <Route path="blog" element={<Blog />} />
+      <Route path="blog/:slug" element={<BlogArticle />} />
+      {landingPages.map(page => (
+        <Route key={page.slug} path={page.slug} element={<LandingPage />} />
+      ))}
+      <Route path="checkout" element={<Checkout />} />
+      <Route path="*" element={<NotFound />} />
+    </>
+  );
+
   return (
     <>
       <ScrollToTop />
@@ -105,36 +142,14 @@ const AppContent = () => {
         }
       >
       <Routes>
-        <Route path="/" element={<Index />} />
-        <Route path="/products/:handle" element={<ShopifyProductRedirect />} />
-        <Route path="/categoria/:slug" element={<CategoryProducts />} />
-        <Route path="/categoria/:slug/:productId" element={<CategoryProductDetail />} />
-        <Route path="/bouquets/personalizar" element={<BouquetBuilder />} />
-        <Route path="/bouquets/:type/:productId" element={<OldBouquetRedirect />} />
-        <Route path="/bouquets" element={<BouquetProducts />} />
-        <Route path="/mothers-day" element={<MothersDayCollection />} />
-        <Route path="/mothers-day/:handle" element={<MothersDayProductRedirect />} />
-        <Route path="/room-decors/rd-deluxe-love" element={<Navigate to="/room-decors/deluxe-love-package" replace />} />
-        <Route path="/room-decors/:packageId" element={<RoomDecorRedirect />} />
-        <Route path="/room-decors" element={<RoomDecors />} />
-        <Route path="/about" element={<About />} />
-        <Route path="/contact" element={<Contact />} />
-        <Route path="/delivery" element={<Delivery />} />
-        <Route path="/faq" element={<FAQ />} />
-        <Route path="/privacy-policy" element={<PrivacyPolicy />} />
-        <Route path="/terms-of-service" element={<TermsOfService />} />
-        <Route path="/refund-policy" element={<RefundPolicy />} />
-        <Route path="/shipping-policy" element={<ShippingPolicy />} />
-        <Route path="/cookie-policy" element={<CookiePolicy />} />
-        <Route path="/sitemap" element={<SitemapPage />} />
-        <Route path="/blog" element={<Blog />} />
-        <Route path="/blog/:slug" element={<BlogArticle />} />
+        {/* Studio admin — EN only, no /es version */}
         <Route path="/studio/*" element={<StudioPage />} />
-        {landingPages.map(page => (
-          <Route key={page.slug} path={`/${page.slug}`} element={<LandingPage />} />
-        ))}
-        <Route path="/checkout" element={<Checkout />} />
-        <Route path="*" element={<NotFound />} />
+        {/* Spanish routes — same tree under /es prefix */}
+        <Route path="/es">
+          {renderRoutes()}
+        </Route>
+        {/* English routes — root */}
+        {renderRoutes()}
       </Routes>
       </Suspense>
     </>
@@ -147,7 +162,9 @@ const App = () => (
       <Toaster />
       <Sonner />
       <BrowserRouter>
-        <AppContent />
+        <LanguageProvider>
+          <AppContent />
+        </LanguageProvider>
       </BrowserRouter>
     </TooltipProvider>
   </QueryClientProvider>
