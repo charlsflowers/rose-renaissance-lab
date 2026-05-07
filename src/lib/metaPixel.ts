@@ -5,7 +5,7 @@
  *
  * Pixel ID: 1486332763014554
  */
-export const META_PIXEL_ID = "1486332763014554";
+export const META_PIXEL_ID = "1631820708074499";
 
 type Fbq = (...args: any[]) => void;
 
