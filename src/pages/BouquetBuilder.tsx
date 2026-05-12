@@ -351,12 +351,19 @@ const BouquetBuilder = () => {
         body: { bouquetConfig, baseImageUrl },
       });
 
-      if (error) throw new Error("Connection error");
+      if (error) {
+        const message = typeof error.message === "string" && error.message.trim().length > 0
+          ? error.message
+          : "Preview no disponible en este momento.";
+        throw new Error(message);
+      }
       if (data?.error) {
         setPreviewError(data.error);
       } else if (data?.imageUrl) {
         setPreviewUrl(data.imageUrl);
         setHasGeneratedPreview(true);
+      } else {
+        setPreviewError("Preview no disponible en este momento.");
       }
     } catch (e: any) {
       setPreviewError(e.message || "Error generating preview");

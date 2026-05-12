@@ -32,6 +32,7 @@ const PaperColorPicker = ({ selected, onChange }: PaperColorPickerProps) => {
         {paperColorOptions.map((paper) => (
           <button
             key={paper.name}
+            type="button"
             onClick={() => onChange(paper.name)}
             className={`relative flex flex-col items-center gap-2 p-1.5 rounded-lg border-2 transition-all ${
               selected === paper.name
