@@ -359,14 +359,17 @@ const BouquetBuilder = () => {
       }
       if (data?.error) {
         setPreviewError(data.error);
+        setHasGeneratedPreview(false);
       } else if (data?.imageUrl) {
         setPreviewUrl(data.imageUrl);
         setHasGeneratedPreview(true);
       } else {
         setPreviewError("Preview no disponible en este momento.");
+        setHasGeneratedPreview(false);
       }
     } catch (e: any) {
       setPreviewError(e.message || "Error generating preview");
+      setHasGeneratedPreview(false);
     } finally {
       setPreviewLoading(false);
     }
