@@ -358,7 +358,12 @@ const BouquetBuilder = () => {
         throw new Error(message);
       }
       if (data?.error) {
-        setPreviewError(data.error);
+        const friendlyError = data?.statusCode === 402
+          ? "La vista previa AI no está disponible ahora mismo. Hace falta saldo activo en Lovable AI para generarla."
+          : data?.statusCode === 429
+            ? "Has hecho demasiados intentos seguidos. Espera unos segundos y vuelve a probar."
+            : data.error;
+        setPreviewError(friendlyError);
         setHasGeneratedPreview(false);
       } else if (data?.imageUrl) {
         setPreviewUrl(data.imageUrl);
