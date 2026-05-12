@@ -168,19 +168,34 @@ serve(async (req) => {
       const status = aiResponse.status;
       if (status === 429) {
         return new Response(
-          JSON.stringify({ error: "Demasiadas peticiones. Inténtalo de nuevo en unos segundos." }),
-          { status: 429, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+          JSON.stringify({
+            error: "Demasiadas peticiones. Inténtalo de nuevo en unos segundos.",
+            fallback: true,
+            statusCode: 429,
+          }),
+          { headers: { ...corsHeaders, "Content-Type": "application/json" } }
         );
       }
       if (status === 402) {
         return new Response(
-          JSON.stringify({ error: "Preview no disponible en este momento." }),
-          { status: 402, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+          JSON.stringify({
+            error: "Preview no disponible en este momento.",
+            fallback: true,
+            statusCode: 402,
+          }),
+          { headers: { ...corsHeaders, "Content-Type": "application/json" } }
         );
       }
       const errText = await aiResponse.text();
       console.error("AI gateway error:", status, errText);
-      throw new Error(`AI gateway error: ${status}`);
+      return new Response(
+        JSON.stringify({
+          error: "Preview no disponible en este momento.",
+          fallback: true,
+          statusCode: status,
+        }),
+        { headers: { ...corsHeaders, "Content-Type": "application/json" } }
+      );
     }
 
     const aiData = await aiResponse.json();
@@ -222,8 +237,11 @@ serve(async (req) => {
   } catch (e) {
     console.error("generate-bouquet-preview error:", e);
     return new Response(
-      JSON.stringify({ error: e instanceof Error ? e.message : "Error desconocido" }),
-      { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+      JSON.stringify({
+        error: e instanceof Error ? e.message : "Error desconocido",
+        fallback: true,
+      }),
+      { headers: { ...corsHeaders, "Content-Type": "application/json" } }
     );
   }
 });
