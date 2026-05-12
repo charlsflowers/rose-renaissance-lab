@@ -351,15 +351,30 @@ const BouquetBuilder = () => {
         body: { bouquetConfig, baseImageUrl },
       });
 
-      if (error) throw new Error("Connection error");
+      if (error) {
+        const message = typeof error.message === "string" && error.message.trim().length > 0
+          ? error.message
+          : "Preview no disponible en este momento.";
+        throw new Error(message);
+      }
       if (data?.error) {
-        setPreviewError(data.error);
+        const friendlyError = data?.statusCode === 402
+          ? "La vista previa AI no está disponible ahora mismo. Hace falta saldo activo en Lovable AI para generarla."
+          : data?.statusCode === 429
+            ? "Has hecho demasiados intentos seguidos. Espera unos segundos y vuelve a probar."
+            : data.error;
+        setPreviewError(friendlyError);
+        setHasGeneratedPreview(false);
       } else if (data?.imageUrl) {
         setPreviewUrl(data.imageUrl);
         setHasGeneratedPreview(true);
+      } else {
+        setPreviewError("Preview no disponible en este momento.");
+        setHasGeneratedPreview(false);
       }
     } catch (e: any) {
       setPreviewError(e.message || "Error generating preview");
+      setHasGeneratedPreview(false);
     } finally {
       setPreviewLoading(false);
     }
