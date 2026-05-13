@@ -30,7 +30,7 @@ const MothersDayCollection = () => {
   return (
     <div className="min-h-screen bg-background">
       <SeoHead
-        title="Mother's Day Flowers Miami | Special Edition Bouquets – Charls Flowers"
+        title="Mother's Day Flowers Miami | Special Edition Bouquets"
         description="Limited edition Mother's Day rose bouquets in Miami. 7 designs, 50 to 200 roses, same-day delivery. Available May 1 – May 12."
         path="/mothers-day"
       />

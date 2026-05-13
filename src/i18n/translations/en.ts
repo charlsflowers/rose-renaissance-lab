@@ -161,6 +161,9 @@ export const en = {
     yourEmail: "Your email",
     yourMessage: "Your message",
     sendMessage: "Send Message",
+    sending: "Sending...",
+    successMessage: "Message sent! We'll get back to you soon.",
+    errorMessage: "Something went wrong. Please try again or call us.",
   },
 
   // Delivery
