@@ -1,0 +1,41 @@
+# Charls Flowers
+
+> Miami's premier flower shop. Handcrafted rose bouquets (50-200 roses) in natural, glitter, and painted finishes, with AI-powered preview, same-day delivery up to 87 miles, and free in-store pickup at 7261 NW 12th Street, Miami FL 33126. Bilingual English/Spanish.
+
+## Pages
+
+- [Home](/): Featured collections and same-day delivery.
+- [About](/about): Our story, founder and Miami location.
+- [Bouquets](/bouquets): Full catalog of rose bouquets by color and finish.
+- [Custom Bouquet Builder](/bouquet-builder): Configure color, quantity, finish, paper and extras with AI preview.
+- [Room Decors](/room-decors): Floral room decoration packages for proposals and surprises.
+- [Blog](/blog): Guides on flowers, occasions and Miami delivery.
+- [Delivery](/delivery): Zones, pricing and same-day cutoffs.
+- [FAQ](/faq): Orders, delivery and customization questions.
+- [Contact](/contact): Phone, email, Instagram and store address.
+- [Shipping Policy](/shipping-policy)
+- [Refund Policy](/refund-policy)
+- [Privacy Policy](/privacy-policy)
+- [Terms of Service](/terms-of-service)
+- [Cookie Policy](/cookie-policy)
+
+## Spanish
+
+- [Inicio](/es)
+- [Sobre nosotros](/es/about)
+- [Ramos](/es/bouquets)
+- [Constructor de ramos](/es/bouquet-builder)
+- [Decoración de habitaciones](/es/room-decors)
+- [Blog](/es/blog)
+- [Envíos](/es/delivery)
+- [Preguntas frecuentes](/es/faq)
+- [Contacto](/es/contact)
+
+## Business info
+
+- Address: 7261 NW 12th Street, Miami, FL 33126, USA
+- Phone: +1 (904) 442-4042
+- Email: charls@charlsflowers.com
+- Hours: Mon-Fri 8AM-7PM, Sat 8AM-5PM, Sun closed (America/New_York)
+- Same-day delivery: order before 3PM Miami time, up to 87 miles
+- Languages: English, Spanish
