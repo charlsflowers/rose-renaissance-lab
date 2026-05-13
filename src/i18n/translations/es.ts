@@ -280,7 +280,7 @@ export const es = {
       },
       {
         q: "Envío y entrega",
-        a: "Envío a domicilio: $25 fijo para las primeras 5 millas, luego $1.60 por cada milla adicional (hasta 87 millas). Recogida en tienda: Gratis, lista 2 horas después de realizar el pedido. Horario: Lun–Vie 8AM–7PM · Sáb 8AM–6PM · Dom 8AM–5PM (hora de Miami). Los pedidos realizados antes de las 3:00 PM califican para entrega el mismo día.",
+        a: "Envío a domicilio: $25 fijo para las primeras 5 millas, luego $1.60 por cada milla adicional (hasta 87 millas). Recogida en tienda: Gratis, lista 2 horas después de realizar el pedido. Horario: Lun–Vie 8AM–7PM · Sáb 8AM–5PM · Dom Cerrado (hora de Miami). Los pedidos realizados antes de las 3:00 PM califican para entrega el mismo día.",
       },
       {
         q: "Política de devoluciones y reembolsos",
@@ -734,8 +734,8 @@ export const es = {
       hoursHeading: "Horario de entrega y recogida",
       hoursItems: [
         { label: "Lunes a viernes:", text: " 8:00 – 19:00" },
-        { label: "Sábado:", text: " 8:00 – 18:00" },
-        { label: "Domingo:", text: " 8:00 – 17:00" },
+        { label: "Sábado:", text: " 8:00 – 17:00" },
+        { label: "Domingo:", text: " Cerrado" },
       ],
       hoursNote: "Nota: los pedidos realizados durante la última hora antes del cierre se programarán para el siguiente día hábil.",
       importantHeading: "Información importante",
