@@ -11,12 +11,11 @@ import { isMothersDayPromoActive } from "@/lib/mothersDayPromo";
 import MothersDayHero from "@/components/MothersDayHero";
 import MothersDayBanner from "@/components/MothersDayBanner";
 import MothersDayCollectionSection from "@/components/MothersDayCollectionSection";
-import arreglosImg from "@/assets/arreglos.jpg";
-import cajasImg from "@/assets/cajas.jpg";
-import cestasImg from "@/assets/cestas.jpg";
-import jarronesImg from "@/assets/jarrones.jpg";
-import ososImg from "@/assets/osos.jpg";
-import heartBouquet from "@/assets/heart-bouquet.jpg";
+import arreglosImg from "@/assets/arreglos.webp";
+import cajasImg from "@/assets/cajas.webp";
+import cestasImg from "@/assets/cestas.webp";
+import jarronesImg from "@/assets/jarrones.webp";
+import ososImg from "@/assets/osos.webp";
 const bicolorPassionImg = 'https://cdn.shopify.com/s/files/1/0979/1671/5140/files/16.png?v=1774610789';
 const deluxeLoveImg = 'https://cdn.shopify.com/s/files/1/0979/1671/5140/files/3_adaa192a-8c9b-41b5-8586-cb7e13640829.png?v=1774615718';
 

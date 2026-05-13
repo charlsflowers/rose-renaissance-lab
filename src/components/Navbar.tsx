@@ -5,7 +5,7 @@ import { localizePath, stripLangPrefix } from "@/i18n/LanguageContext";
 import { useCartStore } from "@/stores/cartStore";
 import AnnouncementBar from "@/components/AnnouncementBar";
 import BrandLogo from "@/components/BrandLogo";
-import charlsLogo from "@/assets/charls-logo.png";
+import charlsLogo from "@/assets/charls-logo.webp";
 import { Menu, X, ChevronDown, Search as SearchIcon, MapPin, Globe } from "lucide-react";
 import { bouquetProducts } from "@/lib/catalogData";
 import { roomDecorPackages } from "@/lib/roomDecorData";
@@ -127,11 +127,11 @@ const Navbar = () => {
         </div>
 
         <Link to="/" className="hidden lg:flex items-center gap-2">
-          <img src={charlsLogo} alt="Charls Flowers Miami – Premium Handcrafted Bouquets" className="h-10 w-auto" width={120} height={40} />
+          <img src={charlsLogo} alt="Charls Flowers Miami – Premium Handcrafted Bouquets" className="h-10 w-auto" width={90} height={40} />
         </Link>
 
         <Link to="/" className="lg:hidden absolute left-1/2 -translate-x-1/2 flex items-center">
-          <img src={charlsLogo} alt="Charls Flowers Miami" className="h-10 w-auto" width={120} height={40} />
+          <img src={charlsLogo} alt="Charls Flowers Miami" className="h-10 w-auto" width={90} height={40} />
         </Link>
 
         <div className="hidden lg:flex items-center gap-5 font-body text-xs tracking-widest uppercase text-muted-foreground">
