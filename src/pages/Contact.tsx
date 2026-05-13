@@ -1,3 +1,4 @@
+import { useState } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import SeoHead from "@/components/SeoHead";
@@ -7,6 +8,40 @@ import { useTranslation } from "@/i18n/LanguageContext";
 
 const Contact = () => {
   const { t } = useTranslation();
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [message, setMessage] = useState("");
+  const [status, setStatus] = useState<"idle" | "sending" | "success" | "error">("idle");
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setStatus("sending");
+    try {
+      const res = await fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Accept: "application/json" },
+        body: JSON.stringify({
+          access_key: "f63c8666-13a8-44b5-920f-1f2d0dacf1d3",
+          name,
+          email,
+          message,
+          subject: "Nuevo mensaje desde charlsflowers.com",
+          from_name: "Charls Flowers Website",
+        }),
+      });
+      const json = await res.json();
+      if (json.success === true) {
+        setStatus("success");
+        setName("");
+        setEmail("");
+        setMessage("");
+      } else {
+        setStatus("error");
+      }
+    } catch {
+      setStatus("error");
+    }
+  };
 
   return (
     <div className="min-h-screen bg-background">
@@ -41,7 +76,7 @@ const Contact = () => {
                 <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center shrink-0"><Mail className="w-5 h-5 text-primary" /></div>
                 <div>
                   <p className="font-body text-sm font-semibold text-foreground">{t("contact.email")}</p>
-                  <a href="mailto:charlsflowerscorp@gmail.com" className="font-body text-sm text-primary hover:underline">charlsflowerscorp@gmail.com</a>
+                  <a href="mailto:charls@charlsflowers.com" className="font-body text-sm text-primary hover:underline">charls@charlsflowers.com</a>
                 </div>
               </div>
               <div className="flex items-start gap-4">
@@ -56,11 +91,19 @@ const Contact = () => {
             </div>
 
             {/* Contact Form */}
-            <form className="space-y-4" onSubmit={(e) => { e.preventDefault(); }}>
-              <input type="text" placeholder={t("contact.yourName")} className="w-full bg-card border border-border rounded-lg px-4 py-3 font-body text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30" />
-              <input type="email" placeholder={t("contact.yourEmail")} className="w-full bg-card border border-border rounded-lg px-4 py-3 font-body text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30" />
-              <textarea placeholder={t("contact.yourMessage")} rows={5} className="w-full bg-card border border-border rounded-lg px-4 py-3 font-body text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30 resize-none" />
-              <button type="submit" className="bg-primary text-primary-foreground px-8 py-3 font-body text-sm tracking-widest uppercase hover:bg-primary/90 transition-colors rounded-lg w-full">{t("contact.sendMessage")}</button>
+            <form className="space-y-4" onSubmit={handleSubmit}>
+              <input type="text" required value={name} onChange={(e) => setName(e.target.value)} placeholder={t("contact.yourName")} className="w-full bg-card border border-border rounded-lg px-4 py-3 font-body text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30" />
+              <input type="email" required value={email} onChange={(e) => setEmail(e.target.value)} placeholder={t("contact.yourEmail")} className="w-full bg-card border border-border rounded-lg px-4 py-3 font-body text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30" />
+              <textarea required value={message} onChange={(e) => setMessage(e.target.value)} placeholder={t("contact.yourMessage")} rows={5} className="w-full bg-card border border-border rounded-lg px-4 py-3 font-body text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30 resize-none" />
+              <button type="submit" disabled={status === "sending"} className="bg-primary text-primary-foreground px-8 py-3 font-body text-sm tracking-widest uppercase hover:bg-primary/90 transition-colors rounded-lg w-full disabled:opacity-60 disabled:cursor-not-allowed">
+                {status === "sending" ? t("contact.sending") : t("contact.sendMessage")}
+              </button>
+              {status === "success" && (
+                <p className="font-body text-sm text-primary text-center" role="status">{t("contact.successMessage")}</p>
+              )}
+              {status === "error" && (
+                <p className="font-body text-sm text-destructive text-center" role="alert">{t("contact.errorMessage")}</p>
+              )}
             </form>
           </div>
 
