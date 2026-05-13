@@ -291,7 +291,7 @@ export const en = {
       },
       {
         q: "Shipping & Delivery",
-        a: "Home Delivery: $25 flat for the first 5 miles, then $1.60 per additional mile (up to 87 miles). Store Pickup: Free, ready 2 hours after your order is placed. Hours: Mon–Fri 8AM–7PM · Sat 8AM–6PM · Sun 8AM–5PM (Miami time). Orders placed before 3:00 PM qualify for same-day delivery.",
+        a: "Home Delivery: $25 flat for the first 5 miles, then $1.60 per additional mile (up to 87 miles). Store Pickup: Free, ready 2 hours after your order is placed. Hours: Mon–Fri 8AM–7PM · Sat 8AM–5PM · Sun Closed (Miami time). Orders placed before 3:00 PM qualify for same-day delivery.",
       },
       {
         q: "Return & Refund Policy",
@@ -758,8 +758,8 @@ export const en = {
       hoursHeading: "Delivery & Pickup Hours",
       hoursItems: [
         { label: "Monday – Friday:", text: " 8:00 AM – 7:00 PM" },
-        { label: "Saturday:", text: " 8:00 AM – 6:00 PM" },
-        { label: "Sunday:", text: " 8:00 AM – 5:00 PM" },
+        { label: "Saturday:", text: " 8:00 AM – 5:00 PM" },
+        { label: "Sunday:", text: " Closed" },
       ],
       hoursNote: "Note: Orders placed within 1 hour of closing will be scheduled for the next business day.",
       importantHeading: "Important Information",
