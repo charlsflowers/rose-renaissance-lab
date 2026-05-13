@@ -25,7 +25,7 @@ const Footer = () => {
           {/* Col 1 — Info */}
           <div>
             <img src={charlsLogo} alt="Charls Flowers" className="h-10 w-auto mb-3 brightness-0 invert" width={90} height={40} />
-            <div className="space-y-2 font-body text-xs text-primary-foreground/60">
+            <div className="space-y-2 font-body text-xs text-primary-foreground">
               <p className="flex items-start gap-2"><MapPin className="w-3.5 h-3.5 mt-0.5 shrink-0" /> 7261 NW 12th Street, Miami, FL 33126</p>
               <p className="flex items-center gap-2"><Phone className="w-3.5 h-3.5 shrink-0" /> <a href="tel:9044424042" className="hover:text-primary transition-colors">904-442-4042</a></p>
               <div className="flex items-start gap-2"><Clock className="w-3.5 h-3.5 mt-0.5 shrink-0" />
@@ -36,13 +36,13 @@ const Footer = () => {
                 </ul>
               </div>
             </div>
-            <p className="font-body text-[10px] text-primary-foreground/40 mt-3 italic">{t("footer.sameDayDelivery")}</p>
+            <p className="font-body text-[10px] text-primary-foreground/80 mt-3 italic">{t("footer.sameDayDelivery")}</p>
           </div>
 
           {/* Col 2 — Navigation */}
           <div>
-            <p className="font-body text-xs tracking-widest uppercase text-primary-foreground/80 mb-4">{t("footer.navigation")}</p>
-            <div className="flex flex-col gap-2 font-body text-xs text-primary-foreground/60">
+            <p className="font-body text-xs tracking-widest uppercase text-primary-foreground mb-4">{t("footer.navigation")}</p>
+            <div className="flex flex-col gap-2 font-body text-xs text-primary-foreground">
               {[
                 { to: "/", label: t("nav.home") },
                 { to: "/bouquets", label: t("nav.bouquets") },
@@ -62,8 +62,8 @@ const Footer = () => {
 
           {/* Col 3 — Legal */}
           <div>
-            <p className="font-body text-xs tracking-widest uppercase text-primary-foreground/80 mb-4">{t("footer.legal")}</p>
-            <div className="flex flex-col gap-2 font-body text-xs text-primary-foreground/60">
+            <p className="font-body text-xs tracking-widest uppercase text-primary-foreground mb-4">{t("footer.legal")}</p>
+            <div className="flex flex-col gap-2 font-body text-xs text-primary-foreground">
               {[
                 { to: "/privacy-policy", label: t("footer.privacyPolicy") },
                 { to: "/terms-of-service", label: t("footer.termsOfService") },
@@ -85,8 +85,8 @@ const Footer = () => {
 
           {/* Col 4 — Social & Payments */}
           <div>
-            <p className="font-body text-xs tracking-widest uppercase text-primary-foreground/80 mb-4">{t("footer.followUs")}</p>
-            <div className="flex flex-col gap-2 font-body text-xs text-primary-foreground/60 mb-6">
+            <p className="font-body text-xs tracking-widest uppercase text-primary-foreground mb-4">{t("footer.followUs")}</p>
+            <div className="flex flex-col gap-2 font-body text-xs text-primary-foreground mb-6">
               <a href="https://www.instagram.com/charlsflowers_?igsh=MzAzc3l1dGdkZWV2" target="_blank" rel="noopener noreferrer" className="hover:text-primary transition-colors">Instagram</a>
               <a href="https://www.facebook.com/charlsflowers" target="_blank" rel="noopener noreferrer" className="hover:text-primary transition-colors">Facebook</a>
               <a href="https://www.tiktok.com/@charlsflowers" target="_blank" rel="noopener noreferrer" className="hover:text-primary transition-colors">TikTok</a>
@@ -96,9 +96,9 @@ const Footer = () => {
         </div>
 
           {/* Copyright */}
-          <div className="border-t border-primary-foreground/10 pt-6 text-center">
-            <p className="font-body text-[10px] text-primary-foreground/40">{t("footer.copyright")}</p>
-            <p className="font-body text-[10px] text-primary-foreground/30 mt-1">{t("footer.tagline")}</p>
+          <div className="border-t border-primary-foreground/20 pt-6 text-center">
+            <p className="font-body text-[10px] text-primary-foreground/80">{t("footer.copyright")}</p>
+            <p className="font-body text-[10px] text-primary-foreground/80 mt-1">{t("footer.tagline")}</p>
           </div>
         </div>
       </footer>

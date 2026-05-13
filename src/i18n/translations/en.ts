@@ -61,7 +61,7 @@ export const en = {
     acceptAll: "Accept all",
     rejectAll: "Reject all",
     customize: "Customize",
-    learnMore: "Learn more",
+    learnMore: "Learn more about our cookie policy",
     learnMoreAriaLabel: "Learn more about our cookie policy",
     save: "Save preferences",
     necessary: "Necessary (always on)",
