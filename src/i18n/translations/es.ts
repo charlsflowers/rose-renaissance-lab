@@ -155,6 +155,9 @@ export const es = {
     yourEmail: "Tu correo electrónico",
     yourMessage: "Tu mensaje",
     sendMessage: "Enviar Mensaje",
+    sending: "Enviando...",
+    successMessage: "¡Mensaje enviado! Te responderemos pronto.",
+    errorMessage: "Algo salió mal. Inténtalo de nuevo o llámanos.",
   },
 
   deliveryPage: {
