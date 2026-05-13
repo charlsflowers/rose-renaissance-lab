@@ -1,6 +1,7 @@
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import SeoHead from "@/components/SeoHead";
+import JsonLd, { localBusinessSchema } from "@/components/JsonLd";
 import { MapPin, Phone, Clock, Mail } from "lucide-react";
 import { useTranslation } from "@/i18n/LanguageContext";
 
@@ -14,6 +15,7 @@ const Contact = () => {
         description="Get in touch with Charls Flowers Miami. Call 904-442-4042, visit us at 7261 NW 12th St, or send a message. Same-day flower delivery up to 87 miles."
         path="/contact"
       />
+      <JsonLd data={localBusinessSchema()} />
       <Navbar />
       <div className="pt-24 pb-16">
         <div className="container mx-auto px-6 max-w-4xl">
