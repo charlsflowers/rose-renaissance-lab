@@ -6,7 +6,6 @@ import { toast } from "sonner";
 import { useCartStore } from "@/stores/cartStore";
 import { performApiCheckout } from "@/lib/checkout";
 import { buildAccessoryLineItems } from "@/lib/accessoryVariants";
-import { trackMetaEvent } from "@/lib/metaPixel";
 import Navbar from "@/components/Navbar";
 import type { DeliveryResult } from "@/components/DeliveryCalculator";
 import { ArrowLeft } from "lucide-react";
@@ -74,11 +73,10 @@ const Checkout = () => {
       currency: 'USD',
       value: itemsSubtotal,
     });
-    trackMetaEvent('InitiateCheckout', {
-      value: itemsSubtotal,
-      currency: 'USD',
-      num_items: items.length,
-    });
+    // NOTE: InitiateCheckout is intentionally NOT fired here.
+    // The checkout lives on Shopify and Meta Pixel + Conversions API there
+    // already track InitiateCheckout/Purchase server-side. Firing it here
+    // would duplicate conversions and degrade campaign optimization.
 
     setIsCheckingOut(true);
     try {

@@ -2,6 +2,11 @@ import { createRoot } from "react-dom/client";
 import { HelmetProvider } from "react-helmet-async";
 import App from "./App.tsx";
 import "./index.css";
+import { initMetaPixel } from "@/lib/metaPixel";
+
+// Initialize Meta Pixel immediately (US/CCPA opt-out model — not GDPR).
+// Cookie banner can later revoke it if the user opts out of marketing.
+initMetaPixel();
 
 // LanguageProvider is mounted inside BrowserRouter (in App.tsx) because it
 // reads the URL via useLocation to keep language in sync with the path.
