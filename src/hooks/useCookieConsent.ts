@@ -36,7 +36,8 @@ const pushConsentUpdate = (analytics: boolean, marketing: boolean) => {
     (window as any).dataLayer.push(["consent", "update", payload]);
   }
 
-  // Meta Pixel: lazy init / revoke based on marketing consent.
+  // Meta Pixel (US/CCPA opt-out model): pixel is initialized eagerly on app
+  // boot. We only revoke if the user explicitly opts out of marketing.
   if (marketing) {
     initMetaPixel();
   } else {
