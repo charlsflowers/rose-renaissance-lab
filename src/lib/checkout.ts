@@ -9,6 +9,7 @@ import {
   type ShippingAddress,
 } from "@/lib/shopify";
 import { appendTrackingParamsToUrl } from "@/lib/trackingParams";
+import { getStoredTrackingParams, TRACKING_PARAM_KEYS } from "@/lib/trackingParams";
 
 const DELIVERY_FEE_VARIANT_NUMERIC_ID = "51629708935300";
 const SERVICE_FEE_VARIANT_NUMERIC_ID = "51654333595780";
@@ -254,17 +255,26 @@ export async function performApiCheckout(options: ApiCheckoutOptions): Promise<s
     }
   }
 
+  const trackingParams = getStoredTrackingParams() || {};
+  const attributes: Array<{ key: string; value: string }> = [
+    {
+      key: "Delivery Type",
+      value: options.deliveryMethod === "delivery" ? "Home Delivery" : "Store Pickup",
+    },
+  ];
+  for (const key of TRACKING_PARAM_KEYS) {
+    const value = trackingParams[key];
+    if (value && typeof value === "string" && value.trim() !== "") {
+      attributes.push({ key, value: value.trim() });
+    }
+  }
+
   // 6) Single cartCreate call with everything baked in
   const result = await createShopifyCartFull({
     lines: finalLines,
     note: options.note,
     deliveryAddress,
-    attributes: [
-      {
-        key: "Delivery Type",
-        value: options.deliveryMethod === "delivery" ? "Home Delivery" : "Store Pickup",
-      },
-    ],
+    attributes,
   });
 
   if (!result?.checkoutUrl) return null;
