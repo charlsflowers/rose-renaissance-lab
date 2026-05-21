@@ -76,6 +76,22 @@ const BouquetProductDetail = () => {
   const liveImages = useShopifyProductImages(product?.shopifyHandle);
   const primaryImage = liveImages.primary || product?.image;
   const secondaryImage = liveImages.secondary || product?.image2;
+  // All Shopify images (up to 10). Used by gallery UI on PDP.
+  const allImages: string[] = (liveImages.all && liveImages.all.length > 0)
+    ? liveImages.all
+    : [primaryImage, secondaryImage].filter(Boolean) as string[];
+  // Desktop gallery: top image is swappable via thumbnails; bottom image is fixed (photo 5).
+  const [activeImageIdx, setActiveImageIdx] = useState(0);
+  useEffect(() => { setActiveImageIdx(0); }, [product?.shopifyHandle]);
+  const desktopMainImage = allImages[activeImageIdx] || primaryImage;
+  // Bottom big image on desktop = photo 5 (index 4) if available, otherwise fall back to secondary.
+  const desktopBottomImage = allImages[4] || secondaryImage;
+  // Thumbnails column on desktop = all images EXCEPT the one currently shown as bottom big image.
+  // Cap to 4 thumbs to keep the column tidy.
+  const desktopThumbs: Array<{ url: string; idx: number }> = allImages
+    .map((url, idx) => ({ url, idx }))
+    .filter(({ url }) => url && url !== desktopBottomImage)
+    .slice(0, 4);
 
   // GA4: view_item event
   useEffect(() => {
@@ -746,18 +762,40 @@ const BouquetProductDetail = () => {
 
           {/* ===== DESKTOP: two-column layout ===== */}
           <div className="hidden lg:grid lg:grid-cols-[minmax(0,11fr)_minmax(0,9fr)] gap-10 lg:gap-16 max-w-7xl mx-auto">
-            {/* Left column — sticky images */}
+            {/* Left column — sticky gallery (thumbnails + main + bottom big) */}
             <div className="sticky top-28 self-start space-y-3 min-w-0">
-              <div className="relative overflow-hidden rounded-lg bg-muted flex items-center justify-center aspect-square">
-                {primaryImage ? (
-                  <img src={primaryImage} alt={`${product.name} Miami – Charls Flowers`} width={600} height={600} className="w-full h-full object-contain" />
-                ) : (
-                  <div className="w-full h-full flex items-center justify-center"><span className="font-display text-6xl text-muted-foreground/20">🌹</span></div>
+              <div className="flex gap-3 min-w-0">
+                {/* Vertical thumbnails column */}
+                {desktopThumbs.length > 0 && (
+                  <div className="flex flex-col gap-3 w-20 flex-none">
+                    {desktopThumbs.map(({ url, idx }) => (
+                      <button
+                        key={`${idx}-${url}`}
+                        type="button"
+                        onClick={() => setActiveImageIdx(idx)}
+                        aria-label={`View image ${idx + 1}`}
+                        className={`relative overflow-hidden rounded-md bg-muted aspect-square border-2 transition-colors ${activeImageIdx === idx ? "border-primary" : "border-transparent hover:border-primary/40"}`}
+                      >
+                        <img src={url} alt={`${product.name} thumbnail ${idx + 1}`} loading="lazy" width={120} height={120} className="w-full h-full object-cover" />
+                      </button>
+                    ))}
+                  </div>
                 )}
+                {/* Main (top) image — swappable via thumbnails */}
+                <div className="relative overflow-hidden rounded-lg bg-muted flex items-center justify-center aspect-square flex-1 min-w-0">
+                  {desktopMainImage ? (
+                    <img src={desktopMainImage} alt={`${product.name} Miami – Charls Flowers`} width={600} height={600} className="w-full h-full object-contain" />
+                  ) : (
+                    <div className="w-full h-full flex items-center justify-center"><span className="font-display text-6xl text-muted-foreground/20">🌹</span></div>
+                  )}
+                </div>
               </div>
-              {secondaryImage && (
-                <div className="relative overflow-hidden rounded-lg bg-muted flex items-center justify-center aspect-square">
-                  <img src={secondaryImage} alt={`${product.name} alternate – Charls Flowers`} loading="lazy" width={600} height={600} className="w-full h-full object-cover" />
+              {/* Bottom big image — always photo 5 (or fallback to secondary). Sits below the main image, aligned with it. */}
+              {desktopBottomImage && (
+                <div className={`${desktopThumbs.length > 0 ? "ml-[5.75rem]" : ""}`}>
+                  <div className="relative overflow-hidden rounded-lg bg-muted flex items-center justify-center aspect-square">
+                    <img src={desktopBottomImage} alt={`${product.name} alternate – Charls Flowers`} loading="lazy" width={600} height={600} className="w-full h-full object-cover" />
+                  </div>
                 </div>
               )}
             </div>
@@ -831,19 +869,25 @@ const BouquetProductDetail = () => {
 
           {/* ===== MOBILE: stacked layout ===== */}
           <div className="lg:hidden max-w-4xl mx-auto space-y-8">
-            {/* Mobile images */}
+            {/* Mobile images — swipeable carousel with ALL product images */}
             <div className="flex overflow-x-auto snap-x snap-mandatory scrollbar-hide gap-3 pb-2 -mx-6 px-6 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
-              <div className="w-[88%] flex-none snap-start relative overflow-hidden rounded-lg bg-muted flex items-center justify-center aspect-square">
-                {primaryImage ? (
-                  <img src={primaryImage} alt={`${product.name} Miami – Charls Flowers`} width={600} height={600} className="w-full h-full object-contain pointer-events-none" />
-                ) : (
-                  <div className="w-full h-full flex items-center justify-center"><span className="font-display text-6xl text-muted-foreground/20">🌹</span></div>
-                )}
-              </div>
-              {secondaryImage && (
+              {allImages.length === 0 ? (
                 <div className="w-[88%] flex-none snap-start relative overflow-hidden rounded-lg bg-muted flex items-center justify-center aspect-square">
-                  <img src={secondaryImage} alt={`${product.name} alternate – Charls Flowers`} loading="lazy" width={600} height={600} className="w-full h-full object-cover pointer-events-none" />
+                  <span className="font-display text-6xl text-muted-foreground/20">🌹</span>
                 </div>
+              ) : (
+                allImages.map((url, idx) => (
+                  <div key={`${idx}-${url}`} className="w-[88%] flex-none snap-start relative overflow-hidden rounded-lg bg-muted flex items-center justify-center aspect-square">
+                    <img
+                      src={url}
+                      alt={`${product.name} ${idx === 0 ? "Miami" : `view ${idx + 1}`} – Charls Flowers`}
+                      loading={idx === 0 ? "eager" : "lazy"}
+                      width={600}
+                      height={600}
+                      className={`w-full h-full ${idx === 0 ? "object-contain" : "object-cover"} pointer-events-none`}
+                    />
+                  </div>
+                ))
               )}
             </div>
 

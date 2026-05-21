@@ -12,14 +12,14 @@ import { storefrontApiRequest } from "@/lib/shopify";
 const QUERY = `
   query getImages($handle: String!) {
     productByHandle(handle: $handle) {
-      images(first: 5) {
+      images(first: 10) {
         edges { node { url altText } }
       }
     }
   }
 `;
 
-type ImageSet = { primary?: string; secondary?: string; review?: string };
+type ImageSet = { primary?: string; secondary?: string; review?: string; all?: string[] };
 
 const cache = new Map<string, ImageSet>();
 const inflight = new Map<string, Promise<ImageSet>>();
@@ -33,9 +33,11 @@ async function fetchImages(handle: string): Promise<ImageSet> {
     try {
       const data = await storefrontApiRequest(QUERY, { handle });
       const edges = data?.data?.productByHandle?.images?.edges ?? [];
-      result.primary = edges[0]?.node?.url;
-      result.secondary = edges[1]?.node?.url;
-      result.review = edges[2]?.node?.url;
+      const urls: string[] = edges.map((e: any) => e?.node?.url).filter(Boolean);
+      result.all = urls;
+      result.primary = urls[0];
+      result.secondary = urls[1];
+      result.review = urls[2];
     } catch (err) {
       console.error(`[useShopifyProductImages] Failed for ${handle}:`, err);
     }
