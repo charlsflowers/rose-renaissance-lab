@@ -84,8 +84,8 @@ const BouquetProductDetail = () => {
   const [activeImageIdx, setActiveImageIdx] = useState(0);
   useEffect(() => { setActiveImageIdx(0); }, [product?.shopifyHandle]);
   const desktopMainImage = allImages[activeImageIdx] || primaryImage;
-  // Bottom big image on desktop = photo 5 (index 4) if available, otherwise fall back to secondary.
-  const desktopBottomImage = allImages[4] || secondaryImage;
+  // Bottom big image on desktop = photo 6 (index 5) if available, otherwise fall back to secondary.
+  const desktopBottomImage = allImages[5] || secondaryImage;
   // Thumbnails column on desktop = all images EXCEPT the one currently shown as bottom big image.
   // Cap to 4 thumbs to keep the column tidy.
   const desktopThumbs: Array<{ url: string; idx: number }> = allImages
