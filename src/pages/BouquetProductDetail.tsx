@@ -92,11 +92,10 @@ const BouquetProductDetail = () => {
   const bottomIdx = allImages.length >= 6 ? 5 : allImages.length - 1;
   const desktopBottomImage = allImages[bottomIdx] || secondaryImage;
   // Thumbnails column on desktop = all images EXCEPT the one currently shown as bottom big image.
-  // Cap to 4 thumbs to keep the column tidy.
+  // No cap: show every remaining photo so nothing is hidden when Shopify has 6+ images.
   const desktopThumbs: Array<{ url: string; idx: number }> = allImages
     .map((url, idx) => ({ url, idx }))
-    .filter(({ url }) => url && url !== desktopBottomImage)
-    .slice(0, 4);
+    .filter(({ url }) => url && url !== desktopBottomImage);
 
   // GA4: view_item event
   useEffect(() => {
