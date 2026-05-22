@@ -108,7 +108,7 @@ const Contact = () => {
           </div>
 
           {/* Google Maps */}
-          <div className="aspect-square md:aspect-video rounded-lg overflow-hidden border border-border" style={{ minHeight: 280 }}>
+          <div className="mt-16 md:mt-24 aspect-square md:aspect-video rounded-lg overflow-hidden border border-border" style={{ minHeight: 280 }}>
             <iframe
               src="https://storage.googleapis.com/maps-solutions-0p9mp01my4/locator-plus/twwi/locator-plus.html"
               width="100%" height="100%" style={{ border: 0 }} loading="lazy"
