@@ -778,6 +778,8 @@ const BouquetProductDetail = () => {
                         key={`${idx}-${url}`}
                         type="button"
                         onClick={() => setActiveImageIdx(idx)}
+                        onMouseEnter={() => setHoverImageIdx(idx)}
+                        onMouseLeave={() => setHoverImageIdx(null)}
                         aria-label={`View image ${idx + 1}`}
                         className={`relative overflow-hidden rounded-md bg-muted aspect-square border-2 transition-colors ${activeImageIdx === idx ? "border-primary" : "border-transparent hover:border-primary/40"}`}
                       >
