@@ -156,7 +156,7 @@ const Index = () => {
             <h2 className="font-title-retro text-4xl md:text-5xl text-primary">{t("home.categoriesTitle")}</h2>
           </motion.div>
 
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-7 gap-5">
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-5">
             {categories.map((item, i) => {
               const isComingSoon = comingSoonSlugs.includes(item.slug);
               const isBlockedByPromo = promoActive && (item.slug === "bouquets" || item.slug === "room-decors");
