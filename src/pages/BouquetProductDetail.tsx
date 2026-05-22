@@ -82,10 +82,15 @@ const BouquetProductDetail = () => {
     : [primaryImage, secondaryImage].filter(Boolean) as string[];
   // Desktop gallery: top image is swappable via thumbnails; bottom image is fixed (photo 5).
   const [activeImageIdx, setActiveImageIdx] = useState(0);
-  useEffect(() => { setActiveImageIdx(0); }, [product?.shopifyHandle]);
-  const desktopMainImage = allImages[activeImageIdx] || primaryImage;
-  // Bottom big image on desktop = photo 6 (index 5) if available, otherwise fall back to secondary.
-  const desktopBottomImage = allImages[5] || secondaryImage;
+  // Hovered thumb index (preview only — does not "lock" the active image).
+  const [hoverImageIdx, setHoverImageIdx] = useState<number | null>(null);
+  useEffect(() => { setActiveImageIdx(0); setHoverImageIdx(null); }, [product?.shopifyHandle]);
+  const displayedIdx = hoverImageIdx ?? activeImageIdx;
+  const desktopMainImage = allImages[displayedIdx] || primaryImage;
+  // Bottom big image on desktop = last photo available:
+  //   6+ photos → photo 6 (index 5); exactly 5 → photo 5 (index 4); otherwise last; fallback secondary.
+  const bottomIdx = allImages.length >= 6 ? 5 : allImages.length - 1;
+  const desktopBottomImage = allImages[bottomIdx] || secondaryImage;
   // Thumbnails column on desktop = all images EXCEPT the one currently shown as bottom big image.
   // Cap to 4 thumbs to keep the column tidy.
   const desktopThumbs: Array<{ url: string; idx: number }> = allImages
@@ -773,6 +778,8 @@ const BouquetProductDetail = () => {
                         key={`${idx}-${url}`}
                         type="button"
                         onClick={() => setActiveImageIdx(idx)}
+                        onMouseEnter={() => setHoverImageIdx(idx)}
+                        onMouseLeave={() => setHoverImageIdx(null)}
                         aria-label={`View image ${idx + 1}`}
                         className={`relative overflow-hidden rounded-md bg-muted aspect-square border-2 transition-colors ${activeImageIdx === idx ? "border-primary" : "border-transparent hover:border-primary/40"}`}
                       >

@@ -22,7 +22,12 @@ export default function BouquetCardImage({
 }: Props) {
   const live = useShopifyProductImages(handle);
   const primary = live.primary || fallback;
-  const secondary = live.secondary || fallback2;
+  // Hover-swap image = LAST photo available on Shopify (photo 6 if 6+, else photo 5, etc.).
+  // Falls back to second image / hardcoded fallback while loading.
+  const all = live.all ?? [];
+  const hoverIdx = all.length >= 6 ? 5 : all.length - 1;
+  const secondary =
+    (hoverIdx > 0 ? all[hoverIdx] : undefined) || live.secondary || fallback2;
 
   if (!primary) {
     return (

@@ -536,7 +536,7 @@ export const es = {
   categories: {
     bouquets: "Ramos",
     arrangements: "Arreglos",
-    boxes: "Cajas",
+    boxes: "Heart Boxes",
     baskets: "Cestas",
     vases: "Floreros",
     bears: "Osos",
