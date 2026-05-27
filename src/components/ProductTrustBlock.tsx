@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { ChevronDown, Truck, BadgeDollarSign } from "lucide-react";
+import { ChevronDown, Truck, BadgeDollarSign, ShieldCheck } from "lucide-react";
 import { useTranslation } from "@/i18n/LanguageContext";
 
 const ProductTrustBlock = () => {
@@ -8,11 +8,12 @@ const ProductTrustBlock = () => {
   const faqs = tRaw("trustBlock.faqs") as Array<{ q: string; a: string }>;
   const sameDayLabel = tRaw("trustBlock.sameDayLocal") as string;
   const bestPriceLabel = tRaw("trustBlock.bestPrice") as string;
+  const qualityLabel = tRaw("trustBlock.qualityGuaranteed") as string;
 
   return (
     <div className="space-y-5 pt-2">
       {/* Trust badges */}
-      <div className="grid grid-cols-2 gap-3">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
         <div className="flex items-center gap-3">
           <div className="w-11 h-11 rounded-full border-2 border-primary/30 flex items-center justify-center shrink-0">
             <Truck className="w-5 h-5 text-primary" />
@@ -27,6 +28,14 @@ const ProductTrustBlock = () => {
           </div>
           <p className="font-body text-sm font-semibold text-foreground leading-tight">
             {bestPriceLabel}
+          </p>
+        </div>
+        <div className="flex items-center gap-3">
+          <div className="w-11 h-11 rounded-full border-2 border-primary/30 flex items-center justify-center shrink-0">
+            <ShieldCheck className="w-5 h-5 text-primary" />
+          </div>
+          <p className="font-body text-sm font-semibold text-foreground leading-tight">
+            {qualityLabel}
           </p>
         </div>
       </div>

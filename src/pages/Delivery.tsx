@@ -77,11 +77,12 @@ const Delivery = () => {
           <div className="rounded-lg overflow-hidden border border-border mb-12" style={{ minHeight: 300 }}>
             <iframe
               title="Charls Flowers Miami delivery area"
-              src="https://storage.googleapis.com/maps-solutions-0p9mp01my4/locator-plus/twwi/locator-plus.html"
+              src="https://www.google.com/maps?q=7261+NW+12th+St,+Miami,+FL+33126&z=12&output=embed"
               width="100%"
               height="300"
               style={{ border: 0 }}
               loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
             />
           </div>
 

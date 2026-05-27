@@ -110,8 +110,9 @@ const Contact = () => {
           {/* Google Maps */}
           <div className="mt-16 md:mt-24 aspect-square md:aspect-video rounded-lg overflow-hidden border border-border" style={{ minHeight: 280 }}>
             <iframe
-              src="https://storage.googleapis.com/maps-solutions-0p9mp01my4/locator-plus/twwi/locator-plus.html"
+              src="https://www.google.com/maps?q=7261+NW+12th+St,+Miami,+FL+33126&z=12&output=embed"
               width="100%" height="100%" style={{ border: 0 }} loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
               title="Charls Flowers Miami location"
             />
           </div>

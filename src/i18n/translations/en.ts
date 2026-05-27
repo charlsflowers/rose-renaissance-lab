@@ -274,7 +274,8 @@ export const en = {
   // Product trust block (badges + FAQ)
   trustBlock: {
     sameDayLocal: "Same-Day Local Delivery",
-    bestPrice: "Best Price in Miami",
+    bestPrice: "The Best Value in Miami",
+    qualityGuaranteed: "100% Quality Guaranteed",
     faqs: [
       {
         q: "Do you really deliver the same day in Miami?",
