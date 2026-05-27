@@ -4,7 +4,6 @@ import { enUS } from "date-fns/locale";
 import { toast } from "sonner";
 import { useCartStore } from "@/stores/cartStore";
 import BrandLogo from "@/components/BrandLogo";
-import { motion, AnimatePresence } from "framer-motion";
 import { useTranslation } from "@/i18n/LanguageContext";
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 import { Trash2, Loader2, X } from "lucide-react";
@@ -12,6 +11,9 @@ import PaymentIcons from "@/components/PaymentIcons";
 import { performApiCheckout } from "@/lib/checkout";
 import { buildAccessoryLineItems } from "@/lib/accessoryVariants";
 import { getPaperForCartItem } from "@/lib/paperHelper";
+import stickerBestValue from "@/assets/sticker-best-value.webp";
+import stickerFreshness from "@/assets/sticker-freshness.webp";
+import stickerSameDay from "@/assets/sticker-same-day.webp";
 
 const FloatingCart = () => {
   const { t } = useTranslation();
@@ -177,30 +179,7 @@ const FloatingCart = () => {
 
   return (
     <>
-      <AnimatePresence>
-        {totalItems > 0 && (
-          <motion.div
-            initial={{ y: 100, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            exit={{ y: 100, opacity: 0 }}
-            className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50"
-          >
-            <button
-              type="button"
-              onClick={() => setOpen(true)}
-              className="flex items-center gap-3 bg-primary text-primary-foreground px-6 py-3 rounded-full shadow-2xl hover:bg-primary/90 transition-colors font-body"
-            >
-              <BrandLogo className="w-6 h-6" color="hsl(var(--primary-foreground))" />
-              <span className="text-sm font-semibold whitespace-nowrap">
-                {totalItems} {totalItems === 1 ? t("floatingCart.item") : t("floatingCart.items")}
-              </span>
-              <span className="bg-primary-foreground/20 px-3 py-1 rounded-full text-sm font-bold whitespace-nowrap">
-                ${parseFloat(cartTotal.toFixed(2))}
-              </span>
-            </button>
-          </motion.div>
-        )}
-      </AnimatePresence>
+      {/* Bottom floating cart pill removed — navbar cart icon already shows the badge */}
 
       <Sheet open={open} onOpenChange={setOpen}>
         <SheetContent
@@ -273,6 +252,12 @@ const FloatingCart = () => {
 
           {totalItems > 0 && (
             <div className="border-t px-6 py-4 space-y-3 bg-background">
+              {/* Trust stickers */}
+              <div className="flex items-center justify-center gap-3 pb-1">
+                <img src={stickerSameDay} alt="Same Day Delivery" className="w-16 h-16 object-contain" loading="lazy" />
+                <img src={stickerFreshness} alt="Freshness 100% Guaranteed" className="w-16 h-16 object-contain" loading="lazy" />
+                <img src={stickerBestValue} alt="The Best Value" className="w-16 h-16 object-contain" loading="lazy" />
+              </div>
               <div className="flex items-center justify-between">
                 <span className="font-body text-sm text-muted-foreground">
                   {t("floatingCart.subtotal")}

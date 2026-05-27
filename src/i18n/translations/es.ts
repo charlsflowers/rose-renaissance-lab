@@ -263,7 +263,8 @@ export const es = {
   // Bloque de confianza del producto (badges + FAQ)
   trustBlock: {
     sameDayLocal: "Entrega Local el Mismo Día",
-    bestPrice: "Mejor Precio en Miami",
+    bestPrice: "La Mejor Relación Calidad-Precio en Miami",
+    qualityGuaranteed: "Calidad 100% Garantizada",
     faqs: [
       {
         q: "¿De verdad entregan el mismo día en Miami?",

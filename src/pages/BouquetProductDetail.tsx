@@ -958,11 +958,11 @@ const BouquetProductDetail = () => {
             </div>
           </div>
 
-          {/* FAQs (shared desktop + mobile, before related products) */}
-          <CollectionFAQ faqs={bouquetFAQs} />
-
-          {/* Cross-links — related products */}
+          {/* Cross-links — related products (above FAQs) */}
           <YouMightAlsoLove currentProductId={product.id} />
+
+          {/* FAQs (shared desktop + mobile, after related products) */}
+          <CollectionFAQ faqs={bouquetFAQs} />
         </div>
       </div>
 
