@@ -1,6 +1,5 @@
 import { Link } from "@/i18n/LocalizedRouter";
 import { bouquetProducts } from "@/lib/catalogData";
-import { bouquetCrossLinks } from "@/lib/crossLinks";
 import { getPrice } from "@/lib/productData";
 import ShopifyPrice from "@/components/ShopifyPrice";
 import BouquetCardImage from "@/components/BouquetCardImage";
@@ -10,15 +9,41 @@ interface Props {
   currentProductId: string;
 }
 
+/** Normalize a color string into individual color tokens (ES + EN) for matching. */
+function tokenizeColors(raw: string): string[] {
+  if (!raw) return [];
+  const normalized = raw
+    .toLowerCase()
+    .replace(/\s+y\s+/g, ",")
+    .replace(/\s+and\s+/g, ",")
+    .replace(/&/g, ",");
+  return normalized
+    .split(/[,/]/)
+    .map(t => t.trim())
+    .filter(Boolean);
+}
+
 const YouMightAlsoLove = ({ currentProductId }: Props) => {
   const { t } = useTranslation();
-  const relatedIds = bouquetCrossLinks[currentProductId];
-  if (!relatedIds || relatedIds.length === 0) return null;
+  const currentProduct = bouquetProducts.find(p => p.id === currentProductId);
+  if (!currentProduct) return null;
 
-  const related = relatedIds
-    .map(id => bouquetProducts.find(p => p.id === id))
-    .filter(Boolean) as typeof bouquetProducts;
+  const currentColors = tokenizeColors(currentProduct.color);
+  if (currentColors.length === 0) return null;
 
+  // Score every other product by number of shared color tokens, then prefer
+  // products that share MORE colors with the current one.
+  const scored = bouquetProducts
+    .filter(p => p.id !== currentProductId)
+    .map(p => {
+      const tokens = tokenizeColors(p.color);
+      const shared = tokens.filter(t => currentColors.includes(t)).length;
+      return { product: p, shared };
+    })
+    .filter(x => x.shared > 0)
+    .sort((a, b) => b.shared - a.shared);
+
+  const related = scored.slice(0, 6).map(x => x.product);
   if (related.length === 0) return null;
 
   return (
