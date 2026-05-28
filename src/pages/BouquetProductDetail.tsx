@@ -117,7 +117,9 @@ const BouquetProductDetail = () => {
   }, [product?.shopifyHandle]);
 
   const [selectedSizeIdx, setSelectedSizeIdx] = useState(0);
-  const [accessory, setAccessory] = useState<"none" | "note" | "card" | "butterfly">("none");
+  // Note and butterfly are now independent — users can pick both at the same time.
+  const [addNote, setAddNote] = useState(false);
+  const [addButterfly, setAddButterfly] = useState(false);
   const [accessoryText, setAccessoryText] = useState("");
   const [addCrown, setAddCrown] = useState(false);
   const [crownSize, setCrownSize] = useState("small");
