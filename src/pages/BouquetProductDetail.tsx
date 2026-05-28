@@ -410,6 +410,7 @@ const BouquetProductDetail = () => {
       const addons: string[] = [];
       if (!isMothersDayContext && addGlitter === true) addons.push("Glitter");
       if (!isMothersDayContext && addVase) addons.push(`Vase (${vaseOptions[selectedVaseIdx].label})`);
+      if (!isMothersDayContext && addButterfly) addons.push("Butterflies");
 
       // GA4: add_to_cart event
       (window as any).gtag?.('event', 'add_to_cart', {
@@ -435,8 +436,11 @@ const BouquetProductDetail = () => {
         totalPrice,
         addons,
         // In Mother's Day mode the only optional add-on is the card "note".
-        accessory: isMothersDayContext ? (accessory === "note" ? "note" : "none") : accessory,
-        accessoryText: isMothersDayContext ? (accessory === "note" ? accessoryText : "") : accessoryText,
+        // Note + butterflies are now independent. The cart "accessory" field
+        // still tracks the note (so the textarea content stays linked to it);
+        // butterflies are pushed as a regular addon string above.
+        accessory: addNote ? "note" : "none",
+        accessoryText: addNote ? accessoryText : "",
         ribbonText: isMothersDayContext ? ribbonText : ribbonText,
         crownSize: isMothersDayContext ? crownSize : (addCrown ? crownSize : ""),
         specialText: isMothersDayContext ? "" : specialText,
