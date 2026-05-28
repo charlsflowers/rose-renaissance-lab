@@ -51,6 +51,7 @@ interface CartStore {
   setOpen: (open: boolean) => void;
   addItem: (item: Omit<CartItem, 'id'> & { id?: string }) => Promise<void>;
   removeItem: (id: string) => Promise<void>;
+  duplicateItem: (id: string) => Promise<void>;
   clearCart: () => void;
   totalItems: number;
   cartTotal: number;
