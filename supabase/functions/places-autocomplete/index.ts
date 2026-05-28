@@ -43,7 +43,7 @@ serve(async (req) => {
     if (data.status !== "OK" && data.status !== "ZERO_RESULTS") {
       console.error("Places API error:", data.status, data.error_message);
       return new Response(
-        JSON.stringify({ error: "Error en Places API", details: data.status }),
+        JSON.stringify({ error: "Servicio no disponible temporalmente" }),
         { status: 502, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
       );
     }
@@ -60,8 +60,9 @@ serve(async (req) => {
       { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
     );
   } catch (err) {
+    console.error("places-autocomplete error:", err);
     return new Response(
-      JSON.stringify({ error: "Error interno", details: String(err) }),
+      JSON.stringify({ error: "Error interno" }),
       { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
     );
   }
