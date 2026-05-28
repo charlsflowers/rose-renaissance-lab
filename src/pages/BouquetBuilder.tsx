@@ -49,7 +49,8 @@ const BouquetBuilder = () => {
   const addItem = useCartStore(state => state.addItem);
   const [selectedColors, setSelectedColors] = useState<ColorOption[]>([]);
   const [selectedSizeIdx, setSelectedSizeIdx] = useState(0);
-  const [accessory, setAccessory] = useState<AccessoryType>("none");
+  const [addNote, setAddNote] = useState(false);
+  const [addButterfly, setAddButterfly] = useState(false);
   const [accessoryText, setAccessoryText] = useState("");
   const [addCrown, setAddCrown] = useState(false);
   const [crownSize, setCrownSize] = useState("small");
@@ -309,7 +310,7 @@ const BouquetBuilder = () => {
 
   const crownCost = addCrown ? crownPrice : 0;
   const ribbonCost = addRibbon ? ribbonPrice : 0;
-  const accessoryCost = accessory === "note" ? 3 : accessory === "butterfly" ? 3 : 0;
+  const accessoryCost = (addNote ? 3 : 0) + (addButterfly ? 3 : 0);
 
   const totalPrice = useMemo(() => {
     let total = basePrice + lettersNumbersCost;
@@ -697,9 +698,9 @@ const BouquetBuilder = () => {
             <Section title={t("builder.accessories")} step={5}>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
                 <button
-                  onClick={() => setAccessory(accessory === "note" ? "none" : "note")}
+                  onClick={() => setAddNote(v => !v)}
                   className={`flex flex-col items-center gap-2 p-4 rounded-lg border-2 transition-all font-body text-sm ${
-                    accessory === "note"
+                    addNote
                       ? "border-primary bg-primary/5 text-primary"
                       : "border-border text-muted-foreground hover:border-primary/30"
                   }`}
@@ -709,9 +710,9 @@ const BouquetBuilder = () => {
                   <span className="text-xs text-secondary">$3</span>
                 </button>
                 <button
-                  onClick={() => setAccessory(accessory === "butterfly" ? "none" : "butterfly")}
+                  onClick={() => setAddButterfly(v => !v)}
                   className={`flex flex-col items-center gap-2 p-4 rounded-lg border-2 transition-all font-body text-sm ${
-                    accessory === "butterfly"
+                    addButterfly
                       ? "border-primary bg-primary/5 text-primary"
                       : "border-border text-muted-foreground hover:border-primary/30"
                   }`}
@@ -721,7 +722,7 @@ const BouquetBuilder = () => {
                   <span className="text-xs text-secondary">$3</span>
                 </button>
               </div>
-              {accessory === "note" && (
+              {addNote && (
                 <textarea
                   value={accessoryText}
                   onChange={(e) => setAccessoryText(e.target.value)}
