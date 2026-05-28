@@ -188,7 +188,7 @@ export async function performApiCheckout(options: ApiCheckoutOptions): Promise<s
     .filter((item) => item.shopifyVariantId && item.shopifyVariantId.length > 0)
     .map((item) => ({
       merchandiseId: toGid(item.shopifyVariantId),
-      quantity: 1,
+      quantity: item.quantity || 1,
     }));
 
   // 2) Accessory lines
