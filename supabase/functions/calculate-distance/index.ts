@@ -119,7 +119,8 @@ serve(async (req) => {
     ]);
 
     if (distanceResponse.status !== "OK") {
-      return new Response(JSON.stringify({ error: "Error de Google Maps API", details: distanceResponse.status }), {
+      console.error("Distance Matrix API error status:", distanceResponse.status);
+      return new Response(JSON.stringify({ error: "Servicio no disponible temporalmente" }), {
         status: 502,
         headers: { ...corsHeaders, "Content-Type": "application/json" },
       });
@@ -172,7 +173,8 @@ serve(async (req) => {
       { status: 200, headers: { ...corsHeaders, "Content-Type": "application/json" } },
     );
   } catch (err) {
-    return new Response(JSON.stringify({ error: "Error interno", details: String(err) }), {
+    console.error("calculate-distance error:", err);
+    return new Response(JSON.stringify({ error: "Error interno" }), {
       status: 500,
       headers: { ...corsHeaders, "Content-Type": "application/json" },
     });
