@@ -370,7 +370,6 @@ const BouquetProductDetail = () => {
   const vaseCost = !isMothersDayContext && addVase ? vaseOptions[selectedVaseIdx].price : 0;
   // Note add-on costs $3 for BOTH standard and Mother's Day products.
   // Butterflies are bundled for MD; only standard products charge $3 for them.
-  const accessoryCost = accessory === "note"
   const accessoryCost =
     (addNote ? 3 : 0) + (!isMothersDayContext && addButterfly ? 3 : 0);
   const deliveryCost = deliveryMethod === "delivery" && deliveryMiles && !distanceTooFar ? calculateDeliveryCost(deliveryMiles) : 0;
