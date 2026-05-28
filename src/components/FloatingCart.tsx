@@ -233,7 +233,6 @@ const FloatingCart = () => {
                       </p>
                       <p className="font-body text-xs text-muted-foreground mt-0.5">
                         {item.roses} {t("product.roses")}
-                        {item.color ? ` · ${item.color}` : ""}
                       </p>
                       <div className="flex items-center justify-between mt-1.5">
                         <p className="font-body text-base font-semibold text-foreground">
@@ -259,8 +258,11 @@ const FloatingCart = () => {
                             </span>
                             <button
                               type="button"
-                              disabled={isLoading}
-                              onClick={() => updateQuantity(item.id, (item.quantity || 1) + 1)}
+                              disabled={isLoading || (item.quantity || 1) >= 25}
+                              onClick={() => {
+                                const q = item.quantity || 1;
+                                if (q < 25) updateQuantity(item.id, q + 1);
+                              }}
                               aria-label="Increase quantity"
                               className="px-2.5 py-1 text-primary hover:bg-primary/5 transition-colors disabled:opacity-50"
                             >
