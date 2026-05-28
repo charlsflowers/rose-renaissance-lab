@@ -97,6 +97,13 @@ export const useCartStore = create<CartStore>()(
         }
       },
 
+      duplicateItem: async (id) => {
+        const item = get().items.find((i) => i.id === id);
+        if (!item) return;
+        const newItem: CartItem = { ...item, id: crypto.randomUUID() };
+        set({ items: [...get().items, newItem] });
+      },
+
       clearCart: () => set({ items: [] }),
     }),
     {
