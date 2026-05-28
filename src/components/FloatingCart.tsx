@@ -6,7 +6,7 @@ import { useCartStore } from "@/stores/cartStore";
 import BrandLogo from "@/components/BrandLogo";
 import { useTranslation } from "@/i18n/LanguageContext";
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
-import { Trash2, Loader2, X, Plus } from "lucide-react";
+import { Trash2, Loader2, X, Plus, Minus } from "lucide-react";
 import PaymentIcons from "@/components/PaymentIcons";
 import { performApiCheckout } from "@/lib/checkout";
 import { buildAccessoryLineItems } from "@/lib/accessoryVariants";
@@ -234,16 +234,30 @@ const FloatingCart = () => {
                         <p className="font-body text-base font-semibold text-foreground">
                           ${parseFloat(item.totalPrice.toFixed(2))}
                         </p>
-                        <div className="flex items-center gap-1">
-                          <button
-                            type="button"
-                            disabled={isLoading}
-                            onClick={() => duplicateItem(item.id)}
-                            aria-label="Add one more"
-                            className="p-1.5 rounded-md text-muted-foreground hover:text-primary hover:bg-primary/5 transition-colors disabled:opacity-50"
-                          >
-                            <Plus className="w-4 h-4" />
-                          </button>
+                        <div className="flex items-center gap-2">
+                          <div className="flex items-center border-2 border-primary rounded-full overflow-hidden">
+                            <button
+                              type="button"
+                              disabled={isLoading}
+                              onClick={() => handleRemoveItem(item.id)}
+                              aria-label="Decrease quantity"
+                              className="px-2.5 py-1 text-primary hover:bg-primary/5 transition-colors disabled:opacity-50"
+                            >
+                              <Minus className="w-3.5 h-3.5" strokeWidth={2.5} />
+                            </button>
+                            <span className="font-body text-sm font-semibold text-primary min-w-[1.25rem] text-center select-none">
+                              1
+                            </span>
+                            <button
+                              type="button"
+                              disabled={isLoading}
+                              onClick={() => duplicateItem(item.id)}
+                              aria-label="Increase quantity"
+                              className="px-2.5 py-1 text-primary hover:bg-primary/5 transition-colors disabled:opacity-50"
+                            >
+                              <Plus className="w-3.5 h-3.5" strokeWidth={2.5} />
+                            </button>
+                          </div>
                           <button
                             type="button"
                             disabled={isLoading}
