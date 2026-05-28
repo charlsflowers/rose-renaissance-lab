@@ -70,16 +70,24 @@ const BouquetProducts = () => {
   const { t } = useTranslation();
   const translatedBouquetFAQs = useBouquetFAQs();
   const [searchParams] = useSearchParams();
-  const initialFilter = (searchParams.get("filter") as FilterType) || "all";
+  const storedFilter = (typeof window !== "undefined"
+    ? (sessionStorage.getItem("bouquetsFilter") as FilterType | null)
+    : null);
+  const initialFilter =
+    (searchParams.get("filter") as FilterType) || storedFilter || "all";
   const [filter, setFilter] = useState<FilterType>(initialFilter);
   const promoActive = isMothersDayPromoActive();
 
   useEffect(() => { window.scrollTo(0, 0); }, []);
 
   useEffect(() => {
-    const urlFilter = (searchParams.get("filter") as FilterType) || "all";
-    setFilter(urlFilter);
+    const urlFilter = searchParams.get("filter") as FilterType | null;
+    if (urlFilter) setFilter(urlFilter);
   }, [searchParams]);
+
+  useEffect(() => {
+    try { sessionStorage.setItem("bouquetsFilter", filter); } catch {}
+  }, [filter]);
 
   const orderForFilter =
     filter === "zodiac" ? ORDER_ZODIAC :
