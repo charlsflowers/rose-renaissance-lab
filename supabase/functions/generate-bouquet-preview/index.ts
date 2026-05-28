@@ -15,6 +15,44 @@ function buildCacheKey(config: Record<string, string>): string {
   return parts.replace(/[^a-zA-Z0-9_-]/g, "_");
 }
 
+// Sanitize free-text user input that ends up inside an AI prompt.
+// Removes characters that could be used for prompt injection and enforces a
+// hard length cap. Only allows letters, numbers, spaces and a small set of
+// safe punctuation.
+function sanitizePromptText(value: unknown, maxLen: number): string {
+  if (typeof value !== "string") return "";
+  return value
+    .replace(/[^\p{L}\p{N} .,'!?&-]/gu, "")
+    .trim()
+    .slice(0, maxLen);
+}
+
+// Sanitize short tokens (color names, paper colors). Letters, numbers,
+// spaces, commas and hyphens only.
+function sanitizeToken(value: unknown, maxLen: number): string {
+  if (typeof value !== "string") return "";
+  return value
+    .replace(/[^a-zA-Z0-9 ,\-]/g, "")
+    .trim()
+    .slice(0, maxLen);
+}
+
+function sanitizeConfig(raw: Record<string, unknown>): Record<string, string> {
+  const out: Record<string, string> = {};
+  const color = sanitizeToken(raw.color, 120);
+  if (color) out.color = color;
+  const paperColor = sanitizeToken(raw.paperColor, 40);
+  if (paperColor) out.paperColor = paperColor;
+  if (raw.glitter === "true" || raw.glitter === true) out.glitter = "true";
+  if (raw.crown === "true" || raw.crown === true) out.crown = "true";
+  if (raw.ribbon === "true" || raw.ribbon === true) out.ribbon = "true";
+  const specialText = sanitizePromptText(raw.specialText, 40);
+  if (specialText) out.specialText = specialText;
+  const ribbonText = sanitizePromptText(raw.ribbonText, 40);
+  if (ribbonText) out.ribbonText = ribbonText;
+  return out;
+}
+
 serve(async (req) => {
   if (req.method === "OPTIONS") {
     return new Response(null, { headers: corsHeaders });
@@ -32,14 +70,17 @@ serve(async (req) => {
 
     const supabase = createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY);
 
-    const { bouquetConfig, baseImageUrl } = await req.json();
-
-    if (!bouquetConfig) {
+    const body = await req.json().catch(() => null);
+    if (!body || typeof body !== "object" || !body.bouquetConfig) {
       return new Response(
         JSON.stringify({ error: "bouquetConfig is required" }),
         { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } }
       );
     }
+    const bouquetConfig = sanitizeConfig(body.bouquetConfig as Record<string, unknown>);
+    const baseImageUrl = typeof body.baseImageUrl === "string" && body.baseImageUrl.startsWith("https://")
+      ? body.baseImageUrl
+      : "";
 
     // Build cache key from configuration
     const cacheKey = buildCacheKey(bouquetConfig);
