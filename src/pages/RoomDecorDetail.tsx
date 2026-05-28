@@ -190,7 +190,6 @@ const RoomDecorDetail = () => {
     setSelectedAddons(prev => {
       if (prev.includes(idx)) return prev.filter(i => i !== idx);
       if (prev.length >= pkg.maxAddons) {
-        toast.error(t("roomDecors.maxAddonsReached"));
         return prev;
       }
       return [...prev, idx];
@@ -400,14 +399,19 @@ const RoomDecorDetail = () => {
                   <div className="space-y-2">
                     {pkg.addons.map((addon, idx) => {
                       const selected = selectedAddons.includes(idx);
+                      const limitReached = !selected && selectedAddons.length >= pkg.maxAddons;
                       return (
                         <button
                           key={idx}
                           onClick={() => toggleAddon(idx)}
+                          disabled={limitReached}
+                          aria-disabled={limitReached}
                           className={`w-full flex items-center gap-3 p-3 rounded-lg border-2 transition-all text-left ${
                             selected
                               ? "border-primary bg-primary/5"
-                              : "border-border hover:border-primary/30"
+                              : limitReached
+                                ? "border-border bg-muted/40 opacity-50 cursor-not-allowed"
+                                : "border-border hover:border-primary/30"
                           }`}
                         >
                           <div className="flex-1">
@@ -638,14 +642,19 @@ const RoomDecorDetail = () => {
                 <div className="space-y-2">
                   {pkg.addons.map((addon, idx) => {
                     const selected = selectedAddons.includes(idx);
+                    const limitReached = !selected && selectedAddons.length >= pkg.maxAddons;
                     return (
                       <button
                         key={idx}
                         onClick={() => toggleAddon(idx)}
+                        disabled={limitReached}
+                        aria-disabled={limitReached}
                         className={`w-full flex items-center gap-3 p-4 rounded-lg border-2 transition-all text-left ${
                           selected
                             ? "border-primary bg-primary/5"
-                            : "border-border hover:border-primary/30"
+                            : limitReached
+                              ? "border-border bg-muted/40 opacity-50 cursor-not-allowed"
+                              : "border-border hover:border-primary/30"
                         }`}
                       >
                         <div className="flex-1">
