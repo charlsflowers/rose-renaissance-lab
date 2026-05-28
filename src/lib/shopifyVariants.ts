@@ -107,7 +107,10 @@ export function buildShopifySizeOptions(
     .map((v) => {
       const rosesOpt = v.selectedOptions.find((o) => o.name === "Roses");
       const rosesStr = rosesOpt?.value ?? v.title;
-      const rosesNum = parseInt(rosesStr.replace(/\D/g, ""), 10);
+      // Use the FIRST number only — variant titles like "50 roses + 8 sunflowers"
+      // would otherwise collapse to "508". Match leading digits.
+      const match = rosesStr.match(/\d+/);
+      const rosesNum = match ? parseInt(match[0], 10) : NaN;
       const price = v.price?.amount ? parseFloat(v.price.amount) : 0;
       return isNaN(rosesNum) ? null : { roses: rosesNum, price };
     })
