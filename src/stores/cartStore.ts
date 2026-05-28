@@ -42,6 +42,7 @@ export interface CartItem {
   };
   // Shopify variant id (GID). Empty string for "Coming Soon" categories.
   shopifyVariantId: string;
+  quantity?: number;
 }
 
 interface CartStore {
@@ -52,6 +53,7 @@ interface CartStore {
   addItem: (item: Omit<CartItem, 'id'> & { id?: string }) => Promise<void>;
   removeItem: (id: string) => Promise<void>;
   duplicateItem: (id: string) => Promise<void>;
+  updateQuantity: (id: string, quantity: number) => Promise<void>;
   clearCart: () => void;
   totalItems: number;
   cartTotal: number;
@@ -84,7 +86,7 @@ export const useCartStore = create<CartStore>()(
 
       addItem: async (item) => {
         const localId = item.id && item.id.length > 0 ? item.id : crypto.randomUUID();
-        const newItem: CartItem = { ...(item as CartItem), id: localId };
+        const newItem: CartItem = { quantity: 1, ...(item as CartItem), id: localId };
         set({ items: [...get().items, newItem], isOpen: true });
       },
 
@@ -102,6 +104,18 @@ export const useCartStore = create<CartStore>()(
         if (!item) return;
         const newItem: CartItem = { ...item, id: crypto.randomUUID() };
         set({ items: [...get().items, newItem] });
+      },
+
+      updateQuantity: async (id, quantity) => {
+        if (quantity <= 0) {
+          await get().removeItem(id);
+          return;
+        }
+        set({
+          items: get().items.map((i) =>
+            i.id === id ? { ...i, quantity } : i
+          ),
+        });
       },
 
       clearCart: () => set({ items: [] }),
