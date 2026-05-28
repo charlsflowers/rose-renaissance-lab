@@ -19,6 +19,7 @@ const FloatingCart = () => {
   const { t } = useTranslation();
   const items = useCartStore(state => state.items);
   const removeItem = useCartStore(state => state.removeItem);
+  const duplicateItem = useCartStore(state => state.duplicateItem);
   const isLoading = useCartStore(state => state.isLoading);
   const open = useCartStore(state => state.isOpen);
   const setOpen = useCartStore(state => state.setOpen);
