@@ -611,9 +611,9 @@ const BouquetProductDetail = () => {
     <Section title="Optional Add-ons" step={step++}>
       <button
         type="button"
-        onClick={() => setAccessory(accessory === "note" ? "none" : "note")}
+        onClick={() => setAddNote((v) => !v)}
         className={`w-full flex items-center gap-3 py-2 px-3 rounded-lg border-2 transition-all font-body text-sm ${
-          accessory === "note"
+          addNote
             ? "border-primary bg-primary/5 text-primary"
             : "border-border text-muted-foreground hover:border-primary/30"
         }`}
@@ -625,9 +625,9 @@ const BouquetProductDetail = () => {
           </span>
           <span className="block text-[11px] text-muted-foreground">Personalized message card with your bouquet</span>
         </span>
-        {accessory === "note" && <Check className="w-4 h-4 text-primary" />}
+        {addNote && <Check className="w-4 h-4 text-primary" />}
       </button>
-      {accessory === "note" && (
+      {addNote && (
         <textarea
           value={accessoryText}
           onChange={(e) => setAccessoryText(e.target.value)}
