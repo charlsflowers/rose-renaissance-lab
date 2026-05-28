@@ -51,6 +51,7 @@ interface CartStore {
   setOpen: (open: boolean) => void;
   addItem: (item: Omit<CartItem, 'id'> & { id?: string }) => Promise<void>;
   removeItem: (id: string) => Promise<void>;
+  duplicateItem: (id: string) => Promise<void>;
   clearCart: () => void;
   totalItems: number;
   cartTotal: number;
@@ -94,6 +95,13 @@ export const useCartStore = create<CartStore>()(
         } else {
           set({ items: newItems });
         }
+      },
+
+      duplicateItem: async (id) => {
+        const item = get().items.find((i) => i.id === id);
+        if (!item) return;
+        const newItem: CartItem = { ...item, id: crypto.randomUUID() };
+        set({ items: [...get().items, newItem] });
       },
 
       clearCart: () => set({ items: [] }),

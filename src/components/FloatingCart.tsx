@@ -6,7 +6,7 @@ import { useCartStore } from "@/stores/cartStore";
 import BrandLogo from "@/components/BrandLogo";
 import { useTranslation } from "@/i18n/LanguageContext";
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
-import { Trash2, Loader2, X } from "lucide-react";
+import { Trash2, Loader2, X, Plus } from "lucide-react";
 import PaymentIcons from "@/components/PaymentIcons";
 import { performApiCheckout } from "@/lib/checkout";
 import { buildAccessoryLineItems } from "@/lib/accessoryVariants";
@@ -19,6 +19,7 @@ const FloatingCart = () => {
   const { t } = useTranslation();
   const items = useCartStore(state => state.items);
   const removeItem = useCartStore(state => state.removeItem);
+  const duplicateItem = useCartStore(state => state.duplicateItem);
   const isLoading = useCartStore(state => state.isLoading);
   const open = useCartStore(state => state.isOpen);
   const setOpen = useCartStore(state => state.setOpen);
@@ -233,15 +234,26 @@ const FloatingCart = () => {
                         <p className="font-body text-base font-semibold text-foreground">
                           ${parseFloat(item.totalPrice.toFixed(2))}
                         </p>
-                        <button
-                          type="button"
-                          disabled={isLoading}
-                          onClick={() => handleRemoveItem(item.id)}
-                          aria-label={t("floatingCart.remove")}
-                          className="p-1.5 rounded-md text-muted-foreground hover:text-primary hover:bg-primary/5 transition-colors disabled:opacity-50"
-                        >
-                          <Trash2 className="w-4 h-4" />
-                        </button>
+                        <div className="flex items-center gap-1">
+                          <button
+                            type="button"
+                            disabled={isLoading}
+                            onClick={() => duplicateItem(item.id)}
+                            aria-label="Add one more"
+                            className="p-1.5 rounded-md text-muted-foreground hover:text-primary hover:bg-primary/5 transition-colors disabled:opacity-50"
+                          >
+                            <Plus className="w-4 h-4" />
+                          </button>
+                          <button
+                            type="button"
+                            disabled={isLoading}
+                            onClick={() => handleRemoveItem(item.id)}
+                            aria-label={t("floatingCart.remove")}
+                            className="p-1.5 rounded-md text-muted-foreground hover:text-primary hover:bg-primary/5 transition-colors disabled:opacity-50"
+                          >
+                            <Trash2 className="w-4 h-4" />
+                          </button>
+                        </div>
                       </div>
                     </div>
                   </li>
