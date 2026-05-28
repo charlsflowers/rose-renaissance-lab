@@ -35,12 +35,12 @@ export interface RoomDecorBouquetColor {
 }
 
 export const roomDecorBouquetColors: RoomDecorBouquetColor[] = [
-  { name: 'White',    image: `${CDN}/7_66d51745-8450-43cc-9f6d-acf138fc2d81.png?v=1774610955` },
-  { name: 'Hot Pink', image: `${CDN}/10_13e615d2-0e75-4583-a1bf-5b44f823ed23.png?v=1774610956` },
-  { name: 'Pink',     image: `${CDN}/5_e69dee54-c820-4910-95cb-130b55626cda.png?v=1774610955` },
-  { name: 'Purple',   image: `${CDN}/6_76f89215-f151-4ae3-858e-7b39b5aeb37f.png?v=1774610954` },
-  { name: 'Orange',   image: `${CDN}/2_4ce938e3-ed17-43ba-93c8-4bb90bd8f839.png?v=1774610955` },
-  { name: 'Yellow',   image: `${CDN}/4_64454122-543f-42d2-b5dd-0c63e33d023e.png?v=1774610954` },
+  { name: 'White',    image: `${CDN}/hf_20260521_210732_96c760b1-ac14-4382-a942-8752f5a20d22.png?v=1779397724` },
+  { name: 'Hot Pink', image: `${CDN}/hf_20260521_202826_060e6b5a-eaa6-4e8b-922d-231edf3440cf.png?v=1779395917` },
+  { name: 'Pink',     image: `${CDN}/hf_20260522_131423_3a48c5d4-b253-4f0a-a122-bf6e1b9c5978.jpg?v=1779455768` },
+  { name: 'Purple',   image: `${CDN}/hf_20260522_081445_07e6742f-062e-4335-bd37-62550d8bc4f5.jpg?v=1779437862` },
+  { name: 'Orange',   image: `${CDN}/hf_20260522_132317_92f94184-ae64-4102-8b32-ac87226f8527.jpg?v=1779456439` },
+  { name: 'Yellow',   image: `${CDN}/hf_20260522_133010_155ed973-10a9-437a-8f69-fd59757c4fe2.png?v=1779456670` },
 ];
 
 export const roomDecorPackages: RoomDecorPackage[] = [
