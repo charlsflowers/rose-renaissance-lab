@@ -19,15 +19,15 @@ const FloatingCart = () => {
   const { t } = useTranslation();
   const items = useCartStore(state => state.items);
   const removeItem = useCartStore(state => state.removeItem);
-  const duplicateItem = useCartStore(state => state.duplicateItem);
+  const updateQuantity = useCartStore(state => state.updateQuantity);
   const isLoading = useCartStore(state => state.isLoading);
   const open = useCartStore(state => state.isOpen);
   const setOpen = useCartStore(state => state.setOpen);
-  const totalItems = items.length;
-  const cartTotal = items.reduce((sum, i) => sum + i.totalPrice, 0);
+  const totalItems = items.reduce((sum, i) => sum + (i.quantity || 1), 0);
+  const cartTotal = items.reduce((sum, i) => sum + i.totalPrice * (i.quantity || 1), 0);
   const [isCheckingOut, setIsCheckingOut] = useState(false);
 
-  const itemsSubtotal = parseFloat(items.reduce((sum, i) => sum + i.price, 0).toFixed(2));
+  const itemsSubtotal = parseFloat(items.reduce((sum, i) => sum + i.price * (i.quantity || 1), 0).toFixed(2));
   const deliveryItem = items.find((i) => i.deliveryMethod === "delivery" && i.deliveryAddress && i.deliveryAddress !== "Store pickup");
   const checkoutDeliveryMethod: "pickup" | "delivery" = deliveryItem ? "delivery" : "pickup";
   const deliveryCost = deliveryItem ? (deliveryItem.deliveryCost || 0) : 0;
@@ -44,7 +44,7 @@ const FloatingCart = () => {
           item_name: i.productName || i.bouquetType,
           item_category: i.bouquetType,
           price: parseFloat(i.price.toFixed(2)),
-          quantity: 1,
+          quantity: i.quantity || 1,
         })),
       });
     }
@@ -57,12 +57,12 @@ const FloatingCart = () => {
     if (item) {
       (window as any).gtag?.('event', 'remove_from_cart', {
         currency: 'USD',
-        value: parseFloat(item.price.toFixed(2)),
+        value: parseFloat((item.price * (item.quantity || 1)).toFixed(2)),
         items: [{
           item_id: item.shopifyVariantId || item.bouquetType,
           item_name: item.productName || item.bouquetType,
           price: parseFloat(item.price.toFixed(2)),
-          quantity: 1,
+          quantity: item.quantity || 1,
         }],
       });
     }
@@ -102,6 +102,9 @@ const FloatingCart = () => {
         noteLines.push("");
         noteLines.push(`DATOS DEL PRODUCTO ${idx + 1}`);
         noteLines.push(`- 🌹 Producto: ${item.productName || item.bouquetType}`);
+        if ((item.quantity || 1) > 1) {
+          noteLines.push(`- 🔢 Cantidad: ${item.quantity}`);
+        }
 
         if (item.bouquetType === "custom" && item.color) {
           const colors = item.color.split(",").map(c => c.trim()).filter(Boolean);
@@ -137,7 +140,8 @@ const FloatingCart = () => {
       const accessoryLineItems = items.flatMap((item) => {
         const vaseAddon = item.addons?.find(a => a.startsWith("Vase"));
         const vaseRosesMatch = vaseAddon?.match(/\((\d+)/);
-        return buildAccessoryLineItems({
+        const qty = item.quantity || 1;
+        const lines = buildAccessoryLineItems({
           glitter: item.glitter,
           rosesCount: item.roses,
           accessory: item.accessory,
@@ -148,6 +152,7 @@ const FloatingCart = () => {
           crownSize: item.crownSize,
           addRibbon: !!item.ribbonText,
         });
+        return lines.map((l) => ({ ...l, quantity: l.quantity * qty }));
       });
 
       const cartTotalForFee = itemsSubtotal + deliveryCost;
@@ -232,26 +237,30 @@ const FloatingCart = () => {
                       </p>
                       <div className="flex items-center justify-between mt-1.5">
                         <p className="font-body text-base font-semibold text-foreground">
-                          ${parseFloat(item.totalPrice.toFixed(2))}
+                          ${parseFloat((item.totalPrice * (item.quantity || 1)).toFixed(2))}
                         </p>
                         <div className="flex items-center gap-2">
                           <div className="flex items-center border-2 border-primary rounded-full overflow-hidden">
                             <button
                               type="button"
                               disabled={isLoading}
-                              onClick={() => handleRemoveItem(item.id)}
+                              onClick={() => {
+                                const q = item.quantity || 1;
+                                if (q <= 1) handleRemoveItem(item.id);
+                                else updateQuantity(item.id, q - 1);
+                              }}
                               aria-label="Decrease quantity"
                               className="px-2.5 py-1 text-primary hover:bg-primary/5 transition-colors disabled:opacity-50"
                             >
                               <Minus className="w-3.5 h-3.5" strokeWidth={2.5} />
                             </button>
                             <span className="font-body text-sm font-semibold text-primary min-w-[1.25rem] text-center select-none">
-                              1
+                              {item.quantity || 1}
                             </span>
                             <button
                               type="button"
                               disabled={isLoading}
-                              onClick={() => duplicateItem(item.id)}
+                              onClick={() => updateQuantity(item.id, (item.quantity || 1) + 1)}
                               aria-label="Increase quantity"
                               className="px-2.5 py-1 text-primary hover:bg-primary/5 transition-colors disabled:opacity-50"
                             >
