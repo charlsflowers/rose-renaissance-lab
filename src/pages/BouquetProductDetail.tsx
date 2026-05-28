@@ -861,7 +861,8 @@ const BouquetProductDetail = () => {
                   <p className="font-body text-[10px] lg:text-xs text-muted-foreground leading-tight flex-1 line-clamp-1">
                     {product.name} · {selectedSize.roses} {t("product.roses")}
                     {!isMothersDayContext && addGlitter === true && " · Glitter"}
-                    {accessory !== "none" && ` · ${accessory === "note" ? t("product.note") : t("product.butterflies")}`}
+                    {addNote && ` · ${t("product.note")}`}
+                    {!isMothersDayContext && addButterfly && ` · ${t("product.butterflies")}`}
                   </p>
                   <p className="font-display text-lg lg:text-2xl font-bold text-foreground whitespace-nowrap">${parseFloat(totalPrice.toFixed(2))}</p>
                 </div>
@@ -948,7 +949,8 @@ const BouquetProductDetail = () => {
                 <p className="font-body text-[10px] text-muted-foreground leading-tight flex-1 line-clamp-1">
                   {product.name} · {selectedSize.roses} {t("product.roses")}
                   {!isMothersDayContext && addGlitter === true && " · Glitter"}
-                  {accessory !== "none" && ` · ${accessory === "note" ? t("product.note") : t("product.butterflies")}`}
+                  {addNote && ` · ${t("product.note")}`}
+                  {!isMothersDayContext && addButterfly && ` · ${t("product.butterflies")}`}
                 </p>
                 <p className="font-display text-lg font-bold text-foreground whitespace-nowrap">${parseFloat(totalPrice.toFixed(2))}</p>
               </div>
