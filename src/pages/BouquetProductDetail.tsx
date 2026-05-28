@@ -117,7 +117,9 @@ const BouquetProductDetail = () => {
   }, [product?.shopifyHandle]);
 
   const [selectedSizeIdx, setSelectedSizeIdx] = useState(0);
-  const [accessory, setAccessory] = useState<"none" | "note" | "card" | "butterfly">("none");
+  // Note and butterfly are now independent — users can pick both at the same time.
+  const [addNote, setAddNote] = useState(false);
+  const [addButterfly, setAddButterfly] = useState(false);
   const [accessoryText, setAccessoryText] = useState("");
   const [addCrown, setAddCrown] = useState(false);
   const [crownSize, setCrownSize] = useState("small");
@@ -368,9 +370,8 @@ const BouquetProductDetail = () => {
   const vaseCost = !isMothersDayContext && addVase ? vaseOptions[selectedVaseIdx].price : 0;
   // Note add-on costs $3 for BOTH standard and Mother's Day products.
   // Butterflies are bundled for MD; only standard products charge $3 for them.
-  const accessoryCost = accessory === "note"
-    ? 3
-    : (!isMothersDayContext && accessory === "butterfly" ? 3 : 0);
+  const accessoryCost =
+    (addNote ? 3 : 0) + (!isMothersDayContext && addButterfly ? 3 : 0);
   const deliveryCost = deliveryMethod === "delivery" && deliveryMiles && !distanceTooFar ? calculateDeliveryCost(deliveryMiles) : 0;
   // Mother's Day: Crown + Butterflies + Ribbon are bundled in the Shopify variant price.
   // The optional Note add-on is still charged separately ($3).
@@ -409,6 +410,7 @@ const BouquetProductDetail = () => {
       const addons: string[] = [];
       if (!isMothersDayContext && addGlitter === true) addons.push("Glitter");
       if (!isMothersDayContext && addVase) addons.push(`Vase (${vaseOptions[selectedVaseIdx].label})`);
+      if (!isMothersDayContext && addButterfly) addons.push("Butterflies");
 
       // GA4: add_to_cart event
       (window as any).gtag?.('event', 'add_to_cart', {
@@ -434,8 +436,11 @@ const BouquetProductDetail = () => {
         totalPrice,
         addons,
         // In Mother's Day mode the only optional add-on is the card "note".
-        accessory: isMothersDayContext ? (accessory === "note" ? "note" : "none") : accessory,
-        accessoryText: isMothersDayContext ? (accessory === "note" ? accessoryText : "") : accessoryText,
+        // Note + butterflies are now independent. The cart "accessory" field
+        // still tracks the note (so the textarea content stays linked to it);
+        // butterflies are pushed as a regular addon string above.
+        accessory: addNote ? "note" : "none",
+        accessoryText: addNote ? accessoryText : "",
         ribbonText: isMothersDayContext ? ribbonText : ribbonText,
         crownSize: isMothersDayContext ? crownSize : (addCrown ? crownSize : ""),
         specialText: isMothersDayContext ? "" : specialText,
@@ -506,16 +511,16 @@ const BouquetProductDetail = () => {
   const renderAccessoriesSection = (isMobile = false) => (
     <Section title={t("product.accessories")} step={step++}>
       <div className="grid grid-cols-2 gap-2">
-        <button onClick={() => setAccessory(accessory === "note" ? "none" : "note")}
-          className={`flex flex-col items-center gap-1 py-2 px-2 rounded-lg border-2 transition-all font-body text-sm ${accessory === "note" ? "border-primary bg-primary/5 text-primary" : "border-border text-muted-foreground hover:border-primary/30"}`}>
+        <button onClick={() => setAddNote((v) => !v)}
+          className={`flex flex-col items-center gap-1 py-2 px-2 rounded-lg border-2 transition-all font-body text-sm ${addNote ? "border-primary bg-primary/5 text-primary" : "border-border text-muted-foreground hover:border-primary/30"}`}>
           <img src={noteImg} alt="Note accessory" className="w-16 h-16 md:w-12 md:h-12 object-contain rounded-lg" /> {t("product.note")} <span className="text-[10px] text-secondary">$3</span>
         </button>
-        <button onClick={() => setAccessory(accessory === "butterfly" ? "none" : "butterfly")}
-          className={`flex flex-col items-center gap-1 py-2 px-2 rounded-lg border-2 transition-all font-body text-sm ${accessory === "butterfly" ? "border-primary bg-primary/5 text-primary" : "border-border text-muted-foreground hover:border-primary/30"}`}>
+        <button onClick={() => setAddButterfly((v) => !v)}
+          className={`flex flex-col items-center gap-1 py-2 px-2 rounded-lg border-2 transition-all font-body text-sm ${addButterfly ? "border-primary bg-primary/5 text-primary" : "border-border text-muted-foreground hover:border-primary/30"}`}>
           <img src={butterflyImg} alt="Butterfly accessory" className="w-16 h-16 md:w-12 md:h-12 object-contain" /> {t("product.butterflies")} <span className="text-[10px] text-secondary">$3</span>
         </button>
       </div>
-      {accessory === "note" && (
+      {addNote && (
         <textarea value={accessoryText} onChange={(e) => setAccessoryText(e.target.value)} placeholder={t("product.writeNote")}
           className="w-full mt-3 bg-card border border-border rounded-lg px-3 py-2 font-body text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30 min-h-[80px] resize-none" maxLength={200} />
       )}
@@ -606,9 +611,9 @@ const BouquetProductDetail = () => {
     <Section title="Optional Add-ons" step={step++}>
       <button
         type="button"
-        onClick={() => setAccessory(accessory === "note" ? "none" : "note")}
+        onClick={() => setAddNote((v) => !v)}
         className={`w-full flex items-center gap-3 py-2 px-3 rounded-lg border-2 transition-all font-body text-sm ${
-          accessory === "note"
+          addNote
             ? "border-primary bg-primary/5 text-primary"
             : "border-border text-muted-foreground hover:border-primary/30"
         }`}
@@ -620,9 +625,9 @@ const BouquetProductDetail = () => {
           </span>
           <span className="block text-[11px] text-muted-foreground">Personalized message card with your bouquet</span>
         </span>
-        {accessory === "note" && <Check className="w-4 h-4 text-primary" />}
+        {addNote && <Check className="w-4 h-4 text-primary" />}
       </button>
-      {accessory === "note" && (
+      {addNote && (
         <textarea
           value={accessoryText}
           onChange={(e) => setAccessoryText(e.target.value)}
@@ -856,7 +861,8 @@ const BouquetProductDetail = () => {
                   <p className="font-body text-[10px] lg:text-xs text-muted-foreground leading-tight flex-1 line-clamp-1">
                     {product.name} · {selectedSize.roses} {t("product.roses")}
                     {!isMothersDayContext && addGlitter === true && " · Glitter"}
-                    {accessory !== "none" && ` · ${accessory === "note" ? t("product.note") : t("product.butterflies")}`}
+                    {addNote && ` · ${t("product.note")}`}
+                    {!isMothersDayContext && addButterfly && ` · ${t("product.butterflies")}`}
                   </p>
                   <p className="font-display text-lg lg:text-2xl font-bold text-foreground whitespace-nowrap">${parseFloat(totalPrice.toFixed(2))}</p>
                 </div>
@@ -943,7 +949,8 @@ const BouquetProductDetail = () => {
                 <p className="font-body text-[10px] text-muted-foreground leading-tight flex-1 line-clamp-1">
                   {product.name} · {selectedSize.roses} {t("product.roses")}
                   {!isMothersDayContext && addGlitter === true && " · Glitter"}
-                  {accessory !== "none" && ` · ${accessory === "note" ? t("product.note") : t("product.butterflies")}`}
+                  {addNote && ` · ${t("product.note")}`}
+                  {!isMothersDayContext && addButterfly && ` · ${t("product.butterflies")}`}
                 </p>
                 <p className="font-display text-lg font-bold text-foreground whitespace-nowrap">${parseFloat(totalPrice.toFixed(2))}</p>
               </div>
