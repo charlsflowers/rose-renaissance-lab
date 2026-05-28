@@ -398,6 +398,7 @@ const BouquetBuilder = () => {
     if (addGlitter) addons.push("Glitter");
     if (addVase) addons.push(`Vase (${vaseOptions[selectedVaseIdx].label})`);
     if (specialText) addons.push(`${lettersNumbersType === "letters" ? "Letters" : "Numbers"}: ${specialText}`);
+    if (addButterfly) addons.push("Butterflies");
     return {
       id: "",
       productName: "Custom Bouquet",
@@ -408,8 +409,8 @@ const BouquetBuilder = () => {
       deliveryCost,
       totalPrice,
       addons,
-      accessory,
-      accessoryText,
+      accessory: addNote ? "note" : "none",
+      accessoryText: addNote ? accessoryText : "",
       ribbonText,
       crownSize: addCrown ? crownSize : "",
       specialText,
@@ -473,7 +474,7 @@ const BouquetBuilder = () => {
       const accessories = buildAccessoryLineItems({
         glitter: addGlitter,
         rosesCount,
-        accessory,
+        accessory: addNote ? "note" : "none",
         specialText,
         addVase,
         vaseRoses: addVase ? vaseOptions[selectedVaseIdx].roses : undefined,
@@ -496,8 +497,11 @@ const BouquetBuilder = () => {
       if (rosesCount) noteLines.push(`- 🌹 Roses: ${rosesCount}`);
       if (addGlitter) noteLines.push(`- ✨ Glitter finish: Yes`);
       if (addCrown && crownSize) noteLines.push(`- 👑 Crown: ${crownSize}`);
-      if (accessory && accessory !== "none") noteLines.push(`- 🦋 Accessory: ${accessory === "note" ? "Notes" : "Butterflies"}`);
-      if (accessoryText) noteLines.push(`- 💌 Card text: ${accessoryText}`);
+      const accessoryLabels: string[] = [];
+      if (addNote) accessoryLabels.push("Notes");
+      if (addButterfly) accessoryLabels.push("Butterflies");
+      if (accessoryLabels.length > 0) noteLines.push(`- 🦋 Accessory: ${accessoryLabels.join(" + ")}`);
+      if (addNote && accessoryText) noteLines.push(`- 💌 Card text: ${accessoryText}`);
       if (addRibbon && ribbonText) noteLines.push(`- 🎀 Custom ribbon: ${ribbonText}`);
       if (specialText) noteLines.push(`- 🔤 Letters or numbers (Baby Breath): ${specialText}`);
       if (addVase) noteLines.push(`- 🏺 Vase: ${vaseOptions[selectedVaseIdx].label}`);
@@ -1116,7 +1120,8 @@ const BouquetBuilder = () => {
                   {rosesCount} roses · {selectedColors.length > 0 ? selectedColors.map(c => c.nameEn).join(', ') : 'No color'}
                   {paperColor && ` · ${paperColor}`}
                   {addGlitter === true && " · Glitter"}
-                  {accessory !== "none" && ` · ${accessory === "note" ? "Note" : "Butterflies"}`}
+                  {addNote && " · Note"}
+                  {addButterfly && " · Butterflies"}
                 </p>
                 <p className="font-display text-xl font-bold text-foreground whitespace-nowrap">${parseFloat(totalPrice.toFixed(2))}</p>
               </div>
