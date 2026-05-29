@@ -16,6 +16,7 @@ import { isMothersDayPromoActive } from "@/lib/mothersDayPromo";
 
 import Navbar from "@/components/Navbar";
 import PaperColorPicker from "@/components/PaperColorPicker";
+import { StorePickupAlert } from "@/components/StorePickupAlert";
 import glitterRoseImg from "@/assets/glitter-rose.webp";
 import crownSilverImg from "@/assets/crown-silver.webp";
 import crownGoldImg from "@/assets/crown-gold.webp";
@@ -1125,6 +1126,7 @@ const BouquetBuilder = () => {
                 </p>
                 <p className="font-display text-xl font-bold text-foreground whitespace-nowrap">${parseFloat(totalPrice.toFixed(2))}</p>
               </div>
+              {deliveryMethod === "pickup" && <StorePickupAlert />}
               <button
                 disabled={isAdding || variantsLoading || isMothersDayPromoActive()}
                 onClick={handleBuilderPayNow}

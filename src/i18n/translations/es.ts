@@ -258,6 +258,7 @@ export const es = {
     customerNotesPlaceholder: "Escribe instrucciones especiales para la entrega...",
     butterflies: "Mariposas",
     youMightAlsoLove: "También te puede gustar",
+    storePickupAlert: "Has elegido Recogida en tienda — En el pago, la dirección de recogida (nuestra tienda) ya estará rellenada. Por favor, NO modifiques la dirección. Solo completa los campos vacíos (nombre, apellido, teléfono y email) y finaliza tu pedido.",
   },
 
   // Bloque de confianza del producto (badges + FAQ)
