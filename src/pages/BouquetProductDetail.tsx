@@ -25,6 +25,7 @@ import Navbar from "@/components/Navbar";
 import PaperColorPicker from "@/components/PaperColorPicker";
 import PaymentIcons from "@/components/PaymentIcons";
 import ProductTrustBlock from "@/components/ProductTrustBlock";
+import { StorePickupAlert } from "@/components/StorePickupAlert";
 import CollectionFAQ, { useBouquetFAQs } from "@/components/CollectionFAQ";
 import { bouquetProducts, bouquetSizeOptions } from "@/lib/catalogData";
 import { useMothersDayBouquetByHandle } from "@/lib/mothersDayProducts";
