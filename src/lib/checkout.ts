@@ -231,7 +231,17 @@ export async function performApiCheckout(options: ApiCheckoutOptions): Promise<s
 
   // 5) Buyer identity (shipping address)
   let deliveryAddress: ShippingAddress | undefined;
-  if (options.deliveryMethod === "delivery" && options.deliveryAddress) {
+  if (options.deliveryMethod === "pickup") {
+    // Store Pickup → pre-fill with the store's address so Shopify can compute
+    // estimated taxes based on store location (otherwise taxes show as $0).
+    deliveryAddress = {
+      address1: "7261 Northwest 12th Street",
+      city: "Miami",
+      province: "FL",
+      zip: "33126",
+      country: "US",
+    };
+  } else if (options.deliveryMethod === "delivery" && options.deliveryAddress) {
     const itemStructured = items.find((i) => i.structuredAddress)?.structuredAddress;
     const source = options.structuredAddress || itemStructured;
 
