@@ -301,10 +301,10 @@ const FloatingCart = () => {
 
           {totalItems > 0 && (
             <div className="px-6 pt-3 pb-1 bg-background">
-              <div className="flex items-center justify-center gap-3">
-                <img src={stickerSameDay} alt="Same Day Delivery" className="w-16 h-16 object-contain" loading="lazy" />
-                <img src={stickerFreshness} alt="Freshness 100% Guaranteed" className="w-16 h-16 object-contain" loading="lazy" />
-                <img src={stickerBestValue} alt="The Best Value" className="w-16 h-16 object-contain" loading="lazy" />
+              <div className="flex items-center justify-center gap-4 sm:gap-6">
+                <img src={stickerSameDay} alt="Same Day Delivery" className="w-16 h-16 sm:w-24 sm:h-24 object-contain" loading="lazy" />
+                <img src={stickerFreshness} alt="Freshness 100% Guaranteed" className="w-16 h-16 sm:w-24 sm:h-24 object-contain" loading="lazy" />
+                <img src={stickerBestValue} alt="The Best Value" className="w-16 h-16 sm:w-24 sm:h-24 object-contain" loading="lazy" />
               </div>
             </div>
           )}
@@ -329,7 +329,7 @@ const FloatingCart = () => {
                 {isCheckingOut && <Loader2 className="w-4 h-4 animate-spin" />}
                 {t("floatingCart.viewCart")}
               </button>
-              <PaymentIcons className="pt-1" size={22} />
+              <PaymentIcons className="pt-1 !flex-nowrap !gap-1.5" size={16} />
               <button
                 type="button"
                 onClick={() => setOpen(false)}
