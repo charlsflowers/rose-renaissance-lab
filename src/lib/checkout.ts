@@ -8,6 +8,7 @@ import {
   type CartFullLine,
   type ShippingAddress,
 } from "@/lib/shopify";
+import { SHIPPING_PROTECTION_VARIANT_GID } from "@/lib/shippingProtection";
 import { appendTrackingParamsToUrl } from "@/lib/trackingParams";
 import { getStoredTrackingParams, TRACKING_PARAM_KEYS } from "@/lib/trackingParams";
 
@@ -197,6 +198,12 @@ export async function performApiCheckout(options: ApiCheckoutOptions): Promise<s
     quantity: acc.quantity,
   }));
 
+  // 2b) Shipping Protection (optional add-on, max qty 1)
+  const protectionEnabled = useCartStore.getState().shippingProtection;
+  const protectionLines: CartFullLine[] = protectionEnabled
+    ? [{ merchandiseId: SHIPPING_PROTECTION_VARIANT_GID, quantity: 1 }]
+    : [];
+
   // 3) Delivery fee line
   const deliveryLines: CartFullLine[] = [];
   if (options.deliveryMethod === "delivery" && options.deliveryCost > 0) {
@@ -215,13 +222,17 @@ export async function performApiCheckout(options: ApiCheckoutOptions): Promise<s
       : [];
 
   // Consolidate duplicate variant ids (sum quantities)
-  const allLines = [...productLines, ...accessoryLines, ...deliveryLines, ...serviceLines];
+  const allLines = [...productLines, ...accessoryLines, ...protectionLines, ...deliveryLines, ...serviceLines];
   const consolidated = new Map<string, number>();
   for (const line of allLines) {
     consolidated.set(line.merchandiseId, (consolidated.get(line.merchandiseId) || 0) + line.quantity);
   }
   const finalLines: CartFullLine[] = Array.from(consolidated.entries()).map(
-    ([merchandiseId, quantity]) => ({ merchandiseId, quantity })
+    ([merchandiseId, quantity]) => ({
+      merchandiseId,
+      // Shipping Protection is capped at 1 even if duplicated upstream
+      quantity: merchandiseId === SHIPPING_PROTECTION_VARIANT_GID ? Math.min(1, quantity) : quantity,
+    })
   );
 
   if (finalLines.length === 0) {
