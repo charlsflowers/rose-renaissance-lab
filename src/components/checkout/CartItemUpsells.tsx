@@ -115,6 +115,7 @@ const CartItemUpsells = ({ item }: Props) => {
     butterflies: language === "es" ? "Mariposas doradas" : "Gold butterflies",
     upgrade: language === "es" ? `Subir a ${nextRoses} rosas` : `Upgrade to ${nextRoses} roses`,
     upgradeBadge: language === "es" ? "Mejor valor" : "Better value",
+    recommended: language === "es" ? "Recomendado" : "Recommended",
     free: language === "es" ? "Gratis" : "Free",
     add: language === "es" ? "Añadir" : "Add",
     save: language === "es" ? "Guardar nota" : "Save note",
@@ -188,8 +189,11 @@ const CartItemUpsells = ({ item }: Props) => {
           <button
             type="button"
             onClick={handleUpgrade}
-            className="w-full flex items-center gap-2 px-2.5 py-1.5 rounded-md bg-card border border-primary/30 hover:border-primary hover:bg-primary/10 transition-colors text-left"
+            className="relative w-full flex items-center gap-2 px-2.5 py-1.5 rounded-md bg-card border border-primary/30 hover:border-primary hover:bg-primary/10 transition-colors text-left"
           >
+            <span className="absolute -top-2 left-2 px-1.5 py-0.5 rounded-full bg-primary text-primary-foreground text-[9px] font-body font-semibold uppercase tracking-wider leading-none">
+              {labels.recommended}
+            </span>
             <ArrowUpCircle className="w-3.5 h-3.5 text-primary flex-shrink-0" />
             <span className="flex-1 text-xs font-body text-foreground">
               {labels.upgrade}
