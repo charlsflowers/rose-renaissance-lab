@@ -36,6 +36,7 @@ const CartItemUpsells = ({ item }: Props) => {
   const updateItem = useCartStore((s) => s.updateItem);
   const [noteOpen, setNoteOpen] = useState(false);
   const [noteText, setNoteText] = useState(item.accessoryText || "");
+  const [upgradeClicked, setUpgradeClicked] = useState(false);
   const [siblingVariants, setSiblingVariants] = useState<ShopifyHandleVariant[] | null>(
     item.shopifyHandle ? variantsByHandleCache.get(item.shopifyHandle) ?? null : null,
   );
