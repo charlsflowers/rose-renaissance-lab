@@ -254,8 +254,8 @@ export const es = {
     deliveryDateAndTime: "Fecha y hora de entrega",
     orderBefore3PM: "⏰ Pide antes de las 3PM para envío hoy mismo",
     min: "Mín.",
-    customerNotes: "Notas del Cliente",
-    customerNotesPlaceholder: "Escribe instrucciones especiales para la entrega...",
+    customerNotes: "Indicaciones para Nuestro Equipo",
+    customerNotesPlaceholder: "Ej.: Déjame el ramo en la puerta, llámame al llegar... (no es la nota de la tarjeta)",
     butterflies: "Mariposas",
     youMightAlsoLove: "También te puede gustar",
     storePickupAlert: "Has elegido Recogida en tienda — En el pago, la dirección de recogida (nuestra tienda) ya estará rellenada. Por favor, NO modifiques la dirección. Solo completa los campos vacíos (nombre, apellido, teléfono y email) y finaliza tu pedido.",
@@ -394,8 +394,8 @@ export const es = {
     ribbon: "Cinta",
     shippingPending: "Envío (pendiente)",
     shippingMi: "Envío",
-    customerNotes: "Notas del Cliente",
-    customerNotesPlaceholder: "Escribe instrucciones especiales para la entrega...",
+    customerNotes: "Indicaciones para Nuestro Equipo",
+    customerNotesPlaceholder: "Ej.: Déjame el ramo en la puerta, llámame al llegar... (no es la nota de la tarjeta)",
   },
 
   clientVideos: {

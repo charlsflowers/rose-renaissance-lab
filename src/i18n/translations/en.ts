@@ -265,8 +265,8 @@ export const en = {
     deliveryDateAndTime: "Delivery date & time",
     orderBefore3PM: "⏰ Order before 3PM for same-day delivery today",
     min: "Min.",
-    customerNotes: "Customer Notes",
-    customerNotesPlaceholder: "Write any special instructions for delivery...",
+    customerNotes: "Special Instructions for Our Team",
+    customerNotesPlaceholder: "e.g., Leave the bouquet at the door, call when arriving... (not the card note)",
     butterflies: "Butterflies",
     youMightAlsoLove: "You might also love",
     storePickupAlert: "Store Pickup selected — At checkout, the pickup address (our store) will already be filled in. Please DO NOT change the address. Just fill in the empty fields (first name, last name, phone, and email) and complete your order.",
@@ -407,8 +407,8 @@ export const en = {
     ribbon: "Ribbon",
     shippingPending: "Shipping (pending)",
     shippingMi: "Shipping",
-    customerNotes: "Customer Notes",
-    customerNotesPlaceholder: "Write any special instructions for the delivery...",
+    customerNotes: "Special Instructions for Our Team",
+    customerNotesPlaceholder: "e.g., Leave the bouquet at the door, call when arriving... (not the card note)",
   },
 
   // Client Videos
