@@ -491,6 +491,11 @@ export const es = {
     remove: "Eliminar",
   },
 
+  shippingProtection: {
+    label: "Protección de Envío",
+    description: "Protege tu pedido contra pérdida, daño o robo durante el envío.",
+  },
+
   collectionFaq: {
     title: "Preguntas Frecuentes",
   },

@@ -12,6 +12,7 @@ import { performApiCheckout } from "@/lib/checkout";
 import { buildAccessoryLineItems } from "@/lib/accessoryVariants";
 import { getPaperForCartItem } from "@/lib/paperHelper";
 import CartItemUpsells from "@/components/checkout/CartItemUpsells";
+import ShippingProtection from "@/components/checkout/ShippingProtection";
 import stickerBestValue from "@/assets/sticker-best-value.webp";
 import stickerFreshness from "@/assets/sticker-freshness.webp";
 import stickerSameDay from "@/assets/sticker-same-day.webp";
@@ -295,12 +296,6 @@ const FloatingCart = () => {
 
           {totalItems > 0 && (
             <div className="border-t px-6 py-4 space-y-3 bg-background">
-              {/* Trust stickers */}
-              <div className="flex items-center justify-center gap-3 pb-1">
-                <img src={stickerSameDay} alt="Same Day Delivery" className="w-16 h-16 object-contain" loading="lazy" />
-                <img src={stickerFreshness} alt="Freshness 100% Guaranteed" className="w-16 h-16 object-contain" loading="lazy" />
-                <img src={stickerBestValue} alt="The Best Value" className="w-16 h-16 object-contain" loading="lazy" />
-              </div>
               <div className="flex items-center justify-between">
                 <span className="font-body text-sm text-muted-foreground">
                   {t("floatingCart.subtotal")}
@@ -318,6 +313,13 @@ const FloatingCart = () => {
                 {isCheckingOut && <Loader2 className="w-4 h-4 animate-spin" />}
                 {t("floatingCart.viewCart")}
               </button>
+              <ShippingProtection />
+              {/* Trust stickers */}
+              <div className="flex items-center justify-center gap-3 pt-1">
+                <img src={stickerSameDay} alt="Same Day Delivery" className="w-16 h-16 object-contain" loading="lazy" />
+                <img src={stickerFreshness} alt="Freshness 100% Guaranteed" className="w-16 h-16 object-contain" loading="lazy" />
+                <img src={stickerBestValue} alt="The Best Value" className="w-16 h-16 object-contain" loading="lazy" />
+              </div>
               <PaymentIcons className="pt-1" size={22} />
               <button
                 type="button"

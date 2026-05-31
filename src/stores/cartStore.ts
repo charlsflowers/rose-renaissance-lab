@@ -52,6 +52,8 @@ interface CartStore {
   items: CartItem[];
   isLoading: boolean;
   isOpen: boolean;
+  shippingProtection: boolean;
+  setShippingProtection: (on: boolean) => void;
   setOpen: (open: boolean) => void;
   addItem: (item: Omit<CartItem, 'id'> & { id?: string }) => Promise<void>;
   removeItem: (id: string) => Promise<void>;
@@ -78,6 +80,8 @@ export const useCartStore = create<CartStore>()(
       items: [],
       isLoading: false,
       isOpen: false,
+      shippingProtection: false,
+      setShippingProtection: (on) => set({ shippingProtection: on }),
       setOpen: (open) => set({ isOpen: open }),
 
       get totalItems() {
@@ -130,7 +134,7 @@ export const useCartStore = create<CartStore>()(
         });
       },
 
-      clearCart: () => set({ items: [] }),
+      clearCart: () => set({ items: [], shippingProtection: false }),
     }),
     {
       name: 'charls-shopify-cart',
@@ -140,11 +144,14 @@ export const useCartStore = create<CartStore>()(
       migrate: (persistedState: unknown, _version: number) => {
         if (persistedState && typeof persistedState === 'object') {
           const s = persistedState as Record<string, unknown>;
-          return { items: Array.isArray(s.items) ? s.items : [] };
+          return {
+            items: Array.isArray(s.items) ? s.items : [],
+            shippingProtection: typeof s.shippingProtection === 'boolean' ? s.shippingProtection : false,
+          };
         }
-        return { items: [] };
+        return { items: [], shippingProtection: false };
       },
-      partialize: (state) => ({ items: state.items }),
+      partialize: (state) => ({ items: state.items, shippingProtection: state.shippingProtection }),
     }
   )
 );
