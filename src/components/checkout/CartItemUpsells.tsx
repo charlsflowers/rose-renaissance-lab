@@ -171,26 +171,26 @@ const CartItemUpsells = ({ item }: Props) => {
   };
 
   return (
-    <div className="mt-4 rounded-lg border border-dashed border-primary/40 bg-primary/5 p-3">
-      <p className="text-xs font-body font-semibold text-primary mb-3 uppercase tracking-wider">
+    <div className="mt-3 rounded-lg border border-dashed border-primary/40 bg-primary/5 p-2">
+      <p className="text-[10px] font-body font-semibold text-primary mb-2 uppercase tracking-wider">
         + {labels.title}
       </p>
-      <div className="flex flex-col gap-2">
+      <div className="flex flex-col gap-1.5">
         {canShowUpgrade && (
           <button
             type="button"
             onClick={handleUpgrade}
-            className="w-full flex items-center gap-2 px-3 py-2 rounded-md bg-card border border-primary/30 hover:border-primary hover:bg-primary/10 transition-colors text-left"
+            className="w-full flex items-center gap-2 px-2.5 py-1.5 rounded-md bg-card border border-primary/30 hover:border-primary hover:bg-primary/10 transition-colors text-left"
           >
-            <ArrowUpCircle className="w-4 h-4 text-primary flex-shrink-0" />
-            <span className="flex-1 text-sm font-body text-foreground">
+            <ArrowUpCircle className="w-3.5 h-3.5 text-primary flex-shrink-0" />
+            <span className="flex-1 text-xs font-body text-foreground">
               {labels.upgrade}
-              <span className="ml-2 text-[10px] uppercase tracking-wider font-semibold text-primary/80">
+              <span className="ml-1.5 text-[9px] uppercase tracking-wider font-semibold text-primary/80">
                 {labels.upgradeBadge}
               </span>
             </span>
-            <span className="text-sm font-body font-semibold text-primary">+${upgradeDelta}</span>
-            <Plus className="w-4 h-4 text-primary" />
+            <span className="text-xs font-body font-semibold text-primary">+${upgradeDelta}</span>
+            <Plus className="w-3.5 h-3.5 text-primary" />
           </button>
         )}
 
@@ -198,12 +198,12 @@ const CartItemUpsells = ({ item }: Props) => {
           <button
             type="button"
             onClick={handleAddGlitter}
-            className="w-full flex items-center gap-2 px-3 py-2 rounded-md bg-card border border-primary/30 hover:border-primary hover:bg-primary/10 transition-colors text-left"
+            className="w-full flex items-center gap-2 px-2.5 py-1.5 rounded-md bg-card border border-primary/30 hover:border-primary hover:bg-primary/10 transition-colors text-left"
           >
-            <img src={glitterRoseImg} alt="" className="w-10 h-10 object-contain flex-shrink-0" />
-            <span className="flex-1 text-sm font-body text-foreground">{labels.glitter}</span>
-            <span className="text-sm font-body font-semibold text-primary">+${glitterCost}</span>
-            <Plus className="w-4 h-4 text-primary" />
+            <img src={glitterRoseImg} alt="" className="w-7 h-7 object-contain flex-shrink-0" />
+            <span className="flex-1 text-xs font-body text-foreground">{labels.glitter}</span>
+            <span className="text-xs font-body font-semibold text-primary">+${glitterCost}</span>
+            <Plus className="w-3.5 h-3.5 text-primary" />
           </button>
         )}
 
@@ -211,16 +211,16 @@ const CartItemUpsells = ({ item }: Props) => {
           <button
             type="button"
             onClick={() => setNoteOpen(true)}
-            className="w-full flex items-center gap-2 px-3 py-2 rounded-md bg-card border border-primary/30 hover:border-primary hover:bg-primary/10 transition-colors text-left"
+            className="w-full flex items-center gap-2 px-2.5 py-1.5 rounded-md bg-card border border-primary/30 hover:border-primary hover:bg-primary/10 transition-colors text-left"
           >
-            <img src={noteImg} alt="" className="w-10 h-10 object-contain rounded flex-shrink-0" />
-            <span className="flex-1 text-sm font-body text-foreground">{labels.notes}</span>
+            <img src={noteImg} alt="" className="w-7 h-7 object-contain rounded flex-shrink-0" />
+            <span className="flex-1 text-xs font-body text-foreground">{labels.notes}</span>
             {notePrice !== null && (
-              <span className="text-sm font-body font-semibold text-primary">
+              <span className="text-xs font-body font-semibold text-primary">
                 +${notePrice.toFixed(2)}
               </span>
             )}
-            <Plus className="w-4 h-4 text-primary" />
+            <Plus className="w-3.5 h-3.5 text-primary" />
           </button>
         )}
 
@@ -257,16 +257,16 @@ const CartItemUpsells = ({ item }: Props) => {
           <button
             type="button"
             onClick={handleAddButterfly}
-            className="w-full flex items-center gap-2 px-3 py-2 rounded-md bg-card border border-primary/30 hover:border-primary hover:bg-primary/10 transition-colors text-left"
+            className="w-full flex items-center gap-2 px-2.5 py-1.5 rounded-md bg-card border border-primary/30 hover:border-primary hover:bg-primary/10 transition-colors text-left"
           >
-            <img src={butterflyImg} alt="" className="w-10 h-10 object-contain flex-shrink-0" />
-            <span className="flex-1 text-sm font-body text-foreground">{labels.butterflies}</span>
+            <img src={butterflyImg} alt="" className="w-7 h-7 object-contain flex-shrink-0" />
+            <span className="flex-1 text-xs font-body text-foreground">{labels.butterflies}</span>
             {butterflyPrice !== null && (
-              <span className="text-sm font-body font-semibold text-primary">
+              <span className="text-xs font-body font-semibold text-primary">
                 +${butterflyPrice.toFixed(2)}
               </span>
             )}
-            <Plus className="w-4 h-4 text-primary" />
+            <Plus className="w-3.5 h-3.5 text-primary" />
           </button>
         )}
       </div>
