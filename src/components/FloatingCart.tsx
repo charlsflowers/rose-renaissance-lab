@@ -191,7 +191,7 @@ const FloatingCart = () => {
       <Sheet open={open} onOpenChange={setOpen}>
         <SheetContent
           side="right"
-          className="w-full sm:max-w-md p-0 flex flex-col [&>button.absolute]:hidden"
+          className="w-[80%] sm:max-w-md p-0 flex flex-col [&>button.absolute]:hidden"
         >
           <SheetHeader className="px-6 pt-12 pb-4 border-b">
             <div className="flex items-center justify-between gap-3">
