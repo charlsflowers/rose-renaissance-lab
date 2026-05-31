@@ -644,7 +644,7 @@ const BouquetBuilder = () => {
                       key={size.roses}
                       onClick={() => !disabled && setSelectedSizeIdx(idx)}
                       disabled={disabled}
-                      className={`p-4 rounded-lg border-2 text-center transition-all ${
+                      className={`p-2 md:p-4 rounded-lg border-2 text-center transition-all ${
                         selectedSizeIdx === idx
                           ? "border-primary bg-primary/5"
                           : disabled
@@ -652,9 +652,12 @@ const BouquetBuilder = () => {
                           : "border-border hover:border-primary/30"
                       }`}
                     >
-                      <p className="font-display text-2xl font-semibold text-foreground">{size.roses}</p>
-                      <p className="text-xs text-muted-foreground font-body">{t("builder.roses")}</p>
-                      <p className="text-sm font-body font-semibold text-primary mt-1">
+                      <p className="font-display text-lg md:text-2xl font-semibold text-foreground leading-tight">
+                        <span>{size.roses}</span>
+                        <span className="text-xs md:hidden text-muted-foreground font-body font-normal ml-1">{t("builder.roses")}</span>
+                      </p>
+                      <p className="hidden md:block text-xs text-muted-foreground font-body">{t("builder.roses")}</p>
+                      <p className="text-sm font-body font-semibold text-primary mt-0.5 md:mt-1">
                         ${price}
                       </p>
                       {tooFewRoses && <p className="text-[10px] text-destructive font-body mt-1">{t("product.min")} {minRoses} {t("builder.roses")}</p>}

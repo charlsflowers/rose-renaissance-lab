@@ -54,6 +54,7 @@ interface CartStore {
   removeItem: (id: string) => Promise<void>;
   duplicateItem: (id: string) => Promise<void>;
   updateQuantity: (id: string, quantity: number) => Promise<void>;
+  updateItem: (id: string, partial: Partial<CartItem>) => void;
   clearCart: () => void;
   totalItems: number;
   cartTotal: number;
@@ -114,6 +115,14 @@ export const useCartStore = create<CartStore>()(
         set({
           items: get().items.map((i) =>
             i.id === id ? { ...i, quantity } : i
+          ),
+        });
+      },
+
+      updateItem: (id, partial) => {
+        set({
+          items: get().items.map((i) =>
+            i.id === id ? { ...i, ...partial } : i
           ),
         });
       },
