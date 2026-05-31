@@ -186,7 +186,7 @@ const CartItemUpsells = ({ item }: Props) => {
         + {labels.title}
       </p>
       <div className="flex flex-col gap-1.5">
-        {canShowUpgrade && (
+        {canShowUpgrade && !upgradeClicked && (
           <button
             type="button"
             onClick={handleUpgrade}
