@@ -154,6 +154,8 @@ const FloatingCart = () => {
         const vaseAddon = item.addons?.find(a => a.startsWith("Vase"));
         const vaseRosesMatch = vaseAddon?.match(/\((\d+)/);
         const qty = item.quantity || 1;
+        const hasButterflyAddon =
+          item.addons?.some((a) => a.toLowerCase().includes("butterfl")) ?? false;
         const lines = buildAccessoryLineItems({
           glitter: item.glitter,
           rosesCount: item.roses,
@@ -165,6 +167,9 @@ const FloatingCart = () => {
           crownSize: item.crownSize,
           addRibbon: !!item.ribbonText,
         });
+        if (hasButterflyAddon && item.accessory !== "butterfly") {
+          lines.push({ variantId: BUTTERFLIES_VARIANT_ID, quantity: 1 });
+        }
         return lines.map((l) => ({ ...l, quantity: l.quantity * qty }));
       });
 
