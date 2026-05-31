@@ -41,7 +41,7 @@ const ShippingProtection = () => {
   return (
     <div className="relative flex items-center gap-2.5 rounded-lg border border-primary/20 bg-primary/[0.03] px-2.5 py-2">
       {!disabled && (
-        <span className="absolute -top-2 left-2 px-1.5 py-0.5 rounded-full bg-primary text-primary-foreground text-[9px] font-body font-semibold uppercase tracking-wider leading-none">
+        <span className="absolute -top-2.5 right-3 px-1.5 py-0.5 rounded-full bg-primary text-primary-foreground text-[9px] font-body font-semibold uppercase tracking-wider leading-none shadow-sm">
           {t("shippingProtection.recommended")}
         </span>
       )}
