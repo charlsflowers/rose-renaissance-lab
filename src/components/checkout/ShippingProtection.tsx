@@ -11,7 +11,6 @@ import {
 const ShippingProtection = () => {
   const { t } = useTranslation();
   const [info, setInfo] = useState<ShippingProtectionInfo | null>(null);
-  const [failed, setFailed] = useState(false);
   const enabled = useCartStore((s) => s.shippingProtection);
   const setEnabled = useCartStore((s) => s.setShippingProtection);
   const itemCount = useCartStore((s) => s.items.length);
@@ -19,24 +18,25 @@ const ShippingProtection = () => {
   useEffect(() => {
     let active = true;
     getShippingProtectionInfo().then((data) => {
-      if (!active) return;
-      if (!data) setFailed(true);
-      else setInfo(data);
+      if (active && data) setInfo(data);
     });
     return () => {
       active = false;
     };
   }, []);
 
-  if (failed || !info || itemCount === 0) return null;
+  if (itemCount === 0) return null;
+
+  const price = info?.amount ?? 8;
+  const imageUrl = info?.imageUrl ?? null;
 
   return (
     <div className="flex items-center gap-3 rounded-lg border border-primary/20 bg-primary/[0.03] px-3 py-2.5">
       <div className="w-11 h-11 flex-shrink-0 rounded-md overflow-hidden bg-muted flex items-center justify-center">
-        {info.imageUrl ? (
+        {imageUrl ? (
           <img
-            src={info.imageUrl}
-            alt={info.imageAlt || t("shippingProtection.label")}
+            src={imageUrl}
+            alt={info?.imageAlt || t("shippingProtection.label")}
             className="w-full h-full object-cover"
           />
         ) : (
@@ -49,7 +49,7 @@ const ShippingProtection = () => {
             {t("shippingProtection.label")}
           </p>
           <p className="font-body text-sm font-semibold text-primary">
-            ${info.amount.toFixed(2)}
+            ${price.toFixed(2)}
           </p>
         </div>
         <p className="font-body text-[11px] leading-snug text-muted-foreground mt-0.5">
