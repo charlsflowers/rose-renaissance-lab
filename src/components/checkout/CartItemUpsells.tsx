@@ -187,15 +187,17 @@ const CartItemUpsells = ({ item }: Props) => {
         + {labels.title}
       </p>
       <div className="flex flex-col gap-1.5">
-        {canShowUpgrade && !upgradeClicked && (
+        {canShowUpgrade && (
           <button
             type="button"
             onClick={handleUpgrade}
             className="relative w-full flex items-center gap-2 px-2.5 py-1.5 rounded-md bg-card border border-primary/30 hover:border-primary hover:bg-primary/10 transition-colors text-left"
           >
-            <span className="absolute -top-2.5 right-3 px-1.5 py-0.5 rounded-full bg-primary text-primary-foreground text-[9px] font-body font-semibold uppercase tracking-wider leading-none shadow-sm">
-              {labels.recommended}
-            </span>
+            {!upgradeClicked && (
+              <span className="absolute -top-2.5 right-3 px-1.5 py-0.5 rounded-full bg-primary text-primary-foreground text-[9px] font-body font-semibold uppercase tracking-wider leading-none shadow-sm">
+                {labels.recommended}
+              </span>
+            )}
             <ArrowUpCircle className="w-3.5 h-3.5 text-primary flex-shrink-0" />
             <span className="flex-1 text-xs font-body text-foreground">
               {labels.upgrade}
