@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Plus, Check, X, ArrowUpCircle, Crown as CrownIcon } from "lucide-react";
+import { Plus, Check, X, ArrowUpCircle } from "lucide-react";
 import { useCartStore, type CartItem } from "@/stores/cartStore";
 import { GLITTER_VARIANTS } from "@/lib/accessoryVariants";
 import { crownPrice, ribbonPrice } from "@/lib/productData";
