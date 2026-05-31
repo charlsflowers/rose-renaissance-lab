@@ -9,7 +9,7 @@ import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sh
 import { Trash2, Loader2, X, Plus, Minus } from "lucide-react";
 import PaymentIcons from "@/components/PaymentIcons";
 import { performApiCheckout } from "@/lib/checkout";
-import { buildAccessoryLineItems } from "@/lib/accessoryVariants";
+import { buildAccessoryLineItems, BUTTERFLIES_VARIANT_ID } from "@/lib/accessoryVariants";
 import { getPaperForCartItem } from "@/lib/paperHelper";
 import CartItemUpsells from "@/components/checkout/CartItemUpsells";
 import ShippingProtection from "@/components/checkout/ShippingProtection";
@@ -132,6 +132,12 @@ const FloatingCart = () => {
           const accLabel = item.accessory === "note" ? "Notes" : item.accessory === "card" ? "Card" : "Butterflies";
           noteLines.push(`- 🦋 Accessory: ${accLabel}`);
         }
+        if (
+          item.accessory !== "butterfly" &&
+          item.addons?.some((a) => a.toLowerCase().includes("butterfl"))
+        ) {
+          noteLines.push(`- 🦋 Accessory: Butterflies`);
+        }
         if (item.accessoryText) noteLines.push(`- 💌 Card text: ${item.accessoryText}`);
         if (item.ribbonText) noteLines.push(`- 🎀 Custom ribbon: ${item.ribbonText}`);
         if (item.specialText) noteLines.push(`- 🔤 Letters or numbers (Baby Breath): ${item.specialText}`);
@@ -148,6 +154,8 @@ const FloatingCart = () => {
         const vaseAddon = item.addons?.find(a => a.startsWith("Vase"));
         const vaseRosesMatch = vaseAddon?.match(/\((\d+)/);
         const qty = item.quantity || 1;
+        const hasButterflyAddon =
+          item.addons?.some((a) => a.toLowerCase().includes("butterfl")) ?? false;
         const lines = buildAccessoryLineItems({
           glitter: item.glitter,
           rosesCount: item.roses,
@@ -159,6 +167,9 @@ const FloatingCart = () => {
           crownSize: item.crownSize,
           addRibbon: !!item.ribbonText,
         });
+        if (hasButterflyAddon && item.accessory !== "butterfly") {
+          lines.push({ variantId: BUTTERFLIES_VARIANT_ID, quantity: 1 });
+        }
         return lines.map((l) => ({ ...l, quantity: l.quantity * qty }));
       });
 
