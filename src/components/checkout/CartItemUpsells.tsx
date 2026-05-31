@@ -1,10 +1,14 @@
 import { useEffect, useState } from "react";
-import { Sparkles, StickyNote, Bug, Plus, Check, X, ArrowUpCircle } from "lucide-react";
+import { Plus, Check, X, ArrowUpCircle } from "lucide-react";
 import { useCartStore, type CartItem } from "@/stores/cartStore";
 import { GLITTER_VARIANTS } from "@/lib/accessoryVariants";
 import { useTranslation } from "@/i18n/LanguageContext";
 import { toast } from "sonner";
 import { fetchVariantsByHandle, findVariantByRoses, type ShopifyHandleVariant } from "@/lib/shopifyVariants";
+import { getNotePrice, getButterflyPrice } from "@/lib/shopifyAccessoryPrices";
+import glitterRoseImg from "@/assets/glitter-rose.webp";
+import butterflyImg from "@/assets/butterfly-gold.webp";
+import noteImg from "@/assets/accessory-note.webp";
 
 interface Props {
   item: CartItem;
@@ -35,6 +39,8 @@ const CartItemUpsells = ({ item }: Props) => {
   const [siblingVariants, setSiblingVariants] = useState<ShopifyHandleVariant[] | null>(
     item.shopifyHandle ? variantsByHandleCache.get(item.shopifyHandle) ?? null : null,
   );
+  const [notePrice, setNotePrice] = useState<number | null>(null);
+  const [butterflyPrice, setButterflyPrice] = useState<number | null>(null);
 
   // Only for bouquet products (skip room decors / coming-soon items / Mother's Day bundle).
   const isBouquet =
@@ -55,6 +61,15 @@ const CartItemUpsells = ({ item }: Props) => {
       .catch(() => { /* silently ignore — upgrade just won't show */ });
     return () => { cancelled = true; };
   }, [isBouquet, item.shopifyHandle, siblingVariants]);
+
+  // Fetch live Shopify prices for Note / Butterfly accessories.
+  useEffect(() => {
+    if (!isBouquet) return;
+    let cancelled = false;
+    getNotePrice().then((p) => { if (!cancelled && p) setNotePrice(p.amount); });
+    getButterflyPrice().then((p) => { if (!cancelled && p) setButterflyPrice(p.amount); });
+    return () => { cancelled = true; };
+  }, [isBouquet]);
 
   if (!isBouquet) return null;
 
@@ -181,7 +196,7 @@ const CartItemUpsells = ({ item }: Props) => {
             onClick={handleAddGlitter}
             className="w-full flex items-center gap-2 px-3 py-2 rounded-md bg-card border border-primary/30 hover:border-primary hover:bg-primary/10 transition-colors text-left"
           >
-            <Sparkles className="w-4 h-4 text-primary flex-shrink-0" />
+            <img src={glitterRoseImg} alt="" className="w-10 h-10 object-contain flex-shrink-0" />
             <span className="flex-1 text-sm font-body text-foreground">{labels.glitter}</span>
             <span className="text-sm font-body font-semibold text-primary">+${glitterCost}</span>
             <Plus className="w-4 h-4 text-primary" />
@@ -194,9 +209,13 @@ const CartItemUpsells = ({ item }: Props) => {
             onClick={() => setNoteOpen(true)}
             className="w-full flex items-center gap-2 px-3 py-2 rounded-md bg-card border border-primary/30 hover:border-primary hover:bg-primary/10 transition-colors text-left"
           >
-            <StickyNote className="w-4 h-4 text-primary flex-shrink-0" />
+            <img src={noteImg} alt="" className="w-10 h-10 object-contain rounded flex-shrink-0" />
             <span className="flex-1 text-sm font-body text-foreground">{labels.notes}</span>
-            <span className="text-xs font-body text-muted-foreground">{labels.free}</span>
+            {notePrice !== null && (
+              <span className="text-sm font-body font-semibold text-primary">
+                +${notePrice.toFixed(2)}
+              </span>
+            )}
             <Plus className="w-4 h-4 text-primary" />
           </button>
         )}
@@ -236,9 +255,13 @@ const CartItemUpsells = ({ item }: Props) => {
             onClick={handleAddButterfly}
             className="w-full flex items-center gap-2 px-3 py-2 rounded-md bg-card border border-primary/30 hover:border-primary hover:bg-primary/10 transition-colors text-left"
           >
-            <Bug className="w-4 h-4 text-primary flex-shrink-0" />
+            <img src={butterflyImg} alt="" className="w-10 h-10 object-contain flex-shrink-0" />
             <span className="flex-1 text-sm font-body text-foreground">{labels.butterflies}</span>
-            <span className="text-xs font-body text-muted-foreground">{labels.free}</span>
+            {butterflyPrice !== null && (
+              <span className="text-sm font-body font-semibold text-primary">
+                +${butterflyPrice.toFixed(2)}
+              </span>
+            )}
             <Plus className="w-4 h-4 text-primary" />
           </button>
         )}
