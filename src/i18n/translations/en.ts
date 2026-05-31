@@ -511,6 +511,11 @@ export const en = {
     remove: "Remove",
   },
 
+  shippingProtection: {
+    label: "Shipping Protection",
+    description: "Protect your order from loss, damage, or theft in transit.",
+  },
+
   // Collection FAQ
   collectionFaq: {
     title: "Frequently Asked Questions",
