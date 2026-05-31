@@ -1,10 +1,14 @@
 import { useEffect, useState } from "react";
-import { Sparkles, StickyNote, Bug, Plus, Check, X, ArrowUpCircle } from "lucide-react";
+import { Plus, Check, X, ArrowUpCircle } from "lucide-react";
 import { useCartStore, type CartItem } from "@/stores/cartStore";
 import { GLITTER_VARIANTS } from "@/lib/accessoryVariants";
 import { useTranslation } from "@/i18n/LanguageContext";
 import { toast } from "sonner";
 import { fetchVariantsByHandle, findVariantByRoses, type ShopifyHandleVariant } from "@/lib/shopifyVariants";
+import { getNotePrice, getButterflyPrice } from "@/lib/shopifyAccessoryPrices";
+import glitterRoseImg from "@/assets/glitter-rose.webp";
+import butterflyImg from "@/assets/butterfly-gold.webp";
+import noteImg from "@/assets/accessory-note.webp";
 
 interface Props {
   item: CartItem;
@@ -35,6 +39,8 @@ const CartItemUpsells = ({ item }: Props) => {
   const [siblingVariants, setSiblingVariants] = useState<ShopifyHandleVariant[] | null>(
     item.shopifyHandle ? variantsByHandleCache.get(item.shopifyHandle) ?? null : null,
   );
+  const [notePrice, setNotePrice] = useState<number | null>(null);
+  const [butterflyPrice, setButterflyPrice] = useState<number | null>(null);
 
   // Only for bouquet products (skip room decors / coming-soon items / Mother's Day bundle).
   const isBouquet =
@@ -55,6 +61,15 @@ const CartItemUpsells = ({ item }: Props) => {
       .catch(() => { /* silently ignore — upgrade just won't show */ });
     return () => { cancelled = true; };
   }, [isBouquet, item.shopifyHandle, siblingVariants]);
+
+  // Fetch live Shopify prices for Note / Butterfly accessories.
+  useEffect(() => {
+    if (!isBouquet) return;
+    let cancelled = false;
+    getNotePrice().then((p) => { if (!cancelled && p) setNotePrice(p.amount); });
+    getButterflyPrice().then((p) => { if (!cancelled && p) setButterflyPrice(p.amount); });
+    return () => { cancelled = true; };
+  }, [isBouquet]);
 
   if (!isBouquet) return null;
 
