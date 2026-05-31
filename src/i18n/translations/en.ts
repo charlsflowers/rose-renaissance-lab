@@ -515,6 +515,7 @@ export const en = {
     label: "Shipping Protection",
     description: "Protect your order from loss, damage, or theft in transit.",
     unavailable: "Temporarily unavailable at checkout.",
+    recommended: "Recommended",
   },
 
   // Collection FAQ
