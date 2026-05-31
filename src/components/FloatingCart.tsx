@@ -313,9 +313,9 @@ const FloatingCart = () => {
           {totalItems > 0 && (
             <div className="px-6 pt-3 pb-1 bg-background">
               <div className="flex items-center justify-center gap-4 sm:gap-6">
-                <img src={stickerSameDay} alt="Same Day Delivery" className="w-16 h-16 sm:w-32 sm:h-32 object-contain" loading="lazy" />
-                <img src={stickerFreshness} alt="Freshness 100% Guaranteed" className="w-16 h-16 sm:w-32 sm:h-32 object-contain" loading="lazy" />
-                <img src={stickerBestValue} alt="The Best Value" className="w-16 h-16 sm:w-32 sm:h-32 object-contain" loading="lazy" />
+                <img src={stickerSameDay} alt="Same Day Delivery" className="w-16 h-16 sm:w-28 sm:h-28 object-contain" loading="lazy" />
+                <img src={stickerFreshness} alt="Freshness 100% Guaranteed" className="w-16 h-16 sm:w-28 sm:h-28 object-contain" loading="lazy" />
+                <img src={stickerBestValue} alt="The Best Value" className="w-16 h-16 sm:w-28 sm:h-28 object-contain" loading="lazy" />
               </div>
             </div>
           )}
