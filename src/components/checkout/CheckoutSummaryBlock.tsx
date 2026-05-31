@@ -302,6 +302,11 @@ const CheckoutSummaryBlock = ({
               <p className="font-body text-sm text-muted-foreground">
                 {t("checkout.subtotal")}: <span className="text-foreground font-semibold">${itemsSubtotal}</span>
               </p>
+              {shippingProtectionEnabled && (
+                <p className="font-body text-sm text-muted-foreground">
+                  {t("shippingProtection.label")}: <span className="text-foreground font-semibold">${protectionAmount.toFixed(2)}</span>
+                </p>
+              )}
               {needsAddress && (
                 <p className="font-body text-sm text-muted-foreground">
                   {t("checkout.shipping")}:{" "}
