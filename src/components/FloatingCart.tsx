@@ -304,6 +304,13 @@ const FloatingCart = () => {
                   ${parseFloat(cartTotal.toFixed(2))}
                 </span>
               </div>
+              <ShippingProtection />
+              {/* Trust stickers */}
+              <div className="flex items-center justify-center gap-3 pb-1">
+                <img src={stickerSameDay} alt="Same Day Delivery" className="w-16 h-16 object-contain" loading="lazy" />
+                <img src={stickerFreshness} alt="Freshness 100% Guaranteed" className="w-16 h-16 object-contain" loading="lazy" />
+                <img src={stickerBestValue} alt="The Best Value" className="w-16 h-16 object-contain" loading="lazy" />
+              </div>
               <button
                 type="button"
                 onClick={handleCheckout}
@@ -313,13 +320,6 @@ const FloatingCart = () => {
                 {isCheckingOut && <Loader2 className="w-4 h-4 animate-spin" />}
                 {t("floatingCart.viewCart")}
               </button>
-              <ShippingProtection />
-              {/* Trust stickers */}
-              <div className="flex items-center justify-center gap-3 pt-1">
-                <img src={stickerSameDay} alt="Same Day Delivery" className="w-16 h-16 object-contain" loading="lazy" />
-                <img src={stickerFreshness} alt="Freshness 100% Guaranteed" className="w-16 h-16 object-contain" loading="lazy" />
-                <img src={stickerBestValue} alt="The Best Value" className="w-16 h-16 object-contain" loading="lazy" />
-              </div>
               <PaymentIcons className="pt-1" size={22} />
               <button
                 type="button"
