@@ -42,6 +42,9 @@ export interface CartItem {
   };
   // Shopify variant id (GID). Empty string for "Coming Soon" categories.
   shopifyVariantId: string;
+  // Optional Shopify product handle — used by cart upsells to fetch sibling
+  // size variants on demand. Set when the item comes from a real Shopify product.
+  shopifyHandle?: string;
   quantity?: number;
 }
 

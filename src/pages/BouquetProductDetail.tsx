@@ -462,6 +462,7 @@ const BouquetProductDetail = () => {
         isMothersDay: isMothersDayContext,
         structuredAddress: deliveryMethod === "delivery" ? structuredAddress : undefined,
         shopifyVariantId: variant.id,
+        shopifyHandle: product.shopifyHandle,
       });
 
       const timeout = new Promise<void>((resolve) => setTimeout(resolve, 10000));

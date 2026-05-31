@@ -11,6 +11,7 @@ import PaymentIcons from "@/components/PaymentIcons";
 import { performApiCheckout } from "@/lib/checkout";
 import { buildAccessoryLineItems } from "@/lib/accessoryVariants";
 import { getPaperForCartItem } from "@/lib/paperHelper";
+import CartItemUpsells from "@/components/checkout/CartItemUpsells";
 import stickerBestValue from "@/assets/sticker-best-value.webp";
 import stickerFreshness from "@/assets/sticker-freshness.webp";
 import stickerSameDay from "@/assets/sticker-same-day.webp";
@@ -220,6 +221,8 @@ const FloatingCart = () => {
               <ul className="space-y-4">
                 {items.map((item) => (
                   <li key={item.id} className="flex gap-3 pb-4 border-b last:border-b-0">
+                    <div className="flex-1 min-w-0">
+                    <div className="flex gap-3">
                     <div className="w-16 h-16 flex-shrink-0 rounded-md overflow-hidden bg-muted flex items-center justify-center">
                       {item.image ? (
                         <img src={item.image} alt={item.productName || item.bouquetType} className="w-full h-full object-cover" />
@@ -280,6 +283,9 @@ const FloatingCart = () => {
                           </button>
                         </div>
                       </div>
+                    </div>
+                    </div>
+                    <CartItemUpsells item={item} />
                     </div>
                   </li>
                 ))}

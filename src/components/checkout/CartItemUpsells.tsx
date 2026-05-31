@@ -1,13 +1,20 @@
-import { useState } from "react";
-import { Sparkles, StickyNote, Bug, Plus, Check, X } from "lucide-react";
+import { useEffect, useState } from "react";
+import { Sparkles, StickyNote, Bug, Plus, Check, X, ArrowUpCircle } from "lucide-react";
 import { useCartStore, type CartItem } from "@/stores/cartStore";
 import { GLITTER_VARIANTS } from "@/lib/accessoryVariants";
 import { useTranslation } from "@/i18n/LanguageContext";
 import { toast } from "sonner";
+import { fetchVariantsByHandle, findVariantByRoses, type ShopifyHandleVariant } from "@/lib/shopifyVariants";
 
 interface Props {
   item: CartItem;
 }
+
+const ROSE_TIERS = [50, 75, 100, 125, 150, 175, 200] as const;
+
+// Module-level cache so we don't refetch variants for the same handle
+// every time the drawer opens.
+const variantsByHandleCache = new Map<string, ShopifyHandleVariant[]>();
 
 /**
  * Per-bouquet upsells shown in the cart:
@@ -25,12 +32,30 @@ const CartItemUpsells = ({ item }: Props) => {
   const updateItem = useCartStore((s) => s.updateItem);
   const [noteOpen, setNoteOpen] = useState(false);
   const [noteText, setNoteText] = useState(item.accessoryText || "");
+  const [siblingVariants, setSiblingVariants] = useState<ShopifyHandleVariant[] | null>(
+    item.shopifyHandle ? variantsByHandleCache.get(item.shopifyHandle) ?? null : null,
+  );
 
   // Only for bouquet products (skip room decors / coming-soon items / Mother's Day bundle).
   const isBouquet =
     !!item.shopifyVariantId &&
     !!item.bouquetType &&
     !item.isMothersDay;
+
+  // Lazy-load sibling size variants for the size-upgrade button.
+  useEffect(() => {
+    if (!isBouquet || !item.shopifyHandle || siblingVariants) return;
+    let cancelled = false;
+    fetchVariantsByHandle(item.shopifyHandle)
+      .then((variants) => {
+        if (cancelled) return;
+        variantsByHandleCache.set(item.shopifyHandle!, variants);
+        setSiblingVariants(variants);
+      })
+      .catch(() => { /* silently ignore — upgrade just won't show */ });
+    return () => { cancelled = true; };
+  }, [isBouquet, item.shopifyHandle, siblingVariants]);
+
   if (!isBouquet) return null;
 
   const hasGlitter = !!item.glitter;
@@ -46,19 +71,39 @@ const CartItemUpsells = ({ item }: Props) => {
   const canShowNote = !hasAccessory;
   const canShowButterfly = !hasAccessory;
 
-  if (!canShowGlitter && !canShowNote && !canShowButterfly) return null;
+  // Size upgrade: only if we know the sibling variants and there is a next tier
+  // with a real variant available.
+  const currentTierIdx = ROSE_TIERS.indexOf(item.roses as typeof ROSE_TIERS[number]);
+  const nextRoses = currentTierIdx >= 0 && currentTierIdx < ROSE_TIERS.length - 1
+    ? ROSE_TIERS[currentTierIdx + 1]
+    : null;
+  const nextVariant = nextRoses && siblingVariants ? findVariantByRoses(siblingVariants, nextRoses) : null;
+  const currentVariant = siblingVariants ? findVariantByRoses(siblingVariants, item.roses) : null;
+  const currentVariantPrice = currentVariant?.price?.amount ? parseFloat(currentVariant.price.amount) : null;
+  const nextVariantPrice = nextVariant?.price?.amount ? parseFloat(nextVariant.price.amount) : null;
+  const upgradeDelta =
+    currentVariantPrice !== null && nextVariantPrice !== null
+      ? Math.max(0, parseFloat((nextVariantPrice - currentVariantPrice).toFixed(2)))
+      : null;
+  const canShowUpgrade =
+    !!nextVariant && upgradeDelta !== null && nextVariantPrice !== null;
+
+  if (!canShowGlitter && !canShowNote && !canShowButterfly && !canShowUpgrade) return null;
 
   const labels = {
     title: language === "es" ? "Añade un detalle a este ramo" : "Add an extra to this bouquet",
     glitter: language === "es" ? "Acabado Glitter" : "Glitter Finish",
     notes: language === "es" ? "Tarjeta con nota" : "Card with note",
     butterflies: language === "es" ? "Mariposas doradas" : "Gold butterflies",
+    upgrade: language === "es" ? `Subir a ${nextRoses} rosas` : `Upgrade to ${nextRoses} roses`,
+    upgradeBadge: language === "es" ? "Mejor valor" : "Better value",
     free: language === "es" ? "Gratis" : "Free",
     add: language === "es" ? "Añadir" : "Add",
     save: language === "es" ? "Guardar nota" : "Save note",
     cancel: language === "es" ? "Cancelar" : "Cancel",
     placeholder: language === "es" ? "Escribe el mensaje que irá en la nota..." : "Write the message for the note...",
     added: language === "es" ? "Añadido a este ramo" : "Added to this bouquet",
+    upgraded: language === "es" ? "Tamaño actualizado" : "Size upgraded",
   };
 
   const handleAddGlitter = () => {
@@ -89,12 +134,47 @@ const CartItemUpsells = ({ item }: Props) => {
     toast.success(`${labels.notes} — ${labels.added}`);
   };
 
+  const handleUpgrade = () => {
+    if (!nextVariant || nextVariantPrice === null || !nextRoses) return;
+    // Recompute glitter cost if the item already has glitter, since glitter
+    // price scales with roses count.
+    const oldGlitterCost = item.glitter ? Math.ceil(item.roses / 25) * 8 : 0;
+    const newGlitterCost = item.glitter ? Math.ceil(nextRoses / 25) * 8 : 0;
+    const newPrice = parseFloat((nextVariantPrice + newGlitterCost).toFixed(2));
+    const totalDelta = newPrice - item.price;
+    updateItem(item.id, {
+      roses: nextRoses,
+      shopifyVariantId: nextVariant.id,
+      price: newPrice,
+      totalPrice: parseFloat((item.totalPrice + totalDelta).toFixed(2)),
+    });
+    toast.success(`${labels.upgraded} — ${nextRoses} ${language === "es" ? "rosas" : "roses"}`);
+  };
+
   return (
     <div className="mt-4 rounded-lg border border-dashed border-primary/40 bg-primary/5 p-3">
       <p className="text-xs font-body font-semibold text-primary mb-3 uppercase tracking-wider">
         + {labels.title}
       </p>
       <div className="flex flex-col gap-2">
+        {canShowUpgrade && (
+          <button
+            type="button"
+            onClick={handleUpgrade}
+            className="w-full flex items-center gap-2 px-3 py-2 rounded-md bg-card border border-primary/30 hover:border-primary hover:bg-primary/10 transition-colors text-left"
+          >
+            <ArrowUpCircle className="w-4 h-4 text-primary flex-shrink-0" />
+            <span className="flex-1 text-sm font-body text-foreground">
+              {labels.upgrade}
+              <span className="ml-2 text-[10px] uppercase tracking-wider font-semibold text-primary/80">
+                {labels.upgradeBadge}
+              </span>
+            </span>
+            <span className="text-sm font-body font-semibold text-primary">+${upgradeDelta}</span>
+            <Plus className="w-4 h-4 text-primary" />
+          </button>
+        )}
+
         {canShowGlitter && (
           <button
             type="button"
