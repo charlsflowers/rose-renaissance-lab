@@ -9,7 +9,7 @@ import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sh
 import { Trash2, Loader2, X, Plus, Minus } from "lucide-react";
 import PaymentIcons from "@/components/PaymentIcons";
 import { performApiCheckout } from "@/lib/checkout";
-import { buildAccessoryLineItems } from "@/lib/accessoryVariants";
+import { buildAccessoryLineItems, BUTTERFLIES_VARIANT_ID } from "@/lib/accessoryVariants";
 import { getPaperForCartItem } from "@/lib/paperHelper";
 import CartItemUpsells from "@/components/checkout/CartItemUpsells";
 import ShippingProtection from "@/components/checkout/ShippingProtection";
