@@ -8,6 +8,8 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 import { cn } from "@/lib/utils";
 import DeliveryCalculator, { type DeliveryResult } from "@/components/DeliveryCalculator";
 import { useTranslation } from "@/i18n/LanguageContext";
+import { useCartStore } from "@/stores/cartStore";
+import { getShippingProtectionFallback } from "@/lib/shippingProtection";
 
 interface Props {
   itemCount: number;
@@ -46,9 +48,12 @@ const CheckoutSummaryBlock = ({
   isCheckingOut, onCheckout,
 }: Props) => {
   const { t } = useTranslation();
+  const shippingProtectionEnabled = useCartStore((state) => state.shippingProtection);
   const needsAddress = deliveryMethod === "delivery";
   const deliveryCost = needsAddress && deliveryResult ? deliveryResult.cost : 0;
-  const grandTotal = itemsSubtotal + deliveryCost;
+  const protectionAmount = getShippingProtectionFallback().amount;
+  const protectionTotal = shippingProtectionEnabled ? protectionAmount : 0;
+  const grandTotal = itemsSubtotal + protectionTotal + deliveryCost;
 
   const [savedResult, setSavedResult] = useState<DeliveryResult | null>(deliveryResult);
   const [showAddressEditor, setShowAddressEditor] = useState(!deliveryResult && deliveryMethod === "delivery");
