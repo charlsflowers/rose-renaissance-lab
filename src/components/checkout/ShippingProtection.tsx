@@ -39,13 +39,13 @@ const ShippingProtection = () => {
   if (itemCount === 0) return null;
 
   return (
-    <div className="relative flex items-center gap-2.5 rounded-lg border border-primary/20 bg-primary/[0.03] px-2.5 py-2">
+    <div className="relative flex items-center gap-2.5 sm:gap-3.5 rounded-lg border border-primary/20 bg-primary/[0.03] px-2.5 py-2 sm:px-3.5 sm:py-3">
       {!disabled && !enabled && (
         <span className="absolute -top-2.5 right-3 px-1.5 py-0.5 rounded-full bg-primary text-primary-foreground text-[9px] font-body font-semibold uppercase tracking-wider leading-none shadow-sm">
           {t("shippingProtection.recommended")}
         </span>
       )}
-      <div className="w-8 h-8 flex-shrink-0 rounded-md overflow-hidden bg-muted flex items-center justify-center">
+      <div className="w-8 h-8 sm:w-11 sm:h-11 flex-shrink-0 rounded-md overflow-hidden bg-muted flex items-center justify-center">
         {imageUrl ? (
           <img
             src={imageUrl}
@@ -53,23 +53,23 @@ const ShippingProtection = () => {
             className="w-full h-full object-cover"
           />
         ) : (
-          <ShieldCheck className="w-4 h-4 text-primary" />
+          <ShieldCheck className="w-4 h-4 sm:w-5 sm:h-5 text-primary" />
         )}
       </div>
       <div className="flex-1 min-w-0">
         <div className="flex items-center justify-between gap-2">
-          <p className="font-body text-xs font-semibold text-foreground">
+          <p className="font-body text-xs sm:text-sm font-semibold text-foreground">
             {t("shippingProtection.label")}
           </p>
-          <p className="font-body text-xs font-semibold text-primary">
+          <p className="font-body text-xs sm:text-sm font-semibold text-primary">
             ${price.toFixed(2)}
           </p>
         </div>
-        <p className="font-body text-[10px] leading-snug text-muted-foreground mt-0.5 line-clamp-2">
+        <p className="font-body text-[10px] sm:text-xs leading-snug text-muted-foreground mt-0.5 line-clamp-2">
           {t("shippingProtection.description")}
         </p>
         {disabled && (
-          <p className="font-body text-[10px] leading-snug text-muted-foreground mt-1">
+          <p className="font-body text-[10px] sm:text-xs leading-snug text-muted-foreground mt-1">
             {t("shippingProtection.unavailable")}
           </p>
         )}
