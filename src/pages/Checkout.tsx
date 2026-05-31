@@ -15,16 +15,19 @@ import CheckoutOrderItem from "@/components/checkout/CheckoutOrderItem";
 import CheckoutSummaryBlock from "@/components/checkout/CheckoutSummaryBlock";
 import { useTranslation } from "@/i18n/LanguageContext";
 import { getPaperForCartItem } from "@/lib/paperHelper";
+import { getShippingProtectionFallback } from "@/lib/shippingProtection";
 
 const Checkout = () => {
   const { t } = useTranslation();
   const items = useCartStore((state) => state.items);
+  const shippingProtectionEnabled = useCartStore((state) => state.shippingProtection);
   const removeItem = useCartStore((state) => state.removeItem);
   const isLoading = useCartStore((state) => state.isLoading);
   const navigate = useNavigate();
   const [isCheckingOut, setIsCheckingOut] = useState(false);
 
-  const itemsSubtotal = parseFloat(items.reduce((sum, i) => sum + i.price, 0).toFixed(2));
+  const itemsSubtotal = parseFloat(items.reduce((sum, i) => sum + i.price * (i.quantity || 1), 0).toFixed(2));
+  const protectionTotal = shippingProtectionEnabled ? getShippingProtectionFallback().amount : 0;
 
   // GA4: remove_from_cart wrapper around the store action.
   // Mirrors the pattern used in src/components/FloatingCart.tsx (GA4-only, no Meta Pixel).
@@ -188,7 +191,7 @@ const Checkout = () => {
         return lines;
       });
 
-      const cartTotalForFee = itemsSubtotal + deliveryCost;
+      const cartTotalForFee = itemsSubtotal + protectionTotal + deliveryCost;
 
       const checkoutUrl = await performApiCheckout({
         deliveryMethod: checkoutDeliveryMethod,

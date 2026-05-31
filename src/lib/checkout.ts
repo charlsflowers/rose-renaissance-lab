@@ -8,7 +8,10 @@ import {
   type CartFullLine,
   type ShippingAddress,
 } from "@/lib/shopify";
-import { SHIPPING_PROTECTION_VARIANT_GID } from "@/lib/shippingProtection";
+import {
+  getShippingProtectionInfo,
+  SHIPPING_PROTECTION_VARIANT_GID,
+} from "@/lib/shippingProtection";
 import { appendTrackingParamsToUrl } from "@/lib/trackingParams";
 import { getStoredTrackingParams, TRACKING_PARAM_KEYS } from "@/lib/trackingParams";
 
@@ -183,6 +186,8 @@ export interface ApiCheckoutOptions {
  */
 export async function performApiCheckout(options: ApiCheckoutOptions): Promise<string | null> {
   const items = useCartStore.getState().items;
+  const shippingProtectionInfo = await getShippingProtectionInfo();
+  const shippingProtectionAvailable = Boolean(shippingProtectionInfo?.available);
 
   // 1) Product lines (skip items without a Shopify variant — e.g. "Coming Soon" categories)
   const productLines: CartFullLine[] = items
@@ -200,7 +205,7 @@ export async function performApiCheckout(options: ApiCheckoutOptions): Promise<s
 
   // 2b) Shipping Protection (optional add-on, max qty 1)
   const protectionEnabled = useCartStore.getState().shippingProtection;
-  const protectionLines: CartFullLine[] = protectionEnabled
+  const protectionLines: CartFullLine[] = protectionEnabled && shippingProtectionAvailable
     ? [{ merchandiseId: SHIPPING_PROTECTION_VARIANT_GID, quantity: 1 }]
     : [];
 

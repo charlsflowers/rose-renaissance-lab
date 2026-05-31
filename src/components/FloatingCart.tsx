@@ -16,6 +16,7 @@ import ShippingProtection from "@/components/checkout/ShippingProtection";
 import stickerBestValue from "@/assets/sticker-best-value.webp";
 import stickerFreshness from "@/assets/sticker-freshness.webp";
 import stickerSameDay from "@/assets/sticker-same-day.webp";
+import { getShippingProtectionFallback } from "@/lib/shippingProtection";
 
 const FloatingCart = () => {
   const { t } = useTranslation();
@@ -27,9 +28,13 @@ const FloatingCart = () => {
   const setOpen = useCartStore(state => state.setOpen);
   const totalItems = items.reduce((sum, i) => sum + (i.quantity || 1), 0);
   const cartTotal = items.reduce((sum, i) => sum + i.totalPrice * (i.quantity || 1), 0);
+  const shippingProtectionEnabled = useCartStore(state => state.shippingProtection);
   const [isCheckingOut, setIsCheckingOut] = useState(false);
 
   const itemsSubtotal = parseFloat(items.reduce((sum, i) => sum + i.price * (i.quantity || 1), 0).toFixed(2));
+  const shippingProtectionAmount = getShippingProtectionFallback().amount;
+  const protectionTotal = shippingProtectionEnabled ? shippingProtectionAmount : 0;
+  const displaySubtotal = parseFloat((cartTotal + protectionTotal).toFixed(2));
   const deliveryItem = items.find((i) => i.deliveryMethod === "delivery" && i.deliveryAddress && i.deliveryAddress !== "Store pickup");
   const checkoutDeliveryMethod: "pickup" | "delivery" = deliveryItem ? "delivery" : "pickup";
   const deliveryCost = deliveryItem ? (deliveryItem.deliveryCost || 0) : 0;
@@ -157,7 +162,7 @@ const FloatingCart = () => {
         return lines.map((l) => ({ ...l, quantity: l.quantity * qty }));
       });
 
-      const cartTotalForFee = itemsSubtotal + deliveryCost;
+      const cartTotalForFee = itemsSubtotal + protectionTotal + deliveryCost;
 
       const checkoutUrl = await performApiCheckout({
         deliveryMethod: checkoutDeliveryMethod,
@@ -301,7 +306,7 @@ const FloatingCart = () => {
                   {t("floatingCart.subtotal")}
                 </span>
                 <span className="font-display text-lg font-semibold text-foreground">
-                  ${parseFloat(cartTotal.toFixed(2))}
+                  ${displaySubtotal}
                 </span>
               </div>
               <ShippingProtection />
