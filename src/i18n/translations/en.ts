@@ -407,8 +407,8 @@ export const en = {
     ribbon: "Ribbon",
     shippingPending: "Shipping (pending)",
     shippingMi: "Shipping",
-    customerNotes: "Customer Notes",
-    customerNotesPlaceholder: "Write any special instructions for the delivery...",
+    customerNotes: "Special Instructions for Our Team",
+    customerNotesPlaceholder: "e.g., Leave the bouquet at the door, call when arriving... (not the card note)",
   },
 
   // Client Videos
