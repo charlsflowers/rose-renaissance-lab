@@ -3,6 +3,7 @@ import { Trash2, Store, Truck } from "lucide-react";
 import type { CartItem } from "@/stores/cartStore";
 import { getExtraImage, getAccessoryImage } from "./ExtrasImages";
 import { useTranslation } from "@/i18n/LanguageContext";
+import CartItemUpsells from "./CartItemUpsells";
 
 interface Props {
   item: CartItem;
@@ -158,6 +159,9 @@ const CheckoutOrderItem = ({ item, index, onRemove }: Props) => {
           <p className="font-display text-2xl font-bold text-foreground">${parseFloat(item.totalPrice.toFixed(2))}</p>
         </div>
       </div>
+
+      {/* Per-bouquet upsells (Glitter / Notes / Butterflies) */}
+      <CartItemUpsells item={item} />
     </motion.div>
   );
 };
