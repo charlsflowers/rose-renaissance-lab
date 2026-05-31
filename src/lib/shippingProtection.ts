@@ -30,6 +30,7 @@ export interface ShippingProtectionInfo {
   amount: number;
   currencyCode: string;
   variantGid: string;
+  available: boolean;
 }
 
 let cached: ShippingProtectionInfo | null = null;
@@ -55,6 +56,7 @@ export async function getShippingProtectionInfo(): Promise<ShippingProtectionInf
         amount,
         currencyCode: variant?.price?.currencyCode ?? "USD",
         variantGid: variant?.id ?? SHIPPING_PROTECTION_VARIANT_GID,
+        available: Boolean(product && variant?.id),
       };
       cached = info;
       inflight = null;
@@ -67,4 +69,15 @@ export async function getShippingProtectionInfo(): Promise<ShippingProtectionInf
     });
 
   return inflight;
+}
+
+export function getShippingProtectionFallback(): ShippingProtectionInfo {
+  return {
+    imageUrl: null,
+    imageAlt: "Shipping Protection",
+    amount: 8,
+    currencyCode: "USD",
+    variantGid: SHIPPING_PROTECTION_VARIANT_GID,
+    available: false,
+  };
 }
