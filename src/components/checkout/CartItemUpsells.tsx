@@ -136,8 +136,11 @@ const CartItemUpsells = ({ item }: Props) => {
   const handleAddButterfly = () => {
     const currentAddons = item.addons ?? [];
     if (currentAddons.some((a) => a.toLowerCase().includes("butterfl"))) return;
+    const cost = butterflyPrice ?? 0;
     updateItem(item.id, {
       addons: [...currentAddons, "Butterflies"],
+      price: parseFloat((item.price + cost).toFixed(2)),
+      totalPrice: parseFloat((item.totalPrice + cost).toFixed(2)),
     });
     toast.success(`${labels.butterflies} — ${labels.added}`);
   };
@@ -145,9 +148,14 @@ const CartItemUpsells = ({ item }: Props) => {
   const handleSaveNote = () => {
     const trimmed = noteText.trim();
     if (!trimmed) return;
+    // If the note wasn't already added, add its price too.
+    const wasAlreadyNote = item.accessory === "note";
+    const cost = wasAlreadyNote ? 0 : (notePrice ?? 0);
     updateItem(item.id, {
       accessory: "note",
       accessoryText: trimmed,
+      price: parseFloat((item.price + cost).toFixed(2)),
+      totalPrice: parseFloat((item.totalPrice + cost).toFixed(2)),
     });
     setNoteOpen(false);
     toast.success(`${labels.notes} — ${labels.added}`);
