@@ -74,17 +74,20 @@ const CartItemUpsells = ({ item }: Props) => {
   if (!isBouquet) return null;
 
   const hasGlitter = !!item.glitter;
-  const hasAccessory = item.accessory && item.accessory !== "none" && item.accessory !== "";
+  // Note and butterflies are now INDEPENDENT — picking one no longer hides the other.
+  // - Note uses the dedicated `accessory` slot (it carries the text).
+  // - Butterfly is pushed into `addons` (same convention as the product page).
   const hasNote = item.accessory === "note";
-  const hasButterfly = item.accessory === "butterfly";
+  const hasButterfly =
+    item.accessory === "butterfly" ||
+    (item.addons?.some((a) => a.toLowerCase().includes("butterfl")) ?? false);
 
   const glitterAvailable = !!GLITTER_VARIANTS[item.roses];
   const glitterCost = Math.ceil(item.roses / 25) * 8;
 
   const canShowGlitter = !hasGlitter && glitterAvailable;
-  // Accessory is a single slot — only offer if it's still free.
-  const canShowNote = !hasAccessory;
-  const canShowButterfly = !hasAccessory;
+  const canShowNote = !hasNote;
+  const canShowButterfly = !hasButterfly;
 
   // Size upgrade: only if we know the sibling variants and there is a next tier
   // with a real variant available.
@@ -131,9 +134,10 @@ const CartItemUpsells = ({ item }: Props) => {
   };
 
   const handleAddButterfly = () => {
+    const currentAddons = item.addons ?? [];
+    if (currentAddons.some((a) => a.toLowerCase().includes("butterfl"))) return;
     updateItem(item.id, {
-      accessory: "butterfly",
-      accessoryText: "",
+      addons: [...currentAddons, "Butterflies"],
     });
     toast.success(`${labels.butterflies} — ${labels.added}`);
   };
