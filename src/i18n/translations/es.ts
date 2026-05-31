@@ -495,6 +495,7 @@ export const es = {
     label: "Protección de Envío",
     description: "Protege tu pedido contra pérdida, daño o robo durante el envío.",
     unavailable: "Temporalmente no disponible en el checkout.",
+    recommended: "Recomendado",
   },
 
   collectionFaq: {
