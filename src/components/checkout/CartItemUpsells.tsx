@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
-import { Plus, Check, X, ArrowUpCircle } from "lucide-react";
+import { Plus, Check, X, ArrowUpCircle, Crown as CrownIcon } from "lucide-react";
 import { useCartStore, type CartItem } from "@/stores/cartStore";
 import { GLITTER_VARIANTS } from "@/lib/accessoryVariants";
+import { crownPrice, ribbonPrice } from "@/lib/productData";
 import { useTranslation } from "@/i18n/LanguageContext";
 import { toast } from "sonner";
 import { fetchVariantsByHandle, findVariantByRoses, type ShopifyHandleVariant } from "@/lib/shopifyVariants";
@@ -9,6 +10,9 @@ import { getNotePrice, getButterflyPrice } from "@/lib/shopifyAccessoryPrices";
 import glitterRoseImg from "@/assets/glitter-rose.webp";
 import butterflyImg from "@/assets/butterfly-gold.webp";
 import noteImg from "@/assets/accessory-note.webp";
+import crownSilverImg from "@/assets/crown-silver.webp";
+import crownGoldImg from "@/assets/crown-gold.webp";
+import ribbonImg from "@/assets/ribbon.webp";
 
 interface Props {
   item: CartItem;
@@ -37,6 +41,9 @@ const CartItemUpsells = ({ item }: Props) => {
   const [noteOpen, setNoteOpen] = useState(false);
   const [noteText, setNoteText] = useState(item.accessoryText || "");
   const [upgradeClicked, setUpgradeClicked] = useState(false);
+  const [crownOpen, setCrownOpen] = useState(false);
+  const [ribbonOpen, setRibbonOpen] = useState(false);
+  const [ribbonText, setRibbonText] = useState(item.ribbonText || "");
   const [siblingVariants, setSiblingVariants] = useState<ShopifyHandleVariant[] | null>(
     item.shopifyHandle ? variantsByHandleCache.get(item.shopifyHandle) ?? null : null,
   );
@@ -82,6 +89,10 @@ const CartItemUpsells = ({ item }: Props) => {
   const hasButterfly =
     item.accessory === "butterfly" ||
     (item.addons?.some((a) => a.toLowerCase().includes("butterfl")) ?? false);
+  const hasCrown = !!item.crownSize ||
+    (item.addons?.some((a) => a.toLowerCase().includes("crown")) ?? false);
+  const hasRibbon = !!item.ribbonText ||
+    (item.addons?.some((a) => a.toLowerCase() === "ribbon") ?? false);
 
   const glitterAvailable = !!GLITTER_VARIANTS[item.roses];
   const glitterCost = Math.ceil(item.roses / 25) * 8;
@@ -89,6 +100,8 @@ const CartItemUpsells = ({ item }: Props) => {
   const canShowGlitter = !hasGlitter && glitterAvailable;
   const canShowNote = !hasNote;
   const canShowButterfly = !hasButterfly;
+  const canShowCrown = !hasCrown;
+  const canShowRibbon = !hasRibbon;
 
   // Size upgrade: only if we know the sibling variants and there is a next tier
   // with a real variant available.
@@ -107,7 +120,7 @@ const CartItemUpsells = ({ item }: Props) => {
   const canShowUpgrade =
     !!nextVariant && upgradeDelta !== null && nextVariantPrice !== null;
 
-  if (!canShowGlitter && !canShowNote && !canShowButterfly && !canShowUpgrade) return null;
+  if (!canShowGlitter && !canShowNote && !canShowButterfly && !canShowUpgrade && !canShowCrown && !canShowRibbon) return null;
 
   const labels = {
     title: language === "es" ? "Añade un detalle a este ramo" : "Add an extra to this bouquet",
@@ -117,9 +130,15 @@ const CartItemUpsells = ({ item }: Props) => {
     upgrade: language === "es" ? `Subir a ${nextRoses} rosas` : `Upgrade to ${nextRoses} roses`,
     upgradeBadge: language === "es" ? "Mejor valor" : "Better value",
     recommended: language === "es" ? "Recomendado" : "Recommended",
+    crown: language === "es" ? "Corona Tiara" : "Crown Tiara",
+    crownSilver: language === "es" ? "Plata" : "Silver",
+    crownGold: language === "es" ? "Oro" : "Gold",
+    ribbon: language === "es" ? "Cinta personalizada" : "Custom ribbon",
+    ribbonPlaceholder: language === "es" ? "Escribe el texto de la cinta..." : "Write the ribbon text...",
+    save: language === "es" ? "Guardar" : "Save",
     free: language === "es" ? "Gratis" : "Free",
     add: language === "es" ? "Añadir" : "Add",
-    save: language === "es" ? "Guardar nota" : "Save note",
+    saveNote: language === "es" ? "Guardar nota" : "Save note",
     cancel: language === "es" ? "Cancelar" : "Cancel",
     placeholder: language === "es" ? "Escribe el mensaje que irá en la nota..." : "Write the message for the note...",
     added: language === "es" ? "Añadido a este ramo" : "Added to this bouquet",
@@ -163,6 +182,36 @@ const CartItemUpsells = ({ item }: Props) => {
     toast.success(`${labels.notes} — ${labels.added}`);
   };
 
+  const handleAddCrown = (size: "silver" | "gold") => {
+    const currentAddons = (item.addons ?? []).filter(
+      (a) => !a.toLowerCase().includes("crown"),
+    );
+    updateItem(item.id, {
+      crownSize: size,
+      addons: [...currentAddons, `Crown Tiara (${size})`],
+      price: parseFloat((item.price + crownPrice).toFixed(2)),
+      totalPrice: parseFloat((item.totalPrice + crownPrice).toFixed(2)),
+    });
+    setCrownOpen(false);
+    toast.success(`${labels.crown} — ${labels.added}`);
+  };
+
+  const handleSaveRibbon = () => {
+    const trimmed = ribbonText.trim();
+    if (!trimmed) return;
+    const currentAddons = (item.addons ?? []).filter(
+      (a) => a.toLowerCase() !== "ribbon",
+    );
+    updateItem(item.id, {
+      ribbonText: trimmed,
+      addons: [...currentAddons, "Ribbon"],
+      price: parseFloat((item.price + ribbonPrice).toFixed(2)),
+      totalPrice: parseFloat((item.totalPrice + ribbonPrice).toFixed(2)),
+    });
+    setRibbonOpen(false);
+    toast.success(`${labels.ribbon} — ${labels.added}`);
+  };
+
   const handleUpgrade = () => {
     if (!nextVariant || nextVariantPrice === null || !nextRoses) return;
     // Recompute glitter cost if the item already has glitter, since glitter
@@ -183,7 +232,7 @@ const CartItemUpsells = ({ item }: Props) => {
 
   return (
     <div className="mt-3 rounded-lg border border-dashed border-primary/40 bg-primary/5 p-2">
-      <p className="text-[10px] font-body font-semibold text-primary mb-2 uppercase tracking-wider">
+      <p className="text-[10px] sm:text-xs font-body font-semibold text-primary mb-2 uppercase tracking-wider">
         + {labels.title}
       </p>
       <div className="flex flex-col gap-1.5">
@@ -191,22 +240,22 @@ const CartItemUpsells = ({ item }: Props) => {
           <button
             type="button"
             onClick={handleUpgrade}
-            className="relative w-full flex items-center gap-2 px-2.5 py-1.5 rounded-md bg-card border border-primary/30 hover:border-primary hover:bg-primary/10 transition-colors text-left"
+            className="relative w-full flex items-center gap-2 px-2.5 py-1.5 sm:px-3 sm:py-2.5 rounded-md bg-card border border-primary/30 hover:border-primary hover:bg-primary/10 transition-colors text-left"
           >
             {!upgradeClicked && (
               <span className="absolute -top-2.5 right-3 px-1.5 py-0.5 rounded-full bg-primary text-primary-foreground text-[9px] font-body font-semibold uppercase tracking-wider leading-none shadow-sm">
                 {labels.recommended}
               </span>
             )}
-            <ArrowUpCircle className="w-3.5 h-3.5 text-primary flex-shrink-0" />
-            <span className="flex-1 text-xs font-body text-foreground">
+            <ArrowUpCircle className="w-3.5 h-3.5 sm:w-5 sm:h-5 text-primary flex-shrink-0" />
+            <span className="flex-1 text-xs sm:text-sm font-body text-foreground">
               {labels.upgrade}
-              <span className="ml-1.5 text-[9px] uppercase tracking-wider font-semibold text-primary/80">
+              <span className="ml-1.5 text-[9px] sm:text-[10px] uppercase tracking-wider font-semibold text-primary/80">
                 {labels.upgradeBadge}
               </span>
             </span>
-            <span className="text-xs font-body font-semibold text-primary">+${upgradeDelta}</span>
-            <Plus className="w-3.5 h-3.5 text-primary" />
+            <span className="text-xs sm:text-sm font-body font-semibold text-primary">+${upgradeDelta}</span>
+            <Plus className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-primary" />
           </button>
         )}
 
@@ -214,12 +263,12 @@ const CartItemUpsells = ({ item }: Props) => {
           <button
             type="button"
             onClick={handleAddGlitter}
-            className="w-full flex items-center gap-2 px-2.5 py-1.5 rounded-md bg-card border border-primary/30 hover:border-primary hover:bg-primary/10 transition-colors text-left"
+            className="w-full flex items-center gap-2 px-2.5 py-1.5 sm:px-3 sm:py-2.5 rounded-md bg-card border border-primary/30 hover:border-primary hover:bg-primary/10 transition-colors text-left"
           >
-            <img src={glitterRoseImg} alt="" className="w-7 h-7 object-contain flex-shrink-0" />
-            <span className="flex-1 text-xs font-body text-foreground">{labels.glitter}</span>
-            <span className="text-xs font-body font-semibold text-primary">+${glitterCost}</span>
-            <Plus className="w-3.5 h-3.5 text-primary" />
+            <img src={glitterRoseImg} alt="" className="w-7 h-7 sm:w-10 sm:h-10 object-contain flex-shrink-0" />
+            <span className="flex-1 text-xs sm:text-sm font-body text-foreground">{labels.glitter}</span>
+            <span className="text-xs sm:text-sm font-body font-semibold text-primary">+${glitterCost}</span>
+            <Plus className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-primary" />
           </button>
         )}
 
@@ -227,16 +276,16 @@ const CartItemUpsells = ({ item }: Props) => {
           <button
             type="button"
             onClick={() => setNoteOpen(true)}
-            className="w-full flex items-center gap-2 px-2.5 py-1.5 rounded-md bg-card border border-primary/30 hover:border-primary hover:bg-primary/10 transition-colors text-left"
+            className="w-full flex items-center gap-2 px-2.5 py-1.5 sm:px-3 sm:py-2.5 rounded-md bg-card border border-primary/30 hover:border-primary hover:bg-primary/10 transition-colors text-left"
           >
-            <img src={noteImg} alt="" className="w-7 h-7 object-contain rounded flex-shrink-0" />
-            <span className="flex-1 text-xs font-body text-foreground">{labels.notes}</span>
+            <img src={noteImg} alt="" className="w-7 h-7 sm:w-10 sm:h-10 object-contain rounded flex-shrink-0" />
+            <span className="flex-1 text-xs sm:text-sm font-body text-foreground">{labels.notes}</span>
             {notePrice !== null && (
-              <span className="text-xs font-body font-semibold text-primary">
+              <span className="text-xs sm:text-sm font-body font-semibold text-primary">
                 +${notePrice.toFixed(2)}
               </span>
             )}
-            <Plus className="w-3.5 h-3.5 text-primary" />
+            <Plus className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-primary" />
           </button>
         )}
 
@@ -263,7 +312,7 @@ const CartItemUpsells = ({ item }: Props) => {
                 disabled={!noteText.trim()}
                 className="inline-flex items-center gap-1 px-3 py-1.5 rounded text-xs font-body bg-primary text-primary-foreground hover:bg-primary/90 disabled:opacity-50"
               >
-                <Check className="w-3 h-3" /> {labels.save}
+                <Check className="w-3 h-3" /> {labels.saveNote}
               </button>
             </div>
           </div>
@@ -273,17 +322,112 @@ const CartItemUpsells = ({ item }: Props) => {
           <button
             type="button"
             onClick={handleAddButterfly}
-            className="w-full flex items-center gap-2 px-2.5 py-1.5 rounded-md bg-card border border-primary/30 hover:border-primary hover:bg-primary/10 transition-colors text-left"
+            className="w-full flex items-center gap-2 px-2.5 py-1.5 sm:px-3 sm:py-2.5 rounded-md bg-card border border-primary/30 hover:border-primary hover:bg-primary/10 transition-colors text-left"
           >
-            <img src={butterflyImg} alt="" className="w-7 h-7 object-contain flex-shrink-0" />
-            <span className="flex-1 text-xs font-body text-foreground">{labels.butterflies}</span>
+            <img src={butterflyImg} alt="" className="w-7 h-7 sm:w-10 sm:h-10 object-contain flex-shrink-0" />
+            <span className="flex-1 text-xs sm:text-sm font-body text-foreground">{labels.butterflies}</span>
             {butterflyPrice !== null && (
-              <span className="text-xs font-body font-semibold text-primary">
+              <span className="text-xs sm:text-sm font-body font-semibold text-primary">
                 +${butterflyPrice.toFixed(2)}
               </span>
             )}
-            <Plus className="w-3.5 h-3.5 text-primary" />
+            <Plus className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-primary" />
           </button>
+        )}
+
+        {canShowCrown && !crownOpen && (
+          <button
+            type="button"
+            onClick={() => setCrownOpen(true)}
+            className="w-full flex items-center gap-2 px-2.5 py-1.5 sm:px-3 sm:py-2.5 rounded-md bg-card border border-primary/30 hover:border-primary hover:bg-primary/10 transition-colors text-left"
+          >
+            <img src={crownGoldImg} alt="" className="w-7 h-7 sm:w-10 sm:h-10 object-contain flex-shrink-0" />
+            <span className="flex-1 text-xs sm:text-sm font-body text-foreground">{labels.crown}</span>
+            <span className="text-xs sm:text-sm font-body font-semibold text-primary">+${crownPrice}</span>
+            <Plus className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-primary" />
+          </button>
+        )}
+
+        {canShowCrown && crownOpen && (
+          <div className="rounded-md bg-card border border-primary/40 p-3">
+            <p className="text-[11px] sm:text-xs font-body font-semibold text-foreground mb-2">
+              {labels.crown} — +${crownPrice}
+            </p>
+            <div className="flex gap-2">
+              {(["silver", "gold"] as const).map((size) => (
+                <button
+                  key={size}
+                  type="button"
+                  onClick={() => handleAddCrown(size)}
+                  className="flex-1 flex flex-col items-center gap-1 p-2 rounded-md border border-border hover:border-primary hover:bg-primary/10 transition-colors"
+                >
+                  <img
+                    src={size === "silver" ? crownSilverImg : crownGoldImg}
+                    alt=""
+                    className="w-10 h-10 sm:w-12 sm:h-12 object-contain"
+                  />
+                  <span className="text-[11px] sm:text-xs font-body text-foreground">
+                    {size === "silver" ? labels.crownSilver : labels.crownGold}
+                  </span>
+                </button>
+              ))}
+            </div>
+            <div className="flex justify-end mt-2">
+              <button
+                type="button"
+                onClick={() => setCrownOpen(false)}
+                className="inline-flex items-center gap-1 px-3 py-1.5 rounded text-xs font-body text-muted-foreground hover:text-foreground"
+              >
+                <X className="w-3 h-3" /> {labels.cancel}
+              </button>
+            </div>
+          </div>
+        )}
+
+        {canShowRibbon && !ribbonOpen && (
+          <button
+            type="button"
+            onClick={() => setRibbonOpen(true)}
+            className="w-full flex items-center gap-2 px-2.5 py-1.5 sm:px-3 sm:py-2.5 rounded-md bg-card border border-primary/30 hover:border-primary hover:bg-primary/10 transition-colors text-left"
+          >
+            <img src={ribbonImg} alt="" className="w-7 h-7 sm:w-10 sm:h-10 object-contain flex-shrink-0" />
+            <span className="flex-1 text-xs sm:text-sm font-body text-foreground">{labels.ribbon}</span>
+            <span className="text-xs sm:text-sm font-body font-semibold text-primary">+${ribbonPrice}</span>
+            <Plus className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-primary" />
+          </button>
+        )}
+
+        {canShowRibbon && ribbonOpen && (
+          <div className="rounded-md bg-card border border-primary/40 p-3">
+            <p className="text-[11px] sm:text-xs font-body font-semibold text-foreground mb-2">
+              {labels.ribbon} — +${ribbonPrice}
+            </p>
+            <input
+              type="text"
+              value={ribbonText}
+              onChange={(e) => setRibbonText(e.target.value)}
+              placeholder={labels.ribbonPlaceholder}
+              maxLength={60}
+              className="w-full bg-background border border-border rounded px-3 py-2 text-sm font-body text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30"
+            />
+            <div className="flex gap-2 mt-2 justify-end">
+              <button
+                type="button"
+                onClick={() => { setRibbonOpen(false); setRibbonText(item.ribbonText || ""); }}
+                className="inline-flex items-center gap-1 px-3 py-1.5 rounded text-xs font-body text-muted-foreground hover:text-foreground"
+              >
+                <X className="w-3 h-3" /> {labels.cancel}
+              </button>
+              <button
+                type="button"
+                onClick={handleSaveRibbon}
+                disabled={!ribbonText.trim()}
+                className="inline-flex items-center gap-1 px-3 py-1.5 rounded text-xs font-body bg-primary text-primary-foreground hover:bg-primary/90 disabled:opacity-50"
+              >
+                <Check className="w-3 h-3" /> {labels.save}
+              </button>
+            </div>
+          </div>
         )}
       </div>
     </div>
