@@ -394,8 +394,8 @@ export const es = {
     ribbon: "Cinta",
     shippingPending: "Envío (pendiente)",
     shippingMi: "Envío",
-    customerNotes: "Notas del Cliente",
-    customerNotesPlaceholder: "Escribe instrucciones especiales para la entrega...",
+    customerNotes: "Indicaciones para Nuestro Equipo",
+    customerNotesPlaceholder: "Ej.: Déjame el ramo en la puerta, llámame al llegar... (no es la nota de la tarjeta)",
   },
 
   clientVideos: {
