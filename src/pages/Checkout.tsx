@@ -5,7 +5,7 @@ import { Link, useNavigate } from "@/i18n/LocalizedRouter";
 import { toast } from "sonner";
 import { useCartStore } from "@/stores/cartStore";
 import { performApiCheckout } from "@/lib/checkout";
-import { buildAccessoryLineItems } from "@/lib/accessoryVariants";
+import { buildAccessoryLineItems, BUTTERFLIES_VARIANT_ID } from "@/lib/accessoryVariants";
 import Navbar from "@/components/Navbar";
 import type { DeliveryResult } from "@/components/DeliveryCalculator";
 import { ArrowLeft } from "lucide-react";
@@ -152,6 +152,8 @@ const Checkout = () => {
       const accessoryLineItems = items.flatMap((item) => {
         const vaseAddon = item.addons?.find(a => a.startsWith("Vase"));
         const vaseRosesMatch = vaseAddon?.match(/\((\d+)/);
+        const hasButterflyAddon =
+          item.addons?.some((a) => a.toLowerCase().includes("butterfl")) ?? false;
         // Mother's Day items have Crown + Butterflies + Ribbon BUNDLED into the Shopify
         // variant price. Do NOT create separate line items for them or the customer would
         // be charged twice. Notes are still added (they are a free $0 add-on variant).
@@ -167,7 +169,7 @@ const Checkout = () => {
             addRibbon: false,
           });
         }
-        return buildAccessoryLineItems({
+        const lines = buildAccessoryLineItems({
           glitter: item.glitter,
           rosesCount: item.roses,
           accessory: item.accessory,
@@ -178,6 +180,12 @@ const Checkout = () => {
           crownSize: item.crownSize,
           addRibbon: !!item.ribbonText,
         });
+        // Butterflies via addons (independent of the note accessory).
+        // Skip if accessory is already "butterfly" — that path already added it above.
+        if (hasButterflyAddon && item.accessory !== "butterfly") {
+          lines.push({ variantId: BUTTERFLIES_VARIANT_ID, quantity: 1 });
+        }
+        return lines;
       });
 
       const cartTotalForFee = itemsSubtotal + deliveryCost;
