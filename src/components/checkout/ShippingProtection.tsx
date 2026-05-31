@@ -26,8 +26,6 @@ const ShippingProtection = () => {
     };
   }, []);
 
-  if (itemCount === 0) return null;
-
   const price = info.amount;
   const imageUrl = info.imageUrl;
   const disabled = !info.available;
@@ -37,6 +35,8 @@ const ShippingProtection = () => {
       setEnabled(false);
     }
   }, [disabled, enabled, setEnabled]);
+
+  if (itemCount === 0) return null;
 
   return (
     <div className="flex items-center gap-3 rounded-lg border border-primary/20 bg-primary/[0.03] px-3 py-2.5">
