@@ -4,13 +4,14 @@ import { Switch } from "@/components/ui/switch";
 import { useCartStore } from "@/stores/cartStore";
 import { useTranslation } from "@/i18n/LanguageContext";
 import {
+  getShippingProtectionFallback,
   getShippingProtectionInfo,
   type ShippingProtectionInfo,
 } from "@/lib/shippingProtection";
 
 const ShippingProtection = () => {
   const { t } = useTranslation();
-  const [info, setInfo] = useState<ShippingProtectionInfo | null>(null);
+  const [info, setInfo] = useState<ShippingProtectionInfo>(getShippingProtectionFallback());
   const enabled = useCartStore((s) => s.shippingProtection);
   const setEnabled = useCartStore((s) => s.setShippingProtection);
   const itemCount = useCartStore((s) => s.items.length);
@@ -27,8 +28,15 @@ const ShippingProtection = () => {
 
   if (itemCount === 0) return null;
 
-  const price = info?.amount ?? 8;
-  const imageUrl = info?.imageUrl ?? null;
+  const price = info.amount;
+  const imageUrl = info.imageUrl;
+  const disabled = !info.available;
+
+  useEffect(() => {
+    if (disabled && enabled) {
+      setEnabled(false);
+    }
+  }, [disabled, enabled, setEnabled]);
 
   return (
     <div className="flex items-center gap-3 rounded-lg border border-primary/20 bg-primary/[0.03] px-3 py-2.5">
@@ -36,7 +44,7 @@ const ShippingProtection = () => {
         {imageUrl ? (
           <img
             src={imageUrl}
-            alt={info?.imageAlt || t("shippingProtection.label")}
+            alt={info.imageAlt || t("shippingProtection.label")}
             className="w-full h-full object-cover"
           />
         ) : (
@@ -55,10 +63,19 @@ const ShippingProtection = () => {
         <p className="font-body text-[11px] leading-snug text-muted-foreground mt-0.5">
           {t("shippingProtection.description")}
         </p>
+        {disabled && (
+          <p className="font-body text-[11px] leading-snug text-muted-foreground mt-1">
+            {t("shippingProtection.unavailable")}
+          </p>
+        )}
       </div>
       <Switch
-        checked={enabled}
-        onCheckedChange={(v) => setEnabled(!!v)}
+        checked={!disabled && enabled}
+        onCheckedChange={(v) => {
+          if (disabled) return;
+          setEnabled(!!v);
+        }}
+        disabled={disabled}
         aria-label={t("shippingProtection.label")}
       />
     </div>
