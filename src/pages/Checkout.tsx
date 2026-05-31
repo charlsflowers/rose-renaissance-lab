@@ -5,7 +5,7 @@ import { Link, useNavigate } from "@/i18n/LocalizedRouter";
 import { toast } from "sonner";
 import { useCartStore } from "@/stores/cartStore";
 import { performApiCheckout } from "@/lib/checkout";
-import { buildAccessoryLineItems } from "@/lib/accessoryVariants";
+import { buildAccessoryLineItems, BUTTERFLIES_VARIANT_ID } from "@/lib/accessoryVariants";
 import Navbar from "@/components/Navbar";
 import type { DeliveryResult } from "@/components/DeliveryCalculator";
 import { ArrowLeft } from "lucide-react";
