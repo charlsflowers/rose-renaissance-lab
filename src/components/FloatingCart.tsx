@@ -199,10 +199,10 @@ const FloatingCart = () => {
           side="right"
           className="w-[80%] sm:max-w-md p-0 flex flex-col [&>button.absolute]:hidden"
         >
-          <SheetHeader className="px-6 pt-12 pb-4 border-b">
+          <SheetHeader className="px-4 pt-6 pb-2 sm:px-6 sm:pt-10 sm:pb-3 border-b">
             <div className="flex items-center justify-between gap-3">
-              <SheetTitle className="font-display text-xl text-foreground flex items-center gap-2.5 m-0">
-                <BrandLogo className="w-7 h-7" />
+              <SheetTitle className="font-display text-lg sm:text-xl text-foreground flex items-center gap-2 m-0">
+                <BrandLogo className="w-6 h-6 sm:w-7 sm:h-7" />
                 <span>
                   {t("floatingCart.yourCart")} ({totalItems})
                 </span>
