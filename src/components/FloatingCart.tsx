@@ -300,6 +300,16 @@ const FloatingCart = () => {
           </div>
 
           {totalItems > 0 && (
+            <div className="px-6 pt-3 pb-1 bg-background">
+              <div className="flex items-center justify-center gap-3">
+                <img src={stickerSameDay} alt="Same Day Delivery" className="w-16 h-16 object-contain" loading="lazy" />
+                <img src={stickerFreshness} alt="Freshness 100% Guaranteed" className="w-16 h-16 object-contain" loading="lazy" />
+                <img src={stickerBestValue} alt="The Best Value" className="w-16 h-16 object-contain" loading="lazy" />
+              </div>
+            </div>
+          )}
+
+          {totalItems > 0 && (
             <div className="border-t px-6 py-4 space-y-3 bg-background">
               <div className="flex items-center justify-between">
                 <span className="font-body text-sm text-muted-foreground">
@@ -310,12 +320,6 @@ const FloatingCart = () => {
                 </span>
               </div>
               <ShippingProtection />
-              {/* Trust stickers */}
-              <div className="flex items-center justify-center gap-3 pb-1">
-                <img src={stickerSameDay} alt="Same Day Delivery" className="w-16 h-16 object-contain" loading="lazy" />
-                <img src={stickerFreshness} alt="Freshness 100% Guaranteed" className="w-16 h-16 object-contain" loading="lazy" />
-                <img src={stickerBestValue} alt="The Best Value" className="w-16 h-16 object-contain" loading="lazy" />
-              </div>
               <button
                 type="button"
                 onClick={handleCheckout}
