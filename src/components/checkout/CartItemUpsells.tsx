@@ -177,6 +177,7 @@ const CartItemUpsells = ({ item }: Props) => {
       price: newPrice,
       totalPrice: parseFloat((item.totalPrice + totalDelta).toFixed(2)),
     });
+    setUpgradeClicked(true);
     toast.success(`${labels.upgraded} — ${nextRoses} ${language === "es" ? "rosas" : "roses"}`);
   };
 
