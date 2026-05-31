@@ -132,6 +132,12 @@ const FloatingCart = () => {
           const accLabel = item.accessory === "note" ? "Notes" : item.accessory === "card" ? "Card" : "Butterflies";
           noteLines.push(`- 🦋 Accessory: ${accLabel}`);
         }
+        if (
+          item.accessory !== "butterfly" &&
+          item.addons?.some((a) => a.toLowerCase().includes("butterfl"))
+        ) {
+          noteLines.push(`- 🦋 Accessory: Butterflies`);
+        }
         if (item.accessoryText) noteLines.push(`- 💌 Card text: ${item.accessoryText}`);
         if (item.ribbonText) noteLines.push(`- 🎀 Custom ribbon: ${item.ribbonText}`);
         if (item.specialText) noteLines.push(`- 🔤 Letters or numbers (Baby Breath): ${item.specialText}`);
