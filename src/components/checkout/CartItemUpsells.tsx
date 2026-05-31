@@ -36,6 +36,7 @@ const CartItemUpsells = ({ item }: Props) => {
   const updateItem = useCartStore((s) => s.updateItem);
   const [noteOpen, setNoteOpen] = useState(false);
   const [noteText, setNoteText] = useState(item.accessoryText || "");
+  const [upgradeClicked, setUpgradeClicked] = useState(false);
   const [siblingVariants, setSiblingVariants] = useState<ShopifyHandleVariant[] | null>(
     item.shopifyHandle ? variantsByHandleCache.get(item.shopifyHandle) ?? null : null,
   );
@@ -176,6 +177,7 @@ const CartItemUpsells = ({ item }: Props) => {
       price: newPrice,
       totalPrice: parseFloat((item.totalPrice + totalDelta).toFixed(2)),
     });
+    setUpgradeClicked(true);
     toast.success(`${labels.upgraded} — ${nextRoses} ${language === "es" ? "rosas" : "roses"}`);
   };
 
@@ -185,7 +187,7 @@ const CartItemUpsells = ({ item }: Props) => {
         + {labels.title}
       </p>
       <div className="flex flex-col gap-1.5">
-        {canShowUpgrade && (
+        {canShowUpgrade && !upgradeClicked && (
           <button
             type="button"
             onClick={handleUpgrade}
