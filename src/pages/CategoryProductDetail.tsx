@@ -379,7 +379,7 @@ const CategoryProductDetail = () => {
               {/* Date */}
               <div className="mb-4">
                 <label className="text-sm font-body font-semibold text-foreground block mb-2">
-                  <CalendarIcon className="w-4 h-4 inline mr-1" /> Date
+                  <CalendarIcon className="w-4 h-4 inline mr-1" /> Delivery Date
                 </label>
                 <Popover open={calendarOpen} onOpenChange={setCalendarOpen}>
                   <PopoverTrigger asChild>
