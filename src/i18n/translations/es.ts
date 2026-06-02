@@ -245,7 +245,7 @@ export const es = {
     distance: "📍 Distancia:",
     miles: "millas",
     shippingCost: "Costo de envío:",
-    date: "Fecha",
+    date: "Fecha de entrega",
     selectDate: "Seleccionar fecha",
     time: "Hora",
     selectTime: "Seleccionar hora",
