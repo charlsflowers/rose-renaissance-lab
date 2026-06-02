@@ -493,7 +493,6 @@ const BouquetProductDetail = () => {
           <img src={glitterRoseImg} alt="Glitter finish rose" width={64} height={64} className="w-full h-full object-contain" />
         </div>
         <div className="flex-1">
-          <p className="font-body font-semibold text-foreground text-sm">{t("product.addGlitter")}</p>
           <p className="text-[11px] text-muted-foreground font-body">{t("product.glitterDesc")} · {selectedSize.roses} roses = +${Math.ceil(selectedSize.roses / 25) * 8}</p>
         </div>
       </div>

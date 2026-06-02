@@ -245,7 +245,7 @@ export const es = {
     distance: "📍 Distancia:",
     miles: "millas",
     shippingCost: "Costo de envío:",
-    date: "Fecha",
+    date: "Fecha de entrega",
     selectDate: "Seleccionar fecha",
     time: "Hora",
     selectTime: "Seleccionar hora",
@@ -258,7 +258,7 @@ export const es = {
     customerNotesPlaceholder: "Ej.: Déjame el ramo en la puerta, llámame al llegar... (no es la nota de la tarjeta)",
     butterflies: "Mariposas",
     youMightAlsoLove: "También te puede gustar",
-    storePickupAlert: "Has elegido Recogida en tienda — En el pago, la dirección de recogida (nuestra tienda) ya estará rellenada. Por favor, NO modifiques la dirección. Solo completa los campos vacíos (nombre, apellido, teléfono y email) y finaliza tu pedido.",
+    storePickupAlert: "Has elegido Recogida en tienda — En el pago, la dirección de recogida (nuestra tienda) ya estará rellenada. Por favor, NO modifiques la dirección. Solo completa los campos vacíos (nombre, apellido, teléfono y email) y finaliza tu pedido. ¡Disfruta tu compra!",
   },
 
   // Bloque de confianza del producto (badges + FAQ)
@@ -289,7 +289,7 @@ export const es = {
       },
       {
         q: "Política de devoluciones y reembolsos",
-        a: "Como cada ramo es personalizado y perecedero, en general no se admiten cancelaciones ni reembolsos una vez realizado el pedido. Si nos contactas dentro de la primera hora tras hacer el pedido en charlsflowerscorp@gmail.com, normalmente podemos emitir un reembolso completo (la preparación aún no habrá comenzado). Si algo llega dañado o incorrecto, escríbenos el mismo día y lo solucionaremos.",
+        a: "Como cada ramo es personalizado y perecedero, en general no se admiten cancelaciones ni reembolsos una vez realizado el pedido. Si nos contactas dentro de la primera hora tras hacer el pedido en charls@charlsflowers.com, normalmente podemos emitir un reembolso completo (la preparación aún no habrá comenzado). Si algo llega dañado o incorrecto, escríbenos el mismo día y lo solucionaremos.",
       },
     ],
   },

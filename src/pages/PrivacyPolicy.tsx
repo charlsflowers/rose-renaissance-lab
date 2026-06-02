@@ -43,7 +43,7 @@ const PrivacyPolicy = () => {
             </ul>
 
             <h2 className="font-display text-lg font-semibold text-foreground pt-4">{t("legal.contactHeading")}</h2>
-            <p>{t("legal.privacy.contactText")} <a href="mailto:charlsflowerscorp@gmail.com" className="text-primary hover:underline">charlsflowerscorp@gmail.com</a>.</p>
+            <p>{t("legal.privacy.contactText")} <a href="mailto:charls@charlsflowers.com" className="text-primary hover:underline">charls@charlsflowers.com</a>.</p>
             <p style={{ whiteSpace: "pre-line" }}>{t("legal.address")}</p>
 
             <LegalDisclaimer />

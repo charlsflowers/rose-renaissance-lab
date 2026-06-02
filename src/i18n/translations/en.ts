@@ -256,7 +256,7 @@ export const en = {
     distance: "📍 Distance:",
     miles: "miles",
     shippingCost: "Shipping cost:",
-    date: "Date",
+    date: "Delivery Date",
     selectDate: "Select date",
     time: "Time",
     selectTime: "Select a time",
@@ -269,7 +269,7 @@ export const en = {
     customerNotesPlaceholder: "e.g., Leave the bouquet at the door, call when arriving... (not the card note)",
     butterflies: "Butterflies",
     youMightAlsoLove: "You might also love",
-    storePickupAlert: "Store Pickup selected — At checkout, the pickup address (our store) will already be filled in. Please DO NOT change the address. Just fill in the empty fields (first name, last name, phone, and email) and complete your order.",
+    storePickupAlert: "Store Pickup selected — At checkout, the pickup address (our store) will already be filled in. Please DO NOT change the address. Just fill in the empty fields (first name, last name, phone, and email) and complete your order. Enjoy your purchase!",
   },
 
   // Product trust block (badges + FAQ)
@@ -300,7 +300,7 @@ export const en = {
       },
       {
         q: "Return & Refund Policy",
-        a: "Because every bouquet is customized, personalized and perishable, cancellations and refunds are generally not available once the order is placed. If you contact us within 1 hour of ordering at charlsflowerscorp@gmail.com, we can usually issue a full refund (preparation has not yet started). If anything arrives damaged or incorrect, reach out the same day and we will make it right.",
+        a: "Because every bouquet is customized, personalized and perishable, cancellations and refunds are generally not available once the order is placed. If you contact us within 1 hour of ordering at charls@charlsflowers.com, we can usually issue a full refund (preparation has not yet started). If anything arrives damaged or incorrect, reach out the same day and we will make it right.",
       },
     ],
   },

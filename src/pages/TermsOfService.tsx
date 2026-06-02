@@ -27,7 +27,7 @@ const TermsOfService = () => {
             ))}
 
             <h2 className="font-display text-lg font-semibold text-foreground pt-4">{t("legal.terms.contactHeading")}</h2>
-            <p>{t("legal.terms.contactText")} <a href="mailto:charlsflowerscorp@gmail.com" className="text-primary hover:underline">charlsflowerscorp@gmail.com</a>.</p>
+            <p>{t("legal.terms.contactText")} <a href="mailto:charls@charlsflowers.com" className="text-primary hover:underline">charls@charlsflowers.com</a>.</p>
 
             <LegalDisclaimer />
           </div>
