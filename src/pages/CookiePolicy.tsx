@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { openCookiePreferences } from "@/hooks/useCookieConsent";
 import { useTranslation } from "@/i18n/LanguageContext";
 
-const EMAIL = "charlsflowerscorp@gmail.com";
+const EMAIL = "charls@charlsflowers.com";
 
 const CookiePolicy = () => {
   const { t, tRaw } = useTranslation();

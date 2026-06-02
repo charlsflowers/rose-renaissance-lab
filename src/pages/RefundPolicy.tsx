@@ -4,7 +4,7 @@ import SeoHead from "@/components/SeoHead";
 import LegalDisclaimer from "@/components/LegalDisclaimer";
 import { useTranslation } from "@/i18n/LanguageContext";
 
-const EMAIL = "charlsflowerscorp@gmail.com";
+const EMAIL = "charls@charlsflowers.com";
 
 const RefundPolicy = () => {
   const { t, tRaw } = useTranslation();

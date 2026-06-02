@@ -289,7 +289,7 @@ export const es = {
       },
       {
         q: "Política de devoluciones y reembolsos",
-        a: "Como cada ramo es personalizado y perecedero, en general no se admiten cancelaciones ni reembolsos una vez realizado el pedido. Si nos contactas dentro de la primera hora tras hacer el pedido en charlsflowerscorp@gmail.com, normalmente podemos emitir un reembolso completo (la preparación aún no habrá comenzado). Si algo llega dañado o incorrecto, escríbenos el mismo día y lo solucionaremos.",
+        a: "Como cada ramo es personalizado y perecedero, en general no se admiten cancelaciones ni reembolsos una vez realizado el pedido. Si nos contactas dentro de la primera hora tras hacer el pedido en charls@charlsflowers.com, normalmente podemos emitir un reembolso completo (la preparación aún no habrá comenzado). Si algo llega dañado o incorrecto, escríbenos el mismo día y lo solucionaremos.",
       },
     ],
   },
