@@ -269,7 +269,7 @@ export const en = {
     customerNotesPlaceholder: "e.g., Leave the bouquet at the door, call when arriving... (not the card note)",
     butterflies: "Butterflies",
     youMightAlsoLove: "You might also love",
-    storePickupAlert: "Store Pickup selected — At checkout, the pickup address (our store) will already be filled in. Please DO NOT change the address. Just fill in the empty fields (first name, last name, phone, and email) and complete your order.",
+    storePickupAlert: "Store Pickup selected — At checkout, the pickup address (our store) will already be filled in. Please DO NOT change the address. Just fill in the empty fields (first name, last name, phone, and email) and complete your order. Enjoy your purchase!",
   },
 
   // Product trust block (badges + FAQ)

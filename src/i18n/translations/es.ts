@@ -258,7 +258,7 @@ export const es = {
     customerNotesPlaceholder: "Ej.: Déjame el ramo en la puerta, llámame al llegar... (no es la nota de la tarjeta)",
     butterflies: "Mariposas",
     youMightAlsoLove: "También te puede gustar",
-    storePickupAlert: "Has elegido Recogida en tienda — En el pago, la dirección de recogida (nuestra tienda) ya estará rellenada. Por favor, NO modifiques la dirección. Solo completa los campos vacíos (nombre, apellido, teléfono y email) y finaliza tu pedido.",
+    storePickupAlert: "Has elegido Recogida en tienda — En el pago, la dirección de recogida (nuestra tienda) ya estará rellenada. Por favor, NO modifiques la dirección. Solo completa los campos vacíos (nombre, apellido, teléfono y email) y finaliza tu pedido. ¡Disfruta tu compra!",
   },
 
   // Bloque de confianza del producto (badges + FAQ)
