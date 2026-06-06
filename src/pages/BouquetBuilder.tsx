@@ -454,6 +454,10 @@ const BouquetBuilder = () => {
       deliveryMiles: deliveryMethod === "delivery" ? deliveryMiles : null,
       paperColor,
       shopifyVariantId: customBouquetVariantGid,
+      structuredAddress: deliveryMethod === "delivery" ? structuredAddress : undefined,
+      fedexServiceCode: deliveryMethod === "delivery" && fedexAttrs ? fedexAttrs.serviceCode : undefined,
+      fedexRosesCount: deliveryMethod === "delivery" && fedexAttrs ? fedexAttrs.rosesCount : undefined,
+      fedexRecipientAddress: deliveryMethod === "delivery" && fedexAttrs ? fedexAttrs.recipientAddress : undefined,
     };
   };
 
