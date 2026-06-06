@@ -402,7 +402,14 @@ const BouquetProductDetail = () => {
   // Butterflies are bundled for MD; only standard products charge $3 for them.
   const accessoryCost =
     (addNote ? 3 : 0) + (!isMothersDayContext && addButterfly ? 3 : 0);
-  const deliveryCost = deliveryMethod === "delivery" && deliveryMiles && !distanceTooFar ? calculateDeliveryCost(deliveryMiles) : 0;
+  const deliveryCost =
+    deliveryMethod === "delivery"
+      ? distanceTooFar
+        ? fedexCost // FedEx national shipping (>87 mi)
+        : deliveryMiles
+          ? calculateDeliveryCost(deliveryMiles)
+          : 0
+      : 0;
   // Mother's Day: Crown + Butterflies + Ribbon are bundled in the Shopify variant price.
   // The optional Note add-on is still charged separately ($3).
   // Standard products: all addons are charged on top of the base size price.
