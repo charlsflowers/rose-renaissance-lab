@@ -39,6 +39,19 @@ const FloatingCart = () => {
   const checkoutDeliveryMethod: "pickup" | "delivery" = deliveryItem ? "delivery" : "pickup";
   const deliveryCost = deliveryItem ? (deliveryItem.deliveryCost || 0) : 0;
 
+  // FedEx safety net: if a delivery item has an address >87 mi but no FedEx
+  // service selected, block "Continue to Safe Checkout" and show a warning.
+  // The product page / builder normally enforces this, but this catches edge
+  // cases (legacy items, future flows).
+  const fedexBlockingItem = items.find(
+    (i) =>
+      i.deliveryMethod === "delivery" &&
+      (i.deliveryMiles ?? 0) > 87 &&
+      !i.fedexServiceCode,
+  );
+  const fedexNeedsMultiBouquet =
+    !!fedexBlockingItem && items.filter((i) => i.bouquetType !== "addon").length > 1;
+
   // GA4: view_cart fires only on the closed→open transition
   const wasOpenRef = useRef(open);
   useEffect(() => {
@@ -331,10 +344,27 @@ const FloatingCart = () => {
                 </span>
               </div>
               <ShippingProtection />
+              {fedexBlockingItem && (
+                <div className="bg-primary/5 border border-primary/20 rounded-lg p-3 text-xs font-body text-foreground">
+                  {fedexNeedsMultiBouquet ? (
+                    <span>
+                      La dirección está a más de 87 millas (envío FedEx). Para envíos
+                      FedEx con más de un ramo, contáctanos por <strong>WhatsApp</strong>
+                      {" "}para coordinar el envío manualmente.
+                    </span>
+                  ) : (
+                    <span>
+                      La dirección está fuera del rango local (&gt;87 millas). Vuelve a
+                      la página del producto y selecciona una opción de envío{" "}
+                      <strong>FedEx</strong> antes de continuar al checkout.
+                    </span>
+                  )}
+                </div>
+              )}
               <button
                 type="button"
                 onClick={handleCheckout}
-                disabled={isCheckingOut || isLoading}
+                disabled={isCheckingOut || isLoading || !!fedexBlockingItem}
                 className="flex items-center justify-center gap-2 w-full text-center bg-primary text-primary-foreground py-3 rounded-lg font-body text-sm tracking-widest uppercase hover:bg-primary/90 transition-colors disabled:opacity-50"
               >
                 {isCheckingOut && <Loader2 className="w-4 h-4 animate-spin" />}

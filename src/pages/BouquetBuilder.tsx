@@ -44,10 +44,12 @@ import {
 import { Sparkles, Crown, Type, Hash, Check, Bug, Star, Truck, Store, CalendarIcon, Clock, MapPin, Search, Loader2, Eye } from "lucide-react";
 import { Calendar } from "@/components/ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import FedExShippingOptions, { type FedExAttrs } from "@/components/FedExShippingOptions";
 
 const BouquetBuilder = () => {
   const { t } = useTranslation();
   const addItem = useCartStore(state => state.addItem);
+  const cartItems = useCartStore(state => state.items);
   const [selectedColors, setSelectedColors] = useState<ColorOption[]>([]);
   const [selectedSizeIdx, setSelectedSizeIdx] = useState(0);
   const [addNote, setAddNote] = useState(false);
@@ -84,6 +86,12 @@ const BouquetBuilder = () => {
   const [autocompleteLoading, setAutocompleteLoading] = useState(false);
   const [selectedAddress, setSelectedAddress] = useState("");
   const [mapUrl, setMapUrl] = useState("");
+  const [structuredAddress, setStructuredAddress] = useState<
+    { address1: string; city: string; province: string; zip: string; country: string } | undefined
+  >(undefined);
+  // FedEx national shipping (>87 mi)
+  const [fedexAttrs, setFedexAttrs] = useState<FedExAttrs | null>(null);
+  const [fedexCost, setFedexCost] = useState<number>(0);
   const autocompleteRef = useRef<HTMLDivElement>(null);
   const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const [paperColor, setPaperColor] = useState("");
@@ -142,6 +150,10 @@ const BouquetBuilder = () => {
     setDeliveryMiles(null);
     setMapUrl("");
     setDistanceError("");
+    setDistanceTooFar(false);
+    setStructuredAddress(undefined);
+    setFedexAttrs(null);
+    setFedexCost(0);
     if (debounceRef.current) clearTimeout(debounceRef.current);
     debounceRef.current = setTimeout(() => fetchPredictions(value), 350);
   }, [fetchPredictions]);
@@ -169,21 +181,28 @@ const BouquetBuilder = () => {
         setDistanceError("");
         setDistanceTooFar(false);
         setDeliveryMiles(null);
+        setStructuredAddress(undefined);
+        setFedexAttrs(null);
+        setFedexCost(0);
         try {
           const { data, error } = await supabase.functions.invoke("calculate-distance", {
             body: { fullAddress: prediction.description },
           });
           if (error) throw new Error("Connection error");
           if (data.error) {
-            setDistanceError(data.error);
             if (data.tooFar) {
+              // >87 mi → FedEx flow (no red error)
               setDistanceTooFar(true);
               setDeliveryMiles(data.miles);
+              if (data.structuredAddress) setStructuredAddress(data.structuredAddress);
+            } else {
+              setDistanceError(data.error);
             }
           } else {
             setDeliveryMiles(data.miles);
             setDeliveryDuration(data.duration);
             if (data.mapUrl) setMapUrl(data.mapUrl);
+            if (data.structuredAddress) setStructuredAddress(data.structuredAddress);
           }
         } catch (e: any) {
           setDistanceError(e.message || "Error calculating distance");
@@ -266,7 +285,14 @@ const BouquetBuilder = () => {
     return getFinishPrice(selectedColors, roses);
   }, [matchedVariant, selectedSizeIdx, selectedColors]);
 
-  const deliveryCost = deliveryMethod === "delivery" && deliveryMiles && !distanceTooFar ? calculateDeliveryCost(deliveryMiles) : 0;
+  const deliveryCost =
+    deliveryMethod === "delivery"
+      ? distanceTooFar
+        ? fedexCost
+        : deliveryMiles
+          ? calculateDeliveryCost(deliveryMiles)
+          : 0
+      : 0;
 
   const minLeadHours = deliveryMethod === "delivery" ? 1.5 : 2;
   const minMiamiHour = miamiHourNow() + minLeadHours;
@@ -382,7 +408,11 @@ const BouquetBuilder = () => {
 
   const validateBuilder = () => {
     if (deliveryMethod === "delivery" && !selectedAddress) { toast.error("Please select a delivery address."); return false; }
-    if (deliveryMethod === "delivery" && (distanceTooFar || deliveryMiles === null)) { toast.error("The address is invalid or out of range."); return false; }
+    if (deliveryMethod === "delivery" && deliveryMiles === null) { toast.error("The address is invalid or out of range."); return false; }
+    if (deliveryMethod === "delivery" && distanceTooFar && !fedexAttrs) {
+      toast.error("Selecciona una opción de envío FedEx para continuar.");
+      return false;
+    }
     if (!deliveryDate || !deliveryHour) { toast.error("Please select a date and time."); return false; }
     if (variantsLoading) { toast.error("We are still loading product variants."); return false; }
     if (!matchedVariant && selectedColors.length > 0) {
@@ -428,6 +458,10 @@ const BouquetBuilder = () => {
       deliveryMiles: deliveryMethod === "delivery" ? deliveryMiles : null,
       paperColor,
       shopifyVariantId: customBouquetVariantGid,
+      structuredAddress: deliveryMethod === "delivery" ? structuredAddress : undefined,
+      fedexServiceCode: deliveryMethod === "delivery" && fedexAttrs ? fedexAttrs.serviceCode : undefined,
+      fedexRosesCount: deliveryMethod === "delivery" && fedexAttrs ? fedexAttrs.rosesCount : undefined,
+      fedexRecipientAddress: deliveryMethod === "delivery" && fedexAttrs ? fedexAttrs.recipientAddress : undefined,
     };
   };
 
@@ -1003,7 +1037,7 @@ const BouquetBuilder = () => {
                       </div>
                     )}
 
-                    {distanceError && (
+                    {distanceError && !distanceTooFar && (
                       <p className="text-sm font-body text-destructive">{distanceError}</p>
                     )}
 
@@ -1017,6 +1051,25 @@ const BouquetBuilder = () => {
                            Shipping cost: {formatDeliveryCost(deliveryCost)}
                          </p>
                       </div>
+                    )}
+
+                    {distanceTooFar && deliveryMiles !== null && (
+                      <FedExShippingOptions
+                        fullAddress={selectedAddress}
+                        structuredAddress={structuredAddress ?? null}
+                        miles={deliveryMiles}
+                        roses={rosesCount}
+                        deliveryDate={deliveryDate ? format(deliveryDate, "yyyy-MM-dd") : ""}
+                        itemsCount={cartItems.length + 1}
+                        onSelect={(r, attrs) => {
+                          setFedexAttrs(attrs);
+                          setFedexCost(r.cost);
+                        }}
+                        onClear={() => {
+                          setFedexAttrs(null);
+                          setFedexCost(0);
+                        }}
+                      />
                     )}
 
                     {mapUrl ? (

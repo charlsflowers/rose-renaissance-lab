@@ -44,6 +44,7 @@ import butterflyImg from "@/assets/butterfly-gold.webp";
 import noteImg from "@/assets/accessory-note.webp";
 import { Calendar } from "@/components/ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import FedExShippingOptions, { type FedExAttrs } from "@/components/FedExShippingOptions";
 
 const BouquetProductDetail = () => {
   const { t, language } = useTranslation();
@@ -171,6 +172,22 @@ const BouquetProductDetail = () => {
   const [selectedAddress, setSelectedAddress] = useState(existingDeliveryItem?.deliveryAddress || "");
   const [mapUrl, setMapUrl] = useState("");
   const [structuredAddress, setStructuredAddress] = useState<{ address1: string; city: string; province: string; zip: string; country: string } | undefined>(existingDeliveryItem?.structuredAddress);
+  // FedEx national shipping (>87 mi). Set when the user picks a service in
+  // <FedExShippingOptions/>. fedexCost overrides the local delivery cost.
+  const [fedexAttrs, setFedexAttrs] = useState<FedExAttrs | null>(
+    existingDeliveryItem?.fedexServiceCode
+      ? {
+          serviceCode: existingDeliveryItem.fedexServiceCode,
+          rosesCount: existingDeliveryItem.fedexRosesCount ?? 0,
+          recipientAddress: existingDeliveryItem.fedexRecipientAddress ?? "",
+        }
+      : null,
+  );
+  const [fedexCost, setFedexCost] = useState<number>(
+    existingDeliveryItem?.fedexServiceCode && existingDeliveryItem?.deliveryCost
+      ? existingDeliveryItem.deliveryCost
+      : 0,
+  );
   const autocompleteDesktopRef = useRef<HTMLDivElement>(null);
   const autocompleteMobileRef = useRef<HTMLDivElement>(null);
   const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -221,6 +238,8 @@ const BouquetProductDetail = () => {
 
   const handleAddressInput = useCallback((value: string) => {
     setAddressQuery(value); setSelectedAddress(""); setDeliveryMiles(null); setMapUrl(""); setDistanceError("");
+    setDistanceTooFar(false);
+    setFedexAttrs(null); setFedexCost(0);
     if (debounceRef.current) clearTimeout(debounceRef.current);
     debounceRef.current = setTimeout(() => fetchPredictions(value), 350);
   }, [fetchPredictions]);
@@ -231,12 +250,22 @@ const BouquetProductDetail = () => {
     const zipMatch = fullText.match(/\b(\d{5})\b/);
     if (zipMatch) setDeliveryZip(zipMatch[1]);
     setStructuredAddress(undefined);
+    setFedexAttrs(null); setFedexCost(0);
     (async () => {
       setDistanceLoading(true); setDistanceError(""); setDistanceTooFar(false); setDeliveryMiles(null);
       try {
         const { data, error } = await supabase.functions.invoke("calculate-distance", { body: { fullAddress: prediction.description, placeId: prediction.placeId } });
         if (error) throw new Error("Error de conexión");
-        if (data.error) { setDistanceError(data.error); if (data.tooFar) { setDistanceTooFar(true); setDeliveryMiles(data.miles); } }
+        if (data.error) {
+          if (data.tooFar) {
+            // >87 mi → switch to FedEx national shipping flow (no red error).
+            setDistanceTooFar(true);
+            setDeliveryMiles(data.miles);
+            if (data.structuredAddress) setStructuredAddress(data.structuredAddress);
+          } else {
+            setDistanceError(data.error);
+          }
+        }
         else {
           setDeliveryMiles(data.miles); setDeliveryDuration(data.duration);
           if (data.mapUrl) setMapUrl(data.mapUrl);
@@ -373,7 +402,14 @@ const BouquetProductDetail = () => {
   // Butterflies are bundled for MD; only standard products charge $3 for them.
   const accessoryCost =
     (addNote ? 3 : 0) + (!isMothersDayContext && addButterfly ? 3 : 0);
-  const deliveryCost = deliveryMethod === "delivery" && deliveryMiles && !distanceTooFar ? calculateDeliveryCost(deliveryMiles) : 0;
+  const deliveryCost =
+    deliveryMethod === "delivery"
+      ? distanceTooFar
+        ? fedexCost // FedEx national shipping (>87 mi)
+        : deliveryMiles
+          ? calculateDeliveryCost(deliveryMiles)
+          : 0
+      : 0;
   // Mother's Day: Crown + Butterflies + Ribbon are bundled in the Shopify variant price.
   // The optional Note add-on is still charged separately ($3).
   // Standard products: all addons are charged on top of the base size price.
@@ -395,7 +431,11 @@ const BouquetProductDetail = () => {
 
   const handleAddToCart = async (skipNavigate = false): Promise<string | null> => {
     if (deliveryMethod === "delivery" && !selectedAddress) { toast.error("Please select a delivery address."); return null; }
-    if (deliveryMethod === "delivery" && (distanceTooFar || deliveryMiles === null)) { toast.error("The address is invalid or out of range."); return null; }
+    if (deliveryMethod === "delivery" && deliveryMiles === null) { toast.error("The address is invalid or out of range."); return null; }
+    if (deliveryMethod === "delivery" && distanceTooFar && !fedexAttrs) {
+      toast.error("Selecciona una opción de envío FedEx para continuar.");
+      return null;
+    }
     if (!deliveryDate || !deliveryHour) { toast.error("Please select a date and time."); return null; }
     if (variantsLoading) { toast.error("Loading variants. Please try again."); return null; }
 
@@ -463,6 +503,10 @@ const BouquetProductDetail = () => {
         structuredAddress: deliveryMethod === "delivery" ? structuredAddress : undefined,
         shopifyVariantId: variant.id,
         shopifyHandle: product.shopifyHandle,
+        // FedEx national shipping fields (only when >87 mi + user picked a service)
+        fedexServiceCode: deliveryMethod === "delivery" && fedexAttrs ? fedexAttrs.serviceCode : undefined,
+        fedexRosesCount: deliveryMethod === "delivery" && fedexAttrs ? fedexAttrs.rosesCount : undefined,
+        fedexRecipientAddress: deliveryMethod === "delivery" && fedexAttrs ? fedexAttrs.recipientAddress : undefined,
       });
 
       const timeout = new Promise<void>((resolve) => setTimeout(resolve, 10000));
@@ -694,12 +738,32 @@ const BouquetProductDetail = () => {
                 <p className="font-body text-sm text-foreground font-medium">{selectedAddress}</p>
               </div>
             )}
-            {distanceError && <p className="text-sm font-body text-destructive">{distanceError}</p>}
+            {distanceError && !distanceTooFar && (
+              <p className="text-sm font-body text-destructive">{distanceError}</p>
+            )}
             {deliveryMiles !== null && !distanceTooFar && (
               <div className="bg-primary/5 border border-primary/20 rounded-lg p-4">
                 <p className="font-body text-sm text-foreground">{t("product.distance")} <span className="font-semibold">{deliveryMiles} {t("product.miles")}</span>{deliveryDuration && <span className="text-muted-foreground"> (~{deliveryDuration})</span>}</p>
                 <p className="font-body text-sm text-primary font-semibold mt-1">{t("product.shippingCost")} {formatDeliveryCost(deliveryCost)}</p>
               </div>
+            )}
+            {distanceTooFar && deliveryMiles !== null && (
+              <FedExShippingOptions
+                fullAddress={selectedAddress}
+                structuredAddress={structuredAddress ?? null}
+                miles={deliveryMiles}
+                roses={selectedSize.roses}
+                deliveryDate={deliveryDate ? format(deliveryDate, "yyyy-MM-dd") : ""}
+                itemsCount={cartItems.length + 1}
+                onSelect={(r, attrs) => {
+                  setFedexAttrs(attrs);
+                  setFedexCost(r.cost);
+                }}
+                onClear={() => {
+                  setFedexAttrs(null);
+                  setFedexCost(0);
+                }}
+              />
             )}
             {mapUrl && (
               <div className="rounded-lg overflow-hidden border border-border">
