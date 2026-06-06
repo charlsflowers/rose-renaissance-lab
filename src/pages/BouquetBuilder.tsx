@@ -404,7 +404,11 @@ const BouquetBuilder = () => {
 
   const validateBuilder = () => {
     if (deliveryMethod === "delivery" && !selectedAddress) { toast.error("Please select a delivery address."); return false; }
-    if (deliveryMethod === "delivery" && (distanceTooFar || deliveryMiles === null)) { toast.error("The address is invalid or out of range."); return false; }
+    if (deliveryMethod === "delivery" && deliveryMiles === null) { toast.error("The address is invalid or out of range."); return false; }
+    if (deliveryMethod === "delivery" && distanceTooFar && !fedexAttrs) {
+      toast.error("Selecciona una opción de envío FedEx para continuar.");
+      return false;
+    }
     if (!deliveryDate || !deliveryHour) { toast.error("Please select a date and time."); return false; }
     if (variantsLoading) { toast.error("We are still loading product variants."); return false; }
     if (!matchedVariant && selectedColors.length > 0) {
