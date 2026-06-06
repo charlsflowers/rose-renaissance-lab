@@ -39,6 +39,19 @@ const FloatingCart = () => {
   const checkoutDeliveryMethod: "pickup" | "delivery" = deliveryItem ? "delivery" : "pickup";
   const deliveryCost = deliveryItem ? (deliveryItem.deliveryCost || 0) : 0;
 
+  // FedEx safety net: if a delivery item has an address >87 mi but no FedEx
+  // service selected, block "Continue to Safe Checkout" and show a warning.
+  // The product page / builder normally enforces this, but this catches edge
+  // cases (legacy items, future flows).
+  const fedexBlockingItem = items.find(
+    (i) =>
+      i.deliveryMethod === "delivery" &&
+      (i.deliveryMiles ?? 0) > 87 &&
+      !i.fedexServiceCode,
+  );
+  const fedexNeedsMultiBouquet =
+    !!fedexBlockingItem && items.filter((i) => i.bouquetType !== "addon").length > 1;
+
   // GA4: view_cart fires only on the closed→open transition
   const wasOpenRef = useRef(open);
   useEffect(() => {
