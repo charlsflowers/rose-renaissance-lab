@@ -5,6 +5,15 @@ import { cn } from "@/lib/utils";
 import { useTranslation } from "@/i18n/LanguageContext";
 import type { StructuredAddress, DeliveryResult } from "@/components/DeliveryCalculator";
 
+function mapBackendError(msg: string, t: (k: string) => string): string {
+  if (!msg) return t("fedex.errorGeneric");
+  if (/over 100 roses/i.test(msg)) return t("fedex.overRosesLimit");
+  if (/only available within the US/i.test(msg)) return t("fedex.onlyUS");
+  const stateMatch = msg.match(/not available for ([A-Z]{2})/);
+  if (stateMatch) return t("fedex.blockedState").replace("{state}", stateMatch[1]);
+  return msg;
+}
+
 export interface FedExAttrs {
   serviceCode: string;
   rosesCount: number;
