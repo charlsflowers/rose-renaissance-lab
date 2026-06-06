@@ -238,6 +238,8 @@ const BouquetProductDetail = () => {
 
   const handleAddressInput = useCallback((value: string) => {
     setAddressQuery(value); setSelectedAddress(""); setDeliveryMiles(null); setMapUrl(""); setDistanceError("");
+    setDistanceTooFar(false);
+    setFedexAttrs(null); setFedexCost(0);
     if (debounceRef.current) clearTimeout(debounceRef.current);
     debounceRef.current = setTimeout(() => fetchPredictions(value), 350);
   }, [fetchPredictions]);
@@ -248,12 +250,22 @@ const BouquetProductDetail = () => {
     const zipMatch = fullText.match(/\b(\d{5})\b/);
     if (zipMatch) setDeliveryZip(zipMatch[1]);
     setStructuredAddress(undefined);
+    setFedexAttrs(null); setFedexCost(0);
     (async () => {
       setDistanceLoading(true); setDistanceError(""); setDistanceTooFar(false); setDeliveryMiles(null);
       try {
         const { data, error } = await supabase.functions.invoke("calculate-distance", { body: { fullAddress: prediction.description, placeId: prediction.placeId } });
         if (error) throw new Error("Error de conexión");
-        if (data.error) { setDistanceError(data.error); if (data.tooFar) { setDistanceTooFar(true); setDeliveryMiles(data.miles); } }
+        if (data.error) {
+          if (data.tooFar) {
+            // >87 mi → switch to FedEx national shipping flow (no red error).
+            setDistanceTooFar(true);
+            setDeliveryMiles(data.miles);
+            if (data.structuredAddress) setStructuredAddress(data.structuredAddress);
+          } else {
+            setDistanceError(data.error);
+          }
+        }
         else {
           setDeliveryMiles(data.miles); setDeliveryDuration(data.duration);
           if (data.mapUrl) setMapUrl(data.mapUrl);
