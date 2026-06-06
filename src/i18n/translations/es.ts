@@ -511,6 +511,8 @@ export const es = {
     windowMidMorning: "media mañana",
     windowAfternoon: "tarde",
     windowEndOfDay: "final del día",
+    tooEarly: "Los pedidos FedEx realizados después de las 11:00 AM (hora de Miami) se procesan al siguiente día hábil. La fecha de entrega más cercana disponible es el {date}.",
+    shipWeekend: "FedEx no está disponible para esta fecha. FedEx no recoge envíos en fin de semana, así que el día de envío (el día anterior a la entrega) debe ser un día hábil. Elige otra fecha.",
   },
 
   shippingProtection: {
