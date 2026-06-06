@@ -473,7 +473,7 @@ const RoomDecorDetail = () => {
                       )}
                       {mapUrl && (
                         <div className="rounded-lg overflow-hidden border border-border">
-                          <iframe src={mapUrl} width="100%" height="250" style={{ border: 0 }} allowFullScreen loading="lazy" referrerPolicy="no-referrer-when-downgrade" title="Route" />
+                          <img src={mapUrl} alt="Route" className="w-full h-auto block" loading="lazy" />
                         </div>
                       )}
                 </div>
@@ -716,7 +716,7 @@ const RoomDecorDetail = () => {
                     )}
                     {mapUrl && (
                       <div className="rounded-lg overflow-hidden border border-border">
-                        <iframe src={mapUrl} width="100%" height="300" style={{ border: 0 }} allowFullScreen loading="lazy" referrerPolicy="no-referrer-when-downgrade" title="Route" />
+                        <img src={mapUrl} alt="Route" className="w-full h-auto block" loading="lazy" />
                       </div>
                     )}
               </div>
