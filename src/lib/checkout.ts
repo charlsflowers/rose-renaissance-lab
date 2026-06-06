@@ -174,6 +174,11 @@ export interface ApiCheckoutOptions {
   };
   accessories: AccessoryLineItem[];
   note: string;
+  fedex?: {
+    serviceCode: string;
+    rosesCount: number;
+    recipientAddress: string; // JSON-stringified
+  };
 }
 
 /**
