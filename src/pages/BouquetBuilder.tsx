@@ -1033,7 +1033,7 @@ const BouquetBuilder = () => {
                       </div>
                     )}
 
-                    {distanceError && (
+                    {distanceError && !distanceTooFar && (
                       <p className="text-sm font-body text-destructive">{distanceError}</p>
                     )}
 
@@ -1047,6 +1047,25 @@ const BouquetBuilder = () => {
                            Shipping cost: {formatDeliveryCost(deliveryCost)}
                          </p>
                       </div>
+                    )}
+
+                    {distanceTooFar && deliveryMiles !== null && (
+                      <FedExShippingOptions
+                        fullAddress={selectedAddress}
+                        structuredAddress={structuredAddress ?? null}
+                        miles={deliveryMiles}
+                        roses={rosesCount}
+                        deliveryDate={deliveryDate ? format(deliveryDate, "yyyy-MM-dd") : ""}
+                        itemsCount={cartItems.length + 1}
+                        onSelect={(r, attrs) => {
+                          setFedexAttrs(attrs);
+                          setFedexCost(r.cost);
+                        }}
+                        onClear={() => {
+                          setFedexAttrs(null);
+                          setFedexCost(0);
+                        }}
+                      />
                     )}
 
                     {mapUrl ? (
