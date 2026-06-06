@@ -44,6 +44,7 @@ import butterflyImg from "@/assets/butterfly-gold.webp";
 import noteImg from "@/assets/accessory-note.webp";
 import { Calendar } from "@/components/ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import FedExShippingOptions, { type FedExAttrs } from "@/components/FedExShippingOptions";
 
 const BouquetProductDetail = () => {
   const { t, language } = useTranslation();
@@ -171,6 +172,22 @@ const BouquetProductDetail = () => {
   const [selectedAddress, setSelectedAddress] = useState(existingDeliveryItem?.deliveryAddress || "");
   const [mapUrl, setMapUrl] = useState("");
   const [structuredAddress, setStructuredAddress] = useState<{ address1: string; city: string; province: string; zip: string; country: string } | undefined>(existingDeliveryItem?.structuredAddress);
+  // FedEx national shipping (>87 mi). Set when the user picks a service in
+  // <FedExShippingOptions/>. fedexCost overrides the local delivery cost.
+  const [fedexAttrs, setFedexAttrs] = useState<FedExAttrs | null>(
+    existingDeliveryItem?.fedexServiceCode
+      ? {
+          serviceCode: existingDeliveryItem.fedexServiceCode,
+          rosesCount: existingDeliveryItem.fedexRosesCount ?? 0,
+          recipientAddress: existingDeliveryItem.fedexRecipientAddress ?? "",
+        }
+      : null,
+  );
+  const [fedexCost, setFedexCost] = useState<number>(
+    existingDeliveryItem?.fedexServiceCode && existingDeliveryItem?.deliveryCost
+      ? existingDeliveryItem.deliveryCost
+      : 0,
+  );
   const autocompleteDesktopRef = useRef<HTMLDivElement>(null);
   const autocompleteMobileRef = useRef<HTMLDivElement>(null);
   const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
