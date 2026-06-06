@@ -99,9 +99,34 @@ const FloatingCart = () => {
       const deliveryDate = itemWithDate?.deliveryDate || "";
       const deliveryHour = itemWithHour?.deliveryHour || "";
 
+      // FedEx detection: any item carrying a selected FedEx service code.
+      const fedexItem = items.find((i) => i.fedexServiceCode);
+      const isFedex = !!fedexItem;
+      const fedexServiceNames: Record<string, string> = {
+        FIRST_OVERNIGHT: "FedEx First Overnight",
+        PRIORITY_OVERNIGHT: "FedEx Priority Overnight",
+        STANDARD_OVERNIGHT: "FedEx Standard Overnight",
+        FEDEX_2_DAY_AM: "FedEx 2Day AM",
+        FEDEX_2_DAY: "FedEx 2Day",
+        FEDEX_EXPRESS_SAVER: "FedEx Express Saver",
+        GROUND_HOME_DELIVERY: "FedEx Ground Home Delivery",
+        FEDEX_GROUND: "FedEx Ground",
+      };
+      const fedexServiceName = fedexItem?.fedexServiceCode
+        ? fedexServiceNames[fedexItem.fedexServiceCode] || `FedEx ${fedexItem.fedexServiceCode}`
+        : "";
+
       const noteLines: string[] = [];
       noteLines.push("DATOS DEL ENVÍO");
-      noteLines.push(`- 🚚 Tipo: ${checkoutDeliveryMethod === "delivery" ? "Home Delivery" : "Store Pickup"}`);
+      noteLines.push(
+        `- 🚚 Tipo: ${
+          isFedex
+            ? fedexServiceName
+            : checkoutDeliveryMethod === "delivery"
+            ? "Home Delivery"
+            : "Store Pickup"
+        }`,
+      );
 
       if (deliveryDate) {
         const dateObj = /^\d{4}-\d{2}-\d{2}$/.test(deliveryDate)
@@ -112,7 +137,7 @@ const FloatingCart = () => {
           : deliveryDate;
         noteLines.push(`- 📅 Fecha: ${formattedDate}`);
       }
-      if (deliveryHour) noteLines.push(`- ⏰ Hora: ${deliveryHour}`);
+      if (deliveryHour && !isFedex) noteLines.push(`- ⏰ Hora: ${deliveryHour}`);
       if (checkoutDeliveryMethod === "delivery" && deliveryItem) {
         noteLines.push(`- 📍 Dirección: ${deliveryItem.deliveryAddress}`);
       }
@@ -197,6 +222,14 @@ const FloatingCart = () => {
         structuredAddress: checkoutDeliveryMethod === "delivery" ? deliveryItem?.structuredAddress : undefined,
         accessories: accessoryLineItems,
         note: noteLines.join("\n"),
+        fedex:
+          isFedex && fedexItem?.fedexServiceCode && fedexItem?.fedexRecipientAddress
+            ? {
+                serviceCode: fedexItem.fedexServiceCode,
+                rosesCount: fedexItem.fedexRosesCount ?? fedexItem.roses ?? 0,
+                recipientAddress: fedexItem.fedexRecipientAddress,
+              }
+            : undefined,
       });
 
       if (!checkoutUrl) {

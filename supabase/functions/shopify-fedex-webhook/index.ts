@@ -258,6 +258,111 @@ serve(async (req) => {
 
     console.log(`FedEx shipment created for order ${order.name}: ${trackingNumber} (${labelUrl})`);
 
+    // Email the label PDF to the fulfillment team via Resend.
+    try {
+      const resendKey = Deno.env.get("RESEND_API_KEY");
+      if (resendKey && labelUrl && trackingNumber) {
+        // Fetch the PDF (FedEx label URLs require the same bearer token).
+        let pdfBytes: Uint8Array | null = null;
+        try {
+          const pdfRes = await fetch(labelUrl, {
+            headers: { Authorization: `Bearer ${token}` },
+          });
+          if (pdfRes.ok) {
+            pdfBytes = new Uint8Array(await pdfRes.arrayBuffer());
+          } else {
+            // Some label URLs are publicly accessible without auth.
+            const pdfRes2 = await fetch(labelUrl);
+            if (pdfRes2.ok) pdfBytes = new Uint8Array(await pdfRes2.arrayBuffer());
+          }
+        } catch (e) {
+          console.error("Label PDF fetch error:", e);
+        }
+
+        const serviceNames: Record<string, string> = {
+          FIRST_OVERNIGHT: "FedEx First Overnight",
+          PRIORITY_OVERNIGHT: "FedEx Priority Overnight",
+          STANDARD_OVERNIGHT: "FedEx Standard Overnight",
+          FEDEX_2_DAY_AM: "FedEx 2Day AM",
+          FEDEX_2_DAY: "FedEx 2Day",
+          FEDEX_EXPRESS_SAVER: "FedEx Express Saver",
+          GROUND_HOME_DELIVERY: "FedEx Ground Home Delivery",
+          FEDEX_GROUND: "FedEx Ground",
+        };
+        const serviceName = serviceNames[serviceCode] || serviceCode;
+        const orderNumber = order.name || String(order.id);
+        const addrLines = [
+          recipientName,
+          recipientAddr.address1,
+          recipientAddr.address2 || "",
+          `${recipientAddr.city}, ${recipientAddr.province} ${recipientAddr.zip}`,
+          recipientAddr.country || "US",
+        ]
+          .filter(Boolean)
+          .join("<br/>");
+
+        const html = `
+          <div style="font-family:Arial,sans-serif;font-size:14px;color:#111">
+            <h2 style="color:#96103b;margin:0 0 12px">Nueva etiqueta FedEx</h2>
+            <p><strong>Pedido:</strong> ${orderNumber}</p>
+            <p><strong>Servicio:</strong> ${serviceName}</p>
+            <p><strong>Tracking:</strong>
+              <a href="https://www.fedex.com/fedextrack/?trknbr=${trackingNumber}">${trackingNumber}</a>
+            </p>
+            <p><strong>Destinatario:</strong><br/>${addrLines}</p>
+            <p>Etiqueta adjunta en PDF${pdfBytes ? "" : ` (descarga directa: <a href="${labelUrl}">${labelUrl}</a>)`}.</p>
+          </div>
+        `;
+
+        let pdfBase64 = "";
+        if (pdfBytes) {
+          let bin = "";
+          const chunk = 0x8000;
+          for (let i = 0; i < pdfBytes.length; i += chunk) {
+            bin += String.fromCharCode(...pdfBytes.subarray(i, i + chunk));
+          }
+          pdfBase64 = btoa(bin);
+        }
+
+        const emailPayload: Record<string, unknown> = {
+          from: "Charls Flowers <notifications@charlsflowers.com>",
+          to: [
+            "charlsflowerscorp@gmail.com",
+            "rc@floralsuppliespoint.com",
+            "theflowerspoint@hotmail.com",
+          ],
+          subject: `Nueva etiqueta FedEx — Charls Flowers — Pedido ${orderNumber}`,
+          html,
+        };
+        if (pdfBase64) {
+          emailPayload.attachments = [
+            {
+              filename: `fedex-label-${orderNumber.replace(/[^a-zA-Z0-9_-]/g, "_")}-${trackingNumber}.pdf`,
+              content: pdfBase64,
+            },
+          ];
+        }
+
+        const emailRes = await fetch("https://api.resend.com/emails", {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${resendKey}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(emailPayload),
+        });
+        if (!emailRes.ok) {
+          console.error("Resend email error:", emailRes.status, await emailRes.text());
+        } else {
+          console.log(`Label email sent for order ${orderNumber}`);
+        }
+      } else if (!resendKey) {
+        console.warn("RESEND_API_KEY not configured; skipping label email");
+      }
+    } catch (e) {
+      console.error("Send label email failed:", e);
+    }
+
     // Create Shopify fulfillment with tracking
     const adminToken = Deno.env.get("SHOPIFY_ACCESS_TOKEN");
     const domain = shopDomain || Deno.env.get("SHOPIFY_SHOP_DOMAIN");
