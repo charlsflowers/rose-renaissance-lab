@@ -25,15 +25,17 @@ const ORIGIN = {
 const BLOCKED_STATES = new Set(["HI", "PR", "AK"]);
 
 // Box dimensions and weight by rose count tier (inches / lb).
+// Dimensions ordered as Height x Width x Depth (mapped to FedEx length/width/height).
+// Each tier has a fixed box price + handling/service fee added on top of FedEx rate.
 function pickBox(roses: number) {
   if (roses <= 25) {
-    return { length: 12, width: 12, height: 18, weight: 5, tier: "small" };
+    return { length: 22, width: 11, height: 11, weight: 9, tier: "small", boxPrice: 10, serviceFee: 22 };
   }
   if (roses <= 50) {
-    return { length: 16, width: 16, height: 24, weight: 10, tier: "medium" };
+    return { length: 28, width: 13, height: 13, weight: 11, tier: "medium", boxPrice: 12, serviceFee: 25 };
   }
   if (roses <= 100) {
-    return { length: 20, width: 20, height: 30, weight: 18, tier: "large" };
+    return { length: 30, width: 18, height: 18, weight: 18, tier: "large", boxPrice: 18, serviceFee: 40 };
   }
   return null; // > 100 not supported via FedEx
 }
@@ -220,10 +222,16 @@ serve(async (req) => {
         const amount = rated?.totalNetCharge;
         if (typeof amount !== "number") return null;
         const code = r.serviceType || "";
+        const fedexAmount = Math.round(amount * 100) / 100;
+        const surcharge = box.boxPrice + box.serviceFee;
+        const total = Math.round((fedexAmount + surcharge) * 100) / 100;
         return {
           serviceCode: code,
           serviceLabel: SERVICE_LABELS[code] || r.serviceName || code,
-          amount: Math.round(amount * 100) / 100,
+          amount: total,
+          fedexAmount,
+          boxPrice: box.boxPrice,
+          serviceFee: box.serviceFee,
           currency: rated?.currency || "USD",
           commit: r.commit?.dateDetail?.dayFormat || null,
         };
@@ -236,6 +244,9 @@ serve(async (req) => {
       options,
       shipDateStamp,
       boxTier: box.tier,
+      boxDimensions: { height: box.length, width: box.width, depth: box.height, weightLb: box.weight },
+      boxPrice: box.boxPrice,
+      serviceFee: box.serviceFee,
     }, 200);
   } catch (err) {
     console.error("calculate-fedex-shipping error:", err);

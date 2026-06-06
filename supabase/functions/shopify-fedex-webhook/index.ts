@@ -30,9 +30,9 @@ const ORIGIN_SHIPPER = {
 };
 
 function pickBox(roses: number) {
-  if (roses <= 25) return { length: 12, width: 12, height: 18, weight: 5 };
-  if (roses <= 50) return { length: 16, width: 16, height: 24, weight: 10 };
-  if (roses <= 100) return { length: 20, width: 20, height: 30, weight: 18 };
+  if (roses <= 25) return { length: 22, width: 11, height: 11, weight: 9 };
+  if (roses <= 50) return { length: 28, width: 13, height: 13, weight: 11 };
+  if (roses <= 100) return { length: 30, width: 18, height: 18, weight: 18 };
   return null;
 }
 
