@@ -525,6 +525,12 @@ export const en = {
     overRosesLimit: "FedEx shipping is not available for bouquets over 100 roses.",
     blockedState: "FedEx shipping is not available for {state}.",
     onlyUS: "FedEx shipping is only available within the US.",
+    deliveryOn: "Delivery on {date}",
+    byTime: "by {time}",
+    windowEarlyMorning: "early morning",
+    windowMidMorning: "mid-morning",
+    windowAfternoon: "afternoon",
+    windowEndOfDay: "end of day",
   },
 
   shippingProtection: {
