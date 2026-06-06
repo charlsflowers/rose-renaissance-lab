@@ -7,6 +7,8 @@ import { useTranslation } from "@/i18n/LanguageContext";
 import { toast } from "sonner";
 import { fetchVariantsByHandle, findVariantByRoses, type ShopifyHandleVariant } from "@/lib/shopifyVariants";
 import { getNotePrice, getButterflyPrice } from "@/lib/shopifyAccessoryPrices";
+import { supabase } from "@/integrations/supabase/client";
+import { Loader2 } from "lucide-react";
 import glitterRoseImg from "@/assets/glitter-rose.webp";
 import butterflyImg from "@/assets/butterfly-gold.webp";
 import noteImg from "@/assets/accessory-note.webp";
@@ -41,6 +43,7 @@ const CartItemUpsells = ({ item }: Props) => {
   const [noteOpen, setNoteOpen] = useState(false);
   const [noteText, setNoteText] = useState(item.accessoryText || "");
   const [upgradeClicked, setUpgradeClicked] = useState(false);
+  const [upgradeLoading, setUpgradeLoading] = useState(false);
   const [crownOpen, setCrownOpen] = useState(false);
   const [ribbonOpen, setRibbonOpen] = useState(false);
   const [ribbonText, setRibbonText] = useState(item.ribbonText || "");
@@ -105,10 +108,15 @@ const CartItemUpsells = ({ item }: Props) => {
 
   // Size upgrade: only if we know the sibling variants and there is a next tier
   // with a real variant available.
+  const isFedex = !!item.fedexServiceCode;
+  // FedEx is capped at 100 roses (box constraint). For FedEx items the next
+  // tier must also be ≤100; for local/pickup, no cap.
+  const maxUpgradeRoses = isFedex ? 100 : Infinity;
   const currentTierIdx = ROSE_TIERS.indexOf(item.roses as typeof ROSE_TIERS[number]);
-  const nextRoses = currentTierIdx >= 0 && currentTierIdx < ROSE_TIERS.length - 1
+  const rawNextRoses = currentTierIdx >= 0 && currentTierIdx < ROSE_TIERS.length - 1
     ? ROSE_TIERS[currentTierIdx + 1]
     : null;
+  const nextRoses = rawNextRoses !== null && rawNextRoses <= maxUpgradeRoses ? rawNextRoses : null;
   const nextVariant = nextRoses && siblingVariants ? findVariantByRoses(siblingVariants, nextRoses) : null;
   const currentVariant = siblingVariants ? findVariantByRoses(siblingVariants, item.roses) : null;
   const currentVariantPrice = currentVariant?.price?.amount ? parseFloat(currentVariant.price.amount) : null;
@@ -117,15 +125,10 @@ const CartItemUpsells = ({ item }: Props) => {
     currentVariantPrice !== null && nextVariantPrice !== null
       ? Math.max(0, parseFloat((nextVariantPrice - currentVariantPrice).toFixed(2)))
       : null;
+  // FedEx items can upgrade up to 100 roses; we recalculate FedEx shipping
+  // on click via the edge function so deliveryCost stays consistent.
   const canShowUpgrade =
-    !!nextVariant && upgradeDelta !== null && nextVariantPrice !== null &&
-    // FedEx items: the box size (and FedEx rate) depends on the rose count
-    // and FedEx is capped at 100 roses. Changing roses here would require
-    // recalculating the FedEx shipping cost via the edge function, which is
-    // non-trivial inside the cart. To keep the shipping price consistent,
-    // hide the rose upgrade for FedEx items — the customer can change the
-    // size on the product page, where FedEx is recalculated correctly.
-    !item.fedexServiceCode;
+    !!nextVariant && upgradeDelta !== null && nextVariantPrice !== null;
 
   if (!canShowGlitter && !canShowNote && !canShowButterfly && !canShowUpgrade && !canShowCrown && !canShowRibbon) return null;
 
@@ -219,19 +222,79 @@ const CartItemUpsells = ({ item }: Props) => {
     toast.success(`${labels.ribbon} — ${labels.added}`);
   };
 
-  const handleUpgrade = () => {
+  const handleUpgrade = async () => {
     if (!nextVariant || nextVariantPrice === null || !nextRoses) return;
+    if (upgradeLoading) return;
     // Recompute glitter cost if the item already has glitter, since glitter
     // price scales with roses count.
-    const oldGlitterCost = item.glitter ? Math.ceil(item.roses / 25) * 8 : 0;
     const newGlitterCost = item.glitter ? Math.ceil(nextRoses / 25) * 8 : 0;
     const newPrice = parseFloat((nextVariantPrice + newGlitterCost).toFixed(2));
-    const totalDelta = newPrice - item.price;
+    const productDelta = newPrice - item.price;
+
+    // FedEx path: recalc shipping with new rose count before committing.
+    if (isFedex && item.structuredAddress && item.deliveryDate) {
+      setUpgradeLoading(true);
+      try {
+        const { data, error: invokeError } = await supabase.functions.invoke(
+          "calculate-fedex-shipping",
+          {
+            body: {
+              recipient: {
+                streetLines: [item.structuredAddress.address1].filter(Boolean),
+                city: item.structuredAddress.city,
+                stateOrProvinceCode: item.structuredAddress.province,
+                postalCode: item.structuredAddress.zip,
+                countryCode: item.structuredAddress.country || "US",
+                residential: true,
+              },
+              roses: nextRoses,
+              deliveryDate: item.deliveryDate,
+            },
+          },
+        );
+        const opts = Array.isArray(data?.options) ? data.options : [];
+        if (invokeError || data?.error || opts.length === 0) {
+          toast.error(
+            language === "es"
+              ? "No se pudo recalcular el envío FedEx. Inténtalo de nuevo."
+              : "Could not recalculate FedEx shipping. Please try again.",
+          );
+          return;
+        }
+        const match =
+          opts.find((o: any) => o.serviceCode === item.fedexServiceCode) || opts[0];
+        const newDeliveryCost = parseFloat(Number(match.amount).toFixed(2));
+        updateItem(item.id, {
+          roses: nextRoses,
+          shopifyVariantId: nextVariant.id,
+          price: newPrice,
+          totalPrice: parseFloat((item.totalPrice + productDelta).toFixed(2)),
+          deliveryCost: newDeliveryCost,
+          fedexServiceCode: match.serviceCode,
+          fedexRosesCount: nextRoses,
+        });
+        setUpgradeClicked(true);
+        toast.success(
+          `${labels.upgraded} — ${nextRoses} ${language === "es" ? "rosas" : "roses"}`,
+        );
+      } catch {
+        toast.error(
+          language === "es"
+            ? "Error al recalcular el envío FedEx."
+            : "Error recalculating FedEx shipping.",
+        );
+      } finally {
+        setUpgradeLoading(false);
+      }
+      return;
+    }
+
+    // Non-FedEx: original behavior.
     updateItem(item.id, {
       roses: nextRoses,
       shopifyVariantId: nextVariant.id,
       price: newPrice,
-      totalPrice: parseFloat((item.totalPrice + totalDelta).toFixed(2)),
+      totalPrice: parseFloat((item.totalPrice + productDelta).toFixed(2)),
     });
     setUpgradeClicked(true);
     toast.success(`${labels.upgraded} — ${nextRoses} ${language === "es" ? "rosas" : "roses"}`);
@@ -247,6 +310,7 @@ const CartItemUpsells = ({ item }: Props) => {
           <button
             type="button"
             onClick={handleUpgrade}
+            disabled={upgradeLoading}
             className="relative w-full flex items-center gap-2 px-2.5 py-1.5 sm:px-3 sm:py-2.5 rounded-md bg-card border border-primary/30 hover:border-primary hover:bg-primary/10 transition-colors text-left"
           >
             {!upgradeClicked && (
@@ -254,7 +318,11 @@ const CartItemUpsells = ({ item }: Props) => {
                 {labels.recommended}
               </span>
             )}
-            <ArrowUpCircle className="w-3.5 h-3.5 sm:w-5 sm:h-5 text-primary flex-shrink-0" />
+            {upgradeLoading ? (
+              <Loader2 className="w-3.5 h-3.5 sm:w-5 sm:h-5 text-primary flex-shrink-0 animate-spin" />
+            ) : (
+              <ArrowUpCircle className="w-3.5 h-3.5 sm:w-5 sm:h-5 text-primary flex-shrink-0" />
+            )}
             <span className="flex-1 text-xs sm:text-sm font-body text-foreground">
               {labels.upgrade}
               <span className="ml-1.5 text-[9px] sm:text-[10px] uppercase tracking-wider font-semibold text-primary/80">
