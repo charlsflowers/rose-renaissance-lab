@@ -136,6 +136,16 @@ const Index = () => {
               </div>
               <span className="font-body text-[9px] md:text-xs tracking-wider text-foreground uppercase whitespace-nowrap">{t("home.homeDelivery")}</span>
             </div>
+            <div className="hidden md:block w-px h-6 bg-primary/15 shrink-0" />
+            <div className="flex items-center gap-1.5 md:gap-2">
+              <img
+                src={fedexLogo.url}
+                alt="FedEx"
+                loading="lazy"
+                className="h-4 md:h-5 w-auto shrink-0"
+              />
+              <span className="font-body text-[9px] md:text-xs tracking-wider text-foreground uppercase whitespace-nowrap">{t("home.nationwideShipping")}</span>
+            </div>
           </div>
         </div>
       </section>
