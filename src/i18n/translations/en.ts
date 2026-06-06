@@ -531,6 +531,8 @@ export const en = {
     windowMidMorning: "mid-morning",
     windowAfternoon: "afternoon",
     windowEndOfDay: "end of day",
+    tooEarly: "FedEx orders placed after 11:00 AM Miami time are processed on the next business day. The earliest available delivery date is {date}.",
+    shipWeekend: "FedEx is not available for this date. FedEx does not pick up on weekends, so the shipping day (the day before delivery) must be a business day. Please choose another date.",
   },
 
   shippingProtection: {

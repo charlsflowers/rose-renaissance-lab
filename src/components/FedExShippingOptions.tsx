@@ -5,6 +5,7 @@ import { cn } from "@/lib/utils";
 import { useTranslation } from "@/i18n/LanguageContext";
 import { format, parseISO } from "date-fns";
 import { enUS, es as esLocale } from "date-fns/locale";
+import { getMiamiTime } from "@/lib/miamiTime";
 import type { StructuredAddress, DeliveryResult } from "@/components/DeliveryCalculator";
 
 function mapBackendError(msg: string, t: (k: string) => string): string {
@@ -66,10 +67,20 @@ const FedExShippingOptions = ({
     !!structuredAddress?.province &&
     !!structuredAddress?.address1;
 
+  // Date availability rules (mirrors Flowers Point):
+  //  - 11:00 AM Miami cutoff: after cutoff (or on weekends), first ship day
+  //    is the next business day; otherwise today.
+  //  - Earliest delivery = first ship day + 1.
+  //  - FedEx does not pick up on weekends: a delivery whose ship day
+  //    (delivery − 1) is Sat/Sun is not available.
+  const availability = computeFedexDateAvailability(deliveryDate);
+  const datesValid = !!deliveryDate && !availability.tooEarly && !availability.shipWeekend;
+
   useEffect(() => {
     let cancelled = false;
     const fetchRates = async () => {
       if (itemsCount > 1 || !hasAddress || !roses || !deliveryDate) return;
+      if (!datesValid) return;
       setLoading(true);
       setError("");
       setOptions([]);
@@ -114,7 +125,7 @@ const FedExShippingOptions = ({
       cancelled = true;
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [hasAddress, structuredAddress?.zip, roses, deliveryDate, itemsCount]);
+  }, [hasAddress, structuredAddress?.zip, roses, deliveryDate, itemsCount, datesValid]);
 
   // Block when more than 1 bouquet — early return AFTER all hooks
   if (itemsCount > 1) {
@@ -144,6 +155,29 @@ const FedExShippingOptions = ({
       <div className="bg-primary/5 border border-primary/20 rounded-lg p-4">
         <p className="font-body text-sm text-foreground">
           {t("fedex.needDate")}
+        </p>
+      </div>
+    );
+  }
+
+  if (availability.tooEarly) {
+    const niceDate = formatDeliveryDate(availability.minDeliveryISO, language);
+    return (
+      <div className="bg-destructive/5 border border-destructive/20 rounded-lg p-4">
+        <p className="font-body text-sm text-destructive flex items-start gap-2">
+          <AlertTriangle className="w-4 h-4 mt-0.5 shrink-0" />
+          <span>{t("fedex.tooEarly").replace("{date}", niceDate)}</span>
+        </p>
+      </div>
+    );
+  }
+
+  if (availability.shipWeekend) {
+    return (
+      <div className="bg-destructive/5 border border-destructive/20 rounded-lg p-4">
+        <p className="font-body text-sm text-destructive flex items-start gap-2">
+          <AlertTriangle className="w-4 h-4 mt-0.5 shrink-0" />
+          <span>{t("fedex.shipWeekend")}</span>
         </p>
       </div>
     );
@@ -296,4 +330,39 @@ function getServiceWindow(opt: FedExOption, t: (k: string) => string): string {
   const desc = t(descKey);
   const time = commitTime || fallback;
   return `${desc} · ${t("fedex.byTime").replace("{time}", time)}`;
+}
+
+function computeFedexDateAvailability(deliveryDateISO: string): {
+  tooEarly: boolean;
+  shipWeekend: boolean;
+  minDeliveryISO: string;
+} {
+  const isWeekend = (d: number) => d === 0 || d === 6;
+  const m = getMiamiTime();
+  // First ship day starts as today in Miami.
+  const ship = new Date(Date.UTC(m.year, m.month - 1, m.date));
+  const todayDow = ship.getUTCDay();
+  if (m.hours >= 11 || isWeekend(todayDow)) {
+    // Advance to next business day.
+    do {
+      ship.setUTCDate(ship.getUTCDate() + 1);
+    } while (isWeekend(ship.getUTCDay()));
+  }
+  // Earliest delivery = first ship day + 1.
+  const minDelivery = new Date(ship);
+  minDelivery.setUTCDate(minDelivery.getUTCDate() + 1);
+  const minDeliveryISO = minDelivery.toISOString().slice(0, 10);
+
+  if (!deliveryDateISO) {
+    return { tooEarly: false, shipWeekend: false, minDeliveryISO };
+  }
+
+  const tooEarly = deliveryDateISO < minDeliveryISO;
+  // FedEx does not pick up on Sat/Sun. Ship day = delivery − 1.
+  const sel = new Date(`${deliveryDateISO}T00:00:00Z`);
+  const selShip = new Date(sel);
+  selShip.setUTCDate(selShip.getUTCDate() - 1);
+  const shipWeekend = isWeekend(selShip.getUTCDay());
+
+  return { tooEarly, shipWeekend, minDeliveryISO };
 }
