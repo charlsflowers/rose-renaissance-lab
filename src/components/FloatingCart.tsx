@@ -347,11 +347,7 @@ const FloatingCart = () => {
               {fedexBlockingItem && (
                 <div className="bg-primary/5 border border-primary/20 rounded-lg p-3 text-xs font-body text-foreground">
                   {fedexNeedsMultiBouquet ? (
-                    <span>
-                      La dirección está a más de 87 millas (envío FedEx). Para envíos
-                      FedEx con más de un ramo, contáctanos por <strong>WhatsApp</strong>
-                      {" "}para coordinar el envío manualmente.
-                    </span>
+                    <span>{t("fedex.multiBouquetBlock")}</span>
                   ) : (
                     <span>
                       La dirección está fuera del rango local (&gt;87 millas). Vuelve a
