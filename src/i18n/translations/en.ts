@@ -511,6 +511,10 @@ export const en = {
     remove: "Remove",
   },
 
+  fedex: {
+    multiBouquetBlock: "Due to FedEx shipping policies, it is not possible to ship more than one bouquet in a single shipment. Please place a separate order for each bouquet.",
+  },
+
   shippingProtection: {
     label: "Shipping Protection",
     description: "Protect your order from loss, damage, or theft in transit.",

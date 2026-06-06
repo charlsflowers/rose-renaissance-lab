@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { Loader2, Plane, AlertTriangle, CheckCircle2 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useTranslation } from "@/i18n/LanguageContext";
 import type { StructuredAddress, DeliveryResult } from "@/components/DeliveryCalculator";
 
 export interface FedExAttrs {
@@ -41,6 +42,7 @@ const FedExShippingOptions = ({
   onSelect,
   onClear,
 }: Props) => {
+  const { t } = useTranslation();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [options, setOptions] = useState<FedExOption[]>([]);
@@ -52,11 +54,7 @@ const FedExShippingOptions = ({
       <div className="bg-primary/5 border border-primary/20 rounded-lg p-4 space-y-2">
         <p className="font-body text-sm text-foreground flex items-start gap-2">
           <AlertTriangle className="w-4 h-4 text-primary mt-0.5 shrink-0" />
-          <span>
-            La dirección está a <strong>{miles} millas</strong> (envío FedEx). Para envíos
-            FedEx con más de un ramo, contáctanos por <strong>WhatsApp</strong> para
-            coordinar el envío manualmente.
-          </span>
+          <span>{t("fedex.multiBouquetBlock")}</span>
         </p>
       </div>
     );
