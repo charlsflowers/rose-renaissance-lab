@@ -493,6 +493,17 @@ export const es = {
 
   fedex: {
     multiBouquetBlock: "Por políticas de envío de FedEx, no es posible enviar más de un ramo en un mismo envío. Realiza un pedido por separado para cada ramo.",
+    addressBanner: "Dirección a {miles} millas — envío nacional vía FedEx",
+    selectService: "Selecciona un servicio de envío:",
+    loadingRates: "Consultando tarifas FedEx...",
+    errorGeneric: "No pudimos calcular el envío FedEx. Intenta de nuevo.",
+    errorConnection: "Error de conexión con FedEx. Intenta de nuevo.",
+    noOptions: "Sin opciones de envío FedEx disponibles para esta dirección.",
+    missingAddress: "No pudimos leer la dirección completa (ZIP / estado). Selecciona la dirección de nuevo desde la lista de sugerencias.",
+    needDate: "Selecciona primero la fecha de entrega para ver tarifas FedEx.",
+    overRosesLimit: "El envío FedEx no está disponible para ramos de más de 100 rosas.",
+    blockedState: "El envío FedEx no está disponible para {state}.",
+    onlyUS: "El envío FedEx solo está disponible dentro de EE. UU.",
   },
 
   shippingProtection: {
