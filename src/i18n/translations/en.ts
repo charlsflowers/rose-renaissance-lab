@@ -514,6 +514,7 @@ export const en = {
   fedex: {
     multiBouquetBlock: "Due to FedEx shipping policies, it is not possible to ship more than one bouquet in a single shipment. Please place a separate order for each bouquet.",
     addressBanner: "Address is {miles} miles away — domestic shipping via FedEx",
+    addressBanner: "Address is {miles} miles away — domestic shipping via FedEx",
     selectService: "Select a shipping service:",
     loadingRates: "Checking FedEx rates...",
     errorGeneric: "We couldn't calculate FedEx shipping. Please try again.",
