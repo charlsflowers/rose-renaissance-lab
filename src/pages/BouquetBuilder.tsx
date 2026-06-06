@@ -160,7 +160,7 @@ const BouquetBuilder = () => {
     debounceRef.current = setTimeout(() => fetchPredictions(value), 350);
   }, [fetchPredictions]);
 
-  const handleSelectPrediction = useCallback((prediction: { description: string; mainText: string; secondaryText: string }) => {
+  const handleSelectPrediction = useCallback((prediction: { placeId: string; description: string; mainText: string; secondaryText: string }) => {
     setAddressQuery(prediction.description);
     setSelectedAddress(prediction.description);
     setShowPredictions(false);
@@ -188,7 +188,7 @@ const BouquetBuilder = () => {
         setFedexCost(0);
         try {
           const { data, error } = await supabase.functions.invoke("calculate-distance", {
-            body: { fullAddress: prediction.description },
+            body: { fullAddress: prediction.description, placeId: prediction.placeId },
           });
           if (error) throw new Error("Connection error");
           if (data.error) {
