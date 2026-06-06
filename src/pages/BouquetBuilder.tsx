@@ -1198,7 +1198,7 @@ const BouquetBuilder = () => {
               {deliveryMethod === "pickup" && <StorePickupAlert />}
               <button
                 disabled={isAdding || variantsLoading || isMothersDayPromoActive()}
-                onClick={handleBuilderPayNow}
+                onClick={handleBuilderAddToCart}
                 className="w-full bg-primary text-primary-foreground py-4 font-body text-sm tracking-[0.25em] uppercase font-semibold hover:bg-primary/90 transition-colors rounded-lg disabled:opacity-50">
                 {isMothersDayPromoActive()
                   ? "Available May 13"
