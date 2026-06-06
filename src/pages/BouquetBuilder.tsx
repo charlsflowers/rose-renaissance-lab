@@ -86,6 +86,7 @@ const BouquetBuilder = () => {
   const [autocompleteLoading, setAutocompleteLoading] = useState(false);
   const [selectedAddress, setSelectedAddress] = useState("");
   const [mapUrl, setMapUrl] = useState("");
+  const [mapImageUrl, setMapImageUrl] = useState("");
   const [structuredAddress, setStructuredAddress] = useState<
     { address1: string; city: string; province: string; zip: string; country: string } | undefined
   >(undefined);
@@ -149,6 +150,7 @@ const BouquetBuilder = () => {
     setSelectedAddress("");
     setDeliveryMiles(null);
     setMapUrl("");
+    setMapImageUrl("");
     setDistanceError("");
     setDistanceTooFar(false);
     setStructuredAddress(undefined);
@@ -195,7 +197,8 @@ const BouquetBuilder = () => {
               setDistanceTooFar(true);
               setDeliveryMiles(data.miles);
               if (data.structuredAddress) setStructuredAddress(data.structuredAddress);
-              if (data.mapUrl) setMapUrl(data.mapUrl);
+              setMapUrl("");
+              if (data.mapImageUrl) setMapImageUrl(data.mapImageUrl);
             } else {
               setDistanceError(data.error);
             }
@@ -203,6 +206,7 @@ const BouquetBuilder = () => {
             setDeliveryMiles(data.miles);
             setDeliveryDuration(data.duration);
             if (data.mapUrl) setMapUrl(data.mapUrl);
+            setMapImageUrl("");
             if (data.structuredAddress) setStructuredAddress(data.structuredAddress);
           }
         } catch (e: any) {
