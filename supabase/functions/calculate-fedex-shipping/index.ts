@@ -52,38 +52,37 @@ const SERVICE_LABELS: Record<string, string> = {
   GROUND_HOME_DELIVERY: "Ground Home Delivery",
 };
 
-// Returns Miami (America/New_York) hour:minute right now.
-function miamiNow(): { hours: number; minutes: number } {
-  const parts = new Intl.DateTimeFormat("en-US", {
-    timeZone: "America/New_York",
-    hour: "numeric",
-    minute: "numeric",
-    hour12: false,
-  }).formatToParts(new Date());
-  const get = (t: string) => parseInt(parts.find((p) => p.type === t)?.value || "0");
-  return { hours: get("hour"), minutes: get("minute") };
-}
+// Minimum business days transit by service (used as fallback when FedEx does
+// not return an estimatedDeliveryDate). Mirrors Flowers Point.
+const SERVICE_MIN_BUSINESS_DAYS: Record<string, number> = {
+  FIRST_OVERNIGHT: 1,
+  PRIORITY_OVERNIGHT: 1,
+  STANDARD_OVERNIGHT: 1,
+  FEDEX_2_DAY_AM: 2,
+  FEDEX_2_DAY: 2,
+  FEDEX_EXPRESS_SAVER: 3,
+};
 
-// shipDateStamp = (delivery date - 1 day) as YYYY-MM-DD in UTC.
-// If past 11:00 Miami time and the desired ship date is today, push to tomorrow.
+// shipDateStamp = delivery date − 1 day, in UTC YYYY-MM-DD. No time-of-day bump.
 function computeShipDateStamp(deliveryDateISO: string): string {
   const delivery = new Date(`${deliveryDateISO}T12:00:00Z`);
   const ship = new Date(delivery);
   ship.setUTCDate(ship.getUTCDate() - 1);
+  return ship.toISOString().slice(0, 10);
+}
 
-  const todayUTC = new Date();
-  const todayStr = `${todayUTC.getUTCFullYear()}-${String(todayUTC.getUTCMonth() + 1).padStart(2, "0")}-${String(todayUTC.getUTCDate()).padStart(2, "0")}`;
-  const shipStr = `${ship.getUTCFullYear()}-${String(ship.getUTCMonth() + 1).padStart(2, "0")}-${String(ship.getUTCDate()).padStart(2, "0")}`;
-
-  if (shipStr <= todayStr) {
-    const { hours } = miamiNow();
-    const base = new Date();
-    if (hours >= 11) {
-      base.setUTCDate(base.getUTCDate() + 1);
-    }
-    return `${base.getUTCFullYear()}-${String(base.getUTCMonth() + 1).padStart(2, "0")}-${String(base.getUTCDate()).padStart(2, "0")}`;
+function businessDaysBetween(startISO: string, endISO: string): number {
+  const start = new Date(`${startISO}T00:00:00Z`);
+  const end = new Date(`${endISO}T00:00:00Z`);
+  if (end <= start) return 0;
+  let count = 0;
+  const cur = new Date(start);
+  while (cur < end) {
+    cur.setUTCDate(cur.getUTCDate() + 1);
+    const day = cur.getUTCDay();
+    if (day !== 0 && day !== 6) count++;
   }
-  return shipStr;
+  return count;
 }
 
 async function getFedExToken(): Promise<string> {
@@ -222,6 +221,21 @@ serve(async (req) => {
         const amount = rated?.totalNetCharge;
         if (typeof amount !== "number") return null;
         const code = r.serviceType || "";
+        // STRICT delivery-date filter: keep only services that arrive exactly
+        // on the requested deliveryDate. Prefer FedEx's estimatedDeliveryDate
+        // when present; otherwise fall back to business-days math.
+        const estimatedRaw = r.commit?.dateDetail?.dayFormat || "";
+        const estimatedDate = estimatedRaw ? estimatedRaw.slice(0, 10) : "";
+        let matches = false;
+        if (estimatedDate) {
+          matches = estimatedDate === deliveryDate;
+        } else {
+          const minDays = SERVICE_MIN_BUSINESS_DAYS[code];
+          if (typeof minDays === "number") {
+            matches = businessDaysBetween(shipDateStamp, deliveryDate) >= minDays;
+          }
+        }
+        if (!matches) return null;
         const fedexAmount = Math.round(amount * 100) / 100;
         const surcharge = box.boxPrice + box.serviceFee;
         const total = Math.round((fedexAmount + surcharge) * 100) / 100;
