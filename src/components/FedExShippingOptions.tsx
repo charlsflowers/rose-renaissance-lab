@@ -57,18 +57,6 @@ const FedExShippingOptions = ({
   const [options, setOptions] = useState<FedExOption[]>([]);
   const [selectedCode, setSelectedCode] = useState<string>("");
 
-  // Block when more than 1 bouquet
-  if (itemsCount > 1) {
-    return (
-      <div className="bg-primary/5 border border-primary/20 rounded-lg p-4 space-y-2">
-        <p className="font-body text-sm text-foreground flex items-start gap-2">
-          <AlertTriangle className="w-4 h-4 text-primary mt-0.5 shrink-0" />
-          <span>{t("fedex.multiBouquetBlock")}</span>
-        </p>
-      </div>
-    );
-  }
-
   // Validate structured address has what we need
   const hasAddress =
     !!structuredAddress?.zip &&
@@ -78,7 +66,7 @@ const FedExShippingOptions = ({
   useEffect(() => {
     let cancelled = false;
     const fetchRates = async () => {
-      if (!hasAddress || !roses || !deliveryDate) return;
+      if (itemsCount > 1 || !hasAddress || !roses || !deliveryDate) return;
       setLoading(true);
       setError("");
       setOptions([]);
@@ -123,7 +111,19 @@ const FedExShippingOptions = ({
       cancelled = true;
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [hasAddress, structuredAddress?.zip, roses, deliveryDate]);
+  }, [hasAddress, structuredAddress?.zip, roses, deliveryDate, itemsCount]);
+
+  // Block when more than 1 bouquet — early return AFTER all hooks
+  if (itemsCount > 1) {
+    return (
+      <div className="bg-primary/5 border border-primary/20 rounded-lg p-4 space-y-2">
+        <p className="font-body text-sm text-foreground flex items-start gap-2">
+          <AlertTriangle className="w-4 h-4 text-primary mt-0.5 shrink-0" />
+          <span>{t("fedex.multiBouquetBlock")}</span>
+        </p>
+      </div>
+    );
+  }
 
   if (!hasAddress) {
     return (
