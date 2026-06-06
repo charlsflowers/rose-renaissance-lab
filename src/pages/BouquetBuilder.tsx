@@ -86,6 +86,12 @@ const BouquetBuilder = () => {
   const [autocompleteLoading, setAutocompleteLoading] = useState(false);
   const [selectedAddress, setSelectedAddress] = useState("");
   const [mapUrl, setMapUrl] = useState("");
+  const [structuredAddress, setStructuredAddress] = useState<
+    { address1: string; city: string; province: string; zip: string; country: string } | undefined
+  >(undefined);
+  // FedEx national shipping (>87 mi)
+  const [fedexAttrs, setFedexAttrs] = useState<FedExAttrs | null>(null);
+  const [fedexCost, setFedexCost] = useState<number>(0);
   const autocompleteRef = useRef<HTMLDivElement>(null);
   const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const [paperColor, setPaperColor] = useState("");
