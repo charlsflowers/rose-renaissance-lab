@@ -28,9 +28,10 @@ export interface DeliveryResult {
 
 interface Props {
   onResult: (result: DeliveryResult | null) => void;
+  onTooFar?: (info: { fullAddress: string; structuredAddress: StructuredAddress | null; miles: number }) => void;
 }
 
-const DeliveryCalculator = ({ onResult }: Props) => {
+const DeliveryCalculator = ({ onResult, onTooFar }: Props) => {
   const [addressQuery, setAddressQuery] = useState("");
   const [predictions, setPredictions] = useState<Prediction[]>([]);
   const [showPredictions, setShowPredictions] = useState(false);
@@ -100,10 +101,20 @@ const DeliveryCalculator = ({ onResult }: Props) => {
       if (error) {
         setDistanceError("Error calculating distance.");
       } else if (data.error) {
-        setDistanceError(data.error);
         if (data.tooFar) {
           setDistanceTooFar(true);
           setDeliveryMiles(data.miles);
+          if (onTooFar) {
+            onTooFar({
+              fullAddress: prediction.description,
+              structuredAddress: data.structuredAddress || null,
+              miles: data.miles,
+            });
+          } else {
+            setDistanceError(data.error);
+          }
+        } else {
+          setDistanceError(data.error);
         }
       } else {
         setDeliveryMiles(data.miles);

@@ -149,6 +149,8 @@ serve(async (req) => {
           error: `La dirección está a ${miles} millas. El máximo de entrega es ${MAX_MILES} millas.`,
           miles,
           tooFar: true,
+          structuredAddress: structuredAddress || null,
+          destination,
         }),
         { status: 200, headers: { ...corsHeaders, "Content-Type": "application/json" } },
       );

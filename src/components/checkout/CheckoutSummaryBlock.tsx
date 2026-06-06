@@ -7,6 +7,7 @@ import { Calendar } from "@/components/ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { cn } from "@/lib/utils";
 import DeliveryCalculator, { type DeliveryResult } from "@/components/DeliveryCalculator";
+import FedExShippingOptions, { type FedExAttrs } from "@/components/FedExShippingOptions";
 import { useTranslation } from "@/i18n/LanguageContext";
 import { useCartStore } from "@/stores/cartStore";
 import { getShippingProtectionFallback } from "@/lib/shippingProtection";
@@ -27,6 +28,9 @@ interface Props {
   isSyncing: boolean;
   isCheckingOut: boolean;
   onCheckout: () => void;
+  // FedEx (national shipping > 87 miles). Optional — local delivery / pickup unaffected.
+  fedexBouquetRoses?: number;
+  onFedexAttrs?: (attrs: FedExAttrs | null) => void;
 }
 
 const PICKUP_HOURS = [
@@ -45,7 +49,7 @@ const CheckoutSummaryBlock = ({
   itemCount, itemsSubtotal, deliveryMethod, setDeliveryMethod,
   deliveryResult, setDeliveryResult, deliveryDate, setDeliveryDate,
   deliveryHour, setDeliveryHour, canCheckout, isLoading, isSyncing,
-  isCheckingOut, onCheckout,
+  isCheckingOut, onCheckout, fedexBouquetRoses, onFedexAttrs,
 }: Props) => {
   const { t } = useTranslation();
   const shippingProtectionEnabled = useCartStore((state) => state.shippingProtection);
@@ -58,6 +62,15 @@ const CheckoutSummaryBlock = ({
   const [savedResult, setSavedResult] = useState<DeliveryResult | null>(deliveryResult);
   const [showAddressEditor, setShowAddressEditor] = useState(!deliveryResult && deliveryMethod === "delivery");
   const [editingDateTime, setEditingDateTime] = useState(false);
+  const [fedexTrigger, setFedexTrigger] = useState<
+    { fullAddress: string; structuredAddress: import("@/components/DeliveryCalculator").StructuredAddress | null; miles: number } | null
+  >(null);
+
+  // Clear FedEx state if user switches to pickup or re-edits address
+  const resetFedex = () => {
+    setFedexTrigger(null);
+    onFedexAttrs?.(null);
+  };
 
   useEffect(() => {
     if (deliveryResult) setSavedResult(deliveryResult);
@@ -71,6 +84,7 @@ const CheckoutSummaryBlock = ({
     } else if (method === "delivery") {
       setShowAddressEditor(true);
     }
+    if (method === "pickup") resetFedex();
   };
 
   const today = todayInMiami();
@@ -183,15 +197,40 @@ const CheckoutSummaryBlock = ({
       )}
 
       {deliveryMethod === "delivery" && showAddressEditor && (
-        <DeliveryCalculator
-          onResult={(r) => {
-            setDeliveryResult(r);
-            if (r) {
-              setSavedResult(r);
-              setShowAddressEditor(false);
-            }
-          }}
-        />
+        <>
+          <DeliveryCalculator
+            onResult={(r) => {
+              resetFedex();
+              setDeliveryResult(r);
+              if (r) {
+                setSavedResult(r);
+                setShowAddressEditor(false);
+              }
+            }}
+            onTooFar={(info) => {
+              setDeliveryResult(null);
+              setFedexTrigger(info);
+              onFedexAttrs?.(null);
+            }}
+          />
+          {fedexTrigger && (
+            <FedExShippingOptions
+              fullAddress={fedexTrigger.fullAddress}
+              structuredAddress={fedexTrigger.structuredAddress}
+              miles={fedexTrigger.miles}
+              roses={fedexBouquetRoses || 0}
+              deliveryDate={deliveryDate}
+              itemsCount={itemCount}
+              onSelect={(r, attrs) => {
+                setDeliveryResult(r);
+                setSavedResult(r);
+                setShowAddressEditor(false);
+                onFedexAttrs?.(attrs);
+              }}
+              onClear={() => onFedexAttrs?.(null)}
+            />
+          )}
+        </>
       )}
 
       {/* Date & time */}
