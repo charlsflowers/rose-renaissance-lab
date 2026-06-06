@@ -290,9 +290,20 @@ export async function performApiCheckout(options: ApiCheckoutOptions): Promise<s
   const attributes: Array<{ key: string; value: string }> = [
     {
       key: "Delivery Type",
-      value: options.deliveryMethod === "delivery" ? "Home Delivery" : "Store Pickup",
+      value: options.fedex
+        ? "FedEx Shipping"
+        : options.deliveryMethod === "delivery"
+        ? "Home Delivery"
+        : "Store Pickup",
     },
   ];
+  if (options.fedex) {
+    attributes.push(
+      { key: "FedEx Service Code", value: options.fedex.serviceCode },
+      { key: "FedEx Roses Count", value: String(options.fedex.rosesCount) },
+      { key: "FedEx Recipient Address", value: options.fedex.recipientAddress },
+    );
+  }
   for (const key of TRACKING_PARAM_KEYS) {
     const value = trackingParams[key];
     if (value && typeof value === "string" && value.trim() !== "") {
