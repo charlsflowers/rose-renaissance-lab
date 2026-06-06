@@ -5,6 +5,7 @@ import { cn } from "@/lib/utils";
 import { useTranslation } from "@/i18n/LanguageContext";
 import { format, parseISO } from "date-fns";
 import { enUS, es as esLocale } from "date-fns/locale";
+import { getMiamiTime } from "@/lib/miamiTime";
 import type { StructuredAddress, DeliveryResult } from "@/components/DeliveryCalculator";
 
 function mapBackendError(msg: string, t: (k: string) => string): string {
@@ -66,10 +67,20 @@ const FedExShippingOptions = ({
     !!structuredAddress?.province &&
     !!structuredAddress?.address1;
 
+  // Date availability rules (mirrors Flowers Point):
+  //  - 11:00 AM Miami cutoff: after cutoff (or on weekends), first ship day
+  //    is the next business day; otherwise today.
+  //  - Earliest delivery = first ship day + 1.
+  //  - FedEx does not pick up on weekends: a delivery whose ship day
+  //    (delivery − 1) is Sat/Sun is not available.
+  const availability = computeFedexDateAvailability(deliveryDate);
+  const datesValid = !!deliveryDate && !availability.tooEarly && !availability.shipWeekend;
+
   useEffect(() => {
     let cancelled = false;
     const fetchRates = async () => {
       if (itemsCount > 1 || !hasAddress || !roses || !deliveryDate) return;
+      if (!datesValid) return;
       setLoading(true);
       setError("");
       setOptions([]);
@@ -114,7 +125,7 @@ const FedExShippingOptions = ({
       cancelled = true;
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [hasAddress, structuredAddress?.zip, roses, deliveryDate, itemsCount]);
+  }, [hasAddress, structuredAddress?.zip, roses, deliveryDate, itemsCount, datesValid]);
 
   // Block when more than 1 bouquet — early return AFTER all hooks
   if (itemsCount > 1) {
@@ -144,6 +155,29 @@ const FedExShippingOptions = ({
       <div className="bg-primary/5 border border-primary/20 rounded-lg p-4">
         <p className="font-body text-sm text-foreground">
           {t("fedex.needDate")}
+        </p>
+      </div>
+    );
+  }
+
+  if (availability.tooEarly) {
+    const niceDate = formatDeliveryDate(availability.minDeliveryISO, language);
+    return (
+      <div className="bg-destructive/5 border border-destructive/20 rounded-lg p-4">
+        <p className="font-body text-sm text-destructive flex items-start gap-2">
+          <AlertTriangle className="w-4 h-4 mt-0.5 shrink-0" />
+          <span>{t("fedex.tooEarly").replace("{date}", niceDate)}</span>
+        </p>
+      </div>
+    );
+  }
+
+  if (availability.shipWeekend) {
+    return (
+      <div className="bg-destructive/5 border border-destructive/20 rounded-lg p-4">
+        <p className="font-body text-sm text-destructive flex items-start gap-2">
+          <AlertTriangle className="w-4 h-4 mt-0.5 shrink-0" />
+          <span>{t("fedex.shipWeekend")}</span>
         </p>
       </div>
     );
