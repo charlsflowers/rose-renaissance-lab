@@ -418,7 +418,10 @@ const BouquetBuilder = () => {
       toast.error("Selecciona una opción de envío FedEx para continuar.");
       return false;
     }
-    if (!deliveryDate || !deliveryHour) { toast.error("Please select a date and time."); return false; }
+    if (!deliveryDate) { toast.error("Please select a date and time."); return false; }
+    if (!(deliveryMethod === "delivery" && distanceTooFar) && !deliveryHour) {
+      toast.error("Please select a date and time."); return false;
+    }
     if (variantsLoading) { toast.error("We are still loading product variants."); return false; }
     if (!matchedVariant && selectedColors.length > 0) {
       toast.error('This combination is not available. Please choose a different color combination.');
