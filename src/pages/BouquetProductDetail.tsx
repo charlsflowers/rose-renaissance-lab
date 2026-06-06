@@ -440,7 +440,10 @@ const BouquetProductDetail = () => {
       toast.error("Selecciona una opción de envío FedEx para continuar.");
       return null;
     }
-    if (!deliveryDate || !deliveryHour) { toast.error("Please select a date and time."); return null; }
+    if (!deliveryDate) { toast.error("Please select a date and time."); return null; }
+    if (!(deliveryMethod === "delivery" && distanceTooFar) && !deliveryHour) {
+      toast.error("Please select a date and time."); return null;
+    }
     if (variantsLoading) { toast.error("Loading variants. Please try again."); return null; }
 
     setIsAdding(true);
