@@ -195,6 +195,7 @@ const BouquetBuilder = () => {
               setDistanceTooFar(true);
               setDeliveryMiles(data.miles);
               if (data.structuredAddress) setStructuredAddress(data.structuredAddress);
+              if (data.mapUrl) setMapUrl(data.mapUrl);
             } else {
               setDistanceError(data.error);
             }
