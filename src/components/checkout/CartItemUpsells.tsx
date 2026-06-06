@@ -118,7 +118,14 @@ const CartItemUpsells = ({ item }: Props) => {
       ? Math.max(0, parseFloat((nextVariantPrice - currentVariantPrice).toFixed(2)))
       : null;
   const canShowUpgrade =
-    !!nextVariant && upgradeDelta !== null && nextVariantPrice !== null;
+    !!nextVariant && upgradeDelta !== null && nextVariantPrice !== null &&
+    // FedEx items: the box size (and FedEx rate) depends on the rose count
+    // and FedEx is capped at 100 roses. Changing roses here would require
+    // recalculating the FedEx shipping cost via the edge function, which is
+    // non-trivial inside the cart. To keep the shipping price consistent,
+    // hide the rose upgrade for FedEx items — the customer can change the
+    // size on the product page, where FedEx is recalculated correctly.
+    !item.fedexServiceCode;
 
   if (!canShowGlitter && !canShowNote && !canShowButterfly && !canShowUpgrade && !canShowCrown && !canShowRibbon) return null;
 
