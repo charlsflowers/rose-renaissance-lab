@@ -143,8 +143,8 @@ const Index = () => {
               </div>
               <span className="font-body text-[9px] md:text-xs tracking-wider text-foreground uppercase whitespace-nowrap flex items-center gap-1">
                 {t("home.nationwideShipping")}
-                <span className="hidden sm:inline normal-case tracking-normal text-muted-foreground">·</span>
-                <span className="hidden sm:inline-flex items-center gap-1 normal-case tracking-normal text-muted-foreground">
+                <span className="normal-case tracking-normal text-muted-foreground">·</span>
+                <span className="inline-flex items-center gap-1 normal-case tracking-normal text-muted-foreground">
                   {t("home.poweredBy")}
                   <img src={fedexLogo.url} alt="FedEx" loading="lazy" className="h-3 md:h-3.5 w-auto inline-block" />
                 </span>
