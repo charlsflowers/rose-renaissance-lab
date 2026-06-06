@@ -145,7 +145,16 @@ serve(async (req) => {
 
     if (miles > MAX_MILES) {
       const PUBLIC_EMBED_KEY = "AIzaSyAN5ltXtvRFMQp3vQio_kyDMXC9Lvmw1ug";
-      const mapUrl = `https://www.google.com/maps/embed/v1/directions?key=${PUBLIC_EMBED_KEY}&origin=${encodeURIComponent(STORE_ADDRESS)}&destination=${encodeURIComponent(destination)}&mode=driving`;
+      // Clean static map (markers + straight line) — no driving route, no UI panel
+      const originEnc = encodeURIComponent(STORE_ADDRESS);
+      const destEnc = encodeURIComponent(destination);
+      const mapImageUrl =
+        `https://maps.googleapis.com/maps/api/staticmap` +
+        `?size=640x300&scale=2` +
+        `&markers=color:0x96103b%7Clabel:A%7C${originEnc}` +
+        `&markers=color:0x96103b%7Clabel:B%7C${destEnc}` +
+        `&path=color:0x96103bcc%7Cweight:3%7C${originEnc}%7C${destEnc}` +
+        `&key=${PUBLIC_EMBED_KEY}`;
       return new Response(
         JSON.stringify({
           error: `La dirección está a ${miles} millas. El máximo de entrega es ${MAX_MILES} millas.`,
@@ -153,7 +162,7 @@ serve(async (req) => {
           tooFar: true,
           structuredAddress: structuredAddress || null,
           destination,
-          mapUrl,
+          mapImageUrl,
         }),
         { status: 200, headers: { ...corsHeaders, "Content-Type": "application/json" } },
       );
