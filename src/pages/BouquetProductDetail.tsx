@@ -431,7 +431,11 @@ const BouquetProductDetail = () => {
 
   const handleAddToCart = async (skipNavigate = false): Promise<string | null> => {
     if (deliveryMethod === "delivery" && !selectedAddress) { toast.error("Please select a delivery address."); return null; }
-    if (deliveryMethod === "delivery" && (distanceTooFar || deliveryMiles === null)) { toast.error("The address is invalid or out of range."); return null; }
+    if (deliveryMethod === "delivery" && deliveryMiles === null) { toast.error("The address is invalid or out of range."); return null; }
+    if (deliveryMethod === "delivery" && distanceTooFar && !fedexAttrs) {
+      toast.error("Selecciona una opción de envío FedEx para continuar.");
+      return null;
+    }
     if (!deliveryDate || !deliveryHour) { toast.error("Please select a date and time."); return null; }
     if (variantsLoading) { toast.error("Loading variants. Please try again."); return null; }
 
