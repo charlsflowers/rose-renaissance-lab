@@ -203,7 +203,7 @@ const FedExShippingOptions = ({
           </p>
           {options.map((opt) => {
             const isSelected = selectedCode === opt.serviceCode;
-            const window = getServiceWindow(opt, t);
+            const windowLabel = getServiceWindow(opt, t);
             const deliveryLabel = formatDeliveryDate(opt.commit || deliveryDate, language);
             return (
               <button
@@ -226,8 +226,8 @@ const FedExShippingOptions = ({
                   <div className="min-w-0">
                     <p className="font-body text-sm font-semibold text-foreground">
                       FedEx {opt.serviceLabel}
-                      {window && (
-                        <span className="font-normal text-muted-foreground"> ({window})</span>
+                      {windowLabel && (
+                        <span className="font-normal text-muted-foreground"> ({windowLabel})</span>
                       )}
                     </p>
                     {deliveryLabel && (
