@@ -15,6 +15,7 @@ import { trackMetaEvent } from "@/lib/metaPixel";
 import { isMothersDayPromoActive } from "@/lib/mothersDayPromo";
 
 import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 import PaperColorPicker from "@/components/PaperColorPicker";
 import { StorePickupAlert } from "@/components/StorePickupAlert";
 import glitterRoseImg from "@/assets/glitter-rose.webp";
@@ -1215,6 +1216,7 @@ const BouquetBuilder = () => {
           </div>
         </div>
       </div>
+      <Footer />
     </div>
   );
 };
