@@ -325,7 +325,7 @@ serve(async (req) => {
         }
 
         const emailPayload: Record<string, unknown> = {
-          from: "Charls Flowers <notifications@charlsflowers.com>",
+          from: "Charls Flowers <notifications@mail.charlsflowers.com>",
           to: [
             "charlsflowerscorp@gmail.com",
             "rc@floralsuppliespoint.com",
