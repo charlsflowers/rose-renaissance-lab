@@ -1,7 +1,7 @@
 import { GOOGLE_MAPS_API_KEY, FOTO_DE_PORTADA, FOTO_DE_PORTADA_SRCSET } from "@/lib/constants";
 import { Link } from "@/i18n/LocalizedRouter";
 import { motion } from "framer-motion";
-import { ArrowRight, Heart, Sparkles, Star, Lock, Store, Truck, Flower2 } from "lucide-react";
+import { ArrowRight, Heart, Sparkles, Star, Lock, Store, Truck, Flower2, Plane } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import SeoHead from "@/components/SeoHead";
@@ -138,13 +138,17 @@ const Index = () => {
             </div>
             <div className="hidden md:block w-px h-6 bg-primary/15 shrink-0" />
             <div className="flex items-center gap-1.5 md:gap-2">
-              <img
-                src={fedexLogo.url}
-                alt="FedEx"
-                loading="lazy"
-                className="h-4 md:h-5 w-auto shrink-0"
-              />
-              <span className="font-body text-[9px] md:text-xs tracking-wider text-foreground uppercase whitespace-nowrap">{t("home.nationwideShipping")}</span>
+              <div className="w-7 h-7 md:w-9 md:h-9 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
+                <Plane className="w-3 h-3 md:w-4 md:h-4 text-primary" />
+              </div>
+              <span className="font-body text-[9px] md:text-xs tracking-wider text-foreground uppercase whitespace-nowrap flex items-center gap-1">
+                {t("home.nationwideShipping")}
+                <span className="hidden sm:inline normal-case tracking-normal text-muted-foreground">·</span>
+                <span className="hidden sm:inline-flex items-center gap-1 normal-case tracking-normal text-muted-foreground">
+                  {t("home.poweredBy")}
+                  <img src={fedexLogo.url} alt="FedEx" loading="lazy" className="h-3 md:h-3.5 w-auto inline-block" />
+                </span>
+              </span>
             </div>
           </div>
         </div>
