@@ -735,7 +735,7 @@ const BouquetProductDetail = () => {
           </PopoverContent>
         </Popover>
       </div>
-      {deliveryDate && (
+      {deliveryDate && !(deliveryMethod === "delivery" && distanceTooFar) && (
         <div className="mb-4">
           <label className="text-sm font-body font-semibold text-foreground block mb-2"><Clock className="w-4 h-4 inline mr-1" /> {t("product.time")}</label>
           {availableHours.length > 0 ? (
@@ -811,7 +811,12 @@ const BouquetProductDetail = () => {
                 }}
               />
             )}
-            {mapUrl && (
+            {mapImageUrl && (
+              <div className="rounded-lg overflow-hidden border border-border">
+                <img src={mapImageUrl} alt="Route map" className="w-full h-auto block" loading="lazy" />
+              </div>
+            )}
+            {mapUrl && !mapImageUrl && (
               <div className="rounded-lg overflow-hidden border border-border">
                 <iframe src={mapUrl} width="100%" height="300" style={{ border: 0 }} allowFullScreen loading="lazy" referrerPolicy="no-referrer-when-downgrade" title="Route" />
               </div>
