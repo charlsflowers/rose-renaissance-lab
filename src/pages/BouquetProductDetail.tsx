@@ -503,6 +503,10 @@ const BouquetProductDetail = () => {
         structuredAddress: deliveryMethod === "delivery" ? structuredAddress : undefined,
         shopifyVariantId: variant.id,
         shopifyHandle: product.shopifyHandle,
+        // FedEx national shipping fields (only when >87 mi + user picked a service)
+        fedexServiceCode: deliveryMethod === "delivery" && fedexAttrs ? fedexAttrs.serviceCode : undefined,
+        fedexRosesCount: deliveryMethod === "delivery" && fedexAttrs ? fedexAttrs.rosesCount : undefined,
+        fedexRecipientAddress: deliveryMethod === "delivery" && fedexAttrs ? fedexAttrs.recipientAddress : undefined,
       });
 
       const timeout = new Promise<void>((resolve) => setTimeout(resolve, 10000));
