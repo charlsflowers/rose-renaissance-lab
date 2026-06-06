@@ -82,7 +82,8 @@ export const en = {
     buildYourBouquet: "Build your bouquet",
     storePickup: "Store pickup",
     homeDelivery: "Home delivery",
-    nationwideShipping: "Nationwide shipping across the U.S.",
+    nationwideShipping: "Nationwide",
+    poweredBy: "Powered by",
     categoriesTitle: "The Largest Bouquet Selection in Miami",
     bouquetsTitle: "Bouquets",
     viewBouquetsBtn: "View Bouquets",
@@ -513,7 +514,6 @@ export const en = {
 
   fedex: {
     multiBouquetBlock: "Due to FedEx shipping policies, it is not possible to ship more than one bouquet in a single shipment. Please place a separate order for each bouquet.",
-    addressBanner: "Address is {miles} miles away — domestic shipping via FedEx",
     addressBanner: "Address is {miles} miles away — domestic shipping via FedEx",
     selectService: "Select a shipping service:",
     loadingRates: "Checking FedEx rates...",
