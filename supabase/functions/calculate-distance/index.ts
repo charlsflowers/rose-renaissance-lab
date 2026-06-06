@@ -144,17 +144,12 @@ serve(async (req) => {
     const durationText = element.duration.text;
 
     if (miles > MAX_MILES) {
-      const PUBLIC_EMBED_KEY = "AIzaSyAN5ltXtvRFMQp3vQio_kyDMXC9Lvmw1ug";
-      // Clean static map (markers + straight line) — no driving route, no UI panel
-      const originEnc = encodeURIComponent(STORE_ADDRESS);
-      const destEnc = encodeURIComponent(destination);
+      // Use the server-side proxy so the Google Maps key is never exposed.
+      const supaUrl = Deno.env.get("SUPABASE_URL") || "";
       const mapImageUrl =
-        `https://maps.googleapis.com/maps/api/staticmap` +
-        `?size=640x300&scale=2` +
-        `&markers=color:0x96103b%7Clabel:A%7C${originEnc}` +
-        `&markers=color:0x96103b%7Clabel:B%7C${destEnc}` +
-        `&path=color:0x96103bcc%7Cweight:3%7C${originEnc}%7C${destEnc}` +
-        `&key=${PUBLIC_EMBED_KEY}`;
+        `${supaUrl}/functions/v1/map-image` +
+        `?origin=${encodeURIComponent(STORE_ADDRESS)}` +
+        `&destination=${encodeURIComponent(destination)}`;
       return new Response(
         JSON.stringify({
           error: `La dirección está a ${miles} millas. El máximo de entrega es ${MAX_MILES} millas.`,
@@ -170,9 +165,12 @@ serve(async (req) => {
 
     const cost = calculateCost(miles);
 
-    // Build a static map URL using the PUBLIC embed key (not the server key)
-    const PUBLIC_EMBED_KEY = "AIzaSyAN5ltXtvRFMQp3vQio_kyDMXC9Lvmw1ug";
-    const mapUrl = `https://www.google.com/maps/embed/v1/directions?key=${PUBLIC_EMBED_KEY}&origin=${encodeURIComponent(STORE_ADDRESS)}&destination=${encodeURIComponent(destination)}&mode=driving`;
+    // Server-proxied static map (PNG). No API key is ever sent to the client.
+    const supaUrl = Deno.env.get("SUPABASE_URL") || "";
+    const mapUrl =
+      `${supaUrl}/functions/v1/map-image` +
+      `?origin=${encodeURIComponent(STORE_ADDRESS)}` +
+      `&destination=${encodeURIComponent(destination)}`;
 
     return new Response(
       JSON.stringify({
@@ -188,7 +186,7 @@ serve(async (req) => {
     );
   } catch (err) {
     console.error("calculate-distance error:", err);
-    return new Response(JSON.stringify({ error: "Error interno" }), {
+    return new Response(JSON.stringify({ error: "Error procesando la solicitud" }), {
       status: 500,
       headers: { ...corsHeaders, "Content-Type": "application/json" },
     });
