@@ -491,6 +491,10 @@ export const es = {
     remove: "Eliminar",
   },
 
+  fedex: {
+    multiBouquetBlock: "Por políticas de envío de FedEx, no es posible enviar más de un ramo en un mismo envío. Realiza un pedido por separado para cada ramo.",
+  },
+
   shippingProtection: {
     label: "Protección de Envío",
     description: "Protege tu pedido contra pérdida, daño o robo durante el envío.",
