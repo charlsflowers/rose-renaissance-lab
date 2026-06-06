@@ -369,7 +369,7 @@ const CategoryProductDetail = () => {
                     )}
                     {mapUrl && (
                       <div className="rounded-lg overflow-hidden border border-border">
-                        <iframe src={mapUrl} width="100%" height="300" style={{ border: 0 }} allowFullScreen loading="lazy" referrerPolicy="no-referrer-when-downgrade" title="Delivery route" />
+                        <img src={mapUrl} alt="Delivery route" className="w-full h-auto block" loading="lazy" />
                       </div>
                     )}
                   </>

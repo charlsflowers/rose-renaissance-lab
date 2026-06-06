@@ -337,7 +337,7 @@ serve(async (req) => {
     console.error("generate-bouquet-preview error:", e);
     return new Response(
       JSON.stringify({
-        error: e instanceof Error ? e.message : "Error desconocido",
+        error: "Error procesando la solicitud",
         fallback: true,
       }),
       { headers: { ...corsHeaders, "Content-Type": "application/json" } }

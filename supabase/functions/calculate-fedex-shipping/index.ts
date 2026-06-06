@@ -201,7 +201,7 @@ serve(async (req) => {
     const rateJson = await rateRes.json();
     if (!rateRes.ok) {
       console.error("FedEx rate error:", JSON.stringify(rateJson));
-      return json({ error: "FedEx rate request failed", details: rateJson }, 502);
+      return json({ error: "Error procesando la solicitud" }, 502);
     }
 
     const reply = rateJson?.output?.rateReplyDetails ?? [];
@@ -264,7 +264,7 @@ serve(async (req) => {
     }, 200);
   } catch (err) {
     console.error("calculate-fedex-shipping error:", err);
-    return json({ error: (err as Error).message || "Internal error" }, 500);
+    return json({ error: "Error procesando la solicitud" }, 500);
   }
 });
 
