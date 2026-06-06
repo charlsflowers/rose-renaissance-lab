@@ -195,6 +195,7 @@ const BouquetBuilder = () => {
               setDistanceTooFar(true);
               setDeliveryMiles(data.miles);
               if (data.structuredAddress) setStructuredAddress(data.structuredAddress);
+              if (data.mapUrl) setMapUrl(data.mapUrl);
             } else {
               setDistanceError(data.error);
             }
@@ -978,8 +979,69 @@ const BouquetBuilder = () => {
                 </button>
               </div>
 
+              {/* Date picker */}
+              <div className="mb-4">
+                <label className="text-sm font-body font-semibold text-foreground block mb-2">
+                  <CalendarIcon className="w-4 h-4 inline mr-1" /> {deliveryMethod === "pickup" ? "Pickup" : "Delivery"} date
+                </label>
+                <Popover open={calendarOpen} onOpenChange={setCalendarOpen}>
+                  <PopoverTrigger asChild>
+                    <button type="button" className="w-full md:w-auto flex items-center gap-2 px-4 py-3 rounded-lg border border-border bg-card font-body text-sm text-foreground hover:border-primary/30 transition-all">
+                      <CalendarIcon className="w-4 h-4 text-muted-foreground" />
+                      {deliveryDate ? format(deliveryDate, "PPP", { locale: enUS }) : "Select a date"}
+                    </button>
+                  </PopoverTrigger>
+                  <PopoverContent className="w-auto p-0" align="start">
+                    <Calendar
+                      mode="single"
+                      selected={deliveryDate}
+                      onSelect={(date) => {
+                        if (date) {
+                          setDeliveryDate(date);
+                          setDeliveryHour("");
+                          setCalendarOpen(false);
+                        }
+                      }}
+                      disabled={(date) => isBefore(startOfDay(date), startOfDay(todayInMiami())) || (date >= new Date(2026, 4, 1) && date <= new Date(2026, 4, 12))}
+                      className="p-3 pointer-events-auto"
+                      locale={enUS}
+                    />
+                  </PopoverContent>
+                </Popover>
+              </div>
+
+              {/* Time picker */}
+              {deliveryDate && (
+                <div>
+                  <label className="text-sm font-body font-semibold text-foreground block mb-2">
+                    <Clock className="w-4 h-4 inline mr-1" /> {deliveryMethod === "pickup" ? "Pickup" : "Delivery"} time
+                  </label>
+                  {availableHours.length > 0 ? (
+                    <div className="flex flex-wrap gap-2">
+                      {availableHours.map((hour) => (
+                        <button
+                          key={hour}
+                          onClick={() => setDeliveryHour(hour)}
+                          className={`px-4 py-2 rounded-lg border-2 text-sm font-body transition-all ${
+                            deliveryHour === hour
+                              ? "border-primary bg-primary/5 text-primary"
+                              : "border-border text-muted-foreground hover:border-primary/30"
+                          }`}
+                        >
+                          {hour}
+                        </button>
+                      ))}
+                    </div>
+                  ) : (
+                     <p className="text-sm text-muted-foreground font-body">
+                       No available hours for today (minimum 2 hours in advance). Select another day.
+                     </p>
+                  )}
+                </div>
+              )}
+
               {/* Delivery Data */}
-              <div className="space-y-4 p-5 rounded-lg border border-border bg-card mb-6">
+              <div className="space-y-4 p-5 rounded-lg border border-border bg-card mt-6">
                 {deliveryMethod === "pickup" ? (
                   <p className="font-body text-sm text-muted-foreground">
                     {t("builder.pickupAt")} <span className="font-semibold text-foreground">7261 NW 12th St, Miami, FL 33126</span>
@@ -1100,67 +1162,6 @@ const BouquetBuilder = () => {
                   </>
                 )}
               </div>
-
-              {/* Date picker */}
-              <div className="mb-4">
-                <label className="text-sm font-body font-semibold text-foreground block mb-2">
-                  <CalendarIcon className="w-4 h-4 inline mr-1" /> {deliveryMethod === "pickup" ? "Pickup" : "Delivery"} date
-                </label>
-                <Popover open={calendarOpen} onOpenChange={setCalendarOpen}>
-                  <PopoverTrigger asChild>
-                    <button type="button" className="w-full md:w-auto flex items-center gap-2 px-4 py-3 rounded-lg border border-border bg-card font-body text-sm text-foreground hover:border-primary/30 transition-all">
-                      <CalendarIcon className="w-4 h-4 text-muted-foreground" />
-                      {deliveryDate ? format(deliveryDate, "PPP", { locale: enUS }) : "Select a date"}
-                    </button>
-                  </PopoverTrigger>
-                  <PopoverContent className="w-auto p-0" align="start">
-                    <Calendar
-                      mode="single"
-                      selected={deliveryDate}
-                      onSelect={(date) => {
-                        if (date) {
-                          setDeliveryDate(date);
-                          setDeliveryHour("");
-                          setCalendarOpen(false);
-                        }
-                      }}
-                      disabled={(date) => isBefore(startOfDay(date), startOfDay(todayInMiami())) || (date >= new Date(2026, 4, 1) && date <= new Date(2026, 4, 12))}
-                      className="p-3 pointer-events-auto"
-                      locale={enUS}
-                    />
-                  </PopoverContent>
-                </Popover>
-              </div>
-
-              {/* Time picker */}
-              {deliveryDate && (
-                <div>
-                  <label className="text-sm font-body font-semibold text-foreground block mb-2">
-                    <Clock className="w-4 h-4 inline mr-1" /> {deliveryMethod === "pickup" ? "Pickup" : "Delivery"} time
-                  </label>
-                  {availableHours.length > 0 ? (
-                    <div className="flex flex-wrap gap-2">
-                      {availableHours.map((hour) => (
-                        <button
-                          key={hour}
-                          onClick={() => setDeliveryHour(hour)}
-                          className={`px-4 py-2 rounded-lg border-2 text-sm font-body transition-all ${
-                            deliveryHour === hour
-                              ? "border-primary bg-primary/5 text-primary"
-                              : "border-border text-muted-foreground hover:border-primary/30"
-                          }`}
-                        >
-                          {hour}
-                        </button>
-                      ))}
-                    </div>
-                  ) : (
-                     <p className="text-sm text-muted-foreground font-body">
-                       No available hours for today (minimum 2 hours in advance). Select another day.
-                     </p>
-                  )}
-                </div>
-              )}
             </Section>
 
             {/* Customer Notes */}

@@ -262,6 +262,7 @@ const BouquetProductDetail = () => {
             setDistanceTooFar(true);
             setDeliveryMiles(data.miles);
             if (data.structuredAddress) setStructuredAddress(data.structuredAddress);
+            if (data.mapUrl) setMapUrl(data.mapUrl);
           } else {
             setDistanceError(data.error);
           }
@@ -703,6 +704,48 @@ const BouquetProductDetail = () => {
         </button>
       </div>
 
+      <div className="mb-4">
+        <label className="text-sm font-body font-semibold text-foreground block mb-2"><CalendarIcon className="w-4 h-4 inline mr-1" /> {t("product.date")}</label>
+        <Popover open={calendarOpen} onOpenChange={setCalendarOpen}>
+          <PopoverTrigger asChild>
+            <button type="button" className="w-full flex items-center gap-2 px-4 py-3 rounded-lg border border-border bg-card font-body text-sm text-foreground hover:border-primary/30 transition-all">
+              <CalendarIcon className="w-4 h-4 text-muted-foreground" />
+              {deliveryDate ? format(deliveryDate, "PPP", { locale: enUS }) : t("product.selectDate")}
+            </button>
+          </PopoverTrigger>
+          <PopoverContent className="w-auto p-0" align="start">
+            <Calendar mode="single" selected={deliveryDate} onSelect={(d) => { if (d) { setDeliveryDate(d); setDeliveryHour(""); setCalendarOpen(false); } }}
+              disabled={(date) => {
+                const day = startOfDay(date);
+                const today = startOfDay(todayInMiami());
+                if (isBefore(day, today)) return true;
+                const promoStart = new Date(2026, 4, 1);
+                const promoEnd = new Date(2026, 4, 12);
+                if (isMothersDayContext) {
+                  // Mother's Day product pages: ONLY allow May 1–12, 2026
+                  return day < promoStart || day > promoEnd;
+                }
+                // Standard product pages: BLOCK May 1–12 window
+                return day >= promoStart && day <= promoEnd;
+              }} className="p-3 pointer-events-auto" locale={enUS}
+              classNames={{ day_outside: "text-foreground", day_disabled: "text-muted-foreground opacity-50 line-through" }} />
+          </PopoverContent>
+        </Popover>
+      </div>
+      {deliveryDate && (
+        <div className="mb-4">
+          <label className="text-sm font-body font-semibold text-foreground block mb-2"><Clock className="w-4 h-4 inline mr-1" /> {t("product.time")}</label>
+          {availableHours.length > 0 ? (
+            <div className="flex flex-wrap gap-2">
+              {availableHours.map((hour) => (
+                <button key={hour} onClick={() => setDeliveryHour(hour)}
+                  className={`px-3 py-1.5 rounded-lg border-2 text-sm font-body transition-all ${deliveryHour === hour ? "border-primary bg-primary/5 text-primary" : "border-border text-muted-foreground hover:border-primary/30"}`}>{hour}</button>
+              ))}
+            </div>
+          ) : <p className="text-sm text-muted-foreground font-body">No available hours. Select another day.</p>}
+        </div>
+      )}
+
       <div className="space-y-3 p-4 rounded-lg border border-border bg-card mb-4">
         {deliveryMethod === "pickup" ? (
           <p className="font-body text-sm text-muted-foreground">
@@ -773,48 +816,6 @@ const BouquetProductDetail = () => {
           </>
         )}
       </div>
-
-      <div className="mb-4">
-        <label className="text-sm font-body font-semibold text-foreground block mb-2"><CalendarIcon className="w-4 h-4 inline mr-1" /> {t("product.date")}</label>
-        <Popover open={calendarOpen} onOpenChange={setCalendarOpen}>
-          <PopoverTrigger asChild>
-            <button type="button" className="w-full flex items-center gap-2 px-4 py-3 rounded-lg border border-border bg-card font-body text-sm text-foreground hover:border-primary/30 transition-all">
-              <CalendarIcon className="w-4 h-4 text-muted-foreground" />
-              {deliveryDate ? format(deliveryDate, "PPP", { locale: enUS }) : t("product.selectDate")}
-            </button>
-          </PopoverTrigger>
-          <PopoverContent className="w-auto p-0" align="start">
-            <Calendar mode="single" selected={deliveryDate} onSelect={(d) => { if (d) { setDeliveryDate(d); setDeliveryHour(""); setCalendarOpen(false); } }}
-              disabled={(date) => {
-                const day = startOfDay(date);
-                const today = startOfDay(todayInMiami());
-                if (isBefore(day, today)) return true;
-                const promoStart = new Date(2026, 4, 1);
-                const promoEnd = new Date(2026, 4, 12);
-                if (isMothersDayContext) {
-                  // Mother's Day product pages: ONLY allow May 1–12, 2026
-                  return day < promoStart || day > promoEnd;
-                }
-                // Standard product pages: BLOCK May 1–12 window
-                return day >= promoStart && day <= promoEnd;
-              }} className="p-3 pointer-events-auto" locale={enUS}
-              classNames={{ day_outside: "text-foreground", day_disabled: "text-muted-foreground opacity-50 line-through" }} />
-          </PopoverContent>
-        </Popover>
-      </div>
-      {deliveryDate && (
-        <div className="mb-4">
-          <label className="text-sm font-body font-semibold text-foreground block mb-2"><Clock className="w-4 h-4 inline mr-1" /> {t("product.time")}</label>
-          {availableHours.length > 0 ? (
-            <div className="flex flex-wrap gap-2">
-              {availableHours.map((hour) => (
-                <button key={hour} onClick={() => setDeliveryHour(hour)}
-                  className={`px-3 py-1.5 rounded-lg border-2 text-sm font-body transition-all ${deliveryHour === hour ? "border-primary bg-primary/5 text-primary" : "border-border text-muted-foreground hover:border-primary/30"}`}>{hour}</button>
-              ))}
-            </div>
-          ) : <p className="text-sm text-muted-foreground font-body">No available hours. Select another day.</p>}
-        </div>
-      )}
 
       <div>
         <label className="text-sm font-body font-semibold text-foreground block mb-2">{t("product.customerNotes")}</label>
