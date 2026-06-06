@@ -86,6 +86,7 @@ const BouquetBuilder = () => {
   const [autocompleteLoading, setAutocompleteLoading] = useState(false);
   const [selectedAddress, setSelectedAddress] = useState("");
   const [mapUrl, setMapUrl] = useState("");
+  const [mapImageUrl, setMapImageUrl] = useState("");
   const [structuredAddress, setStructuredAddress] = useState<
     { address1: string; city: string; province: string; zip: string; country: string } | undefined
   >(undefined);
@@ -149,6 +150,7 @@ const BouquetBuilder = () => {
     setSelectedAddress("");
     setDeliveryMiles(null);
     setMapUrl("");
+    setMapImageUrl("");
     setDistanceError("");
     setDistanceTooFar(false);
     setStructuredAddress(undefined);
@@ -195,7 +197,8 @@ const BouquetBuilder = () => {
               setDistanceTooFar(true);
               setDeliveryMiles(data.miles);
               if (data.structuredAddress) setStructuredAddress(data.structuredAddress);
-              if (data.mapUrl) setMapUrl(data.mapUrl);
+              setMapUrl("");
+              if (data.mapImageUrl) setMapImageUrl(data.mapImageUrl);
             } else {
               setDistanceError(data.error);
             }
@@ -203,6 +206,7 @@ const BouquetBuilder = () => {
             setDeliveryMiles(data.miles);
             setDeliveryDuration(data.duration);
             if (data.mapUrl) setMapUrl(data.mapUrl);
+            setMapImageUrl("");
             if (data.structuredAddress) setStructuredAddress(data.structuredAddress);
           }
         } catch (e: any) {
@@ -1011,7 +1015,7 @@ const BouquetBuilder = () => {
               </div>
 
               {/* Time picker */}
-              {deliveryDate && (
+              {deliveryDate && !(deliveryMethod === "delivery" && distanceTooFar) && (
                 <div>
                   <label className="text-sm font-body font-semibold text-foreground block mb-2">
                     <Clock className="w-4 h-4 inline mr-1" /> {deliveryMethod === "pickup" ? "Pickup" : "Delivery"} time
@@ -1134,7 +1138,11 @@ const BouquetBuilder = () => {
                       />
                     )}
 
-                    {mapUrl ? (
+                    {mapImageUrl ? (
+                      <div className="rounded-lg overflow-hidden border border-border">
+                        <img src={mapImageUrl} alt="Route map" className="w-full h-auto block" loading="lazy" />
+                      </div>
+                    ) : mapUrl ? (
                       <div className="rounded-lg overflow-hidden border border-border">
                         <iframe
                           src={mapUrl}

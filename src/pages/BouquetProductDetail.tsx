@@ -171,6 +171,7 @@ const BouquetProductDetail = () => {
   const [autocompleteLoading, setAutocompleteLoading] = useState(false);
   const [selectedAddress, setSelectedAddress] = useState(existingDeliveryItem?.deliveryAddress || "");
   const [mapUrl, setMapUrl] = useState("");
+  const [mapImageUrl, setMapImageUrl] = useState("");
   const [structuredAddress, setStructuredAddress] = useState<{ address1: string; city: string; province: string; zip: string; country: string } | undefined>(existingDeliveryItem?.structuredAddress);
   // FedEx national shipping (>87 mi). Set when the user picks a service in
   // <FedExShippingOptions/>. fedexCost overrides the local delivery cost.
@@ -237,7 +238,7 @@ const BouquetProductDetail = () => {
   }, []);
 
   const handleAddressInput = useCallback((value: string) => {
-    setAddressQuery(value); setSelectedAddress(""); setDeliveryMiles(null); setMapUrl(""); setDistanceError("");
+    setAddressQuery(value); setSelectedAddress(""); setDeliveryMiles(null); setMapUrl(""); setMapImageUrl(""); setDistanceError("");
     setDistanceTooFar(false);
     setFedexAttrs(null); setFedexCost(0);
     if (debounceRef.current) clearTimeout(debounceRef.current);
@@ -262,7 +263,8 @@ const BouquetProductDetail = () => {
             setDistanceTooFar(true);
             setDeliveryMiles(data.miles);
             if (data.structuredAddress) setStructuredAddress(data.structuredAddress);
-            if (data.mapUrl) setMapUrl(data.mapUrl);
+            setMapUrl("");
+            if (data.mapImageUrl) setMapImageUrl(data.mapImageUrl);
           } else {
             setDistanceError(data.error);
           }
@@ -270,6 +272,7 @@ const BouquetProductDetail = () => {
         else {
           setDeliveryMiles(data.miles); setDeliveryDuration(data.duration);
           if (data.mapUrl) setMapUrl(data.mapUrl);
+          setMapImageUrl("");
           if (data.structuredAddress) setStructuredAddress(data.structuredAddress);
         }
       } catch (e: any) { setDistanceError(e.message || "Error calculating distance"); }
@@ -732,7 +735,7 @@ const BouquetProductDetail = () => {
           </PopoverContent>
         </Popover>
       </div>
-      {deliveryDate && (
+      {deliveryDate && !(deliveryMethod === "delivery" && distanceTooFar) && (
         <div className="mb-4">
           <label className="text-sm font-body font-semibold text-foreground block mb-2"><Clock className="w-4 h-4 inline mr-1" /> {t("product.time")}</label>
           {availableHours.length > 0 ? (
@@ -808,7 +811,12 @@ const BouquetProductDetail = () => {
                 }}
               />
             )}
-            {mapUrl && (
+            {mapImageUrl && (
+              <div className="rounded-lg overflow-hidden border border-border">
+                <img src={mapImageUrl} alt="Route map" className="w-full h-auto block" loading="lazy" />
+              </div>
+            )}
+            {mapUrl && !mapImageUrl && (
               <div className="rounded-lg overflow-hidden border border-border">
                 <iframe src={mapUrl} width="100%" height="300" style={{ border: 0 }} allowFullScreen loading="lazy" referrerPolicy="no-referrer-when-downgrade" title="Route" />
               </div>

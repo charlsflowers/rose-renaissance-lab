@@ -3,6 +3,8 @@ import { supabase } from "@/integrations/supabase/client";
 import { Loader2, Plane, AlertTriangle, CheckCircle2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useTranslation } from "@/i18n/LanguageContext";
+import { format, parseISO } from "date-fns";
+import { enUS, es as esLocale } from "date-fns/locale";
 import type { StructuredAddress, DeliveryResult } from "@/components/DeliveryCalculator";
 
 function mapBackendError(msg: string, t: (k: string) => string): string {
@@ -28,6 +30,7 @@ interface FedExOption {
   boxPrice: number;
   serviceFee: number;
   currency: string;
+  commit?: string | null;
 }
 
 interface Props {
@@ -51,7 +54,7 @@ const FedExShippingOptions = ({
   onSelect,
   onClear,
 }: Props) => {
-  const { t } = useTranslation();
+  const { t, language } = useTranslation();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [options, setOptions] = useState<FedExOption[]>([]);
@@ -200,6 +203,8 @@ const FedExShippingOptions = ({
           </p>
           {options.map((opt) => {
             const isSelected = selectedCode === opt.serviceCode;
+            const windowLabel = getServiceWindow(opt, t);
+            const deliveryLabel = formatDeliveryDate(opt.commit || deliveryDate, language);
             return (
               <button
                 key={opt.serviceCode}
@@ -219,9 +224,17 @@ const FedExShippingOptions = ({
                     <div className="w-5 h-5 rounded-full border-2 border-border shrink-0" />
                   )}
                   <div className="min-w-0">
-                    <p className="font-body text-sm font-semibold text-foreground truncate">
+                    <p className="font-body text-sm font-semibold text-foreground">
                       FedEx {opt.serviceLabel}
+                      {windowLabel && (
+                        <span className="font-normal text-muted-foreground"> ({windowLabel})</span>
+                      )}
                     </p>
+                    {deliveryLabel && (
+                      <p className="font-body text-xs text-muted-foreground mt-0.5">
+                        {t("fedex.deliveryOn").replace("{date}", deliveryLabel)}
+                      </p>
+                    )}
                   </div>
                 </div>
                 <p className="font-body text-base font-bold text-primary shrink-0">
@@ -237,3 +250,50 @@ const FedExShippingOptions = ({
 };
 
 export default FedExShippingOptions;
+
+// ---- helpers ----
+
+function formatDeliveryDate(raw: string, lang: "en" | "es"): string {
+  if (!raw) return "";
+  // raw may be "YYYY-MM-DD" or "YYYY-MM-DDTHH:mm:ss"
+  const datePart = raw.slice(0, 10);
+  try {
+    const d = parseISO(datePart);
+    return format(d, "MMM d", { locale: lang === "es" ? esLocale : enUS });
+  } catch {
+    return datePart;
+  }
+}
+
+// Parse a "HH:mm" out of a commit dayFormat string if present
+function extractTime(raw?: string | null): string {
+  if (!raw || raw.length < 16) return "";
+  const m = raw.match(/T(\d{2}):(\d{2})/);
+  if (!m) return "";
+  let h = parseInt(m[1], 10);
+  const min = m[2];
+  const ampm = h >= 12 ? "PM" : "AM";
+  h = h % 12;
+  if (h === 0) h = 12;
+  return `${h}:${min} ${ampm}`;
+}
+
+function getServiceWindow(opt: FedExOption, t: (k: string) => string): string {
+  const commitTime = extractTime(opt.commit);
+  // Standard fallbacks per service code
+  const code = opt.serviceCode;
+  let descKey = "";
+  let fallback = "";
+  if (code === "FIRST_OVERNIGHT") { descKey = "fedex.windowEarlyMorning"; fallback = "8:00 AM"; }
+  else if (code === "PRIORITY_OVERNIGHT") { descKey = "fedex.windowMidMorning"; fallback = "10:30 AM"; }
+  else if (code === "STANDARD_OVERNIGHT") { descKey = "fedex.windowAfternoon"; fallback = "5:00 PM"; }
+  else if (code === "FEDEX_2_DAY_AM") { descKey = "fedex.windowMidMorning"; fallback = "10:30 AM"; }
+  else if (code === "FEDEX_2_DAY" || code === "FEDEX_EXPRESS_SAVER" || code === "FEDEX_GROUND" || code === "GROUND_HOME_DELIVERY") {
+    descKey = "fedex.windowEndOfDay"; fallback = "8:00 PM";
+  } else {
+    return commitTime ? `${t("fedex.byTime").replace("{time}", commitTime)}` : "";
+  }
+  const desc = t(descKey);
+  const time = commitTime || fallback;
+  return `${desc} · ${t("fedex.byTime").replace("{time}", time)}`;
+}
