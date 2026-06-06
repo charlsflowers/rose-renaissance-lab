@@ -209,16 +209,7 @@ const DeliveryCalculator = ({ onResult, onTooFar }: Props) => {
 
       {mapUrl && (
         <div className="rounded-lg overflow-hidden border border-border">
-          <iframe
-            src={mapUrl}
-            width="100%"
-            style={{ border: 0, height: "320px" }}
-            className="w-full md:!h-[280px]"
-            allowFullScreen
-            loading="lazy"
-            referrerPolicy="no-referrer-when-downgrade"
-            title="Delivery route"
-          />
+          <img src={mapUrl} alt="Delivery route" className="w-full h-auto block" loading="lazy" />
         </div>
       )}
     </div>
