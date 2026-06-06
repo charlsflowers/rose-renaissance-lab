@@ -505,6 +505,12 @@ export const es = {
     overRosesLimit: "El envío FedEx no está disponible para ramos de más de 100 rosas.",
     blockedState: "El envío FedEx no está disponible para {state}.",
     onlyUS: "El envío FedEx solo está disponible dentro de EE. UU.",
+    deliveryOn: "Entrega el {date}",
+    byTime: "antes de las {time}",
+    windowEarlyMorning: "primera hora de la mañana",
+    windowMidMorning: "media mañana",
+    windowAfternoon: "tarde",
+    windowEndOfDay: "final del día",
   },
 
   shippingProtection: {
