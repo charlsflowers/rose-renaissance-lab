@@ -738,12 +738,32 @@ const BouquetProductDetail = () => {
                 <p className="font-body text-sm text-foreground font-medium">{selectedAddress}</p>
               </div>
             )}
-            {distanceError && <p className="text-sm font-body text-destructive">{distanceError}</p>}
+            {distanceError && !distanceTooFar && (
+              <p className="text-sm font-body text-destructive">{distanceError}</p>
+            )}
             {deliveryMiles !== null && !distanceTooFar && (
               <div className="bg-primary/5 border border-primary/20 rounded-lg p-4">
                 <p className="font-body text-sm text-foreground">{t("product.distance")} <span className="font-semibold">{deliveryMiles} {t("product.miles")}</span>{deliveryDuration && <span className="text-muted-foreground"> (~{deliveryDuration})</span>}</p>
                 <p className="font-body text-sm text-primary font-semibold mt-1">{t("product.shippingCost")} {formatDeliveryCost(deliveryCost)}</p>
               </div>
+            )}
+            {distanceTooFar && deliveryMiles !== null && (
+              <FedExShippingOptions
+                fullAddress={selectedAddress}
+                structuredAddress={structuredAddress ?? null}
+                miles={deliveryMiles}
+                roses={selectedSize.roses}
+                deliveryDate={deliveryDate ? format(deliveryDate, "yyyy-MM-dd") : ""}
+                itemsCount={cartItems.length + 1}
+                onSelect={(r, attrs) => {
+                  setFedexAttrs(attrs);
+                  setFedexCost(r.cost);
+                }}
+                onClear={() => {
+                  setFedexAttrs(null);
+                  setFedexCost(0);
+                }}
+              />
             )}
             {mapUrl && (
               <div className="rounded-lg overflow-hidden border border-border">
