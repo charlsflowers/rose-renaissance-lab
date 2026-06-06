@@ -46,6 +46,11 @@ export interface CartItem {
   // size variants on demand. Set when the item comes from a real Shopify product.
   shopifyHandle?: string;
   quantity?: number;
+  // FedEx national shipping (set by FedExShippingOptions, read by performApiCheckout
+  // and by the shopify-fedex-webhook edge function via order note_attributes).
+  fedexServiceCode?: string;
+  fedexRosesCount?: number;
+  fedexRecipientAddress?: string; // JSON-stringified recipient address
 }
 
 interface CartStore {
