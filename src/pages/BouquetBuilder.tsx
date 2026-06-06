@@ -1216,6 +1216,7 @@ const BouquetBuilder = () => {
           </div>
         </div>
       </div>
+      <Footer />
     </div>
   );
 };
