@@ -78,7 +78,7 @@ export const es = {
     buildYourBouquet: "Crea tu ramo",
     storePickup: "Recogida en tienda",
     homeDelivery: "Envío a domicilio",
-    nationwideShipping: "Envío nacional",
+    nationwideShipping: "Envío nacional a todo EE. UU.",
     categoriesTitle: "La Mayor Selección de Ramos en Miami",
     bouquetsTitle: "Ramos",
     viewBouquetsBtn: "Ver Ramos",

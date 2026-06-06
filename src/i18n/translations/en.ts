@@ -82,7 +82,7 @@ export const en = {
     buildYourBouquet: "Build your bouquet",
     storePickup: "Store pickup",
     homeDelivery: "Home delivery",
-    nationwideShipping: "Nationwide shipping",
+    nationwideShipping: "Nationwide shipping across the U.S.",
     categoriesTitle: "The Largest Bouquet Selection in Miami",
     bouquetsTitle: "Bouquets",
     viewBouquetsBtn: "View Bouquets",

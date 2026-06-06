@@ -15,6 +15,7 @@ import arreglosImg from "@/assets/arreglos.webp";
 import cajasImg from "@/assets/cajas.webp";
 import cestasImg from "@/assets/cestas.webp";
 import jarronesImg from "@/assets/jarrones.webp";
+import fedexLogo from "@/assets/fedex-logo.webp.asset.json";
 import { useShopifyProductImages } from "@/hooks/useShopifyProductImages";
 const bicolorPassionImgFallback = 'https://cdn.shopify.com/s/files/1/0979/1671/5140/files/16.png?v=1774610789';
 const deluxeLoveImg = 'https://cdn.shopify.com/s/files/1/0979/1671/5140/files/3_adaa192a-8c9b-41b5-8586-cb7e13640829.png?v=1774615718';
@@ -134,6 +135,16 @@ const Index = () => {
                 <Truck className="w-3 h-3 md:w-4 md:h-4 text-primary" />
               </div>
               <span className="font-body text-[9px] md:text-xs tracking-wider text-foreground uppercase whitespace-nowrap">{t("home.homeDelivery")}</span>
+            </div>
+            <div className="hidden md:block w-px h-6 bg-primary/15 shrink-0" />
+            <div className="flex items-center gap-1.5 md:gap-2">
+              <img
+                src={fedexLogo.url}
+                alt="FedEx"
+                loading="lazy"
+                className="h-4 md:h-5 w-auto shrink-0"
+              />
+              <span className="font-body text-[9px] md:text-xs tracking-wider text-foreground uppercase whitespace-nowrap">{t("home.nationwideShipping")}</span>
             </div>
           </div>
         </div>
