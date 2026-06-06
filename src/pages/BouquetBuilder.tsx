@@ -281,7 +281,14 @@ const BouquetBuilder = () => {
     return getFinishPrice(selectedColors, roses);
   }, [matchedVariant, selectedSizeIdx, selectedColors]);
 
-  const deliveryCost = deliveryMethod === "delivery" && deliveryMiles && !distanceTooFar ? calculateDeliveryCost(deliveryMiles) : 0;
+  const deliveryCost =
+    deliveryMethod === "delivery"
+      ? distanceTooFar
+        ? fedexCost
+        : deliveryMiles
+          ? calculateDeliveryCost(deliveryMiles)
+          : 0
+      : 0;
 
   const minLeadHours = deliveryMethod === "delivery" ? 1.5 : 2;
   const minMiamiHour = miamiHourNow() + minLeadHours;
