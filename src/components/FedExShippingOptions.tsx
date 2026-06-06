@@ -331,3 +331,38 @@ function getServiceWindow(opt: FedExOption, t: (k: string) => string): string {
   const time = commitTime || fallback;
   return `${desc} · ${t("fedex.byTime").replace("{time}", time)}`;
 }
+
+function computeFedexDateAvailability(deliveryDateISO: string): {
+  tooEarly: boolean;
+  shipWeekend: boolean;
+  minDeliveryISO: string;
+} {
+  const isWeekend = (d: number) => d === 0 || d === 6;
+  const m = getMiamiTime();
+  // First ship day starts as today in Miami.
+  const ship = new Date(Date.UTC(m.year, m.month - 1, m.date));
+  const todayDow = ship.getUTCDay();
+  if (m.hours >= 11 || isWeekend(todayDow)) {
+    // Advance to next business day.
+    do {
+      ship.setUTCDate(ship.getUTCDate() + 1);
+    } while (isWeekend(ship.getUTCDay()));
+  }
+  // Earliest delivery = first ship day + 1.
+  const minDelivery = new Date(ship);
+  minDelivery.setUTCDate(minDelivery.getUTCDate() + 1);
+  const minDeliveryISO = minDelivery.toISOString().slice(0, 10);
+
+  if (!deliveryDateISO) {
+    return { tooEarly: false, shipWeekend: false, minDeliveryISO };
+  }
+
+  const tooEarly = deliveryDateISO < minDeliveryISO;
+  // FedEx does not pick up on Sat/Sun. Ship day = delivery − 1.
+  const sel = new Date(`${deliveryDateISO}T00:00:00Z`);
+  const selShip = new Date(sel);
+  selShip.setUTCDate(selShip.getUTCDate() - 1);
+  const shipWeekend = isWeekend(selShip.getUTCDay());
+
+  return { tooEarly, shipWeekend, minDeliveryISO };
+}
