@@ -150,6 +150,10 @@ const BouquetBuilder = () => {
     setDeliveryMiles(null);
     setMapUrl("");
     setDistanceError("");
+    setDistanceTooFar(false);
+    setStructuredAddress(undefined);
+    setFedexAttrs(null);
+    setFedexCost(0);
     if (debounceRef.current) clearTimeout(debounceRef.current);
     debounceRef.current = setTimeout(() => fetchPredictions(value), 350);
   }, [fetchPredictions]);
