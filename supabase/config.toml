@@ -8,3 +8,9 @@ verify_jwt = false
 
 [functions.generate-bouquet-preview]
 verify_jwt = false
+
+[functions.calculate-fedex-shipping]
+verify_jwt = false
+
+[functions.shopify-fedex-webhook]
+verify_jwt = false
