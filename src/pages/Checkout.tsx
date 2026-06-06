@@ -8,6 +8,7 @@ import { performApiCheckout } from "@/lib/checkout";
 import { buildAccessoryLineItems, BUTTERFLIES_VARIANT_ID } from "@/lib/accessoryVariants";
 import Navbar from "@/components/Navbar";
 import type { DeliveryResult } from "@/components/DeliveryCalculator";
+import type { FedExAttrs } from "@/components/FedExShippingOptions";
 import { ArrowLeft } from "lucide-react";
 import BrandLogo from "@/components/BrandLogo";
 import { motion } from "framer-motion";
@@ -25,6 +26,7 @@ const Checkout = () => {
   const isLoading = useCartStore((state) => state.isLoading);
   const navigate = useNavigate();
   const [isCheckingOut, setIsCheckingOut] = useState(false);
+  const [fedexAttrs, setFedexAttrs] = useState<FedExAttrs | null>(null);
 
   const itemsSubtotal = parseFloat(items.reduce((sum, i) => sum + i.price * (i.quantity || 1), 0).toFixed(2));
   const protectionTotal = shippingProtectionEnabled ? getShippingProtectionFallback().amount : 0;
@@ -211,6 +213,7 @@ const Checkout = () => {
           : undefined,
         accessories: accessoryLineItems,
         note: noteLines.join("\n"),
+        fedex: checkoutDeliveryMethod === "delivery" && fedexAttrs ? fedexAttrs : undefined,
       });
 
       if (!checkoutUrl) {
@@ -285,6 +288,8 @@ const Checkout = () => {
                 isSyncing={false}
                 isCheckingOut={isCheckingOut}
                 onCheckout={handleCheckout}
+                fedexBouquetRoses={items.length === 1 ? items[0]?.roses : 0}
+                onFedexAttrs={setFedexAttrs}
               />
             </div>
 
