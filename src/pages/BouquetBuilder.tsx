@@ -1015,7 +1015,7 @@ const BouquetBuilder = () => {
               </div>
 
               {/* Time picker */}
-              {deliveryDate && (
+              {deliveryDate && !(deliveryMethod === "delivery" && distanceTooFar) && (
                 <div>
                   <label className="text-sm font-body font-semibold text-foreground block mb-2">
                     <Clock className="w-4 h-4 inline mr-1" /> {deliveryMethod === "pickup" ? "Pickup" : "Delivery"} time
@@ -1138,7 +1138,11 @@ const BouquetBuilder = () => {
                       />
                     )}
 
-                    {mapUrl ? (
+                    {mapImageUrl ? (
+                      <div className="rounded-lg overflow-hidden border border-border">
+                        <img src={mapImageUrl} alt="Route map" className="w-full h-auto block" loading="lazy" />
+                      </div>
+                    ) : mapUrl ? (
                       <div className="rounded-lg overflow-hidden border border-border">
                         <iframe
                           src={mapUrl}
