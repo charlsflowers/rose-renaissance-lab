@@ -177,21 +177,28 @@ const BouquetBuilder = () => {
         setDistanceError("");
         setDistanceTooFar(false);
         setDeliveryMiles(null);
+        setStructuredAddress(undefined);
+        setFedexAttrs(null);
+        setFedexCost(0);
         try {
           const { data, error } = await supabase.functions.invoke("calculate-distance", {
             body: { fullAddress: prediction.description },
           });
           if (error) throw new Error("Connection error");
           if (data.error) {
-            setDistanceError(data.error);
             if (data.tooFar) {
+              // >87 mi → FedEx flow (no red error)
               setDistanceTooFar(true);
               setDeliveryMiles(data.miles);
+              if (data.structuredAddress) setStructuredAddress(data.structuredAddress);
+            } else {
+              setDistanceError(data.error);
             }
           } else {
             setDeliveryMiles(data.miles);
             setDeliveryDuration(data.duration);
             if (data.mapUrl) setMapUrl(data.mapUrl);
+            if (data.structuredAddress) setStructuredAddress(data.structuredAddress);
           }
         } catch (e: any) {
           setDistanceError(e.message || "Error calculating distance");
