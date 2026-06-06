@@ -53,12 +53,69 @@ function sanitizeConfig(raw: Record<string, unknown>): Record<string, string> {
   return out;
 }
 
+// ─── Simple in-memory rate limiter ───────────────────────────────
+// Per-IP sliding window. Survives only while the edge worker stays warm,
+// which is enough to throttle abusive bursts without blocking real users.
+const RATE_LIMIT_WINDOW_MS = 60_000;
+const RATE_LIMIT_MAX = 8; // up to 8 previews per minute per IP
+const RATE_LIMIT_DAILY_MAX = 80; // soft daily cap per IP
+const RATE_LIMIT_DAY_MS = 24 * 60 * 60 * 1000;
+const rateBuckets = new Map<string, number[]>();
+const dailyBuckets = new Map<string, { count: number; resetAt: number }>();
+
+function getClientIp(req: Request): string {
+  const xff = req.headers.get("x-forwarded-for");
+  if (xff) return xff.split(",")[0]!.trim();
+  return req.headers.get("x-real-ip") || "unknown";
+}
+
+function checkRateLimit(ip: string): { ok: boolean; retryAfter?: number } {
+  const now = Date.now();
+  const arr = (rateBuckets.get(ip) || []).filter((t) => now - t < RATE_LIMIT_WINDOW_MS);
+  if (arr.length >= RATE_LIMIT_MAX) {
+    const retryAfter = Math.ceil((RATE_LIMIT_WINDOW_MS - (now - arr[0]!)) / 1000);
+    return { ok: false, retryAfter: Math.max(retryAfter, 1) };
+  }
+  const day = dailyBuckets.get(ip);
+  if (day && now < day.resetAt) {
+    if (day.count >= RATE_LIMIT_DAILY_MAX) {
+      return { ok: false, retryAfter: Math.ceil((day.resetAt - now) / 1000) };
+    }
+    day.count += 1;
+  } else {
+    dailyBuckets.set(ip, { count: 1, resetAt: now + RATE_LIMIT_DAY_MS });
+  }
+  arr.push(now);
+  rateBuckets.set(ip, arr);
+  return { ok: true };
+}
+
 serve(async (req) => {
   if (req.method === "OPTIONS") {
     return new Response(null, { headers: corsHeaders });
   }
 
   try {
+    const ip = getClientIp(req);
+    const rl = checkRateLimit(ip);
+    if (!rl.ok) {
+      return new Response(
+        JSON.stringify({
+          error: "Demasiadas peticiones. Inténtalo de nuevo en unos segundos.",
+          fallback: true,
+          statusCode: 429,
+        }),
+        {
+          status: 429,
+          headers: {
+            ...corsHeaders,
+            "Content-Type": "application/json",
+            "Retry-After": String(rl.retryAfter ?? 30),
+          },
+        },
+      );
+    }
+
     const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY");
     if (!LOVABLE_API_KEY) throw new Error("LOVABLE_API_KEY is not configured");
 
