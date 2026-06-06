@@ -513,6 +513,17 @@ export const en = {
 
   fedex: {
     multiBouquetBlock: "Due to FedEx shipping policies, it is not possible to ship more than one bouquet in a single shipment. Please place a separate order for each bouquet.",
+    addressBanner: "Address is {miles} miles away — domestic shipping via FedEx",
+    selectService: "Select a shipping service:",
+    loadingRates: "Checking FedEx rates...",
+    errorGeneric: "We couldn't calculate FedEx shipping. Please try again.",
+    errorConnection: "Connection error with FedEx. Please try again.",
+    noOptions: "No FedEx shipping options available for this address.",
+    missingAddress: "We couldn't read the full address (ZIP / state). Please select the address again from the suggestions list.",
+    needDate: "Please select the delivery date first to see FedEx rates.",
+    overRosesLimit: "FedEx shipping is not available for bouquets over 100 roses.",
+    blockedState: "FedEx shipping is not available for {state}.",
+    onlyUS: "FedEx shipping is only available within the US.",
   },
 
   shippingProtection: {

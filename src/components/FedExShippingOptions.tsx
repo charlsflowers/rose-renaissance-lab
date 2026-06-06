@@ -95,16 +95,16 @@ const FedExShippingOptions = ({
         );
         if (cancelled) return;
         if (invokeError) {
-          setError("No pudimos calcular el envío FedEx. Intenta de nuevo.");
+          setError(t("fedex.errorGeneric"));
         } else if (data?.error) {
-          setError(data.error);
+          setError(mapBackendError(data.error, t));
         } else if (Array.isArray(data?.options) && data.options.length > 0) {
           setOptions(data.options as FedExOption[]);
         } else {
-          setError("Sin opciones de envío FedEx disponibles para esta dirección.");
+          setError(t("fedex.noOptions"));
         }
       } catch {
-        if (!cancelled) setError("Error de conexión con FedEx. Intenta de nuevo.");
+        if (!cancelled) setError(t("fedex.errorConnection"));
       } finally {
         if (!cancelled) setLoading(false);
       }
@@ -121,8 +121,7 @@ const FedExShippingOptions = ({
       <div className="bg-destructive/5 border border-destructive/20 rounded-lg p-4">
         <p className="font-body text-sm text-destructive flex items-start gap-2">
           <AlertTriangle className="w-4 h-4 mt-0.5 shrink-0" />
-          No pudimos leer la dirección completa (ZIP / estado). Selecciona la dirección
-          de nuevo desde la lista de sugerencias.
+          {t("fedex.missingAddress")}
         </p>
       </div>
     );
@@ -132,7 +131,7 @@ const FedExShippingOptions = ({
     return (
       <div className="bg-primary/5 border border-primary/20 rounded-lg p-4">
         <p className="font-body text-sm text-foreground">
-          Selecciona primero la <strong>fecha de entrega</strong> para ver tarifas FedEx.
+          {t("fedex.needDate")}
         </p>
       </div>
     );
@@ -167,15 +166,14 @@ const FedExShippingOptions = ({
       <div className="bg-primary/5 border border-primary/20 rounded-lg p-3">
         <p className="font-body text-sm text-foreground flex items-center gap-2">
           <Plane className="w-4 h-4 text-primary" />
-          Dirección a <strong>{miles} millas</strong> — envío nacional vía
-          <strong className="ml-1">FedEx</strong>
+          {t("fedex.addressBanner").replace("{miles}", String(miles))}
         </p>
       </div>
 
       {loading && (
         <div className="flex items-center gap-2 text-sm font-body text-muted-foreground">
           <Loader2 className="w-4 h-4 animate-spin" />
-          Consultando tarifas FedEx...
+          {t("fedex.loadingRates")}
         </div>
       )}
 
@@ -189,7 +187,7 @@ const FedExShippingOptions = ({
       {!loading && options.length > 0 && (
         <div className="space-y-2">
           <p className="font-body text-xs text-muted-foreground">
-            Selecciona un servicio de envío:
+            {t("fedex.selectService")}
           </p>
           {options.map((opt) => {
             const isSelected = selectedCode === opt.serviceCode;
@@ -214,10 +212,6 @@ const FedExShippingOptions = ({
                   <div className="min-w-0">
                     <p className="font-body text-sm font-semibold text-foreground truncate">
                       FedEx {opt.serviceLabel}
-                    </p>
-                    <p className="font-body text-[11px] text-muted-foreground">
-                      Tarifa FedEx ${opt.fedexAmount.toFixed(2)} + caja ${opt.boxPrice} +
-                      servicio ${opt.serviceFee}
                     </p>
                   </div>
                 </div>
