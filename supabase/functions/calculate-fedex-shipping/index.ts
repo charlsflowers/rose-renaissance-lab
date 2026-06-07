@@ -169,6 +169,9 @@ serve(async (req) => {
         rateRequestType: ["ACCOUNT", "LIST"],
         rateRequestControlParameters: {
           returnTransitTimes: true,
+          returnTransitTime: true,
+          rateSortOrder: "SERVICENAMETRADITIONAL",
+          servicesNeededOnRateFailure: true,
         },
         requestedPackageLineItems: [
           {
