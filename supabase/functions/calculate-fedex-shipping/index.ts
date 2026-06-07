@@ -180,6 +180,7 @@ serve(async (req) => {
         shipDateStamp,
         pickupType: "USE_SCHEDULED_PICKUP",
         rateRequestType: ["ACCOUNT", "LIST"],
+        returnTransitTimes: true,
         requestedPackageLineItems: [
           {
             weight: { units: "LB", value: box.weight },
