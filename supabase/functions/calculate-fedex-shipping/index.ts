@@ -213,36 +213,17 @@ serve(async (req) => {
     // truth for transit times.
     const transitPayload = {
       accountNumber: { value: accountNumber },
-      requestedShipment: {
-        origin: { address: ORIGIN },
-        destination: {
-          address: {
-            streetLines: recipient.streetLines,
-            city: recipient.city,
-            stateOrProvinceCode: stateCode,
-            postalCode: recipient.postalCode,
-            countryCode: "US",
-            residential: recipient.residential ?? true,
-          },
-        },
-        shipDate: `${shipDateStamp}T10:00:00-04:00`,
-        shipDateStamp,
-        packagingType: "YOUR_PACKAGING",
-        pickupType: "USE_SCHEDULED_PICKUP",
-        serviceFlightBooked: false,
-        requestedPackageLineItems: [
-          {
-            weight: { units: "LB", value: box.weight },
-            dimensions: {
-              length: box.length,
-              width: box.width,
-              height: box.height,
-              units: "IN",
-            },
-          },
-        ],
+      shipDate: `${shipDateStamp}T10:00:00-04:00`,
+      carrierCode: "FDXE",
+      packagingType: "YOUR_PACKAGING",
+      origin: { address: { postalCode: ORIGIN.postalCode, countryCode: "US" } },
+      destination: {
+        address: { postalCode: recipient.postalCode, countryCode: "US", residential: true },
       },
-      carrierCodes: ["FDXE", "FDXG"],
+      shipmentAttributes: {
+        weight: { units: "LB", value: box.weight },
+        dimensions: { length: box.length, width: box.width, height: box.height, units: "IN" },
+      },
     };
     const transitDates = new Map<string, string>(); // serviceType -> YYYY-MM-DD
     try {
