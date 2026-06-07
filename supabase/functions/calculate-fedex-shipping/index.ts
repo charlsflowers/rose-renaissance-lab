@@ -316,7 +316,7 @@ serve(async (req) => {
           boxPrice: box.boxPrice,
           serviceFee: box.serviceFee,
           currency: rated?.currency || "USD",
-          commit: r.commit?.dateDetail?.dayFormat || null,
+          commit: fedexDeliveryDate,
         };
       })
       .filter(Boolean)
