@@ -211,12 +211,10 @@ serve(async (req) => {
     }
 
     const reply = rateJson?.output?.rateReplyDetails ?? [];
-    // DEBUG: log raw commit/operationalDetail per service to diagnose transit time fields
+    // DEBUG: log full keys per service entry
     for (const r of reply as any[]) {
-      console.log("FEDEX_RAW", r.serviceType, JSON.stringify({
-        commit: r.commit,
-        operationalDetail: r.operationalDetail,
-      }));
+      const keys = Object.keys(r);
+      console.log("FEDEX_FULL", r.serviceType, "KEYS:", keys.join(","), "DATA:", JSON.stringify(r).slice(0, 2000));
     }
     type FedExRate = {
       serviceType?: string;
