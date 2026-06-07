@@ -219,6 +219,7 @@ serve(async (req) => {
             residential: recipient.residential ?? true,
           },
         },
+        shipDate: `${shipDateStamp}T10:00:00-04:00`,
         shipDateStamp,
         packagingType: "YOUR_PACKAGING",
         pickupType: "USE_SCHEDULED_PICKUP",
