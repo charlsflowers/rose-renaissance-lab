@@ -237,7 +237,6 @@ serve(async (req) => {
       if (!ttRes.ok) {
         console.error("FedEx transit times error:", JSON.stringify(ttJson));
       } else {
-        console.log("FEDEX_TT_RAW", JSON.stringify(ttJson?.output).slice(0, 3000));
         const options =
           (ttJson?.output?.transitTimes?.[0]?.serviceOptions ??
             ttJson?.output?.serviceOptions ??
