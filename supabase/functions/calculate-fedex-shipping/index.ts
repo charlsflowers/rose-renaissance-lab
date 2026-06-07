@@ -55,33 +55,6 @@ const SERVICE_LABELS: Record<string, string> = {
   GROUND_HOME_DELIVERY: "Ground Home Delivery",
 };
 
-// Minimum business days transit by service (used as fallback when FedEx does
-// not return an estimatedDeliveryDate). Mirrors Flowers Point.
-const SERVICE_MIN_BUSINESS_DAYS: Record<string, number> = {
-  FIRST_OVERNIGHT: 1,
-  PRIORITY_OVERNIGHT: 1,
-  STANDARD_OVERNIGHT: 1,
-  FEDEX_2_DAY_AM: 2,
-  FEDEX_2_DAY: 2,
-  FEDEX_EXPRESS_SAVER: 3,
-  FEDEX_GROUND: 3,
-  GROUND_HOME_DELIVERY: 3,
-};
-
-// FedEx Ground transit time by rateZone from FL origin (Miami 33126).
-// Used because the Rate API does not return commit/transit data for this
-// account. Mirrors FedEx Ground published service maps.
-const GROUND_ZONE_TRANSIT_DAYS: Record<string, number> = {
-  "2": 1,
-  "3": 1,
-  "4": 2,
-  "5": 3,
-  "6": 4,
-  "7": 5,
-  "8": 6,
-};
-const GROUND_SERVICE_CODES = new Set(["FEDEX_GROUND", "GROUND_HOME_DELIVERY"]);
-
 // shipDateStamp = delivery date − 1 day, in UTC YYYY-MM-DD. No time-of-day bump.
 function computeShipDateStamp(deliveryDateISO: string): string {
   const delivery = new Date(`${deliveryDateISO}T12:00:00Z`);
