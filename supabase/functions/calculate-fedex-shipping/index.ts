@@ -68,6 +68,20 @@ const SERVICE_MIN_BUSINESS_DAYS: Record<string, number> = {
   GROUND_HOME_DELIVERY: 3,
 };
 
+// FedEx Ground transit time by rateZone from FL origin (Miami 33126).
+// Used because the Rate API does not return commit/transit data for this
+// account. Mirrors FedEx Ground published service maps.
+const GROUND_ZONE_TRANSIT_DAYS: Record<string, number> = {
+  "2": 1,
+  "3": 1,
+  "4": 2,
+  "5": 3,
+  "6": 4,
+  "7": 5,
+  "8": 6,
+};
+const GROUND_SERVICE_CODES = new Set(["FEDEX_GROUND", "GROUND_HOME_DELIVERY"]);
+
 // shipDateStamp = delivery date − 1 day, in UTC YYYY-MM-DD. No time-of-day bump.
 function computeShipDateStamp(deliveryDateISO: string): string {
   const delivery = new Date(`${deliveryDateISO}T12:00:00Z`);
@@ -180,6 +194,7 @@ serve(async (req) => {
         shipDateStamp,
         pickupType: "USE_SCHEDULED_PICKUP",
         rateRequestType: ["ACCOUNT", "LIST"],
+        returnTransitTimes: true,
         requestedPackageLineItems: [
           {
             weight: { units: "LB", value: box.weight },
@@ -217,6 +232,7 @@ serve(async (req) => {
         totalNetCharge?: number;
         currency?: string;
         rateType?: string;
+        shipmentRateDetail?: { rateZone?: string };
       }>;
       commit?: { dateDetail?: { dayFormat?: string } };
     };
@@ -233,14 +249,26 @@ serve(async (req) => {
         const code = r.serviceType || "";
         // STRICT delivery-date filter: keep only services that arrive exactly
         // on the requested deliveryDate. Prefer FedEx's estimatedDeliveryDate
-        // when present; otherwise fall back to business-days math.
+        // when present. For Ground services, use the real rateZone returned
+        // by FedEx to derive transit days (Miami origin). Otherwise fall back
+        // to SERVICE_MIN_BUSINESS_DAYS hardcoded minimums.
         const estimatedRaw = r.commit?.dateDetail?.dayFormat || "";
         const estimatedDate = estimatedRaw ? estimatedRaw.slice(0, 10) : "";
         let matches = false;
         if (estimatedDate) {
           matches = estimatedDate === deliveryDate;
         } else {
-          const minDays = SERVICE_MIN_BUSINESS_DAYS[code];
+          let minDays: number | undefined;
+          if (GROUND_SERVICE_CODES.has(code)) {
+            const zone = rated?.shipmentRateDetail?.rateZone;
+            if (zone && GROUND_ZONE_TRANSIT_DAYS[zone] != null) {
+              minDays = GROUND_ZONE_TRANSIT_DAYS[zone];
+            } else {
+              minDays = SERVICE_MIN_BUSINESS_DAYS[code];
+            }
+          } else {
+            minDays = SERVICE_MIN_BUSINESS_DAYS[code];
+          }
           if (typeof minDays === "number") {
             matches = businessDaysBetween(shipDateStamp, deliveryDate) >= minDays;
           }
