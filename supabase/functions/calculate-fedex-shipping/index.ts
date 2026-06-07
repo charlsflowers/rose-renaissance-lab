@@ -252,13 +252,12 @@ serve(async (req) => {
       if (!ttRes.ok) {
         console.error("FedEx transit times error:", JSON.stringify(ttJson));
       } else {
-        const options =
-          ttJson?.output?.transitTimes?.[0]?.serviceOptions ??
-          ttJson?.output?.serviceOptions ??
-          ttJson?.output?.alerts && [] ||
-          ttJson?.output?.transitTimeDetails ??
-          [];
         console.log("FEDEX_TT_RAW", JSON.stringify(ttJson?.output).slice(0, 3000));
+        const options =
+          (ttJson?.output?.transitTimes?.[0]?.serviceOptions ??
+            ttJson?.output?.serviceOptions ??
+            ttJson?.output?.transitTimeDetails ??
+            []) as any[];
         for (const o of options as any[]) {
           const code = o?.serviceType || o?.service || "";
           // Various shapes documented across FedEx accounts.
