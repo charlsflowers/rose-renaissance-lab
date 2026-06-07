@@ -203,9 +203,6 @@ serve(async (req) => {
     }
 
     const reply = rateJson?.output?.rateReplyDetails ?? [];
-    for (const r of reply as any[]) {
-      console.log("RATE_COMMIT", r.serviceType, "commit=", JSON.stringify(r.commit), "opDetail=", JSON.stringify(r.operationalDetail));
-    }
 
     // Companion call to FedEx Service Availability API to obtain the real
     // committed delivery date per service. The Rate API in this account does
