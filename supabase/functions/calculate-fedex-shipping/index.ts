@@ -24,6 +24,9 @@ const ORIGIN = {
 
 const BLOCKED_STATES = new Set(["HI", "PR", "AK"]);
 
+// Max FedEx options returned to the client (cheapest first).
+const MAX_FEDEX_OPTIONS = 3;
+
 // Box dimensions and weight by rose count tier (inches / lb).
 // Dimensions ordered as Height x Width x Depth (mapped to FedEx length/width/height).
 // Each tier has a fixed box price + handling/service fee added on top of FedEx rate.
@@ -61,6 +64,8 @@ const SERVICE_MIN_BUSINESS_DAYS: Record<string, number> = {
   FEDEX_2_DAY_AM: 2,
   FEDEX_2_DAY: 2,
   FEDEX_EXPRESS_SAVER: 3,
+  FEDEX_GROUND: 3,
+  GROUND_HOME_DELIVERY: 3,
 };
 
 // shipDateStamp = delivery date − 1 day, in UTC YYYY-MM-DD. No time-of-day bump.
@@ -211,13 +216,18 @@ serve(async (req) => {
       ratedShipmentDetails?: Array<{
         totalNetCharge?: number;
         currency?: string;
+        rateType?: string;
       }>;
       commit?: { dateDetail?: { dayFormat?: string } };
     };
 
     const options = (reply as FedExRate[])
       .map((r) => {
-        const rated = r.ratedShipmentDetails?.[0];
+        // Always prefer the ACCOUNT (negotiated) rate. LIST is requested only
+        // so FedEx returns both, but we must never charge LIST to the client.
+        const rated =
+          r.ratedShipmentDetails?.find((d) => d.rateType === "ACCOUNT") ??
+          r.ratedShipmentDetails?.[0];
         const amount = rated?.totalNetCharge;
         if (typeof amount !== "number") return null;
         const code = r.serviceType || "";
@@ -252,7 +262,7 @@ serve(async (req) => {
       })
       .filter(Boolean)
       .sort((a, b) => (a!.amount - b!.amount))
-      .slice(0, 3);
+      .slice(0, MAX_FEDEX_OPTIONS);
 
     return json({
       options,
