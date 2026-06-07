@@ -227,12 +227,78 @@ serve(async (req) => {
     }
 
     const reply = rateJson?.output?.rateReplyDetails ?? [];
-    for (const r of reply as any[]) {
-      console.log("FEDEX_TT", r.serviceType, JSON.stringify({
-        commit: r.commit,
-        operationalDetail: r.operationalDetail,
-      }));
+
+    // Companion call to FedEx Service Availability API to obtain the real
+    // committed delivery date per service. The Rate API in this account does
+    // not return commit data, so this dedicated endpoint is our source of
+    // truth for transit times.
+    const transitPayload = {
+      accountNumber: { value: accountNumber },
+      requestedShipment: {
+        shipper: { address: ORIGIN },
+        recipient: {
+          address: {
+            streetLines: recipient.streetLines,
+            city: recipient.city,
+            stateOrProvinceCode: stateCode,
+            postalCode: recipient.postalCode,
+            countryCode: "US",
+            residential: recipient.residential ?? true,
+          },
+        },
+        shipDateStamp,
+        packagingType: "YOUR_PACKAGING",
+        pickupType: "USE_SCHEDULED_PICKUP",
+        requestedPackageLineItems: [
+          {
+            weight: { units: "LB", value: box.weight },
+            dimensions: {
+              length: box.length,
+              width: box.width,
+              height: box.height,
+              units: "IN",
+            },
+          },
+        ],
+      },
+      carrierCodes: ["FDXE", "FDXG"],
+    };
+    const transitDates = new Map<string, string>(); // serviceType -> YYYY-MM-DD
+    try {
+      const ttRes = await fetch(`${FEDEX_BASE}/availability/v1/transittimes`, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+          "X-locale": "en_US",
+        },
+        body: JSON.stringify(transitPayload),
+      });
+      const ttJson = await ttRes.json();
+      if (!ttRes.ok) {
+        console.error("FedEx transit times error:", JSON.stringify(ttJson));
+      } else {
+        const options = ttJson?.output?.transitTimes?.[0]?.serviceOptions
+          ?? ttJson?.output?.serviceOptions
+          ?? [];
+        for (const o of options as any[]) {
+          const code = o?.serviceType || o?.service || "";
+          // Various shapes documented across FedEx accounts.
+          const raw =
+            o?.commit?.derivedDeliveryDate ||
+            o?.commit?.dateDetail?.dayFormat ||
+            o?.commitTimestamp ||
+            o?.deliveryDate ||
+            "";
+          const date = typeof raw === "string" ? raw.slice(0, 10) : "";
+          if (code && date) transitDates.set(code, date);
+        }
+        console.log("FEDEX_TT_MAP", JSON.stringify(Array.from(transitDates.entries())));
+      }
+    } catch (e) {
+      console.error("FedEx transit times call failed:", e);
     }
+
     type FedExRate = {
       serviceType?: string;
       serviceName?: string;
@@ -255,33 +321,17 @@ serve(async (req) => {
         const amount = rated?.totalNetCharge;
         if (typeof amount !== "number") return null;
         const code = r.serviceType || "";
-        // STRICT delivery-date filter: keep only services that arrive exactly
-        // on the requested deliveryDate. Prefer FedEx's estimatedDeliveryDate
-        // when present. For Ground services, use the real rateZone returned
-        // by FedEx to derive transit days (Miami origin). Otherwise fall back
-        // to SERVICE_MIN_BUSINESS_DAYS hardcoded minimums.
-        const estimatedRaw = r.commit?.dateDetail?.dayFormat || "";
-        const estimatedDate = estimatedRaw ? estimatedRaw.slice(0, 10) : "";
-        let matches = false;
-        if (estimatedDate) {
-          matches = estimatedDate === deliveryDate;
-        } else {
-          let minDays: number | undefined;
-          if (GROUND_SERVICE_CODES.has(code)) {
-            const zone = rated?.shipmentRateDetail?.rateZone;
-            if (zone && GROUND_ZONE_TRANSIT_DAYS[zone] != null) {
-              minDays = GROUND_ZONE_TRANSIT_DAYS[zone];
-            } else {
-              minDays = SERVICE_MIN_BUSINESS_DAYS[code];
-            }
-          } else {
-            minDays = SERVICE_MIN_BUSINESS_DAYS[code];
-          }
-          if (typeof minDays === "number") {
-            matches = businessDaysBetween(shipDateStamp, deliveryDate) >= minDays;
-          }
-        }
-        if (!matches) return null;
+        // FedEx is the sole authority on transit. Use the committed delivery
+        // date returned by /rate (commit.dateDetail.dayFormat) or, if absent,
+        // by /availability/v1/transittimes. If FedEx returns no date for a
+        // service, drop it — never invent a transit time.
+        const rateCommitRaw = r.commit?.dateDetail?.dayFormat || "";
+        const rateCommitDate = rateCommitRaw ? rateCommitRaw.slice(0, 10) : "";
+        const fedexDeliveryDate = rateCommitDate || transitDates.get(code) || "";
+        if (!fedexDeliveryDate) return null;
+        // Service arrives in time if FedEx's committed date is on or before
+        // the customer's requested delivery date.
+        if (fedexDeliveryDate > deliveryDate) return null;
         const fedexAmount = Math.round(amount * 100) / 100;
         const surcharge = box.boxPrice + box.serviceFee;
         const total = Math.round((fedexAmount + surcharge) * 100) / 100;
