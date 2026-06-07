@@ -210,6 +210,13 @@ serve(async (req) => {
     }
 
     const reply = rateJson?.output?.rateReplyDetails ?? [];
+    // DEBUG: log raw commit/operationalDetail per service to diagnose transit time fields
+    for (const r of reply as any[]) {
+      console.log("FEDEX_RAW", r.serviceType, JSON.stringify({
+        commit: r.commit,
+        operationalDetail: r.operationalDetail,
+      }));
+    }
     type FedExRate = {
       serviceType?: string;
       serviceName?: string;
