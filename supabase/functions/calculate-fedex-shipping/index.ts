@@ -208,8 +208,8 @@ serve(async (req) => {
     const transitPayload = {
       accountNumber: { value: accountNumber },
       requestedShipment: {
-        shipper: { address: ORIGIN },
-        recipient: {
+        origin: { address: ORIGIN },
+        destination: {
           address: {
             streetLines: recipient.streetLines,
             city: recipient.city,
@@ -222,6 +222,7 @@ serve(async (req) => {
         shipDateStamp,
         packagingType: "YOUR_PACKAGING",
         pickupType: "USE_SCHEDULED_PICKUP",
+        serviceFlightBooked: false,
         requestedPackageLineItems: [
           {
             weight: { units: "LB", value: box.weight },
