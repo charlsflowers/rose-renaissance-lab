@@ -81,6 +81,29 @@ export const captureTrackingParams = (): void => {
   }
 };
 
+/**
+ * Apply a manual set of tracking params (e.g. from a short link route like /wa)
+ * using the SAME first-touch + 90-day TTL semantics as captureTrackingParams.
+ * Does NOT overwrite previously stored params.
+ */
+export const applyManualTrackingParams = (
+  manual: Partial<Record<TrackingParamKey, string>>,
+): void => {
+  if (typeof window === "undefined") return;
+  try {
+    const existingRaw = readRaw();
+    const merged: StoredParams = {
+      params: { ...manual, ...(existingRaw?.params || {}) }, // first-touch wins
+      timestamp: existingRaw?.timestamp || Date.now(),
+      referrer: existingRaw?.referrer || "",
+      landingUrl: existingRaw?.landingUrl || window.location.href,
+    };
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(merged));
+  } catch {
+    // ignore
+  }
+};
+
 function readRaw(): StoredParams | null {
   if (typeof window === "undefined") return null;
   try {
