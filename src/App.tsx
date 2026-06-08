@@ -102,7 +102,7 @@ const AppContent = () => {
     <>
       <Route index element={<Index />} />
       {Object.keys(SHORT_LINKS).map((slug) => (
-        <Route key={`short-${slug}`} path={slug} element={<ShortLink />} />
+        <Route key={`short-${slug}`} path={slug} element={<ShortLink slug={slug} />} />
       ))}
       <Route path="products/:handle" element={<ShopifyProductRedirect />} />
       <Route path="categoria/:slug" element={<CategoryProducts />} />
