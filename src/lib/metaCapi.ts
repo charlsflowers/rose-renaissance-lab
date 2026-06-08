@@ -8,7 +8,9 @@
  * Reads fbp/fbc cookies + any stored marketing identifiers and lets the
  * edge function hash + enrich with IP / User-Agent / Advanced Matching.
  */
-import { SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY } from "@/lib/supabaseEnv";
+const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL as string;
+const SUPABASE_PUBLISHABLE_KEY = import.meta.env
+  .VITE_SUPABASE_PUBLISHABLE_KEY as string;
 
 type UserData = {
   email?: string;
