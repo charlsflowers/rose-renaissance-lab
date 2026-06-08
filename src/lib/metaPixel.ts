@@ -16,6 +16,16 @@ export const META_PIXEL_ID = "1631820708074499";
 
 type Fbq = (...args: any[]) => void;
 
+import { sendMetaCapiEvent } from "@/lib/metaCapi";
+
+const CAPI_MIRRORED_EVENTS = new Set([
+  "ViewContent",
+  "AddToCart",
+  "InitiateCheckout",
+  "Lead",
+  "Search",
+]);
+
 const ADD_TO_CART_STORAGE_KEY = "charls-meta-addtocart-eventids";
 
 const getFbq = (): Fbq | null => {
@@ -100,6 +110,16 @@ export const trackMetaEvent = (
     } catch {
       // ignore storage errors
     }
+  }
+
+  // Mirror server-side via Conversions API with the SAME eventID so Meta
+  // deduplicates the browser + server event instead of double-counting.
+  if (CAPI_MIRRORED_EVENTS.has(eventName)) {
+    sendMetaCapiEvent({
+      event_name: eventName,
+      event_id: eventID,
+      custom_data: (params as Record<string, unknown>) || {},
+    });
   }
 
   return eventID;
