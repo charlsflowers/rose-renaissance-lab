@@ -18,6 +18,8 @@ import { LanguageProvider } from "./i18n/LanguageContext";
 // Eager: Index (LCP/home) + NotFound (tiny fallback) stay in main bundle
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
+import ShortLink from "./pages/ShortLink";
+import { SHORT_LINKS } from "@/lib/shortLinks";
 
 // Lazy-loaded route components (code-split)
 const BouquetBuilder = lazy(() => import("./pages/BouquetBuilder"));
@@ -99,6 +101,9 @@ const AppContent = () => {
   const renderRoutes = () => (
     <>
       <Route index element={<Index />} />
+      {Object.keys(SHORT_LINKS).map((slug) => (
+        <Route key={`short-${slug}`} path={slug} element={<ShortLink />} />
+      ))}
       <Route path="products/:handle" element={<ShopifyProductRedirect />} />
       <Route path="categoria/:slug" element={<CategoryProducts />} />
       <Route path="categoria/:slug/:productId" element={<CategoryProductDetail />} />
