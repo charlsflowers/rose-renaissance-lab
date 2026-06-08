@@ -14,4 +14,5 @@ export const SHORT_LINKS: Record<string, Partial<Record<TrackingParamKey, string
   ig: { utm_source: "instagram", utm_medium: "bio" },
   story: { utm_source: "instagram", utm_medium: "story" },
   tiktok: { utm_source: "tiktok", utm_medium: "bio" },
+  fb: { utm_source: "facebook", utm_medium: "social" },
 };
