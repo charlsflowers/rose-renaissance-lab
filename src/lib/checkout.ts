@@ -12,8 +12,13 @@ import {
   getShippingProtectionInfo,
   SHIPPING_PROTECTION_VARIANT_GID,
 } from "@/lib/shippingProtection";
-import { appendTrackingParamsToUrl } from "@/lib/trackingParams";
-import { getStoredTrackingParams, TRACKING_PARAM_KEYS } from "@/lib/trackingParams";
+import {
+  appendTrackingParamsToUrl,
+  getStoredTrackingParams,
+  getStoredReferrer,
+  getDerivedSource,
+  TRACKING_PARAM_KEYS,
+} from "@/lib/trackingParams";
 
 const DELIVERY_FEE_VARIANT_NUMERIC_ID = "51629708935300";
 const SERVICE_FEE_VARIANT_NUMERIC_ID = "51654333595780";
@@ -309,6 +314,13 @@ export async function performApiCheckout(options: ApiCheckoutOptions): Promise<s
     if (value && typeof value === "string" && value.trim() !== "") {
       attributes.push({ key, value: value.trim() });
     }
+  }
+
+  // Attribution: ensure every order has a "source" + raw referrer
+  attributes.push({ key: "source", value: getDerivedSource() });
+  const refUrl = getStoredReferrer();
+  if (refUrl) {
+    attributes.push({ key: "referrer", value: refUrl });
   }
 
   // 6) Single cartCreate call with everything baked in
