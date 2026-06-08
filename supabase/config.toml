@@ -20,3 +20,6 @@ verify_jwt = false
 
 [functions.meta-capi]
 verify_jwt = false
+
+[functions.fedex-key-check]
+verify_jwt = false
