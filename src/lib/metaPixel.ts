@@ -9,14 +9,17 @@
  *    `fbq('consent', 'revoke')` is sent.
  *  - Each event carries a unique `eventID` so Facebook can deduplicate against
  *    server-side events sent by Shopify CAPI (same Pixel ID on both ends).
+ *  - ALL tracking is silently disabled outside the production domain
+ *    (charlsflowers.com / www.charlsflowers.com) to keep preview/dev data clean.
  *
  * Pixel ID: 1631820708074499
  */
 export const META_PIXEL_ID = "1631820708074499";
 
-type Fbq = (...args: any[]) => void;
-
 import { sendMetaCapiEvent } from "@/lib/metaCapi";
+import { isProductionDomain } from "@/lib/isProductionDomain";
+
+type Fbq = (...args: any[]) => void;
 
 const CAPI_MIRRORED_EVENTS = new Set([
   "ViewContent",
@@ -60,7 +63,7 @@ export const isMetaPixelReady = (): boolean => {
 
 /** Init Pixel + fire initial PageView. Idempotent. Safe to call on app boot. */
 export const initMetaPixel = () => {
-  if (userOptedOut) return;
+  if (userOptedOut || !isProductionDomain()) return;
   const fbq = ensureInitialized();
   if (!fbq) return;
   fbq("consent", "grant");
@@ -84,7 +87,7 @@ export const trackMetaEvent = (
   params?: Record<string, unknown>,
   options?: { eventID?: string }
 ): string | null => {
-  if (userOptedOut) return null;
+  if (userOptedOut || !isProductionDomain()) return null;
   const fbq = ensureInitialized();
   if (!fbq) return null;
 
