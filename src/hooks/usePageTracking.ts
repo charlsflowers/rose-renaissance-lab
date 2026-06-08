@@ -1,6 +1,7 @@
 import { useEffect, useRef } from "react";
 import { useLocation } from "react-router-dom";
 import { trackMetaEvent } from "@/lib/metaPixel";
+import { isProductionDomain } from "@/lib/isProductionDomain";
 
 /**
  * Fires GA4 `page_view` and Meta `PageView` on every SPA route change.
@@ -11,12 +12,17 @@ import { trackMetaEvent } from "@/lib/metaPixel";
  *
  * Both `gtag` and `trackMetaEvent` are silent no-ops when consent is denied,
  * so this hook respects Consent Mode v2 automatically.
+ *
+ * Additionally, this entire hook is a no-op outside the production domain
+ * (charlsflowers.com / www.charlsflowers.com) so preview/dev visits don't
+ * pollute analytics.
  */
 export const usePageTracking = () => {
   const location = useLocation();
   const isFirstRender = useRef(true);
 
   useEffect(() => {
+    if (!isProductionDomain()) return;
     if (isFirstRender.current) {
       isFirstRender.current = false;
       return;

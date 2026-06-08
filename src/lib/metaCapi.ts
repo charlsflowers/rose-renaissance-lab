@@ -7,7 +7,11 @@
  *
  * Reads fbp/fbc cookies + any stored marketing identifiers and lets the
  * edge function hash + enrich with IP / User-Agent / Advanced Matching.
+ *
+ * Disabled outside production domain to keep preview/dev data clean.
  */
+import { isProductionDomain } from "@/lib/isProductionDomain";
+
 const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL as string;
 const SUPABASE_PUBLISHABLE_KEY = import.meta.env
   .VITE_SUPABASE_PUBLISHABLE_KEY as string;
@@ -41,6 +45,7 @@ const readCookie = (name: string): string => {
 
 /** Fire & forget — never blocks UI, never throws. */
 export const sendMetaCapiEvent = (event: CapiEvent): void => {
+  if (!isProductionDomain()) return;
   try {
     const fbp = readCookie("_fbp");
     let fbc = readCookie("_fbc");
