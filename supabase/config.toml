@@ -21,8 +21,5 @@ verify_jwt = false
 [functions.meta-capi]
 verify_jwt = false
 
-[functions.printnode-test]
-verify_jwt = false
-
 [functions.fedex-key-check]
 verify_jwt = false
