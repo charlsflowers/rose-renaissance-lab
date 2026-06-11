@@ -1,8 +1,10 @@
 // Order Printer Pro Liquid template for Charls Flowers workshop invoice.
 // Kept verbatim from the user-provided Shopify Order Printer Pro template.
 export const INVOICE_TEMPLATE = String.raw`<style>
-  * { letter-spacing: normal !important; word-spacing: normal !important; }
-  body { font-family: "Segoe UI Emoji", "Apple Color Emoji", "Noto Color Emoji", Arial, sans-serif; color: #1a1a1a; margin: 0; padding: 12px; text-align: left; }
+  * { letter-spacing: normal !important; word-spacing: normal !important; font-variant-numeric: normal !important; font-feature-settings: normal !important; text-align: inherit; }
+  body { font-family: Arial, "Helvetica Neue", Helvetica, sans-serif, "Segoe UI Emoji", "Apple Color Emoji", "Noto Color Emoji"; color: #1a1a1a; margin: 0; padding: 12px; text-align: left; letter-spacing: normal; word-spacing: normal; }
+  p, span, td, th, div, strong { color: #1a1a1a; letter-spacing: normal; word-spacing: normal; }
+  h4 { color: #1a1a1a; }
   .header { text-align: center; margin-bottom: 14px; }
   .header img { max-width: 140px; }
   hr { border: 1px solid #333; margin: 8px 0; }
