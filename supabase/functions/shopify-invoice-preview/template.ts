@@ -108,11 +108,18 @@ export const INVOICE_TEMPLATE = String.raw`<style>
   </div>
   <div class="info-block" style="text-align:right;">
     <h4>Datos del cliente</h4>
-    <p><strong>{{ order.billing_address.name }}</strong></p>
-    <p>{{ order.email }}</p>
+    {% assign cli_nombre = "" %}
+    {% if order.customer %}{% assign cli_nombre = order.customer.first_name | append: " " | append: order.customer.last_name | strip %}{% endif %}
+    {% if cli_nombre == "" %}{% assign cli_nombre = order.billing_address.name | strip %}{% endif %}
+    {% if cli_nombre == "" %}{% assign cli_nombre = order.shipping_address.name | strip %}{% endif %}
+    {% if cli_nombre != "" %}<p><strong>{{ cli_nombre }}</strong></p>{% endif %}
+    {% assign cli_email = order.email %}
+    {% if cli_email == blank and order.customer %}{% assign cli_email = order.customer.email %}{% endif %}
+    {% if cli_email != blank %}<p>{{ cli_email }}</p>{% endif %}
     {% assign tel_cliente = order.billing_address.phone %}
     {% if tel_cliente == blank %}{% assign tel_cliente = order.shipping_address.phone %}{% endif %}
     {% if tel_cliente == blank %}{% assign tel_cliente = order.phone %}{% endif %}
+    {% if tel_cliente == blank and order.customer %}{% assign tel_cliente = order.customer.phone %}{% endif %}
     {% if tel_cliente != blank %}<p>📞 {{ tel_cliente }}</p>{% endif %}
   </div>
 </div>
@@ -248,7 +255,7 @@ NOTAS DEL CLIENTE" | first %}
             {% if nTot == 1 %}
               <span>{{ b_roses_num }} rosas {{ ocb[0] }}</span><br>
             {% elsif nTot == 2 %}
-              {% assign h1 = b_roses_num | plus: 1 | divided_by: 2 %}{% assign h2 = b_roses_num | divided_by: 2 %}
+              {% assign h2 = b_roses_num | divided_by: 2 | floor %}{% assign h1 = b_roses_num | minus: h2 %}
               <span>{{ h1 }} rosas {{ ocb[0] }}</span><br>
               <span>{{ h2 }} rosas {{ ocb[1] }}</span><br>
             {% elsif nTot == 3 %}
