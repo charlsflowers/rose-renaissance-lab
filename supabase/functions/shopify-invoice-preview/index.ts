@@ -1,7 +1,16 @@
 // Preview-only endpoint: renders the workshop invoice (Order Printer Pro
 // Liquid template) for a Shopify order, converts HTML to PDF via PDFShift,
 // uploads to the `invoice-previews` Storage bucket, and returns a signed URL.
-// NO PrintNode calls here — this is for visual QA before wiring up auto-print.
+//
+// Data sources (NO Admin API, NO SHOPIFY_ACCESS_TOKEN):
+//   - Order data: provided directly via POST body (orders/paid webhook payload).
+//   - Product enrichment (featured image + custom.preparation_recipe metafield):
+//     fetched via Storefront API using SHOPIFY_STOREFRONT_ACCESS_TOKEN.
+//
+// Usage:
+//   POST /shopify-invoice-preview
+//   Content-Type: application/json
+//   Body: <orders/paid webhook JSON payload>
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { Liquid } from "npm:liquidjs@10.16.1";
 import { createClient } from "npm:@supabase/supabase-js@2";
@@ -13,8 +22,8 @@ const corsHeaders = {
   "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
 };
 
-const SHOP_DOMAIN = Deno.env.get("SHOPIFY_SHOP_DOMAIN") || "charls-flowers.myshopify.com";
-const API_VERSION = "2024-10";
+const SHOP_DOMAIN = "charls-flowers.myshopify.com";
+const STOREFRONT_API_VERSION = "2025-01";
 
 function money(cents: number | string): string {
   const n = typeof cents === "string" ? parseFloat(cents) : cents;
@@ -25,7 +34,6 @@ function money(cents: number | string): string {
 function imgUrl(url: string, size?: string): string {
   if (!url || typeof url !== "string") return "";
   if (!size) return url;
-  // Insert `_<size>` before the file extension. Handles ?query suffixes.
   return url.replace(/(\.(?:png|jpe?g|webp|gif|avif))(\?|$)/i, `_${size}$1$2`);
 }
 
@@ -36,7 +44,7 @@ function toCents(v: unknown): number {
   return isFinite(n) ? Math.round(n * 100) : 0;
 }
 
-interface ShopifyLineItemRest {
+interface WebhookLineItem {
   id: number;
   title: string;
   name?: string;
@@ -44,14 +52,15 @@ interface ShopifyLineItemRest {
   quantity: number;
   price: string;
   product_id: number | null;
+  properties?: Array<{ name: string; value: string }>;
 }
 
-interface ShopifyShippingLineRest {
+interface WebhookShippingLine {
   title: string;
   price: string;
 }
 
-interface ShopifyOrderRest {
+interface WebhookOrder {
   id: number;
   name: string;
   order_number: number;
@@ -60,96 +69,88 @@ interface ShopifyOrderRest {
   note: string | null;
   created_at: string;
   note_attributes?: Array<{ name: string; value: string }>;
-  line_items: ShopifyLineItemRest[];
-  shipping_lines: ShopifyShippingLineRest[];
+  line_items: WebhookLineItem[];
+  shipping_lines: WebhookShippingLine[];
   billing_address?: Record<string, unknown> | null;
   shipping_address?: Record<string, unknown> | null;
-  financial_status?: string;
 }
 
-async function shopifyAdmin(path: string, token: string): Promise<unknown> {
-  const res = await fetch(`https://${SHOP_DOMAIN}/admin/api/${API_VERSION}${path}`, {
-    headers: { "X-Shopify-Access-Token": token, "Content-Type": "application/json" },
-  });
-  if (!res.ok) throw new Error(`Shopify ${path} → ${res.status}: ${await res.text()}`);
-  return await res.json();
-}
-
-async function shopifyGraphQL(query: string, variables: Record<string, unknown>, token: string): Promise<unknown> {
-  const res = await fetch(`https://${SHOP_DOMAIN}/admin/api/${API_VERSION}/graphql.json`, {
-    method: "POST",
-    headers: { "X-Shopify-Access-Token": token, "Content-Type": "application/json" },
-    body: JSON.stringify({ query, variables }),
-  });
+async function storefrontProduct(
+  productId: number,
+  token: string,
+): Promise<{ featured_image: string; preparation_recipe: string }> {
+  const query = `
+    query($id: ID!) {
+      product(id: $id) {
+        featuredImage { url }
+        metafield(namespace: "custom", key: "preparation_recipe") { value }
+      }
+    }
+  `;
+  const res = await fetch(
+    `https://${SHOP_DOMAIN}/api/${STOREFRONT_API_VERSION}/graphql.json`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "X-Shopify-Storefront-Access-Token": token,
+      },
+      body: JSON.stringify({
+        query,
+        variables: { id: `gid://shopify/Product/${productId}` },
+      }),
+    },
+  );
   const j = await res.json();
-  if (!res.ok || j.errors) throw new Error(`Shopify GraphQL error: ${JSON.stringify(j)}`);
-  return j;
+  if (!res.ok || j.errors) {
+    console.error(`Storefront product ${productId} error:`, JSON.stringify(j));
+    return { featured_image: "", preparation_recipe: "" };
+  }
+  const p = j?.data?.product;
+  return {
+    featured_image: p?.featuredImage?.url || "",
+    preparation_recipe: p?.metafield?.value || "",
+  };
 }
 
 serve(async (req) => {
   if (req.method === "OPTIONS") return new Response("ok", { headers: corsHeaders });
 
   try {
-    const adminToken = Deno.env.get("SHOPIFY_ACCESS_TOKEN");
+    const storefrontToken = Deno.env.get("SHOPIFY_STOREFRONT_ACCESS_TOKEN");
     const pdfshiftKey = Deno.env.get("PDFSHIFT_API_KEY");
     const supabaseUrl = Deno.env.get("SUPABASE_URL")!;
     const serviceKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
-    if (!adminToken) throw new Error("SHOPIFY_ACCESS_TOKEN missing");
+    if (!storefrontToken) throw new Error("SHOPIFY_STOREFRONT_ACCESS_TOKEN missing");
     if (!pdfshiftKey) throw new Error("PDFSHIFT_API_KEY missing");
 
-    const url = new URL(req.url);
-    const orderIdParam = url.searchParams.get("order_id");
-    const nameParam = url.searchParams.get("name");
-
-    // 1) Resolve order
-    let order: ShopifyOrderRest;
-    if (orderIdParam) {
-      const j = (await shopifyAdmin(`/orders/${orderIdParam}.json`, adminToken)) as { order: ShopifyOrderRest };
-      order = j.order;
-    } else if (nameParam) {
-      const q = encodeURIComponent(nameParam.startsWith("#") ? nameParam : `#${nameParam}`);
-      const j = (await shopifyAdmin(`/orders.json?status=any&name=${q}&limit=1`, adminToken)) as { orders: ShopifyOrderRest[] };
-      if (!j.orders?.length) throw new Error(`Order not found: ${nameParam}`);
-      order = j.orders[0];
-    } else {
-      // Latest paid order
-      const j = (await shopifyAdmin(`/orders.json?status=any&financial_status=paid&limit=1`, adminToken)) as { orders: ShopifyOrderRest[] };
-      if (!j.orders?.length) throw new Error("No paid orders found");
-      order = j.orders[0];
+    if (req.method !== "POST") {
+      return new Response(
+        JSON.stringify({
+          ok: false,
+          message:
+            "POST the orders/paid webhook JSON as request body. The function reads order data from the body and enriches products via Storefront API.",
+        }),
+        { status: 405, headers: { ...corsHeaders, "Content-Type": "application/json" } },
+      );
     }
 
-    // 2) Enrich products: featured_image + metafield custom.preparation_recipe
+    const order = (await req.json()) as WebhookOrder;
+    if (!order || !Array.isArray(order.line_items)) {
+      throw new Error("Invalid order payload: missing line_items");
+    }
+
+    // 1) Enrich products via Storefront API (parallel)
     const productIds = Array.from(
       new Set(order.line_items.map((li) => li.product_id).filter((x): x is number => !!x)),
     );
     const productMap = new Map<number, { featured_image: string; preparation_recipe: string }>();
-    if (productIds.length) {
-      const gids = productIds.map((id) => `gid://shopify/Product/${id}`);
-      const gql = `
-        query($ids:[ID!]!){
-          nodes(ids:$ids){
-            ... on Product {
-              id
-              featuredImage { url }
-              metafield(namespace:"custom", key:"preparation_recipe"){ value }
-            }
-          }
-        }
-      `;
-      const r = (await shopifyGraphQL(gql, { ids: gids }, adminToken)) as {
-        data: { nodes: Array<{ id: string; featuredImage?: { url: string }; metafield?: { value: string } } | null> };
-      };
-      for (const node of r.data.nodes) {
-        if (!node?.id) continue;
-        const numId = parseInt(node.id.replace(/\D/g, ""), 10);
-        productMap.set(numId, {
-          featured_image: node.featuredImage?.url || "",
-          preparation_recipe: node.metafield?.value || "",
-        });
-      }
-    }
+    const enriched = await Promise.all(
+      productIds.map(async (id) => [id, await storefrontProduct(id, storefrontToken)] as const),
+    );
+    for (const [id, data] of enriched) productMap.set(id, data);
 
-    // 3) Build Liquid context matching Shopify Order Printer Pro shape
+    // 2) Build Liquid context matching Order Printer Pro shape
     const liquidLineItems = order.line_items.map((li) => {
       const prod = li.product_id ? productMap.get(li.product_id) : undefined;
       const priceCents = toCents(li.price);
@@ -159,6 +160,7 @@ serve(async (req) => {
         quantity: li.quantity,
         original_price: priceCents,
         original_line_price: priceCents * (li.quantity || 1),
+        properties: li.properties || [],
         product: {
           title: li.title,
           featured_image: prod?.featured_image || "",
@@ -178,6 +180,7 @@ serve(async (req) => {
 
     const liquidOrder = {
       order_number: order.order_number || order.name,
+      name: order.name,
       created_at: order.created_at,
       email: order.email || "",
       phone: order.phone || "",
@@ -189,15 +192,14 @@ serve(async (req) => {
       shipping_lines: liquidShipping,
     };
 
-    // 4) Render Liquid
+    // 3) Render Liquid → HTML
     const engine = new Liquid({ strictFilters: false, strictVariables: false });
     engine.registerFilter("money", money);
     engine.registerFilter("img_url", imgUrl);
     const bodyHtml = await engine.parseAndRender(INVOICE_TEMPLATE, { order: liquidOrder });
-
     const html = `<!doctype html><html><head><meta charset="utf-8"><title>Invoice ${order.name}</title></head><body>${bodyHtml}</body></html>`;
 
-    // 5) PDFShift
+    // 4) HTML → PDF via PDFShift
     const pdfRes = await fetch("https://api.pdfshift.io/v3/convert/pdf", {
       method: "POST",
       headers: {
@@ -218,9 +220,10 @@ serve(async (req) => {
     }
     const pdfBytes = new Uint8Array(await pdfRes.arrayBuffer());
 
-    // 6) Upload to Storage + signed URL (24h)
+    // 5) Upload to Storage + signed URL (24h)
     const supa = createClient(supabaseUrl, serviceKey);
-    const path = `preview/${order.name.replace(/[^a-zA-Z0-9_-]/g, "_")}_${Date.now()}.pdf`;
+    const safeName = (order.name || `order_${order.id}`).replace(/[^a-zA-Z0-9_-]/g, "_");
+    const path = `preview/${safeName}_${Date.now()}.pdf`;
     const up = await supa.storage.from("invoice-previews").upload(path, pdfBytes, {
       contentType: "application/pdf",
       upsert: true,
@@ -234,6 +237,7 @@ serve(async (req) => {
         ok: true,
         order_name: order.name,
         order_id: order.id,
+        products_enriched: productIds.length,
         pdf_bytes: pdfBytes.length,
         download_url: signed.data.signedUrl,
         storage_path: path,
