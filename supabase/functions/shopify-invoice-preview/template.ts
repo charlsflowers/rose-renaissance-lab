@@ -1,7 +1,9 @@
 // Order Printer Pro Liquid template for Charls Flowers workshop invoice.
 // Kept verbatim from the user-provided Shopify Order Printer Pro template.
 export const INVOICE_TEMPLATE = String.raw`<style>
-  body { font-family: "Segoe UI Emoji", "Apple Color Emoji", "Noto Color Emoji", Arial, sans-serif; color: #333; margin: 0; padding: 12px; }
+  * { letter-spacing: normal !important; }
+  body { font-family: "Segoe UI Emoji", "Apple Color Emoji", "Noto Color Emoji", Arial, sans-serif; color: #1a1a1a; margin: 0; padding: 12px; letter-spacing: normal; text-align: left; word-spacing: normal; }
+  p, span, div, td, th { text-align: left; }
   .header { text-align: center; margin-bottom: 14px; }
   .header img { max-width: 140px; }
   hr { border: 1px solid #333; margin: 8px 0; }
@@ -20,7 +22,7 @@ export const INVOICE_TEMPLATE = String.raw`<style>
   .td-desc { vertical-align: middle; padding-left: 10px; }
   .td-price { vertical-align: middle; text-align: right; white-space: nowrap; width: 70px; }
   .total-row { text-align: right; margin-top: 12px; font-size: 13px; font-weight: bold; }
-  .card-text-content { white-space: pre-wrap; font-style: italic; }
+  .card-text-content { white-space: pre-wrap; font-style: italic; text-align: left; }
   .cliente-nota-box { margin: 12px 0; font-size: 11px; }
   .cliente-nota-box h4 { font-size: 11px; text-transform: uppercase; margin-bottom: 4px; color: #8B1A3A; }
   .fin-grupo td { border-bottom: 2px solid #333; }
