@@ -363,6 +363,63 @@ serve(async (req) => {
       console.error("Send label email failed:", e);
     }
 
+    // Auto-print label via PrintNode (additional — failures must not break the flow).
+    try {
+      const printNodeKey = Deno.env.get("PRINTNODE_API_KEY");
+      if (printNodeKey && trackingNumber) {
+        // Reuse PDF already fetched above if possible; otherwise fetch now.
+        let pdfBytesForPrint: Uint8Array | null = null;
+        if (labelUrl) {
+          try {
+            const r = await fetch(labelUrl, { headers: { Authorization: `Bearer ${token}` } });
+            if (r.ok) pdfBytesForPrint = new Uint8Array(await r.arrayBuffer());
+            else {
+              const r2 = await fetch(labelUrl);
+              if (r2.ok) pdfBytesForPrint = new Uint8Array(await r2.arrayBuffer());
+            }
+          } catch (e) {
+            console.error("PrintNode: label PDF fetch error:", e);
+          }
+        }
+        if (pdfBytesForPrint) {
+          let bin = "";
+          const chunk = 0x8000;
+          for (let i = 0; i < pdfBytesForPrint.length; i += chunk) {
+            bin += String.fromCharCode(...pdfBytesForPrint.subarray(i, i + chunk));
+          }
+          const pdfB64 = btoa(bin);
+          const basic = btoa(`${printNodeKey}:`);
+          const pnRes = await fetch("https://api.printnode.com/printjobs", {
+            method: "POST",
+            headers: {
+              Authorization: `Basic ${basic}`,
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              printerId: 75544825,
+              title: `FedEx ${order.name || order.id} ${trackingNumber}`,
+              contentType: "pdf_base64",
+              content: pdfB64,
+              source: "charls-fedex-webhook",
+              qty: 1,
+            }),
+          });
+          const pnText = await pnRes.text();
+          if (!pnRes.ok) {
+            console.error("PrintNode print failed:", pnRes.status, pnText);
+          } else {
+            console.log(`PrintNode job created for ${trackingNumber}: ${pnText}`);
+          }
+        } else {
+          console.warn("PrintNode: no PDF bytes available, skipping print");
+        }
+      } else if (!printNodeKey) {
+        console.warn("PRINTNODE_API_KEY not configured; skipping auto-print");
+      }
+    } catch (e) {
+      console.error("PrintNode auto-print failed (non-fatal):", e);
+    }
+
     // Create Shopify fulfillment with tracking
     const adminToken = Deno.env.get("SHOPIFY_ACCESS_TOKEN");
     const domain = shopDomain || Deno.env.get("SHOPIFY_SHOP_DOMAIN");
