@@ -1,7 +1,8 @@
 // Order Printer Pro Liquid template for Charls Flowers workshop invoice.
 // Kept verbatim from the user-provided Shopify Order Printer Pro template.
 export const INVOICE_TEMPLATE = String.raw`<style>
-  body { font-family: "Segoe UI Emoji", "Apple Color Emoji", "Noto Color Emoji", Arial, sans-serif; color: #333; margin: 0; padding: 12px; }
+  * { letter-spacing: normal !important; word-spacing: normal !important; }
+  body { font-family: "Segoe UI Emoji", "Apple Color Emoji", "Noto Color Emoji", Arial, sans-serif; color: #1a1a1a; margin: 0; padding: 12px; text-align: left; }
   .header { text-align: center; margin-bottom: 14px; }
   .header img { max-width: 140px; }
   hr { border: 1px solid #333; margin: 8px 0; }
@@ -20,7 +21,7 @@ export const INVOICE_TEMPLATE = String.raw`<style>
   .td-desc { vertical-align: middle; padding-left: 10px; }
   .td-price { vertical-align: middle; text-align: right; white-space: nowrap; width: 70px; }
   .total-row { text-align: right; margin-top: 12px; font-size: 13px; font-weight: bold; }
-  .card-text-content { white-space: pre-wrap; font-style: italic; }
+  .card-text-content { white-space: pre-wrap; font-style: italic; text-align: left; }
   .cliente-nota-box { margin: 12px 0; font-size: 11px; }
   .cliente-nota-box h4 { font-size: 11px; text-transform: uppercase; margin-bottom: 4px; color: #8B1A3A; }
   .fin-grupo td { border-bottom: 2px solid #333; }
@@ -107,11 +108,18 @@ export const INVOICE_TEMPLATE = String.raw`<style>
   </div>
   <div class="info-block" style="text-align:right;">
     <h4>Datos del cliente</h4>
-    <p><strong>{{ order.billing_address.name }}</strong></p>
-    <p>{{ order.email }}</p>
+    {% assign cli_nombre = "" %}
+    {% if order.customer %}{% assign cli_nombre = order.customer.first_name | append: " " | append: order.customer.last_name | strip %}{% endif %}
+    {% if cli_nombre == "" %}{% assign cli_nombre = order.billing_address.name | strip %}{% endif %}
+    {% if cli_nombre == "" %}{% assign cli_nombre = order.shipping_address.name | strip %}{% endif %}
+    {% if cli_nombre != "" %}<p><strong>{{ cli_nombre }}</strong></p>{% endif %}
+    {% assign cli_email = order.email %}
+    {% if cli_email == blank and order.customer %}{% assign cli_email = order.customer.email %}{% endif %}
+    {% if cli_email != blank %}<p>{{ cli_email }}</p>{% endif %}
     {% assign tel_cliente = order.billing_address.phone %}
     {% if tel_cliente == blank %}{% assign tel_cliente = order.shipping_address.phone %}{% endif %}
     {% if tel_cliente == blank %}{% assign tel_cliente = order.phone %}{% endif %}
+    {% if tel_cliente == blank and order.customer %}{% assign tel_cliente = order.customer.phone %}{% endif %}
     {% if tel_cliente != blank %}<p>📞 {{ tel_cliente }}</p>{% endif %}
   </div>
 </div>
@@ -247,7 +255,7 @@ NOTAS DEL CLIENTE" | first %}
             {% if nTot == 1 %}
               <span>{{ b_roses_num }} rosas {{ ocb[0] }}</span><br>
             {% elsif nTot == 2 %}
-              {% assign h1 = b_roses_num | plus: 1 | divided_by: 2 %}{% assign h2 = b_roses_num | divided_by: 2 %}
+              {% assign h2 = b_roses_num | divided_by: 2 | floor %}{% assign h1 = b_roses_num | minus: h2 %}
               <span>{{ h1 }} rosas {{ ocb[0] }}</span><br>
               <span>{{ h2 }} rosas {{ ocb[1] }}</span><br>
             {% elsif nTot == 3 %}

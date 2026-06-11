@@ -73,6 +73,7 @@ interface WebhookOrder {
   shipping_lines: WebhookShippingLine[];
   billing_address?: Record<string, unknown> | null;
   shipping_address?: Record<string, unknown> | null;
+  customer?: Record<string, unknown> | null;
 }
 
 async function storefrontProduct(
@@ -188,6 +189,7 @@ serve(async (req) => {
       attributes: order.note_attributes || [],
       billing_address: order.billing_address || {},
       shipping_address: order.shipping_address || {},
+      customer: order.customer || null,
       line_items: liquidLineItems,
       shipping_lines: liquidShipping,
     };
