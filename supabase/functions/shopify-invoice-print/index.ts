@@ -14,7 +14,7 @@
 //   5. Sends the PDF to PrintNode (printerId 75544825, qty 3).
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { Liquid } from "npm:liquidjs@10.16.1";
-import { INVOICE_TEMPLATE } from "../shopify-invoice-preview/template.ts";
+import { INVOICE_TEMPLATE } from "./template.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
