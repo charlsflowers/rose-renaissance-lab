@@ -27,6 +27,9 @@ export const INVOICE_TEMPLATE = String.raw`<style>
   .cliente-nota-box { margin: 12px 0; font-size: 11px; }
   .cliente-nota-box h4 { font-size: 11px; text-transform: uppercase; margin-bottom: 4px; color: #8B1A3A; }
   .fin-grupo td { border-bottom: 2px solid #333; }
+  table, thead, tbody { page-break-inside: auto; break-inside: auto; }
+  tr { page-break-inside: avoid; break-inside: avoid; }
+  .card-text-content, .cliente-nota-box, .cliente-nota-box p { page-break-inside: avoid; break-inside: avoid; }
 </style>
 <div class="header">
   <img src="https://cdn.shopify.com/s/files/1/0979/1671/5140/files/Captura_de_pantalla_2026-02-28_a_las_23.17.37-removebg-preview.png?v=1773451847" alt="Charl's Flowers">
@@ -118,10 +121,10 @@ export const INVOICE_TEMPLATE = String.raw`<style>
     {% assign cli_email = order.email %}
     {% if cli_email == blank and order.customer %}{% assign cli_email = order.customer.email %}{% endif %}
     {% if cli_email != blank %}<p>{{ cli_email }}</p>{% endif %}
-    {% assign tel_cliente = order.billing_address.phone %}
-    {% if tel_cliente == blank %}{% assign tel_cliente = order.shipping_address.phone %}{% endif %}
-    {% if tel_cliente == blank %}{% assign tel_cliente = order.phone %}{% endif %}
+    {% assign tel_cliente = order.shipping_address.phone %}
+    {% if tel_cliente == blank %}{% assign tel_cliente = order.billing_address.phone %}{% endif %}
     {% if tel_cliente == blank and order.customer %}{% assign tel_cliente = order.customer.phone %}{% endif %}
+    {% if tel_cliente == blank %}{% assign tel_cliente = order.phone %}{% endif %}
     {% if tel_cliente != blank %}<p>📞 {{ tel_cliente }}</p>{% endif %}
   </div>
 </div>
