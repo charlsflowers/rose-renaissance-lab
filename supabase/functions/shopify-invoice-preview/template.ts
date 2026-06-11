@@ -121,10 +121,10 @@ export const INVOICE_TEMPLATE = String.raw`<style>
     {% assign cli_email = order.email %}
     {% if cli_email == blank and order.customer %}{% assign cli_email = order.customer.email %}{% endif %}
     {% if cli_email != blank %}<p>{{ cli_email }}</p>{% endif %}
-    {% assign tel_cliente = order.billing_address.phone %}
-    {% if tel_cliente == blank %}{% assign tel_cliente = order.shipping_address.phone %}{% endif %}
-    {% if tel_cliente == blank %}{% assign tel_cliente = order.phone %}{% endif %}
+    {% assign tel_cliente = order.shipping_address.phone %}
+    {% if tel_cliente == blank %}{% assign tel_cliente = order.billing_address.phone %}{% endif %}
     {% if tel_cliente == blank and order.customer %}{% assign tel_cliente = order.customer.phone %}{% endif %}
+    {% if tel_cliente == blank %}{% assign tel_cliente = order.phone %}{% endif %}
     {% if tel_cliente != blank %}<p>📞 {{ tel_cliente }}</p>{% endif %}
   </div>
 </div>
