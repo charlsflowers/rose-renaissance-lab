@@ -73,6 +73,8 @@ export const INVOICE_TEMPLATE = String.raw`<style>
   {% endif %}
 {% endfor %}
 {% if tipo_entrega contains "Home" or tipo_entrega contains "home" or tipo_entrega contains "Delivery" %}{% assign es_home_delivery = true %}{% endif %}
+{% assign es_fedex = false %}
+{% if tipo_entrega contains "FedEx" or tipo_entrega contains "fedex" %}{% assign es_fedex = true %}{% endif %}
 {% assign prod_blocks = order.note | split: "DATOS DEL PRODUCTO" %}
 {% assign pintados = "black,green,blue" | split: "," %}
 {% assign notes_img = "" %}
@@ -104,12 +106,19 @@ export const INVOICE_TEMPLATE = String.raw`<style>
   </div>
   <div class="info-block" style="text-align:center;">
     <h4>Tipo de envio</h4>
-    <p><strong>
-      {% if tipo_entrega != "" %}{{ tipo_entrega }}
-      {% elsif es_home_delivery %}Home Delivery
-      {% else %}Store Pickup{% endif %}
-    </strong></p>
-    {% if home_delivery_price != "" %}<p>{{ home_delivery_price }}</p>{% endif %}
+    {% if es_fedex %}
+      {% assign fedex_service = tipo_entrega | replace: "FedEx ", "" | replace: "fedex ", "" | strip %}
+      <p style="margin:0;"><img src="https://www.charlsflowers.com/__l5e/assets-v1/527fcb0a-b652-406c-a045-5704f2d900f0/fedex-logo.webp" alt="FedEx" style="max-width:80px; display:block; margin:0 auto 4px;"></p>
+      <p><strong>{{ fedex_service }}</strong></p>
+      {% if home_delivery_price != "" %}<p>{{ home_delivery_price }}</p>{% endif %}
+    {% else %}
+      <p><strong>
+        {% if tipo_entrega != "" %}{{ tipo_entrega }}
+        {% elsif es_home_delivery %}Home Delivery
+        {% else %}Store Pickup{% endif %}
+      </strong></p>
+      {% if home_delivery_price != "" %}<p>{{ home_delivery_price }}</p>{% endif %}
+    {% endif %}
   </div>
   <div class="info-block" style="text-align:right;">
     <h4>Datos del cliente</h4>

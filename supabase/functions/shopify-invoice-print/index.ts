@@ -214,6 +214,7 @@ async function sendToPrintNode(
   pdfBytes: Uint8Array,
   orderName: string,
   titlePrefix = "",
+  qtyOverride?: number,
 ): Promise<void> {
   const key = Deno.env.get("PRINTNODE_API_KEY");
   if (!key) throw new Error("PRINTNODE_API_KEY missing");
@@ -231,7 +232,7 @@ async function sendToPrintNode(
       contentType: "pdf_base64",
       content: pdfB64,
       source: "Charls Factura",
-      qty: PRINTNODE_COPIES,
+      qty: qtyOverride && qtyOverride > 0 ? qtyOverride : PRINTNODE_COPIES,
     }),
   });
   const text = await res.text();
@@ -248,6 +249,8 @@ serve(async (req) => {
   try {
     const url = new URL(req.url);
     const titlePrefix = url.searchParams.get("title_prefix") || "";
+    const qtyParam = url.searchParams.get("qty");
+    const qtyOverride = qtyParam ? parseInt(qtyParam, 10) : undefined;
     const rawBody = await req.text();
     const hmac = req.headers.get("x-shopify-hmac-sha256") || "";
     const secret = Deno.env.get("SHOPIFY_WEBHOOK_SECRET");
@@ -283,7 +286,7 @@ serve(async (req) => {
       try {
         const pdfBytes = await renderInvoicePdf(order);
         try {
-          await sendToPrintNode(pdfBytes, order.name || `#${order.order_number}`, titlePrefix);
+          await sendToPrintNode(pdfBytes, order.name || `#${order.order_number}`, titlePrefix, qtyOverride);
         } catch (printErr) {
           // Printer offline / PrintNode down. Never bubble up.
           console.error("PrintNode send failed (ignored):", printErr);
