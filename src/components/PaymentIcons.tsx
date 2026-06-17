@@ -1,7 +1,10 @@
+import shopPayAsset from "@/assets/shop-pay.webp.asset.json";
+
 const icons = [
   { src: "/payment-icons/visa.webp", alt: "Visa" },
   { src: "/payment-icons/mastercard.webp", alt: "Mastercard" },
   { src: "/payment-icons/amex.webp", alt: "American Express" },
+  { src: shopPayAsset.url, alt: "Shop Pay" },
   { src: "/payment-icons/apple-pay.webp?v=3", alt: "Apple Pay" },
   { src: "/payment-icons/google-pay.webp", alt: "Google Pay" },
 ];
