@@ -891,7 +891,7 @@ const BouquetProductDetail = () => {
             {/* Right column */}
             <div className="min-w-0 space-y-6 lg:space-y-8">
               <div>
-                <h1 className="font-display text-4xl md:text-5xl lg:text-6xl font-semibold text-foreground leading-tight">{product.name}</h1>
+                <h1 className="font-display text-4xl md:text-5xl lg:text-6xl font-semibold text-foreground leading-tight">{product.name} Bouquet Miami</h1>
                 <p className="font-display text-3xl lg:text-4xl font-semibold text-foreground mt-3 lg:mt-4">${parseFloat(sizePrice.toFixed(2))}</p>
                 <p className="font-body italic text-sm lg:text-base text-muted-foreground mt-1">Subtotal ${parseFloat(totalPrice.toFixed(2))}</p>
                 <div className="text-muted-foreground font-body text-sm lg:text-base mt-3 lg:mt-4 leading-relaxed space-y-1">
@@ -982,7 +982,7 @@ const BouquetProductDetail = () => {
             </div>
 
             <div className="text-center">
-              <h1 className="font-display text-2xl font-semibold text-foreground">{product.name}</h1>
+              <h2 className="font-display text-2xl font-semibold text-foreground">{product.name} Bouquet Miami</h2>
               <div className="text-muted-foreground font-body text-sm mt-2 space-y-1 text-left">
                 {replaceDescriptionPrice(resolvedDescription).split('\n').map((line, i) => (
                   <p key={i}>{line}</p>

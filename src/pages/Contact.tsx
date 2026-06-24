@@ -2,7 +2,8 @@ import { useState } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import SeoHead from "@/components/SeoHead";
-import JsonLd, { localBusinessSchema } from "@/components/JsonLd";
+import Breadcrumbs from "@/components/Breadcrumbs";
+import JsonLd, { localBusinessSchema, breadcrumbSchema } from "@/components/JsonLd";
 import { MapPin, Phone, Clock, Mail } from "lucide-react";
 import { useTranslation } from "@/i18n/LanguageContext";
 
@@ -46,14 +47,16 @@ const Contact = () => {
   return (
     <div className="min-h-screen bg-background">
       <SeoHead
-        title="Contact Charls Flowers – Miami FL"
-        description="Get in touch with Charls Flowers Miami. Call 904-442-4042, visit us at 7261 NW 12th St, or send a message. Same-day flower delivery up to 87 miles."
+        title={t("seo.contact.title")}
+        description={t("seo.contact.description")}
         path="/contact"
       />
       <JsonLd data={localBusinessSchema()} />
+      <JsonLd data={breadcrumbSchema([{ name: "Home", url: "https://www.charlsflowers.com" }, { name: "Contact", url: "https://www.charlsflowers.com/contact" }])} />
       <Navbar />
       <div className="pt-24 pb-16">
         <div className="container mx-auto px-6 max-w-4xl">
+          <Breadcrumbs items={[{ label: "Home", to: "/" }, { label: t("nav.contact") }]} />
           <h1 className="font-title-retro text-4xl md:text-5xl text-primary text-center mb-10">{t("contact.title")}</h1>
 
           <div className="grid md:grid-cols-2 gap-10 mb-12">

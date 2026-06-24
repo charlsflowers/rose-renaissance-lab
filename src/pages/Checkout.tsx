@@ -7,6 +7,7 @@ import { useCartStore } from "@/stores/cartStore";
 import { performApiCheckout } from "@/lib/checkout";
 import { buildAccessoryLineItems, BUTTERFLIES_VARIANT_ID } from "@/lib/accessoryVariants";
 import Navbar from "@/components/Navbar";
+import SeoHead from "@/components/SeoHead";
 import type { DeliveryResult } from "@/components/DeliveryCalculator";
 import type { FedExAttrs } from "@/components/FedExShippingOptions";
 import { ArrowLeft } from "lucide-react";
@@ -233,11 +234,12 @@ const Checkout = () => {
   if (items.length === 0) {
     return (
       <div className="min-h-screen bg-background">
+        <SeoHead title="Checkout — Charls Flowers" description="Complete your Charls Flowers order." path="/checkout" noindex />
         <Navbar />
         <div className="pt-32 pb-16 text-center">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="max-w-md mx-auto px-6">
             <BrandLogo className="w-20 h-20 mx-auto mb-6" />
-            <h1 className="font-display text-3xl font-semibold text-foreground mb-3">{t("checkout.emptyCart")}</h1>
+            <h2 className="font-display text-3xl font-semibold text-foreground mb-3">{t("checkout.emptyCart")}</h2>
             <p className="text-muted-foreground font-body mb-8">{t("checkout.addBouquet")}</p>
             <button
               onClick={() => navigate(-1)}
@@ -254,6 +256,7 @@ const Checkout = () => {
 
   return (
     <div className="min-h-screen bg-background">
+      <SeoHead title="Checkout — Charls Flowers" description="Complete your Charls Flowers order." path="/checkout" noindex />
       <Navbar />
       <div className="pt-24 pb-16">
         <div className="container mx-auto px-6">

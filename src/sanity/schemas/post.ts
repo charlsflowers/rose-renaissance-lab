@@ -48,7 +48,7 @@ export const post = defineType({
       name: "author",
       title: "Author",
       type: "string",
-      initialValue: "Charl's Flowers",
+      initialValue: "Charls Flowers",
     }),
     defineField({
       name: "mainImage",

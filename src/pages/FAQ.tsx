@@ -2,7 +2,8 @@ import { useState } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import SeoHead from "@/components/SeoHead";
-import JsonLd, { faqSchema } from "@/components/JsonLd";
+import Breadcrumbs from "@/components/Breadcrumbs";
+import JsonLd, { faqSchema, breadcrumbSchema } from "@/components/JsonLd";
 import { ChevronDown } from "lucide-react";
 import { useTranslation } from "@/i18n/LanguageContext";
 
@@ -14,14 +15,16 @@ const FAQ = () => {
   return (
     <div className="min-h-screen bg-background">
       <SeoHead
-        title="Frequently Asked Questions – Charls Flowers Miami"
-        description="Find answers about flower delivery, custom bouquets, pricing, and more at Charls Flowers Miami. Same-day delivery, free pickup, AI preview."
+        title={t("seo.faq.title")}
+        description={t("seo.faq.description")}
         path="/faq"
       />
       <JsonLd data={faqSchema(faqs.map(f => ({ question: f.q, answer: f.a })))} />
+      <JsonLd data={breadcrumbSchema([{ name: "Home", url: "https://www.charlsflowers.com" }, { name: "FAQ", url: "https://www.charlsflowers.com/faq" }])} />
       <Navbar />
       <div className="pt-24 pb-16">
         <div className="container mx-auto px-6 max-w-3xl">
+          <Breadcrumbs items={[{ label: "Home", to: "/" }, { label: t("nav.faq") }]} />
           <h1 className="font-title-retro text-4xl md:text-5xl text-primary text-center mb-10">{t("faqPage.title")}</h1>
 
           <div className="space-y-3">

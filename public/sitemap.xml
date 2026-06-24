@@ -2,7 +2,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>https://www.charlsflowers.com</loc>
-    <lastmod>2026-05-29</lastmod>
+    <lastmod>2026-06-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com"/>
@@ -11,7 +11,7 @@
   </url>
   <url>
     <loc>https://www.charlsflowers.com/es</loc>
-    <lastmod>2026-05-29</lastmod>
+    <lastmod>2026-06-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com"/>
@@ -20,7 +20,7 @@
   </url>
   <url>
     <loc>https://www.charlsflowers.com/bouquets</loc>
-    <lastmod>2026-05-29</lastmod>
+    <lastmod>2026-06-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/bouquets"/>
@@ -29,7 +29,7 @@
   </url>
   <url>
     <loc>https://www.charlsflowers.com/es/bouquets</loc>
-    <lastmod>2026-05-29</lastmod>
+    <lastmod>2026-06-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/bouquets"/>
@@ -37,8 +37,62 @@
     <xhtml:link rel="alternate" hreflang="x-default" href="https://www.charlsflowers.com/bouquets"/>
   </url>
   <url>
+    <loc>https://www.charlsflowers.com/bouquets/single-color</loc>
+    <lastmod>2026-06-24</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/bouquets/single-color"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.charlsflowers.com/es/bouquets/single-color"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.charlsflowers.com/bouquets/single-color"/>
+  </url>
+  <url>
+    <loc>https://www.charlsflowers.com/es/bouquets/single-color</loc>
+    <lastmod>2026-06-24</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/bouquets/single-color"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.charlsflowers.com/es/bouquets/single-color"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.charlsflowers.com/bouquets/single-color"/>
+  </url>
+  <url>
+    <loc>https://www.charlsflowers.com/bouquets/mixed-color</loc>
+    <lastmod>2026-06-24</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/bouquets/mixed-color"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.charlsflowers.com/es/bouquets/mixed-color"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.charlsflowers.com/bouquets/mixed-color"/>
+  </url>
+  <url>
+    <loc>https://www.charlsflowers.com/es/bouquets/mixed-color</loc>
+    <lastmod>2026-06-24</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/bouquets/mixed-color"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.charlsflowers.com/es/bouquets/mixed-color"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.charlsflowers.com/bouquets/mixed-color"/>
+  </url>
+  <url>
+    <loc>https://www.charlsflowers.com/bouquets/zodiac</loc>
+    <lastmod>2026-06-24</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/bouquets/zodiac"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.charlsflowers.com/es/bouquets/zodiac"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.charlsflowers.com/bouquets/zodiac"/>
+  </url>
+  <url>
+    <loc>https://www.charlsflowers.com/es/bouquets/zodiac</loc>
+    <lastmod>2026-06-24</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/bouquets/zodiac"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.charlsflowers.com/es/bouquets/zodiac"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.charlsflowers.com/bouquets/zodiac"/>
+  </url>
+  <url>
     <loc>https://www.charlsflowers.com/bouquets/personalizar</loc>
-    <lastmod>2026-05-29</lastmod>
+    <lastmod>2026-06-24</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/bouquets/personalizar"/>
@@ -47,7 +101,7 @@
   </url>
   <url>
     <loc>https://www.charlsflowers.com/es/bouquets/personalizar</loc>
-    <lastmod>2026-05-29</lastmod>
+    <lastmod>2026-06-24</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/bouquets/personalizar"/>
@@ -56,7 +110,7 @@
   </url>
   <url>
     <loc>https://www.charlsflowers.com/room-decors</loc>
-    <lastmod>2026-05-29</lastmod>
+    <lastmod>2026-06-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/room-decors"/>
@@ -65,7 +119,7 @@
   </url>
   <url>
     <loc>https://www.charlsflowers.com/es/room-decors</loc>
-    <lastmod>2026-05-29</lastmod>
+    <lastmod>2026-06-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/room-decors"/>
@@ -74,7 +128,7 @@
   </url>
   <url>
     <loc>https://www.charlsflowers.com/mothers-day</loc>
-    <lastmod>2026-05-29</lastmod>
+    <lastmod>2026-06-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/mothers-day"/>
@@ -83,7 +137,7 @@
   </url>
   <url>
     <loc>https://www.charlsflowers.com/es/mothers-day</loc>
-    <lastmod>2026-05-29</lastmod>
+    <lastmod>2026-06-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/mothers-day"/>
@@ -92,7 +146,7 @@
   </url>
   <url>
     <loc>https://www.charlsflowers.com/about</loc>
-    <lastmod>2026-05-29</lastmod>
+    <lastmod>2026-06-24</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.4</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/about"/>
@@ -101,7 +155,7 @@
   </url>
   <url>
     <loc>https://www.charlsflowers.com/es/about</loc>
-    <lastmod>2026-05-29</lastmod>
+    <lastmod>2026-06-24</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.4</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/about"/>
@@ -110,7 +164,7 @@
   </url>
   <url>
     <loc>https://www.charlsflowers.com/contact</loc>
-    <lastmod>2026-05-29</lastmod>
+    <lastmod>2026-06-24</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.4</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/contact"/>
@@ -119,7 +173,7 @@
   </url>
   <url>
     <loc>https://www.charlsflowers.com/es/contact</loc>
-    <lastmod>2026-05-29</lastmod>
+    <lastmod>2026-06-24</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.4</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/contact"/>
@@ -128,7 +182,7 @@
   </url>
   <url>
     <loc>https://www.charlsflowers.com/delivery</loc>
-    <lastmod>2026-05-29</lastmod>
+    <lastmod>2026-06-24</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.4</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/delivery"/>
@@ -137,7 +191,7 @@
   </url>
   <url>
     <loc>https://www.charlsflowers.com/es/delivery</loc>
-    <lastmod>2026-05-29</lastmod>
+    <lastmod>2026-06-24</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.4</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/delivery"/>
@@ -146,7 +200,7 @@
   </url>
   <url>
     <loc>https://www.charlsflowers.com/faq</loc>
-    <lastmod>2026-05-29</lastmod>
+    <lastmod>2026-06-24</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.4</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/faq"/>
@@ -155,7 +209,7 @@
   </url>
   <url>
     <loc>https://www.charlsflowers.com/es/faq</loc>
-    <lastmod>2026-05-29</lastmod>
+    <lastmod>2026-06-24</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.4</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/faq"/>
@@ -164,7 +218,7 @@
   </url>
   <url>
     <loc>https://www.charlsflowers.com/blog</loc>
-    <lastmod>2026-05-29</lastmod>
+    <lastmod>2026-06-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/blog"/>
@@ -173,7 +227,7 @@
   </url>
   <url>
     <loc>https://www.charlsflowers.com/es/blog</loc>
-    <lastmod>2026-05-29</lastmod>
+    <lastmod>2026-06-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/blog"/>
@@ -182,7 +236,7 @@
   </url>
   <url>
     <loc>https://www.charlsflowers.com/sitemap</loc>
-    <lastmod>2026-05-29</lastmod>
+    <lastmod>2026-06-24</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.4</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/sitemap"/>
@@ -191,7 +245,7 @@
   </url>
   <url>
     <loc>https://www.charlsflowers.com/es/sitemap</loc>
-    <lastmod>2026-05-29</lastmod>
+    <lastmod>2026-06-24</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.4</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/sitemap"/>
@@ -200,7 +254,7 @@
   </url>
   <url>
     <loc>https://www.charlsflowers.com/privacy-policy</loc>
-    <lastmod>2026-05-29</lastmod>
+    <lastmod>2026-06-24</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.4</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/privacy-policy"/>
@@ -209,7 +263,7 @@
   </url>
   <url>
     <loc>https://www.charlsflowers.com/es/privacy-policy</loc>
-    <lastmod>2026-05-29</lastmod>
+    <lastmod>2026-06-24</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.4</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/privacy-policy"/>
@@ -218,7 +272,7 @@
   </url>
   <url>
     <loc>https://www.charlsflowers.com/terms-of-service</loc>
-    <lastmod>2026-05-29</lastmod>
+    <lastmod>2026-06-24</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.4</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/terms-of-service"/>
@@ -227,7 +281,7 @@
   </url>
   <url>
     <loc>https://www.charlsflowers.com/es/terms-of-service</loc>
-    <lastmod>2026-05-29</lastmod>
+    <lastmod>2026-06-24</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.4</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/terms-of-service"/>
@@ -236,7 +290,7 @@
   </url>
   <url>
     <loc>https://www.charlsflowers.com/refund-policy</loc>
-    <lastmod>2026-05-29</lastmod>
+    <lastmod>2026-06-24</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.4</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/refund-policy"/>
@@ -245,7 +299,7 @@
   </url>
   <url>
     <loc>https://www.charlsflowers.com/es/refund-policy</loc>
-    <lastmod>2026-05-29</lastmod>
+    <lastmod>2026-06-24</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.4</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/refund-policy"/>
@@ -254,7 +308,7 @@
   </url>
   <url>
     <loc>https://www.charlsflowers.com/shipping-policy</loc>
-    <lastmod>2026-05-29</lastmod>
+    <lastmod>2026-06-24</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.4</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/shipping-policy"/>
@@ -263,7 +317,7 @@
   </url>
   <url>
     <loc>https://www.charlsflowers.com/es/shipping-policy</loc>
-    <lastmod>2026-05-29</lastmod>
+    <lastmod>2026-06-24</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.4</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/shipping-policy"/>
@@ -272,7 +326,7 @@
   </url>
   <url>
     <loc>https://www.charlsflowers.com/cookie-policy</loc>
-    <lastmod>2026-05-29</lastmod>
+    <lastmod>2026-06-24</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.4</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/cookie-policy"/>
@@ -281,7 +335,7 @@
   </url>
   <url>
     <loc>https://www.charlsflowers.com/es/cookie-policy</loc>
-    <lastmod>2026-05-29</lastmod>
+    <lastmod>2026-06-24</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.4</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/cookie-policy"/>
@@ -290,7 +344,7 @@
   </url>
   <url>
     <loc>https://www.charlsflowers.com/bouquets/all/bicolor-passion</loc>
-    <lastmod>2026-05-29</lastmod>
+    <lastmod>2026-06-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/bouquets/all/bicolor-passion"/>
@@ -299,7 +353,7 @@
   </url>
   <url>
     <loc>https://www.charlsflowers.com/es/bouquets/all/bicolor-passion</loc>
-    <lastmod>2026-05-29</lastmod>
+    <lastmod>2026-06-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/bouquets/all/bicolor-passion"/>
@@ -308,7 +362,7 @@
   </url>
   <url>
     <loc>https://www.charlsflowers.com/bouquets/all/soft-pink</loc>
-    <lastmod>2026-05-29</lastmod>
+    <lastmod>2026-06-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/bouquets/all/soft-pink"/>
@@ -317,7 +371,7 @@
   </url>
   <url>
     <loc>https://www.charlsflowers.com/es/bouquets/all/soft-pink</loc>
-    <lastmod>2026-05-29</lastmod>
+    <lastmod>2026-06-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/bouquets/all/soft-pink"/>
@@ -326,7 +380,7 @@
   </url>
   <url>
     <loc>https://www.charlsflowers.com/bouquets/all/elegant-contrast</loc>
-    <lastmod>2026-05-29</lastmod>
+    <lastmod>2026-06-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/bouquets/all/elegant-contrast"/>
@@ -335,7 +389,7 @@
   </url>
   <url>
     <loc>https://www.charlsflowers.com/es/bouquets/all/elegant-contrast</loc>
-    <lastmod>2026-05-29</lastmod>
+    <lastmod>2026-06-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/bouquets/all/elegant-contrast"/>
@@ -344,7 +398,7 @@
   </url>
   <url>
     <loc>https://www.charlsflowers.com/bouquets/all/radiant-sun</loc>
-    <lastmod>2026-05-29</lastmod>
+    <lastmod>2026-06-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/bouquets/all/radiant-sun"/>
@@ -353,7 +407,7 @@
   </url>
   <url>
     <loc>https://www.charlsflowers.com/es/bouquets/all/radiant-sun</loc>
-    <lastmod>2026-05-29</lastmod>
+    <lastmod>2026-06-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/bouquets/all/radiant-sun"/>
@@ -362,7 +416,7 @@
   </url>
   <url>
     <loc>https://www.charlsflowers.com/bouquets/all/magic-pastel</loc>
-    <lastmod>2026-05-29</lastmod>
+    <lastmod>2026-06-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/bouquets/all/magic-pastel"/>
@@ -371,7 +425,7 @@
   </url>
   <url>
     <loc>https://www.charlsflowers.com/es/bouquets/all/magic-pastel</loc>
-    <lastmod>2026-05-29</lastmod>
+    <lastmod>2026-06-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/bouquets/all/magic-pastel"/>
@@ -380,7 +434,7 @@
   </url>
   <url>
     <loc>https://www.charlsflowers.com/bouquets/all/blue-sky</loc>
-    <lastmod>2026-05-29</lastmod>
+    <lastmod>2026-06-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/bouquets/all/blue-sky"/>
@@ -389,7 +443,7 @@
   </url>
   <url>
     <loc>https://www.charlsflowers.com/es/bouquets/all/blue-sky</loc>
-    <lastmod>2026-05-29</lastmod>
+    <lastmod>2026-06-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/bouquets/all/blue-sky"/>
@@ -398,7 +452,7 @@
   </url>
   <url>
     <loc>https://www.charlsflowers.com/bouquets/all/spring-garden</loc>
-    <lastmod>2026-05-29</lastmod>
+    <lastmod>2026-06-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/bouquets/all/spring-garden"/>
@@ -407,7 +461,7 @@
   </url>
   <url>
     <loc>https://www.charlsflowers.com/es/bouquets/all/spring-garden</loc>
-    <lastmod>2026-05-29</lastmod>
+    <lastmod>2026-06-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/bouquets/all/spring-garden"/>
@@ -416,7 +470,7 @@
   </url>
   <url>
     <loc>https://www.charlsflowers.com/bouquets/all/total-passion</loc>
-    <lastmod>2026-05-29</lastmod>
+    <lastmod>2026-06-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/bouquets/all/total-passion"/>
@@ -425,7 +479,7 @@
   </url>
   <url>
     <loc>https://www.charlsflowers.com/es/bouquets/all/total-passion</loc>
-    <lastmod>2026-05-29</lastmod>
+    <lastmod>2026-06-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/bouquets/all/total-passion"/>
@@ -434,7 +488,7 @@
   </url>
   <url>
     <loc>https://www.charlsflowers.com/bouquets/all/fire-sun</loc>
-    <lastmod>2026-05-29</lastmod>
+    <lastmod>2026-06-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/bouquets/all/fire-sun"/>
@@ -443,7 +497,7 @@
   </url>
   <url>
     <loc>https://www.charlsflowers.com/es/bouquets/all/fire-sun</loc>
-    <lastmod>2026-05-29</lastmod>
+    <lastmod>2026-06-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/bouquets/all/fire-sun"/>
@@ -452,7 +506,7 @@
   </url>
   <url>
     <loc>https://www.charlsflowers.com/bouquets/all/green-fresh</loc>
-    <lastmod>2026-05-29</lastmod>
+    <lastmod>2026-06-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/bouquets/all/green-fresh"/>
@@ -461,7 +515,7 @@
   </url>
   <url>
     <loc>https://www.charlsflowers.com/es/bouquets/all/green-fresh</loc>
-    <lastmod>2026-05-29</lastmod>
+    <lastmod>2026-06-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/bouquets/all/green-fresh"/>
@@ -470,7 +524,7 @@
   </url>
   <url>
     <loc>https://www.charlsflowers.com/bouquets/all/night-day</loc>
-    <lastmod>2026-05-29</lastmod>
+    <lastmod>2026-06-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/bouquets/all/night-day"/>
@@ -479,7 +533,7 @@
   </url>
   <url>
     <loc>https://www.charlsflowers.com/es/bouquets/all/night-day</loc>
-    <lastmod>2026-05-29</lastmod>
+    <lastmod>2026-06-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/bouquets/all/night-day"/>
@@ -488,7 +542,7 @@
   </url>
   <url>
     <loc>https://www.charlsflowers.com/bouquets/all/orange-citrus</loc>
-    <lastmod>2026-05-29</lastmod>
+    <lastmod>2026-06-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/bouquets/all/orange-citrus"/>
@@ -497,7 +551,7 @@
   </url>
   <url>
     <loc>https://www.charlsflowers.com/es/bouquets/all/orange-citrus</loc>
-    <lastmod>2026-05-29</lastmod>
+    <lastmod>2026-06-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/bouquets/all/orange-citrus"/>
@@ -506,7 +560,7 @@
   </url>
   <url>
     <loc>https://www.charlsflowers.com/bouquets/all/hot-pink-blush</loc>
-    <lastmod>2026-05-29</lastmod>
+    <lastmod>2026-06-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/bouquets/all/hot-pink-blush"/>
@@ -515,7 +569,7 @@
   </url>
   <url>
     <loc>https://www.charlsflowers.com/es/bouquets/all/hot-pink-blush</loc>
-    <lastmod>2026-05-29</lastmod>
+    <lastmod>2026-06-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/bouquets/all/hot-pink-blush"/>
@@ -524,7 +578,7 @@
   </url>
   <url>
     <loc>https://www.charlsflowers.com/bouquets/all/classic-tricolor</loc>
-    <lastmod>2026-05-29</lastmod>
+    <lastmod>2026-06-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/bouquets/all/classic-tricolor"/>
@@ -533,7 +587,7 @@
   </url>
   <url>
     <loc>https://www.charlsflowers.com/es/bouquets/all/classic-tricolor</loc>
-    <lastmod>2026-05-29</lastmod>
+    <lastmod>2026-06-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/bouquets/all/classic-tricolor"/>
@@ -542,7 +596,7 @@
   </url>
   <url>
     <loc>https://www.charlsflowers.com/bouquets/all/red-sweetness</loc>
-    <lastmod>2026-05-29</lastmod>
+    <lastmod>2026-06-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/bouquets/all/red-sweetness"/>
@@ -551,7 +605,7 @@
   </url>
   <url>
     <loc>https://www.charlsflowers.com/es/bouquets/all/red-sweetness</loc>
-    <lastmod>2026-05-29</lastmod>
+    <lastmod>2026-06-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/bouquets/all/red-sweetness"/>
@@ -560,7 +614,7 @@
   </url>
   <url>
     <loc>https://www.charlsflowers.com/bouquets/all/deep-night</loc>
-    <lastmod>2026-05-29</lastmod>
+    <lastmod>2026-06-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/bouquets/all/deep-night"/>
@@ -569,7 +623,7 @@
   </url>
   <url>
     <loc>https://www.charlsflowers.com/es/bouquets/all/deep-night</loc>
-    <lastmod>2026-05-29</lastmod>
+    <lastmod>2026-06-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/bouquets/all/deep-night"/>
@@ -578,7 +632,7 @@
   </url>
   <url>
     <loc>https://www.charlsflowers.com/bouquets/all/warm-sunset</loc>
-    <lastmod>2026-05-29</lastmod>
+    <lastmod>2026-06-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/bouquets/all/warm-sunset"/>
@@ -587,7 +641,7 @@
   </url>
   <url>
     <loc>https://www.charlsflowers.com/es/bouquets/all/warm-sunset</loc>
-    <lastmod>2026-05-29</lastmod>
+    <lastmod>2026-06-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/bouquets/all/warm-sunset"/>
@@ -596,7 +650,7 @@
   </url>
   <url>
     <loc>https://www.charlsflowers.com/bouquets/all/sunflowers-passion</loc>
-    <lastmod>2026-05-29</lastmod>
+    <lastmod>2026-06-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/bouquets/all/sunflowers-passion"/>
@@ -605,7 +659,7 @@
   </url>
   <url>
     <loc>https://www.charlsflowers.com/es/bouquets/all/sunflowers-passion</loc>
-    <lastmod>2026-05-29</lastmod>
+    <lastmod>2026-06-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/bouquets/all/sunflowers-passion"/>
@@ -614,7 +668,7 @@
   </url>
   <url>
     <loc>https://www.charlsflowers.com/bouquets/all/orange-sunset</loc>
-    <lastmod>2026-05-29</lastmod>
+    <lastmod>2026-06-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/bouquets/all/orange-sunset"/>
@@ -623,7 +677,7 @@
   </url>
   <url>
     <loc>https://www.charlsflowers.com/es/bouquets/all/orange-sunset</loc>
-    <lastmod>2026-05-29</lastmod>
+    <lastmod>2026-06-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/bouquets/all/orange-sunset"/>
@@ -632,7 +686,7 @@
   </url>
   <url>
     <loc>https://www.charlsflowers.com/bouquets/all/dark-romance</loc>
-    <lastmod>2026-05-29</lastmod>
+    <lastmod>2026-06-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/bouquets/all/dark-romance"/>
@@ -641,7 +695,7 @@
   </url>
   <url>
     <loc>https://www.charlsflowers.com/es/bouquets/all/dark-romance</loc>
-    <lastmod>2026-05-29</lastmod>
+    <lastmod>2026-06-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/bouquets/all/dark-romance"/>
@@ -650,7 +704,7 @@
   </url>
   <url>
     <loc>https://www.charlsflowers.com/bouquets/all/soft-spring</loc>
-    <lastmod>2026-05-29</lastmod>
+    <lastmod>2026-06-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/bouquets/all/soft-spring"/>
@@ -659,7 +713,7 @@
   </url>
   <url>
     <loc>https://www.charlsflowers.com/es/bouquets/all/soft-spring</loc>
-    <lastmod>2026-05-29</lastmod>
+    <lastmod>2026-06-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/bouquets/all/soft-spring"/>
@@ -668,7 +722,7 @@
   </url>
   <url>
     <loc>https://www.charlsflowers.com/bouquets/all/pure-white</loc>
-    <lastmod>2026-05-29</lastmod>
+    <lastmod>2026-06-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/bouquets/all/pure-white"/>
@@ -677,7 +731,7 @@
   </url>
   <url>
     <loc>https://www.charlsflowers.com/es/bouquets/all/pure-white</loc>
-    <lastmod>2026-05-29</lastmod>
+    <lastmod>2026-06-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/bouquets/all/pure-white"/>
@@ -686,7 +740,7 @@
   </url>
   <url>
     <loc>https://www.charlsflowers.com/bouquets/all/white-ocean</loc>
-    <lastmod>2026-05-29</lastmod>
+    <lastmod>2026-06-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/bouquets/all/white-ocean"/>
@@ -695,7 +749,7 @@
   </url>
   <url>
     <loc>https://www.charlsflowers.com/es/bouquets/all/white-ocean</loc>
-    <lastmod>2026-05-29</lastmod>
+    <lastmod>2026-06-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/bouquets/all/white-ocean"/>
@@ -704,7 +758,7 @@
   </url>
   <url>
     <loc>https://www.charlsflowers.com/bouquets/all/iberian-passion</loc>
-    <lastmod>2026-05-29</lastmod>
+    <lastmod>2026-06-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/bouquets/all/iberian-passion"/>
@@ -713,7 +767,7 @@
   </url>
   <url>
     <loc>https://www.charlsflowers.com/es/bouquets/all/iberian-passion</loc>
-    <lastmod>2026-05-29</lastmod>
+    <lastmod>2026-06-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/bouquets/all/iberian-passion"/>
@@ -722,7 +776,7 @@
   </url>
   <url>
     <loc>https://www.charlsflowers.com/bouquets/all/purple-charm</loc>
-    <lastmod>2026-05-29</lastmod>
+    <lastmod>2026-06-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/bouquets/all/purple-charm"/>
@@ -731,7 +785,7 @@
   </url>
   <url>
     <loc>https://www.charlsflowers.com/es/bouquets/all/purple-charm</loc>
-    <lastmod>2026-05-29</lastmod>
+    <lastmod>2026-06-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/bouquets/all/purple-charm"/>
@@ -740,7 +794,7 @@
   </url>
   <url>
     <loc>https://www.charlsflowers.com/bouquets/all/imperial-bee</loc>
-    <lastmod>2026-05-29</lastmod>
+    <lastmod>2026-06-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/bouquets/all/imperial-bee"/>
@@ -749,7 +803,7 @@
   </url>
   <url>
     <loc>https://www.charlsflowers.com/es/bouquets/all/imperial-bee</loc>
-    <lastmod>2026-05-29</lastmod>
+    <lastmod>2026-06-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/bouquets/all/imperial-bee"/>
@@ -758,7 +812,7 @@
   </url>
   <url>
     <loc>https://www.charlsflowers.com/bouquets/all/pink-white-dawn</loc>
-    <lastmod>2026-05-29</lastmod>
+    <lastmod>2026-06-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/bouquets/all/pink-white-dawn"/>
@@ -767,7 +821,7 @@
   </url>
   <url>
     <loc>https://www.charlsflowers.com/es/bouquets/all/pink-white-dawn</loc>
-    <lastmod>2026-05-29</lastmod>
+    <lastmod>2026-06-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/bouquets/all/pink-white-dawn"/>
@@ -776,7 +830,7 @@
   </url>
   <url>
     <loc>https://www.charlsflowers.com/bouquets/all/intense-romance</loc>
-    <lastmod>2026-05-29</lastmod>
+    <lastmod>2026-06-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/bouquets/all/intense-romance"/>
@@ -785,7 +839,7 @@
   </url>
   <url>
     <loc>https://www.charlsflowers.com/es/bouquets/all/intense-romance</loc>
-    <lastmod>2026-05-29</lastmod>
+    <lastmod>2026-06-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/bouquets/all/intense-romance"/>
@@ -794,7 +848,7 @@
   </url>
   <url>
     <loc>https://www.charlsflowers.com/bouquets/all/dark-pink-elegance</loc>
-    <lastmod>2026-05-29</lastmod>
+    <lastmod>2026-06-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/bouquets/all/dark-pink-elegance"/>
@@ -803,7 +857,7 @@
   </url>
   <url>
     <loc>https://www.charlsflowers.com/es/bouquets/all/dark-pink-elegance</loc>
-    <lastmod>2026-05-29</lastmod>
+    <lastmod>2026-06-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/bouquets/all/dark-pink-elegance"/>
@@ -812,7 +866,7 @@
   </url>
   <url>
     <loc>https://www.charlsflowers.com/bouquets/all/citrus-refresh</loc>
-    <lastmod>2026-05-29</lastmod>
+    <lastmod>2026-06-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/bouquets/all/citrus-refresh"/>
@@ -821,7 +875,7 @@
   </url>
   <url>
     <loc>https://www.charlsflowers.com/es/bouquets/all/citrus-refresh</loc>
-    <lastmod>2026-05-29</lastmod>
+    <lastmod>2026-06-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/bouquets/all/citrus-refresh"/>
@@ -830,7 +884,7 @@
   </url>
   <url>
     <loc>https://www.charlsflowers.com/bouquets/all/light-citrus</loc>
-    <lastmod>2026-05-29</lastmod>
+    <lastmod>2026-06-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/bouquets/all/light-citrus"/>
@@ -839,7 +893,7 @@
   </url>
   <url>
     <loc>https://www.charlsflowers.com/es/bouquets/all/light-citrus</loc>
-    <lastmod>2026-05-29</lastmod>
+    <lastmod>2026-06-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/bouquets/all/light-citrus"/>
@@ -848,7 +902,7 @@
   </url>
   <url>
     <loc>https://www.charlsflowers.com/bouquets/all/passionate-love</loc>
-    <lastmod>2026-05-29</lastmod>
+    <lastmod>2026-06-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/bouquets/all/passionate-love"/>
@@ -857,7 +911,7 @@
   </url>
   <url>
     <loc>https://www.charlsflowers.com/es/bouquets/all/passionate-love</loc>
-    <lastmod>2026-05-29</lastmod>
+    <lastmod>2026-06-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/bouquets/all/passionate-love"/>
@@ -866,7 +920,7 @@
   </url>
   <url>
     <loc>https://www.charlsflowers.com/bouquets/all/infinite-tenderness</loc>
-    <lastmod>2026-05-29</lastmod>
+    <lastmod>2026-06-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/bouquets/all/infinite-tenderness"/>
@@ -875,7 +929,7 @@
   </url>
   <url>
     <loc>https://www.charlsflowers.com/es/bouquets/all/infinite-tenderness</loc>
-    <lastmod>2026-05-29</lastmod>
+    <lastmod>2026-06-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/bouquets/all/infinite-tenderness"/>
@@ -884,7 +938,7 @@
   </url>
   <url>
     <loc>https://www.charlsflowers.com/bouquets/all/tricolor-love</loc>
-    <lastmod>2026-05-29</lastmod>
+    <lastmod>2026-06-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/bouquets/all/tricolor-love"/>
@@ -893,7 +947,7 @@
   </url>
   <url>
     <loc>https://www.charlsflowers.com/es/bouquets/all/tricolor-love</loc>
-    <lastmod>2026-05-29</lastmod>
+    <lastmod>2026-06-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/bouquets/all/tricolor-love"/>
@@ -902,7 +956,7 @@
   </url>
   <url>
     <loc>https://www.charlsflowers.com/bouquets/all/pink-symphony</loc>
-    <lastmod>2026-05-29</lastmod>
+    <lastmod>2026-06-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/bouquets/all/pink-symphony"/>
@@ -911,7 +965,7 @@
   </url>
   <url>
     <loc>https://www.charlsflowers.com/es/bouquets/all/pink-symphony</loc>
-    <lastmod>2026-05-29</lastmod>
+    <lastmod>2026-06-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/bouquets/all/pink-symphony"/>
@@ -920,7 +974,7 @@
   </url>
   <url>
     <loc>https://www.charlsflowers.com/bouquets/all/elegant-passion</loc>
-    <lastmod>2026-05-29</lastmod>
+    <lastmod>2026-06-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/bouquets/all/elegant-passion"/>
@@ -929,7 +983,7 @@
   </url>
   <url>
     <loc>https://www.charlsflowers.com/es/bouquets/all/elegant-passion</loc>
-    <lastmod>2026-05-29</lastmod>
+    <lastmod>2026-06-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/bouquets/all/elegant-passion"/>
@@ -938,7 +992,7 @@
   </url>
   <url>
     <loc>https://www.charlsflowers.com/bouquets/all/aries-bouquet</loc>
-    <lastmod>2026-05-29</lastmod>
+    <lastmod>2026-06-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/bouquets/all/aries-bouquet"/>
@@ -947,7 +1001,7 @@
   </url>
   <url>
     <loc>https://www.charlsflowers.com/es/bouquets/all/aries-bouquet</loc>
-    <lastmod>2026-05-29</lastmod>
+    <lastmod>2026-06-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/bouquets/all/aries-bouquet"/>
@@ -956,7 +1010,7 @@
   </url>
   <url>
     <loc>https://www.charlsflowers.com/bouquets/all/taurus-bouquet</loc>
-    <lastmod>2026-05-29</lastmod>
+    <lastmod>2026-06-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/bouquets/all/taurus-bouquet"/>
@@ -965,7 +1019,7 @@
   </url>
   <url>
     <loc>https://www.charlsflowers.com/es/bouquets/all/taurus-bouquet</loc>
-    <lastmod>2026-05-29</lastmod>
+    <lastmod>2026-06-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/bouquets/all/taurus-bouquet"/>
@@ -974,7 +1028,7 @@
   </url>
   <url>
     <loc>https://www.charlsflowers.com/bouquets/all/gemini-bouquet</loc>
-    <lastmod>2026-05-29</lastmod>
+    <lastmod>2026-06-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/bouquets/all/gemini-bouquet"/>
@@ -983,7 +1037,7 @@
   </url>
   <url>
     <loc>https://www.charlsflowers.com/es/bouquets/all/gemini-bouquet</loc>
-    <lastmod>2026-05-29</lastmod>
+    <lastmod>2026-06-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/bouquets/all/gemini-bouquet"/>
@@ -992,7 +1046,7 @@
   </url>
   <url>
     <loc>https://www.charlsflowers.com/bouquets/all/cancer-bouquet</loc>
-    <lastmod>2026-05-29</lastmod>
+    <lastmod>2026-06-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/bouquets/all/cancer-bouquet"/>
@@ -1001,7 +1055,7 @@
   </url>
   <url>
     <loc>https://www.charlsflowers.com/es/bouquets/all/cancer-bouquet</loc>
-    <lastmod>2026-05-29</lastmod>
+    <lastmod>2026-06-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/bouquets/all/cancer-bouquet"/>
@@ -1010,7 +1064,7 @@
   </url>
   <url>
     <loc>https://www.charlsflowers.com/bouquets/all/leo-bouquet</loc>
-    <lastmod>2026-05-29</lastmod>
+    <lastmod>2026-06-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/bouquets/all/leo-bouquet"/>
@@ -1019,7 +1073,7 @@
   </url>
   <url>
     <loc>https://www.charlsflowers.com/es/bouquets/all/leo-bouquet</loc>
-    <lastmod>2026-05-29</lastmod>
+    <lastmod>2026-06-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/bouquets/all/leo-bouquet"/>
@@ -1028,7 +1082,7 @@
   </url>
   <url>
     <loc>https://www.charlsflowers.com/bouquets/all/virgo-bouquet</loc>
-    <lastmod>2026-05-29</lastmod>
+    <lastmod>2026-06-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/bouquets/all/virgo-bouquet"/>
@@ -1037,7 +1091,7 @@
   </url>
   <url>
     <loc>https://www.charlsflowers.com/es/bouquets/all/virgo-bouquet</loc>
-    <lastmod>2026-05-29</lastmod>
+    <lastmod>2026-06-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/bouquets/all/virgo-bouquet"/>
@@ -1046,7 +1100,7 @@
   </url>
   <url>
     <loc>https://www.charlsflowers.com/bouquets/all/libra-bouquet</loc>
-    <lastmod>2026-05-29</lastmod>
+    <lastmod>2026-06-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/bouquets/all/libra-bouquet"/>
@@ -1055,7 +1109,7 @@
   </url>
   <url>
     <loc>https://www.charlsflowers.com/es/bouquets/all/libra-bouquet</loc>
-    <lastmod>2026-05-29</lastmod>
+    <lastmod>2026-06-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/bouquets/all/libra-bouquet"/>
@@ -1064,7 +1118,7 @@
   </url>
   <url>
     <loc>https://www.charlsflowers.com/bouquets/all/scorpio-bouquet</loc>
-    <lastmod>2026-05-29</lastmod>
+    <lastmod>2026-06-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/bouquets/all/scorpio-bouquet"/>
@@ -1073,7 +1127,7 @@
   </url>
   <url>
     <loc>https://www.charlsflowers.com/es/bouquets/all/scorpio-bouquet</loc>
-    <lastmod>2026-05-29</lastmod>
+    <lastmod>2026-06-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/bouquets/all/scorpio-bouquet"/>
@@ -1082,7 +1136,7 @@
   </url>
   <url>
     <loc>https://www.charlsflowers.com/bouquets/all/sagittarius-bouquet</loc>
-    <lastmod>2026-05-29</lastmod>
+    <lastmod>2026-06-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/bouquets/all/sagittarius-bouquet"/>
@@ -1091,7 +1145,7 @@
   </url>
   <url>
     <loc>https://www.charlsflowers.com/es/bouquets/all/sagittarius-bouquet</loc>
-    <lastmod>2026-05-29</lastmod>
+    <lastmod>2026-06-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/bouquets/all/sagittarius-bouquet"/>
@@ -1100,7 +1154,7 @@
   </url>
   <url>
     <loc>https://www.charlsflowers.com/bouquets/all/capricorn-bouquet</loc>
-    <lastmod>2026-05-29</lastmod>
+    <lastmod>2026-06-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/bouquets/all/capricorn-bouquet"/>
@@ -1109,7 +1163,7 @@
   </url>
   <url>
     <loc>https://www.charlsflowers.com/es/bouquets/all/capricorn-bouquet</loc>
-    <lastmod>2026-05-29</lastmod>
+    <lastmod>2026-06-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/bouquets/all/capricorn-bouquet"/>
@@ -1118,7 +1172,7 @@
   </url>
   <url>
     <loc>https://www.charlsflowers.com/bouquets/all/aquarius-bouquet</loc>
-    <lastmod>2026-05-29</lastmod>
+    <lastmod>2026-06-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/bouquets/all/aquarius-bouquet"/>
@@ -1127,7 +1181,7 @@
   </url>
   <url>
     <loc>https://www.charlsflowers.com/es/bouquets/all/aquarius-bouquet</loc>
-    <lastmod>2026-05-29</lastmod>
+    <lastmod>2026-06-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/bouquets/all/aquarius-bouquet"/>
@@ -1136,7 +1190,7 @@
   </url>
   <url>
     <loc>https://www.charlsflowers.com/bouquets/all/pisces-bouquet</loc>
-    <lastmod>2026-05-29</lastmod>
+    <lastmod>2026-06-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/bouquets/all/pisces-bouquet"/>
@@ -1145,7 +1199,7 @@
   </url>
   <url>
     <loc>https://www.charlsflowers.com/es/bouquets/all/pisces-bouquet</loc>
-    <lastmod>2026-05-29</lastmod>
+    <lastmod>2026-06-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/bouquets/all/pisces-bouquet"/>
@@ -1154,7 +1208,7 @@
   </url>
   <url>
     <loc>https://www.charlsflowers.com/bouquets/mothers-day/pure-white-mothers-day-edition</loc>
-    <lastmod>2026-05-29</lastmod>
+    <lastmod>2026-06-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/bouquets/mothers-day/pure-white-mothers-day-edition"/>
@@ -1163,7 +1217,7 @@
   </url>
   <url>
     <loc>https://www.charlsflowers.com/es/bouquets/mothers-day/pure-white-mothers-day-edition</loc>
-    <lastmod>2026-05-29</lastmod>
+    <lastmod>2026-06-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/bouquets/mothers-day/pure-white-mothers-day-edition"/>
@@ -1172,7 +1226,7 @@
   </url>
   <url>
     <loc>https://www.charlsflowers.com/bouquets/mothers-day/hot-pink-blush-mothers-day-edition</loc>
-    <lastmod>2026-05-29</lastmod>
+    <lastmod>2026-06-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/bouquets/mothers-day/hot-pink-blush-mothers-day-edition"/>
@@ -1181,7 +1235,7 @@
   </url>
   <url>
     <loc>https://www.charlsflowers.com/es/bouquets/mothers-day/hot-pink-blush-mothers-day-edition</loc>
-    <lastmod>2026-05-29</lastmod>
+    <lastmod>2026-06-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/bouquets/mothers-day/hot-pink-blush-mothers-day-edition"/>
@@ -1190,7 +1244,7 @@
   </url>
   <url>
     <loc>https://www.charlsflowers.com/bouquets/mothers-day/soft-pink-mothers-day-edition</loc>
-    <lastmod>2026-05-29</lastmod>
+    <lastmod>2026-06-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/bouquets/mothers-day/soft-pink-mothers-day-edition"/>
@@ -1199,7 +1253,7 @@
   </url>
   <url>
     <loc>https://www.charlsflowers.com/es/bouquets/mothers-day/soft-pink-mothers-day-edition</loc>
-    <lastmod>2026-05-29</lastmod>
+    <lastmod>2026-06-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/bouquets/mothers-day/soft-pink-mothers-day-edition"/>
@@ -1208,7 +1262,7 @@
   </url>
   <url>
     <loc>https://www.charlsflowers.com/bouquets/mothers-day/purple-charm-mothers-day-edition</loc>
-    <lastmod>2026-05-29</lastmod>
+    <lastmod>2026-06-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/bouquets/mothers-day/purple-charm-mothers-day-edition"/>
@@ -1217,7 +1271,7 @@
   </url>
   <url>
     <loc>https://www.charlsflowers.com/es/bouquets/mothers-day/purple-charm-mothers-day-edition</loc>
-    <lastmod>2026-05-29</lastmod>
+    <lastmod>2026-06-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/bouquets/mothers-day/purple-charm-mothers-day-edition"/>
@@ -1226,7 +1280,7 @@
   </url>
   <url>
     <loc>https://www.charlsflowers.com/bouquets/mothers-day/orange-sunset-mothers-day-edition</loc>
-    <lastmod>2026-05-29</lastmod>
+    <lastmod>2026-06-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/bouquets/mothers-day/orange-sunset-mothers-day-edition"/>
@@ -1235,7 +1289,7 @@
   </url>
   <url>
     <loc>https://www.charlsflowers.com/es/bouquets/mothers-day/orange-sunset-mothers-day-edition</loc>
-    <lastmod>2026-05-29</lastmod>
+    <lastmod>2026-06-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/bouquets/mothers-day/orange-sunset-mothers-day-edition"/>
@@ -1244,7 +1298,7 @@
   </url>
   <url>
     <loc>https://www.charlsflowers.com/bouquets/mothers-day/radiant-sun-mothers-day-edition</loc>
-    <lastmod>2026-05-29</lastmod>
+    <lastmod>2026-06-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/bouquets/mothers-day/radiant-sun-mothers-day-edition"/>
@@ -1253,7 +1307,7 @@
   </url>
   <url>
     <loc>https://www.charlsflowers.com/es/bouquets/mothers-day/radiant-sun-mothers-day-edition</loc>
-    <lastmod>2026-05-29</lastmod>
+    <lastmod>2026-06-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/bouquets/mothers-day/radiant-sun-mothers-day-edition"/>
@@ -1262,7 +1316,7 @@
   </url>
   <url>
     <loc>https://www.charlsflowers.com/bouquets/mothers-day/total-passion-mothers-day-edition</loc>
-    <lastmod>2026-05-29</lastmod>
+    <lastmod>2026-06-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/bouquets/mothers-day/total-passion-mothers-day-edition"/>
@@ -1271,7 +1325,7 @@
   </url>
   <url>
     <loc>https://www.charlsflowers.com/es/bouquets/mothers-day/total-passion-mothers-day-edition</loc>
-    <lastmod>2026-05-29</lastmod>
+    <lastmod>2026-06-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/bouquets/mothers-day/total-passion-mothers-day-edition"/>
@@ -1280,7 +1334,7 @@
   </url>
   <url>
     <loc>https://www.charlsflowers.com/room-decors/love-bomb</loc>
-    <lastmod>2026-05-29</lastmod>
+    <lastmod>2026-06-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/room-decors/love-bomb"/>
@@ -1289,7 +1343,7 @@
   </url>
   <url>
     <loc>https://www.charlsflowers.com/es/room-decors/love-bomb</loc>
-    <lastmod>2026-05-29</lastmod>
+    <lastmod>2026-06-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/room-decors/love-bomb"/>
@@ -1298,7 +1352,7 @@
   </url>
   <url>
     <loc>https://www.charlsflowers.com/room-decors/overly-romantic</loc>
-    <lastmod>2026-05-29</lastmod>
+    <lastmod>2026-06-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/room-decors/overly-romantic"/>
@@ -1307,7 +1361,7 @@
   </url>
   <url>
     <loc>https://www.charlsflowers.com/es/room-decors/overly-romantic</loc>
-    <lastmod>2026-05-29</lastmod>
+    <lastmod>2026-06-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/room-decors/overly-romantic"/>
@@ -1316,7 +1370,7 @@
   </url>
   <url>
     <loc>https://www.charlsflowers.com/room-decors/deluxe-love-package</loc>
-    <lastmod>2026-05-29</lastmod>
+    <lastmod>2026-06-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/room-decors/deluxe-love-package"/>
@@ -1325,7 +1379,7 @@
   </url>
   <url>
     <loc>https://www.charlsflowers.com/es/room-decors/deluxe-love-package</loc>
-    <lastmod>2026-05-29</lastmod>
+    <lastmod>2026-06-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/room-decors/deluxe-love-package"/>
@@ -1334,7 +1388,7 @@
   </url>
   <url>
     <loc>https://www.charlsflowers.com/flower-delivery-coral-gables</loc>
-    <lastmod>2026-05-29</lastmod>
+    <lastmod>2026-06-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/flower-delivery-coral-gables"/>
@@ -1343,7 +1397,7 @@
   </url>
   <url>
     <loc>https://www.charlsflowers.com/es/flower-delivery-coral-gables</loc>
-    <lastmod>2026-05-29</lastmod>
+    <lastmod>2026-06-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/flower-delivery-coral-gables"/>
@@ -1352,7 +1406,7 @@
   </url>
   <url>
     <loc>https://www.charlsflowers.com/flower-delivery-brickell</loc>
-    <lastmod>2026-05-29</lastmod>
+    <lastmod>2026-06-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/flower-delivery-brickell"/>
@@ -1361,7 +1415,7 @@
   </url>
   <url>
     <loc>https://www.charlsflowers.com/es/flower-delivery-brickell</loc>
-    <lastmod>2026-05-29</lastmod>
+    <lastmod>2026-06-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/flower-delivery-brickell"/>
@@ -1370,7 +1424,7 @@
   </url>
   <url>
     <loc>https://www.charlsflowers.com/flower-delivery-kendall</loc>
-    <lastmod>2026-05-29</lastmod>
+    <lastmod>2026-06-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/flower-delivery-kendall"/>
@@ -1379,7 +1433,7 @@
   </url>
   <url>
     <loc>https://www.charlsflowers.com/es/flower-delivery-kendall</loc>
-    <lastmod>2026-05-29</lastmod>
+    <lastmod>2026-06-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/flower-delivery-kendall"/>
@@ -1388,7 +1442,7 @@
   </url>
   <url>
     <loc>https://www.charlsflowers.com/flower-delivery-doral</loc>
-    <lastmod>2026-05-29</lastmod>
+    <lastmod>2026-06-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/flower-delivery-doral"/>
@@ -1397,7 +1451,7 @@
   </url>
   <url>
     <loc>https://www.charlsflowers.com/es/flower-delivery-doral</loc>
-    <lastmod>2026-05-29</lastmod>
+    <lastmod>2026-06-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/flower-delivery-doral"/>
@@ -1406,7 +1460,7 @@
   </url>
   <url>
     <loc>https://www.charlsflowers.com/flower-shop-miami</loc>
-    <lastmod>2026-05-29</lastmod>
+    <lastmod>2026-06-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/flower-shop-miami"/>
@@ -1415,7 +1469,7 @@
   </url>
   <url>
     <loc>https://www.charlsflowers.com/es/flower-shop-miami</loc>
-    <lastmod>2026-05-29</lastmod>
+    <lastmod>2026-06-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/flower-shop-miami"/>
@@ -1424,7 +1478,7 @@
   </url>
   <url>
     <loc>https://www.charlsflowers.com/flower-delivery-hialeah</loc>
-    <lastmod>2026-05-29</lastmod>
+    <lastmod>2026-06-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/flower-delivery-hialeah"/>
@@ -1433,7 +1487,7 @@
   </url>
   <url>
     <loc>https://www.charlsflowers.com/es/flower-delivery-hialeah</loc>
-    <lastmod>2026-05-29</lastmod>
+    <lastmod>2026-06-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/flower-delivery-hialeah"/>
@@ -1442,7 +1496,7 @@
   </url>
   <url>
     <loc>https://www.charlsflowers.com/flower-delivery-miami-beach</loc>
-    <lastmod>2026-05-29</lastmod>
+    <lastmod>2026-06-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/flower-delivery-miami-beach"/>
@@ -1451,7 +1505,7 @@
   </url>
   <url>
     <loc>https://www.charlsflowers.com/es/flower-delivery-miami-beach</loc>
-    <lastmod>2026-05-29</lastmod>
+    <lastmod>2026-06-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/flower-delivery-miami-beach"/>
@@ -1460,7 +1514,7 @@
   </url>
   <url>
     <loc>https://www.charlsflowers.com/flower-delivery-wynwood</loc>
-    <lastmod>2026-05-29</lastmod>
+    <lastmod>2026-06-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/flower-delivery-wynwood"/>
@@ -1469,7 +1523,7 @@
   </url>
   <url>
     <loc>https://www.charlsflowers.com/es/flower-delivery-wynwood</loc>
-    <lastmod>2026-05-29</lastmod>
+    <lastmod>2026-06-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/flower-delivery-wynwood"/>
@@ -1478,7 +1532,7 @@
   </url>
   <url>
     <loc>https://www.charlsflowers.com/flower-delivery-aventura</loc>
-    <lastmod>2026-05-29</lastmod>
+    <lastmod>2026-06-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/flower-delivery-aventura"/>
@@ -1487,7 +1541,7 @@
   </url>
   <url>
     <loc>https://www.charlsflowers.com/es/flower-delivery-aventura</loc>
-    <lastmod>2026-05-29</lastmod>
+    <lastmod>2026-06-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/flower-delivery-aventura"/>
@@ -1496,7 +1550,7 @@
   </url>
   <url>
     <loc>https://www.charlsflowers.com/valentines-day-flowers-miami</loc>
-    <lastmod>2026-05-29</lastmod>
+    <lastmod>2026-06-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/valentines-day-flowers-miami"/>
@@ -1505,7 +1559,7 @@
   </url>
   <url>
     <loc>https://www.charlsflowers.com/es/valentines-day-flowers-miami</loc>
-    <lastmod>2026-05-29</lastmod>
+    <lastmod>2026-06-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/valentines-day-flowers-miami"/>
@@ -1514,7 +1568,7 @@
   </url>
   <url>
     <loc>https://www.charlsflowers.com/mothers-day-bouquets-miami</loc>
-    <lastmod>2026-05-29</lastmod>
+    <lastmod>2026-06-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/mothers-day-bouquets-miami"/>
@@ -1523,7 +1577,7 @@
   </url>
   <url>
     <loc>https://www.charlsflowers.com/es/mothers-day-bouquets-miami</loc>
-    <lastmod>2026-05-29</lastmod>
+    <lastmod>2026-06-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/mothers-day-bouquets-miami"/>
@@ -1532,7 +1586,7 @@
   </url>
   <url>
     <loc>https://www.charlsflowers.com/gender-reveal-flowers-miami</loc>
-    <lastmod>2026-05-29</lastmod>
+    <lastmod>2026-06-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/gender-reveal-flowers-miami"/>
@@ -1541,7 +1595,7 @@
   </url>
   <url>
     <loc>https://www.charlsflowers.com/es/gender-reveal-flowers-miami</loc>
-    <lastmod>2026-05-29</lastmod>
+    <lastmod>2026-06-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/gender-reveal-flowers-miami"/>
@@ -1550,7 +1604,7 @@
   </url>
   <url>
     <loc>https://www.charlsflowers.com/quinceanera-bouquets-miami</loc>
-    <lastmod>2026-05-29</lastmod>
+    <lastmod>2026-06-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/quinceanera-bouquets-miami"/>
@@ -1559,7 +1613,7 @@
   </url>
   <url>
     <loc>https://www.charlsflowers.com/es/quinceanera-bouquets-miami</loc>
-    <lastmod>2026-05-29</lastmod>
+    <lastmod>2026-06-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/quinceanera-bouquets-miami"/>
@@ -1568,7 +1622,7 @@
   </url>
   <url>
     <loc>https://www.charlsflowers.com/100-roses-bouquet-miami</loc>
-    <lastmod>2026-05-29</lastmod>
+    <lastmod>2026-06-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/100-roses-bouquet-miami"/>
@@ -1577,7 +1631,7 @@
   </url>
   <url>
     <loc>https://www.charlsflowers.com/es/100-roses-bouquet-miami</loc>
-    <lastmod>2026-05-29</lastmod>
+    <lastmod>2026-06-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/100-roses-bouquet-miami"/>

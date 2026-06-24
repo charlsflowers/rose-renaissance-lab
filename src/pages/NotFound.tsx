@@ -10,7 +10,7 @@ const NotFound = () => {
   const { t } = useTranslation();
   return (
     <div className="min-h-screen bg-background">
-      <SeoHead title={t("notFound.seoTitle")} description={t("notFound.seoDescription")} path="/404" noindex />
+      <SeoHead title={t("notFound.seoTitle")} description={t("notFound.seoDescription")} noindex />
       <Navbar />
       <div className="pt-24 flex items-center justify-center min-h-[80vh]">
         <div className="container mx-auto px-6 flex flex-col items-center text-center max-w-lg">

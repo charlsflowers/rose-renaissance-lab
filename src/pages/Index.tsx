@@ -57,7 +57,7 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-background overflow-x-hidden">
-      <SeoHead title="Charls Flowers Miami | Same-Day Flower Delivery" description="Fresh flower bouquets with same-day delivery across Miami. Order roses, custom arrangements & gifts. Up to 87 miles. Call 904-442-4042." path="/" />
+      <SeoHead title={t("seo.home.title")} description={t("seo.home.description")} path="/" />
       <JsonLd data={localBusinessSchema()} />
       <JsonLd data={serviceSchema()} />
       <JsonLd data={websiteSchema()} />

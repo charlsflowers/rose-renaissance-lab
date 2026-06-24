@@ -284,7 +284,7 @@ const CategoryProductDetail = () => {
             </div>
 
             <div className="text-center">
-              <h1 className="font-display text-3xl md:text-4xl lg:text-5xl font-semibold text-foreground">{product.name}</h1>
+              <h1 className="font-display text-3xl md:text-4xl lg:text-5xl font-semibold text-foreground">{product.name} Bouquet Miami</h1>
               <p className="text-muted-foreground font-body lg:text-lg mt-2 lg:mt-3">{product.description}</p>
             </div>
 

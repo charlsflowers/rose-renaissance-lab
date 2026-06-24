@@ -41,9 +41,7 @@ const SeoHead = ({ title, description, path = "", image, type = "website", noind
 
       {/* hreflang — declares both EN and ES versions of this page */}
       <link rel="alternate" hrefLang="en" href={enUrl} />
-      <link rel="alternate" hrefLang="en-US" href={enUrl} />
       <link rel="alternate" hrefLang="es" href={esUrl} />
-      <link rel="alternate" hrefLang="es-US" href={esUrl} />
       <link rel="alternate" hrefLang="x-default" href={enUrl} />
 
       {/* Open Graph */}

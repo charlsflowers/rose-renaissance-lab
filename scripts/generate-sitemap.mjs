@@ -143,6 +143,9 @@ const push = (path, changefreq, priority, opts = {}) => {
 // 1. Static main routes (priority 1.0 / 0.8 / 0.4)
 push("/",                       "weekly",  "1.0");
 push("/bouquets",               "weekly",  "0.8");
+push("/bouquets/single-color",  "weekly",  "0.8");
+push("/bouquets/mixed-color",   "weekly",  "0.8");
+push("/bouquets/zodiac",        "weekly",  "0.8");
 push("/bouquets/personalizar",  "monthly", "0.8");
 push("/room-decors",            "weekly",  "0.8");
 push("/mothers-day",            "weekly",  "0.9");

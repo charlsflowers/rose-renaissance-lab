@@ -25,7 +25,7 @@ const RoomDecors = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      <SeoHead title="Room Decoration Miami | Romantic Floral Setup" description="Premium romantic room decoration with flowers in Miami. Full setup service. Book your Love Bomb, Overly Romantic or Deluxe Love Package today." path="/room-decors" />
+      <SeoHead title={t("seo.roomDecors.title")} description={t("seo.roomDecors.description")} path="/room-decors" />
       <JsonLd data={breadcrumbSchema([{ name: "Home", url: "https://www.charlsflowers.com" }, { name: "Room Decors", url: "https://www.charlsflowers.com/room-decors" }])} />
       <Navbar />
       <div className="pt-24 pb-16">

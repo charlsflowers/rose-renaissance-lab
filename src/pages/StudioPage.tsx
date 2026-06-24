@@ -11,7 +11,7 @@ export default function StudioPage() {
   return (
     <>
       <Helmet>
-        <title>Studio · Charl's Flowers</title>
+        <title>Studio · Charls Flowers</title>
         <meta name="robots" content="noindex, nofollow" />
       </Helmet>
       <div style={{ height: "100vh", width: "100vw" }}>

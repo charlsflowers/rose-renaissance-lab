@@ -2,6 +2,8 @@ import { Link } from "@/i18n/LocalizedRouter";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import SeoHead from "@/components/SeoHead";
+import Breadcrumbs from "@/components/Breadcrumbs";
+import JsonLd, { breadcrumbSchema } from "@/components/JsonLd";
 import { Truck, Store, MapPin, Clock, DollarSign } from "lucide-react";
 import { GOOGLE_MAPS_API_KEY } from "@/lib/constants";
 import { useTranslation } from "@/i18n/LanguageContext";
@@ -12,13 +14,15 @@ const Delivery = () => {
   return (
     <div className="min-h-screen bg-background">
       <SeoHead
-        title="Flower Delivery Miami | Same-Day & Free Pickup"
-        description="Same-day flower delivery in Miami up to 87 miles. $20 flat rate for 0-5 miles, $1.60/mile after. Free in-store pickup. Order before 3PM."
+        title={t("seo.delivery.title")}
+        description={t("seo.delivery.description")}
         path="/delivery"
       />
+      <JsonLd data={breadcrumbSchema([{ name: "Home", url: "https://www.charlsflowers.com" }, { name: "Delivery", url: "https://www.charlsflowers.com/delivery" }])} />
       <Navbar />
       <div className="pt-24 pb-16">
         <div className="container mx-auto px-6 max-w-4xl">
+          <Breadcrumbs items={[{ label: "Home", to: "/" }, { label: t("nav.delivery") }]} />
           <h1 className="font-title-retro text-4xl md:text-5xl text-primary text-center mb-4">{t("deliveryPage.title")}</h1>
           <p className="text-center font-body text-sm text-primary font-semibold mb-10 tracking-wider uppercase">{t("deliveryPage.orderBefore")}</p>
 

@@ -40,9 +40,9 @@ const Navbar = () => {
 
   const bouquetSubLinks = [
     { to: "/bouquets", label: t("nav.allBouquets"), active: true },
-    { to: "/bouquets?filter=un-color", label: t("nav.singleColor"), active: true },
-    { to: "/bouquets?filter=mezclas", label: t("nav.mixedBouquets"), active: true },
-    { to: "/bouquets?filter=zodiac", label: t("nav.zodiacBouquets"), active: true },
+    { to: "/bouquets/single-color", label: t("nav.singleColor"), active: true },
+    { to: "/bouquets/mixed-color", label: t("nav.mixedBouquets"), active: true },
+    { to: "/bouquets/zodiac", label: t("nav.zodiacBouquets"), active: true },
     { to: "/bouquets/personalizar", label: t("nav.customBouquets"), active: true },
     { label: t("nav.anniversaries"), active: false },
     { label: t("nav.birthdayBouquets"), active: false },

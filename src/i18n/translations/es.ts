@@ -576,6 +576,65 @@ export const es = {
     roomDecors: "Decoración",
   },
 
+  // Metadatos SEO (título/descripción por página, bilingüe)
+  seo: {
+    home: {
+      title: "Floristería en Miami | Envío de Flores el Mismo Día | Charls Flowers",
+      description: "Ramos de flores frescas con envío el mismo día en todo Miami. Pide ramos de rosas, arreglos personalizados y regalos. Flores a domicilio Miami. Tel. 904-442-4042.",
+    },
+    bouquets: {
+      title: "Ramos de Rosas en Miami | Un Color y Mixtos | Charls Flowers",
+      description: "Ramos artesanales en Miami, de 50 a 200 rosas, con envío el mismo día. Flores a domicilio de tu florería de confianza. Pide ahora.",
+    },
+    bouquetsSingleColor: {
+      title: "Ramos de Rosas de un Color en Miami | Charls Flowers",
+      description: "Ramos de rosas de un color en Miami, de 50 a 200 rosas. Elige tu tono favorito con envío el mismo día en Miami. Pide ahora.",
+      h1: "Ramos de Rosas de un Color",
+    },
+    bouquetsMixed: {
+      title: "Ramos de Rosas Multicolor en Miami | Charls Flowers",
+      description: "Ramos de rosas multicolor en Miami, de 50 a 200 rosas. Arreglos de varios colores con envío el mismo día en Miami. Pide el tuyo hoy.",
+      h1: "Ramos de Rosas Multicolor",
+    },
+    bouquetsZodiac: {
+      title: "Ramos del Zodiaco en Miami | Charls Flowers",
+      description: "Ramos de rosas del zodiaco en Miami, un diseño por signo, de 50 a 200 rosas. Un regalo único con envío el mismo día en Miami. Pide ahora.",
+      h1: "Ramos del Zodiaco",
+    },
+    roomDecors: {
+      title: "Decoración con Flores en Miami | Montaje Romántico | Charls Flowers",
+      description: "Decoración romántica de habitaciones con flores en Miami. Servicio de montaje completo. Reserva tu Love Bomb, Overly Romantic o Deluxe Love Package.",
+    },
+    about: {
+      title: "La Mejor Floristería de Miami | Charls Flowers",
+      description: "Charls Flowers es la floristería de referencia en Miami. Ramos artesanales de 50 a 200 rosas, vista previa con IA, envío el mismo día hasta 87 millas y recogida gratis.",
+    },
+    contact: {
+      title: "Contacto | Charls Flowers Miami FL",
+      description: "Contacta con Charls Flowers en Miami. Llama al 904-442-4042, visítanos en 7261 NW 12th St o escríbenos. Flores a domicilio el mismo día hasta 87 millas.",
+    },
+    delivery: {
+      title: "Envío de Flores en Miami | Mismo Día y Recogida Gratis",
+      description: "Flores a domicilio el mismo día en Miami hasta 87 millas. Tarifa de $20 para 0-5 millas y $1.60/milla después. Recogida gratis en tienda. Pide antes de las 3PM.",
+    },
+    faq: {
+      title: "Preguntas Frecuentes | Charls Flowers Miami",
+      description: "Resuelve tus dudas sobre envío de flores, ramos personalizados, precios y más en Charls Flowers Miami. Mismo día, recogida gratis y vista previa con IA.",
+    },
+    blog: {
+      title: "Blog de Charls Flowers | Guías y Consejos Florales en Miami",
+      description: "Guías expertas sobre envío de flores, bodas, eventos y cuidado floral en Miami. Consejos de Charls Flowers, tu floristería de lujo en Miami.",
+    },
+    mothersDay: {
+      title: "Flores para el Día de la Madre en Miami | Charls Flowers",
+      description: "Ramos de rosas de edición limitada para el Día de la Madre en Miami. 7 diseños, de 50 a 200 rosas, envío el mismo día. Disponibles del 1 al 12 de mayo.",
+    },
+    bouquetBuilder: {
+      title: "Crea tu Ramo Personalizado en Miami | Charls Flowers",
+      description: "Diseña tu propio ramo personalizado en Miami. Elige las rosas, los colores y el tamaño, y míralo con IA. Envío el mismo día disponible.",
+    },
+  },
+
   // Páginas varias (404, sitemap, shell de landing, UI del blog)
   notFound: {
     seoTitle: "Página no encontrada – Charls Flowers Miami",

@@ -66,24 +66,44 @@ const sortByOrder = <T extends { shopifyHandle: string }>(items: T[], order: str
   return [...items].sort((a, b) => idx(a.shopifyHandle) - idx(b.shopifyHandle));
 };
 
-const BouquetProducts = () => {
+// SEO metadata per subcategory: translation namespace + clean canonical path.
+// `all` keeps the original /bouquets SEO/H1 and uses the page's own title/subtitle.
+const SEO_BY_FILTER: Record<Exclude<FilterType, "all">, { ns: string; path: string }> = {
+  "un-color": { ns: "seo.bouquetsSingleColor", path: "/bouquets/single-color" },
+  "mezclas":  { ns: "seo.bouquetsMixed",       path: "/bouquets/mixed-color" },
+  "zodiac":   { ns: "seo.bouquetsZodiac",      path: "/bouquets/zodiac" },
+};
+
+interface BouquetProductsProps {
+  /** When mounted from a clean subcategory route, the filter is fixed via this prop. */
+  initialFilter?: FilterType;
+}
+
+const BouquetProducts = ({ initialFilter: propFilter }: BouquetProductsProps = {}) => {
   const { t } = useTranslation();
   const translatedBouquetFAQs = useBouquetFAQs();
   const [searchParams] = useSearchParams();
   const storedFilter = (typeof window !== "undefined"
     ? (sessionStorage.getItem("bouquetsFilter") as FilterType | null)
     : null);
+  // Priority: clean-route prop > ?filter= query > session > "all".
   const initialFilter =
-    (searchParams.get("filter") as FilterType) || storedFilter || "all";
+    propFilter || (searchParams.get("filter") as FilterType) || storedFilter || "all";
   const [filter, setFilter] = useState<FilterType>(initialFilter);
   const promoActive = isMothersDayPromoActive();
 
   useEffect(() => { window.scrollTo(0, 0); }, []);
 
+  // Keep state in sync when the route prop changes (e.g. navigating between clean subcategory URLs).
   useEffect(() => {
+    if (propFilter) setFilter(propFilter);
+  }, [propFilter]);
+
+  useEffect(() => {
+    if (propFilter) return; // clean-route filter takes precedence over query
     const urlFilter = searchParams.get("filter") as FilterType | null;
     if (urlFilter) setFilter(urlFilter);
-  }, [searchParams]);
+  }, [searchParams, propFilter]);
 
   useEffect(() => {
     try { sessionStorage.setItem("bouquetsFilter", filter); } catch {}
@@ -106,18 +126,41 @@ const BouquetProducts = () => {
     orderForFilter
   );
 
+  // Per-subcategory SEO. When filter === "all", keep the original /bouquets metadata + H1.
+  const subSeo = filter !== "all" ? SEO_BY_FILTER[filter] : null;
+  const seoTitle = subSeo ? t(`${subSeo.ns}.title`) : t("seo.bouquets.title");
+  const seoDescription = subSeo ? t(`${subSeo.ns}.description`) : t("seo.bouquets.description");
+  const seoPath = subSeo ? subSeo.path : "/bouquets";
+  const heading = subSeo ? t(`${subSeo.ns}.h1`) : t("bouquetProducts.title");
+
+  // Breadcrumb (visible + JSON-LD): add the subcategory level when filtered.
+  const subBreadcrumbLabel = subSeo ? heading : null;
+  const crumbItems = subBreadcrumbLabel
+    ? [{ label: t("nav.home"), to: "/" }, { label: t("nav.bouquets"), to: "/bouquets" }, { label: subBreadcrumbLabel }]
+    : [{ label: t("nav.home"), to: "/" }, { label: t("nav.bouquets") }];
+  const schemaCrumbs = subBreadcrumbLabel
+    ? [
+        { name: "Home", url: "https://www.charlsflowers.com" },
+        { name: "Bouquets", url: "https://www.charlsflowers.com/bouquets" },
+        { name: subBreadcrumbLabel, url: `https://www.charlsflowers.com${seoPath}` },
+      ]
+    : [
+        { name: "Home", url: "https://www.charlsflowers.com" },
+        { name: "Bouquets", url: "https://www.charlsflowers.com/bouquets" },
+      ];
+
   return (
     <div className="min-h-screen bg-background">
-      <SeoHead title="Fresh Bouquets Miami | Single Color & Mixed – Charls Flowers" description="Handcrafted bouquets in Miami. 50 to 200 roses, same-day delivery available. Order now." path="/bouquets" />
-      <JsonLd data={breadcrumbSchema([{ name: "Home", url: "https://www.charlsflowers.com" }, { name: "Bouquets", url: "https://www.charlsflowers.com/bouquets" }])} />
+      <SeoHead title={seoTitle} description={seoDescription} path={seoPath} />
+      <JsonLd data={breadcrumbSchema(schemaCrumbs)} />
       <Navbar />
       <div className="pt-24 pb-16">
         <div className="container mx-auto px-6">
-          <Breadcrumbs items={[{ label: t("nav.home"), to: "/" }, { label: t("nav.bouquets") }]} />
+          <Breadcrumbs items={crumbItems} />
 
           <div className="text-center mb-8">
              <p className="font-subtitle-script text-primary text-lg md:text-2xl mb-2">{t("bouquetProducts.subtitle")}</p>
-            <h1 className="font-title-retro text-4xl md:text-5xl text-foreground">{t("bouquetProducts.title")}</h1>
+            <h1 className="font-title-retro text-4xl md:text-5xl text-foreground">{heading}</h1>
             <p className="text-muted-foreground font-body text-sm mt-3 max-w-2xl mx-auto">
               {t("bouquetProducts.description")}{' '}
               <Link to="/bouquets/all/pure-white" className="text-primary hover:underline">Pure White</Link>,{' '}

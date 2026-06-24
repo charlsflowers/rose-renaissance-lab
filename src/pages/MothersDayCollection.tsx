@@ -19,7 +19,7 @@ import { useTranslation } from "@/i18n/LanguageContext";
  * each product page shows its own "Available again on May 1" notice.
  */
 const MothersDayCollection = () => {
-  const { language } = useTranslation();
+  const { language, t } = useTranslation();
   const { products, raw, loading } = useMothersDayBouquets();
   const promoActive = isMothersDayPromoActive();
 
@@ -30,8 +30,8 @@ const MothersDayCollection = () => {
   return (
     <div className="min-h-screen bg-background">
       <SeoHead
-        title="Mother's Day Flowers Miami | Special Edition Bouquets"
-        description="Limited edition Mother's Day rose bouquets in Miami. 7 designs, 50 to 200 roses, same-day delivery. Available May 1 – May 12."
+        title={t("seo.mothersDay.title")}
+        description={t("seo.mothersDay.description")}
         path="/mothers-day"
       />
       <JsonLd
