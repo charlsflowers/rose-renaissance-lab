@@ -10,6 +10,7 @@ import CookieBanner from "@/components/CookieBanner";
 import { landingPages } from "@/lib/landingPagesData";
 import { bouquetProducts } from "@/lib/catalogData";
 import { slugForHandle, slugEsForHandle, handleFromSlug, BOUQUET_SLUGS } from "@/lib/bouquetSlugs";
+import { COLOR_COLLECTIONS } from "@/lib/colorCollections";
 import { useTranslation } from "@/i18n/LanguageContext";
 import { roomDecorPackages } from "@/lib/roomDecorData";
 import { captureTrackingParams } from "@/lib/trackingParams";
@@ -145,10 +146,19 @@ const AppContent = () => {
       <Route path="categoria/:slug" element={<CategoryProducts />} />
       <Route path="categoria/:slug/:productId" element={<CategoryProductDetail />} />
       <Route path="bouquets/personalizar" element={<BouquetBuilder />} />
+      {/* Legacy /bouquet-builder → 301 (client-side) to the custom builder. */}
+      <Route path="bouquet-builder" element={<Navigate to="/bouquets/personalizar" replace />} />
       {/* Indexable subcategory pages (clean URLs replacing ?filter=...) */}
       <Route path="bouquets/single-color" element={<BouquetProducts initialFilter="un-color" />} />
       <Route path="bouquets/mixed-color" element={<BouquetProducts initialFilter="mezclas" />} />
       <Route path="bouquets/zodiac" element={<BouquetProducts initialFilter="zodiac" />} />
+      {/* Indexable color collections — one per rose color, EN slug + native ES slug.
+          Both slugs are registered in the shared tree so /bouquets/<en> and
+          /es/bouquets/<es> both resolve. Must precede the /bouquets/:slug ficha route. */}
+      {COLOR_COLLECTIONS.flatMap((c) => [
+        <Route key={`color-${c.slug}`} path={`bouquets/${c.slug}`} element={<BouquetProducts colorCollection={c.color} />} />,
+        <Route key={`color-${c.slugEs}`} path={`bouquets/${c.slugEs}`} element={<BouquetProducts colorCollection={c.color} />} />,
+      ])}
       {/* Legacy two-segment fichas (/bouquets/all/<handle>, /bouquets/mothers-day/<handle>, etc.)
           → resolved/301'd by BouquetSlugResolver (kept indefinitely for backlinks + ads). */}
       <Route path="bouquets/:type/:productId" element={<BouquetSlugResolver />} />

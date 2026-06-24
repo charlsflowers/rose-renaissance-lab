@@ -37,6 +37,168 @@
     <xhtml:link rel="alternate" hreflang="x-default" href="https://www.charlsflowers.com/bouquets"/>
   </url>
   <url>
+    <loc>https://www.charlsflowers.com/bouquets/red-roses</loc>
+    <lastmod>2026-06-24</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/bouquets/red-roses"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.charlsflowers.com/es/bouquets/rosas-rojas"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.charlsflowers.com/bouquets/red-roses"/>
+  </url>
+  <url>
+    <loc>https://www.charlsflowers.com/es/bouquets/rosas-rojas</loc>
+    <lastmod>2026-06-24</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/bouquets/red-roses"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.charlsflowers.com/es/bouquets/rosas-rojas"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.charlsflowers.com/bouquets/red-roses"/>
+  </url>
+  <url>
+    <loc>https://www.charlsflowers.com/bouquets/white-roses</loc>
+    <lastmod>2026-06-24</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/bouquets/white-roses"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.charlsflowers.com/es/bouquets/rosas-blancas"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.charlsflowers.com/bouquets/white-roses"/>
+  </url>
+  <url>
+    <loc>https://www.charlsflowers.com/es/bouquets/rosas-blancas</loc>
+    <lastmod>2026-06-24</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/bouquets/white-roses"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.charlsflowers.com/es/bouquets/rosas-blancas"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.charlsflowers.com/bouquets/white-roses"/>
+  </url>
+  <url>
+    <loc>https://www.charlsflowers.com/bouquets/pink-roses</loc>
+    <lastmod>2026-06-24</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/bouquets/pink-roses"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.charlsflowers.com/es/bouquets/rosas-rosadas"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.charlsflowers.com/bouquets/pink-roses"/>
+  </url>
+  <url>
+    <loc>https://www.charlsflowers.com/es/bouquets/rosas-rosadas</loc>
+    <lastmod>2026-06-24</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/bouquets/pink-roses"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.charlsflowers.com/es/bouquets/rosas-rosadas"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.charlsflowers.com/bouquets/pink-roses"/>
+  </url>
+  <url>
+    <loc>https://www.charlsflowers.com/bouquets/yellow-roses</loc>
+    <lastmod>2026-06-24</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/bouquets/yellow-roses"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.charlsflowers.com/es/bouquets/rosas-amarillas"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.charlsflowers.com/bouquets/yellow-roses"/>
+  </url>
+  <url>
+    <loc>https://www.charlsflowers.com/es/bouquets/rosas-amarillas</loc>
+    <lastmod>2026-06-24</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/bouquets/yellow-roses"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.charlsflowers.com/es/bouquets/rosas-amarillas"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.charlsflowers.com/bouquets/yellow-roses"/>
+  </url>
+  <url>
+    <loc>https://www.charlsflowers.com/bouquets/black-roses</loc>
+    <lastmod>2026-06-24</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/bouquets/black-roses"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.charlsflowers.com/es/bouquets/rosas-negras"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.charlsflowers.com/bouquets/black-roses"/>
+  </url>
+  <url>
+    <loc>https://www.charlsflowers.com/es/bouquets/rosas-negras</loc>
+    <lastmod>2026-06-24</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/bouquets/black-roses"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.charlsflowers.com/es/bouquets/rosas-negras"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.charlsflowers.com/bouquets/black-roses"/>
+  </url>
+  <url>
+    <loc>https://www.charlsflowers.com/bouquets/blue-roses</loc>
+    <lastmod>2026-06-24</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/bouquets/blue-roses"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.charlsflowers.com/es/bouquets/rosas-azules"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.charlsflowers.com/bouquets/blue-roses"/>
+  </url>
+  <url>
+    <loc>https://www.charlsflowers.com/es/bouquets/rosas-azules</loc>
+    <lastmod>2026-06-24</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/bouquets/blue-roses"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.charlsflowers.com/es/bouquets/rosas-azules"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.charlsflowers.com/bouquets/blue-roses"/>
+  </url>
+  <url>
+    <loc>https://www.charlsflowers.com/bouquets/purple-roses</loc>
+    <lastmod>2026-06-24</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/bouquets/purple-roses"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.charlsflowers.com/es/bouquets/rosas-moradas"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.charlsflowers.com/bouquets/purple-roses"/>
+  </url>
+  <url>
+    <loc>https://www.charlsflowers.com/es/bouquets/rosas-moradas</loc>
+    <lastmod>2026-06-24</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/bouquets/purple-roses"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.charlsflowers.com/es/bouquets/rosas-moradas"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.charlsflowers.com/bouquets/purple-roses"/>
+  </url>
+  <url>
+    <loc>https://www.charlsflowers.com/bouquets/orange-roses</loc>
+    <lastmod>2026-06-24</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/bouquets/orange-roses"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.charlsflowers.com/es/bouquets/rosas-naranjas"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.charlsflowers.com/bouquets/orange-roses"/>
+  </url>
+  <url>
+    <loc>https://www.charlsflowers.com/es/bouquets/rosas-naranjas</loc>
+    <lastmod>2026-06-24</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/bouquets/orange-roses"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.charlsflowers.com/es/bouquets/rosas-naranjas"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.charlsflowers.com/bouquets/orange-roses"/>
+  </url>
+  <url>
+    <loc>https://www.charlsflowers.com/bouquets/green-roses</loc>
+    <lastmod>2026-06-24</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/bouquets/green-roses"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.charlsflowers.com/es/bouquets/rosas-verdes"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.charlsflowers.com/bouquets/green-roses"/>
+  </url>
+  <url>
+    <loc>https://www.charlsflowers.com/es/bouquets/rosas-verdes</loc>
+    <lastmod>2026-06-24</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/bouquets/green-roses"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.charlsflowers.com/es/bouquets/rosas-verdes"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.charlsflowers.com/bouquets/green-roses"/>
+  </url>
+  <url>
     <loc>https://www.charlsflowers.com/bouquets/single-color</loc>
     <lastmod>2026-06-24</lastmod>
     <changefreq>weekly</changefreq>

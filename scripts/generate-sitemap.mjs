@@ -47,6 +47,22 @@ const catalogSrc   = read("src/lib/catalogData.ts");
 const landingSrc   = read("src/lib/landingPagesData.ts");
 const roomDecorSrc = read("src/lib/roomDecorData.ts");
 const slugsSrc     = read("src/lib/bouquetSlugs.ts");
+const colorCollSrc = read("src/lib/colorCollections.ts");
+
+/**
+ * Parse COLOR_COLLECTIONS entries:
+ *   { color: "red", slug: "red-roses", slugEs: "rosas-rojas", ... }
+ * Returns [{ slug, slugEs }] for the indexable color collection URLs.
+ */
+const colorCollections = (() => {
+  const out = [];
+  const re = /slug:\s*["']([a-z0-9-]+)["']\s*,\s*slugEs:\s*["']([a-z0-9-]+)["']/g;
+  let m;
+  while ((m = re.exec(colorCollSrc)) !== null) {
+    out.push({ slug: m[1], slugEs: m[2] });
+  }
+  return out;
+})();
 
 /**
  * Parse the BOUQUET_SLUGS map: each entry is
@@ -161,6 +177,10 @@ const push = (path, changefreq, priority, opts = {}) => {
 // 1. Static main routes (priority 1.0 / 0.8 / 0.4)
 push("/",                       "weekly",  "1.0");
 push("/bouquets",               "weekly",  "0.8");
+// Color collections (high search volume) — priority ABOVE the generic subcategories.
+for (const c of colorCollections) {
+  push(`/bouquets/${c.slug}`, "weekly", "0.9", { esPath: `/es/bouquets/${c.slugEs}` });
+}
 push("/bouquets/single-color",  "weekly",  "0.8");
 push("/bouquets/mixed-color",   "weekly",  "0.8");
 push("/bouquets/zodiac",        "weekly",  "0.8");
@@ -275,6 +295,7 @@ const counts = {
   totalPaths: urls.length,
   totalUrls: blocks.length,
   bouquets: bouquetHandles.length,
+  colorCollections: colorCollections.length,
   mothersDay: mothersDayHandles.length,
   landings: landingSlugs.length,
   blog: blogSlugs.length,
@@ -282,4 +303,4 @@ const counts = {
   excludedCategories: categorySlugs.length,
 };
 console.log(`[sitemap] wrote ${outPath}`);
-console.log(`[sitemap] paths=${counts.totalPaths} urls=${counts.totalUrls} bouquets=${counts.bouquets} mothersDay=${counts.mothersDay} landings=${counts.landings} blog=${counts.blog} roomDecors=${counts.roomDecors} (excluded comingSoon categories=${counts.excludedCategories})`);
+console.log(`[sitemap] paths=${counts.totalPaths} urls=${counts.totalUrls} bouquets=${counts.bouquets} colorCollections=${counts.colorCollections} mothersDay=${counts.mothersDay} landings=${counts.landings} blog=${counts.blog} roomDecors=${counts.roomDecors} (excluded comingSoon categories=${counts.excludedCategories})`);

@@ -30,6 +30,7 @@ import { StorePickupAlert } from "@/components/StorePickupAlert";
 import CollectionFAQ, { useBouquetFAQs } from "@/components/CollectionFAQ";
 import { bouquetProducts, bouquetSizeOptions } from "@/lib/catalogData";
 import { slugForHandle, slugEsForHandle, handleFromSlug, h1ForHandle, h1EsForHandle, BOUQUET_SLUGS } from "@/lib/bouquetSlugs";
+import { colorCollectionForProduct } from "@/lib/colorCollections";
 import { useMothersDayBouquetByHandle } from "@/lib/mothersDayProducts";
 import { isMothersDayPromoActive, isMothersDayHandle } from "@/lib/mothersDayPromo";
 import {
@@ -424,6 +425,18 @@ const BouquetProductDetail = () => {
   const headingH1 = isInSlugMap && keywordH1Raw
     ? `${keywordH1Raw} Miami`
     : `${product.name} Bouquet Miami`;
+
+  // Same-color indexable collection (single-color products only) for an internal
+  // cross-link with anchor = the color keyword. SEO/navigation only.
+  const sameColorCollection = isMothersDayContext ? undefined : colorCollectionForProduct(product);
+  const colorCollectionTo = sameColorCollection
+    ? (language === "es"
+        ? `/es/bouquets/${sameColorCollection.slugEs}`
+        : `/bouquets/${sameColorCollection.slug}`)
+    : undefined;
+  const colorCollectionAnchor = sameColorCollection
+    ? t(`nav.${sameColorCollection.color}Roses`)
+    : "";
 
   const colorCount = product.color.split(/,\s*|\s+y\s+/).length;
   const hasCustomSizes = product.customSizes && product.customSizes.length > 0;
@@ -935,6 +948,15 @@ const BouquetProductDetail = () => {
                     <p key={i}>{line}</p>
                   ))}
                 </div>
+                {colorCollectionTo && (
+                  <p className="font-body text-sm mt-3">
+                    {t("bouquetProducts.viewAllColorPrefix")}{" "}
+                    <Link to={colorCollectionTo} className="text-primary font-semibold hover:underline" noLocalize>
+                      {colorCollectionAnchor}
+                    </Link>{" "}
+                    {t("bouquetProducts.viewAllColorSuffix")}.
+                  </p>
+                )}
               </div>
 
               {/* Size */}
