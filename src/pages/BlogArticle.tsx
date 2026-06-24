@@ -120,7 +120,7 @@ const BlogArticle = () => {
   return (
     <div className="min-h-screen bg-background">
       <SeoHead
-        title={article.seoTitle || `${article.title} | Charl's Flowers Miami`}
+        title={article.seoTitle || `${article.title} | Charls Flowers Miami`}
         description={article.seoDescription || article.excerpt}
         path={`/blog/${article.slug.current}`}
         image={imageUrl}

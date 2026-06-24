@@ -47,9 +47,9 @@ export const landingPages: LandingPageData[] = [
   {
     slug: 'flower-delivery-coral-gables',
     h1: 'Flower Delivery in Coral Gables, Miami',
-    seoTitle: "Flower Delivery Coral Gables | Wedding & Luxury Bouquets | Charl's Flowers",
+    seoTitle: "Flower Delivery Coral Gables | Charls Flowers",
     seoDescription: 'Flower delivery to Coral Gables homes, weddings and offices. Premium arrangements for Miracle Mile, Biltmore Hotel area, Gables Estates and Cocoplum.',
-    intro: "Coral Gables — known as The City Beautiful — is one of Miami's most elegant neighborhoods, with Mediterranean Revival architecture, tree-lined streets and a culture of refined taste. Charl's Flowers delivers handcrafted luxury arrangements to Coral Gables homes, weddings, offices and hotels, including the historic Biltmore Hotel area, Miracle Mile and the prestigious Gables Estates.",
+    intro: "Coral Gables — known as The City Beautiful — is one of Miami's most elegant neighborhoods, with Mediterranean Revival architecture, tree-lined streets and a culture of refined taste. Charls Flowers delivers handcrafted luxury arrangements to Coral Gables homes, weddings, offices and hotels, including the historic Biltmore Hotel area, Miracle Mile and the prestigious Gables Estates.",
     type: 'neighborhood',
     seo: {
       whyTitle: 'Why we deliver in Coral Gables',
@@ -112,9 +112,9 @@ export const landingPages: LandingPageData[] = [
   {
     slug: 'flower-delivery-doral',
     h1: 'Flower Delivery in Doral, Miami',
-    seoTitle: "Flower Delivery Doral Miami | Bouquets to Homes & Offices | Charl's Flowers",
+    seoTitle: "Flower Delivery Doral Miami | Charls Flowers",
     seoDescription: 'Premium flower delivery in Doral. Service to Doral Isles, Trump National Doral, corporate offices and family homes. Bilingual service in English and Spanish.',
-    intro: "Doral is one of Miami's fastest-growing communities, home to international corporate headquarters, family neighborhoods and the iconic Trump National Doral resort. Charl's Flowers delivers premium fresh bouquets across all of Doral — from the corporate parks along NW 87th Avenue to the residential gated communities of Doral Isles. We cover the 33122, 33166 and 33178 zip codes.",
+    intro: "Doral is one of Miami's fastest-growing communities, home to international corporate headquarters, family neighborhoods and the iconic Trump National Doral resort. Charls Flowers delivers premium fresh bouquets across all of Doral — from the corporate parks along NW 87th Avenue to the residential gated communities of Doral Isles. We cover the 33122, 33166 and 33178 zip codes.",
     type: 'neighborhood',
     seo: {
       whyTitle: 'Why we deliver in Doral',
@@ -176,9 +176,9 @@ export const landingPages: LandingPageData[] = [
   {
     slug: 'flower-delivery-hialeah',
     h1: 'Flower Delivery in Hialeah | Entrega de Flores en Hialeah',
-    seoTitle: "Flower Delivery Hialeah | Florería con Servicio Bilingüe | Charl's Flowers",
+    seoTitle: "Flower Delivery Hialeah Miami | Charls Flowers",
     seoDescription: 'Flores frescas a domicilio en Hialeah. Entrega a casas, oficinas, funerarias y hospitales. Ramos para cumpleaños, quinces y aniversarios. Servicio bilingüe.',
-    intro: "Hialeah is the heart of Cuban-American Miami and one of the most tight-knit communities in South Florida — where every birthday, quinceañera, anniversary and funeral is honored with flowers. Charl's Flowers delivers fresh, premium arrangements across all of Hialeah and Hialeah Gardens, with bilingual service to homes, hospitals, funeral homes and offices. Pedidos en español bienvenidos.",
+    intro: "Hialeah is the heart of Cuban-American Miami and one of the most tight-knit communities in South Florida — where every birthday, quinceañera, anniversary and funeral is honored with flowers. Charls Flowers delivers fresh, premium arrangements across all of Hialeah and Hialeah Gardens, with bilingual service to homes, hospitals, funeral homes and offices. Pedidos en español bienvenidos.",
     type: 'neighborhood',
     seo: {
       whyTitle: 'Why we deliver in Hialeah',
@@ -240,13 +240,13 @@ export const landingPages: LandingPageData[] = [
   {
     slug: 'flower-delivery-kendall',
     h1: 'Flower Delivery in Kendall, Miami',
-    seoTitle: "Flower Delivery Kendall Miami | Bouquets to Homes & Hospitals | Charl's Flowers",
+    seoTitle: "Flower Delivery Kendall Miami | Charls Flowers",
     seoDescription: 'Flower delivery to Kendall, Pinecrest and Palmetto Bay. Birthday, anniversary and sympathy bouquets to family homes, hospitals and schools.',
-    intro: "Kendall is the suburban heart of Miami-Dade — a community of family homes, schools, parks and shopping centers stretching from the Palmetto Expressway to Pinecrest. Charl's Flowers delivers premium fresh arrangements across all of Kendall, Pinecrest and Palmetto Bay. We're the trusted choice for Kendall families who want flowers that are fresher and more thoughtfully designed than what supermarket florists offer.",
+    intro: "Kendall is the suburban heart of Miami-Dade — a community of family homes, schools, parks and shopping centers stretching from the Palmetto Expressway to Pinecrest. Charls Flowers delivers premium fresh arrangements across all of Kendall, Pinecrest and Palmetto Bay. We're the trusted choice for Kendall families who want flowers that are fresher and more thoughtfully designed than what supermarket florists offer.",
     type: 'neighborhood',
     seo: {
       whyTitle: 'Why we deliver in Kendall',
-      whyParagraph: "Kendall residents tell us they switched to Charl's Flowers because they were tired of receiving flowers that looked tired the same evening. Our arrangements are made-to-order with flowers that arrive at our atelier mid-week, so what we deliver on Friday wasn't sitting in a cooler since Monday. We deliver to Kendall family homes, to Baptist Hospital and Doctors Hospital, to Dadeland Mall area offices and to schools across the area.",
+      whyParagraph: "Kendall residents tell us they switched to Charls Flowers because they were tired of receiving flowers that looked tired the same evening. Our arrangements are made-to-order with flowers that arrive at our atelier mid-week, so what we deliver on Friday wasn't sitting in a cooler since Monday. We deliver to Kendall family homes, to Baptist Hospital and Doctors Hospital, to Dadeland Mall area offices and to schools across the area.",
       zonesTitle: 'Areas we cover in Kendall',
       zonesIntro: 'We deliver throughout Kendall and surrounding areas:',
       zones: [
@@ -304,9 +304,9 @@ export const landingPages: LandingPageData[] = [
   {
     slug: 'flower-delivery-brickell',
     h1: 'Luxury Flower Delivery in Brickell, Miami',
-    seoTitle: "Flower Delivery Brickell Miami | Luxury Bouquets to Condos & Hotels | Charl's Flowers",
+    seoTitle: "Flower Delivery Brickell Miami | Charls Flowers",
     seoDescription: 'Premium flower delivery to Brickell condos, offices and hotels. Service to Brickell City Centre, Four Seasons, SLS, Mandarin Oriental and all Brickell Avenue.',
-    intro: "Brickell is Miami's financial heart, full of high-rise condos, executive offices and luxury hotels where every detail matters. At Charl's Flowers we deliver premium fresh bouquets directly to Brickell Avenue, Brickell Key and Brickell City Centre, with the discretion and presentation that this neighborhood expects. Whether it's a corporate gift, a romantic surprise to a 30th-floor condo, or a hotel suite delivery for a guest, our service has Brickell covered.",
+    intro: "Brickell is Miami's financial heart, full of high-rise condos, executive offices and luxury hotels where every detail matters. At Charls Flowers we deliver premium fresh bouquets directly to Brickell Avenue, Brickell Key and Brickell City Centre, with the discretion and presentation that this neighborhood expects. Whether it's a corporate gift, a romantic surprise to a 30th-floor condo, or a hotel suite delivery for a guest, our service has Brickell covered.",
     type: 'neighborhood',
     seo: {
       whyTitle: 'Why we deliver in Brickell',
@@ -369,9 +369,9 @@ export const landingPages: LandingPageData[] = [
   {
     slug: 'flower-delivery-wynwood',
     h1: 'Flower Delivery in Wynwood, Miami',
-    seoTitle: "Flower Delivery Wynwood Miami | Modern Bouquets & Event Florals | Charl's Flowers",
+    seoTitle: "Flower Delivery Wynwood Miami | Charls Flowers",
     seoDescription: 'Flower delivery to Wynwood galleries, studios, restaurants and lofts. Modern, design-forward arrangements for events, openings and content creation.',
-    intro: "Wynwood is Miami's creative district — home to street art, design studios, galleries, restaurants and the loft residences of the city's creative class. Charl's Flowers delivers contemporary, design-forward arrangements across Wynwood, with service to galleries, photo studios, restaurants, offices and residential lofts. Our aesthetic — bold, sculptural, never traditional — fits Wynwood's energy.",
+    intro: "Wynwood is Miami's creative district — home to street art, design studios, galleries, restaurants and the loft residences of the city's creative class. Charls Flowers delivers contemporary, design-forward arrangements across Wynwood, with service to galleries, photo studios, restaurants, offices and residential lofts. Our aesthetic — bold, sculptural, never traditional — fits Wynwood's energy.",
     type: 'neighborhood',
     seo: {
       whyTitle: 'Why we deliver in Wynwood',
@@ -433,9 +433,9 @@ export const landingPages: LandingPageData[] = [
   {
     slug: 'flower-delivery-miami-beach',
     h1: 'Luxury Flower Delivery in Miami Beach',
-    seoTitle: "Flower Delivery Miami Beach | Hotel & Condo Luxury Florals | Charl's Flowers",
+    seoTitle: "Flower Delivery Miami Beach | Charls Flowers",
     seoDescription: 'Premium flower delivery to Miami Beach hotels, condos and residences. Service to South Beach, Mid-Beach, North Beach, Fisher Island and Sunset Harbour.',
-    intro: "Miami Beach is where Miami's glamour lives — from the Art Deco hotels of Ocean Drive to the oceanfront condos of Mid-Beach and the private estates of North Bay Road. Charl's Flowers delivers premium, design-forward arrangements across all of Miami Beach. We work directly with concierge teams at the Faena, Setai, Edition, Fontainebleau, W South Beach and dozens of other Miami Beach properties.",
+    intro: "Miami Beach is where Miami's glamour lives — from the Art Deco hotels of Ocean Drive to the oceanfront condos of Mid-Beach and the private estates of North Bay Road. Charls Flowers delivers premium, design-forward arrangements across all of Miami Beach. We work directly with concierge teams at the Faena, Setai, Edition, Fontainebleau, W South Beach and dozens of other Miami Beach properties.",
     type: 'neighborhood',
     seo: {
       whyTitle: 'Why we deliver in Miami Beach',
@@ -497,7 +497,7 @@ export const landingPages: LandingPageData[] = [
   {
     slug: 'flower-delivery-aventura',
     h1: 'Flower Delivery Aventura | Same-Day – Charls Flowers Miami',
-    seoTitle: 'Flower Delivery Aventura | Same-Day Roses – Charls Flowers',
+    seoTitle: 'Flower Delivery Aventura Miami | Charls Flowers',
     seoDescription: 'Same-day flower delivery to Aventura from Charls Flowers Miami. Custom bouquets, glitter or natural finish. Order before 3PM.',
     intro: 'Order premium rose bouquets for delivery to Aventura from Charls Flowers. Same-day service available for orders placed before 3PM. From romantic red roses to vibrant mixed arrangements, we offer the largest selection of handcrafted bouquets in Miami — 50 to 200 roses per bouquet with natural, glitter, or painted finish.',
     type: 'neighborhood',
@@ -505,8 +505,8 @@ export const landingPages: LandingPageData[] = [
   // Seasonal pages
   {
     slug: 'valentines-day-flowers-miami',
-    h1: "Valentine's Day Flowers Miami | Same-Day Delivery – Charls Flowers",
-    seoTitle: "Valentine's Day Flowers Miami | Same-Day Delivery – Charls Flowers",
+    h1: "Valentine's Day Flowers Miami | Charls Flowers",
+    seoTitle: "Valentine's Day Flowers Miami | Charls Flowers",
     seoDescription: "Order Valentine's Day flowers in Miami with same-day delivery. Handcrafted rose bouquets from 50 to 200 roses. Glitter or natural finish. Order before 3PM.",
     intro: "Make this Valentine's Day unforgettable with a premium handcrafted bouquet from Charls Flowers. We offer the largest selection of rose bouquets in Miami — from classic red roses to custom mixed arrangements. Choose from 50 to 200 roses with natural, glitter, or painted finish. Same-day delivery available across Miami when you order before 3PM. Don't wait until the last minute — order your Valentine's Day flowers today.",
     type: 'seasonal',
@@ -514,9 +514,9 @@ export const landingPages: LandingPageData[] = [
   {
     slug: 'mothers-day-bouquets-miami',
     h1: "Mother's Day Bouquets — Miami Delivery",
-    seoTitle: "Mother's Day Flowers Miami | Luxury Bouquet Delivery | Charl's Flowers",
+    seoTitle: "Mother's Day Flowers Miami | Charls Flowers",
     seoDescription: "Premium Mother's Day bouquets delivered across Miami. Hand-designed arrangements for moms, grandmothers and mother figures. Bilingual cards available.",
-    intro: "Mother's Day is the busiest flower delivery day of the year in Miami — and the day where freshness, presentation and on-time delivery matter most. Charl's Flowers designs premium Mother's Day bouquets in our Miami atelier, with delivery across Brickell, Coral Gables, Miami Beach, Doral, Kendall, Hialeah and the rest of the city. Order early to guarantee your delivery window — Mother's Day fills up fast.",
+    intro: "Mother's Day is the busiest flower delivery day of the year in Miami — and the day where freshness, presentation and on-time delivery matter most. Charls Flowers designs premium Mother's Day bouquets in our Miami atelier, with delivery across Brickell, Coral Gables, Miami Beach, Doral, Kendall, Hialeah and the rest of the city. Order early to guarantee your delivery window — Mother's Day fills up fast.",
     type: 'seasonal',
     seo: {
       whyTitle: "Why order Mother's Day flowers from us",
@@ -576,10 +576,10 @@ export const landingPages: LandingPageData[] = [
   // Niche pages
   {
     slug: 'flower-shop-miami',
-    h1: "Charl's Flowers — Miami's Luxury Flower Shop",
-    seoTitle: "Flower Shop Miami | Luxury Florist with Citywide Delivery | Charl's Flowers",
-    seoDescription: "Charl's Flowers is Miami's luxury florist. Delivery to Brickell, Miami Beach, Coral Gables, Wynwood, Doral, Kendall and Hialeah. Premium arrangements made fresh daily.",
-    intro: "Charl's Flowers is a Miami-based luxury florist delivering premium fresh arrangements across all of Miami-Dade. We're not a wire service or a marketplace — every bouquet is designed and arranged in our Miami atelier, using flowers sourced fresh each week. Citywide delivery to Brickell, Miami Beach, Coral Gables, Wynwood, Doral, Kendall, Hialeah and the surrounding neighborhoods.",
+    h1: "Charls Flowers — Miami's Luxury Flower Shop",
+    seoTitle: "Flower Shop Miami | Luxury Florist | Charls Flowers",
+    seoDescription: "Charls Flowers is Miami's luxury florist. Delivery to Brickell, Miami Beach, Coral Gables, Wynwood, Doral, Kendall and Hialeah. Premium arrangements made fresh daily.",
+    intro: "Charls Flowers is a Miami-based luxury florist delivering premium fresh arrangements across all of Miami-Dade. We're not a wire service or a marketplace — every bouquet is designed and arranged in our Miami atelier, using flowers sourced fresh each week. Citywide delivery to Brickell, Miami Beach, Coral Gables, Wynwood, Doral, Kendall, Hialeah and the surrounding neighborhoods.",
     type: 'niche',
     seo: {
       whyTitle: 'Why order from us in Miami',
@@ -611,7 +611,7 @@ export const landingPages: LandingPageData[] = [
       faqTitle: 'Miami flower shop FAQs',
       faqs: [
         {
-          question: "What makes Charl's Flowers different from other Miami florists?",
+          question: "What makes Charls Flowers different from other Miami florists?",
           answer: "Three things: every arrangement is designed by hand in our Miami atelier (no wire service handoffs), our flowers arrive fresh weekly from premium growers, and our delivery team knows the protocols at Miami's hotels, condo towers and gated communities — meaning your bouquet arrives properly and on time.",
         },
         {
@@ -644,7 +644,7 @@ export const landingPages: LandingPageData[] = [
   {
     slug: 'quinceanera-bouquets-miami',
     h1: 'Quinceanera Bouquets Miami | Custom Arrangements – Charls Flowers',
-    seoTitle: 'Quinceanera Bouquets Miami | Custom Rose Arrangements – Charls Flowers',
+    seoTitle: 'Quinceanera Bouquets Miami | Charls Flowers',
     seoDescription: 'Custom quinceañera bouquets in Miami. Choose colors, quantity and finish. AI preview available. Same-day delivery or free pickup.',
     intro: "Celebrate her quinceañera with a stunning bouquet from Charls Flowers. Our custom bouquet builder lets you design the perfect arrangement — choose her favorite colors, paper wrapping, quantity (50-200 roses), and finish (natural, glitter, or painted). Add special accessories like crowns, butterflies, or personalized ribbons. Preview your bouquet with AI before ordering. Same-day delivery available across Miami.",
     type: 'niche',
@@ -652,9 +652,9 @@ export const landingPages: LandingPageData[] = [
   {
     slug: 'gender-reveal-flowers-miami',
     h1: 'Gender Reveal Flowers in Miami',
-    seoTitle: "Gender Reveal Flowers Miami | Pink & Blue Bouquets | Charl's Flowers",
+    seoTitle: "Gender Reveal Flowers Miami | Charls Flowers",
     seoDescription: 'Custom gender reveal flower arrangements in Miami. Pink, blue or hidden-color reveal bouquets and centerpieces. Delivery to Miami homes and event venues.',
-    intro: "A gender reveal is one of the most photographed moments of a pregnancy — and the flowers should match the magic. Charl's Flowers designs custom gender reveal arrangements in Miami: bold pink-or-blue bouquets, hidden-color reveal pieces, party centerpieces and statement entrance florals. Available across Miami for last-minute reveals, with full event setups available with advance notice.",
+    intro: "A gender reveal is one of the most photographed moments of a pregnancy — and the flowers should match the magic. Charls Flowers designs custom gender reveal arrangements in Miami: bold pink-or-blue bouquets, hidden-color reveal pieces, party centerpieces and statement entrance florals. Available across Miami for last-minute reveals, with full event setups available with advance notice.",
     type: 'niche',
     seo: {
       whyTitle: 'Why order gender reveal flowers from us',
@@ -713,7 +713,7 @@ export const landingPages: LandingPageData[] = [
   {
     slug: '100-roses-bouquet-miami',
     h1: '100 Roses Bouquet Miami | Premium Arrangements – Charls Flowers',
-    seoTitle: '100 Roses Bouquet Miami | Premium Rose Arrangements – Charls Flowers',
+    seoTitle: '100 Roses Bouquet Miami | Charls Flowers',
     seoDescription: 'Order a stunning 100 roses bouquet in Miami. Choose your color, finish and paper. Same-day delivery up to 87 miles. Custom AI preview.',
     intro: "A 100-rose bouquet makes a powerful statement. At Charls Flowers, our 100-rose arrangements are handcrafted with the freshest roses and available in every color — white, red, pink, hot pink, yellow, orange, purple, and painted options like black, blue, and green. Choose your finish (natural, glitter, or painted), paper color, and add accessories like crowns, ribbons, or butterflies. Preview your bouquet with AI before ordering. Same-day delivery across Miami up to 87 miles.",
     type: 'niche',

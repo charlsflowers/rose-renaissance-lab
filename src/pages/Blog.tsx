@@ -16,9 +16,9 @@ const blogCollectionSchema = {
   "@context": "https://schema.org",
   "@type": "Blog",
   "@id": `${BASE_URL}/blog#blog`,
-  name: "The Charl's Flowers Blog",
+  name: "The Charls Flowers Blog",
   description:
-    "Miami floral insights, delivery guides, wedding inspiration, event planning tips and rose care advice from Charl's Flowers.",
+    "Miami floral insights, delivery guides, wedding inspiration, event planning tips and rose care advice from Charls Flowers.",
   url: `${BASE_URL}/blog`,
   publisher: { "@id": `${BASE_URL}/#localbusiness` },
   inLanguage: "en-US",
@@ -37,8 +37,8 @@ const Blog = () => {
   return (
     <div className="min-h-screen bg-background">
       <SeoHead
-        title="Charl's Flowers Blog | Miami Floral Guides, Tips & Insights"
-        description="Expert guides on flower delivery, weddings, events and floral care in Miami. Insider tips from Charl's Flowers, Miami's luxury florist."
+        title={t("seo.blog.title")}
+        description={t("seo.blog.description")}
         path="/blog"
       />
       <JsonLd
@@ -57,7 +57,7 @@ const Blog = () => {
 
           <header className="text-center mb-10 max-w-3xl mx-auto">
             <h1 className="font-title-retro text-4xl md:text-5xl text-foreground">
-              The Charl's Flowers Blog — Miami Floral Insights & Guides
+              The Charls Flowers Blog — Miami Floral Insights & Guides
             </h1>
             <p className="text-muted-foreground font-body mt-4 text-base">
               {t("blogPage.subtitle")}
@@ -67,7 +67,7 @@ const Blog = () => {
           {/* Rich intro — turns /blog into a real landing instead of a thin index */}
           <section className="max-w-3xl mx-auto mb-14 font-body text-foreground/90 leading-relaxed space-y-4">
             <p>
-              Welcome to the Charl's Flowers blog — a working notebook from inside Miami's
+              Welcome to the Charls Flowers blog — a working notebook from inside Miami's
               luxury floral scene. We're a family-run florist based at 7261 NW 12th Street,
               delivering custom rose bouquets, room decorations and event arrangements across
               all of Miami-Dade up to 87 miles from our shop. This blog is where we share

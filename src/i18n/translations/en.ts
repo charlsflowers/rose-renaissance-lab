@@ -601,6 +601,50 @@ export const en = {
     roomDecors: "Room Decors",
   },
 
+  // SEO metadata (title/description per page, bilingual)
+  seo: {
+    home: {
+      title: "Charls Flowers Miami | Same-Day Flower Delivery",
+      description: "Fresh flower bouquets with same-day delivery across Miami. Order roses, custom arrangements & gifts. Up to 87 miles. Call 904-442-4042.",
+    },
+    bouquets: {
+      title: "Fresh Bouquets Miami | Single Color & Mixed – Charls Flowers",
+      description: "Handcrafted bouquets in Miami. 50 to 200 roses, same-day delivery available. Order now.",
+    },
+    roomDecors: {
+      title: "Room Decoration Miami | Romantic Floral Setup",
+      description: "Premium romantic room decoration with flowers in Miami. Full setup service. Book your Love Bomb, Overly Romantic or Deluxe Love Package today.",
+    },
+    about: {
+      title: "Miami's Premier Flower Shop – Charls Flowers",
+      description: "Charls Flowers is Miami's top flower shop. Handcrafted bouquets from 50 to 200 roses, AI preview, same-day delivery up to 87 miles, free pickup.",
+    },
+    contact: {
+      title: "Contact Charls Flowers – Miami FL",
+      description: "Get in touch with Charls Flowers Miami. Call 904-442-4042, visit us at 7261 NW 12th St, or send a message. Same-day flower delivery up to 87 miles.",
+    },
+    delivery: {
+      title: "Flower Delivery Miami | Same-Day & Free Pickup",
+      description: "Same-day flower delivery in Miami up to 87 miles. $20 flat rate for 0-5 miles, $1.60/mile after. Free in-store pickup. Order before 3PM.",
+    },
+    faq: {
+      title: "Frequently Asked Questions – Charls Flowers Miami",
+      description: "Find answers about flower delivery, custom bouquets, pricing, and more at Charls Flowers Miami. Same-day delivery, free pickup, AI preview.",
+    },
+    blog: {
+      title: "Charls Flowers Blog | Miami Floral Guides, Tips & Insights",
+      description: "Expert guides on flower delivery, weddings, events and floral care in Miami. Insider tips from Charls Flowers, Miami's luxury florist.",
+    },
+    mothersDay: {
+      title: "Mother's Day Flowers Miami | Special Edition Bouquets",
+      description: "Limited edition Mother's Day rose bouquets in Miami. 7 designs, 50 to 200 roses, same-day delivery. Available May 1 – May 12.",
+    },
+    bouquetBuilder: {
+      title: "Custom Bouquet Builder Miami | Charls Flowers",
+      description: "Build your own custom bouquet in Miami. Choose your roses, colors and size, then preview it with AI. Same-day delivery available.",
+    },
+  },
+
   // Misc pages (404, sitemap, landing shell, blog UI)
   notFound: {
     seoTitle: "Page Not Found – Charls Flowers Miami",

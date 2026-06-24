@@ -298,7 +298,7 @@ const RoomDecorDetail = () => {
             {/* Right column — product details & options */}
             <div className="min-w-0 space-y-5 lg:space-y-7">
               <div>
-                <h1 className="font-display text-2xl lg:text-4xl font-semibold text-foreground">{pkg.name}</h1>
+                <h1 className="font-display text-2xl lg:text-4xl font-semibold text-foreground">{pkg.name} — Room Decor Miami</h1>
                 <p className="text-muted-foreground font-body text-sm lg:text-base mt-1 lg:mt-2">{resolvedDescription}</p>
                 <p className="font-display text-xl lg:text-3xl font-bold text-foreground mt-2 lg:mt-3">${pkg.price} <span className="text-xs lg:text-sm font-body text-muted-foreground font-normal">USD</span></p>
               </div>
@@ -542,7 +542,7 @@ const RoomDecorDetail = () => {
             </div>
 
             <div className="text-center">
-              <h1 className="font-display text-3xl font-semibold text-foreground">{pkg.name}</h1>
+              <h2 className="font-display text-3xl font-semibold text-foreground">{pkg.name} — Room Decor Miami</h2>
               <p className="text-muted-foreground font-body mt-2 text-left">{resolvedDescription}</p>
             </div>
 

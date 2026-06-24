@@ -5,7 +5,7 @@ import { schemaTypes } from "./schemas";
 
 export const sanityStudioConfig = defineConfig({
   name: "default",
-  title: "Charl's Flowers Studio",
+  title: "Charls Flowers Studio",
   projectId: "8326wvly",
   dataset: "production",
   basePath: "/studio",

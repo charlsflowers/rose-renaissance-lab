@@ -2,6 +2,8 @@ import { Link } from "@/i18n/LocalizedRouter";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import SeoHead from "@/components/SeoHead";
+import Breadcrumbs from "@/components/Breadcrumbs";
+import JsonLd, { breadcrumbSchema } from "@/components/JsonLd";
 import { Flower2, Truck, Store, Sparkles, Star, MapPin } from "lucide-react";
 import { useTranslation } from "@/i18n/LanguageContext";
 
@@ -20,13 +22,15 @@ const About = () => {
   return (
     <div className="min-h-screen bg-background">
       <SeoHead
-        title="Miami's Premier Flower Shop – Charls Flowers"
-        description="Charls Flowers is Miami's top flower shop. Handcrafted bouquets from 50 to 200 roses, AI preview, same-day delivery up to 87 miles, free pickup."
+        title={t("seo.about.title")}
+        description={t("seo.about.description")}
         path="/about"
       />
+      <JsonLd data={breadcrumbSchema([{ name: "Home", url: "https://www.charlsflowers.com" }, { name: "About", url: "https://www.charlsflowers.com/about" }])} />
       <Navbar />
       <div className="pt-24 pb-16">
         <div className="container mx-auto px-6 max-w-3xl">
+          <Breadcrumbs items={[{ label: "Home", to: "/" }, { label: t("nav.about") }]} />
           <h1 className="font-title-retro text-4xl md:text-5xl text-primary text-center mb-10">{t("about.title")}</h1>
 
           <div className="prose-sm font-body text-muted-foreground space-y-5 mb-12">
