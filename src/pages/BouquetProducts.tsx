@@ -5,9 +5,10 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import SeoHead from "@/components/SeoHead";
 import Breadcrumbs from "@/components/Breadcrumbs";
-import JsonLd, { breadcrumbSchema } from "@/components/JsonLd";
+import JsonLd, { breadcrumbSchema, itemListSchema } from "@/components/JsonLd";
 import CollectionFAQ, { useBouquetFAQs } from "@/components/CollectionFAQ";
 import { bouquetProducts, bouquetSizeOptions } from "@/lib/catalogData";
+import { slugForHandle } from "@/lib/bouquetSlugs";
 import { getPrice } from "@/lib/productData";
 import ShopifyPrice from "@/components/ShopifyPrice";
 import BouquetCardImage from "@/components/BouquetCardImage";
@@ -15,6 +16,12 @@ import { ArrowLeft, ArrowRight, Lock } from "lucide-react";
 import { useTranslation } from "@/i18n/LanguageContext";
 import WaveDivider from "@/components/WaveDivider";
 import { isMothersDayPromoActive } from "@/lib/mothersDayPromo";
+import {
+  COLOR_COLLECTIONS,
+  collectionFromSegment,
+  productsForColor,
+  type RoseColor,
+} from "@/lib/colorCollections";
 
 type FilterType = "all" | "un-color" | "mezclas" | "zodiac";
 
@@ -77,10 +84,16 @@ const SEO_BY_FILTER: Record<Exclude<FilterType, "all">, { ns: string; path: stri
 interface BouquetProductsProps {
   /** When mounted from a clean subcategory route, the filter is fixed via this prop. */
   initialFilter?: FilterType;
+  /**
+   * When mounted from an indexable color collection route (/bouquets/red-roses,
+   * /es/bouquets/rosas-rojas, …) this fixes the page to that single rose color.
+   * SEO/navigation only — it just filters which products are shown + the H1/meta.
+   */
+  colorCollection?: RoseColor;
 }
 
-const BouquetProducts = ({ initialFilter: propFilter }: BouquetProductsProps = {}) => {
-  const { t } = useTranslation();
+const BouquetProducts = ({ initialFilter: propFilter, colorCollection }: BouquetProductsProps = {}) => {
+  const { t, language } = useTranslation();
   const translatedBouquetFAQs = useBouquetFAQs();
   const [searchParams] = useSearchParams();
   const storedFilter = (typeof window !== "undefined"
@@ -109,32 +122,58 @@ const BouquetProducts = ({ initialFilter: propFilter }: BouquetProductsProps = {
     try { sessionStorage.setItem("bouquetsFilter", filter); } catch {}
   }, [filter]);
 
+  // Resolve the active color collection (if any) from the prop.
+  const colorColl = colorCollection
+    ? collectionFromSegment(colorCollection)
+    : undefined;
+
+  // Build the language-correct path to a color collection. ES uses the NATIVE
+  // slug (not a simple /es prefix), so we resolve it explicitly per language.
+  const colorLinkTo = (color: RoseColor): string => {
+    const c = COLOR_COLLECTIONS.find((x) => x.color === color);
+    if (!c) return "/bouquets";
+    return language === "es" ? `/es/bouquets/${c.slugEs}` : `/bouquets/${c.slug}`;
+  };
+
   const orderForFilter =
     filter === "zodiac" ? ORDER_ZODIAC :
     filter === "un-color" ? ORDER_SINGLE :
     filter === "mezclas" ? ORDER_MIXED :
     ORDER_ALL;
 
-  const filteredProducts = sortByOrder(
-    bouquetProducts.filter((product) => {
-      if (filter === "zodiac") return isZodiac(product.id);
-      if (filter === "all") return true;
-      if (isZodiac(product.id)) return false;
-      const isMix = product.color.includes(" y ") || product.color.includes(", ") || product.color.includes(" y");
-      return filter === "mezclas" ? isMix : !isMix;
-    }),
-    orderForFilter
-  );
+  const filteredProducts = colorColl
+    ? sortByOrder(productsForColor(bouquetProducts, colorColl), ORDER_ALL)
+    : sortByOrder(
+        bouquetProducts.filter((product) => {
+          if (filter === "zodiac") return isZodiac(product.id);
+          if (filter === "all") return true;
+          if (isZodiac(product.id)) return false;
+          const isMix = product.color.includes(" y ") || product.color.includes(", ") || product.color.includes(" y");
+          return filter === "mezclas" ? isMix : !isMix;
+        }),
+        orderForFilter
+      );
 
   // Per-subcategory SEO. When filter === "all", keep the original /bouquets metadata + H1.
+  // Color collections take precedence and use their own ns + native ES slug.
   const subSeo = filter !== "all" ? SEO_BY_FILTER[filter] : null;
-  const seoTitle = subSeo ? t(`${subSeo.ns}.title`) : t("seo.bouquets.title");
-  const seoDescription = subSeo ? t(`${subSeo.ns}.description`) : t("seo.bouquets.description");
-  const seoPath = subSeo ? subSeo.path : "/bouquets";
-  const heading = subSeo ? t(`${subSeo.ns}.h1`) : t("bouquetProducts.title");
+  const seoTitle = colorColl
+    ? t(`${colorColl.ns}.title`)
+    : subSeo ? t(`${subSeo.ns}.title`) : t("seo.bouquets.title");
+  const seoDescription = colorColl
+    ? t(`${colorColl.ns}.description`)
+    : subSeo ? t(`${subSeo.ns}.description`) : t("seo.bouquets.description");
+  const seoPath = colorColl
+    ? `/bouquets/${colorColl.slug}`
+    : subSeo ? subSeo.path : "/bouquets";
+  // Native ES slug for the canonical/hreflang (only color collections differ EN↔ES).
+  const seoPathEs = colorColl ? `/bouquets/${colorColl.slugEs}` : undefined;
+  const heading = colorColl
+    ? t(`${colorColl.ns}.h1`)
+    : subSeo ? t(`${subSeo.ns}.h1`) : t("bouquetProducts.title");
 
   // Breadcrumb (visible + JSON-LD): add the subcategory level when filtered.
-  const subBreadcrumbLabel = subSeo ? heading : null;
+  const subBreadcrumbLabel = colorColl || subSeo ? heading : null;
   const crumbItems = subBreadcrumbLabel
     ? [{ label: t("nav.home"), to: "/" }, { label: t("nav.bouquets"), to: "/bouquets" }, { label: subBreadcrumbLabel }]
     : [{ label: t("nav.home"), to: "/" }, { label: t("nav.bouquets") }];
@@ -151,8 +190,17 @@ const BouquetProducts = ({ initialFilter: propFilter }: BouquetProductsProps = {
 
   return (
     <div className="min-h-screen bg-background">
-      <SeoHead title={seoTitle} description={seoDescription} path={seoPath} />
-      <JsonLd data={breadcrumbSchema(schemaCrumbs)} />
+      <SeoHead title={seoTitle} description={seoDescription} path={seoPath} pathEs={seoPathEs} />
+      <JsonLd data={[
+        breadcrumbSchema(schemaCrumbs),
+        itemListSchema(
+          filteredProducts.map(p => ({
+            name: p.name,
+            url: `https://www.charlsflowers.com/bouquets/${slugForHandle(p.shopifyHandle)}`,
+          })),
+          heading,
+        ),
+      ]} />
       <Navbar />
       <div className="pt-24 pb-16">
         <div className="container mx-auto px-6">
@@ -163,42 +211,62 @@ const BouquetProducts = ({ initialFilter: propFilter }: BouquetProductsProps = {
             <h1 className="font-title-retro text-4xl md:text-5xl text-foreground">{heading}</h1>
             <p className="text-muted-foreground font-body text-sm mt-3 max-w-2xl mx-auto">
               {t("bouquetProducts.description")}{' '}
-              <Link to="/bouquets/all/pure-white" className="text-primary hover:underline">Pure White</Link>,{' '}
-              <Link to="/bouquets/all/total-passion" className="text-primary hover:underline">Total Passion</Link>,{' '}
-              <Link to="/bouquets/all/hot-pink-blush" className="text-primary hover:underline">Hot Pink Blush</Link>,{' '}
-              <Link to="/bouquets/all/blue-sky" className="text-primary hover:underline">Blue Sky</Link>.
+              {/* Internal links → indexable color collections (anchor = color keyword). */}
+              <Link to={colorLinkTo("white")} className="text-primary hover:underline">{t("nav.whiteRoses").toLowerCase()}</Link>,{' '}
+              <Link to={colorLinkTo("red")} className="text-primary hover:underline">{t("nav.redRoses").toLowerCase()}</Link>,{' '}
+              <Link to={colorLinkTo("pink")} className="text-primary hover:underline">{t("nav.pinkRoses").toLowerCase()}</Link>,{' '}
+              <Link to={colorLinkTo("blue")} className="text-primary hover:underline">{t("nav.blueRoses").toLowerCase()}</Link>.
             </p>
             <p className="text-primary font-body text-xs font-semibold mt-2">{t("common.orderBefore3PM")}</p>
           </div>
 
-          <div className="flex justify-center gap-3 mb-12">
-            {([
-              { key: "all", label: t("bouquetProducts.seeAll"), locked: false },
-              { key: "un-color", label: t("bouquetProducts.singleColor"), locked: false },
-              { key: "mezclas", label: t("bouquetProducts.mixes"), locked: false },
-              { key: "zodiac", label: t("bouquetProducts.zodiacSigns"), locked: false },
-            ] as { key: FilterType; label: string; locked: boolean }[]).map(({ key, label, locked }) => (
-              <button
-                key={key}
-                onClick={() => !locked && setFilter(key)}
-                disabled={locked}
-                className={`px-3 md:px-5 py-1.5 md:py-2 rounded-full font-body text-xs md:text-sm transition-all inline-flex items-center gap-1 md:gap-1.5 ${
-                  locked
-                    ? "bg-muted text-muted-foreground/50 cursor-not-allowed"
-                    : filter === key
-                      ? "bg-primary text-primary-foreground shadow-sm"
-                      : "bg-muted text-muted-foreground hover:bg-accent"
+          {/* Shop-by-color collection links (kept on every bouquets view for internal linking). */}
+          <div className="flex flex-wrap justify-center gap-2 mb-8">
+            {COLOR_COLLECTIONS.map((c) => (
+              <Link
+                key={c.color}
+                to={colorLinkTo(c.color)}
+                className={`px-3 md:px-4 py-1 md:py-1.5 rounded-full font-body text-xs md:text-sm transition-all ${
+                  colorColl?.color === c.color
+                    ? "bg-primary text-primary-foreground shadow-sm"
+                    : "bg-muted text-muted-foreground hover:bg-accent"
                 }`}
               >
-                {label}
-              </button>
+                {t(`nav.${c.color}Roses`)}
+              </Link>
             ))}
           </div>
+
+          {!colorColl && (
+            <div className="flex justify-center gap-3 mb-12">
+              {([
+                { key: "all", label: t("bouquetProducts.seeAll"), locked: false },
+                { key: "un-color", label: t("bouquetProducts.singleColor"), locked: false },
+                { key: "mezclas", label: t("bouquetProducts.mixes"), locked: false },
+                { key: "zodiac", label: t("bouquetProducts.zodiacSigns"), locked: false },
+              ] as { key: FilterType; label: string; locked: boolean }[]).map(({ key, label, locked }) => (
+                <button
+                  key={key}
+                  onClick={() => !locked && setFilter(key)}
+                  disabled={locked}
+                  className={`px-3 md:px-5 py-1.5 md:py-2 rounded-full font-body text-xs md:text-sm transition-all inline-flex items-center gap-1 md:gap-1.5 ${
+                    locked
+                      ? "bg-muted text-muted-foreground/50 cursor-not-allowed"
+                      : filter === key
+                        ? "bg-primary text-primary-foreground shadow-sm"
+                        : "bg-muted text-muted-foreground hover:bg-accent"
+                  }`}
+                >
+                  {label}
+                </button>
+              ))}
+            </div>
+          )}
 
           <div className="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-8 max-w-5xl mx-auto">
             {filteredProducts.map((product) => (
               <div key={product.id}>
-                <Link to={`/bouquets/all/${product.shopifyHandle}`} className="group block">
+                <Link to={`/bouquets/${slugForHandle(product.shopifyHandle)}`} className="group block">
                   <div className="relative overflow-hidden rounded-lg mb-4 aspect-square bg-muted">
                     <BouquetCardImage
                       handle={product.shopifyHandle}

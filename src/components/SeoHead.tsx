@@ -8,6 +8,12 @@ interface SeoHeadProps {
   title: string;
   description: string;
   path?: string;
+  /**
+   * Optional ES-specific path (EN-style, no /es prefix) when the ES URL slug
+   * differs from the EN one (e.g. localized product slugs). When omitted, the
+   * ES URL is derived from `path` with a `/es` prefix.
+   */
+  pathEs?: string;
   image?: string;
   type?: "website" | "article";
   noindex?: boolean;
@@ -18,15 +24,16 @@ interface SeoHeadProps {
   };
 }
 
-const SeoHead = ({ title, description, path = "", image, type = "website", noindex = false, article }: SeoHeadProps) => {
+const SeoHead = ({ title, description, path = "", pathEs, image, type = "website", noindex = false, article }: SeoHeadProps) => {
   const { language } = useTranslation();
   const ogImage = image || DEFAULT_IMAGE;
 
-  // Normalize the path: callers always pass the EN-style path (e.g. "/bouquets/all/foo").
+  // Normalize the path: callers always pass the EN-style path (e.g. "/bouquets/foo").
   // We strip a `/es` prefix defensively in case a caller already includes it.
   const cleanPath = stripLangPrefix(path) || "/";
+  const cleanPathEs = stripLangPrefix(pathEs || path) || "/";
   const enUrl = `${BASE_URL}${cleanPath === "/" ? "" : cleanPath}`;
-  const esUrl = `${BASE_URL}${cleanPath === "/" ? "/es" : `/es${cleanPath}`}`;
+  const esUrl = `${BASE_URL}${cleanPathEs === "/" ? "/es" : `/es${cleanPathEs}`}`;
 
   // Canonical: self-referencing per language.
   const canonical = language === "es" ? esUrl : enUrl;
@@ -34,6 +41,7 @@ const SeoHead = ({ title, description, path = "", image, type = "website", noind
 
   return (
     <Helmet>
+      <html lang={language === "es" ? "es" : "en"} />
       <title>{title}</title>
       <meta name="description" content={description} />
       <link rel="canonical" href={canonical} />

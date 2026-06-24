@@ -14,6 +14,15 @@ export const es = {
     singleColor: "Ramos de Un Color",
     mixedBouquets: "Ramos Mixtos",
     zodiacBouquets: "Ramos del Zodíaco",
+    redRoses: "Rosas Rojas",
+    whiteRoses: "Rosas Blancas",
+    pinkRoses: "Rosas Rosadas",
+    yellowRoses: "Rosas Amarillas",
+    blackRoses: "Rosas Negras",
+    blueRoses: "Rosas Azules",
+    purpleRoses: "Rosas Moradas",
+    orangeRoses: "Rosas Naranjas",
+    greenRoses: "Rosas Verdes",
     comingSoon: "próximamente",
     searchPlaceholder: "Buscar ramos o ingresar dirección de envío...",
     deliveryAddresses: "Direcciones de envío",
@@ -72,7 +81,7 @@ export const es = {
 
   home: {
     heroSubtitle: "Hechos a mano con amor",
-    heroTitle: "Rosas Frescas y Naturales en Miami",
+    heroTitle: "Floristería en Miami — Flores a Domicilio el Mismo Día",
     heroDescription: "Ramos artesanales de 50 a 200 rosas. Acabado natural, pintado o con glitter.",
     viewBouquets: "Ver ramos",
     buildYourBouquet: "Crea tu ramo",
@@ -176,7 +185,7 @@ export const es = {
   },
 
   faqPage: {
-    title: "Preguntas Frecuentes",
+    title: "Envío de Flores en Miami — Preguntas Frecuentes",
     faqs: [
       { q: "¿Ofrecen envío el mismo día en Miami?", a: "¡Sí! Ofrecemos envío el mismo día en todo Miami hasta 87 millas. Pide antes de las 3PM y tu ramo será entregado hoy. Tiempo mínimo de preparación: 2 horas." },
       { q: "¿Cuánto cuesta el envío de flores en Miami?", a: "$25 tarifa fija para 0-5 millas. $1.60 por milla de 5 a 87 millas. Recogida gratis disponible en 7261 NW 12th Street, Miami FL 33126." },
@@ -297,7 +306,7 @@ export const es = {
 
   bouquetProducts: {
     subtitle: "Ramos artesanales",
-    title: "Ramos",
+    title: "Ramos de Rosas Frescas en Miami",
     description: "Explora nuestros ramos de rosas artesanales en Miami.",
     seeAll: "Ver Todos",
     singleColor: "Un color",
@@ -306,6 +315,8 @@ export const es = {
     cantFind: "¿No encuentras lo que buscas?",
     cantFindDesc: "Personaliza cada detalle: color, tamaño, accesorios y más. Desde $76 USD.",
     customizeNow: "Personalizar ahora",
+    viewAllColorPrefix: "Ver todos los ramos de",
+    viewAllColorSuffix: "en Miami",
   },
 
   builder: {
@@ -579,8 +590,8 @@ export const es = {
   // Metadatos SEO (título/descripción por página, bilingüe)
   seo: {
     home: {
-      title: "Floristería en Miami | Envío de Flores el Mismo Día | Charls Flowers",
-      description: "Ramos de flores frescas con envío el mismo día en todo Miami. Pide ramos de rosas, arreglos personalizados y regalos. Flores a domicilio Miami. Tel. 904-442-4042.",
+      title: "Floristería en Miami | Flores el Mismo Día | Charls Flowers",
+      description: "Ramos de flores frescas con envío el mismo día en todo Miami. Pide rosas, arreglos personalizados y regalos a domicilio. Tel. 904-442-4042.",
     },
     bouquets: {
       title: "Ramos de Rosas en Miami | Un Color y Mixtos | Charls Flowers",
@@ -601,13 +612,58 @@ export const es = {
       description: "Ramos de rosas del zodiaco en Miami, un diseño por signo, de 50 a 200 rosas. Un regalo único con envío el mismo día en Miami. Pide ahora.",
       h1: "Ramos del Zodiaco",
     },
+    bouquetsRedRoses: {
+      title: "Ramo de Rosas Rojas en Miami | Envío el Mismo Día – Charls Flowers",
+      description: "Ramos de rosas rojas en Miami, de 50 a 200 rosas. El símbolo clásico del amor, hechos a mano con envío el mismo día hasta 87 millas. Pide antes de las 3PM.",
+      h1: "Ramo de Rosas Rojas en Miami",
+    },
+    bouquetsWhiteRoses: {
+      title: "Ramo de Rosas Blancas en Miami | Envío el Mismo Día – Charls Flowers",
+      description: "Ramos de rosas blancas en Miami, de 50 a 200 rosas. Arreglos puros y elegantes con envío el mismo día hasta 87 millas. Pide el tuyo antes de las 3PM.",
+      h1: "Ramo de Rosas Blancas en Miami",
+    },
+    bouquetsPinkRoses: {
+      title: "Ramo de Rosas Rosadas en Miami | Envío el Mismo Día – Charls Flowers",
+      description: "Ramos de rosas rosadas en Miami, de 50 a 200 rosas. Diseños en pink y hot pink con envío el mismo día hasta 87 millas. Pide antes de las 3PM.",
+      h1: "Ramo de Rosas Rosadas en Miami",
+    },
+    bouquetsYellowRoses: {
+      title: "Ramo de Rosas Amarillas en Miami | Envío el Mismo Día – Charls Flowers",
+      description: "Ramos de rosas amarillas en Miami, de 50 a 200 rosas. Arreglos alegres y luminosos con envío el mismo día hasta 87 millas. Pide antes de las 3PM.",
+      h1: "Ramo de Rosas Amarillas en Miami",
+    },
+    bouquetsBlackRoses: {
+      title: "Ramo de Rosas Negras en Miami | Envío el Mismo Día – Charls Flowers",
+      description: "Ramos de rosas negras en Miami, de 50 a 200 rosas. Diseños audaces y dramáticos con envío el mismo día hasta 87 millas. Pide el tuyo antes de las 3PM.",
+      h1: "Ramo de Rosas Negras en Miami",
+    },
+    bouquetsBlueRoses: {
+      title: "Ramo de Rosas Azules en Miami | Envío el Mismo Día – Charls Flowers",
+      description: "Ramos de rosas azules en Miami, de 50 a 200 rosas. Diseños únicos en azul pintado con envío el mismo día hasta 87 millas. Pide antes de las 3PM.",
+      h1: "Ramo de Rosas Azules en Miami",
+    },
+    bouquetsPurpleRoses: {
+      title: "Ramo de Rosas Moradas en Miami | Envío el Mismo Día – Charls Flowers",
+      description: "Ramos de rosas moradas en Miami, de 50 a 200 rosas. Arreglos elegantes y encantadores con envío el mismo día hasta 87 millas. Pide antes de las 3PM.",
+      h1: "Ramo de Rosas Moradas en Miami",
+    },
+    bouquetsOrangeRoses: {
+      title: "Ramo de Rosas Naranjas en Miami | Envío el Mismo Día – Charls Flowers",
+      description: "Ramos de rosas naranjas en Miami, de 50 a 200 rosas. Diseños cálidos y vibrantes con envío el mismo día hasta 87 millas. Pide el tuyo antes de las 3PM.",
+      h1: "Ramo de Rosas Naranjas en Miami",
+    },
+    bouquetsGreenRoses: {
+      title: "Ramo de Rosas Verdes en Miami | Envío el Mismo Día – Charls Flowers",
+      description: "Ramos de rosas verdes en Miami, de 50 a 200 rosas. Arreglos frescos y originales con envío el mismo día hasta 87 millas. Pide antes de las 3PM.",
+      h1: "Ramo de Rosas Verdes en Miami",
+    },
     roomDecors: {
-      title: "Decoración con Flores en Miami | Montaje Romántico | Charls Flowers",
+      title: "Decoración con Flores en Miami | Charls Flowers",
       description: "Decoración romántica de habitaciones con flores en Miami. Servicio de montaje completo. Reserva tu Love Bomb, Overly Romantic o Deluxe Love Package.",
     },
     about: {
       title: "La Mejor Floristería de Miami | Charls Flowers",
-      description: "Charls Flowers es la floristería de referencia en Miami. Ramos artesanales de 50 a 200 rosas, vista previa con IA, envío el mismo día hasta 87 millas y recogida gratis.",
+      description: "Charls Flowers, la floristería de referencia en Miami. Ramos artesanales de 50 a 200 rosas, vista previa con IA, envío el mismo día y recogida gratis.",
     },
     contact: {
       title: "Contacto | Charls Flowers Miami FL",

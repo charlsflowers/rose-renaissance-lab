@@ -14,7 +14,9 @@ const ShortLink = ({ slug }: { slug: string }) => {
     captureTrackingParams();
   }, [slug]);
 
-  return <Index />;
+  // Short links (e.g. /wa) render the home page in-place but must NOT be indexed
+  // as duplicate homepages — the canonical already points to "/".
+  return <Index noindex />;
 };
 
 export default ShortLink;

@@ -12,26 +12,23 @@ import LandingFAQ from "@/components/landing/LandingFAQ";
 import LandingInternalLinks from "@/components/landing/LandingInternalLinks";
 import { getLandingPage } from "@/lib/landingPagesData";
 import { ArrowRight, MapPin, Truck, Store, Clock, Sparkles } from "lucide-react";
-import { useTranslation } from "@/i18n/LanguageContext";
+import { useTranslation, stripLangPrefix } from "@/i18n/LanguageContext";
+import NotFound from "@/pages/NotFound";
 
 const LandingPage = () => {
   const { pathname } = useLocation();
-  const slug = pathname.replace("/", "");
+  // Strip the `/es` language prefix BEFORE removing the leading slash, otherwise
+  // ES landings (e.g. /es/flower-shop-miami) resolve to "es/flower-shop-miami"
+  // and 404 as a soft-404 (HTTP 200, indexable). See SEO audit A1.
+  const slug = stripLangPrefix(pathname).replace(/^\//, "");
   const page = getLandingPage(slug);
   const { t } = useTranslation();
 
   useEffect(() => { window.scrollTo(0, 0); }, [slug]);
 
   if (!page) {
-    return (
-      <div className="min-h-screen bg-background">
-        <Navbar />
-        <div className="pt-24 text-center">
-          <p className="text-muted-foreground font-body">{t("landing.pageNotFound")}</p>
-          <Link to="/" className="text-primary font-body underline mt-4 inline-block">{t("landing.goHome")}</Link>
-        </div>
-      </div>
-    );
+    // Unknown landing → 404 page (noindex) to avoid a soft-404.
+    return <NotFound />;
   }
 
   // Extended SEO layout (per-page unique content + LocalBusiness/FAQPage schema).

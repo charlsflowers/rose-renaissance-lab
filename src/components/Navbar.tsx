@@ -8,6 +8,8 @@ import BrandLogo from "@/components/BrandLogo";
 import charlsLogo from "@/assets/charls-logo.webp";
 import { Menu, X, ChevronDown, Search as SearchIcon, MapPin, Globe } from "lucide-react";
 import { bouquetProducts } from "@/lib/catalogData";
+import { slugForHandle } from "@/lib/bouquetSlugs";
+import { COLOR_COLLECTIONS } from "@/lib/colorCollections";
 import { roomDecorPackages } from "@/lib/roomDecorData";
 import { supabase } from "@/integrations/supabase/client";
 import { useTranslation, type Language } from "@/i18n/LanguageContext";
@@ -38,11 +40,21 @@ const Navbar = () => {
   const location = useLocation();
   const debounceRef = useRef<ReturnType<typeof setTimeout>>();
 
+  // Color collection links use the NATIVE ES slug (not a /es prefix), resolved per language.
+  const colorLinkTo = (slug: string, slugEs: string) =>
+    language === "es" ? `/es/bouquets/${slugEs}` : `/bouquets/${slug}`;
+
   const bouquetSubLinks = [
     { to: "/bouquets", label: t("nav.allBouquets"), active: true },
     { to: "/bouquets/single-color", label: t("nav.singleColor"), active: true },
     { to: "/bouquets/mixed-color", label: t("nav.mixedBouquets"), active: true },
     { to: "/bouquets/zodiac", label: t("nav.zodiacBouquets"), active: true },
+    // Indexable color collections (one per rose color).
+    ...COLOR_COLLECTIONS.map((c) => ({
+      to: colorLinkTo(c.slug, c.slugEs),
+      label: t(`nav.${c.color}Roses`),
+      active: true,
+    })),
     { to: "/bouquets/personalizar", label: t("nav.customBouquets"), active: true },
     { label: t("nav.anniversaries"), active: false },
     { label: t("nav.birthdayBouquets"), active: false },
@@ -63,7 +75,7 @@ const Navbar = () => {
   ];
 
   const searchableItems = [
-    ...bouquetProducts.map(p => ({ name: p.name, to: `/bouquets/all/${p.shopifyHandle}` })),
+    ...bouquetProducts.map(p => ({ name: p.name, to: `/bouquets/${slugForHandle(p.shopifyHandle)}` })),
     ...roomDecorPackages.map(p => ({ name: p.name, to: `/room-decors/${p.id}` })),
     { name: t("nav.customBouquetBuilder"), to: "/bouquets/personalizar" },
     { name: t("nav.delivery"), to: "/delivery" },

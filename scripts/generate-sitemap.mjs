@@ -46,6 +46,38 @@ const extractStringField = (src, key) => {
 const catalogSrc   = read("src/lib/catalogData.ts");
 const landingSrc   = read("src/lib/landingPagesData.ts");
 const roomDecorSrc = read("src/lib/roomDecorData.ts");
+const slugsSrc     = read("src/lib/bouquetSlugs.ts");
+const colorCollSrc = read("src/lib/colorCollections.ts");
+
+/**
+ * Parse COLOR_COLLECTIONS entries:
+ *   { color: "red", slug: "red-roses", slugEs: "rosas-rojas", ... }
+ * Returns [{ slug, slugEs }] for the indexable color collection URLs.
+ */
+const colorCollections = (() => {
+  const out = [];
+  const re = /slug:\s*["']([a-z0-9-]+)["']\s*,\s*slugEs:\s*["']([a-z0-9-]+)["']/g;
+  let m;
+  while ((m = re.exec(colorCollSrc)) !== null) {
+    out.push({ slug: m[1], slugEs: m[2] });
+  }
+  return out;
+})();
+
+/**
+ * Parse the BOUQUET_SLUGS map: each entry is
+ *   "handle": { slug: "en-slug", slugEs: "es-slug" },
+ * Returns { handle: { slug, slugEs } } for the keyword-first product URLs.
+ */
+const bouquetSlugMap = (() => {
+  const map = {};
+  const re = /["']([a-z0-9-]+)["']\s*:\s*\{\s*slug\s*:\s*["']([^"']+)["']\s*,\s*slugEs\s*:\s*["']([^"']+)["']\s*\}/g;
+  let m;
+  while ((m = re.exec(slugsSrc)) !== null) {
+    map[m[1]] = { slug: m[2], slugEs: m[3] };
+  }
+  return map;
+})();
 
 // All category slugs (ALL of them are currently "Coming Soon" — excluded from sitemap)
 const categorySlugs = extractStringField(
@@ -134,15 +166,21 @@ try {
  */
 const urls = [];
 const seen = new Set();
+// `opts.esPath` overrides the ES URL when the ES slug differs from the EN one
+// (localized product slugs). When omitted, ES is derived as `/es${path}`.
 const push = (path, changefreq, priority, opts = {}) => {
   if (seen.has(path)) return;
   seen.add(path);
-  urls.push({ path, changefreq, priority, enOnly: !!opts.enOnly });
+  urls.push({ path, changefreq, priority, enOnly: !!opts.enOnly, esPath: opts.esPath });
 };
 
 // 1. Static main routes (priority 1.0 / 0.8 / 0.4)
 push("/",                       "weekly",  "1.0");
 push("/bouquets",               "weekly",  "0.8");
+// Color collections (high search volume) — priority ABOVE the generic subcategories.
+for (const c of colorCollections) {
+  push(`/bouquets/${c.slug}`, "weekly", "0.9", { esPath: `/es/bouquets/${c.slugEs}` });
+}
 push("/bouquets/single-color",  "weekly",  "0.8");
 push("/bouquets/mixed-color",   "weekly",  "0.8");
 push("/bouquets/zodiac",        "weekly",  "0.8");
@@ -163,9 +201,15 @@ push("/refund-policy",    "monthly", "0.4");
 push("/shipping-policy",  "monthly", "0.4");
 push("/cookie-policy",    "monthly", "0.4");
 
-// 2. Bouquet products (priority 0.8)
+// 2. Bouquet products (priority 0.8) — keyword-first slugs (EN + localized ES)
 for (const handle of bouquetHandles) {
-  push(`/bouquets/all/${handle}`, "weekly", "0.8");
+  const m = bouquetSlugMap[handle];
+  if (m) {
+    push(`/bouquets/${m.slug}`, "weekly", "0.8", { esPath: `/es/bouquets/${m.slugEs}` });
+  } else {
+    // Fallback: if a handle has no mapped slug yet, keep the legacy path so it is not dropped.
+    push(`/bouquets/all/${handle}`, "weekly", "0.8");
+  }
 }
 
 // 2b. Mother's Day products — live from Shopify collection (priority 0.9, seasonal high)
@@ -218,7 +262,8 @@ const renderUrl = (loc, lastmod, changefreq, priority, alternates) => {
 const blocks = [];
 for (const u of urls) {
   const en = enHref(u.path);
-  const es = esHref(u.path);
+  // ES URL: use the explicit override when the ES slug differs, else derive it.
+  const es = u.esPath ? `${BASE_URL}${u.esPath}` : esHref(u.path);
 
   if (u.enOnly) {
     // Single EN entry, no alternates.
@@ -250,6 +295,7 @@ const counts = {
   totalPaths: urls.length,
   totalUrls: blocks.length,
   bouquets: bouquetHandles.length,
+  colorCollections: colorCollections.length,
   mothersDay: mothersDayHandles.length,
   landings: landingSlugs.length,
   blog: blogSlugs.length,
@@ -257,4 +303,4 @@ const counts = {
   excludedCategories: categorySlugs.length,
 };
 console.log(`[sitemap] wrote ${outPath}`);
-console.log(`[sitemap] paths=${counts.totalPaths} urls=${counts.totalUrls} bouquets=${counts.bouquets} mothersDay=${counts.mothersDay} landings=${counts.landings} blog=${counts.blog} roomDecors=${counts.roomDecors} (excluded comingSoon categories=${counts.excludedCategories})`);
+console.log(`[sitemap] paths=${counts.totalPaths} urls=${counts.totalUrls} bouquets=${counts.bouquets} colorCollections=${counts.colorCollections} mothersDay=${counts.mothersDay} landings=${counts.landings} blog=${counts.blog} roomDecors=${counts.roomDecors} (excluded comingSoon categories=${counts.excludedCategories})`);

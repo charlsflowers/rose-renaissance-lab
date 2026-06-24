@@ -15,6 +15,15 @@ export const en = {
     singleColor: "Single Color Bouquets",
     mixedBouquets: "Mixed Bouquets",
     zodiacBouquets: "Zodiac Bouquets",
+    redRoses: "Red Roses",
+    whiteRoses: "White Roses",
+    pinkRoses: "Pink Roses",
+    yellowRoses: "Yellow Roses",
+    blackRoses: "Black Roses",
+    blueRoses: "Blue Roses",
+    purpleRoses: "Purple Roses",
+    orangeRoses: "Orange Roses",
+    greenRoses: "Green Roses",
     comingSoon: "coming soon",
     searchPlaceholder: "Search bouquets or enter a delivery address...",
     deliveryAddresses: "Delivery addresses",
@@ -76,7 +85,7 @@ export const en = {
   // Homepage
   home: {
     heroSubtitle: "Handcrafted with love",
-    heroTitle: "Fresh & Natural Roses Miami",
+    heroTitle: "Miami Flower Delivery — Fresh Roses, Same Day",
     heroDescription: "Handmade bouquets from 50 to 200 roses. Natural, painted, or glitter finish.",
     viewBouquets: "View bouquets",
     buildYourBouquet: "Build your bouquet",
@@ -184,7 +193,7 @@ export const en = {
 
   // FAQ
   faqPage: {
-    title: "Frequently Asked Questions",
+    title: "Flower Delivery Miami — Frequently Asked Questions",
     faqs: [
       { q: "Do you offer same-day flower delivery in Miami?", a: "Yes! We offer same-day delivery across Miami up to 87 miles. Order before 3PM and your bouquet will be delivered today. Minimum 2 hours preparation time." },
       { q: "How much does flower delivery cost in Miami?", a: "$25 flat rate for 0-5 miles. $1.60 per mile from 5 to 87 miles. Free in-store pickup available at 7261 NW 12th Street, Miami FL 33126." },
@@ -309,7 +318,7 @@ export const en = {
   // Bouquet Products listing
   bouquetProducts: {
     subtitle: "Handcrafted bouquets",
-    title: "Bouquets",
+    title: "Fresh Rose Bouquets Miami",
     description: "Explore our handcrafted rose bouquets in Miami.",
     seeAll: "See All",
     singleColor: "Single color",
@@ -318,6 +327,8 @@ export const en = {
     cantFind: "Can't find what you're looking for?",
     cantFindDesc: "Customize every detail: color, size, accessories, and more. From $76 USD.",
     customizeNow: "Customize now",
+    viewAllColorPrefix: "See all",
+    viewAllColorSuffix: "bouquets in Miami",
   },
 
   // Bouquet Builder
@@ -609,7 +620,7 @@ export const en = {
     },
     bouquets: {
       title: "Fresh Bouquets Miami | Single Color & Mixed – Charls Flowers",
-      description: "Handcrafted bouquets in Miami. 50 to 200 roses, same-day delivery available. Order now.",
+      description: "Handcrafted rose bouquets in Miami: single-color, mixed and zodiac designs, 50 to 200 roses. Same-day delivery up to 87 miles. Order before 3PM.",
     },
     bouquetsSingleColor: {
       title: "Single Color Rose Bouquets Miami | Charls Flowers",
@@ -625,6 +636,51 @@ export const en = {
       title: "Zodiac Rose Bouquets Miami | Charls Flowers",
       description: "Zodiac rose bouquets in Miami, one design per sign, 50 to 200 roses. A unique gift with same-day delivery Miami. Order now.",
       h1: "Zodiac Rose Bouquets",
+    },
+    bouquetsRedRoses: {
+      title: "Red Roses Bouquet Miami | Same-Day Delivery – Charls Flowers",
+      description: "Red roses bouquets in Miami, from 50 to 200 roses. The classic symbol of love, handcrafted with same-day delivery up to 87 miles. Order before 3PM.",
+      h1: "Red Roses Bouquet Miami",
+    },
+    bouquetsWhiteRoses: {
+      title: "White Roses Bouquet Miami | Same-Day Delivery – Charls Flowers",
+      description: "White roses bouquets in Miami, from 50 to 200 roses. Pure, elegant arrangements with same-day delivery up to 87 miles. Order yours before 3PM.",
+      h1: "White Roses Bouquet Miami",
+    },
+    bouquetsPinkRoses: {
+      title: "Pink Roses Bouquet Miami | Same-Day Delivery – Charls Flowers",
+      description: "Pink roses bouquets in Miami, from 50 to 200 roses. Soft and hot pink designs with same-day delivery up to 87 miles. Order before 3PM.",
+      h1: "Pink Roses Bouquet Miami",
+    },
+    bouquetsYellowRoses: {
+      title: "Yellow Roses Bouquet Miami | Same-Day Delivery – Charls Flowers",
+      description: "Yellow roses bouquets in Miami, from 50 to 200 roses. Bright, joyful arrangements with same-day delivery up to 87 miles. Order before 3PM.",
+      h1: "Yellow Roses Bouquet Miami",
+    },
+    bouquetsBlackRoses: {
+      title: "Black Roses Bouquet Miami | Same-Day Delivery – Charls Flowers",
+      description: "Black roses bouquets in Miami, from 50 to 200 roses. Bold, dramatic designs with same-day delivery up to 87 miles. Order yours before 3PM.",
+      h1: "Black Roses Bouquet Miami",
+    },
+    bouquetsBlueRoses: {
+      title: "Blue Roses Bouquet Miami | Same-Day Delivery – Charls Flowers",
+      description: "Blue roses bouquets in Miami, from 50 to 200 roses. Unique painted blue designs with same-day delivery up to 87 miles. Order before 3PM.",
+      h1: "Blue Roses Bouquet Miami",
+    },
+    bouquetsPurpleRoses: {
+      title: "Purple Roses Bouquet Miami | Same-Day Delivery – Charls Flowers",
+      description: "Purple roses bouquets in Miami, from 50 to 200 roses. Elegant, enchanting arrangements with same-day delivery up to 87 miles. Order before 3PM.",
+      h1: "Purple Roses Bouquet Miami",
+    },
+    bouquetsOrangeRoses: {
+      title: "Orange Roses Bouquet Miami | Same-Day Delivery – Charls Flowers",
+      description: "Orange roses bouquets in Miami, from 50 to 200 roses. Warm, vibrant designs with same-day delivery up to 87 miles. Order yours before 3PM.",
+      h1: "Orange Roses Bouquet Miami",
+    },
+    bouquetsGreenRoses: {
+      title: "Green Roses Bouquet Miami | Same-Day Delivery – Charls Flowers",
+      description: "Green roses bouquets in Miami, from 50 to 200 roses. Fresh, original arrangements with same-day delivery up to 87 miles. Order before 3PM.",
+      h1: "Green Roses Bouquet Miami",
     },
     roomDecors: {
       title: "Room Decoration Miami | Romantic Floral Setup",

@@ -6,6 +6,7 @@ import SeoHead from "@/components/SeoHead";
 import { landingPages } from "@/lib/landingPagesData";
 import { fetchBlogPosts } from "@/lib/sanity";
 import { bouquetProducts } from "@/lib/catalogData";
+import { slugForHandle } from "@/lib/bouquetSlugs";
 import { roomDecorPackages } from "@/lib/roomDecorData";
 import { useTranslation } from "@/i18n/LanguageContext";
 
@@ -35,7 +36,7 @@ const Sitemap = () => {
       { to: "/blog", label: t("sitemap.links.blog") },
     ]},
     { title: t("sitemap.sections.bouquets"), links: uniqueBouquets.map(p => ({
-      to: `/bouquets/all/${p.shopifyHandle}`, label: p.name,
+      to: `/bouquets/${slugForHandle(p.shopifyHandle)}`, label: p.name,
     }))},
     { title: t("sitemap.sections.roomDecors"), links: roomDecorPackages.map(pkg => ({
       to: `/room-decors/${pkg.id}`, label: pkg.name,

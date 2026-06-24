@@ -6,6 +6,7 @@ import SeoHead from "@/components/SeoHead";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import JsonLd, { breadcrumbSchema } from "@/components/JsonLd";
 import { categories, categoryProducts } from "@/lib/catalogData";
+import NotFound from "@/pages/NotFound";
 
 const CategoryProducts = () => {
   useEffect(() => { window.scrollTo(0, 0); }, []);
@@ -14,15 +15,8 @@ const CategoryProducts = () => {
   const products = slug ? categoryProducts[slug] || [] : [];
 
   if (!category) {
-    return (
-      <div className="min-h-screen bg-background">
-        <Navbar />
-        <div className="pt-24 text-center">
-          <p className="text-muted-foreground font-body">Category not found</p>
-          <Link to="/" className="text-primary font-body underline mt-4 inline-block">Back to home</Link>
-        </div>
-      </div>
-    );
+    // Unknown category → 404 page (noindex) to avoid a soft-404.
+    return <NotFound />;
   }
 
   return (

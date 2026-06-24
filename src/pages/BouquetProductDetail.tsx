@@ -22,12 +22,15 @@ import { trackMetaEvent } from "@/lib/metaPixel";
 import { toast } from "sonner";
 import { buildAccessoryLineItems } from "@/lib/accessoryVariants";
 import Navbar from "@/components/Navbar";
+import NotFound from "@/pages/NotFound";
 import PaperColorPicker from "@/components/PaperColorPicker";
 import PaymentIcons from "@/components/PaymentIcons";
 import ProductTrustBlock from "@/components/ProductTrustBlock";
 import { StorePickupAlert } from "@/components/StorePickupAlert";
 import CollectionFAQ, { useBouquetFAQs } from "@/components/CollectionFAQ";
 import { bouquetProducts, bouquetSizeOptions } from "@/lib/catalogData";
+import { slugForHandle, slugEsForHandle, handleFromSlug, h1ForHandle, h1EsForHandle, BOUQUET_SLUGS } from "@/lib/bouquetSlugs";
+import { colorCollectionForProduct } from "@/lib/colorCollections";
 import { useMothersDayBouquetByHandle } from "@/lib/mothersDayProducts";
 import { isMothersDayPromoActive, isMothersDayHandle } from "@/lib/mothersDayPromo";
 import {
@@ -48,7 +51,14 @@ import FedExShippingOptions, { type FedExAttrs } from "@/components/FedExShippin
 
 const BouquetProductDetail = () => {
   const { t, language } = useTranslation();
-  const { type, productId } = useParams<{ type: string; productId: string }>();
+  const params = useParams<{ type?: string; productId?: string; slug?: string }>();
+  const type = params.type;
+  // The URL segment identifying the product: clean route uses `:slug`,
+  // legacy route uses `:type/:productId`. Resolve either to the shopifyHandle.
+  const urlSegment = params.slug ?? params.productId;
+  const resolvedHandle = handleFromSlug(urlSegment) ?? urlSegment;
+  // `productId` kept as the raw segment for Mother's Day handle detection below.
+  const productId = urlSegment;
   const addItem = useCartStore(state => state.addItem);
   const setCartOpen = useCartStore(state => state.setOpen);
   const cartItems = useCartStore(state => state.items);
@@ -60,7 +70,7 @@ const BouquetProductDetail = () => {
     useMothersDayBouquetByHandle(isMothersDayContext ? productId : undefined);
 
   const standardProduct = bouquetProducts.find(
-    (b) => b.shopifyHandle === productId || b.id === productId
+    (b) => b.shopifyHandle === resolvedHandle || b.shopifyHandle === productId || b.id === productId
   );
   const product = isMothersDayContext ? mothersDayProduct : standardProduct;
 
@@ -318,12 +328,26 @@ const BouquetProductDetail = () => {
     return shopifyDesc.description || product.description;
   })();
 
+  // Keyword-first fallback title (used when neither Shopify metafields nor
+  // seoData provide one): derive from the keyword slug, e.g.
+  // "White Roses Bouquet Miami | Same-Day Delivery – Charls Flowers".
+  const fallbackSeoTitle = (() => {
+    if (!product) return "";
+    const kw = (language === "es" ? h1EsForHandle : h1ForHandle)(product.shopifyHandle);
+    if (kw) {
+      return language === "es"
+        ? `${kw} Miami | Entrega el Mismo Día – Charls Flowers`
+        : `${kw} Miami | Same-Day Delivery – Charls Flowers`;
+    }
+    return `${product.name} Miami | Charls Flowers`;
+  })();
+
   // Resolved SEO (cascade: Shopify ES metafield → hardcoded seoData → Shopify EN native → fallback)
   const resolvedSeoTitle =
     (language === "es" ? shopifyDesc.seoTitleEs : undefined) ||
     shopifyDesc.seoTitle ||
     seo?.seoTitle ||
-    (product ? `${product.name} Miami | Charls Flowers` : "");
+    fallbackSeoTitle;
   const resolvedSeoDescription =
     (language === "es" ? shopifyDesc.seoDescriptionEs : undefined) ||
     shopifyDesc.seoDescription ||
@@ -379,15 +403,40 @@ const BouquetProductDetail = () => {
         </div>
       );
     }
-    return (
-      <div className="min-h-screen bg-background"><Navbar />
-        <div className="pt-24 text-center">
-          <p className="text-muted-foreground font-body">Product not found</p>
-          <Link to="/" className="text-primary font-body underline mt-4 inline-block">Go back</Link>
-        </div>
-      </div>
-    );
+    // Unknown product → render the 404 page (noindex) to avoid a soft-404 (HTTP 200 indexable).
+    return <NotFound />;
   }
+
+  // SEO slugs for the canonical/hreflang/breadcrumb URLs.
+  // Mother's Day fichas keep their dedicated /bouquets/mothers-day/<handle> URL.
+  const seoSlugEn = isMothersDayContext ? `mothers-day/${product.shopifyHandle}` : slugForHandle(product.shopifyHandle);
+  const seoSlugEs = isMothersDayContext ? `mothers-day/${product.shopifyHandle}` : slugEsForHandle(product.shopifyHandle);
+
+  // Keyword-first H1 derived from the (keyword-researched) web slug, e.g.
+  // "white-roses-bouquet" -> "White Roses Bouquet". This makes the visible H1
+  // and SEO title attack the real search keyword instead of the internal
+  // marketing name ("Pure White"). Mother's Day fichas fall back to the name.
+  const keywordH1Raw = language === "es"
+    ? h1EsForHandle(product.shopifyHandle)
+    : h1ForHandle(product.shopifyHandle);
+  const productKeywordEn = h1ForHandle(product.shopifyHandle) || `${product.name} Bouquet`;
+  const isInSlugMap = !isMothersDayContext && Boolean(BOUQUET_SLUGS[product.shopifyHandle]);
+  // Visible H1 + Miami geo modifier (kept from the original H1 pattern).
+  const headingH1 = isInSlugMap && keywordH1Raw
+    ? `${keywordH1Raw} Miami`
+    : `${product.name} Bouquet Miami`;
+
+  // Same-color indexable collection (single-color products only) for an internal
+  // cross-link with anchor = the color keyword. SEO/navigation only.
+  const sameColorCollection = isMothersDayContext ? undefined : colorCollectionForProduct(product);
+  const colorCollectionTo = sameColorCollection
+    ? (language === "es"
+        ? `/es/bouquets/${sameColorCollection.slugEs}`
+        : `/bouquets/${sameColorCollection.slug}`)
+    : undefined;
+  const colorCollectionAnchor = sameColorCollection
+    ? t(`nav.${sameColorCollection.color}Roses`)
+    : "";
 
   const colorCount = product.color.split(/,\s*|\s+y\s+/).length;
   const hasCustomSizes = product.customSizes && product.customSizes.length > 0;
@@ -839,12 +888,12 @@ const BouquetProductDetail = () => {
 
   return (
     <div className="min-h-screen bg-background flex flex-col">
-      <SeoHead title={resolvedSeoTitle} description={resolvedSeoDescription} path={`/bouquets/all/${product.shopifyHandle}`} image={primaryImage} />
-      <JsonLd data={[productSchema(product.name, resolvedSeoDescription, dynamicMinPrice ?? (hasCustomSizes ? product.customSizes![0].price : getPrice(product.pricingTier, product.pricingTier === 'mix3red' ? 75 : 50)), primaryImage), breadcrumbSchema([{ name: "Home", url: "https://www.charlsflowers.com" }, { name: "Bouquets", url: "https://www.charlsflowers.com/bouquets" }, { name: product.name, url: `https://www.charlsflowers.com/bouquets/all/${product.shopifyHandle}` }])]} />
+      <SeoHead title={resolvedSeoTitle} description={resolvedSeoDescription} path={`/bouquets/${seoSlugEn}`} pathEs={`/bouquets/${seoSlugEs}`} image={primaryImage} />
+      <JsonLd data={[productSchema(productKeywordEn, resolvedSeoDescription, dynamicMinPrice ?? (hasCustomSizes ? product.customSizes![0].price : getPrice(product.pricingTier, product.pricingTier === 'mix3red' ? 75 : 50)), primaryImage, " Miami"), breadcrumbSchema([{ name: "Home", url: "https://www.charlsflowers.com" }, { name: "Bouquets", url: "https://www.charlsflowers.com/bouquets" }, { name: `${productKeywordEn} Miami`, url: `https://www.charlsflowers.com/bouquets/${seoSlugEn}` }])]} />
       <Navbar />
       <div className="pt-20 md:pt-28 pb-16">
         <div className="container mx-auto px-6">
-          <Breadcrumbs items={[{ label: "Home", to: "/" }, { label: "Bouquets", to: "/bouquets" }, { label: product.name }]} />
+          <Breadcrumbs items={[{ label: t("nav.home"), to: "/" }, { label: t("nav.bouquets"), to: "/bouquets" }, { label: headingH1 }]} />
 
           {/* ===== DESKTOP: two-column layout ===== */}
           <div className="hidden lg:grid lg:grid-cols-[minmax(0,11fr)_minmax(0,9fr)] gap-10 lg:gap-16 max-w-7xl mx-auto">
@@ -864,7 +913,7 @@ const BouquetProductDetail = () => {
                         aria-label={`View image ${idx + 1}`}
                         className={`relative overflow-hidden rounded-md bg-muted aspect-square border-2 transition-colors ${activeImageIdx === idx ? "border-primary" : "border-transparent hover:border-primary/40"}`}
                       >
-                        <img src={url} alt={`${product.name} thumbnail ${idx + 1}`} loading="lazy" width={120} height={120} className="w-full h-full object-cover" />
+                        <img src={url} alt={`${productKeywordEn} Miami — thumbnail ${idx + 1}`} loading="lazy" width={120} height={120} className="w-full h-full object-cover" />
                       </button>
                     ))}
                   </div>
@@ -872,7 +921,7 @@ const BouquetProductDetail = () => {
                 {/* Main (top) image — swappable via thumbnails */}
                 <div className="relative overflow-hidden rounded-lg bg-muted flex items-center justify-center aspect-square flex-1 min-w-0">
                   {desktopMainImage ? (
-                    <img src={desktopMainImage} alt={`${product.name} Miami – Charls Flowers`} width={600} height={600} className="w-full h-full object-contain" />
+                    <img src={desktopMainImage} alt={`${productKeywordEn} Miami — same-day delivery, Charls Flowers`} width={600} height={600} fetchPriority="high" decoding="async" className="w-full h-full object-contain" />
                   ) : (
                     <div className="w-full h-full flex items-center justify-center"><span className="font-display text-6xl text-muted-foreground/20">🌹</span></div>
                   )}
@@ -882,7 +931,7 @@ const BouquetProductDetail = () => {
               {desktopBottomImage && (
                 <div className={`${desktopThumbs.length > 0 ? "ml-[5.75rem]" : ""}`}>
                   <div className="relative overflow-hidden rounded-lg bg-muted flex items-center justify-center aspect-square">
-                    <img src={desktopBottomImage} alt={`${product.name} alternate – Charls Flowers`} loading="lazy" width={600} height={600} className="w-full h-full object-cover" />
+                    <img src={desktopBottomImage} alt={`${productKeywordEn} Miami — alternate view, Charls Flowers`} loading="lazy" width={600} height={600} className="w-full h-full object-cover" />
                   </div>
                 </div>
               )}
@@ -891,7 +940,7 @@ const BouquetProductDetail = () => {
             {/* Right column */}
             <div className="min-w-0 space-y-6 lg:space-y-8">
               <div>
-                <h1 className="font-display text-4xl md:text-5xl lg:text-6xl font-semibold text-foreground leading-tight">{product.name} Bouquet Miami</h1>
+                <h1 className="font-display text-4xl md:text-5xl lg:text-6xl font-semibold text-foreground leading-tight">{headingH1}</h1>
                 <p className="font-display text-3xl lg:text-4xl font-semibold text-foreground mt-3 lg:mt-4">${parseFloat(sizePrice.toFixed(2))}</p>
                 <p className="font-body italic text-sm lg:text-base text-muted-foreground mt-1">Subtotal ${parseFloat(totalPrice.toFixed(2))}</p>
                 <div className="text-muted-foreground font-body text-sm lg:text-base mt-3 lg:mt-4 leading-relaxed space-y-1">
@@ -899,6 +948,15 @@ const BouquetProductDetail = () => {
                     <p key={i}>{line}</p>
                   ))}
                 </div>
+                {colorCollectionTo && (
+                  <p className="font-body text-sm mt-3">
+                    {t("bouquetProducts.viewAllColorPrefix")}{" "}
+                    <Link to={colorCollectionTo} className="text-primary font-semibold hover:underline" noLocalize>
+                      {colorCollectionAnchor}
+                    </Link>{" "}
+                    {t("bouquetProducts.viewAllColorSuffix")}.
+                  </p>
+                )}
               </div>
 
               {/* Size */}
@@ -970,8 +1028,10 @@ const BouquetProductDetail = () => {
                   <div key={`${idx}-${url}`} className="w-[88%] flex-none snap-start relative overflow-hidden rounded-lg bg-muted flex items-center justify-center aspect-square">
                     <img
                       src={url}
-                      alt={`${product.name} ${idx === 0 ? "Miami" : `view ${idx + 1}`} – Charls Flowers`}
+                      alt={`${productKeywordEn} Miami ${idx === 0 ? "— same-day delivery" : `— view ${idx + 1}`}, Charls Flowers`}
                       loading={idx === 0 ? "eager" : "lazy"}
+                      {...(idx === 0 ? { fetchPriority: "high" as const } : {})}
+                      decoding="async"
                       width={600}
                       height={600}
                       className={`w-full h-full ${idx === 0 ? "object-contain" : "object-cover"} pointer-events-none`}
@@ -982,7 +1042,7 @@ const BouquetProductDetail = () => {
             </div>
 
             <div className="text-center">
-              <h2 className="font-display text-2xl font-semibold text-foreground">{product.name} Bouquet Miami</h2>
+              <h2 className="font-display text-2xl font-semibold text-foreground">{headingH1}</h2>
               <div className="text-muted-foreground font-body text-sm mt-2 space-y-1 text-left">
                 {replaceDescriptionPrice(resolvedDescription).split('\n').map((line, i) => (
                   <p key={i}>{line}</p>

@@ -7,7 +7,7 @@
 - [Home](/): Featured collections and same-day delivery.
 - [About](/about): Our story, founder and Miami location.
 - [Bouquets](/bouquets): Full catalog of rose bouquets by color and finish.
-- [Custom Bouquet Builder](/bouquet-builder): Configure color, quantity, finish, paper and extras with AI preview.
+- [Custom Bouquet Builder](/bouquets/personalizar): Configure color, quantity, finish, paper and extras with AI preview.
 - [Room Decors](/room-decors): Floral room decoration packages for proposals and surprises.
 - [Blog](/blog): Guides on flowers, occasions and Miami delivery.
 - [Delivery](/delivery): Zones, pricing and same-day cutoffs.
@@ -24,7 +24,7 @@
 - [Inicio](/es)
 - [Sobre nosotros](/es/about)
 - [Ramos](/es/bouquets)
-- [Constructor de ramos](/es/bouquet-builder)
+- [Constructor de ramos](/es/bouquets/personalizar)
 - [Decoración de habitaciones](/es/room-decors)
 - [Blog](/es/blog)
 - [Envíos](/es/delivery)
