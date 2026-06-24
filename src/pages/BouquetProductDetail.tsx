@@ -992,7 +992,7 @@ const BouquetProductDetail = () => {
             </div>
 
             <div className="text-center">
-              <h1 className="font-display text-2xl font-semibold text-foreground">{product.name} Bouquet Miami</h1>
+              <h2 className="font-display text-2xl font-semibold text-foreground">{product.name} Bouquet Miami</h2>
               <div className="text-muted-foreground font-body text-sm mt-2 space-y-1 text-left">
                 {replaceDescriptionPrice(resolvedDescription).split('\n').map((line, i) => (
                   <p key={i}>{line}</p>

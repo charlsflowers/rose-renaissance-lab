@@ -537,7 +537,7 @@ const RoomDecorDetail = () => {
             </div>
 
             <div className="text-center">
-              <h1 className="font-display text-3xl font-semibold text-foreground">{pkg.name} — Room Decor Miami</h1>
+              <h2 className="font-display text-3xl font-semibold text-foreground">{pkg.name} — Room Decor Miami</h2>
               <p className="text-muted-foreground font-body mt-2 text-left">{resolvedDescription}</p>
             </div>
 
