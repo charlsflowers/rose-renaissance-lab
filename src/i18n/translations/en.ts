@@ -76,7 +76,7 @@ export const en = {
   // Homepage
   home: {
     heroSubtitle: "Handcrafted with love",
-    heroTitle: "Fresh & Natural Roses Miami",
+    heroTitle: "Miami Flower Delivery — Fresh Roses, Same Day",
     heroDescription: "Handmade bouquets from 50 to 200 roses. Natural, painted, or glitter finish.",
     viewBouquets: "View bouquets",
     buildYourBouquet: "Build your bouquet",
@@ -184,7 +184,7 @@ export const en = {
 
   // FAQ
   faqPage: {
-    title: "Frequently Asked Questions",
+    title: "Flower Delivery Miami — Frequently Asked Questions",
     faqs: [
       { q: "Do you offer same-day flower delivery in Miami?", a: "Yes! We offer same-day delivery across Miami up to 87 miles. Order before 3PM and your bouquet will be delivered today. Minimum 2 hours preparation time." },
       { q: "How much does flower delivery cost in Miami?", a: "$25 flat rate for 0-5 miles. $1.60 per mile from 5 to 87 miles. Free in-store pickup available at 7261 NW 12th Street, Miami FL 33126." },
@@ -309,7 +309,7 @@ export const en = {
   // Bouquet Products listing
   bouquetProducts: {
     subtitle: "Handcrafted bouquets",
-    title: "Bouquets",
+    title: "Fresh Rose Bouquets Miami",
     description: "Explore our handcrafted rose bouquets in Miami.",
     seeAll: "See All",
     singleColor: "Single color",

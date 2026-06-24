@@ -52,7 +52,7 @@ export default function BouquetCardImage({
       {secondary && enableHoverSwap && (
         <img
           src={secondary}
-          alt={`${name} Miami alternate view – Charls Flowers`}
+          alt={`${name} rose bouquet — back view, Miami same-day delivery`}
           loading="lazy"
           width={400}
           height={400}

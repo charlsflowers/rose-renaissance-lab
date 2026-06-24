@@ -41,6 +41,7 @@ const SeoHead = ({ title, description, path = "", pathEs, image, type = "website
 
   return (
     <Helmet>
+      <html lang={language === "es" ? "es" : "en"} />
       <title>{title}</title>
       <meta name="description" content={description} />
       <link rel="canonical" href={canonical} />

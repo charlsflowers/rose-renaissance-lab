@@ -90,6 +90,53 @@ export const slugEsForHandle = (handle?: string): string =>
   (handle && BOUQUET_SLUGS[handle]?.slugEs) || slugForHandle(handle);
 
 /**
+ * Differentiator suffixes appended to slugs purely to keep them unique
+ * (see header note). They are NOT part of the search keyword, so they are
+ * stripped before building the visible H1 / SEO keyword phrase.
+ */
+const SLUG_DIFFERENTIATORS = new Set([
+  "bicolor",
+  "elegant",
+  "dawn",
+  "citrus",
+  "tricolor",
+]);
+
+const titleCaseEn = (slug: string): string =>
+  slug
+    .split("-")
+    .filter((w) => w && !SLUG_DIFFERENTIATORS.has(w))
+    .map((w) => (w === "and" ? "&" : w.charAt(0).toUpperCase() + w.slice(1)))
+    .join(" ");
+
+// ES connector words that must stay lowercase in a Title Case phrase.
+const ES_LOWER = new Set(["de", "y", "la", "las", "el", "los"]);
+
+const titleCaseEs = (slug: string): string =>
+  slug
+    .split("-")
+    .filter((w) => w && !SLUG_DIFFERENTIATORS.has(w))
+    .map((w, i) =>
+      i > 0 && ES_LOWER.has(w) ? w : w.charAt(0).toUpperCase() + w.slice(1),
+    )
+    .join(" ");
+
+/**
+ * Keyword-first EN H1 derived from the (already keyword-researched) web slug.
+ * e.g. "white-roses-bouquet" -> "White Roses Bouquet".
+ * Falls back to the raw handle words if the slug is unknown.
+ */
+export const h1ForHandle = (handle?: string): string =>
+  titleCaseEn(slugForHandle(handle));
+
+/**
+ * Keyword-first ES H1 derived from the ES web slug.
+ * e.g. "ramo-de-rosas-blancas" -> "Ramo de Rosas Blancas".
+ */
+export const h1EsForHandle = (handle?: string): string =>
+  titleCaseEs(slugEsForHandle(handle));
+
+/**
  * Resolve a URL segment (EN slug, ES slug, or — for back-compat — a raw handle)
  * back to the canonical shopifyHandle. Returns undefined if unknown.
  */

@@ -72,7 +72,7 @@ export const es = {
 
   home: {
     heroSubtitle: "Hechos a mano con amor",
-    heroTitle: "Rosas Frescas y Naturales en Miami",
+    heroTitle: "Floristería en Miami — Flores a Domicilio el Mismo Día",
     heroDescription: "Ramos artesanales de 50 a 200 rosas. Acabado natural, pintado o con glitter.",
     viewBouquets: "Ver ramos",
     buildYourBouquet: "Crea tu ramo",
@@ -176,7 +176,7 @@ export const es = {
   },
 
   faqPage: {
-    title: "Preguntas Frecuentes",
+    title: "Envío de Flores en Miami — Preguntas Frecuentes",
     faqs: [
       { q: "¿Ofrecen envío el mismo día en Miami?", a: "¡Sí! Ofrecemos envío el mismo día en todo Miami hasta 87 millas. Pide antes de las 3PM y tu ramo será entregado hoy. Tiempo mínimo de preparación: 2 horas." },
       { q: "¿Cuánto cuesta el envío de flores en Miami?", a: "$25 tarifa fija para 0-5 millas. $1.60 por milla de 5 a 87 millas. Recogida gratis disponible en 7261 NW 12th Street, Miami FL 33126." },
@@ -297,7 +297,7 @@ export const es = {
 
   bouquetProducts: {
     subtitle: "Ramos artesanales",
-    title: "Ramos",
+    title: "Ramos de Rosas Frescas en Miami",
     description: "Explora nuestros ramos de rosas artesanales en Miami.",
     seeAll: "Ver Todos",
     singleColor: "Un color",

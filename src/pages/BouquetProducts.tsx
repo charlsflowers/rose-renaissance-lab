@@ -173,10 +173,10 @@ const BouquetProducts = ({ initialFilter: propFilter }: BouquetProductsProps = {
             <h1 className="font-title-retro text-4xl md:text-5xl text-foreground">{heading}</h1>
             <p className="text-muted-foreground font-body text-sm mt-3 max-w-2xl mx-auto">
               {t("bouquetProducts.description")}{' '}
-              <Link to={`/bouquets/${slugForHandle("pure-white")}`} className="text-primary hover:underline">Pure White</Link>,{' '}
-              <Link to={`/bouquets/${slugForHandle("total-passion")}`} className="text-primary hover:underline">Total Passion</Link>,{' '}
-              <Link to={`/bouquets/${slugForHandle("hot-pink-blush")}`} className="text-primary hover:underline">Hot Pink Blush</Link>,{' '}
-              <Link to={`/bouquets/${slugForHandle("blue-sky")}`} className="text-primary hover:underline">Blue Sky</Link>.
+              <Link to={`/bouquets/${slugForHandle("pure-white")}`} className="text-primary hover:underline">white roses</Link>,{' '}
+              <Link to={`/bouquets/${slugForHandle("total-passion")}`} className="text-primary hover:underline">red roses</Link>,{' '}
+              <Link to={`/bouquets/${slugForHandle("hot-pink-blush")}`} className="text-primary hover:underline">hot pink roses</Link>,{' '}
+              <Link to={`/bouquets/${slugForHandle("blue-sky")}`} className="text-primary hover:underline">blue roses</Link>.
             </p>
             <p className="text-primary font-body text-xs font-semibold mt-2">{t("common.orderBefore3PM")}</p>
           </div>
