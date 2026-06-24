@@ -108,6 +108,10 @@ const AppContent = () => {
       <Route path="categoria/:slug" element={<CategoryProducts />} />
       <Route path="categoria/:slug/:productId" element={<CategoryProductDetail />} />
       <Route path="bouquets/personalizar" element={<BouquetBuilder />} />
+      {/* Indexable subcategory pages (clean URLs replacing ?filter=...) */}
+      <Route path="bouquets/single-color" element={<BouquetProducts initialFilter="un-color" />} />
+      <Route path="bouquets/mixed-color" element={<BouquetProducts initialFilter="mezclas" />} />
+      <Route path="bouquets/zodiac" element={<BouquetProducts initialFilter="zodiac" />} />
       <Route path="bouquets/:type/:productId" element={<OldBouquetRedirect />} />
       <Route path="bouquets" element={<BouquetProducts />} />
       <Route path="mothers-day" element={<MothersDayCollection />} />

@@ -611,6 +611,21 @@ export const en = {
       title: "Fresh Bouquets Miami | Single Color & Mixed – Charls Flowers",
       description: "Handcrafted bouquets in Miami. 50 to 200 roses, same-day delivery available. Order now.",
     },
+    bouquetsSingleColor: {
+      title: "Single Color Rose Bouquets Miami | Charls Flowers",
+      description: "Single color rose bouquets in Miami, from 50 to 200 roses. Pick your favorite shade with same-day delivery Miami. Order now.",
+      h1: "Single Color Rose Bouquets",
+    },
+    bouquetsMixed: {
+      title: "Mixed Color Rose Bouquets Miami | Charls Flowers",
+      description: "Mixed color rose bouquets in Miami, from 50 to 200 roses. Multicolor arrangements with same-day delivery Miami. Order yours today.",
+      h1: "Mixed Color Rose Bouquets",
+    },
+    bouquetsZodiac: {
+      title: "Zodiac Rose Bouquets Miami | Charls Flowers",
+      description: "Zodiac rose bouquets in Miami, one design per sign, 50 to 200 roses. A unique gift with same-day delivery Miami. Order now.",
+      h1: "Zodiac Rose Bouquets",
+    },
     roomDecors: {
       title: "Room Decoration Miami | Romantic Floral Setup",
       description: "Premium romantic room decoration with flowers in Miami. Full setup service. Book your Love Bomb, Overly Romantic or Deluxe Love Package today.",

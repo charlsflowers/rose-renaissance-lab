@@ -37,6 +37,60 @@
     <xhtml:link rel="alternate" hreflang="x-default" href="https://www.charlsflowers.com/bouquets"/>
   </url>
   <url>
+    <loc>https://www.charlsflowers.com/bouquets/single-color</loc>
+    <lastmod>2026-06-24</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/bouquets/single-color"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.charlsflowers.com/es/bouquets/single-color"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.charlsflowers.com/bouquets/single-color"/>
+  </url>
+  <url>
+    <loc>https://www.charlsflowers.com/es/bouquets/single-color</loc>
+    <lastmod>2026-06-24</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/bouquets/single-color"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.charlsflowers.com/es/bouquets/single-color"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.charlsflowers.com/bouquets/single-color"/>
+  </url>
+  <url>
+    <loc>https://www.charlsflowers.com/bouquets/mixed-color</loc>
+    <lastmod>2026-06-24</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/bouquets/mixed-color"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.charlsflowers.com/es/bouquets/mixed-color"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.charlsflowers.com/bouquets/mixed-color"/>
+  </url>
+  <url>
+    <loc>https://www.charlsflowers.com/es/bouquets/mixed-color</loc>
+    <lastmod>2026-06-24</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/bouquets/mixed-color"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.charlsflowers.com/es/bouquets/mixed-color"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.charlsflowers.com/bouquets/mixed-color"/>
+  </url>
+  <url>
+    <loc>https://www.charlsflowers.com/bouquets/zodiac</loc>
+    <lastmod>2026-06-24</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/bouquets/zodiac"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.charlsflowers.com/es/bouquets/zodiac"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.charlsflowers.com/bouquets/zodiac"/>
+  </url>
+  <url>
+    <loc>https://www.charlsflowers.com/es/bouquets/zodiac</loc>
+    <lastmod>2026-06-24</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/bouquets/zodiac"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.charlsflowers.com/es/bouquets/zodiac"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.charlsflowers.com/bouquets/zodiac"/>
+  </url>
+  <url>
     <loc>https://www.charlsflowers.com/bouquets/personalizar</loc>
     <lastmod>2026-06-24</lastmod>
     <changefreq>monthly</changefreq>

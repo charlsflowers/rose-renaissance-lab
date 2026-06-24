@@ -586,6 +586,21 @@ export const es = {
       title: "Ramos de Rosas en Miami | Un Color y Mixtos | Charls Flowers",
       description: "Ramos artesanales en Miami, de 50 a 200 rosas, con envío el mismo día. Flores a domicilio de tu florería de confianza. Pide ahora.",
     },
+    bouquetsSingleColor: {
+      title: "Ramos de Rosas de un Color en Miami | Charls Flowers",
+      description: "Ramos de rosas de un color en Miami, de 50 a 200 rosas. Elige tu tono favorito con envío el mismo día en Miami. Pide ahora.",
+      h1: "Ramos de Rosas de un Color",
+    },
+    bouquetsMixed: {
+      title: "Ramos de Rosas Multicolor en Miami | Charls Flowers",
+      description: "Ramos de rosas multicolor en Miami, de 50 a 200 rosas. Arreglos de varios colores con envío el mismo día en Miami. Pide el tuyo hoy.",
+      h1: "Ramos de Rosas Multicolor",
+    },
+    bouquetsZodiac: {
+      title: "Ramos del Zodiaco en Miami | Charls Flowers",
+      description: "Ramos de rosas del zodiaco en Miami, un diseño por signo, de 50 a 200 rosas. Un regalo único con envío el mismo día en Miami. Pide ahora.",
+      h1: "Ramos del Zodiaco",
+    },
     roomDecors: {
       title: "Decoración con Flores en Miami | Montaje Romántico | Charls Flowers",
       description: "Decoración romántica de habitaciones con flores en Miami. Servicio de montaje completo. Reserva tu Love Bomb, Overly Romantic o Deluxe Love Package.",
