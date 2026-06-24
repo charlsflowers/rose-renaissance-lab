@@ -5,9 +5,10 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import SeoHead from "@/components/SeoHead";
 import Breadcrumbs from "@/components/Breadcrumbs";
-import JsonLd, { breadcrumbSchema } from "@/components/JsonLd";
+import JsonLd, { breadcrumbSchema, itemListSchema } from "@/components/JsonLd";
 import CollectionFAQ, { useBouquetFAQs } from "@/components/CollectionFAQ";
 import { bouquetProducts, bouquetSizeOptions } from "@/lib/catalogData";
+import { slugForHandle } from "@/lib/bouquetSlugs";
 import { getPrice } from "@/lib/productData";
 import ShopifyPrice from "@/components/ShopifyPrice";
 import BouquetCardImage from "@/components/BouquetCardImage";
@@ -152,7 +153,16 @@ const BouquetProducts = ({ initialFilter: propFilter }: BouquetProductsProps = {
   return (
     <div className="min-h-screen bg-background">
       <SeoHead title={seoTitle} description={seoDescription} path={seoPath} />
-      <JsonLd data={breadcrumbSchema(schemaCrumbs)} />
+      <JsonLd data={[
+        breadcrumbSchema(schemaCrumbs),
+        itemListSchema(
+          filteredProducts.map(p => ({
+            name: p.name,
+            url: `https://www.charlsflowers.com/bouquets/${slugForHandle(p.shopifyHandle)}`,
+          })),
+          heading,
+        ),
+      ]} />
       <Navbar />
       <div className="pt-24 pb-16">
         <div className="container mx-auto px-6">
@@ -163,10 +173,10 @@ const BouquetProducts = ({ initialFilter: propFilter }: BouquetProductsProps = {
             <h1 className="font-title-retro text-4xl md:text-5xl text-foreground">{heading}</h1>
             <p className="text-muted-foreground font-body text-sm mt-3 max-w-2xl mx-auto">
               {t("bouquetProducts.description")}{' '}
-              <Link to="/bouquets/all/pure-white" className="text-primary hover:underline">Pure White</Link>,{' '}
-              <Link to="/bouquets/all/total-passion" className="text-primary hover:underline">Total Passion</Link>,{' '}
-              <Link to="/bouquets/all/hot-pink-blush" className="text-primary hover:underline">Hot Pink Blush</Link>,{' '}
-              <Link to="/bouquets/all/blue-sky" className="text-primary hover:underline">Blue Sky</Link>.
+              <Link to={`/bouquets/${slugForHandle("pure-white")}`} className="text-primary hover:underline">Pure White</Link>,{' '}
+              <Link to={`/bouquets/${slugForHandle("total-passion")}`} className="text-primary hover:underline">Total Passion</Link>,{' '}
+              <Link to={`/bouquets/${slugForHandle("hot-pink-blush")}`} className="text-primary hover:underline">Hot Pink Blush</Link>,{' '}
+              <Link to={`/bouquets/${slugForHandle("blue-sky")}`} className="text-primary hover:underline">Blue Sky</Link>.
             </p>
             <p className="text-primary font-body text-xs font-semibold mt-2">{t("common.orderBefore3PM")}</p>
           </div>
@@ -198,7 +208,7 @@ const BouquetProducts = ({ initialFilter: propFilter }: BouquetProductsProps = {
           <div className="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-8 max-w-5xl mx-auto">
             {filteredProducts.map((product) => (
               <div key={product.id}>
-                <Link to={`/bouquets/all/${product.shopifyHandle}`} className="group block">
+                <Link to={`/bouquets/${slugForHandle(product.shopifyHandle)}`} className="group block">
                   <div className="relative overflow-hidden rounded-lg mb-4 aspect-square bg-muted">
                     <BouquetCardImage
                       handle={product.shopifyHandle}

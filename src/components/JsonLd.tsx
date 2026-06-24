@@ -103,10 +103,12 @@ export const faqSchema = (faqs: { question: string; answer: string }[]) => ({
   })),
 });
 
-export const productSchema = (name: string, description: string, price: number, image?: string) => ({
+export const productSchema = (name: string, description: string, price: number, image?: string, nameSuffix = " Miami") => ({
   "@context": "https://schema.org",
   "@type": "Product",
-  name: `${name} Miami`,
+  // `nameSuffix` lets each page align the schema name with its visible H1
+  // (e.g. " Bouquet Miami" for bouquets, " Miami" for room decors).
+  name: `${name}${nameSuffix}`,
   description,
   brand: { "@type": "Brand", name: "Charls Flowers" },
   ...(image ? { image } : {}),
@@ -117,6 +119,23 @@ export const productSchema = (name: string, description: string, price: number, 
     availability: "https://schema.org/InStock",
     seller: { "@type": "Organization", name: "Charls Flowers" },
   },
+});
+
+/**
+ * ItemList schema for collection / listing pages.
+ * `items` must already be in display order. URLs are absolute web routes.
+ */
+export const itemListSchema = (items: { name: string; url: string }[], listName?: string) => ({
+  "@context": "https://schema.org",
+  "@type": "ItemList",
+  ...(listName ? { name: listName } : {}),
+  numberOfItems: items.length,
+  itemListElement: items.map((item, i) => ({
+    "@type": "ListItem",
+    position: i + 1,
+    name: item.name,
+    url: item.url,
+  })),
 });
 
 export const breadcrumbSchema = (items: { name: string; url: string }[]) => ({

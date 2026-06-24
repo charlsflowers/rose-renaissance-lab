@@ -1,8 +1,7 @@
 User-agent: *
 Allow: /
 Disallow: /checkout
-Disallow: /cart
-Disallow: /account
-Disallow: /studio
+Disallow: /es/checkout
+Disallow: /studio/
 
 Sitemap: https://www.charlsflowers.com/sitemap.xml

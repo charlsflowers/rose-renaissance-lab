@@ -17,6 +17,7 @@ import { isMothersDayPromoActive } from "@/lib/mothersDayPromo";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import SeoHead from "@/components/SeoHead";
+import JsonLd, { breadcrumbSchema } from "@/components/JsonLd";
 import PaperColorPicker from "@/components/PaperColorPicker";
 import { StorePickupAlert } from "@/components/StorePickupAlert";
 import glitterRoseImg from "@/assets/glitter-rose.webp";
@@ -583,6 +584,11 @@ const BouquetBuilder = () => {
   return (
     <div className="min-h-screen bg-background">
       <SeoHead title={t("seo.bouquetBuilder.title")} description={t("seo.bouquetBuilder.description")} path="/bouquets/personalizar" />
+      <JsonLd data={breadcrumbSchema([
+        { name: "Home", url: "https://www.charlsflowers.com" },
+        { name: "Bouquets", url: "https://www.charlsflowers.com/bouquets" },
+        { name: "Custom Bouquet Builder", url: "https://www.charlsflowers.com/bouquets/personalizar" },
+      ])} />
       <Navbar />
       <div className="pt-24 pb-16">
         <div className="container mx-auto px-6">

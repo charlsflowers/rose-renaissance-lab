@@ -9,6 +9,8 @@ import FloatingCart from "@/components/FloatingCart";
 import CookieBanner from "@/components/CookieBanner";
 import { landingPages } from "@/lib/landingPagesData";
 import { bouquetProducts } from "@/lib/catalogData";
+import { slugForHandle, slugEsForHandle, handleFromSlug, BOUQUET_SLUGS } from "@/lib/bouquetSlugs";
+import { useTranslation } from "@/i18n/LanguageContext";
 import { roomDecorPackages } from "@/lib/roomDecorData";
 import { captureTrackingParams } from "@/lib/trackingParams";
 import { usePageTracking } from "@/hooks/usePageTracking";
@@ -48,12 +50,47 @@ const MothersDayCollection = lazy(() => import("./pages/MothersDayCollection"));
 
 const queryClient = new QueryClient();
 
-/** 301-style redirect for old /bouquets/:type/bq-* URLs */
-const OldBouquetRedirect = () => {
-  const { type, productId } = useParams<{ type: string; productId: string }>();
-  if (productId?.startsWith("bq-")) {
-    const product = bouquetProducts.find(p => p.id === productId);
-    if (product) return <Navigate to={`/bouquets/${type}/${product.shopifyHandle}`} replace />;
+/**
+ * Resolver for the clean ficha route `/bouquets/:slug` (and the legacy
+ * `/bouquets/:type/:productId` compat route).
+ *
+ * Resolution order:
+ *   1. If the segment is a known SEO slug (EN or ES) → render the PDP.
+ *   2. If it is an old internal id (bq-*) → 301 to the new slug.
+ *   3. If it is a raw shopifyHandle (old /bouquets/all/<handle> or
+ *      /bouquets/:type/<handle> links / ads) → 301 to the new slug.
+ *   4. Otherwise → render the PDP (it shows its own not-found state).
+ */
+const BouquetSlugResolver = () => {
+  const { slug, type, productId } = useParams<{ slug?: string; type?: string; productId?: string }>();
+  const { language } = useTranslation();
+  // `productId` is set on the legacy /bouquets/:type/:productId route; `slug` on the clean route.
+  const segment = slug ?? productId;
+
+  // Redirect a handle to its clean ficha URL, using the slug that matches the
+  // active language so the destination already equals the canonical.
+  const cleanFichaPath = (handle: string) =>
+    language === "es"
+      ? `/es/bouquets/${slugEsForHandle(handle)}`
+      : `/bouquets/${slugForHandle(handle)}`;
+
+  // Mother's Day fichas keep their dedicated /bouquets/mothers-day/<handle> URLs untouched.
+  if (type === "mothers-day") return <BouquetProductDetail />;
+
+  if (segment) {
+    const handle = handleFromSlug(segment);
+    if (handle) {
+      const m = BOUQUET_SLUGS[handle];
+      // Already a clean SEO slug (EN or ES) → render in place.
+      if (m && (m.slug === segment || m.slugEs === segment)) return <BouquetProductDetail />;
+      // segment was a raw shopifyHandle → 301 to the language-matched clean slug.
+      return <Navigate to={cleanFichaPath(handle)} replace noLocalize />;
+    }
+    // Legacy internal id (bq-*) → map to handle → 301 to clean slug.
+    if (segment.startsWith("bq-")) {
+      const product = bouquetProducts.find(p => p.id === segment);
+      if (product) return <Navigate to={cleanFichaPath(product.shopifyHandle)} replace noLocalize />;
+    }
   }
   return <BouquetProductDetail />;
 };
@@ -83,9 +120,9 @@ const ShopifyProductRedirect = () => {
   const roomDecor = roomDecorPackages.find(p => p.shopifyHandle === handle);
   if (roomDecor) return <Navigate to={`/room-decors/${roomDecor.id}`} replace />;
 
-  // Then check bouquets
+  // Then check bouquets — redirect to the new keyword-first slug
   const bouquet = bouquetProducts.find(p => p.shopifyHandle === handle);
-  if (bouquet) return <Navigate to={`/bouquets/all/${bouquet.shopifyHandle}`} replace />;
+  if (bouquet) return <Navigate to={`/bouquets/${slugForHandle(bouquet.shopifyHandle)}`} replace />;
 
   // Unknown handle → fall back to bouquets listing
   return <Navigate to="/bouquets" replace />;
@@ -112,7 +149,11 @@ const AppContent = () => {
       <Route path="bouquets/single-color" element={<BouquetProducts initialFilter="un-color" />} />
       <Route path="bouquets/mixed-color" element={<BouquetProducts initialFilter="mezclas" />} />
       <Route path="bouquets/zodiac" element={<BouquetProducts initialFilter="zodiac" />} />
-      <Route path="bouquets/:type/:productId" element={<OldBouquetRedirect />} />
+      {/* Legacy two-segment fichas (/bouquets/all/<handle>, /bouquets/mothers-day/<handle>, etc.)
+          → resolved/301'd by BouquetSlugResolver (kept indefinitely for backlinks + ads). */}
+      <Route path="bouquets/:type/:productId" element={<BouquetSlugResolver />} />
+      {/* Clean keyword-first ficha URL: /bouquets/<slug> (EN) and /es/bouquets/<slugEs> (ES). */}
+      <Route path="bouquets/:slug" element={<BouquetSlugResolver />} />
       <Route path="bouquets" element={<BouquetProducts />} />
       <Route path="mothers-day" element={<MothersDayCollection />} />
       <Route path="mothers-day/:handle" element={<MothersDayProductRedirect />} />

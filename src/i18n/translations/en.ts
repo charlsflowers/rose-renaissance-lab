@@ -609,7 +609,7 @@ export const en = {
     },
     bouquets: {
       title: "Fresh Bouquets Miami | Single Color & Mixed – Charls Flowers",
-      description: "Handcrafted bouquets in Miami. 50 to 200 roses, same-day delivery available. Order now.",
+      description: "Handcrafted rose bouquets in Miami: single-color, mixed and zodiac designs, 50 to 200 roses. Same-day delivery up to 87 miles. Order before 3PM.",
     },
     bouquetsSingleColor: {
       title: "Single Color Rose Bouquets Miami | Charls Flowers",

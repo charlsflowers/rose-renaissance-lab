@@ -22,7 +22,7 @@ const deluxeLoveImg = 'https://cdn.shopify.com/s/files/1/0979/1671/5140/files/3_
 
 const comingSoonSlugs = ["arreglos", "cajas", "cestas", "jarrones"];
 
-const Index = () => {
+const Index = ({ noindex = false }: { noindex?: boolean } = {}) => {
   const { t } = useTranslation();
   const promoActive = isMothersDayPromoActive();
   // Live Bicolor Passion image (current first photo from Shopify)
@@ -57,7 +57,7 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-background overflow-x-hidden">
-      <SeoHead title={t("seo.home.title")} description={t("seo.home.description")} path="/" />
+      <SeoHead title={t("seo.home.title")} description={t("seo.home.description")} path="/" noindex={noindex} />
       <JsonLd data={localBusinessSchema()} />
       <JsonLd data={serviceSchema()} />
       <JsonLd data={websiteSchema()} />

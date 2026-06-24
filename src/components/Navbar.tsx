@@ -8,6 +8,7 @@ import BrandLogo from "@/components/BrandLogo";
 import charlsLogo from "@/assets/charls-logo.webp";
 import { Menu, X, ChevronDown, Search as SearchIcon, MapPin, Globe } from "lucide-react";
 import { bouquetProducts } from "@/lib/catalogData";
+import { slugForHandle } from "@/lib/bouquetSlugs";
 import { roomDecorPackages } from "@/lib/roomDecorData";
 import { supabase } from "@/integrations/supabase/client";
 import { useTranslation, type Language } from "@/i18n/LanguageContext";
@@ -63,7 +64,7 @@ const Navbar = () => {
   ];
 
   const searchableItems = [
-    ...bouquetProducts.map(p => ({ name: p.name, to: `/bouquets/all/${p.shopifyHandle}` })),
+    ...bouquetProducts.map(p => ({ name: p.name, to: `/bouquets/${slugForHandle(p.shopifyHandle)}` })),
     ...roomDecorPackages.map(p => ({ name: p.name, to: `/room-decors/${p.id}` })),
     { name: t("nav.customBouquetBuilder"), to: "/bouquets/personalizar" },
     { name: t("nav.delivery"), to: "/delivery" },

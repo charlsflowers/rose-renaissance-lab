@@ -22,12 +22,14 @@ import { trackMetaEvent } from "@/lib/metaPixel";
 import { toast } from "sonner";
 import { buildAccessoryLineItems } from "@/lib/accessoryVariants";
 import Navbar from "@/components/Navbar";
+import NotFound from "@/pages/NotFound";
 import PaperColorPicker from "@/components/PaperColorPicker";
 import PaymentIcons from "@/components/PaymentIcons";
 import ProductTrustBlock from "@/components/ProductTrustBlock";
 import { StorePickupAlert } from "@/components/StorePickupAlert";
 import CollectionFAQ, { useBouquetFAQs } from "@/components/CollectionFAQ";
 import { bouquetProducts, bouquetSizeOptions } from "@/lib/catalogData";
+import { slugForHandle, slugEsForHandle, handleFromSlug } from "@/lib/bouquetSlugs";
 import { useMothersDayBouquetByHandle } from "@/lib/mothersDayProducts";
 import { isMothersDayPromoActive, isMothersDayHandle } from "@/lib/mothersDayPromo";
 import {
@@ -48,7 +50,14 @@ import FedExShippingOptions, { type FedExAttrs } from "@/components/FedExShippin
 
 const BouquetProductDetail = () => {
   const { t, language } = useTranslation();
-  const { type, productId } = useParams<{ type: string; productId: string }>();
+  const params = useParams<{ type?: string; productId?: string; slug?: string }>();
+  const type = params.type;
+  // The URL segment identifying the product: clean route uses `:slug`,
+  // legacy route uses `:type/:productId`. Resolve either to the shopifyHandle.
+  const urlSegment = params.slug ?? params.productId;
+  const resolvedHandle = handleFromSlug(urlSegment) ?? urlSegment;
+  // `productId` kept as the raw segment for Mother's Day handle detection below.
+  const productId = urlSegment;
   const addItem = useCartStore(state => state.addItem);
   const setCartOpen = useCartStore(state => state.setOpen);
   const cartItems = useCartStore(state => state.items);
@@ -60,7 +69,7 @@ const BouquetProductDetail = () => {
     useMothersDayBouquetByHandle(isMothersDayContext ? productId : undefined);
 
   const standardProduct = bouquetProducts.find(
-    (b) => b.shopifyHandle === productId || b.id === productId
+    (b) => b.shopifyHandle === resolvedHandle || b.shopifyHandle === productId || b.id === productId
   );
   const product = isMothersDayContext ? mothersDayProduct : standardProduct;
 
@@ -379,15 +388,14 @@ const BouquetProductDetail = () => {
         </div>
       );
     }
-    return (
-      <div className="min-h-screen bg-background"><Navbar />
-        <div className="pt-24 text-center">
-          <p className="text-muted-foreground font-body">Product not found</p>
-          <Link to="/" className="text-primary font-body underline mt-4 inline-block">Go back</Link>
-        </div>
-      </div>
-    );
+    // Unknown product → render the 404 page (noindex) to avoid a soft-404 (HTTP 200 indexable).
+    return <NotFound />;
   }
+
+  // SEO slugs for the canonical/hreflang/breadcrumb URLs.
+  // Mother's Day fichas keep their dedicated /bouquets/mothers-day/<handle> URL.
+  const seoSlugEn = isMothersDayContext ? `mothers-day/${product.shopifyHandle}` : slugForHandle(product.shopifyHandle);
+  const seoSlugEs = isMothersDayContext ? `mothers-day/${product.shopifyHandle}` : slugEsForHandle(product.shopifyHandle);
 
   const colorCount = product.color.split(/,\s*|\s+y\s+/).length;
   const hasCustomSizes = product.customSizes && product.customSizes.length > 0;
@@ -839,12 +847,12 @@ const BouquetProductDetail = () => {
 
   return (
     <div className="min-h-screen bg-background flex flex-col">
-      <SeoHead title={resolvedSeoTitle} description={resolvedSeoDescription} path={`/bouquets/all/${product.shopifyHandle}`} image={primaryImage} />
-      <JsonLd data={[productSchema(product.name, resolvedSeoDescription, dynamicMinPrice ?? (hasCustomSizes ? product.customSizes![0].price : getPrice(product.pricingTier, product.pricingTier === 'mix3red' ? 75 : 50)), primaryImage), breadcrumbSchema([{ name: "Home", url: "https://www.charlsflowers.com" }, { name: "Bouquets", url: "https://www.charlsflowers.com/bouquets" }, { name: product.name, url: `https://www.charlsflowers.com/bouquets/all/${product.shopifyHandle}` }])]} />
+      <SeoHead title={resolvedSeoTitle} description={resolvedSeoDescription} path={`/bouquets/${seoSlugEn}`} pathEs={`/bouquets/${seoSlugEs}`} image={primaryImage} />
+      <JsonLd data={[productSchema(product.name, resolvedSeoDescription, dynamicMinPrice ?? (hasCustomSizes ? product.customSizes![0].price : getPrice(product.pricingTier, product.pricingTier === 'mix3red' ? 75 : 50)), primaryImage, " Bouquet Miami"), breadcrumbSchema([{ name: "Home", url: "https://www.charlsflowers.com" }, { name: "Bouquets", url: "https://www.charlsflowers.com/bouquets" }, { name: product.name, url: `https://www.charlsflowers.com/bouquets/${seoSlugEn}` }])]} />
       <Navbar />
       <div className="pt-20 md:pt-28 pb-16">
         <div className="container mx-auto px-6">
-          <Breadcrumbs items={[{ label: "Home", to: "/" }, { label: "Bouquets", to: "/bouquets" }, { label: product.name }]} />
+          <Breadcrumbs items={[{ label: t("nav.home"), to: "/" }, { label: t("nav.bouquets"), to: "/bouquets" }, { label: product.name }]} />
 
           {/* ===== DESKTOP: two-column layout ===== */}
           <div className="hidden lg:grid lg:grid-cols-[minmax(0,11fr)_minmax(0,9fr)] gap-10 lg:gap-16 max-w-7xl mx-auto">
@@ -872,7 +880,7 @@ const BouquetProductDetail = () => {
                 {/* Main (top) image — swappable via thumbnails */}
                 <div className="relative overflow-hidden rounded-lg bg-muted flex items-center justify-center aspect-square flex-1 min-w-0">
                   {desktopMainImage ? (
-                    <img src={desktopMainImage} alt={`${product.name} Miami – Charls Flowers`} width={600} height={600} className="w-full h-full object-contain" />
+                    <img src={desktopMainImage} alt={`${product.name} Miami – Charls Flowers`} width={600} height={600} fetchPriority="high" decoding="async" className="w-full h-full object-contain" />
                   ) : (
                     <div className="w-full h-full flex items-center justify-center"><span className="font-display text-6xl text-muted-foreground/20">🌹</span></div>
                   )}
@@ -972,6 +980,8 @@ const BouquetProductDetail = () => {
                       src={url}
                       alt={`${product.name} ${idx === 0 ? "Miami" : `view ${idx + 1}`} – Charls Flowers`}
                       loading={idx === 0 ? "eager" : "lazy"}
+                      {...(idx === 0 ? { fetchPriority: "high" as const } : {})}
+                      decoding="async"
                       width={600}
                       height={600}
                       className={`w-full h-full ${idx === 0 ? "object-contain" : "object-cover"} pointer-events-none`}
@@ -982,7 +992,7 @@ const BouquetProductDetail = () => {
             </div>
 
             <div className="text-center">
-              <h2 className="font-display text-2xl font-semibold text-foreground">{product.name} Bouquet Miami</h2>
+              <h1 className="font-display text-2xl font-semibold text-foreground">{product.name} Bouquet Miami</h1>
               <div className="text-muted-foreground font-body text-sm mt-2 space-y-1 text-left">
                 {replaceDescriptionPrice(resolvedDescription).split('\n').map((line, i) => (
                   <p key={i}>{line}</p>

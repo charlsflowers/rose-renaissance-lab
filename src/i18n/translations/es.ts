@@ -579,8 +579,8 @@ export const es = {
   // Metadatos SEO (título/descripción por página, bilingüe)
   seo: {
     home: {
-      title: "Floristería en Miami | Envío de Flores el Mismo Día | Charls Flowers",
-      description: "Ramos de flores frescas con envío el mismo día en todo Miami. Pide ramos de rosas, arreglos personalizados y regalos. Flores a domicilio Miami. Tel. 904-442-4042.",
+      title: "Floristería en Miami | Flores el Mismo Día | Charls Flowers",
+      description: "Ramos de flores frescas con envío el mismo día en todo Miami. Pide rosas, arreglos personalizados y regalos a domicilio. Tel. 904-442-4042.",
     },
     bouquets: {
       title: "Ramos de Rosas en Miami | Un Color y Mixtos | Charls Flowers",
@@ -602,12 +602,12 @@ export const es = {
       h1: "Ramos del Zodiaco",
     },
     roomDecors: {
-      title: "Decoración con Flores en Miami | Montaje Romántico | Charls Flowers",
+      title: "Decoración con Flores en Miami | Charls Flowers",
       description: "Decoración romántica de habitaciones con flores en Miami. Servicio de montaje completo. Reserva tu Love Bomb, Overly Romantic o Deluxe Love Package.",
     },
     about: {
       title: "La Mejor Floristería de Miami | Charls Flowers",
-      description: "Charls Flowers es la floristería de referencia en Miami. Ramos artesanales de 50 a 200 rosas, vista previa con IA, envío el mismo día hasta 87 millas y recogida gratis.",
+      description: "Charls Flowers, la floristería de referencia en Miami. Ramos artesanales de 50 a 200 rosas, vista previa con IA, envío el mismo día y recogida gratis.",
     },
     contact: {
       title: "Contacto | Charls Flowers Miami FL",

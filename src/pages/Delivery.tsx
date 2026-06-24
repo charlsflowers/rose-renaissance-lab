@@ -3,7 +3,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import SeoHead from "@/components/SeoHead";
 import Breadcrumbs from "@/components/Breadcrumbs";
-import JsonLd, { breadcrumbSchema } from "@/components/JsonLd";
+import JsonLd, { breadcrumbSchema, serviceSchema } from "@/components/JsonLd";
 import { Truck, Store, MapPin, Clock, DollarSign } from "lucide-react";
 import { GOOGLE_MAPS_API_KEY } from "@/lib/constants";
 import { useTranslation } from "@/i18n/LanguageContext";
@@ -18,7 +18,7 @@ const Delivery = () => {
         description={t("seo.delivery.description")}
         path="/delivery"
       />
-      <JsonLd data={breadcrumbSchema([{ name: "Home", url: "https://www.charlsflowers.com" }, { name: "Delivery", url: "https://www.charlsflowers.com/delivery" }])} />
+      <JsonLd data={[breadcrumbSchema([{ name: "Home", url: "https://www.charlsflowers.com" }, { name: "Delivery", url: "https://www.charlsflowers.com/delivery" }]), serviceSchema()]} />
       <Navbar />
       <div className="pt-24 pb-16">
         <div className="container mx-auto px-6 max-w-4xl">

@@ -8,6 +8,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { useCartStore } from "@/stores/cartStore";
 import { toast } from "sonner";
 import Navbar from "@/components/Navbar";
+import NotFound from "@/pages/NotFound";
 import Footer from "@/components/Footer";
 import PaymentIcons from "@/components/PaymentIcons";
 import ProductTrustBlock from "@/components/ProductTrustBlock";
@@ -176,14 +177,8 @@ const RoomDecorDetail = () => {
   const availableHours = getAvailableHours(deliveryDate);
 
   if (!pkg) {
-    return (
-      <div className="min-h-screen bg-background"><Navbar />
-        <div className="pt-24 text-center">
-          <p className="text-muted-foreground font-body">Package not found</p>
-          <Link to="/room-decors" className="text-primary font-body underline mt-4 inline-block">Go back</Link>
-        </div>
-      </div>
-    );
+    // Unknown package → 404 page (noindex) to avoid a soft-404.
+    return <NotFound />;
   }
 
   const toggleAddon = (idx: number) => {
@@ -284,7 +279,7 @@ const RoomDecorDetail = () => {
       <Navbar />
       <div className="pt-16 md:pt-24 pb-16">
         <div className="container mx-auto px-6">
-          <Breadcrumbs items={[{ label: "Home", to: "/" }, { label: "Room Decors", to: "/room-decors" }, { label: pkg.name }]} />
+          <Breadcrumbs items={[{ label: t("nav.home"), to: "/" }, { label: t("nav.roomDecors"), to: "/room-decors" }, { label: pkg.name }]} />
 
           {/* ===== DESKTOP: two-column layout ===== */}
           <div className="hidden lg:grid lg:grid-cols-[minmax(0,11fr)_minmax(0,9fr)] gap-8 max-w-6xl mx-auto">
@@ -542,7 +537,7 @@ const RoomDecorDetail = () => {
             </div>
 
             <div className="text-center">
-              <h2 className="font-display text-3xl font-semibold text-foreground">{pkg.name} — Room Decor Miami</h2>
+              <h1 className="font-display text-3xl font-semibold text-foreground">{pkg.name} — Room Decor Miami</h1>
               <p className="text-muted-foreground font-body mt-2 text-left">{resolvedDescription}</p>
             </div>
 

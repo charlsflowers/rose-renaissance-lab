@@ -11,6 +11,7 @@ import { performApiCheckout } from "@/lib/checkout";
 import { calculateDeliveryCost, formatDeliveryCost } from "@/lib/deliveryPricing";
 import { trackMetaEvent } from "@/lib/metaPixel";
 import Navbar from "@/components/Navbar";
+import NotFound from "@/pages/NotFound";
 import SeoHead from "@/components/SeoHead";
 import PaperColorPicker from "@/components/PaperColorPicker";
 import { categoryProducts } from "@/lib/catalogData";
@@ -144,14 +145,8 @@ const CategoryProductDetail = () => {
   const availableHours = getAvailableHours(deliveryDate);
 
   if (!product) {
-    return (
-      <div className="min-h-screen bg-background"><Navbar />
-        <div className="pt-24 text-center">
-          <p className="text-muted-foreground font-body">Product not found</p>
-          <Link to="/" className="text-primary font-body underline mt-4 inline-block">Go back</Link>
-        </div>
-      </div>
-    );
+    // Unknown product → 404 page (noindex) to avoid a soft-404.
+    return <NotFound />;
   }
 
   const selectedSize = product.sizes[selectedSizeIdx];
