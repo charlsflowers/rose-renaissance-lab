@@ -196,8 +196,10 @@ Deno.serve(async (req) => {
       }
     );
   } catch (err) {
+    // Keep error detail server-side only; do not leak internals to the client.
+    console.error("meta-capi network_error:", err);
     return new Response(
-      JSON.stringify({ error: "network_error", detail: String(err) }),
+      JSON.stringify({ error: "network_error" }),
       {
         status: 502,
         headers: { ...corsHeaders, "Content-Type": "application/json" },

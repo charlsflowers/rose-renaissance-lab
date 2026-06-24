@@ -255,15 +255,26 @@ serve(async (req) => {
     const hmac = req.headers.get("x-shopify-hmac-sha256") || "";
     const secret = Deno.env.get("SHOPIFY_WEBHOOK_SECRET");
 
-    if (secret && hmac) {
-      const ok = await verifyShopifyHmac(rawBody, hmac, secret);
-      if (!ok) {
-        console.error("Invalid Shopify HMAC on invoice-print webhook");
-        return new Response(JSON.stringify({ ok: false, error: "invalid hmac" }), {
-          status: 401,
+    // Fail-CLOSED: reject if the signing secret is not configured or if the
+    // request is missing / has an invalid Shopify HMAC. Shopify always signs
+    // orders/paid webhooks, so legitimate calls are unaffected; anonymous POSTs
+    // (which would burn PDFShift credits and trigger real prints) are blocked.
+    if (!secret) {
+      console.error("SHOPIFY_WEBHOOK_SECRET missing");
+      return new Response(
+        JSON.stringify({ ok: false, error: "server_misconfigured" }),
+        {
+          status: 500,
           headers: { ...corsHeaders, "Content-Type": "application/json" },
-        });
-      }
+        },
+      );
+    }
+    if (!hmac || !(await verifyShopifyHmac(rawBody, hmac, secret))) {
+      console.error("Invalid/missing Shopify HMAC on invoice-print webhook");
+      return new Response(JSON.stringify({ ok: false, error: "invalid hmac" }), {
+        status: 401,
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
     }
 
     let order: any;

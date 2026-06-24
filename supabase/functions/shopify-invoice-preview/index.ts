@@ -18,7 +18,8 @@ import { INVOICE_TEMPLATE } from "./template.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
-  "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
+  "Access-Control-Allow-Headers":
+    "authorization, x-client-info, apikey, content-type, x-preview-secret",
   "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
 };
 
@@ -116,6 +117,17 @@ async function storefrontProduct(
 
 serve(async (req) => {
   if (req.method === "OPTIONS") return new Response("ok", { headers: corsHeaders });
+
+  // This is a MANUAL preview tool with no automated caller. Protect it with a
+  // shared secret so anonymous POSTs cannot burn PDFShift credits / fill the
+  // bucket. Callers must send header `x-preview-secret: <INVOICE_PREVIEW_SECRET>`.
+  const previewSecret = Deno.env.get("INVOICE_PREVIEW_SECRET") || "";
+  if (!previewSecret || req.headers.get("x-preview-secret") !== previewSecret) {
+    return new Response(JSON.stringify({ error: "unauthorized" }), {
+      status: 401,
+      headers: { ...corsHeaders, "Content-Type": "application/json" },
+    });
+  }
 
   try {
     const storefrontToken = Deno.env.get("SHOPIFY_STOREFRONT_ACCESS_TOKEN");
