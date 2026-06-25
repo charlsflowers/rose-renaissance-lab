@@ -8,6 +8,10 @@ import SeoHead from "@/components/SeoHead";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import JsonLd, { breadcrumbSchema, itemListSchema } from "@/components/JsonLd";
 import { findOccasionBySlug } from "@/lib/occasionPagesData";
+import { findFlowerTypeBySlug } from "@/lib/flowerTypePagesData";
+import { useCollectionProducts, productLinkForHandle } from "@/lib/shopifyCollection";
+import { BOUQUET_SLUGS } from "@/lib/bouquetSlugs";
+import BouquetCardImage from "@/components/BouquetCardImage";
 import { useTranslation } from "@/i18n/LanguageContext";
 import NotFound from "@/pages/NotFound";
 
@@ -24,7 +28,17 @@ import NotFound from "@/pages/NotFound";
 const OccasionPage = () => {
   const { slug } = useParams<{ slug: string }>();
   const { language } = useTranslation();
-  const occ = slug ? findOccasionBySlug(slug) : undefined;
+  // Unified collection router: an /collections/<slug> URL can resolve to either
+  // an occasion (Valentine's, Birthdays…) or a flower-type (Tulips, Peonies…).
+  // Both datasets share the same OccasionPage shape so rendering is identical.
+  const occ = slug
+    ? findOccasionBySlug(slug) ?? findFlowerTypeBySlug(slug)
+    : undefined;
+  const isFlowerType = !!(slug && !findOccasionBySlug(slug) && findFlowerTypeBySlug(slug));
+  // Shopify collection handle defaults to the EN slug (we created the collections
+  // in Shopify with the same handle as our slug). Override via `shopifyHandle`.
+  const handle = occ?.shopifyHandle ?? occ?.slug;
+  const { products: liveProducts, loading: productsLoading } = useCollectionProducts(handle);
   const [email, setEmail] = useState("");
   const [sent, setSent] = useState(false);
 
@@ -43,6 +57,23 @@ const OccasionPage = () => {
   const title = isEs ? occ.title.es : occ.title.en;
   const description = isEs ? occ.description.es : occ.description.en;
   const intro = isEs ? occ.intro.es : occ.intro.en;
+
+  // Parent index (Occasions vs Flowers) — used by breadcrumb + back link.
+  const parentIndex = isFlowerType
+    ? {
+        path: isEs ? "/collections/flores" : "/collections/flowers",
+        url: isEs
+          ? "https://www.charlsflowers.com/es/collections/flores"
+          : "https://www.charlsflowers.com/collections/flowers",
+        label: isEs ? "Tipos de Flor" : "Flowers",
+      }
+    : {
+        path: isEs ? "/collections/ocasiones" : "/collections/occasions",
+        url: isEs
+          ? "https://www.charlsflowers.com/es/collections/ocasiones"
+          : "https://www.charlsflowers.com/collections/occasions",
+        label: isEs ? "Ocasiones" : "Occasions",
+      };
 
   // Internal link cluster: smaller-volume → bigger. Builder + the two big rose
   // colors first; then the all-bouquets hub; then the high-AOV packages.
@@ -78,10 +109,7 @@ const OccasionPage = () => {
 
   const breadcrumbs = breadcrumbSchema([
     { name: isEs ? "Inicio" : "Home", url: isEs ? "https://www.charlsflowers.com/es" : "https://www.charlsflowers.com" },
-    {
-      name: isEs ? "Ocasiones" : "Occasions",
-      url: isEs ? "https://www.charlsflowers.com/es/collections/ocasiones" : "https://www.charlsflowers.com/collections/occasions",
-    },
+    { name: parentIndex.label, url: parentIndex.url },
     { name: h1, url: selfUrl },
   ]);
 
@@ -113,13 +141,46 @@ const OccasionPage = () => {
           <Breadcrumbs
             items={[
               { label: isEs ? "Inicio" : "Home", to: "/" },
-              { label: isEs ? "Ocasiones" : "Occasions", to: isEs ? "/collections/ocasiones" : "/collections/occasions" },
+              { label: parentIndex.label, to: parentIndex.path },
               { label: h1 },
             ]}
           />
 
           <h1 className="font-title-retro text-3xl md:text-5xl text-primary mb-4">{h1}</h1>
           <p className="font-body text-base md:text-lg text-foreground leading-relaxed mb-8">{intro}</p>
+
+          {/* Live Shopify collection grid — renders only when the linked Shopify
+              collection has products. Empty collection → keeps the existing
+              SEO + cluster + "notify me" fallback below, unchanged. */}
+          {liveProducts.length > 0 && (
+            <section className="mb-14">
+              <h2 className="font-title-retro text-2xl md:text-3xl text-foreground mb-5">
+                {isEs ? "Disponibles ahora" : "Available now"}
+              </h2>
+              <div className="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-6">
+                {liveProducts.map((p) => {
+                  const to = productLinkForHandle(p.handle, BOUQUET_SLUGS, isEs ? "es" : "en");
+                  return (
+                    <Link key={p.id} to={to} className="group block" noLocalize>
+                      <div className="relative overflow-hidden rounded-lg mb-3 aspect-square bg-muted">
+                        <BouquetCardImage
+                          handle={p.handle}
+                          name={p.title}
+                          fallback={p.primaryImage}
+                          fallback2={p.secondaryImage}
+                        />
+                        <div className="absolute inset-0 bg-foreground/5 group-hover:bg-foreground/15 transition-colors" />
+                      </div>
+                      <h3 className="font-display text-base font-semibold text-foreground text-center">{p.title}</h3>
+                      <p className="text-primary font-body text-xs font-semibold text-center mt-1">
+                        {isEs ? "Desde" : "From"} ${p.minPrice.toFixed(2)}
+                      </p>
+                    </Link>
+                  );
+                })}
+              </div>
+            </section>
+          )}
 
           {/* Body sections — H2 + body for each */}
           <div className="space-y-10 mb-14">
@@ -138,7 +199,9 @@ const OccasionPage = () => {
           {/* Internal-link cluster: smaller-volume → bigger */}
           <section className="bg-cream rounded-lg p-6 md:p-8 mb-12">
             <h2 className="font-title-retro text-2xl md:text-3xl text-primary mb-2">
-              {isEs ? "Mientras tanto, esto sí lo enviamos hoy" : "In the meantime, here's what we deliver today"}
+              {liveProducts.length > 0
+                ? (isEs ? "También te puede gustar" : "You may also like")
+                : (isEs ? "Mientras tanto, esto sí lo enviamos hoy" : "In the meantime, here's what we deliver today")}
             </h2>
             <p className="font-body text-sm md:text-base text-muted-foreground mb-6">
               {isEs
@@ -167,7 +230,9 @@ const OccasionPage = () => {
             </ul>
           </section>
 
-          {/* Cul-de-sac: email capture for "notify me when this collection launches" */}
+          {/* Cul-de-sac: email capture for "notify me when this collection launches".
+              Hidden once the collection actually has products live on Shopify. */}
+          {liveProducts.length === 0 && !productsLoading && (
           <section className="bg-primary/5 border border-primary/20 rounded-lg p-6 md:p-8 text-center">
             <Heart className="w-6 h-6 text-primary mx-auto mb-3" />
             <h2 className="font-title-retro text-2xl md:text-3xl text-primary mb-3">
@@ -205,14 +270,18 @@ const OccasionPage = () => {
               </form>
             )}
           </section>
+          )}
 
           {/* Back to occasions index */}
           <div className="mt-10 text-center">
             <Link
-              to={isEs ? "/collections/ocasiones" : "/collections/occasions"}
+              to={parentIndex.path}
+              noLocalize
               className="font-body text-sm text-primary hover:underline"
             >
-              {isEs ? "← Ver todas las ocasiones" : "← See all occasions"}
+              {isEs
+                ? (isFlowerType ? "← Ver todos los tipos de flor" : "← Ver todas las ocasiones")
+                : (isFlowerType ? "← See all flower types" : "← See all occasions")}
             </Link>
           </div>
         </div>
