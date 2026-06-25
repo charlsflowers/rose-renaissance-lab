@@ -892,7 +892,7 @@ const BouquetProductDetail = () => {
       <SeoHead title={resolvedSeoTitle} description={resolvedSeoDescription} path={`/bouquets/${seoSlugEn}`} pathEs={`/bouquets/${seoSlugEs}`} image={primaryImage} />
       <JsonLd data={[productSchema(productKeywordEn, resolvedSeoDescription, dynamicMinPrice ?? (hasCustomSizes ? product.customSizes![0].price : getPrice(product.pricingTier, product.pricingTier === 'mix3red' ? 75 : 50)), primaryImage, " Miami"), breadcrumbSchema([{ name: "Home", url: "https://www.charlsflowers.com" }, { name: "Bouquets", url: "https://www.charlsflowers.com/bouquets" }, { name: `${productKeywordEn} Miami`, url: `https://www.charlsflowers.com/bouquets/${seoSlugEn}` }])]} />
       <Navbar />
-      <div className="pt-20 md:pt-28 pb-16">
+      <div className="pt-20 md:pt-28 pb-10">
         <div className="container mx-auto px-6">
           <Breadcrumbs items={[{ label: t("nav.home"), to: "/" }, { label: t("nav.bouquets"), to: "/bouquets" }, { label: headingH1 }]} />
 
