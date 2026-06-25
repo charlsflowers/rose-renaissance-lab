@@ -1423,6 +1423,312 @@
     <xhtml:link rel="alternate" hreflang="x-default" href="https://www.charlsflowers.com/collections/easter-flowers"/>
   </url>
   <url>
+    <loc>https://www.charlsflowers.com/collections/flowers</loc>
+    <lastmod>2026-06-25</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/collections/flowers"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.charlsflowers.com/es/collections/flores"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.charlsflowers.com/collections/flowers"/>
+  </url>
+  <url>
+    <loc>https://www.charlsflowers.com/es/collections/flores</loc>
+    <lastmod>2026-06-25</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/collections/flowers"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.charlsflowers.com/es/collections/flores"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.charlsflowers.com/collections/flowers"/>
+  </url>
+  <url>
+    <loc>https://www.charlsflowers.com/collections/tulips</loc>
+    <lastmod>2026-06-25</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/collections/tulips"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.charlsflowers.com/es/collections/tulipanes"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.charlsflowers.com/collections/tulips"/>
+  </url>
+  <url>
+    <loc>https://www.charlsflowers.com/es/collections/tulipanes</loc>
+    <lastmod>2026-06-25</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/collections/tulips"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.charlsflowers.com/es/collections/tulipanes"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.charlsflowers.com/collections/tulips"/>
+  </url>
+  <url>
+    <loc>https://www.charlsflowers.com/collections/peonies</loc>
+    <lastmod>2026-06-25</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/collections/peonies"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.charlsflowers.com/es/collections/peonias"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.charlsflowers.com/collections/peonies"/>
+  </url>
+  <url>
+    <loc>https://www.charlsflowers.com/es/collections/peonias</loc>
+    <lastmod>2026-06-25</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/collections/peonies"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.charlsflowers.com/es/collections/peonias"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.charlsflowers.com/collections/peonies"/>
+  </url>
+  <url>
+    <loc>https://www.charlsflowers.com/collections/sunflowers</loc>
+    <lastmod>2026-06-25</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/collections/sunflowers"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.charlsflowers.com/es/collections/girasoles"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.charlsflowers.com/collections/sunflowers"/>
+  </url>
+  <url>
+    <loc>https://www.charlsflowers.com/es/collections/girasoles</loc>
+    <lastmod>2026-06-25</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/collections/sunflowers"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.charlsflowers.com/es/collections/girasoles"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.charlsflowers.com/collections/sunflowers"/>
+  </url>
+  <url>
+    <loc>https://www.charlsflowers.com/collections/lilies</loc>
+    <lastmod>2026-06-25</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/collections/lilies"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.charlsflowers.com/es/collections/liliums"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.charlsflowers.com/collections/lilies"/>
+  </url>
+  <url>
+    <loc>https://www.charlsflowers.com/es/collections/liliums</loc>
+    <lastmod>2026-06-25</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/collections/lilies"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.charlsflowers.com/es/collections/liliums"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.charlsflowers.com/collections/lilies"/>
+  </url>
+  <url>
+    <loc>https://www.charlsflowers.com/collections/orchids</loc>
+    <lastmod>2026-06-25</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/collections/orchids"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.charlsflowers.com/es/collections/orquideas"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.charlsflowers.com/collections/orchids"/>
+  </url>
+  <url>
+    <loc>https://www.charlsflowers.com/es/collections/orquideas</loc>
+    <lastmod>2026-06-25</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/collections/orchids"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.charlsflowers.com/es/collections/orquideas"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.charlsflowers.com/collections/orchids"/>
+  </url>
+  <url>
+    <loc>https://www.charlsflowers.com/collections/carnations</loc>
+    <lastmod>2026-06-25</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/collections/carnations"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.charlsflowers.com/es/collections/claveles"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.charlsflowers.com/collections/carnations"/>
+  </url>
+  <url>
+    <loc>https://www.charlsflowers.com/es/collections/claveles</loc>
+    <lastmod>2026-06-25</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/collections/carnations"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.charlsflowers.com/es/collections/claveles"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.charlsflowers.com/collections/carnations"/>
+  </url>
+  <url>
+    <loc>https://www.charlsflowers.com/collections/ranunculus</loc>
+    <lastmod>2026-06-25</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/collections/ranunculus"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.charlsflowers.com/es/collections/ranunculos"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.charlsflowers.com/collections/ranunculus"/>
+  </url>
+  <url>
+    <loc>https://www.charlsflowers.com/es/collections/ranunculos</loc>
+    <lastmod>2026-06-25</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/collections/ranunculus"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.charlsflowers.com/es/collections/ranunculos"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.charlsflowers.com/collections/ranunculus"/>
+  </url>
+  <url>
+    <loc>https://www.charlsflowers.com/collections/gerberas</loc>
+    <lastmod>2026-06-25</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/collections/gerberas"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.charlsflowers.com/es/collections/gerberas"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.charlsflowers.com/collections/gerberas"/>
+  </url>
+  <url>
+    <loc>https://www.charlsflowers.com/es/collections/gerberas</loc>
+    <lastmod>2026-06-25</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/collections/gerberas"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.charlsflowers.com/es/collections/gerberas"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.charlsflowers.com/collections/gerberas"/>
+  </url>
+  <url>
+    <loc>https://www.charlsflowers.com/collections/hydrangeas</loc>
+    <lastmod>2026-06-25</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/collections/hydrangeas"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.charlsflowers.com/es/collections/hortensias"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.charlsflowers.com/collections/hydrangeas"/>
+  </url>
+  <url>
+    <loc>https://www.charlsflowers.com/es/collections/hortensias</loc>
+    <lastmod>2026-06-25</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/collections/hydrangeas"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.charlsflowers.com/es/collections/hortensias"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.charlsflowers.com/collections/hydrangeas"/>
+  </url>
+  <url>
+    <loc>https://www.charlsflowers.com/collections/daisies</loc>
+    <lastmod>2026-06-25</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/collections/daisies"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.charlsflowers.com/es/collections/margaritas"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.charlsflowers.com/collections/daisies"/>
+  </url>
+  <url>
+    <loc>https://www.charlsflowers.com/es/collections/margaritas</loc>
+    <lastmod>2026-06-25</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/collections/daisies"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.charlsflowers.com/es/collections/margaritas"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.charlsflowers.com/collections/daisies"/>
+  </url>
+  <url>
+    <loc>https://www.charlsflowers.com/collections/ramo-buchon</loc>
+    <lastmod>2026-06-25</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/collections/ramo-buchon"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.charlsflowers.com/es/collections/ramo-buchon"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.charlsflowers.com/collections/ramo-buchon"/>
+  </url>
+  <url>
+    <loc>https://www.charlsflowers.com/es/collections/ramo-buchon</loc>
+    <lastmod>2026-06-25</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/collections/ramo-buchon"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.charlsflowers.com/es/collections/ramo-buchon"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.charlsflowers.com/collections/ramo-buchon"/>
+  </url>
+  <url>
+    <loc>https://www.charlsflowers.com/collections/money-bouquet</loc>
+    <lastmod>2026-06-25</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/collections/money-bouquet"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.charlsflowers.com/es/collections/ramo-de-dinero"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.charlsflowers.com/collections/money-bouquet"/>
+  </url>
+  <url>
+    <loc>https://www.charlsflowers.com/es/collections/ramo-de-dinero</loc>
+    <lastmod>2026-06-25</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/collections/money-bouquet"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.charlsflowers.com/es/collections/ramo-de-dinero"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.charlsflowers.com/collections/money-bouquet"/>
+  </url>
+  <url>
+    <loc>https://www.charlsflowers.com/collections/floral-arrangements</loc>
+    <lastmod>2026-06-25</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/collections/floral-arrangements"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.charlsflowers.com/es/collections/arreglos-florales"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.charlsflowers.com/collections/floral-arrangements"/>
+  </url>
+  <url>
+    <loc>https://www.charlsflowers.com/es/collections/arreglos-florales</loc>
+    <lastmod>2026-06-25</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/collections/floral-arrangements"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.charlsflowers.com/es/collections/arreglos-florales"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.charlsflowers.com/collections/floral-arrangements"/>
+  </url>
+  <url>
+    <loc>https://www.charlsflowers.com/collections/preserved-roses</loc>
+    <lastmod>2026-06-25</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/collections/preserved-roses"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.charlsflowers.com/es/collections/rosas-eternas"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.charlsflowers.com/collections/preserved-roses"/>
+  </url>
+  <url>
+    <loc>https://www.charlsflowers.com/es/collections/rosas-eternas</loc>
+    <lastmod>2026-06-25</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/collections/preserved-roses"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.charlsflowers.com/es/collections/rosas-eternas"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.charlsflowers.com/collections/preserved-roses"/>
+  </url>
+  <url>
+    <loc>https://www.charlsflowers.com/collections/bridal-bouquets</loc>
+    <lastmod>2026-06-25</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/collections/bridal-bouquets"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.charlsflowers.com/es/collections/ramos-de-novia"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.charlsflowers.com/collections/bridal-bouquets"/>
+  </url>
+  <url>
+    <loc>https://www.charlsflowers.com/es/collections/ramos-de-novia</loc>
+    <lastmod>2026-06-25</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/collections/bridal-bouquets"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.charlsflowers.com/es/collections/ramos-de-novia"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.charlsflowers.com/collections/bridal-bouquets"/>
+  </url>
+  <url>
+    <loc>https://www.charlsflowers.com/collections/flower-subscription</loc>
+    <lastmod>2026-06-25</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/collections/flower-subscription"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.charlsflowers.com/es/collections/suscripcion-de-flores"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.charlsflowers.com/collections/flower-subscription"/>
+  </url>
+  <url>
+    <loc>https://www.charlsflowers.com/es/collections/suscripcion-de-flores</loc>
+    <lastmod>2026-06-25</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/collections/flower-subscription"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.charlsflowers.com/es/collections/suscripcion-de-flores"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.charlsflowers.com/collections/flower-subscription"/>
+  </url>
+  <url>
     <loc>https://www.charlsflowers.com/bouquets/white-red-roses-bouquet-bicolor</loc>
     <lastmod>2026-06-25</lastmod>
     <changefreq>weekly</changefreq>
