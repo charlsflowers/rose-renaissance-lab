@@ -15,6 +15,7 @@ export const en = {
     singleColor: "Single Color Bouquets",
     mixedBouquets: "Mixed Bouquets",
     zodiacBouquets: "Zodiac Bouquets",
+    bicolorBouquets: "Bicolor Bouquets",
     redRoses: "Red Roses",
     whiteRoses: "White Roses",
     pinkRoses: "Pink Roses",
