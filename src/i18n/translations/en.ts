@@ -524,6 +524,8 @@ export const en = {
     empty: "Your cart is empty",
     subtotal: "Subtotal",
     delivery: "Delivery",
+    extras: "Extras",
+    total: "Total",
     viewCart: "CONTINUE TO SAFE CHECKOUT",
     continueShopping: "Continue shopping",
     remove: "Remove",
