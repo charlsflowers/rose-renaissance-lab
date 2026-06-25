@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "vite",
     "sitemap": "node scripts/generate-sitemap.mjs",
-    "build": "node scripts/generate-sitemap.mjs && vite build",
+    "redirects": "node scripts/generate-redirects.mjs",
+    "build": "node scripts/generate-sitemap.mjs && node scripts/generate-redirects.mjs && vite build",
     "build:dev": "vite build --mode development",
     "lint": "eslint .",
     "preview": "vite preview",
