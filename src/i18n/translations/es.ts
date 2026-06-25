@@ -24,6 +24,7 @@ export const es = {
     orangeRoses: "Rosas Naranjas",
     greenRoses: "Rosas Verdes",
     comingSoon: "próximamente",
+    menu: "Menú",
     searchPlaceholder: "Buscar ramos o ingresar dirección de envío...",
     deliveryAddresses: "Direcciones de envío",
     anniversaries: "Aniversarios",
