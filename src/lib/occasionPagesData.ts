@@ -12,6 +12,13 @@ export interface OccasionPage {
   /** Canonical ES slug (no accents/n), used on /es/collections/<slugEs>. */
   slugEs: string;
   tier: OccasionTier;
+  /**
+   * Shopify collection handle. Defaults to `slug` when omitted (we created the
+   * collections in Shopify with the same handle as the EN slug). When the
+   * collection has products on Shopify they render inline; if empty/missing
+   * the page keeps the existing SEO + cluster + "notify me" fallback.
+   */
+  shopifyHandle?: string;
   /** Primary search keyword (mirrored verbatim in H1 + first paragraph). */
   keyword: { en: string; es: string };
   /** Secondary keyword (woven naturally as synonym) — optional. */
