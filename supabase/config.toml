@@ -27,8 +27,5 @@ verify_jwt = false
 [functions.shopify-invoice-print]
 verify_jwt = false
 
-[functions.printnode-test]
-verify_jwt = false
-
 [functions.fedex-key-check]
 verify_jwt = false
