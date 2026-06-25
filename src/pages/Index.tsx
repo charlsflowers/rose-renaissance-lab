@@ -208,43 +208,6 @@ const Index = ({ noindex = false }: { noindex?: boolean } = {}) => {
         </div>
       </section>
 
-      {/* Bouquets */}
-      <section className="py-16 md:py-20">
-        <div className="container mx-auto px-6">
-          <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.8 }} className="text-center mb-10">
-            <h2 className="font-title-retro text-4xl md:text-5xl text-primary">{t("home.bouquetsTitle")}</h2>
-          </motion.div>
-
-          <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }} className="max-w-md mx-auto">
-            {promoActive ? (
-              <div className="block opacity-50 cursor-not-allowed pointer-events-none" aria-disabled="true">
-                <div className="relative overflow-hidden rounded-lg mb-5 aspect-square">
-                  <img src={bicolorPassionImg} alt="Fresh Rose Bouquets Miami – Charls Flowers" loading="lazy" width={500} height={500} className="w-full h-full object-cover" />
-                  <div className="absolute inset-0 bg-foreground/30 flex items-center justify-center">
-                    <div className="bg-foreground/70 px-3 py-1.5 rounded-lg">
-                      <span className="font-body text-[10px] text-primary-foreground tracking-widest uppercase">Available May 13</span>
-                    </div>
-                  </div>
-                </div>
-                <div className="text-center mb-2">
-                  <h3 className="font-display text-xl font-semibold text-foreground uppercase tracking-wide">{t("home.viewBouquetsBtn")}</h3>
-                </div>
-              </div>
-            ) : (
-              <Link to="/bouquets" className="group block">
-                <div className="relative overflow-hidden rounded-lg mb-5 aspect-square">
-                  <img src={bicolorPassionImg} alt="Fresh Rose Bouquets Miami – Charls Flowers" loading="lazy" width={500} height={500} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
-                  <div className="absolute inset-0 bg-foreground/10 group-hover:bg-foreground/20 transition-colors" />
-                </div>
-                <div className="text-center mb-2">
-                  <h3 className="font-display text-xl font-semibold text-foreground uppercase tracking-wide">{t("home.viewBouquetsBtn")}</h3>
-                </div>
-              </Link>
-            )}
-          </motion.div>
-        </div>
-      </section>
-
       {/* Ticker */}
       <div className="relative mt-[-1px]">
         <div className="absolute -top-[50px] left-0 w-full h-[55px] z-10 overflow-hidden">
