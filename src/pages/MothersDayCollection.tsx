@@ -10,6 +10,7 @@ import JsonLd, { breadcrumbSchema } from "@/components/JsonLd";
 import { useMothersDayBouquets } from "@/lib/mothersDayProducts";
 import { isMothersDayPromoActive } from "@/lib/mothersDayPromo";
 import { useTranslation } from "@/i18n/LanguageContext";
+import { LongTailIntro, LongTailBody } from "@/components/LongTailSeoBlock";
 
 /**
  * /mothers-day — landing page for the Mother's Day Special Edition collection.
@@ -70,6 +71,8 @@ const MothersDayCollection = () => {
             <h1 className="font-title-retro text-4xl md:text-5xl text-foreground mb-3">
               {language === "es" ? "Colección Día de la Madre" : "Mother's Day Collection"}
             </h1>
+            {/* Mirror-effect long-tail intro under the existing H1. */}
+            <LongTailIntro seoKey="mothers-day" />
             <p className="text-muted-foreground font-body text-sm md:text-base max-w-2xl mx-auto">
               {language === "es"
                 ? "Los bouquets más especiales para la mujer más importante de tu vida. Hechos a mano en Miami, entrega el mismo día disponible."
@@ -144,6 +147,9 @@ const MothersDayCollection = () => {
           </div>
         </div>
       </div>
+
+      {/* Long-tail body block — H2/H3 + copy + internal-link cluster. */}
+      <LongTailBody seoKey="mothers-day" />
 
       <Footer />
     </div>
