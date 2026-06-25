@@ -48,6 +48,22 @@ const landingSrc   = read("src/lib/landingPagesData.ts");
 const roomDecorSrc = read("src/lib/roomDecorData.ts");
 const slugsSrc     = read("src/lib/bouquetSlugs.ts");
 const colorCollSrc = read("src/lib/colorCollections.ts");
+const citySrc      = read("src/lib/cityPagesData.ts");
+
+/**
+ * Parse cityPages entries:
+ *   { slug: "new-york", slugEs: "nueva-york", ... }
+ * Returns [{ slug, slugEs }] for the 35 nationwide city landing pages.
+ */
+const cityPagesList = (() => {
+  const out = [];
+  const re = /slug:\s*["']([a-z0-9-]+)["']\s*,\s*slugEs:\s*["']([a-z0-9-]+)["']/g;
+  let m;
+  while ((m = re.exec(citySrc)) !== null) {
+    out.push({ slug: m[1], slugEs: m[2] });
+  }
+  return out;
+})();
 
 /**
  * Parse COLOR_COLLECTIONS entries:
@@ -194,6 +210,12 @@ push("/faq",                    "monthly", "0.4");
 push("/blog",                   "weekly",  "0.6");
 push("/sitemap",                "monthly", "0.4");
 
+// Nationwide FedEx city landing pages — index + 35 per-city pages (EN + ES slugs).
+push("/flower-delivery", "weekly", "0.7", { esPath: "/es/envio-de-flores" });
+for (const c of cityPagesList) {
+  push(`/flower-delivery/${c.slug}`, "weekly", "0.7", { esPath: `/es/envio-de-flores/${c.slugEs}` });
+}
+
 // Legal pages (kept, low priority)
 push("/privacy-policy",   "monthly", "0.4");
 push("/terms-of-service", "monthly", "0.4");
@@ -300,7 +322,8 @@ const counts = {
   landings: landingSlugs.length,
   blog: blogSlugs.length,
   roomDecors: roomDecorIds.length,
+  cityPages: cityPagesList.length,
   excludedCategories: categorySlugs.length,
 };
 console.log(`[sitemap] wrote ${outPath}`);
-console.log(`[sitemap] paths=${counts.totalPaths} urls=${counts.totalUrls} bouquets=${counts.bouquets} colorCollections=${counts.colorCollections} mothersDay=${counts.mothersDay} landings=${counts.landings} blog=${counts.blog} roomDecors=${counts.roomDecors} (excluded comingSoon categories=${counts.excludedCategories})`);
+console.log(`[sitemap] paths=${counts.totalPaths} urls=${counts.totalUrls} bouquets=${counts.bouquets} colorCollections=${counts.colorCollections} mothersDay=${counts.mothersDay} landings=${counts.landings} blog=${counts.blog} roomDecors=${counts.roomDecors} cityPages=${counts.cityPages} (excluded comingSoon categories=${counts.excludedCategories})`);
