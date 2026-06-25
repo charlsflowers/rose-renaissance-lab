@@ -39,6 +39,7 @@ export const es = {
     byOccasion: "Por Ocasión",
     allColors: "Todos los Colores",
     mothersDayBouquets: "Día de la Madre",
+    allOccasions: "Ver todas las ocasiones",
     aria: {
       openMenu: "Abrir menú",
       closeMenu: "Cerrar menú",

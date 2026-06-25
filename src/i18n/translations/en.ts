@@ -40,6 +40,7 @@ export const en = {
     byOccasion: "By Occasion",
     allColors: "All Colors",
     mothersDayBouquets: "Mother's Day",
+    allOccasions: "View all occasions",
     aria: {
       openMenu: "Open menu",
       closeMenu: "Close menu",
