@@ -93,6 +93,10 @@ const tokenizeProductColors = (raw: string): string[] =>
 const isSingleColor = (product: BouquetProduct): boolean =>
   tokenizeProductColors(product.color).length === 1;
 
+/** True when the product is exactly bicolor (2 distinct color tokens). */
+export const isBicolorProduct = (product: BouquetProduct): boolean =>
+  tokenizeProductColors(product.color).length === 2;
+
 /**
  * True when a product belongs to the given color collection. Single-color and
  * multi-color bouquets both qualify as long as one of their featured colors

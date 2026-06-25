@@ -156,6 +156,7 @@ const AppContent = () => {
       <Route path="bouquets/single-color" element={<BouquetProducts initialFilter="un-color" />} />
       <Route path="bouquets/mixed-color" element={<BouquetProducts initialFilter="mezclas" />} />
       <Route path="bouquets/zodiac" element={<BouquetProducts initialFilter="zodiac" />} />
+      <Route path="bouquets/bicolor" element={<BouquetProducts initialFilter="bicolor" />} />
       {/* Indexable color collections — one per rose color, EN slug + native ES slug.
           Both slugs are registered in the shared tree so /bouquets/<en> and
           /es/bouquets/<es> both resolve. Must precede the /bouquets/:slug ficha route. */}

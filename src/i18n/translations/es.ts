@@ -14,6 +14,7 @@ export const es = {
     singleColor: "Ramos de Un Color",
     mixedBouquets: "Ramos Mixtos",
     zodiacBouquets: "Ramos del Zodíaco",
+    bicolorBouquets: "Ramos Bicolor",
     redRoses: "Rosas Rojas",
     whiteRoses: "Rosas Blancas",
     pinkRoses: "Rosas Rosadas",
