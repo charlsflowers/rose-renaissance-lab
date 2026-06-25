@@ -76,20 +76,34 @@ export const collectionFromSegment = (segment?: string): ColorCollection | undef
   );
 };
 
-/** True when the product is single-color (no " y " / ", " mix separator). */
-const isSingleColor = (product: BouquetProduct): boolean => {
-  const c = product.color;
-  return !(c.includes(" y ") || c.includes(", "));
-};
+/**
+ * Split a product `color` string ("Rojo y Blanco", "Negro, Hot Pink y Blanco",
+ * "Pink") into individual lowercase color tokens. Multi-color bouquets expose
+ * every color they prominently feature so they can appear in each matching
+ * color collection (e.g. White Roses AND Blue Roses).
+ */
+const tokenizeProductColors = (raw: string): string[] =>
+  raw
+    .toLowerCase()
+    .split(/\s+y\s+|,/)
+    .map((s) => s.trim())
+    .filter(Boolean);
 
-/** True when a single-color product belongs to the given color collection. */
+/** True when the product is single-color (no mix separator). */
+const isSingleColor = (product: BouquetProduct): boolean =>
+  tokenizeProductColors(product.color).length === 1;
+
+/**
+ * True when a product belongs to the given color collection. Single-color and
+ * multi-color bouquets both qualify as long as one of their featured colors
+ * matches one of the collection's tokens.
+ */
 export const productMatchesColor = (
   product: BouquetProduct,
   collection: ColorCollection,
 ): boolean => {
-  if (!isSingleColor(product)) return false;
-  const c = product.color.trim().toLowerCase();
-  return collection.colorTokens.includes(c);
+  const tokens = tokenizeProductColors(product.color);
+  return tokens.some((t) => collection.colorTokens.includes(t));
 };
 
 /** All products in a color collection (preserves catalog order). */
@@ -98,8 +112,15 @@ export const productsForColor = (
   collection: ColorCollection,
 ): BouquetProduct[] => products.filter((p) => productMatchesColor(p, collection));
 
-/** The color collection a single-color product belongs to, if any (for cross-links). */
+/**
+ * The color collection a product belongs to, used for the "same color"
+ * cross-link on product pages. Only returns a collection for single-color
+ * products to keep the cross-link unambiguous (multi-color bouquets appear in
+ * several color collections at once and don't have a single "home" color).
+ */
 export const colorCollectionForProduct = (
   product: BouquetProduct,
 ): ColorCollection | undefined =>
-  COLOR_COLLECTIONS.find((c) => productMatchesColor(product, c));
+  isSingleColor(product)
+    ? COLOR_COLLECTIONS.find((c) => productMatchesColor(product, c))
+    : undefined;
