@@ -298,7 +298,7 @@ const Navbar = () => {
 
       {/* Mobile menu - side sheet from left */}
       <Sheet open={mobileOpen} onOpenChange={setMobileOpen}>
-        <SheetContent side="left" className="w-[80vw] max-w-sm p-0">
+        <SheetContent side="left" className="w-[80vw] max-w-sm p-0 z-[52]">
           <div className="flex flex-col h-full bg-background/95 backdrop-blur-md">
             <div className="px-6 py-4 border-b border-border">
               <SheetTitle className="text-left text-sm font-body tracking-widest uppercase text-muted-foreground">
