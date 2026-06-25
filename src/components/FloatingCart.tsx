@@ -282,70 +282,70 @@ const FloatingCart = () => {
                 {items.map((item) => (
                   <li key={item.id} className="flex gap-3 pb-4 border-b last:border-b-0">
                     <div className="flex-1 min-w-0">
-                    <div className="flex gap-3">
-                    <div className="w-16 h-16 flex-shrink-0 rounded-md overflow-hidden bg-muted flex items-center justify-center">
-                      {item.image ? (
-                        <img src={item.image} alt={item.productName || item.bouquetType} className="w-full h-full object-cover" />
-                      ) : (
-                        <BrandLogo className="w-6 h-6" color="hsl(var(--primary))" />
-                      )}
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <p className="font-body text-base font-semibold text-foreground truncate">
-                        {item.productName || item.bouquetType}
-                      </p>
-                      <p className="font-body text-xs text-muted-foreground mt-0.5">
-                        {item.roses} {t("product.roses")}
-                      </p>
-                      <p className="font-body text-base font-semibold text-foreground mt-1.5">
-                        ${parseFloat((item.totalPrice * (item.quantity || 1)).toFixed(2))}
-                      </p>
-                      <div className="flex items-center justify-end mt-1.5">
-                        <div className="flex items-center gap-2">
-                          <div className="flex items-center border-2 border-primary rounded-full overflow-hidden">
-                            <button
-                              type="button"
-                              disabled={isLoading}
-                              onClick={() => {
-                                const q = item.quantity || 1;
-                                if (q <= 1) handleRemoveItem(item.id);
-                                else updateQuantity(item.id, q - 1);
-                              }}
-                              aria-label="Decrease quantity"
-                              className="px-2.5 py-1 text-primary hover:bg-primary/5 transition-colors disabled:opacity-50"
-                            >
-                              <Minus className="w-3.5 h-3.5" strokeWidth={2.5} />
-                            </button>
-                            <span className="font-body text-sm font-semibold text-primary min-w-[1.25rem] text-center select-none">
-                              {item.quantity || 1}
-                            </span>
-                            <button
-                              type="button"
-                              disabled={isLoading || (item.quantity || 1) >= 25}
-                              onClick={() => {
-                                const q = item.quantity || 1;
-                                if (q < 25) updateQuantity(item.id, q + 1);
-                              }}
-                              aria-label="Increase quantity"
-                              className="px-2.5 py-1 text-primary hover:bg-primary/5 transition-colors disabled:opacity-50"
-                            >
-                              <Plus className="w-3.5 h-3.5" strokeWidth={2.5} />
-                            </button>
+                      <div className="flex gap-3">
+                        <div className="w-16 h-16 flex-shrink-0 rounded-md overflow-hidden bg-muted flex items-center justify-center">
+                          {item.image ? (
+                            <img src={item.image} alt={item.productName || item.bouquetType} className="w-full h-full object-cover" />
+                          ) : (
+                            <BrandLogo className="w-6 h-6" color="hsl(var(--primary))" />
+                          )}
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <p className="font-body text-base font-semibold text-foreground truncate">
+                            {item.productName || item.bouquetType}
+                          </p>
+                          <p className="font-body text-xs text-muted-foreground mt-0.5">
+                            {item.roses} {t("product.roses")}
+                          </p>
+                          <div className="flex items-center justify-between mt-2">
+                            <p className="font-body text-sm font-semibold text-foreground">
+                              ${parseFloat((item.totalPrice * (item.quantity || 1)).toFixed(2))}
+                            </p>
+                            <div className="flex items-center gap-2">
+                              <div className="flex items-center border-2 border-primary rounded-full overflow-hidden">
+                                <button
+                                  type="button"
+                                  disabled={isLoading}
+                                  onClick={() => {
+                                    const q = item.quantity || 1;
+                                    if (q <= 1) handleRemoveItem(item.id);
+                                    else updateQuantity(item.id, q - 1);
+                                  }}
+                                  aria-label="Decrease quantity"
+                                  className="px-2.5 py-1 text-primary hover:bg-primary/5 transition-colors disabled:opacity-50"
+                                >
+                                  <Minus className="w-3.5 h-3.5" strokeWidth={2.5} />
+                                </button>
+                                <span className="font-body text-sm font-semibold text-primary min-w-[1.25rem] text-center select-none">
+                                  {item.quantity || 1}
+                                </span>
+                                <button
+                                  type="button"
+                                  disabled={isLoading || (item.quantity || 1) >= 25}
+                                  onClick={() => {
+                                    const q = item.quantity || 1;
+                                    if (q < 25) updateQuantity(item.id, q + 1);
+                                  }}
+                                  aria-label="Increase quantity"
+                                  className="px-2.5 py-1 text-primary hover:bg-primary/5 transition-colors disabled:opacity-50"
+                                >
+                                  <Plus className="w-3.5 h-3.5" strokeWidth={2.5} />
+                                </button>
+                              </div>
+                              <button
+                                type="button"
+                                disabled={isLoading}
+                                onClick={() => handleRemoveItem(item.id)}
+                                aria-label={t("floatingCart.remove")}
+                                className="p-1.5 rounded-md text-muted-foreground hover:text-primary hover:bg-primary/5 transition-colors disabled:opacity-50"
+                              >
+                                <Trash2 className="w-4 h-4" />
+                              </button>
+                            </div>
                           </div>
-                          <button
-                            type="button"
-                            disabled={isLoading}
-                            onClick={() => handleRemoveItem(item.id)}
-                            aria-label={t("floatingCart.remove")}
-                            className="p-1.5 rounded-md text-muted-foreground hover:text-primary hover:bg-primary/5 transition-colors disabled:opacity-50"
-                          >
-                            <Trash2 className="w-4 h-4" />
-                          </button>
                         </div>
                       </div>
-                    </div>
-                    </div>
-                    <CartItemUpsells item={item} />
+                      <CartItemUpsells item={item} />
                     </div>
                   </li>
                 ))}
