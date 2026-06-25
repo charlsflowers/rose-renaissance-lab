@@ -1044,11 +1044,6 @@ const BouquetProductDetail = () => {
 
             <div className="text-center">
               <h2 className="font-display text-2xl font-semibold text-foreground">{headingH1}</h2>
-              <div className="text-muted-foreground font-body text-sm mt-2 space-y-1 text-left">
-                {replaceDescriptionPrice(resolvedDescription).split('\n').map((line, i) => (
-                  <p key={i}>{line}</p>
-                ))}
-              </div>
             </div>
 
             {/* Size */}
