@@ -1103,6 +1103,24 @@ const BouquetProductDetail = () => {
           {/* Cross-links — related products (above FAQs) */}
           <YouMightAlsoLove currentProductId={product.id} />
 
+          {/* Mobile-only description accordion — content stays in the DOM for SEO */}
+          <div className="lg:hidden">
+            <Accordion type="single" collapsible defaultValue="description" className="w-full">
+              <AccordionItem value="description">
+                <AccordionTrigger className="font-body text-sm font-semibold uppercase tracking-[0.2em] text-muted-foreground">
+                  {t("product.productDescription")}
+                </AccordionTrigger>
+                <AccordionContent>
+                  <div className="text-muted-foreground font-body text-sm leading-relaxed space-y-1">
+                    {replaceDescriptionPrice(resolvedDescription).split('\n').map((line, i) => (
+                      <p key={i}>{line}</p>
+                    ))}
+                  </div>
+                </AccordionContent>
+              </AccordionItem>
+            </Accordion>
+          </div>
+
           {/* FAQs (shared desktop + mobile, after related products) */}
           <CollectionFAQ faqs={bouquetFAQs} />
         </div>
