@@ -502,6 +502,7 @@ export const es = {
     yourCart: "Tu carrito",
     empty: "Tu carrito está vacío",
     subtotal: "Subtotal",
+    delivery: "Envío",
     viewCart: "CONTINUAR AL CHECKOUT SEGURO",
     continueShopping: "Seguir comprando",
     remove: "Eliminar",
