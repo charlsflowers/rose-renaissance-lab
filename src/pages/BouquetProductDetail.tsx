@@ -1105,7 +1105,7 @@ const BouquetProductDetail = () => {
 
           {/* Mobile-only description accordion — content stays in the DOM for SEO */}
           <div className="lg:hidden">
-            <Accordion type="single" collapsible defaultValue="description" className="w-full">
+            <Accordion type="single" collapsible className="w-full">
               <AccordionItem value="description">
                 <AccordionTrigger className="font-body text-sm font-semibold uppercase tracking-[0.2em] text-muted-foreground">
                   {t("product.productDescription")}
