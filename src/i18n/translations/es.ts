@@ -504,6 +504,8 @@ export const es = {
     empty: "Tu carrito está vacío",
     subtotal: "Subtotal",
     delivery: "Envío",
+    extras: "Extras",
+    total: "Total",
     viewCart: "CONTINUAR AL CHECKOUT SEGURO",
     continueShopping: "Seguir comprando",
     remove: "Eliminar",

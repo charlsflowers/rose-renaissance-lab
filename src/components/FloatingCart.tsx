@@ -29,11 +29,11 @@ const FloatingCart = () => {
 
   const itemsSubtotal = parseFloat(items.reduce((sum, i) => sum + i.price * (i.quantity || 1), 0).toFixed(2));
   const shippingProtectionAmount = getShippingProtectionFallback().amount;
-  const protectionTotal = shippingProtectionEnabled ? shippingProtectionAmount : 0;
-  const displaySubtotal = parseFloat((cartTotal + protectionTotal).toFixed(2));
   const deliveryItem = items.find((i) => i.deliveryMethod === "delivery" && i.deliveryAddress && i.deliveryAddress !== "Store pickup");
   const checkoutDeliveryMethod: "pickup" | "delivery" = deliveryItem ? "delivery" : "pickup";
   const deliveryCost = deliveryItem ? (deliveryItem.deliveryCost || 0) : 0;
+  const extrasTotal = parseFloat((deliveryCost + (shippingProtectionEnabled ? shippingProtectionAmount : 0)).toFixed(2));
+  const displayTotal = parseFloat((itemsSubtotal + extrasTotal).toFixed(2));
 
   // FedEx safety net: if a delivery item has an address >87 mi but no FedEx
   // service selected, block "Continue to Safe Checkout" and show a warning.
@@ -47,6 +47,7 @@ const FloatingCart = () => {
   );
   const fedexNeedsMultiBouquet =
     !!fedexBlockingItem && items.filter((i) => i.bouquetType !== "addon").length > 1;
+
 
   // GA4: view_cart fires only on the closed→open transition
   const wasOpenRef = useRef(open);
@@ -207,7 +208,7 @@ const FloatingCart = () => {
         return lines.map((l) => ({ ...l, quantity: l.quantity * qty }));
       });
 
-      const cartTotalForFee = itemsSubtotal + protectionTotal + deliveryCost;
+      const cartTotalForFee = itemsSubtotal + extrasTotal + deliveryCost;
 
       const checkoutUrl = await performApiCheckout({
         deliveryMethod: checkoutDeliveryMethod,
@@ -281,70 +282,70 @@ const FloatingCart = () => {
                 {items.map((item) => (
                   <li key={item.id} className="flex gap-3 pb-4 border-b last:border-b-0">
                     <div className="flex-1 min-w-0">
-                    <div className="flex gap-3">
-                    <div className="w-16 h-16 flex-shrink-0 rounded-md overflow-hidden bg-muted flex items-center justify-center">
-                      {item.image ? (
-                        <img src={item.image} alt={item.productName || item.bouquetType} className="w-full h-full object-cover" />
-                      ) : (
-                        <BrandLogo className="w-6 h-6" color="hsl(var(--primary))" />
-                      )}
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <p className="font-body text-base font-semibold text-foreground truncate">
-                        {item.productName || item.bouquetType}
-                      </p>
-                      <p className="font-body text-xs text-muted-foreground mt-0.5">
-                        {item.roses} {t("product.roses")}
-                      </p>
-                      <p className="font-body text-base font-semibold text-foreground mt-1.5">
-                        ${parseFloat((item.totalPrice * (item.quantity || 1)).toFixed(2))}
-                      </p>
-                      <div className="flex items-center justify-end mt-1.5">
-                        <div className="flex items-center gap-2">
-                          <div className="flex items-center border-2 border-primary rounded-full overflow-hidden">
-                            <button
-                              type="button"
-                              disabled={isLoading}
-                              onClick={() => {
-                                const q = item.quantity || 1;
-                                if (q <= 1) handleRemoveItem(item.id);
-                                else updateQuantity(item.id, q - 1);
-                              }}
-                              aria-label="Decrease quantity"
-                              className="px-2.5 py-1 text-primary hover:bg-primary/5 transition-colors disabled:opacity-50"
-                            >
-                              <Minus className="w-3.5 h-3.5" strokeWidth={2.5} />
-                            </button>
-                            <span className="font-body text-sm font-semibold text-primary min-w-[1.25rem] text-center select-none">
-                              {item.quantity || 1}
-                            </span>
-                            <button
-                              type="button"
-                              disabled={isLoading || (item.quantity || 1) >= 25}
-                              onClick={() => {
-                                const q = item.quantity || 1;
-                                if (q < 25) updateQuantity(item.id, q + 1);
-                              }}
-                              aria-label="Increase quantity"
-                              className="px-2.5 py-1 text-primary hover:bg-primary/5 transition-colors disabled:opacity-50"
-                            >
-                              <Plus className="w-3.5 h-3.5" strokeWidth={2.5} />
-                            </button>
+                      <div className="flex gap-3">
+                        <div className="w-16 h-16 flex-shrink-0 rounded-md overflow-hidden bg-muted flex items-center justify-center">
+                          {item.image ? (
+                            <img src={item.image} alt={item.productName || item.bouquetType} className="w-full h-full object-cover" />
+                          ) : (
+                            <BrandLogo className="w-6 h-6" color="hsl(var(--primary))" />
+                          )}
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <p className="font-body text-base font-semibold text-foreground truncate">
+                            {item.productName || item.bouquetType}
+                          </p>
+                          <p className="font-body text-xs text-muted-foreground mt-0.5">
+                            {item.roses} {t("product.roses")}
+                          </p>
+                          <div className="flex items-center justify-between mt-1.5">
+                            <p className="font-body text-xs sm:text-sm font-semibold text-foreground">
+                              ${parseFloat((item.totalPrice * (item.quantity || 1)).toFixed(2))}
+                            </p>
+                            <div className="flex items-center gap-1.5 sm:gap-2">
+                              <div className="flex items-center border-2 border-primary rounded-full overflow-hidden">
+                                <button
+                                  type="button"
+                                  disabled={isLoading}
+                                  onClick={() => {
+                                    const q = item.quantity || 1;
+                                    if (q <= 1) handleRemoveItem(item.id);
+                                    else updateQuantity(item.id, q - 1);
+                                  }}
+                                  aria-label="Decrease quantity"
+                                  className="px-2 sm:px-2.5 py-1 text-primary hover:bg-primary/5 transition-colors disabled:opacity-50"
+                                >
+                                  <Minus className="w-3.5 h-3.5" strokeWidth={2.5} />
+                                </button>
+                                <span className="font-body text-xs sm:text-sm font-semibold text-primary min-w-[1.25rem] text-center select-none">
+                                  {item.quantity || 1}
+                                </span>
+                                <button
+                                  type="button"
+                                  disabled={isLoading || (item.quantity || 1) >= 25}
+                                  onClick={() => {
+                                    const q = item.quantity || 1;
+                                    if (q < 25) updateQuantity(item.id, q + 1);
+                                  }}
+                                  aria-label="Increase quantity"
+                                  className="px-2 sm:px-2.5 py-1 text-primary hover:bg-primary/5 transition-colors disabled:opacity-50"
+                                >
+                                  <Plus className="w-3.5 h-3.5" strokeWidth={2.5} />
+                                </button>
+                              </div>
+                              <button
+                                type="button"
+                                disabled={isLoading}
+                                onClick={() => handleRemoveItem(item.id)}
+                                aria-label={t("floatingCart.remove")}
+                                className="p-1 sm:p-1.5 rounded-md text-muted-foreground hover:text-primary hover:bg-primary/5 transition-colors disabled:opacity-50"
+                              >
+                                <Trash2 className="w-4 h-4" />
+                              </button>
+                            </div>
                           </div>
-                          <button
-                            type="button"
-                            disabled={isLoading}
-                            onClick={() => handleRemoveItem(item.id)}
-                            aria-label={t("floatingCart.remove")}
-                            className="p-1.5 rounded-md text-muted-foreground hover:text-primary hover:bg-primary/5 transition-colors disabled:opacity-50"
-                          >
-                            <Trash2 className="w-4 h-4" />
-                          </button>
                         </div>
                       </div>
-                    </div>
-                    </div>
-                    <CartItemUpsells item={item} />
+                      <CartItemUpsells item={item} />
                     </div>
                   </li>
                 ))}
@@ -354,24 +355,34 @@ const FloatingCart = () => {
 
           {totalItems > 0 && (
             <div className="border-t px-6 py-4 space-y-3 bg-background">
-              <div className="flex items-center justify-between">
-                <span className="font-body text-sm text-muted-foreground">
-                  {t("floatingCart.subtotal")}
-                </span>
-                <span className="font-display text-lg font-semibold text-foreground">
-                  ${displaySubtotal}
-                </span>
-              </div>
-              {deliveryCost > 0 && (
-                <div className="flex items-center justify-between -mt-1">
+              <div className="space-y-2">
+                <div className="flex items-center justify-between">
                   <span className="font-body text-sm text-muted-foreground">
-                    {t("floatingCart.delivery")}
+                    {t("floatingCart.subtotal")}
                   </span>
-                  <span className="font-body text-sm font-semibold text-foreground">
-                    ${deliveryCost.toFixed(2)}
+                  <span className="font-display text-base font-semibold text-foreground">
+                    ${itemsSubtotal.toFixed(2)}
                   </span>
                 </div>
-              )}
+                {extrasTotal > 0 && (
+                  <div className="flex items-center justify-between -mt-1">
+                    <span className="font-body text-sm text-muted-foreground">
+                      {t("floatingCart.extras")}
+                    </span>
+                    <span className="font-body text-sm font-semibold text-foreground">
+                      ${extrasTotal.toFixed(2)}
+                    </span>
+                  </div>
+                )}
+                <div className="flex items-center justify-between pt-2 border-t border-border">
+                  <span className="font-body text-sm font-semibold text-foreground">
+                    {t("floatingCart.total")}
+                  </span>
+                  <span className="font-display text-xl font-bold text-foreground">
+                    ${displayTotal.toFixed(2)}
+                  </span>
+                </div>
+              </div>
               <ShippingProtection />
               {fedexBlockingItem && (
                 <div className="bg-primary/5 border border-primary/20 rounded-lg p-3 text-xs font-body text-foreground">
