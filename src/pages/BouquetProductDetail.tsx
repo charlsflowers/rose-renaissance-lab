@@ -48,6 +48,7 @@ import noteImg from "@/assets/accessory-note.webp";
 import { Calendar } from "@/components/ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import FedExShippingOptions, { type FedExAttrs } from "@/components/FedExShippingOptions";
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 
 const BouquetProductDetail = () => {
   const { t, language } = useTranslation();
@@ -1043,11 +1044,6 @@ const BouquetProductDetail = () => {
 
             <div className="text-center">
               <h2 className="font-display text-2xl font-semibold text-foreground">{headingH1}</h2>
-              <div className="text-muted-foreground font-body text-sm mt-2 space-y-1 text-left">
-                {replaceDescriptionPrice(resolvedDescription).split('\n').map((line, i) => (
-                  <p key={i}>{line}</p>
-                ))}
-              </div>
             </div>
 
             {/* Size */}
@@ -1106,6 +1102,24 @@ const BouquetProductDetail = () => {
 
           {/* Cross-links — related products (above FAQs) */}
           <YouMightAlsoLove currentProductId={product.id} />
+
+          {/* Mobile-only description accordion — content stays in the DOM for SEO */}
+          <div className="lg:hidden">
+            <Accordion type="single" collapsible className="w-full">
+              <AccordionItem value="description">
+                <AccordionTrigger className="font-body text-sm font-semibold uppercase tracking-[0.2em] text-muted-foreground">
+                  {t("product.productDescription")}
+                </AccordionTrigger>
+                <AccordionContent>
+                  <div className="text-muted-foreground font-body text-sm leading-relaxed space-y-1">
+                    {replaceDescriptionPrice(resolvedDescription).split('\n').map((line, i) => (
+                      <p key={i}>{line}</p>
+                    ))}
+                  </div>
+                </AccordionContent>
+              </AccordionItem>
+            </Accordion>
+          </div>
 
           {/* FAQs (shared desktop + mobile, after related products) */}
           <CollectionFAQ faqs={bouquetFAQs} />

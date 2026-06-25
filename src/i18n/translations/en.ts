@@ -272,6 +272,7 @@ export const en = {
     selectTime: "Select a time",
     addToCart: "Add to cart",
     orderAndPay: "Order now",
+    productDescription: "Product Description",
     deliveryDateAndTime: "Delivery date & time",
     orderBefore3PM: "⏰ Order before 3PM for same-day delivery today",
     min: "Min.",
