@@ -430,6 +430,7 @@ const BouquetBuilder = () => {
       toast.error('This combination is not available. Please choose a different color combination.');
       return false;
     }
+    if (!paperColor) { toast.error("Selecciona el color del papel"); return false; }
     return true;
   };
 
@@ -668,12 +669,15 @@ const BouquetBuilder = () => {
 
 
             {/* Paper Color */}
-            <Section title={t("builder.paperColor")} step={2}>
+            <Section title={`${t("builder.paperColor")} *`} step={2}>
               <p className="text-xs text-muted-foreground font-body mb-4">{t("builder.paperHint")}</p>
               <PaperColorPicker selected={paperColor} onChange={setPaperColor} />
               <p className="text-sm font-body text-muted-foreground mt-3">
-                {t("builder.selected")} <span className="text-foreground font-semibold">{paperColor}</span>
+                {t("builder.selected")} <span className="text-foreground font-semibold">{paperColor || "—"}</span>
               </p>
+              {!paperColor && (
+                <p className="text-xs text-destructive font-body mt-2">Requerido / Required</p>
+              )}
             </Section>
 
             {/* 2. Size */}
