@@ -48,6 +48,7 @@ import noteImg from "@/assets/accessory-note.webp";
 import { Calendar } from "@/components/ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import FedExShippingOptions, { type FedExAttrs } from "@/components/FedExShippingOptions";
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 
 const BouquetProductDetail = () => {
   const { t, language } = useTranslation();
