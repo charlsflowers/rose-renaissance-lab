@@ -45,24 +45,39 @@ const Navbar = () => {
   const colorLinkTo = (slug: string, slugEs: string) =>
     language === "es" ? `/es/bouquets/${slugEs}` : `/bouquets/${slug}`;
 
-  const bouquetSubLinks = [
-    { to: "/bouquets", label: t("nav.allBouquets"), active: true },
-    { to: "/delivery", label: language === "es" ? "Envío el Mismo Día" : "Same-Day Delivery", active: true },
-    { to: "/bouquets/single-color", label: t("nav.singleColor"), active: true },
-    { to: "/bouquets/mixed-color", label: t("nav.mixedBouquets"), active: true },
-    { to: "/bouquets/zodiac", label: t("nav.zodiacBouquets"), active: true },
-    // Indexable color collections (one per rose color).
-    ...COLOR_COLLECTIONS.map((c) => ({
-      to: colorLinkTo(c.slug, c.slugEs),
-      label: t(`nav.${c.color}Roses`),
-      active: true,
-    })),
-    { to: "/bouquets/personalizar", label: t("nav.customBouquets"), active: true },
-    { label: t("nav.anniversaries"), active: false },
-    { label: t("nav.birthdayBouquets"), active: false },
-    { label: t("nav.babyShowerBouquets"), active: false },
-    { label: t("nav.valentinesDayFlowers"), active: false },
-    { label: t("nav.weddingBouquets"), active: false },
+  // Mega-menu grouped by intent. URLs are preserved (no SEO/301 changes).
+  // Only include items whose collection/products actually exist — no empty "coming soon" pages.
+  const redColor = COLOR_COLLECTIONS.find((c) => c.color === "red");
+  const whiteColor = COLOR_COLLECTIONS.find((c) => c.color === "white");
+  const bouquetGroups: Array<{
+    title: string;
+    titleTo?: string;
+    items: Array<{ to: string; label: string }>;
+  }> = [
+    {
+      title: t("nav.byColor"),
+      titleTo: "/bouquets",
+      items: [
+        { to: "/bouquets", label: t("nav.allColors") },
+        ...(redColor ? [{ to: colorLinkTo(redColor.slug, redColor.slugEs), label: t("nav.redRoses") }] : []),
+        ...(whiteColor ? [{ to: colorLinkTo(whiteColor.slug, whiteColor.slugEs), label: t("nav.whiteRoses") }] : []),
+      ],
+    },
+    {
+      title: t("nav.byType"),
+      items: [
+        { to: "/bouquets/single-color", label: t("nav.singleColor") },
+        { to: "/bouquets/mixed-color", label: t("nav.mixedBouquets") },
+        { to: "/bouquets/zodiac", label: t("nav.zodiacBouquets") },
+      ],
+    },
+    {
+      title: t("nav.byOccasion"),
+      items: [
+        // Only Mother's Day — the only occasion with an existing collection today.
+        { to: "/bouquets/mothers-day", label: t("nav.mothersDayBouquets") },
+      ],
+    },
   ];
 
   const navLinks = [
@@ -70,7 +85,7 @@ const Navbar = () => {
     { to: "/bouquets", label: t("nav.bouquets"), hasDropdown: true },
     { to: "/bouquets/personalizar", label: t("nav.customBouquets") },
     { to: "/room-decors", label: t("nav.roomDecors") },
-    { to: "/delivery", label: t("nav.delivery") },
+    { to: "/delivery", label: t("nav.sameDayDelivery") },
   ];
 
   const searchableItems = [
@@ -153,36 +168,46 @@ const Navbar = () => {
                   <span
                     aria-disabled="true"
                     title="Available May 13"
-                    className="opacity-50 cursor-not-allowed whitespace-nowrap inline-flex items-center gap-1"
+                    className="opacity-50 cursor-not-allowed whitespace-nowrap inline-flex items-center gap-1 uppercase"
                   >
                     {link.label} <ChevronDown className="w-3 h-3" />
                   </span>
                 ) : (
-                  <Link to={link.to} className="hover:text-primary transition-colors whitespace-nowrap inline-flex items-center gap-1">
+                  <Link to={link.to} className="hover:text-primary transition-colors whitespace-nowrap inline-flex items-center gap-1 uppercase">
                     {link.label} <ChevronDown className="w-3 h-3" />
                   </Link>
                 )}
                 {bouquetDropdownOpen && (
-                  <div className="absolute top-full left-0 mt-1 bg-background border border-border rounded-lg shadow-lg py-2 min-w-[220px] z-50">
-                    {bouquetSubLinks.map((sub, i) => (
-                      promoActive && sub.active ? (
-                        <span
-                          key={i}
-                          aria-disabled="true"
-                          title="Available May 13"
-                          className="block px-4 py-2 text-xs tracking-widest uppercase text-muted-foreground/50 cursor-not-allowed"
-                        >
-                          {sub.label} <span className="text-[9px] normal-case">— Available May 13</span>
-                        </span>
-                      ) : sub.active ? (
-                        <Link key={i} to={sub.to || "#"} className="block px-4 py-2 text-xs tracking-widest uppercase text-muted-foreground hover:text-primary hover:bg-cream/50 transition-colors" onClick={() => setBouquetDropdownOpen(false)}>
-                          {sub.label}
-                        </Link>
-                      ) : (
-                        <span key={i} className="block px-4 py-2 text-xs tracking-widest uppercase text-muted-foreground/40 cursor-not-allowed">
-                          {sub.label} <span className="text-[9px] normal-case">{t("nav.comingSoon")}</span>
-                        </span>
-                      )
+                  <div className="absolute top-full left-0 mt-1 bg-background border border-border rounded-lg shadow-xl p-5 z-50 grid grid-cols-3 gap-6 min-w-[560px]">
+                    {bouquetGroups.map((group, gi) => (
+                      <div key={gi} className="flex flex-col gap-2 min-w-[150px]">
+                        {group.titleTo && !promoActive ? (
+                          <Link
+                            to={group.titleTo}
+                            onClick={() => setBouquetDropdownOpen(false)}
+                            className="text-[11px] tracking-widest uppercase font-semibold text-foreground hover:text-primary transition-colors pb-1.5 border-b border-border"
+                          >
+                            {group.title}
+                          </Link>
+                        ) : (
+                          <span className="text-[11px] tracking-widest uppercase font-semibold text-foreground pb-1.5 border-b border-border">
+                            {group.title}
+                          </span>
+                        )}
+                        <div className="flex flex-col">
+                          {group.items.map((sub, i) => (
+                            promoActive ? (
+                              <span key={i} aria-disabled="true" title="Available May 13" className="block py-1.5 text-xs tracking-widest uppercase text-muted-foreground/50 cursor-not-allowed">
+                                {sub.label}
+                              </span>
+                            ) : (
+                              <Link key={i} to={sub.to} onClick={() => setBouquetDropdownOpen(false)} className="block py-1.5 text-xs tracking-widest uppercase text-muted-foreground hover:text-primary transition-colors">
+                                {sub.label}
+                              </Link>
+                            )
+                          ))}
+                        </div>
+                      </div>
                     ))}
                   </div>
                 )}
@@ -193,12 +218,12 @@ const Navbar = () => {
                   key={link.to}
                   aria-disabled="true"
                   title="Available May 13"
-                  className="opacity-50 cursor-not-allowed whitespace-nowrap"
+                  className="opacity-50 cursor-not-allowed whitespace-nowrap uppercase"
                 >
                   {link.label}
                 </span>
               ) : (
-                <Link key={link.to} to={link.to!} className="hover:text-primary transition-colors whitespace-nowrap">
+                <Link key={link.to} to={link.to!} className="hover:text-primary transition-colors whitespace-nowrap uppercase">
                   {link.label}
                 </Link>
               )
