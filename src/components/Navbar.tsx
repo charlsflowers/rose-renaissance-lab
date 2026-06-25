@@ -246,7 +246,7 @@ const Navbar = () => {
                     onMouseLeave={scheduleCloseBouquetDropdown}
                     className="absolute top-full left-0 pt-2 z-50"
                   >
-                    <div className="bg-background border border-border rounded-lg shadow-xl p-5 grid grid-cols-3 gap-6 min-w-[560px]">
+                    <div className="bg-background border border-border rounded-lg shadow-xl p-5 grid grid-cols-4 gap-6 min-w-[740px]">
                     {bouquetGroups.map((group, gi) => (
                       <div key={gi} className="flex flex-col gap-2 min-w-[150px]">
                         {group.titleTo && !promoActive ? (
