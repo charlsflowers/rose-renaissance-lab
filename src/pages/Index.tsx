@@ -280,7 +280,7 @@ const Index = ({ noindex = false }: { noindex?: boolean } = {}) => {
             <h2 className="font-title-retro text-4xl md:text-5xl text-primary mb-4">{t("home.whyUs.title")}</h2>
             <p className="text-muted-foreground font-body max-w-lg mx-auto">{t("home.whyUs.subtitle")}</p>
           </motion.div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-6xl mx-auto">
+          <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-8 max-w-6xl mx-auto">
             {[
               { Icon: Flower2, title: t("home.whyUs.value1Title"), desc: t("home.whyUs.value1Desc") },
               { Icon: Truck, title: t("home.whyUs.value2Title"), desc: t("home.whyUs.value2Desc") },
@@ -293,11 +293,11 @@ const Index = ({ noindex = false }: { noindex?: boolean } = {}) => {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: i * 0.1 }}
-                className="flex flex-col items-center text-center px-4"
+                className="flex flex-col items-center text-center px-2 md:px-4"
               >
-                <Icon className="h-10 w-10 text-primary mb-4" strokeWidth={1.5} />
-                <h3 className="font-display text-lg font-semibold text-foreground uppercase tracking-wide mb-2">{title}</h3>
-                <p className="text-muted-foreground font-body text-sm leading-relaxed">{desc}</p>
+                <Icon className="h-8 w-8 md:h-10 md:w-10 text-primary mb-3 md:mb-4" strokeWidth={1.5} />
+                <h3 className="font-display text-sm md:text-lg font-semibold text-foreground uppercase tracking-wide mb-2">{title}</h3>
+                <p className="text-muted-foreground font-body text-xs md:text-sm leading-relaxed">{desc}</p>
               </motion.div>
             ))}
           </div>
