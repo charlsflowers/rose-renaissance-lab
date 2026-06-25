@@ -208,7 +208,7 @@ const FloatingCart = () => {
         return lines.map((l) => ({ ...l, quantity: l.quantity * qty }));
       });
 
-      const cartTotalForFee = itemsSubtotal + protectionTotal + deliveryCost;
+      const cartTotalForFee = itemsSubtotal + extrasTotal + deliveryCost;
 
       const checkoutUrl = await performApiCheckout({
         deliveryMethod: checkoutDeliveryMethod,
