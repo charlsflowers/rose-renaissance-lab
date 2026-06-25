@@ -25,6 +25,13 @@ import {
 
 type FilterType = "all" | "un-color" | "mezclas" | "zodiac";
 
+const COLLECTION_PATHS: Record<FilterType, string> = {
+  all: "/bouquets",
+  "un-color": "/bouquets/single-color",
+  mezclas: "/bouquets/mixed-color",
+  zodiac: "/bouquets/zodiac",
+};
+
 const isZodiac = (id: string) => id.startsWith('bq-zodiac-');
 
 // Manual display orders by profitability, requested by store owner.
