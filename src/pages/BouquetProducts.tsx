@@ -19,17 +19,19 @@ import { isMothersDayPromoActive } from "@/lib/mothersDayPromo";
 import {
   COLOR_COLLECTIONS,
   collectionFromSegment,
+  isBicolorProduct,
   productsForColor,
   type RoseColor,
 } from "@/lib/colorCollections";
 
-type FilterType = "all" | "un-color" | "mezclas" | "zodiac";
+type FilterType = "all" | "un-color" | "mezclas" | "zodiac" | "bicolor";
 
 const COLLECTION_PATHS: Record<FilterType, string> = {
   all: "/bouquets",
   "un-color": "/bouquets/single-color",
   mezclas: "/bouquets/mixed-color",
   zodiac: "/bouquets/zodiac",
+  bicolor: "/bouquets/bicolor",
 };
 
 const isZodiac = (id: string) => id.startsWith('bq-zodiac-');
@@ -86,6 +88,9 @@ const SEO_BY_FILTER: Record<Exclude<FilterType, "all">, { ns: string; path: stri
   "un-color": { ns: "seo.bouquetsSingleColor", path: "/bouquets/single-color" },
   "mezclas":  { ns: "seo.bouquetsMixed",       path: "/bouquets/mixed-color" },
   "zodiac":   { ns: "seo.bouquetsZodiac",      path: "/bouquets/zodiac" },
+  // Bicolor reuses the Mixed copy/SEO (it's a subset of mixes) — kept simple,
+  // no new translations needed and it stays canonical-friendly.
+  "bicolor":  { ns: "seo.bouquetsMixed",       path: "/bouquets/bicolor" },
 };
 
 interface BouquetProductsProps {
@@ -155,6 +160,7 @@ const BouquetProducts = ({ initialFilter: propFilter, colorCollection }: Bouquet
           if (filter === "zodiac") return isZodiac(product.id);
           if (filter === "all") return true;
           if (isZodiac(product.id)) return false;
+          if (filter === "bicolor") return isBicolorProduct(product);
           const isMix = product.color.includes(" y ") || product.color.includes(", ") || product.color.includes(" y");
           return filter === "mezclas" ? isMix : !isMix;
         }),
@@ -273,6 +279,17 @@ const BouquetProducts = ({ initialFilter: propFilter, colorCollection }: Bouquet
                   {t(`nav.${c.color}Roses`)}
                 </Link>
               ))}
+              {/* Bicolor sits next to the colors as its own quick filter. */}
+              <Link
+                to="/bouquets/bicolor"
+                className={`px-3 md:px-4 py-1 md:py-1.5 rounded-full font-body text-xs md:text-sm transition-all ${
+                  !colorColl && filter === "bicolor"
+                    ? "bg-primary text-primary-foreground shadow-sm"
+                    : "bg-muted text-muted-foreground hover:bg-accent"
+                }`}
+              >
+                {t("nav.bicolorBouquets")}
+              </Link>
             </div>
           </div>
 
