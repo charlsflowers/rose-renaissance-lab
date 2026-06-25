@@ -50,6 +50,7 @@ const Contact = () => {
         title={t("seo.contact.title")}
         description={t("seo.contact.description")}
         path="/contact"
+        noindex
       />
       <JsonLd data={localBusinessSchema()} />
       <JsonLd data={breadcrumbSchema([{ name: "Home", url: "https://www.charlsflowers.com" }, { name: "Contact", url: "https://www.charlsflowers.com/contact" }])} />
