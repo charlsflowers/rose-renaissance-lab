@@ -14,7 +14,7 @@ const CookiePolicy = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      <SeoHead title={t("legal.cookie.seoTitle")} description={t("legal.cookie.seoDescription")} path="/cookie-policy" />
+      <SeoHead title={t("legal.cookie.seoTitle")} description={t("legal.cookie.seoDescription")} path="/cookie-policy" noindex />
       <Navbar />
       <div className="pt-24 pb-16">
         <div className="container mx-auto px-6 max-w-3xl">

@@ -87,9 +87,9 @@ export const organizationSchema = () => ({
     addressCountry: "US",
   },
   sameAs: [
-    "https://www.instagram.com/charlsflowers",
-    "https://www.facebook.com/charlsflowers",
-    "https://www.tiktok.com/@charlsflowers",
+    "https://www.instagram.com/charlsflowers_?igsh=MzAzc3l1dGdkZWV2",
+    "https://www.facebook.com/charlsflowersmiami",
+    "https://www.tiktok.com/@charlsflowers_?_r=1&_t=ZN-96sa6qDFByA",
   ],
 });
 

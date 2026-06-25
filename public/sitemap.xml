@@ -325,24 +325,6 @@
     <xhtml:link rel="alternate" hreflang="x-default" href="https://www.charlsflowers.com/about"/>
   </url>
   <url>
-    <loc>https://www.charlsflowers.com/contact</loc>
-    <lastmod>2026-06-25</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.4</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/contact"/>
-    <xhtml:link rel="alternate" hreflang="es" href="https://www.charlsflowers.com/es/contact"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.charlsflowers.com/contact"/>
-  </url>
-  <url>
-    <loc>https://www.charlsflowers.com/es/contact</loc>
-    <lastmod>2026-06-25</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.4</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/contact"/>
-    <xhtml:link rel="alternate" hreflang="es" href="https://www.charlsflowers.com/es/contact"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.charlsflowers.com/contact"/>
-  </url>
-  <url>
     <loc>https://www.charlsflowers.com/delivery</loc>
     <lastmod>2026-06-25</lastmod>
     <changefreq>monthly</changefreq>
@@ -395,24 +377,6 @@
     <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/blog"/>
     <xhtml:link rel="alternate" hreflang="es" href="https://www.charlsflowers.com/es/blog"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://www.charlsflowers.com/blog"/>
-  </url>
-  <url>
-    <loc>https://www.charlsflowers.com/sitemap</loc>
-    <lastmod>2026-06-25</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.4</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/sitemap"/>
-    <xhtml:link rel="alternate" hreflang="es" href="https://www.charlsflowers.com/es/sitemap"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.charlsflowers.com/sitemap"/>
-  </url>
-  <url>
-    <loc>https://www.charlsflowers.com/es/sitemap</loc>
-    <lastmod>2026-06-25</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.4</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/sitemap"/>
-    <xhtml:link rel="alternate" hreflang="es" href="https://www.charlsflowers.com/es/sitemap"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.charlsflowers.com/sitemap"/>
   </url>
   <url>
     <loc>https://www.charlsflowers.com/flower-delivery</loc>
@@ -1061,96 +1025,6 @@
     <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/flower-delivery/st-louis"/>
     <xhtml:link rel="alternate" hreflang="es" href="https://www.charlsflowers.com/es/envio-de-flores/san-luis"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://www.charlsflowers.com/flower-delivery/st-louis"/>
-  </url>
-  <url>
-    <loc>https://www.charlsflowers.com/privacy-policy</loc>
-    <lastmod>2026-06-25</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.4</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/privacy-policy"/>
-    <xhtml:link rel="alternate" hreflang="es" href="https://www.charlsflowers.com/es/privacy-policy"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.charlsflowers.com/privacy-policy"/>
-  </url>
-  <url>
-    <loc>https://www.charlsflowers.com/es/privacy-policy</loc>
-    <lastmod>2026-06-25</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.4</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/privacy-policy"/>
-    <xhtml:link rel="alternate" hreflang="es" href="https://www.charlsflowers.com/es/privacy-policy"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.charlsflowers.com/privacy-policy"/>
-  </url>
-  <url>
-    <loc>https://www.charlsflowers.com/terms-of-service</loc>
-    <lastmod>2026-06-25</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.4</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/terms-of-service"/>
-    <xhtml:link rel="alternate" hreflang="es" href="https://www.charlsflowers.com/es/terms-of-service"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.charlsflowers.com/terms-of-service"/>
-  </url>
-  <url>
-    <loc>https://www.charlsflowers.com/es/terms-of-service</loc>
-    <lastmod>2026-06-25</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.4</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/terms-of-service"/>
-    <xhtml:link rel="alternate" hreflang="es" href="https://www.charlsflowers.com/es/terms-of-service"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.charlsflowers.com/terms-of-service"/>
-  </url>
-  <url>
-    <loc>https://www.charlsflowers.com/refund-policy</loc>
-    <lastmod>2026-06-25</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.4</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/refund-policy"/>
-    <xhtml:link rel="alternate" hreflang="es" href="https://www.charlsflowers.com/es/refund-policy"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.charlsflowers.com/refund-policy"/>
-  </url>
-  <url>
-    <loc>https://www.charlsflowers.com/es/refund-policy</loc>
-    <lastmod>2026-06-25</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.4</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/refund-policy"/>
-    <xhtml:link rel="alternate" hreflang="es" href="https://www.charlsflowers.com/es/refund-policy"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.charlsflowers.com/refund-policy"/>
-  </url>
-  <url>
-    <loc>https://www.charlsflowers.com/shipping-policy</loc>
-    <lastmod>2026-06-25</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.4</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/shipping-policy"/>
-    <xhtml:link rel="alternate" hreflang="es" href="https://www.charlsflowers.com/es/shipping-policy"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.charlsflowers.com/shipping-policy"/>
-  </url>
-  <url>
-    <loc>https://www.charlsflowers.com/es/shipping-policy</loc>
-    <lastmod>2026-06-25</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.4</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/shipping-policy"/>
-    <xhtml:link rel="alternate" hreflang="es" href="https://www.charlsflowers.com/es/shipping-policy"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.charlsflowers.com/shipping-policy"/>
-  </url>
-  <url>
-    <loc>https://www.charlsflowers.com/cookie-policy</loc>
-    <lastmod>2026-06-25</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.4</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/cookie-policy"/>
-    <xhtml:link rel="alternate" hreflang="es" href="https://www.charlsflowers.com/es/cookie-policy"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.charlsflowers.com/cookie-policy"/>
-  </url>
-  <url>
-    <loc>https://www.charlsflowers.com/es/cookie-policy</loc>
-    <lastmod>2026-06-25</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.4</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/cookie-policy"/>
-    <xhtml:link rel="alternate" hreflang="es" href="https://www.charlsflowers.com/es/cookie-policy"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.charlsflowers.com/cookie-policy"/>
   </url>
   <url>
     <loc>https://www.charlsflowers.com/bouquets/white-red-roses-bouquet-bicolor</loc>

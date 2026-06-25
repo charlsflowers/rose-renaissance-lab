@@ -204,11 +204,9 @@ push("/bouquets/personalizar",  "monthly", "0.8");
 push("/room-decors",            "weekly",  "0.8");
 push("/mothers-day",            "weekly",  "0.9");
 push("/about",                  "monthly", "0.4");
-push("/contact",                "monthly", "0.4");
 push("/delivery",               "monthly", "0.4");
 push("/faq",                    "monthly", "0.4");
 push("/blog",                   "weekly",  "0.6");
-push("/sitemap",                "monthly", "0.4");
 
 // Nationwide FedEx city landing pages — index + 35 per-city pages (EN + ES slugs).
 push("/flower-delivery", "weekly", "0.7", { esPath: "/es/envio-de-flores" });
@@ -216,12 +214,8 @@ for (const c of cityPagesList) {
   push(`/flower-delivery/${c.slug}`, "weekly", "0.7", { esPath: `/es/envio-de-flores/${c.slugEs}` });
 }
 
-// Legal pages (kept, low priority)
-push("/privacy-policy",   "monthly", "0.4");
-push("/terms-of-service", "monthly", "0.4");
-push("/refund-policy",    "monthly", "0.4");
-push("/shipping-policy",  "monthly", "0.4");
-push("/cookie-policy",    "monthly", "0.4");
+// Legal pages, /contact and /sitemap are intentionally excluded from the
+// sitemap: they are either noindex or pure navigation aids, not real content.
 
 // 2. Bouquet products (priority 0.8) — keyword-first slugs (EN + localized ES)
 for (const handle of bouquetHandles) {
