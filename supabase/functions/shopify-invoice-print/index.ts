@@ -255,15 +255,28 @@ serve(async (req) => {
     const hmac = req.headers.get("x-shopify-hmac-sha256") || "";
     const secret = Deno.env.get("SHOPIFY_WEBHOOK_SECRET");
 
-    if (secret && hmac) {
-      const ok = await verifyShopifyHmac(rawBody, hmac, secret);
-      if (!ok) {
-        console.error("Invalid Shopify HMAC on invoice-print webhook");
-        return new Response(JSON.stringify({ ok: false, error: "invalid hmac" }), {
-          status: 401,
-          headers: { ...corsHeaders, "Content-Type": "application/json" },
-        });
-      }
+    // FAIL-CLOSED: require both the configured secret and a valid HMAC header.
+    if (!secret) {
+      console.error("SHOPIFY_WEBHOOK_SECRET not configured; rejecting webhook");
+      return new Response(JSON.stringify({ ok: false, error: "server misconfigured" }), {
+        status: 401,
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
+    }
+    if (!hmac) {
+      console.error("Missing x-shopify-hmac-sha256 header on invoice-print webhook");
+      return new Response(JSON.stringify({ ok: false, error: "missing hmac" }), {
+        status: 401,
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
+    }
+    const hmacOk = await verifyShopifyHmac(rawBody, hmac, secret);
+    if (!hmacOk) {
+      console.error("Invalid Shopify HMAC on invoice-print webhook");
+      return new Response(JSON.stringify({ ok: false, error: "invalid hmac" }), {
+        status: 401,
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
     }
 
     let order: any;

@@ -18,7 +18,7 @@ import { INVOICE_TEMPLATE } from "./template.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
-  "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
+  "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type, x-preview-secret",
   "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
 };
 
@@ -118,6 +118,23 @@ serve(async (req) => {
   if (req.method === "OPTIONS") return new Response("ok", { headers: corsHeaders });
 
   try {
+    // Require shared-secret header. This endpoint is not called by automated code.
+    const expectedSecret = Deno.env.get("INVOICE_PREVIEW_SECRET");
+    const providedSecret = req.headers.get("x-preview-secret") || "";
+    if (!expectedSecret) {
+      console.error("INVOICE_PREVIEW_SECRET not configured");
+      return new Response(JSON.stringify({ error: "server misconfigured" }), {
+        status: 401,
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
+    }
+    if (providedSecret.length !== expectedSecret.length || providedSecret !== expectedSecret) {
+      return new Response(JSON.stringify({ error: "unauthorized" }), {
+        status: 401,
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
+    }
+
     const storefrontToken = Deno.env.get("SHOPIFY_STOREFRONT_ACCESS_TOKEN");
     const pdfshiftKey = Deno.env.get("PDFSHIFT_API_KEY");
     const supabaseUrl = Deno.env.get("SUPABASE_URL")!;
