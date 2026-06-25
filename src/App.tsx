@@ -52,6 +52,7 @@ const CityShippingPage = lazy(() => import("./pages/CityShippingPage"));
 const CityIndexPage = lazy(() => import("./pages/CityIndexPage"));
 const OccasionPage = lazy(() => import("./pages/OccasionPage"));
 const OccasionsIndexPage = lazy(() => import("./pages/OccasionsIndexPage"));
+const FlowerTypesIndexPage = lazy(() => import("./pages/FlowerTypesIndexPage"));
 
 const queryClient = new QueryClient();
 
@@ -199,6 +200,8 @@ const AppContent = () => {
           to OccasionPage which looks up by slug or slugEs. */}
       <Route path="collections/occasions" element={<OccasionsIndexPage />} />
       <Route path="collections/ocasiones" element={<OccasionsIndexPage />} />
+      <Route path="collections/flowers" element={<FlowerTypesIndexPage />} />
+      <Route path="collections/flores" element={<FlowerTypesIndexPage />} />
       <Route path="collections/:slug" element={<OccasionPage />} />
       {landingPages.map(page => (
         <Route key={page.slug} path={page.slug} element={<LandingPage />} />
