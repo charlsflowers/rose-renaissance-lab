@@ -46,6 +46,7 @@ const Navbar = () => {
 
   const bouquetSubLinks = [
     { to: "/bouquets", label: t("nav.allBouquets"), active: true },
+    { to: "/delivery", label: language === "es" ? "Envío el Mismo Día" : "Same-Day Delivery", active: true },
     { to: "/bouquets/single-color", label: t("nav.singleColor"), active: true },
     { to: "/bouquets/mixed-color", label: t("nav.mixedBouquets"), active: true },
     { to: "/bouquets/zodiac", label: t("nav.zodiacBouquets"), active: true },
@@ -69,9 +70,6 @@ const Navbar = () => {
     { to: "/bouquets/personalizar", label: t("nav.customBouquets") },
     { to: "/room-decors", label: t("nav.roomDecors") },
     { to: "/delivery", label: t("nav.delivery") },
-    { to: "/about", label: t("nav.about") },
-    { to: "/contact", label: t("nav.contact") },
-    { to: "/faq", label: t("nav.faq") },
   ];
 
   const searchableItems = [
