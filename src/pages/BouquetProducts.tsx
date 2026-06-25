@@ -227,48 +227,54 @@ const BouquetProducts = ({ initialFilter: propFilter, colorCollection }: Bouquet
             <p className="text-primary font-body text-xs font-semibold mt-2">{t("common.orderBefore3PM")}</p>
           </div>
 
-          {/* Shop-by-color collection links (kept on every bouquets view for internal linking). */}
-          <div className="flex flex-wrap justify-center gap-2 mb-8">
-            {COLOR_COLLECTIONS.map((c) => (
-              <Link
-                key={c.color}
-                to={colorLinkTo(c.color)}
-                className={`px-3 md:px-4 py-1 md:py-1.5 rounded-full font-body text-xs md:text-sm transition-all ${
-                  colorColl?.color === c.color
-                    ? "bg-primary text-primary-foreground shadow-sm"
-                    : "bg-muted text-muted-foreground hover:bg-accent"
-                }`}
-              >
-                {t(`nav.${c.color}Roses`)}
-              </Link>
-            ))}
-          </div>
-
-          {!colorColl && (
-            <div className="flex justify-center gap-3 mb-12">
+          {/* Collections block */}
+          <div className="text-center mb-8">
+            <h2 className="font-display text-sm uppercase tracking-wider text-muted-foreground mb-3">
+              {t("bouquetProducts.collectionsTitle")}
+            </h2>
+            <div className="flex justify-center gap-3">
               {([
-                { key: "all", label: t("bouquetProducts.seeAll"), locked: false },
-                { key: "un-color", label: t("bouquetProducts.singleColor"), locked: false },
-                { key: "mezclas", label: t("bouquetProducts.mixes"), locked: false },
-                { key: "zodiac", label: t("bouquetProducts.zodiacSigns"), locked: false },
-              ] as { key: FilterType; label: string; locked: boolean }[]).map(({ key, label, locked }) => (
-                <button
+                { key: "all", label: t("bouquetProducts.seeAll") },
+                { key: "un-color", label: t("bouquetProducts.singleColor") },
+                { key: "mezclas", label: t("bouquetProducts.mixes") },
+                { key: "zodiac", label: t("bouquetProducts.zodiacSigns") },
+              ] as { key: FilterType; label: string }[]).map(({ key, label }) => (
+                <Link
                   key={key}
-                  onClick={() => !locked && setFilter(key)}
-                  disabled={locked}
+                  to={COLLECTION_PATHS[key]}
                   className={`px-3 md:px-5 py-1.5 md:py-2 rounded-full font-body text-xs md:text-sm transition-all inline-flex items-center gap-1 md:gap-1.5 ${
-                    locked
-                      ? "bg-muted text-muted-foreground/50 cursor-not-allowed"
-                      : filter === key
-                        ? "bg-primary text-primary-foreground shadow-sm"
-                        : "bg-muted text-muted-foreground hover:bg-accent"
+                    !colorColl && filter === key
+                      ? "bg-primary text-primary-foreground shadow-sm"
+                      : "bg-muted text-muted-foreground hover:bg-accent"
                   }`}
                 >
                   {label}
-                </button>
+                </Link>
               ))}
             </div>
-          )}
+          </div>
+
+          {/* Colors block */}
+          <div className="text-center mb-12">
+            <h2 className="font-display text-sm uppercase tracking-wider text-muted-foreground mb-3">
+              {t("bouquetProducts.colorsTitle")}
+            </h2>
+            <div className="flex flex-wrap justify-center gap-2">
+              {COLOR_COLLECTIONS.map((c) => (
+                <Link
+                  key={c.color}
+                  to={colorLinkTo(c.color)}
+                  className={`px-3 md:px-4 py-1 md:py-1.5 rounded-full font-body text-xs md:text-sm transition-all ${
+                    colorColl?.color === c.color
+                      ? "bg-primary text-primary-foreground shadow-sm"
+                      : "bg-muted text-muted-foreground hover:bg-accent"
+                  }`}
+                >
+                  {t(`nav.${c.color}Roses`)}
+                </Link>
+              ))}
+            </div>
+          </div>
 
           <div className="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-8 max-w-5xl mx-auto">
             {filteredProducts.map((product) => (
