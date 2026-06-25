@@ -41,6 +41,21 @@ const Navbar = () => {
   const rrNavigate = useRRNavigate();
   const location = useLocation();
   const debounceRef = useRef<ReturnType<typeof setTimeout>>();
+  // Close timer for the Bouquets hover dropdown: ~250 ms grace so the cursor
+  // can travel from the trigger to the panel (or between sub-links) without
+  // accidentally closing the menu.
+  const closeTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const openBouquetDropdown = () => {
+    if (closeTimerRef.current) {
+      clearTimeout(closeTimerRef.current);
+      closeTimerRef.current = null;
+    }
+    setBouquetDropdownOpen(true);
+  };
+  const scheduleCloseBouquetDropdown = () => {
+    if (closeTimerRef.current) clearTimeout(closeTimerRef.current);
+    closeTimerRef.current = setTimeout(() => setBouquetDropdownOpen(false), 250);
+  };
 
   // Color collection links use the NATIVE ES slug (not a /es prefix), resolved per language.
   const colorLinkTo = (slug: string, slugEs: string) =>
@@ -65,8 +80,14 @@ const Navbar = () => {
       titleTo: "/bouquets",
       items: [
         { to: "/bouquets", label: t("nav.allColors") },
-        ...(redColor ? [{ to: colorLinkTo(redColor.slug, redColor.slugEs), label: t("nav.redRoses") }] : []),
-        ...(whiteColor ? [{ to: colorLinkTo(whiteColor.slug, whiteColor.slugEs), label: t("nav.whiteRoses") }] : []),
+        // List every indexable color collection so the user can reach all of
+        // them from the mega-menu (not only red + white).
+        ...COLOR_COLLECTIONS.map((c) => ({
+          to: colorLinkTo(c.slug, c.slugEs),
+          label: t(`nav.${c.color}Roses`),
+        })),
+        // Bicolor (2-color bouquets) lives next to the colors as its own filter.
+        { to: "/bouquets/bicolor", label: t("nav.bicolorBouquets") },
       ],
     },
     {
@@ -176,7 +197,12 @@ const Navbar = () => {
         <div className="hidden lg:flex items-center gap-5 font-body text-xs tracking-widest uppercase text-muted-foreground">
           {navLinks.map((link) => (
             link.hasDropdown ? (
-              <div key={link.to} className="relative" onMouseEnter={() => setBouquetDropdownOpen(true)} onMouseLeave={() => setBouquetDropdownOpen(false)}>
+              <div
+                key={link.to}
+                className="relative"
+                onMouseEnter={openBouquetDropdown}
+                onMouseLeave={scheduleCloseBouquetDropdown}
+              >
                 {promoActive ? (
                   <span
                     aria-disabled="true"
@@ -191,7 +217,15 @@ const Navbar = () => {
                   </Link>
                 )}
                 {bouquetDropdownOpen && (
-                  <div className="absolute top-full left-0 mt-1 bg-background border border-border rounded-lg shadow-xl p-5 z-50 grid grid-cols-3 gap-6 min-w-[560px]">
+                  // pt-2 (instead of an mt-1 gap) keeps the panel attached to
+                  // the trigger as one continuous hover surface — no dead zone
+                  // between the button and the menu.
+                  <div
+                    onMouseEnter={openBouquetDropdown}
+                    onMouseLeave={scheduleCloseBouquetDropdown}
+                    className="absolute top-full left-0 pt-2 z-50"
+                  >
+                    <div className="bg-background border border-border rounded-lg shadow-xl p-5 grid grid-cols-3 gap-6 min-w-[560px]">
                     {bouquetGroups.map((group, gi) => (
                       <div key={gi} className="flex flex-col gap-2 min-w-[150px]">
                         {group.titleTo && !promoActive ? (
@@ -222,6 +256,7 @@ const Navbar = () => {
                         </div>
                       </div>
                     ))}
+                    </div>
                   </div>
                 )}
               </div>
