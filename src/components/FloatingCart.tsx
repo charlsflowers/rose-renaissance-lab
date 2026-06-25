@@ -7,15 +7,11 @@ import BrandLogo from "@/components/BrandLogo";
 import { useTranslation } from "@/i18n/LanguageContext";
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 import { Trash2, Loader2, X, Plus, Minus } from "lucide-react";
-import PaymentIcons from "@/components/PaymentIcons";
 import { performApiCheckout } from "@/lib/checkout";
 import { buildAccessoryLineItems, BUTTERFLIES_VARIANT_ID } from "@/lib/accessoryVariants";
 import { getPaperForCartItem } from "@/lib/paperHelper";
 import CartItemUpsells from "@/components/checkout/CartItemUpsells";
 import ShippingProtection from "@/components/checkout/ShippingProtection";
-import stickerBestValue from "@/assets/sticker-best-value.webp";
-import stickerFreshness from "@/assets/sticker-freshness.webp";
-import stickerSameDay from "@/assets/sticker-same-day.webp";
 import { getShippingProtectionFallback } from "@/lib/shippingProtection";
 
 const FloatingCart = () => {
@@ -256,7 +252,7 @@ const FloatingCart = () => {
           side="right"
           className="w-[80%] sm:max-w-md p-0 flex flex-col [&>button.absolute]:hidden"
         >
-          <SheetHeader className="px-4 pt-6 pb-2 sm:px-6 sm:pt-10 sm:pb-3 border-b">
+          <SheetHeader className="px-4 pt-6 pb-1 sm:px-6 sm:pt-10 sm:pb-1.5 border-b">
             <div className="flex items-center justify-between gap-3">
               <SheetTitle className="font-display text-lg sm:text-xl text-foreground flex items-center gap-2 m-0">
                 <BrandLogo className="w-6 h-6 sm:w-7 sm:h-7" />
@@ -357,16 +353,6 @@ const FloatingCart = () => {
           </div>
 
           {totalItems > 0 && (
-            <div className="px-6 pt-3 pb-1 bg-background">
-              <div className="flex items-center justify-center gap-4 sm:gap-6">
-                <img src={stickerSameDay} alt="Same Day Delivery" className="w-16 h-16 sm:w-28 sm:h-28 object-contain" loading="lazy" />
-                <img src={stickerFreshness} alt="Freshness 100% Guaranteed" className="w-16 h-16 sm:w-28 sm:h-28 object-contain" loading="lazy" />
-                <img src={stickerBestValue} alt="The Best Value" className="w-16 h-16 sm:w-28 sm:h-28 object-contain" loading="lazy" />
-              </div>
-            </div>
-          )}
-
-          {totalItems > 0 && (
             <div className="border-t px-6 py-4 space-y-3 bg-background">
               <div className="flex items-center justify-between">
                 <span className="font-body text-sm text-muted-foreground">
@@ -398,14 +384,6 @@ const FloatingCart = () => {
               >
                 {isCheckingOut && <Loader2 className="w-4 h-4 animate-spin" />}
                 {t("floatingCart.viewCart")}
-              </button>
-              <PaymentIcons className="pt-1 !flex-nowrap !gap-1.5" size={16} />
-              <button
-                type="button"
-                onClick={() => setOpen(false)}
-                className="block w-full text-center font-body text-xs text-muted-foreground hover:text-primary transition-colors"
-              >
-                {t("floatingCart.continueShopping")}
               </button>
             </div>
           )}
