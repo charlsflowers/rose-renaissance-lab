@@ -15,6 +15,14 @@ const ShippingProtection = () => {
   const enabled = useCartStore((s) => s.shippingProtection);
   const setEnabled = useCartStore((s) => s.setShippingProtection);
   const itemCount = useCartStore((s) => s.items.length);
+  const hasHomeDelivery = useCartStore((s) =>
+    s.items.some(
+      (i) =>
+        i.deliveryMethod === "delivery" &&
+        i.deliveryAddress &&
+        i.deliveryAddress !== "Store pickup",
+    ),
+  );
 
   useEffect(() => {
     let active = true;
@@ -36,7 +44,20 @@ const ShippingProtection = () => {
     }
   }, [disabled, enabled, setEnabled]);
 
+  // Auto-enable by default whenever Home Delivery is present and the product is available.
+  useEffect(() => {
+    if (hasHomeDelivery && !disabled && !enabled) {
+      setEnabled(true);
+    }
+    // Turn it off automatically if the cart switches to Store Pickup.
+    if (!hasHomeDelivery && enabled) {
+      setEnabled(false);
+    }
+  }, [hasHomeDelivery, disabled, enabled, setEnabled]);
+
   if (itemCount === 0) return null;
+  // Only show for Home Delivery — hide entirely on Store Pickup.
+  if (!hasHomeDelivery) return null;
 
   return (
     <div className="relative flex items-center gap-2.5 sm:gap-3.5 rounded-lg border border-primary/20 bg-primary/[0.03] px-2.5 py-2 sm:px-3.5 sm:py-3">
