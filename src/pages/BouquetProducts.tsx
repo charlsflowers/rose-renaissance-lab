@@ -23,6 +23,7 @@ import {
   productsForColor,
   type RoseColor,
 } from "@/lib/colorCollections";
+import { LongTailIntro, LongTailBody } from "@/components/LongTailSeoBlock";
 
 type FilterType = "all" | "un-color" | "mezclas" | "zodiac" | "bicolor";
 
@@ -139,6 +140,20 @@ const BouquetProducts = ({ initialFilter: propFilter, colorCollection }: Bouquet
     ? collectionFromSegment(colorCollection)
     : undefined;
 
+  // Long-tail SEO key for this view. Color collections take precedence; then
+  // the explicit subcategory; bicolor stays without a dedicated block.
+  const longTailKey: string | undefined = colorColl
+    ? `color:${colorColl.color}`
+    : filter === "all"
+    ? "bouquets"
+    : filter === "un-color"
+    ? "single-color"
+    : filter === "mezclas"
+    ? "mixed-color"
+    : filter === "zodiac"
+    ? "zodiac"
+    : undefined;
+
   // Build the language-correct path to a color collection. ES uses the NATIVE
   // slug (not a simple /es prefix), so we resolve it explicitly per language.
   const colorLinkTo = (color: RoseColor): string => {
@@ -222,6 +237,8 @@ const BouquetProducts = ({ initialFilter: propFilter, colorCollection }: Bouquet
           <div className="text-center mb-8">
              <p className="font-subtitle-script text-primary text-lg md:text-2xl mb-2">{t("bouquetProducts.subtitle")}</p>
             <h1 className="font-title-retro text-4xl md:text-5xl text-foreground">{heading}</h1>
+            {/* Mirror-effect long-tail intro under the existing H1. */}
+            <LongTailIntro seoKey={longTailKey} />
             <p className="text-muted-foreground font-body text-sm mt-3 max-w-2xl mx-auto">
               {t("bouquetProducts.description")}{' '}
               {/* Internal links → indexable color collections (anchor = color keyword). */}
@@ -333,6 +350,9 @@ const BouquetProducts = ({ initialFilter: propFilter, colorCollection }: Bouquet
       <div className="container mx-auto px-6">
         <CollectionFAQ faqs={translatedBouquetFAQs} />
       </div>
+
+      {/* Long-tail body block — H2/H3 + copy + internal-link cluster. */}
+      <LongTailBody seoKey={longTailKey} />
 
       {/* CTA */}
       <WaveDivider position="top" color="hsl(var(--primary))" />
