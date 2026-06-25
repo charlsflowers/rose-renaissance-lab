@@ -7,6 +7,7 @@ import AnnouncementBar from "@/components/AnnouncementBar";
 import BrandLogo from "@/components/BrandLogo";
 import charlsLogo from "@/assets/charls-logo.webp";
 import { Menu, X, ChevronDown, Search as SearchIcon, MapPin, Globe } from "lucide-react";
+import { Sheet, SheetContent, SheetTitle } from "@/components/ui/sheet";
 import { bouquetProducts } from "@/lib/catalogData";
 import { slugForHandle } from "@/lib/bouquetSlugs";
 import { COLOR_COLLECTIONS } from "@/lib/colorCollections";
