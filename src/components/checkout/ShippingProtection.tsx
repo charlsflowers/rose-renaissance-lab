@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { ShieldCheck } from "lucide-react";
 import { Switch } from "@/components/ui/switch";
 import { useCartStore } from "@/stores/cartStore";
@@ -24,6 +24,11 @@ const ShippingProtection = () => {
     ),
   );
 
+  // Track whether the user has manually toggled the switch so we don't
+  // auto-re-enable it on every render while Home Delivery remains selected.
+  const manuallyToggledRef = useRef(false);
+  const prevHomeDeliveryRef = useRef(hasHomeDelivery);
+
   useEffect(() => {
     let active = true;
     getShippingProtectionInfo().then((data) => {
@@ -44,9 +49,16 @@ const ShippingProtection = () => {
     }
   }, [disabled, enabled, setEnabled]);
 
-  // Auto-enable by default whenever Home Delivery is present and the product is available.
+  // Auto-enable by default when Home Delivery first appears. Reset the
+  // manual-override flag whenever Home Delivery disappears so the next
+  // Home Delivery item will again default to enabled.
   useEffect(() => {
-    if (hasHomeDelivery && !disabled && !enabled) {
+    if (!hasHomeDelivery && prevHomeDeliveryRef.current) {
+      manuallyToggledRef.current = false;
+    }
+    prevHomeDeliveryRef.current = hasHomeDelivery;
+
+    if (hasHomeDelivery && !disabled && !enabled && !manuallyToggledRef.current) {
       setEnabled(true);
     }
     // Turn it off automatically if the cart switches to Store Pickup.
@@ -99,6 +111,7 @@ const ShippingProtection = () => {
         checked={!disabled && enabled}
         onCheckedChange={(v) => {
           if (disabled) return;
+          manuallyToggledRef.current = true;
           setEnabled(!!v);
         }}
         disabled={disabled}
