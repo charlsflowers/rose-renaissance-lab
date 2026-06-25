@@ -41,6 +41,8 @@ export const es = {
     allColors: "Todos los Colores",
     mothersDayBouquets: "Día de la Madre",
     allOccasions: "Ver todas las ocasiones",
+    byFlower: "Por Flor",
+    allFlowers: "Ver todos los tipos de flor",
     aria: {
       openMenu: "Abrir menú",
       closeMenu: "Cerrar menú",
@@ -71,6 +73,8 @@ export const es = {
     nationwideDelivery: "Envío de flores a todo EE.UU.",
     shopByOccasion: "Comprar por Ocasión",
     viewAllOccasions: "Ver todas las ocasiones",
+    shopByFlower: "Comprar por Flor",
+    viewAllFlowers: "Ver todos los tipos de flor",
   },
 
   cookies: {

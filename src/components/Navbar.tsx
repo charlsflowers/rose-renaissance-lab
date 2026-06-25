@@ -13,6 +13,7 @@ import { slugForHandle } from "@/lib/bouquetSlugs";
 import { COLOR_COLLECTIONS } from "@/lib/colorCollections";
 import { roomDecorPackages } from "@/lib/roomDecorData";
 import { occasionsByTier } from "@/lib/occasionPagesData";
+import { flowerTypesByTier } from "@/lib/flowerTypePagesData";
 import { supabase } from "@/integrations/supabase/client";
 import { useTranslation, type Language } from "@/i18n/LanguageContext";
 import { isMothersDayPromoActive } from "@/lib/mothersDayPromo";
@@ -65,6 +66,10 @@ const Navbar = () => {
   const occasionLinkTo = (slug: string, slugEs: string) =>
     language === "es" ? `/es/collections/${slugEs}` : `/collections/${slug}`;
   const occasionsIndexPath = language === "es" ? "/es/collections/ocasiones" : "/collections/occasions";
+  // Flower-type collection links use NATIVE ES slugs (different per language).
+  const flowerTypeLinkTo = (slug: string, slugEs: string) =>
+    language === "es" ? `/es/collections/${slugEs}` : `/collections/${slug}`;
+  const flowerTypesIndexPath = language === "es" ? "/es/collections/flores" : "/collections/flowers";
 
   // Mega-menu grouped by intent. URLs are preserved (no SEO/301 changes).
   // Only include items whose collection/products actually exist — no empty "coming soon" pages.
@@ -110,6 +115,22 @@ const Navbar = () => {
           label: language === "es" ? o.h1.es.replace(" en Miami", "") : o.h1.en.replace(" in Miami", ""),
         })),
         { to: occasionsIndexPath, label: t("nav.allOccasions") },
+      ],
+    },
+    {
+      title: t("nav.byFlower"),
+      titleTo: flowerTypesIndexPath,
+      items: [
+        // Tier-1 flower-type landing pages (Tulips, Peonies, Sunflowers, Lilies,
+        // Orchids, Ramo Buchón, Bridal Bouquets). Roses live in the "By Color"
+        // group already, no need to duplicate here.
+        ...flowerTypesByTier(1).map((f) => ({
+          to: flowerTypeLinkTo(f.slug, f.slugEs),
+          label: language === "es"
+            ? f.h1.es.replace(/ en Miami$/, "")
+            : f.h1.en.replace(/( —)? Miami( Delivery)?$/, "").replace(/ Miami$/, ""),
+        })),
+        { to: flowerTypesIndexPath, label: t("nav.allFlowers") },
       ],
     },
   ];
@@ -225,7 +246,7 @@ const Navbar = () => {
                     onMouseLeave={scheduleCloseBouquetDropdown}
                     className="absolute top-full left-0 pt-2 z-50"
                   >
-                    <div className="bg-background border border-border rounded-lg shadow-xl p-5 grid grid-cols-3 gap-6 min-w-[560px]">
+                    <div className="bg-background border border-border rounded-lg shadow-xl p-5 grid grid-cols-4 gap-6 min-w-[740px]">
                     {bouquetGroups.map((group, gi) => (
                       <div key={gi} className="flex flex-col gap-2 min-w-[150px]">
                         {group.titleTo && !promoActive ? (

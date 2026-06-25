@@ -50,6 +50,7 @@ const slugsSrc     = read("src/lib/bouquetSlugs.ts");
 const colorCollSrc = read("src/lib/colorCollections.ts");
 const citySrc      = read("src/lib/cityPagesData.ts");
 const occasionSrc  = read("src/lib/occasionPagesData.ts");
+const flowerTypeSrc = read("src/lib/flowerTypePagesData.ts");
 
 /**
  * Parse cityPages entries:
@@ -76,6 +77,19 @@ const occasionPagesList = (() => {
   const re = /slug:\s*["']([a-z0-9-]+)["']\s*,\s*slugEs:\s*["']([a-z0-9-]+)["']\s*,\s*tier/g;
   let m;
   while ((m = re.exec(occasionSrc)) !== null) {
+    out.push({ slug: m[1], slugEs: m[2] });
+  }
+  return out;
+})();
+
+/**
+ * Parse flowerTypePages entries — same shape as occasionPages.
+ */
+const flowerTypePagesList = (() => {
+  const out = [];
+  const re = /slug:\s*["']([a-z0-9-]+)["']\s*,\s*slugEs:\s*["']([a-z0-9-]+)["']\s*,\s*tier/g;
+  let m;
+  while ((m = re.exec(flowerTypeSrc)) !== null) {
     out.push({ slug: m[1], slugEs: m[2] });
   }
   return out;
@@ -236,6 +250,12 @@ for (const o of occasionPagesList) {
   push(`/collections/${o.slug}`, "weekly", "0.7", { esPath: `/es/collections/${o.slugEs}` });
 }
 
+// Flower-type collection landing pages — index + per-type (EN + native ES slugs).
+push("/collections/flowers", "weekly", "0.7", { esPath: "/es/collections/flores" });
+for (const f of flowerTypePagesList) {
+  push(`/collections/${f.slug}`, "weekly", "0.7", { esPath: `/es/collections/${f.slugEs}` });
+}
+
 // Legal pages, /contact and /sitemap are intentionally excluded from the
 // sitemap: they are either noindex or pure navigation aids, not real content.
 
@@ -340,7 +360,8 @@ const counts = {
   roomDecors: roomDecorIds.length,
   cityPages: cityPagesList.length,
   occasionPages: occasionPagesList.length,
+  flowerTypePages: flowerTypePagesList.length,
   excludedCategories: categorySlugs.length,
 };
 console.log(`[sitemap] wrote ${outPath}`);
-console.log(`[sitemap] paths=${counts.totalPaths} urls=${counts.totalUrls} bouquets=${counts.bouquets} colorCollections=${counts.colorCollections} mothersDay=${counts.mothersDay} landings=${counts.landings} blog=${counts.blog} roomDecors=${counts.roomDecors} cityPages=${counts.cityPages} occasionPages=${counts.occasionPages} (excluded comingSoon categories=${counts.excludedCategories})`);
+console.log(`[sitemap] paths=${counts.totalPaths} urls=${counts.totalUrls} bouquets=${counts.bouquets} colorCollections=${counts.colorCollections} mothersDay=${counts.mothersDay} landings=${counts.landings} blog=${counts.blog} roomDecors=${counts.roomDecors} cityPages=${counts.cityPages} occasionPages=${counts.occasionPages} flowerTypePages=${counts.flowerTypePages} (excluded comingSoon categories=${counts.excludedCategories})`);

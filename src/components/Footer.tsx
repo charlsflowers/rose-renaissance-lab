@@ -6,6 +6,7 @@ import charlsLogo from "@/assets/charls-logo.webp";
 import PaymentIcons from "@/components/PaymentIcons";
 import { openCookiePreferences } from "@/hooks/useCookieConsent";
 import { occasionsByTier } from "@/lib/occasionPagesData";
+import { flowerTypesByTier } from "@/lib/flowerTypePagesData";
 
 const Footer = () => {
   const { t, language } = useTranslation();
@@ -18,7 +19,17 @@ const Footer = () => {
     language === "es" ? `/es/collections/${slugEs}` : `/collections/${slug}`;
   // Tier 2 + 3 in the footer (Tier 1 lives in the top menu).
   const footerOccasions = [...occasionsByTier(2), ...occasionsByTier(3)];
-  const stripCity = (h1: string) => h1.replace(/ (in|en) Miami$/, "");
+  const stripCity = (h1: string) =>
+    h1
+      .replace(/ — Miami Delivery$/, "")
+      .replace(/ (in|en) Miami$/, "")
+      .replace(/ Miami$/, "");
+  // Flower-type pages: Tier 1 is also in the top menu; surface Tier 2 in the
+  // footer so all 16 are reachable in ≤3 clicks (Home → Footer → Flower).
+  const flowerTypesIndexPath = language === "es" ? "/es/collections/flores" : "/collections/flowers";
+  const flowerTypePath = (slug: string, slugEs: string) =>
+    language === "es" ? `/es/collections/${slugEs}` : `/collections/${slug}`;
+  const footerFlowerTypes = [...flowerTypesByTier(2), ...flowerTypesByTier(3)];
 
   return (
     <div className="relative mt-[-1px]">
@@ -131,6 +142,34 @@ const Footer = () => {
                   className="hover:text-primary transition-colors"
                 >
                   {stripCity(language === "es" ? o.h1.es : o.h1.en)}
+                </Link>
+              ))}
+            </div>
+          </div>
+
+          {/* Shop by Flower Type — Tier 2 (+ 3 if any). Tier 1 is in the top menu. */}
+          <div className="border-t border-primary-foreground/15 pt-8 mb-8">
+            <div className="flex items-baseline justify-between gap-3 mb-4 flex-wrap">
+              <p className="font-body text-xs tracking-widest uppercase text-primary-foreground">
+                {t("footer.shopByFlower")}
+              </p>
+              <Link
+                to={flowerTypesIndexPath}
+                noLocalize
+                className="font-body text-[11px] tracking-widest uppercase text-primary-foreground/90 hover:text-primary-foreground underline-offset-2 hover:underline"
+              >
+                {t("footer.viewAllFlowers")} →
+              </Link>
+            </div>
+            <div className="flex flex-wrap gap-x-4 gap-y-2 font-body text-xs text-primary-foreground/95">
+              {footerFlowerTypes.map((f) => (
+                <Link
+                  key={f.slug}
+                  to={flowerTypePath(f.slug, f.slugEs)}
+                  noLocalize
+                  className="hover:text-primary transition-colors"
+                >
+                  {stripCity(language === "es" ? f.h1.es : f.h1.en)}
                 </Link>
               ))}
             </div>
