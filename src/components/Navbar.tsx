@@ -341,21 +341,36 @@ const Navbar = () => {
                       {link.label} <ChevronDown className={`w-3 h-3 transition-transform ${mobileBouquetOpen ? 'rotate-180' : ''}`} />
                     </button>
                     {mobileBouquetOpen && (
-                      <div className="pl-4 py-1 space-y-1">
-                        {bouquetSubLinks.map((sub, i) => (
-                          promoActive && sub.active ? (
-                            <span key={i} aria-disabled="true" className="block py-1.5 text-xs tracking-widest uppercase text-muted-foreground/50 cursor-not-allowed">
-                              {sub.label} <span className="text-[9px] normal-case">— Available May 13</span>
-                            </span>
-                          ) : sub.active ? (
-                            <Link key={i} to={sub.to || "#"} onClick={() => setMobileOpen(false)} className="block py-1.5 text-xs tracking-widest uppercase text-muted-foreground hover:text-primary transition-colors">
-                              {sub.label}
-                            </Link>
-                          ) : (
-                            <span key={i} className="block py-1.5 text-xs tracking-widest uppercase text-muted-foreground/40">
-                              {sub.label} <span className="text-[9px] normal-case">{t("nav.comingSoon")}</span>
-                            </span>
-                          )
+                      <div className="pl-4 py-2 space-y-3">
+                        {bouquetGroups.map((group, gi) => (
+                          <div key={gi} className="flex flex-col">
+                            {group.titleTo && !promoActive ? (
+                              <Link
+                                to={group.titleTo}
+                                onClick={() => setMobileOpen(false)}
+                                className="block py-1 text-[11px] tracking-widest uppercase font-semibold text-foreground hover:text-primary transition-colors"
+                              >
+                                {group.title}
+                              </Link>
+                            ) : (
+                              <span className="block py-1 text-[11px] tracking-widest uppercase font-semibold text-foreground">
+                                {group.title}
+                              </span>
+                            )}
+                            <div className="pl-3 flex flex-col">
+                              {group.items.map((sub, i) => (
+                                promoActive ? (
+                                  <span key={i} aria-disabled="true" className="block py-1.5 text-xs tracking-widest uppercase text-muted-foreground/50 cursor-not-allowed">
+                                    {sub.label}
+                                  </span>
+                                ) : (
+                                  <Link key={i} to={sub.to} onClick={() => setMobileOpen(false)} className="block py-1.5 text-xs tracking-widest uppercase text-muted-foreground hover:text-primary transition-colors">
+                                    {sub.label}
+                                  </Link>
+                                )
+                              ))}
+                            </div>
+                          </div>
                         ))}
                       </div>
                     )}
