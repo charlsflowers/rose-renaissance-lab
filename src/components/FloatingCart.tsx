@@ -29,11 +29,25 @@ const FloatingCart = () => {
 
   const itemsSubtotal = parseFloat(items.reduce((sum, i) => sum + i.price * (i.quantity || 1), 0).toFixed(2));
   const shippingProtectionAmount = getShippingProtectionFallback().amount;
-  const protectionTotal = shippingProtectionEnabled ? shippingProtectionAmount : 0;
-  const displaySubtotal = parseFloat((cartTotal + protectionTotal).toFixed(2));
   const deliveryItem = items.find((i) => i.deliveryMethod === "delivery" && i.deliveryAddress && i.deliveryAddress !== "Store pickup");
   const checkoutDeliveryMethod: "pickup" | "delivery" = deliveryItem ? "delivery" : "pickup";
   const deliveryCost = deliveryItem ? (deliveryItem.deliveryCost || 0) : 0;
+  const extrasTotal = parseFloat((deliveryCost + (shippingProtectionEnabled ? shippingProtectionAmount : 0)).toFixed(2));
+  const displayTotal = parseFloat((itemsSubtotal + extrasTotal).toFixed(2));
+
+  // FedEx safety net: if a delivery item has an address >87 mi but no FedEx
+  // service selected, block "Continue to Safe Checkout" and show a warning.
+  // The product page / builder normally enforces this, but this catches edge
+  // cases (legacy items, future flows).
+  const fedexBlockingItem = items.find(
+    (i) =>
+      i.deliveryMethod === "delivery" &&
+      (i.deliveryMiles ?? 0) > 87 &&
+      !i.fedexServiceCode,
+  );
+  const fedexNeedsMultiBouquet =
+    !!fedexBlockingItem && items.filter((i) => i.bouquetType !== "addon").length > 1;
+
 
   // FedEx safety net: if a delivery item has an address >87 mi but no FedEx
   // service selected, block "Continue to Safe Checkout" and show a warning.
