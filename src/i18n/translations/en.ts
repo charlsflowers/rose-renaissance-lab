@@ -320,6 +320,8 @@ export const en = {
     subtitle: "Handcrafted bouquets",
     title: "Fresh Rose Bouquets Miami",
     description: "Explore our handcrafted rose bouquets in Miami.",
+    collectionsTitle: "Collections",
+    colorsTitle: "Colors",
     seeAll: "See All",
     singleColor: "Single color",
     mixes: "Mixes",
