@@ -308,6 +308,8 @@ export const es = {
     subtitle: "Ramos artesanales",
     title: "Ramos de Rosas Frescas en Miami",
     description: "Explora nuestros ramos de rosas artesanales en Miami.",
+    collectionsTitle: "Colecciones",
+    colorsTitle: "Colores",
     seeAll: "Ver Todos",
     singleColor: "Un color",
     mixes: "Mixtos",
