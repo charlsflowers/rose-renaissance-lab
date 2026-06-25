@@ -25,7 +25,7 @@ const ShopifyPolicyPage = ({ policyKey, fallbackTitle, seoTitle, seoDescription,
 
   return (
     <div className="min-h-screen bg-background">
-      <SeoHead title={seoTitle} description={seoDescription} path={path} />
+      <SeoHead title={seoTitle} description={seoDescription} path={path} noindex />
       <Navbar />
       <div className="pt-24 pb-16">
         <div className="container mx-auto px-6 max-w-3xl">
