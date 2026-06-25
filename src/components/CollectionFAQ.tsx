@@ -17,7 +17,7 @@ const CollectionFAQ = ({ faqs }: Props) => {
   const [openIdx, setOpenIdx] = useState<number | null>(null);
 
   return (
-    <section className="py-12 max-w-3xl mx-auto">
+    <section className="pt-5 pb-8 max-w-3xl mx-auto">
       <JsonLd data={faqSchema(faqs.map(f => ({ question: f.question, answer: f.answer })))} />
       <h2 className="font-display text-xl font-semibold text-foreground text-center mb-8">{t("collectionFaq.title")}</h2>
       <div className="space-y-2">
