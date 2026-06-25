@@ -25,6 +25,7 @@ export const en = {
     orangeRoses: "Orange Roses",
     greenRoses: "Green Roses",
     comingSoon: "coming soon",
+    menu: "Menu",
     searchPlaceholder: "Search bouquets or enter a delivery address...",
     deliveryAddresses: "Delivery addresses",
     anniversaries: "Anniversaries",
