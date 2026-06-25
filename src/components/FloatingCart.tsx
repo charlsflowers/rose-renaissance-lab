@@ -297,11 +297,11 @@ const FloatingCart = () => {
                           <p className="font-body text-xs text-muted-foreground mt-0.5">
                             {item.roses} {t("product.roses")}
                           </p>
-                          <div className="flex items-center justify-between mt-2">
-                            <p className="font-body text-sm font-semibold text-foreground">
+                          <div className="flex items-center justify-between mt-1.5">
+                            <p className="font-body text-xs sm:text-sm font-semibold text-foreground">
                               ${parseFloat((item.totalPrice * (item.quantity || 1)).toFixed(2))}
                             </p>
-                            <div className="flex items-center gap-2">
+                            <div className="flex items-center gap-1.5 sm:gap-2">
                               <div className="flex items-center border-2 border-primary rounded-full overflow-hidden">
                                 <button
                                   type="button"
@@ -312,11 +312,11 @@ const FloatingCart = () => {
                                     else updateQuantity(item.id, q - 1);
                                   }}
                                   aria-label="Decrease quantity"
-                                  className="px-2.5 py-1 text-primary hover:bg-primary/5 transition-colors disabled:opacity-50"
+                                  className="px-2 sm:px-2.5 py-1 text-primary hover:bg-primary/5 transition-colors disabled:opacity-50"
                                 >
                                   <Minus className="w-3.5 h-3.5" strokeWidth={2.5} />
                                 </button>
-                                <span className="font-body text-sm font-semibold text-primary min-w-[1.25rem] text-center select-none">
+                                <span className="font-body text-xs sm:text-sm font-semibold text-primary min-w-[1.25rem] text-center select-none">
                                   {item.quantity || 1}
                                 </span>
                                 <button
@@ -327,7 +327,7 @@ const FloatingCart = () => {
                                     if (q < 25) updateQuantity(item.id, q + 1);
                                   }}
                                   aria-label="Increase quantity"
-                                  className="px-2.5 py-1 text-primary hover:bg-primary/5 transition-colors disabled:opacity-50"
+                                  className="px-2 sm:px-2.5 py-1 text-primary hover:bg-primary/5 transition-colors disabled:opacity-50"
                                 >
                                   <Plus className="w-3.5 h-3.5" strokeWidth={2.5} />
                                 </button>
@@ -337,7 +337,7 @@ const FloatingCart = () => {
                                 disabled={isLoading}
                                 onClick={() => handleRemoveItem(item.id)}
                                 aria-label={t("floatingCart.remove")}
-                                className="p-1.5 rounded-md text-muted-foreground hover:text-primary hover:bg-primary/5 transition-colors disabled:opacity-50"
+                                className="p-1 sm:p-1.5 rounded-md text-muted-foreground hover:text-primary hover:bg-primary/5 transition-colors disabled:opacity-50"
                               >
                                 <Trash2 className="w-4 h-4" />
                               </button>
