@@ -5,11 +5,20 @@ import { useTranslation } from "@/i18n/LanguageContext";
 import charlsLogo from "@/assets/charls-logo.webp";
 import PaymentIcons from "@/components/PaymentIcons";
 import { openCookiePreferences } from "@/hooks/useCookieConsent";
+import { occasionsByTier } from "@/lib/occasionPagesData";
 
 const Footer = () => {
   const { t, language } = useTranslation();
   // Nationwide city index uses different slugs per language — bypass auto-localization.
   const nationwidePath = language === "es" ? "/es/envio-de-flores" : "/flower-delivery";
+  // Occasion collection URLs are native per language; build the language-correct path here
+  // and bypass auto-localization on the Link.
+  const occasionsIndexPath = language === "es" ? "/es/collections/ocasiones" : "/collections/occasions";
+  const occasionPath = (slug: string, slugEs: string) =>
+    language === "es" ? `/es/collections/${slugEs}` : `/collections/${slug}`;
+  // Tier 2 + 3 in the footer (Tier 1 lives in the top menu).
+  const footerOccasions = [...occasionsByTier(2), ...occasionsByTier(3)];
+  const stripCity = (h1: string) => h1.replace(/ (in|en) Miami$/, "");
 
   return (
     <div className="relative mt-[-1px]">
@@ -97,6 +106,35 @@ const Footer = () => {
             <PaymentIcons size={20} />
           </div>
         </div>
+
+          {/* Shop by Occasion — Tier 2 + Tier 3 pages reachable in ≤3 clicks
+              (Home → Footer → Occasion). Tier 1 is already in the top menu. */}
+          <div className="border-t border-primary-foreground/15 pt-8 mb-8">
+            <div className="flex items-baseline justify-between gap-3 mb-4 flex-wrap">
+              <p className="font-body text-xs tracking-widest uppercase text-primary-foreground">
+                {t("footer.shopByOccasion")}
+              </p>
+              <Link
+                to={occasionsIndexPath}
+                noLocalize
+                className="font-body text-[11px] tracking-widest uppercase text-primary-foreground/90 hover:text-primary-foreground underline-offset-2 hover:underline"
+              >
+                {t("footer.viewAllOccasions")} →
+              </Link>
+            </div>
+            <div className="flex flex-wrap gap-x-4 gap-y-2 font-body text-xs text-primary-foreground/95">
+              {footerOccasions.map((o) => (
+                <Link
+                  key={o.slug}
+                  to={occasionPath(o.slug, o.slugEs)}
+                  noLocalize
+                  className="hover:text-primary transition-colors"
+                >
+                  {stripCity(language === "es" ? o.h1.es : o.h1.en)}
+                </Link>
+              ))}
+            </div>
+          </div>
 
           {/* Copyright */}
           <div className="border-t border-primary-foreground/20 pt-6 text-center">

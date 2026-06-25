@@ -40,6 +40,7 @@ export const en = {
     byOccasion: "By Occasion",
     allColors: "All Colors",
     mothersDayBouquets: "Mother's Day",
+    allOccasions: "View all occasions",
     aria: {
       openMenu: "Open menu",
       closeMenu: "Close menu",
@@ -69,6 +70,8 @@ export const en = {
     tagline: "Miami's premier flower shop — custom bouquets & same-day delivery.",
     cookiePreferences: "Cookie preferences",
     nationwideDelivery: "Nationwide Flower Delivery",
+    shopByOccasion: "Shop by Occasion",
+    viewAllOccasions: "View all occasions",
   },
 
   // Cookie banner & preferences

@@ -50,6 +50,8 @@ const StudioPage = lazy(() => import("./pages/StudioPage"));
 const MothersDayCollection = lazy(() => import("./pages/MothersDayCollection"));
 const CityShippingPage = lazy(() => import("./pages/CityShippingPage"));
 const CityIndexPage = lazy(() => import("./pages/CityIndexPage"));
+const OccasionPage = lazy(() => import("./pages/OccasionPage"));
+const OccasionsIndexPage = lazy(() => import("./pages/OccasionsIndexPage"));
 
 const queryClient = new QueryClient();
 
@@ -190,6 +192,13 @@ const AppContent = () => {
       <Route path="flower-delivery/:city" element={<CityShippingPage />} />
       <Route path="envio-de-flores" element={<CityIndexPage />} />
       <Route path="envio-de-flores/:city" element={<CityShippingPage />} />
+      {/* Occasion collection pages — indexable EN + native ES slugs.
+          Mounted twice (root + /es). The index slug ("occasions" / "ocasiones")
+          matches first via the dedicated routes; everything else falls through
+          to OccasionPage which looks up by slug or slugEs. */}
+      <Route path="collections/occasions" element={<OccasionsIndexPage />} />
+      <Route path="collections/ocasiones" element={<OccasionsIndexPage />} />
+      <Route path="collections/:slug" element={<OccasionPage />} />
       {landingPages.map(page => (
         <Route key={page.slug} path={page.slug} element={<LandingPage />} />
       ))}

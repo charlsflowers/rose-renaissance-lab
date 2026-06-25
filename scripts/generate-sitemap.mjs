@@ -49,6 +49,7 @@ const roomDecorSrc = read("src/lib/roomDecorData.ts");
 const slugsSrc     = read("src/lib/bouquetSlugs.ts");
 const colorCollSrc = read("src/lib/colorCollections.ts");
 const citySrc      = read("src/lib/cityPagesData.ts");
+const occasionSrc  = read("src/lib/occasionPagesData.ts");
 
 /**
  * Parse cityPages entries:
@@ -60,6 +61,21 @@ const cityPagesList = (() => {
   const re = /slug:\s*["']([a-z0-9-]+)["']\s*,\s*slugEs:\s*["']([a-z0-9-]+)["']/g;
   let m;
   while ((m = re.exec(citySrc)) !== null) {
+    out.push({ slug: m[1], slugEs: m[2] });
+  }
+  return out;
+})();
+
+/**
+ * Parse occasionPages entries:
+ *   { slug: "...", slugEs: "...", tier: <n>, ... }
+ * Returns [{ slug, slugEs }] for every indexable occasion landing page.
+ */
+const occasionPagesList = (() => {
+  const out = [];
+  const re = /slug:\s*["']([a-z0-9-]+)["']\s*,\s*slugEs:\s*["']([a-z0-9-]+)["']\s*,\s*tier/g;
+  let m;
+  while ((m = re.exec(occasionSrc)) !== null) {
     out.push({ slug: m[1], slugEs: m[2] });
   }
   return out;
@@ -214,6 +230,12 @@ for (const c of cityPagesList) {
   push(`/flower-delivery/${c.slug}`, "weekly", "0.7", { esPath: `/es/envio-de-flores/${c.slugEs}` });
 }
 
+// Occasion collection landing pages — index + per-occasion (EN + native ES slugs).
+push("/collections/occasions", "weekly", "0.7", { esPath: "/es/collections/ocasiones" });
+for (const o of occasionPagesList) {
+  push(`/collections/${o.slug}`, "weekly", "0.7", { esPath: `/es/collections/${o.slugEs}` });
+}
+
 // Legal pages, /contact and /sitemap are intentionally excluded from the
 // sitemap: they are either noindex or pure navigation aids, not real content.
 
@@ -317,7 +339,8 @@ const counts = {
   blog: blogSlugs.length,
   roomDecors: roomDecorIds.length,
   cityPages: cityPagesList.length,
+  occasionPages: occasionPagesList.length,
   excludedCategories: categorySlugs.length,
 };
 console.log(`[sitemap] wrote ${outPath}`);
-console.log(`[sitemap] paths=${counts.totalPaths} urls=${counts.totalUrls} bouquets=${counts.bouquets} colorCollections=${counts.colorCollections} mothersDay=${counts.mothersDay} landings=${counts.landings} blog=${counts.blog} roomDecors=${counts.roomDecors} cityPages=${counts.cityPages} (excluded comingSoon categories=${counts.excludedCategories})`);
+console.log(`[sitemap] paths=${counts.totalPaths} urls=${counts.totalUrls} bouquets=${counts.bouquets} colorCollections=${counts.colorCollections} mothersDay=${counts.mothersDay} landings=${counts.landings} blog=${counts.blog} roomDecors=${counts.roomDecors} cityPages=${counts.cityPages} occasionPages=${counts.occasionPages} (excluded comingSoon categories=${counts.excludedCategories})`);

@@ -39,6 +39,7 @@ export const es = {
     byOccasion: "Por Ocasión",
     allColors: "Todos los Colores",
     mothersDayBouquets: "Día de la Madre",
+    allOccasions: "Ver todas las ocasiones",
     aria: {
       openMenu: "Abrir menú",
       closeMenu: "Cerrar menú",
@@ -67,6 +68,8 @@ export const es = {
     tagline: "La florería premium de Miami — ramos personalizados y envío el mismo día.",
     cookiePreferences: "Preferencias de cookies",
     nationwideDelivery: "Envío de flores a todo EE.UU.",
+    shopByOccasion: "Comprar por Ocasión",
+    viewAllOccasions: "Ver todas las ocasiones",
   },
 
   cookies: {

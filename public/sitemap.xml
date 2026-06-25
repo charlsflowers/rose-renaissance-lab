@@ -1027,6 +1027,402 @@
     <xhtml:link rel="alternate" hreflang="x-default" href="https://www.charlsflowers.com/flower-delivery/st-louis"/>
   </url>
   <url>
+    <loc>https://www.charlsflowers.com/collections/occasions</loc>
+    <lastmod>2026-06-25</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/collections/occasions"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.charlsflowers.com/es/collections/ocasiones"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.charlsflowers.com/collections/occasions"/>
+  </url>
+  <url>
+    <loc>https://www.charlsflowers.com/es/collections/ocasiones</loc>
+    <lastmod>2026-06-25</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/collections/occasions"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.charlsflowers.com/es/collections/ocasiones"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.charlsflowers.com/collections/occasions"/>
+  </url>
+  <url>
+    <loc>https://www.charlsflowers.com/collections/valentines-flowers</loc>
+    <lastmod>2026-06-25</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/collections/valentines-flowers"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.charlsflowers.com/es/collections/flores-san-valentin"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.charlsflowers.com/collections/valentines-flowers"/>
+  </url>
+  <url>
+    <loc>https://www.charlsflowers.com/es/collections/flores-san-valentin</loc>
+    <lastmod>2026-06-25</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/collections/valentines-flowers"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.charlsflowers.com/es/collections/flores-san-valentin"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.charlsflowers.com/collections/valentines-flowers"/>
+  </url>
+  <url>
+    <loc>https://www.charlsflowers.com/collections/birthday-flowers</loc>
+    <lastmod>2026-06-25</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/collections/birthday-flowers"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.charlsflowers.com/es/collections/flores-cumpleanos"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.charlsflowers.com/collections/birthday-flowers"/>
+  </url>
+  <url>
+    <loc>https://www.charlsflowers.com/es/collections/flores-cumpleanos</loc>
+    <lastmod>2026-06-25</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/collections/birthday-flowers"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.charlsflowers.com/es/collections/flores-cumpleanos"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.charlsflowers.com/collections/birthday-flowers"/>
+  </url>
+  <url>
+    <loc>https://www.charlsflowers.com/collections/sympathy-flowers</loc>
+    <lastmod>2026-06-25</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/collections/sympathy-flowers"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.charlsflowers.com/es/collections/arreglos-funebres"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.charlsflowers.com/collections/sympathy-flowers"/>
+  </url>
+  <url>
+    <loc>https://www.charlsflowers.com/es/collections/arreglos-funebres</loc>
+    <lastmod>2026-06-25</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/collections/sympathy-flowers"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.charlsflowers.com/es/collections/arreglos-funebres"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.charlsflowers.com/collections/sympathy-flowers"/>
+  </url>
+  <url>
+    <loc>https://www.charlsflowers.com/collections/wedding-flowers</loc>
+    <lastmod>2026-06-25</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/collections/wedding-flowers"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.charlsflowers.com/es/collections/ramo-de-novia"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.charlsflowers.com/collections/wedding-flowers"/>
+  </url>
+  <url>
+    <loc>https://www.charlsflowers.com/es/collections/ramo-de-novia</loc>
+    <lastmod>2026-06-25</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/collections/wedding-flowers"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.charlsflowers.com/es/collections/ramo-de-novia"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.charlsflowers.com/collections/wedding-flowers"/>
+  </url>
+  <url>
+    <loc>https://www.charlsflowers.com/collections/christmas-flowers</loc>
+    <lastmod>2026-06-25</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/collections/christmas-flowers"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.charlsflowers.com/es/collections/flores-de-navidad"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.charlsflowers.com/collections/christmas-flowers"/>
+  </url>
+  <url>
+    <loc>https://www.charlsflowers.com/es/collections/flores-de-navidad</loc>
+    <lastmod>2026-06-25</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/collections/christmas-flowers"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.charlsflowers.com/es/collections/flores-de-navidad"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.charlsflowers.com/collections/christmas-flowers"/>
+  </url>
+  <url>
+    <loc>https://www.charlsflowers.com/collections/day-of-the-dead-flowers</loc>
+    <lastmod>2026-06-25</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/collections/day-of-the-dead-flowers"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.charlsflowers.com/es/collections/flores-dia-de-muertos"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.charlsflowers.com/collections/day-of-the-dead-flowers"/>
+  </url>
+  <url>
+    <loc>https://www.charlsflowers.com/es/collections/flores-dia-de-muertos</loc>
+    <lastmod>2026-06-25</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/collections/day-of-the-dead-flowers"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.charlsflowers.com/es/collections/flores-dia-de-muertos"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.charlsflowers.com/collections/day-of-the-dead-flowers"/>
+  </url>
+  <url>
+    <loc>https://www.charlsflowers.com/collections/graduation-flowers</loc>
+    <lastmod>2026-06-25</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/collections/graduation-flowers"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.charlsflowers.com/es/collections/flores-de-graduacion"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.charlsflowers.com/collections/graduation-flowers"/>
+  </url>
+  <url>
+    <loc>https://www.charlsflowers.com/es/collections/flores-de-graduacion</loc>
+    <lastmod>2026-06-25</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/collections/graduation-flowers"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.charlsflowers.com/es/collections/flores-de-graduacion"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.charlsflowers.com/collections/graduation-flowers"/>
+  </url>
+  <url>
+    <loc>https://www.charlsflowers.com/collections/anniversary-flowers</loc>
+    <lastmod>2026-06-25</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/collections/anniversary-flowers"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.charlsflowers.com/es/collections/flores-de-aniversario"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.charlsflowers.com/collections/anniversary-flowers"/>
+  </url>
+  <url>
+    <loc>https://www.charlsflowers.com/es/collections/flores-de-aniversario</loc>
+    <lastmod>2026-06-25</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/collections/anniversary-flowers"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.charlsflowers.com/es/collections/flores-de-aniversario"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.charlsflowers.com/collections/anniversary-flowers"/>
+  </url>
+  <url>
+    <loc>https://www.charlsflowers.com/collections/get-well-flowers</loc>
+    <lastmod>2026-06-25</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/collections/get-well-flowers"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.charlsflowers.com/es/collections/flores-para-recuperacion"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.charlsflowers.com/collections/get-well-flowers"/>
+  </url>
+  <url>
+    <loc>https://www.charlsflowers.com/es/collections/flores-para-recuperacion</loc>
+    <lastmod>2026-06-25</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/collections/get-well-flowers"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.charlsflowers.com/es/collections/flores-para-recuperacion"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.charlsflowers.com/collections/get-well-flowers"/>
+  </url>
+  <url>
+    <loc>https://www.charlsflowers.com/collections/thank-you-flowers</loc>
+    <lastmod>2026-06-25</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/collections/thank-you-flowers"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.charlsflowers.com/es/collections/flores-de-agradecimiento"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.charlsflowers.com/collections/thank-you-flowers"/>
+  </url>
+  <url>
+    <loc>https://www.charlsflowers.com/es/collections/flores-de-agradecimiento</loc>
+    <lastmod>2026-06-25</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/collections/thank-you-flowers"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.charlsflowers.com/es/collections/flores-de-agradecimiento"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.charlsflowers.com/collections/thank-you-flowers"/>
+  </url>
+  <url>
+    <loc>https://www.charlsflowers.com/collections/fathers-day-flowers</loc>
+    <lastmod>2026-06-25</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/collections/fathers-day-flowers"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.charlsflowers.com/es/collections/flores-dia-del-padre"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.charlsflowers.com/collections/fathers-day-flowers"/>
+  </url>
+  <url>
+    <loc>https://www.charlsflowers.com/es/collections/flores-dia-del-padre</loc>
+    <lastmod>2026-06-25</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/collections/fathers-day-flowers"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.charlsflowers.com/es/collections/flores-dia-del-padre"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.charlsflowers.com/collections/fathers-day-flowers"/>
+  </url>
+  <url>
+    <loc>https://www.charlsflowers.com/collections/thanksgiving-flowers</loc>
+    <lastmod>2026-06-25</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/collections/thanksgiving-flowers"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.charlsflowers.com/es/collections/flores-de-accion-de-gracias"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.charlsflowers.com/collections/thanksgiving-flowers"/>
+  </url>
+  <url>
+    <loc>https://www.charlsflowers.com/es/collections/flores-de-accion-de-gracias</loc>
+    <lastmod>2026-06-25</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/collections/thanksgiving-flowers"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.charlsflowers.com/es/collections/flores-de-accion-de-gracias"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.charlsflowers.com/collections/thanksgiving-flowers"/>
+  </url>
+  <url>
+    <loc>https://www.charlsflowers.com/collections/quinceanera-bouquet</loc>
+    <lastmod>2026-06-25</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/collections/quinceanera-bouquet"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.charlsflowers.com/es/collections/ramo-de-quinceanera"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.charlsflowers.com/collections/quinceanera-bouquet"/>
+  </url>
+  <url>
+    <loc>https://www.charlsflowers.com/es/collections/ramo-de-quinceanera</loc>
+    <lastmod>2026-06-25</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/collections/quinceanera-bouquet"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.charlsflowers.com/es/collections/ramo-de-quinceanera"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.charlsflowers.com/collections/quinceanera-bouquet"/>
+  </url>
+  <url>
+    <loc>https://www.charlsflowers.com/collections/administrative-professionals-day-flowers</loc>
+    <lastmod>2026-06-25</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/collections/administrative-professionals-day-flowers"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.charlsflowers.com/es/collections/flores-dia-secretaria"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.charlsflowers.com/collections/administrative-professionals-day-flowers"/>
+  </url>
+  <url>
+    <loc>https://www.charlsflowers.com/es/collections/flores-dia-secretaria</loc>
+    <lastmod>2026-06-25</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/collections/administrative-professionals-day-flowers"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.charlsflowers.com/es/collections/flores-dia-secretaria"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.charlsflowers.com/collections/administrative-professionals-day-flowers"/>
+  </url>
+  <url>
+    <loc>https://www.charlsflowers.com/collections/bosses-day-flowers</loc>
+    <lastmod>2026-06-25</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/collections/bosses-day-flowers"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.charlsflowers.com/es/collections/flores-dia-del-jefe"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.charlsflowers.com/collections/bosses-day-flowers"/>
+  </url>
+  <url>
+    <loc>https://www.charlsflowers.com/es/collections/flores-dia-del-jefe</loc>
+    <lastmod>2026-06-25</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/collections/bosses-day-flowers"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.charlsflowers.com/es/collections/flores-dia-del-jefe"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.charlsflowers.com/collections/bosses-day-flowers"/>
+  </url>
+  <url>
+    <loc>https://www.charlsflowers.com/collections/congratulations-flowers</loc>
+    <lastmod>2026-06-25</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/collections/congratulations-flowers"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.charlsflowers.com/es/collections/flores-de-felicitacion"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.charlsflowers.com/collections/congratulations-flowers"/>
+  </url>
+  <url>
+    <loc>https://www.charlsflowers.com/es/collections/flores-de-felicitacion</loc>
+    <lastmod>2026-06-25</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/collections/congratulations-flowers"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.charlsflowers.com/es/collections/flores-de-felicitacion"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.charlsflowers.com/collections/congratulations-flowers"/>
+  </url>
+  <url>
+    <loc>https://www.charlsflowers.com/collections/womens-day-flowers</loc>
+    <lastmod>2026-06-25</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/collections/womens-day-flowers"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.charlsflowers.com/es/collections/flores-dia-de-la-mujer"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.charlsflowers.com/collections/womens-day-flowers"/>
+  </url>
+  <url>
+    <loc>https://www.charlsflowers.com/es/collections/flores-dia-de-la-mujer</loc>
+    <lastmod>2026-06-25</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/collections/womens-day-flowers"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.charlsflowers.com/es/collections/flores-dia-de-la-mujer"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.charlsflowers.com/collections/womens-day-flowers"/>
+  </url>
+  <url>
+    <loc>https://www.charlsflowers.com/collections/new-baby-flowers</loc>
+    <lastmod>2026-06-25</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/collections/new-baby-flowers"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.charlsflowers.com/es/collections/flores-recien-nacido"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.charlsflowers.com/collections/new-baby-flowers"/>
+  </url>
+  <url>
+    <loc>https://www.charlsflowers.com/es/collections/flores-recien-nacido</loc>
+    <lastmod>2026-06-25</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/collections/new-baby-flowers"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.charlsflowers.com/es/collections/flores-recien-nacido"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.charlsflowers.com/collections/new-baby-flowers"/>
+  </url>
+  <url>
+    <loc>https://www.charlsflowers.com/collections/just-because-flowers</loc>
+    <lastmod>2026-06-25</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/collections/just-because-flowers"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.charlsflowers.com/es/collections/flores-porque-si"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.charlsflowers.com/collections/just-because-flowers"/>
+  </url>
+  <url>
+    <loc>https://www.charlsflowers.com/es/collections/flores-porque-si</loc>
+    <lastmod>2026-06-25</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/collections/just-because-flowers"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.charlsflowers.com/es/collections/flores-porque-si"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.charlsflowers.com/collections/just-because-flowers"/>
+  </url>
+  <url>
+    <loc>https://www.charlsflowers.com/collections/new-year-flowers</loc>
+    <lastmod>2026-06-25</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/collections/new-year-flowers"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.charlsflowers.com/es/collections/flores-de-ano-nuevo"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.charlsflowers.com/collections/new-year-flowers"/>
+  </url>
+  <url>
+    <loc>https://www.charlsflowers.com/es/collections/flores-de-ano-nuevo</loc>
+    <lastmod>2026-06-25</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/collections/new-year-flowers"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.charlsflowers.com/es/collections/flores-de-ano-nuevo"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.charlsflowers.com/collections/new-year-flowers"/>
+  </url>
+  <url>
+    <loc>https://www.charlsflowers.com/collections/easter-flowers</loc>
+    <lastmod>2026-06-25</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/collections/easter-flowers"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.charlsflowers.com/es/collections/flores-de-semana-santa"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.charlsflowers.com/collections/easter-flowers"/>
+  </url>
+  <url>
+    <loc>https://www.charlsflowers.com/es/collections/flores-de-semana-santa</loc>
+    <lastmod>2026-06-25</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.charlsflowers.com/collections/easter-flowers"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.charlsflowers.com/es/collections/flores-de-semana-santa"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.charlsflowers.com/collections/easter-flowers"/>
+  </url>
+  <url>
     <loc>https://www.charlsflowers.com/bouquets/white-red-roses-bouquet-bicolor</loc>
     <lastmod>2026-06-25</lastmod>
     <changefreq>weekly</changefreq>

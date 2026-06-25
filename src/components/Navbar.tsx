@@ -12,6 +12,7 @@ import { bouquetProducts } from "@/lib/catalogData";
 import { slugForHandle } from "@/lib/bouquetSlugs";
 import { COLOR_COLLECTIONS } from "@/lib/colorCollections";
 import { roomDecorPackages } from "@/lib/roomDecorData";
+import { occasionsByTier } from "@/lib/occasionPagesData";
 import { supabase } from "@/integrations/supabase/client";
 import { useTranslation, type Language } from "@/i18n/LanguageContext";
 import { isMothersDayPromoActive } from "@/lib/mothersDayPromo";
@@ -45,6 +46,11 @@ const Navbar = () => {
   const colorLinkTo = (slug: string, slugEs: string) =>
     language === "es" ? `/es/bouquets/${slugEs}` : `/bouquets/${slug}`;
 
+  // Occasion collection links use NATIVE ES slugs (different per language).
+  const occasionLinkTo = (slug: string, slugEs: string) =>
+    language === "es" ? `/es/collections/${slugEs}` : `/collections/${slug}`;
+  const occasionsIndexPath = language === "es" ? "/es/collections/ocasiones" : "/collections/occasions";
+
   // Mega-menu grouped by intent. URLs are preserved (no SEO/301 changes).
   // Only include items whose collection/products actually exist — no empty "coming soon" pages.
   const redColor = COLOR_COLLECTIONS.find((c) => c.color === "red");
@@ -73,9 +79,16 @@ const Navbar = () => {
     },
     {
       title: t("nav.byOccasion"),
+      titleTo: occasionsIndexPath,
       items: [
-        // Only Mother's Day — the only occasion with an existing collection today.
+        // Mother's Day is the only occasion with a live product collection — keep it first.
         { to: "/bouquets/mothers-day", label: t("nav.mothersDayBouquets") },
+        // Tier-1 occasion landing pages (indexable, content-rich, no products yet).
+        ...occasionsByTier(1).map((o) => ({
+          to: occasionLinkTo(o.slug, o.slugEs),
+          label: language === "es" ? o.h1.es.replace(" en Miami", "") : o.h1.en.replace(" in Miami", ""),
+        })),
+        { to: occasionsIndexPath, label: t("nav.allOccasions") },
       ],
     },
   ];
