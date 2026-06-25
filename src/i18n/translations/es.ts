@@ -33,6 +33,12 @@ export const es = {
     valentinesDayFlowers: "Flores para San Valentín",
     weddingBouquets: "Ramos de Boda",
     customBouquetBuilder: "Creador de Ramos Personalizados",
+    sameDayDelivery: "Envío el Mismo Día",
+    byColor: "Por Color",
+    byType: "Por Tipo",
+    byOccasion: "Por Ocasión",
+    allColors: "Todos los Colores",
+    mothersDayBouquets: "Día de la Madre",
     aria: {
       openMenu: "Abrir menú",
       closeMenu: "Cerrar menú",

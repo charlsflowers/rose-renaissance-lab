@@ -34,6 +34,12 @@ export const en = {
     valentinesDayFlowers: "Valentine's Day Flowers",
     weddingBouquets: "Wedding Bouquets",
     customBouquetBuilder: "Custom Bouquet Builder",
+    sameDayDelivery: "Same Day Delivery",
+    byColor: "By Color",
+    byType: "By Type",
+    byOccasion: "By Occasion",
+    allColors: "All Colors",
+    mothersDayBouquets: "Mother's Day",
     aria: {
       openMenu: "Open menu",
       closeMenu: "Close menu",
