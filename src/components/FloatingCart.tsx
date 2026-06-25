@@ -355,24 +355,34 @@ const FloatingCart = () => {
 
           {totalItems > 0 && (
             <div className="border-t px-6 py-4 space-y-3 bg-background">
-              <div className="flex items-center justify-between">
-                <span className="font-body text-sm text-muted-foreground">
-                  {t("floatingCart.subtotal")}
-                </span>
-                <span className="font-display text-lg font-semibold text-foreground">
-                  ${displaySubtotal}
-                </span>
-              </div>
-              {deliveryCost > 0 && (
-                <div className="flex items-center justify-between -mt-1">
+              <div className="space-y-2">
+                <div className="flex items-center justify-between">
                   <span className="font-body text-sm text-muted-foreground">
-                    {t("floatingCart.delivery")}
+                    {t("floatingCart.subtotal")}
                   </span>
-                  <span className="font-body text-sm font-semibold text-foreground">
-                    ${deliveryCost.toFixed(2)}
+                  <span className="font-display text-base font-semibold text-foreground">
+                    ${itemsSubtotal.toFixed(2)}
                   </span>
                 </div>
-              )}
+                {extrasTotal > 0 && (
+                  <div className="flex items-center justify-between -mt-1">
+                    <span className="font-body text-sm text-muted-foreground">
+                      {t("floatingCart.extras")}
+                    </span>
+                    <span className="font-body text-sm font-semibold text-foreground">
+                      ${extrasTotal.toFixed(2)}
+                    </span>
+                  </div>
+                )}
+                <div className="flex items-center justify-between pt-2 border-t border-border">
+                  <span className="font-body text-sm font-semibold text-foreground">
+                    {t("floatingCart.total")}
+                  </span>
+                  <span className="font-display text-xl font-bold text-foreground">
+                    ${displayTotal.toFixed(2)}
+                  </span>
+                </div>
+              </div>
               <ShippingProtection />
               {fedexBlockingItem && (
                 <div className="bg-primary/5 border border-primary/20 rounded-lg p-3 text-xs font-body text-foreground">
