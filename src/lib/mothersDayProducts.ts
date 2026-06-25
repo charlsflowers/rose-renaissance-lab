@@ -106,8 +106,11 @@ export function toVirtualBouquet(raw: MothersDayProductRaw): BouquetProduct {
     yellow: "Amarillo",
     red: "Rojo",
   };
-  const colorTag = raw.tags.find((t) => colorTagToName[t]) ?? "white";
-  const color = colorTagToName[colorTag] ?? "Blanco";
+  // No fallback: if no color tag matches, leave color empty so the product
+  // does NOT get auto-assigned to "White" (or any other color collection).
+  // A bouquet must explicitly declare its color(s) to appear in a color page.
+  const colorTag = raw.tags.find((t) => colorTagToName[t]);
+  const color = colorTag ? colorTagToName[colorTag] : "";
 
   return {
     id: raw.handle,
