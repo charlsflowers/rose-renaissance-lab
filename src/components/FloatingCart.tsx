@@ -271,7 +271,7 @@ const FloatingCart = () => {
             </div>
           </SheetHeader>
 
-          <div className="flex-1 overflow-y-auto px-6 py-4">
+          <div className="flex-1 overflow-y-auto px-6 pt-1.5 pb-4 sm:pt-4">
             {totalItems === 0 ? (
               <div className="h-full flex items-center justify-center">
                 <p className="font-body text-sm text-muted-foreground">{t("floatingCart.empty")}</p>
@@ -296,10 +296,10 @@ const FloatingCart = () => {
                       <p className="font-body text-xs text-muted-foreground mt-0.5">
                         {item.roses} {t("product.roses")}
                       </p>
-                      <div className="flex items-center justify-between mt-1.5">
-                        <p className="font-body text-base font-semibold text-foreground">
-                          ${parseFloat((item.totalPrice * (item.quantity || 1)).toFixed(2))}
-                        </p>
+                      <p className="font-body text-base font-semibold text-foreground mt-1.5">
+                        ${parseFloat((item.totalPrice * (item.quantity || 1)).toFixed(2))}
+                      </p>
+                      <div className="flex items-center justify-end mt-1.5">
                         <div className="flex items-center gap-2">
                           <div className="flex items-center border-2 border-primary rounded-full overflow-hidden">
                             <button
@@ -362,6 +362,16 @@ const FloatingCart = () => {
                   ${displaySubtotal}
                 </span>
               </div>
+              {deliveryCost > 0 && (
+                <div className="flex items-center justify-between -mt-1">
+                  <span className="font-body text-sm text-muted-foreground">
+                    {t("floatingCart.delivery")}
+                  </span>
+                  <span className="font-body text-sm font-semibold text-foreground">
+                    ${deliveryCost.toFixed(2)}
+                  </span>
+                </div>
+              )}
               <ShippingProtection />
               {fedexBlockingItem && (
                 <div className="bg-primary/5 border border-primary/20 rounded-lg p-3 text-xs font-body text-foreground">

@@ -522,6 +522,7 @@ export const en = {
     yourCart: "Your cart",
     empty: "Your cart is empty",
     subtotal: "Subtotal",
+    delivery: "Delivery",
     viewCart: "CONTINUE TO SAFE CHECKOUT",
     continueShopping: "Continue shopping",
     remove: "Remove",
