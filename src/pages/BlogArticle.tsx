@@ -19,7 +19,7 @@ const portableTextComponents: PortableTextComponents = {
   types: {
     image: ({ value }: { value: SanityImage & { caption?: string } }) => {
       if (!value?.asset) return null;
-      const src = urlFor(value).width(1200).auto("format").url();
+      const src = urlFor(value).width(1200).auto("format").quality(80).url();
       return (
         <figure className="my-8">
           <img
@@ -27,6 +27,7 @@ const portableTextComponents: PortableTextComponents = {
             alt={value.alt || "Charls Flowers Miami"}
             className="w-full rounded-lg"
             loading="lazy"
+            decoding="async"
           />
           {value.caption && (
             <figcaption className="text-xs text-muted-foreground mt-2 text-center italic">
@@ -37,21 +38,42 @@ const portableTextComponents: PortableTextComponents = {
       );
     },
   },
+  block: {
+    // Force a single H1 per page (the post title). Any H1 used inside the
+    // body in Sanity is demoted to H2 so SEO stays clean.
+    h1: ({ children }) => (
+      <h2 className="font-display text-2xl font-semibold text-foreground mt-10 mb-4">{children}</h2>
+    ),
+    blockquote: ({ children }) => (
+      <blockquote className="border-l-4 border-primary pl-4 italic my-6 text-muted-foreground">
+        {children}
+      </blockquote>
+    ),
+  },
   marks: {
     link: ({ children, value }) => {
       const href = value?.href ?? "#";
-      const isExternal = /^https?:\/\//i.test(href) && !href.includes("charlsflowers.com");
+      const isExternal =
+        /^https?:\/\//i.test(href) && !/(^|\.)charlsflowers\.com/i.test(href);
       if (isExternal) {
         return (
-          <a href={href} target="_blank" rel="noopener noreferrer" className="text-primary underline">
+          <a
+            href={href}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-primary underline underline-offset-2 hover:opacity-80 transition-opacity"
+          >
             {children}
           </a>
         );
       }
-      // Internal link — convert to React Router Link if path-like
+      // Internal link — convert to React Router Link, same tab, brand color.
       const path = href.replace(/^https?:\/\/[^/]+/, "");
       return (
-        <Link to={path} className="text-primary underline">
+        <Link
+          to={path}
+          className="text-primary underline underline-offset-2 hover:opacity-80 transition-opacity"
+        >
           {children}
         </Link>
       );
@@ -166,7 +188,9 @@ const BlogArticle = () => {
               <img
                 src={imageUrl}
                 alt={article.mainImage.alt || `${article.title} – Charls Flowers Miami`}
-                loading="lazy"
+                loading="eager"
+                fetchPriority="high"
+                decoding="async"
                 width={1200}
                 height={675}
                 className="w-full h-full object-cover"
@@ -200,6 +224,35 @@ const BlogArticle = () => {
                 </ul>
               </section>
             )}
+
+            {/* Sigue leyendo — siempre visible, enlaza a colecciones clave */}
+            <section className="mt-12 pt-8 border-t border-border">
+              <h2 className="font-display text-xl font-semibold text-foreground mb-4">
+                {language === "es" ? "Sigue explorando" : "Keep exploring"}
+              </h2>
+              <ul className="space-y-2 font-body">
+                <li>
+                  <Link to="/bouquets" className="text-primary hover:underline">
+                    → {language === "es" ? "Ver todos los ramos" : "Browse all bouquets"}
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/bouquets/personalizar" className="text-primary hover:underline">
+                    → {language === "es" ? "Crear ramo personalizado" : "Build a custom bouquet"}
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/delivery" className="text-primary hover:underline">
+                    → {language === "es" ? "Envío en Miami" : "Miami flower delivery"}
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/blog" className="text-primary hover:underline">
+                    → {language === "es" ? "Volver al blog" : "Back to the blog"}
+                  </Link>
+                </li>
+              </ul>
+            </section>
           </article>
         </div>
       </div>
