@@ -1100,10 +1100,7 @@ const BouquetProductDetail = () => {
             </div>
           </div>
 
-          {/* Cross-links — related products (above FAQs) */}
-          <YouMightAlsoLove currentProductId={product.id} />
-
-          {/* Mobile-only description accordion — content stays in the DOM for SEO */}
+          {/* Mobile-only description accordion — first, right below payment icons */}
           <div className="lg:hidden">
             <Accordion type="single" collapsible className="w-full">
               <AccordionItem value="description">
@@ -1120,6 +1117,9 @@ const BouquetProductDetail = () => {
               </AccordionItem>
             </Accordion>
           </div>
+
+          {/* Cross-links — related products (above FAQs) */}
+          <YouMightAlsoLove currentProductId={product.id} />
 
           {/* FAQs (shared desktop + mobile, after related products) */}
           <CollectionFAQ faqs={bouquetFAQs} />
