@@ -70,6 +70,8 @@ export const en = {
     tagline: "Miami's premier flower shop — custom bouquets & same-day delivery.",
     cookiePreferences: "Cookie preferences",
     nationwideDelivery: "Nationwide Flower Delivery",
+    shopByOccasion: "Shop by Occasion",
+    viewAllOccasions: "View all occasions",
   },
 
   // Cookie banner & preferences

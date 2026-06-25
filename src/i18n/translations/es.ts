@@ -68,6 +68,8 @@ export const es = {
     tagline: "La florería premium de Miami — ramos personalizados y envío el mismo día.",
     cookiePreferences: "Preferencias de cookies",
     nationwideDelivery: "Envío de flores a todo EE.UU.",
+    shopByOccasion: "Comprar por Ocasión",
+    viewAllOccasions: "Ver todas las ocasiones",
   },
 
   cookies: {
