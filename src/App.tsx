@@ -48,6 +48,8 @@ const BlogArticle = lazy(() => import("./pages/BlogArticle"));
 const LandingPage = lazy(() => import("./pages/LandingPage"));
 const StudioPage = lazy(() => import("./pages/StudioPage"));
 const MothersDayCollection = lazy(() => import("./pages/MothersDayCollection"));
+const CityShippingPage = lazy(() => import("./pages/CityShippingPage"));
+const CityIndexPage = lazy(() => import("./pages/CityIndexPage"));
 
 const queryClient = new QueryClient();
 
@@ -182,6 +184,12 @@ const AppContent = () => {
       <Route path="sitemap" element={<SitemapPage />} />
       <Route path="blog" element={<Blog />} />
       <Route path="blog/:slug" element={<BlogArticle />} />
+      {/* Nationwide FedEx city landing pages — index + per-city, EN & ES slugs.
+          Mounted twice (root + /es) so both /flower-delivery and /es/envio-de-flores resolve. */}
+      <Route path="flower-delivery" element={<CityIndexPage />} />
+      <Route path="flower-delivery/:city" element={<CityShippingPage />} />
+      <Route path="envio-de-flores" element={<CityIndexPage />} />
+      <Route path="envio-de-flores/:city" element={<CityShippingPage />} />
       {landingPages.map(page => (
         <Route key={page.slug} path={page.slug} element={<LandingPage />} />
       ))}

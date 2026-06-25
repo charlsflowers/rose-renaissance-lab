@@ -7,7 +7,9 @@ import PaymentIcons from "@/components/PaymentIcons";
 import { openCookiePreferences } from "@/hooks/useCookieConsent";
 
 const Footer = () => {
-  const { t } = useTranslation();
+  const { t, language } = useTranslation();
+  // Nationwide city index uses different slugs per language — bypass auto-localization.
+  const nationwidePath = language === "es" ? "/es/envio-de-flores" : "/flower-delivery";
 
   return (
     <div className="relative mt-[-1px]">
@@ -53,9 +55,10 @@ const Footer = () => {
                 { to: "/contact", label: t("nav.contact") },
                 { to: "/faq", label: t("nav.faq") },
                 { to: "/blog", label: t("nav.blog") },
+                { to: nationwidePath, label: t("footer.nationwideDelivery"), noLocalize: true },
                 { to: "/sitemap", label: t("nav.sitemap") },
               ].map(link => (
-                <Link key={link.to} to={link.to} className="hover:text-primary transition-colors">{link.label}</Link>
+                <Link key={link.to} to={link.to} noLocalize={link.noLocalize} className="hover:text-primary transition-colors">{link.label}</Link>
               ))}
             </div>
           </div>

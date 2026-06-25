@@ -61,6 +61,7 @@ export const en = {
     copyright: "© 2026 Charls Flowers Miami. All rights reserved.",
     tagline: "Miami's premier flower shop — custom bouquets & same-day delivery.",
     cookiePreferences: "Cookie preferences",
+    nationwideDelivery: "Nationwide Flower Delivery",
   },
 
   // Cookie banner & preferences

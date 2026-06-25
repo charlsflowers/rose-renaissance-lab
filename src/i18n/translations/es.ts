@@ -59,6 +59,7 @@ export const es = {
     copyright: "© 2026 Charls Flowers Miami. Todos los derechos reservados.",
     tagline: "La florería premium de Miami — ramos personalizados y envío el mismo día.",
     cookiePreferences: "Preferencias de cookies",
+    nationwideDelivery: "Envío de flores a todo EE.UU.",
   },
 
   cookies: {
