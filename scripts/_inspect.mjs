@@ -1,0 +1,26 @@
+import puppeteer from "puppeteer";
+import { createServer } from "node:http";
+import { readFileSync, existsSync, statSync } from "node:fs";
+import { join, extname } from "node:path";
+const DIST = "/dev-server/dist";
+const server = createServer((req, res) => {
+  const p = decodeURIComponent((req.url || "/").split("?")[0]);
+  let f = join(DIST, p);
+  if (!existsSync(f) || !statSync(f).isFile()) f = join(DIST, "index.html");
+  res.writeHead(200);
+  res.end(readFileSync(f));
+});
+await new Promise(r => server.listen(4180, r));
+const browser = await puppeteer.launch({ headless: "new", executablePath: "/bin/chromium", args: ["--no-sandbox"] });
+const page = await browser.newPage();
+page.on("console", m => console.log("[console]", m.text()));
+page.on("pageerror", e => console.log("[pageerror]", e.message));
+await page.goto("http://localhost:4180/flower-delivery/atlanta", { waitUntil: "networkidle0" });
+await new Promise(r => setTimeout(r, 1500));
+const head = await page.evaluate(() => document.head.innerHTML);
+console.log("=== HEAD (last 2000) ===");
+console.log(head.slice(-2000));
+const h1 = await page.evaluate(() => document.querySelector("h1")?.outerHTML || "NO H1");
+console.log("=== H1 ===", h1);
+await browser.close();
+server.close();
