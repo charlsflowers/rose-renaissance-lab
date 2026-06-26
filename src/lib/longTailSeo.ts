@@ -665,6 +665,52 @@ export const LONG_TAIL_SEO: Record<string, LongTailEntry> = {
       altVariant: "Flores para el Día de la Madre — Miami",
     },
   },
+
+  // ───────────── H. Bicolor (two-tone roses) ─────────────
+  bicolor: {
+    en: {
+      intro:
+        "Two-tone bicolor roses make a bold, eye-catching gift — our bicolor rose bouquets blend two colors in one arrangement, hand-arranged in Miami for same-day delivery.",
+      sections: [
+        {
+          h2: "Bicolor roses — two-tone roses bouquet, built by hand",
+          body: "Every bicolor rose bouquet pairs two complementary cultivars in the same arrangement — a two-tone roses bouquet that reads cleaner in photos and on camera than a generic mixed bunch. We compose every bicolor on the morning of the delivery.",
+        },
+        {
+          h2: "Red and white roses bouquet and other two color roses combinations",
+          body: "The classic red and white roses bouquet is our most-requested two color roses combo for anniversaries and romantic dinners. We also build bicolor pairings with pink, yellow and purple cultivars when the brief is less traditional.",
+        },
+      ],
+      closing: "Prefer a single tone? Try our {{0}}, browse the full {{1}} or every variety of {{2}}.",
+      links: [
+        { anchor: "red and white roses", to: "/bouquets/white-roses" },
+        { anchor: "rose bouquet", to: "/bouquets" },
+        { anchor: "roses", to: "/bouquets" },
+      ],
+      altVariant: "Bicolor red and white roses bouquet — Miami",
+    },
+    es: {
+      intro:
+        "Las rosas bicolor combinan dos colores en un mismo ramo — un regalo que llama la atención, hecho a mano en Miami con entrega el mismo día.",
+      sections: [
+        {
+          h2: "Rosas bicolor — ramo de rosas de dos colores",
+          body: "Cada ramo de rosas de dos colores se monta a mano con cultivos complementarios para que el contraste se lea limpio en foto y en mano. Preparamos las rosas bicolor el mismo día del envío.",
+        },
+        {
+          h2: "Ramo de rosas blancas y rojas y otras combinaciones bicolor",
+          body: "El ramo de rosas blancas y rojas sigue siendo la combinación bicolor más pedida para aniversarios. También combinamos rosa con amarillo, blanco con morado y otras parejas según la ocasión.",
+        },
+      ],
+      closing: "Si prefieres un solo tono prueba nuestras {{0}}, mira todo el {{1}} o el catálogo completo de {{2}}.",
+      links: [
+        { anchor: "rosas rojas", to: "/es/bouquets/rosas-rojas" },
+        { anchor: "ramo de rosas", to: "/es/bouquets" },
+        { anchor: "rosas", to: "/es/bouquets" },
+      ],
+      altVariant: "Ramo de rosas bicolor — Miami",
+    },
+  },
 };
 
 /** Convenience: pick the right language block for a key. */
