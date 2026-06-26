@@ -179,6 +179,30 @@ const CityShippingPage = () => {
           </section>
 
           {/* Index back-link */}
+          {nearbyCities.length > 0 && (
+            <section className="mt-12">
+              <h2 className="font-title-retro text-2xl md:text-3xl text-foreground mb-4">
+                {isEs ? "Ciudades cercanas" : "Nearby cities"}
+              </h2>
+              <ul className="flex flex-wrap gap-3">
+                {nearbyCities.map((n) => {
+                  const to = isEs ? `/envio-de-flores/${n.slugEs}` : `/flower-delivery/${n.slug}`;
+                  const anchor = isEs ? `envío de flores a ${n.name}` : `flower delivery to ${n.name}`;
+                  return (
+                    <li key={n.slug}>
+                      <Link
+                        to={to}
+                        className="inline-flex items-center gap-1 bg-cream/60 hover:bg-cream border border-border rounded-full px-4 py-2 font-body text-sm text-primary"
+                      >
+                        {anchor}
+                      </Link>
+                    </li>
+                  );
+                })}
+              </ul>
+            </section>
+          )}
+
           <div className="mt-10 text-center">
             <Link
               to={isEs ? "/envio-de-flores" : "/flower-delivery"}
