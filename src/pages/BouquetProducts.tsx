@@ -152,6 +152,8 @@ const BouquetProducts = ({ initialFilter: propFilter, colorCollection }: Bouquet
     ? "mixed-color"
     : filter === "zodiac"
     ? "zodiac"
+    : filter === "bicolor"
+    ? "bicolor"
     : undefined;
 
   // Build the language-correct path to a color collection. ES uses the NATIVE
