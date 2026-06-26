@@ -149,8 +149,13 @@ async function snapshot(route) {
       waitUntil: "networkidle0",
       timeout: 30_000,
     });
-    // Give Helmet + lazy components one extra microtask tick.
-    await new Promise((r) => setTimeout(r, 400));
+    // Give Helmet + lazy components time to mount, then wait two animation
+    // frames — react-helmet-async batches head mutations via requestAnimationFrame,
+    // so without this the snapshot misses canonical/hreflang/JSON-LD.
+    await new Promise((r) => setTimeout(r, 1200));
+    await page.evaluate(
+      () => new Promise((r) => requestAnimationFrame(() => requestAnimationFrame(r))),
+    );
 
     // Mark the root so the client hydrates instead of re-rendering.
     await page.evaluate(() => {
