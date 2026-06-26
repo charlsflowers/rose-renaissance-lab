@@ -227,6 +227,7 @@ const BouquetProducts = ({ initialFilter: propFilter, colorCollection }: Bouquet
           filteredProducts.map(p => ({
             name: p.name,
             url: `https://www.charlsflowers.com/bouquets/${slugForHandle(p.shopifyHandle)}`,
+            image: p.image || undefined,
           })),
           heading,
         ),
