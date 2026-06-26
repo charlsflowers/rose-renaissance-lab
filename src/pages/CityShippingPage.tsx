@@ -6,8 +6,8 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import SeoHead from "@/components/SeoHead";
 import Breadcrumbs from "@/components/Breadcrumbs";
-import JsonLd, { breadcrumbSchema } from "@/components/JsonLd";
-import { findCityBySlug } from "@/lib/cityPagesData";
+import JsonLd, { breadcrumbSchema, localBusinessSchema } from "@/components/JsonLd";
+import { findCityBySlug, cityPages } from "@/lib/cityPagesData";
 import { useTranslation } from "@/i18n/LanguageContext";
 import NotFound from "@/pages/NotFound";
 
@@ -61,10 +61,17 @@ const CityShippingPage = () => {
     { name: city.name, url: isEs ? esUrl : enUrl },
   ]);
 
+  // Nearby-cities cluster: pick the next 4 cities in the dataset (wrap-around)
+  // so every city page links to peers — a simple local internal-link cluster.
+  const idx = cityPages.findIndex((c) => c.slug === city.slug);
+  const nearbyCities = idx >= 0
+    ? Array.from({ length: 4 }, (_, i) => cityPages[(idx + i + 1) % cityPages.length])
+    : [];
+
   return (
     <div className="min-h-screen bg-background">
       <SeoHead title={title} description={description} path={path} pathEs={pathEs} />
-      <JsonLd data={[serviceSchema, breadcrumbs]} />
+      <JsonLd data={[localBusinessSchema(), serviceSchema, breadcrumbs]} />
       <Navbar />
       <div className="pt-24 pb-16">
         <div className="container mx-auto px-6 max-w-4xl">
