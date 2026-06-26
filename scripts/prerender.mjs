@@ -146,8 +146,8 @@ async function snapshot(route) {
 
   try {
     await page.goto(`http://localhost:${PORT}${route}`, {
-      waitUntil: "networkidle0",
-      timeout: 30_000,
+      waitUntil: "networkidle2",
+      timeout: 45_000,
     });
     // Give Helmet + lazy components time to mount, then wait two animation
     // frames — react-helmet-async batches head mutations via requestAnimationFrame,
@@ -190,6 +190,14 @@ await Promise.all(
     }
   }),
 );
+
+// Retry routes that failed on the first pass (transient timeouts, e.g. the heavy
+// home page with its hero video) with a fresh attempt before giving up.
+if (failed.length) {
+  const retry = failed.splice(0, failed.length).map((f) => f.route);
+  console.log(`[prerender] retrying ${retry.length} failed route(s)...`);
+  for (const r of retry) await snapshot(r);
+}
 
 await browser.close();
 server.close();
