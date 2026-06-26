@@ -229,6 +229,7 @@ for (const c of colorCollections) {
 }
 push("/bouquets/single-color",  "weekly",  "0.8");
 push("/bouquets/mixed-color",   "weekly",  "0.8");
+push("/bouquets/bicolor",       "weekly",  "0.8");
 push("/bouquets/zodiac",        "weekly",  "0.8");
 push("/bouquets/personalizar",  "monthly", "0.8");
 push("/room-decors",            "weekly",  "0.8");

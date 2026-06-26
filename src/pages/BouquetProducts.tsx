@@ -152,6 +152,8 @@ const BouquetProducts = ({ initialFilter: propFilter, colorCollection }: Bouquet
     ? "mixed-color"
     : filter === "zodiac"
     ? "zodiac"
+    : filter === "bicolor"
+    ? "bicolor"
     : undefined;
 
   // Build the language-correct path to a color collection. ES uses the NATIVE
@@ -225,6 +227,7 @@ const BouquetProducts = ({ initialFilter: propFilter, colorCollection }: Bouquet
           filteredProducts.map(p => ({
             name: p.name,
             url: `https://www.charlsflowers.com/bouquets/${slugForHandle(p.shopifyHandle)}`,
+            image: p.image || undefined,
           })),
           heading,
         ),

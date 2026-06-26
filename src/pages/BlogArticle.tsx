@@ -147,6 +147,7 @@ const BlogArticle = () => {
         path={`/blog/${article.slug.current}`}
         image={imageUrl}
         type="article"
+        noAlternateEs={article.language !== "es"}
         article={{ datePublished: article.publishedAt, dateModified: article.updatedAt }}
       />
       <JsonLd

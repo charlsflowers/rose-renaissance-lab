@@ -125,7 +125,10 @@ export const productSchema = (name: string, description: string, price: number, 
  * ItemList schema for collection / listing pages.
  * `items` must already be in display order. URLs are absolute web routes.
  */
-export const itemListSchema = (items: { name: string; url: string }[], listName?: string) => ({
+export const itemListSchema = (
+  items: { name: string; url: string; image?: string }[],
+  listName?: string,
+) => ({
   "@context": "https://schema.org",
   "@type": "ItemList",
   ...(listName ? { name: listName } : {}),
@@ -133,8 +136,13 @@ export const itemListSchema = (items: { name: string; url: string }[], listName?
   itemListElement: items.map((item, i) => ({
     "@type": "ListItem",
     position: i + 1,
-    name: item.name,
     url: item.url,
+    item: {
+      "@type": "Product",
+      name: item.name,
+      url: item.url,
+      ...(item.image ? { image: item.image } : {}),
+    },
   })),
 });
 

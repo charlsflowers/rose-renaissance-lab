@@ -17,6 +17,13 @@ interface SeoHeadProps {
   image?: string;
   type?: "website" | "article";
   noindex?: boolean;
+  /**
+   * EN-only pages (e.g. Sanity blog posts without an ES translation) should
+   * NOT emit an ES `hreflang` alternate — otherwise crawlers follow a link
+   * that 301s back to EN and the cluster is broken. When true we emit only
+   * the self-referencing EN alternate.
+   */
+  noAlternateEs?: boolean;
   article?: {
     datePublished: string;
     dateModified?: string;
@@ -24,7 +31,7 @@ interface SeoHeadProps {
   };
 }
 
-const SeoHead = ({ title, description, path = "", pathEs, image, type = "website", noindex = false, article }: SeoHeadProps) => {
+const SeoHead = ({ title, description, path = "", pathEs, image, type = "website", noindex = false, noAlternateEs = false, article }: SeoHeadProps) => {
   const { language } = useTranslation();
   const ogImage = image || DEFAULT_IMAGE;
 
@@ -49,8 +56,8 @@ const SeoHead = ({ title, description, path = "", pathEs, image, type = "website
 
       {/* hreflang — declares both EN and ES versions of this page */}
       <link rel="alternate" hrefLang="en" href={enUrl} />
-      <link rel="alternate" hrefLang="es" href={esUrl} />
-      <link rel="alternate" hrefLang="x-default" href={enUrl} />
+      {!noAlternateEs && <link rel="alternate" hrefLang="es" href={esUrl} />}
+      {!noAlternateEs && <link rel="alternate" hrefLang="x-default" href={enUrl} />}
 
       {/* Open Graph */}
       <meta property="og:title" content={title} />
@@ -59,8 +66,8 @@ const SeoHead = ({ title, description, path = "", pathEs, image, type = "website
       <meta property="og:url" content={canonical} />
       <meta property="og:type" content={type} />
       <meta property="og:locale" content={ogLocale} />
-      {language === "es" && <meta property="og:locale:alternate" content="en_US" />}
-      {language === "en" && <meta property="og:locale:alternate" content="es_US" />}
+      {!noAlternateEs && language === "es" && <meta property="og:locale:alternate" content="en_US" />}
+      {!noAlternateEs && language === "en" && <meta property="og:locale:alternate" content="es_US" />}
       <meta property="og:site_name" content="Charls Flowers" />
 
       {/* Twitter */}
