@@ -6,6 +6,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import SeoHead from "@/components/SeoHead";
 import Breadcrumbs from "@/components/Breadcrumbs";
+import TableOfContents, { type TocItem } from "@/components/TableOfContents";
 import JsonLd, { breadcrumbSchema, itemListSchema } from "@/components/JsonLd";
 import { findOccasionBySlug } from "@/lib/occasionPagesData";
 import { findFlowerTypeBySlug } from "@/lib/flowerTypePagesData";
@@ -113,6 +114,26 @@ const OccasionPage = () => {
     { name: h1, url: selfUrl },
   ]);
 
+  // Navigable in-page index (jump-links). Products first so a user who already
+  // knows what they want can go straight to them without scrolling the info
+  // blocks; then each body section; then the recommendations cluster.
+  const toc: TocItem[] = [
+    ...(liveProducts.length > 0
+      ? [{ id: "available-now", label: isEs ? "Disponibles ahora" : "Available now" }]
+      : []),
+    ...occ.sections.map((s, i) => ({
+      id: `section-${i}`,
+      label: isEs ? s.h2.es : s.h2.en,
+    })),
+    {
+      id: "recommendations",
+      label:
+        liveProducts.length > 0
+          ? isEs ? "También te puede gustar" : "You may also like"
+          : isEs ? "Lo que enviamos hoy" : "What we deliver today",
+    },
+  ];
+
   const onSubmit = (e: FormEvent) => {
     e.preventDefault();
     if (!email || !email.includes("@")) return;
@@ -149,11 +170,14 @@ const OccasionPage = () => {
           <h1 className="font-title-retro text-3xl md:text-5xl text-primary mb-4">{h1}</h1>
           <p className="font-body text-base md:text-lg text-foreground leading-relaxed mb-8">{intro}</p>
 
+          {/* Navigable index (jump-links) — skip the info blocks, go to products. */}
+          <TableOfContents items={toc} heading={isEs ? "En esta página" : "On this page"} />
+
           {/* Live Shopify collection grid — renders only when the linked Shopify
               collection has products. Empty collection → keeps the existing
               SEO + cluster + "notify me" fallback below, unchanged. */}
           {liveProducts.length > 0 && (
-            <section className="mb-14">
+            <section id="available-now" className="scroll-mt-28 mb-14">
               <h2 className="font-title-retro text-2xl md:text-3xl text-foreground mb-5">
                 {isEs ? "Disponibles ahora" : "Available now"}
               </h2>
@@ -185,7 +209,7 @@ const OccasionPage = () => {
           {/* Body sections — H2 + body for each */}
           <div className="space-y-10 mb-14">
             {occ.sections.map((s, i) => (
-              <section key={i}>
+              <section key={i} id={`section-${i}`} className="scroll-mt-28">
                 <h2 className="font-title-retro text-2xl md:text-3xl text-foreground mb-3">
                   {isEs ? s.h2.es : s.h2.en}
                 </h2>
@@ -197,7 +221,7 @@ const OccasionPage = () => {
           </div>
 
           {/* Internal-link cluster: smaller-volume → bigger */}
-          <section className="bg-cream rounded-lg p-6 md:p-8 mb-12">
+          <section id="recommendations" className="scroll-mt-28 bg-cream rounded-lg p-6 md:p-8 mb-12">
             <h2 className="font-title-retro text-2xl md:text-3xl text-primary mb-2">
               {liveProducts.length > 0
                 ? (isEs ? "También te puede gustar" : "You may also like")

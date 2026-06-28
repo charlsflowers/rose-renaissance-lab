@@ -6,6 +6,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, useParams } from "react-router-dom";
 import { Navigate } from "@/i18n/LocalizedRouter";
 import FloatingCart from "@/components/FloatingCart";
+import MobileOrbitalNav from "@/components/MobileOrbitalNav";
 import CookieBanner from "@/components/CookieBanner";
 import { landingPages } from "@/lib/landingPagesData";
 import { bouquetProducts } from "@/lib/catalogData";
@@ -215,6 +216,7 @@ const AppContent = () => {
     <>
       <ScrollToTop />
       <FloatingCart />
+      <MobileOrbitalNav />
       <CookieBanner />
       <Suspense
         fallback={

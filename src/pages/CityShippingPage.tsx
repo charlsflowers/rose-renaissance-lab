@@ -6,6 +6,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import SeoHead from "@/components/SeoHead";
 import Breadcrumbs from "@/components/Breadcrumbs";
+import TableOfContents, { type TocItem } from "@/components/TableOfContents";
 import JsonLd, { breadcrumbSchema, localBusinessSchema } from "@/components/JsonLd";
 import { findCityBySlug, cityPages } from "@/lib/cityPagesData";
 import { useTranslation } from "@/i18n/LanguageContext";
@@ -68,6 +69,19 @@ const CityShippingPage = () => {
     ? Array.from({ length: 4 }, (_, i) => cityPages[(idx + i + 1) % cityPages.length])
     : [];
 
+  // Navigable in-page index (jump-links). "Pide tus rosas" (the product CTAs) is
+  // listed so a user who already wants to buy can jump straight there without
+  // scrolling the logistics/neighborhoods/occasions info blocks.
+  const toc: TocItem[] = [
+    { id: "order-roses", label: isEs ? `Pide tus rosas` : `Order roses` },
+    { id: "why-different", label: isEs ? `Por qué ${city.name} es distinto` : `Why ${city.name} is different` },
+    { id: "neighborhoods", label: isEs ? "Barrios que cubrimos" : "Neighborhoods we cover" },
+    { id: "occasions", label: isEs ? "Ocasiones populares" : "Popular occasions" },
+    ...(nearbyCities.length > 0
+      ? [{ id: "nearby-cities", label: isEs ? "Ciudades cercanas" : "Nearby cities" }]
+      : []),
+  ];
+
   return (
     <div className="min-h-screen bg-background">
       <SeoHead title={title} description={description} path={path} pathEs={pathEs} />
@@ -91,6 +105,9 @@ const CityShippingPage = () => {
             </p>
           </div>
 
+          {/* Navigable index (jump-links) — skip the info blocks, go to the order CTAs. */}
+          <TableOfContents items={toc} heading={isEs ? "En esta página" : "On this page"} />
+
           {/* FedEx logistics */}
           <div className="grid md:grid-cols-3 gap-4 mb-12">
             <div className="bg-white border border-border rounded-lg p-5">
@@ -111,7 +128,7 @@ const CityShippingPage = () => {
           </div>
 
           {/* Local touch */}
-          <section className="mb-12">
+          <section id="why-different" className="scroll-mt-28 mb-12">
             <h2 className="font-title-retro text-2xl md:text-3xl text-foreground mb-4">
               {isEs ? `Por qué ${city.name} es distinto` : `Why ${city.name} is different`}
             </h2>
@@ -121,7 +138,7 @@ const CityShippingPage = () => {
           </section>
 
           {/* Neighborhoods + ZIPs */}
-          <section className="mb-12">
+          <section id="neighborhoods" className="scroll-mt-28 mb-12">
             <h2 className="font-title-retro text-2xl md:text-3xl text-foreground mb-4">
               {isEs ? `Barrios que cubrimos en ${city.name}` : `Neighborhoods we cover in ${city.name}`}
             </h2>
@@ -141,7 +158,7 @@ const CityShippingPage = () => {
           </section>
 
           {/* Occasions */}
-          <section className="mb-12">
+          <section id="occasions" className="scroll-mt-28 mb-12">
             <h2 className="font-title-retro text-2xl md:text-3xl text-foreground mb-4">
               {isEs ? `Ocasiones populares en ${city.name}` : `Popular occasions in ${city.name}`}
             </h2>
@@ -156,7 +173,7 @@ const CityShippingPage = () => {
           </section>
 
           {/* CTAs */}
-          <section className="bg-primary/5 border border-primary/20 rounded-lg p-6 md:p-8 text-center">
+          <section id="order-roses" className="scroll-mt-28 bg-primary/5 border border-primary/20 rounded-lg p-6 md:p-8 text-center">
             <h2 className="font-title-retro text-2xl md:text-3xl text-primary mb-4">
               {isEs ? `Pide tus rosas para ${city.name}` : `Order roses to ${city.name}`}
             </h2>
@@ -180,7 +197,7 @@ const CityShippingPage = () => {
 
           {/* Index back-link */}
           {nearbyCities.length > 0 && (
-            <section className="mt-12">
+            <section id="nearby-cities" className="scroll-mt-28 mt-12">
               <h2 className="font-title-retro text-2xl md:text-3xl text-foreground mb-4">
                 {isEs ? "Ciudades cercanas" : "Nearby cities"}
               </h2>

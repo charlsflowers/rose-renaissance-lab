@@ -11,6 +11,7 @@ import JsonLd, { blogPostingSchema, breadcrumbSchema } from "@/components/JsonLd
 import { fetchBlogPost, urlFor, type SanityImage } from "@/lib/sanity";
 import { retiredBlogSlugs } from "@/lib/blogData";
 import { landingPages } from "@/lib/landingPagesData";
+import { resolveBlogInterlinks } from "@/lib/blogInterlinks";
 import { useTranslation } from "@/i18n/LanguageContext";
 
 const BASE_URL = "https://www.charlsflowers.com";
@@ -139,6 +140,18 @@ const BlogArticle = () => {
     })
     .filter((x): x is { slug: string; label: string } => x !== null);
 
+  // Logic-driven internal linking: blog article → affine on-site categories,
+  // ordered low → high search volume (chain logic), ending at the main category.
+  // Hints come from the article's Sanity categories AND its relatedLandings.
+  const interlinkHints = [
+    ...((article.categories ?? []).map((c) => c.slug?.current).filter(Boolean) as string[]),
+    ...((article.relatedLandings ?? []) as string[]),
+  ];
+  const categoryInterlinks = resolveBlogInterlinks(
+    interlinkHints,
+    article.language === "es" ? "es" : "en",
+  );
+
   return (
     <div className="min-h-screen bg-background">
       <SeoHead
@@ -219,6 +232,28 @@ const BlogArticle = () => {
                     <li key={rel.slug}>
                       <Link to={`/${rel.slug}`} className="text-primary hover:underline font-body">
                         → {rel.label}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </section>
+            )}
+
+            {/* Interlinking blog → categoría afín (lógica de cadena / PageRank):
+                cuando el artículo declara categorías/landings afines, enlazamos
+                hacia esas colecciones ordenadas de menor a mayor volumen y
+                terminamos en la categoría principal. Anchor = el propio
+                keyword/título de la colección (no inventado aquí). */}
+            {categoryInterlinks.length > 1 && (
+              <section className="mt-12 pt-8 border-t border-border">
+                <h2 className="font-display text-xl font-semibold text-foreground mb-4">
+                  {language === "es" ? "Colecciones relacionadas" : "Related collections"}
+                </h2>
+                <ul className="space-y-2 font-body">
+                  {categoryInterlinks.map((l) => (
+                    <li key={l.to}>
+                      <Link to={l.to} className="text-primary hover:underline">
+                        → {l.anchor}
                       </Link>
                     </li>
                   ))}

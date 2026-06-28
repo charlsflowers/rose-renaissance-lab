@@ -350,6 +350,13 @@ export const en = {
     viewAllColorSuffix: "bouquets in Miami",
   },
 
+  // Dynamic cross-clusters (auto-updating internal-link blocks) + mobile orbital nav
+  clusters: {
+    newest: "New arrivals",
+    byColor: "Shop roses by color",
+    quickNav: "Quick navigation",
+  },
+
   // Bouquet Builder
   builder: {
     customize: "Customize",

@@ -24,6 +24,7 @@ import {
   type RoseColor,
 } from "@/lib/colorCollections";
 import { LongTailIntro, LongTailBody } from "@/components/LongTailSeoBlock";
+import DynamicClusters from "@/components/DynamicClusters";
 
 type FilterType = "all" | "un-color" | "mezclas" | "zodiac" | "bicolor";
 
@@ -356,6 +357,10 @@ const BouquetProducts = ({ initialFilter: propFilter, colorCollection }: Bouquet
 
       {/* Long-tail body block — H2/H3 + copy + internal-link cluster. */}
       <LongTailBody seoKey={longTailKey} />
+
+      {/* Dynamic cross-clusters — in-body, auto-updating internal links. Refreshes
+          on every collection/color page whenever a product is published/re-tagged. */}
+      <DynamicClusters />
 
       {/* CTA */}
       <WaveDivider position="top" color="hsl(var(--primary))" />

@@ -11,6 +11,8 @@ import { isMothersDayPromoActive } from "@/lib/mothersDayPromo";
 import MothersDayHero from "@/components/MothersDayHero";
 import MothersDayBanner from "@/components/MothersDayBanner";
 import MothersDayCollectionSection from "@/components/MothersDayCollectionSection";
+import DynamicClusters from "@/components/DynamicClusters";
+import { useTsgExperiment } from "@/hooks/useTsgExperiment";
 import arreglosImg from "@/assets/arreglos.webp";
 import cajasImg from "@/assets/cajas.webp";
 import cestasImg from "@/assets/cestas.webp";
@@ -25,6 +27,12 @@ const comingSoonSlugs = ["arreglos", "cajas", "cestas", "jarrones"];
 const Index = ({ noindex = false }: { noindex?: boolean } = {}) => {
   const { t } = useTranslation();
   const promoActive = isMothersDayPromoActive();
+  // TSG morphology A/B test (Romuald, Armada SEO 2025, Módulo 15 clase 08):
+  // 50/50 split iterating the FRANJA ORDER of the home. Variant "A" keeps the
+  // product-first order (Categories first, Occasions later); variant "B" leads
+  // with the informational "Occasions" franja before Categories. GA4 measures
+  // which morphology segments/converts better.
+  const tsgVariant = useTsgExperiment("home-franja-order");
   // Live Bicolor Passion image (current first photo from Shopify)
   const bicolorImgs = useShopifyProductImages("bicolor-passion");
   const bicolorPassionImg = bicolorImgs.primary || bicolorPassionImgFallback;
@@ -54,6 +62,26 @@ const Index = ({ noindex = false }: { noindex?: boolean } = {}) => {
     { text: t("home.babyShower"), icon: Sparkles },
     { text: t("home.anniversaryRoses"), icon: Heart },
   ];
+
+  // Occasions (informational franja) — extracted so the TSG test can place it
+  // either after Categories (variant A) or before them (variant B).
+  const occasionsSection = (
+    <section className="py-16 md:py-20 bg-background">
+      <div className="container mx-auto px-6">
+        <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.8 }} className="text-center mb-10">
+          <h2 className="font-title-retro text-4xl md:text-5xl text-primary">{t("home.occasionsTitle")}</h2>
+        </motion.div>
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-6 max-w-3xl mx-auto text-center">
+          {occasions.map(({ text, icon: Icon }) => (
+            <div key={text} className="flex flex-col items-center gap-2 p-4">
+              <Icon className="w-5 h-5 text-primary" />
+              <h3 className="font-display text-sm md:text-base font-semibold text-foreground">{text}</h3>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
 
   return (
     <div className="min-h-screen bg-background overflow-x-hidden">
@@ -153,6 +181,9 @@ const Index = ({ noindex = false }: { noindex?: boolean } = {}) => {
           </div>
         </div>
       </section>
+
+      {/* TSG variant B: lead with the informational Occasions franja before Categories. */}
+      {tsgVariant === "B" && occasionsSection}
 
       {/* Categories */}
       <section className="py-16 md:py-20 bg-background">
@@ -344,22 +375,8 @@ const Index = ({ noindex = false }: { noindex?: boolean } = {}) => {
         </div>
       </div>
 
-      {/* Occasions — SEO H3 section */}
-      <section className="py-16 md:py-20 bg-background">
-        <div className="container mx-auto px-6">
-          <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.8 }} className="text-center mb-10">
-            <h2 className="font-title-retro text-4xl md:text-5xl text-primary">{t("home.occasionsTitle")}</h2>
-          </motion.div>
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-6 max-w-3xl mx-auto text-center">
-            {occasions.map(({ text, icon: Icon }) => (
-              <div key={text} className="flex flex-col items-center gap-2 p-4">
-                <Icon className="w-5 h-5 text-primary" />
-                <h3 className="font-display text-sm md:text-base font-semibold text-foreground">{text}</h3>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+      {/* Occasions — SEO H3 section. TSG variant A: keep it here (after Categories). */}
+      {tsgVariant === "A" && occasionsSection}
 
       {/* Same-Day Delivery + Google Maps */}
       <section className="py-16 md:py-20">
@@ -389,6 +406,10 @@ const Index = ({ noindex = false }: { noindex?: boolean } = {}) => {
           </div>
         </div>
       </section>
+
+      {/* Dynamic cross-clusters — in-body, auto-updating internal links. A new
+          product re-injects these blocks here AND on every collection page. */}
+      <DynamicClusters />
 
       </main>
       <Footer />

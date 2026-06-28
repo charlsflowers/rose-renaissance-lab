@@ -338,6 +338,13 @@ export const es = {
     viewAllColorSuffix: "en Miami",
   },
 
+  // Clusters dinámicos (bloques de enlaces internos auto-actualizables) + nav orbital móvil
+  clusters: {
+    newest: "Novedades",
+    byColor: "Rosas por color",
+    quickNav: "Navegación rápida",
+  },
+
   builder: {
     customize: "Personalizar",
     title: "Crea Tu Ramo",
