@@ -229,6 +229,9 @@ const BouquetProducts = ({ initialFilter: propFilter, colorCollection }: Bouquet
             name: p.name,
             url: `https://www.charlsflowers.com/bouquets/${slugForHandle(p.shopifyHandle)}`,
             image: p.image || undefined,
+            // Real catalog price (same fallback the visible price uses) so each
+            // Product in the ItemList carries a valid Offer for Google.
+            price: p.customSizes ? p.customSizes[0].price : getPrice(p.pricingTier, (p.pricingTier === 'mix3red' || (p.color.includes(',') && p.pricingTier === 'standard')) ? 75 : 50),
           })),
           heading,
         ),

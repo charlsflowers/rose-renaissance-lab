@@ -112,13 +112,19 @@ export const productSchema = (name: string, description: string, price: number, 
   description,
   brand: { "@type": "Brand", name: "Charls Flowers" },
   ...(image ? { image } : {}),
-  offers: {
-    "@type": "Offer",
-    priceCurrency: "USD",
-    price: price.toFixed(2),
-    availability: "https://schema.org/InStock",
-    seller: { "@type": "Organization", name: "Charls Flowers" },
-  },
+  // Only emit a (valid) Offer when there is a real price (> 0). Google rejects
+  // an Offer with price 0 / missing, which would re-trigger the same critical.
+  ...(price > 0
+    ? {
+        offers: {
+          "@type": "Offer",
+          priceCurrency: "USD",
+          price: price.toFixed(2),
+          availability: "https://schema.org/InStock",
+          seller: { "@type": "Organization", name: "Charls Flowers" },
+        },
+      }
+    : {}),
 });
 
 /**
@@ -126,24 +132,44 @@ export const productSchema = (name: string, description: string, price: number, 
  * `items` must already be in display order. URLs are absolute web routes.
  */
 export const itemListSchema = (
-  items: { name: string; url: string; image?: string }[],
+  items: { name: string; url: string; image?: string; price?: number }[],
   listName?: string,
 ) => ({
   "@context": "https://schema.org",
   "@type": "ItemList",
   ...(listName ? { name: listName } : {}),
   numberOfItems: items.length,
-  itemListElement: items.map((item, i) => ({
-    "@type": "ListItem",
-    position: i + 1,
-    url: item.url,
-    item: {
-      "@type": "Product",
-      name: item.name,
+  itemListElement: items.map((item, i) => {
+    // Only items with a REAL price (> 0) are emitted as a full Product with an
+    // Offer — Google requires offers/review/aggregateRating on every Product.
+    // Price-less entries (city / occasion / flower-type index pages are NOT
+    // products) stay as plain ListItems pointing to their URL, so Google does
+    // not flag them as a Product missing an offer.
+    const hasPrice = typeof item.price === "number" && item.price > 0;
+    return {
+      "@type": "ListItem",
+      position: i + 1,
       url: item.url,
-      ...(item.image ? { image: item.image } : {}),
-    },
-  })),
+      name: item.name,
+      ...(hasPrice
+        ? {
+            item: {
+              "@type": "Product",
+              name: item.name,
+              url: item.url,
+              ...(item.image ? { image: item.image } : {}),
+              offers: {
+                "@type": "Offer",
+                priceCurrency: "USD",
+                price: item.price!.toFixed(2),
+                availability: "https://schema.org/InStock",
+                seller: { "@type": "Organization", name: "Charls Flowers" },
+              },
+            },
+          }
+        : {}),
+    };
+  }),
 });
 
 export const breadcrumbSchema = (items: { name: string; url: string }[]) => ({
