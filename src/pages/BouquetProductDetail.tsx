@@ -26,6 +26,7 @@ import NotFound from "@/pages/NotFound";
 import PaperColorPicker from "@/components/PaperColorPicker";
 import PaymentIcons from "@/components/PaymentIcons";
 import ProductTrustBlock from "@/components/ProductTrustBlock";
+import ProductTransactionalSeo from "@/components/ProductTransactionalSeo";
 import { StorePickupAlert } from "@/components/StorePickupAlert";
 import CollectionFAQ, { useBouquetFAQs } from "@/components/CollectionFAQ";
 import { bouquetProducts, bouquetSizeOptions } from "@/lib/catalogData";
@@ -1120,6 +1121,11 @@ const BouquetProductDetail = () => {
 
           {/* Cross-links — related products (above FAQs) */}
           <YouMightAlsoLove currentProductId={product.id} />
+
+          {/* Transactional SEO block (TSR) — per-color buy/delivery intent.
+              SEO copy + internal links only; never an H1. Not shown for
+              Mother's Day fichas (they have their own dedicated flow). */}
+          {!isMothersDayContext && <ProductTransactionalSeo product={product} />}
 
           {/* FAQs (shared desktop + mobile, after related products) */}
           <CollectionFAQ faqs={bouquetFAQs} />

@@ -128,3 +128,16 @@ export const colorCollectionForProduct = (
   isSingleColor(product)
     ? COLOR_COLLECTIONS.find((c) => productMatchesColor(product, c))
     : undefined;
+
+/**
+ * The dominant color of ANY product (single OR multi-color), used by the
+ * product-level transactional SEO block (productTransactionalSeo.ts) so even
+ * bicolor / tricolor bouquets get a per-color transactional block. For
+ * multi-color bouquets we return the FIRST matching color in
+ * COLOR_COLLECTIONS order — which is real-search-volume order — so the strongest
+ * color wins (e.g. a Red + White bouquet attaches to "red"). SEO only.
+ */
+export const dominantColorForProduct = (
+  product: BouquetProduct,
+): RoseColor | undefined =>
+  COLOR_COLLECTIONS.find((c) => productMatchesColor(product, c))?.color;
