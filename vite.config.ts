@@ -20,6 +20,8 @@ export default defineConfig(({ mode }) => ({
     dedupe: ["react", "react-dom", "react/jsx-runtime"],
   },
   build: {
+    // Navegadores modernos (2020+): evita generar JS "legacy" innecesario. No afecta a usuarios reales.
+    target: "es2020",
     // No precargar los chunks de Sanity en el index.html: el Studio (editor) solo se necesita en
     // /studio y el cliente solo en el blog. Se cargan bajo demanda, no en la home del cliente.
     modulePreload: {

@@ -1,0 +1,10 @@
+# Cache de larga duración para archivos con hash en el nombre (cambian de nombre al cambiar el contenido,
+# así que es seguro cachearlos "para siempre"). Acelera las visitas repetidas. No afecta a nada visual ni lógico.
+/assets/*
+  Cache-Control: public, max-age=31536000, immutable
+
+/fonts/*
+  Cache-Control: public, max-age=31536000, immutable
+
+*.woff2
+  Cache-Control: public, max-age=31536000, immutable
