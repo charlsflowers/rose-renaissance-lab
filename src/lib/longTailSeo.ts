@@ -88,11 +88,15 @@ export const LONG_TAIL_SEO: Record<string, LongTailEntry> = {
           body: "Un arreglo de rosas rojas sigue siendo el regalo de aniversario más pedido en Miami, y también funciona como detalle de última hora. Para combinaciones románticas en dos tonos, también preparamos el ramo de rosas blancas y rojas con la misma rapidez.",
         },
         {
-          // HUECO ES: no hay volumen ES verificado del Planner para las variantes de
-          // cantidad (docena / 100 rosas rojas) — copy en cantidad genérica, sin
-          // afirmar keyword ES. La raíz "rosas rojas" (5.400) sí está verificada.
-          h2: "Rosas rojas por docena o en formato grande",
-          body: "Desde una docena clásica de rosas rojas hasta formatos grandes de tallo largo para momentos importantes, montamos cada ramo de rosas rojas a mano el mismo día del envío en Miami.",
+          // Cola larga de cantidad — keywords ES VERIFICADAS del Keyword Planner
+          // (geo 2840 lang 1003, mercado hispano de US/Miami; "ramo de rosas rojas"
+          // también confirmado en geo 2724 ES). Volúmenes reales: "ramo de rosas
+          // rojas" 2.400 · "ramo de 100 rosas" 1.000 · "ramo de 50 rosas" 1.000 ·
+          // "rosas rojas naturales" 480 · "docena de rosas" 170 · "ramo de 12 rosas"
+          // 320 · "ramo de 100 rosas rojas" 70 · "ramo de 50 rosas rojas" 70 ·
+          // "ramo de rosas rojas naturales" 90 · "100 rosas rojas" 40.
+          h2: "Ramo de rosas rojas: desde una docena de rosas hasta 100 rosas rojas",
+          body: "Elige el tamaño según el mensaje. Un ramo de 12 rosas o una docena de rosas es el clásico de aniversario y San Valentín; para un gran gesto —una pedida, un aniversario grande— un ramo de 50 rosas o un ramo de 100 rosas impacta de verdad, y el ramo de 100 rosas rojas es nuestro más pedido en ese formato. Todos se montan con rosas rojas naturales de tallo largo el mismo día del envío en Miami.",
         },
       ],
       closing: "Si prefieres un tono más suave, mira nuestras {{0}}, todo el {{1}} disponible o el catálogo completo de {{2}}.",
