@@ -13,7 +13,7 @@ serve(async (req) => {
   try {
     const { input } = await req.json();
 
-    if (!input || input.length < 3) {
+    if (!input || typeof input !== "string" || input.length < 3 || input.length > 200) {
       return new Response(
         JSON.stringify({ predictions: [] }),
         { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }

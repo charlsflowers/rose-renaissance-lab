@@ -97,6 +97,14 @@ serve(async (req) => {
         headers: { ...corsHeaders, "Content-Type": "application/json" },
       });
     }
+
+    // Tope de longitud: evita reenviar strings enormes a las APIs de pago de Google (protege la cuota).
+    if (destination.length > 300 || (placeId && String(placeId).length > 300)) {
+      return new Response(JSON.stringify({ error: "Dirección demasiado larga" }), {
+        status: 400,
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
+    }
     const apiKey = Deno.env.get("GOOGLE_MAPS_API_KEY");
 
     if (!apiKey) {
