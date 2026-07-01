@@ -44,34 +44,53 @@ function pickBox(roses: number) {
 const SERVICE_LABELS: Record<string, string> = {
   STANDARD_OVERNIGHT: "Standard Overnight",
   PRIORITY_OVERNIGHT: "Priority Overnight",
-  FIRST_OVERNIGHT: "First Overnight",
-  FEDEX_2_DAY: "2 Day",
-  FEDEX_2_DAY_AM: "2 Day AM",
-  FEDEX_EXPRESS_SAVER: "Express Saver (3 Day)",
-  FEDEX_GROUND: "Ground",
   GROUND_HOME_DELIVERY: "Ground Home Delivery",
 };
 
-// Express services have a fixed transit by service definition (FedEx
-// guarantees these): overnight = 1 business day, 2 Day = 2, Express Saver = 3.
-// Used as the transit source for Express services because the FedEx Rate API
-// in this account does not return commit/transit data.
+// Only these 3 services are offered to the customer.
+const ALLOWED_SERVICES = new Set([
+  "STANDARD_OVERNIGHT",
+  "PRIORITY_OVERNIGHT",
+  "GROUND_HOME_DELIVERY",
+]);
+
+// Minimum business days per service (fallback when FedEx doesn't return a
+// delivery date). Overnight = 1, Home Delivery = 3 (approx; real transit
+// comes from FedEx returnTransitTimes).
 const SERVICE_MIN_BUSINESS_DAYS: Record<string, number> = {
-  FIRST_OVERNIGHT: 1,
   PRIORITY_OVERNIGHT: 1,
   STANDARD_OVERNIGHT: 1,
-  FEDEX_2_DAY_AM: 2,
-  FEDEX_2_DAY: 2,
-  FEDEX_EXPRESS_SAVER: 3,
   GROUND_HOME_DELIVERY: 3,
 };
 
-// shipDateStamp = delivery date − 1 day, in UTC YYYY-MM-DD. No time-of-day bump.
-function computeShipDateStamp(deliveryDateISO: string): string {
-  const delivery = new Date(`${deliveryDateISO}T12:00:00Z`);
-  const ship = new Date(delivery);
-  ship.setUTCDate(ship.getUTCDate() - 1);
-  return ship.toISOString().slice(0, 10);
+// Subtract N business days from an ISO date (skipping Sat/Sun).
+function subtractBusinessDays(iso: string, n: number): string {
+  const d = new Date(`${iso}T12:00:00Z`);
+  let left = n;
+  while (left > 0) {
+    d.setUTCDate(d.getUTCDate() - 1);
+    const dow = d.getUTCDay();
+    if (dow !== 0 && dow !== 6) left--;
+  }
+  return d.toISOString().slice(0, 10);
+}
+
+// Earliest allowed ship day = today in Miami (America/New_York), bumped to
+// next weekday if it lands on Sat/Sun. Backend guard; frontend enforces the
+// 11am cutoff.
+function earliestShipISO(): string {
+  const fmt = new Intl.DateTimeFormat("en-CA", {
+    timeZone: "America/New_York",
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+  });
+  const iso = fmt.format(new Date());
+  const d = new Date(`${iso}T12:00:00Z`);
+  while (d.getUTCDay() === 0 || d.getUTCDay() === 6) {
+    d.setUTCDate(d.getUTCDate() + 1);
+  }
+  return d.toISOString().slice(0, 10);
 }
 
 function businessDaysBetween(startISO: string, endISO: string): number {
@@ -156,58 +175,11 @@ serve(async (req) => {
     const accountNumber = Deno.env.get("FEDEX_ACCOUNT_NUMBER");
     if (!accountNumber) return json({ error: "FedEx account not configured" }, 500);
 
-    const shipDateStamp = computeShipDateStamp(deliveryDate);
+    const earliestShip = earliestShipISO();
+    // Overnight ship day = deliveryDate − 1 business day.
+    const overnightShip = subtractBusinessDays(deliveryDate, 1);
 
     const token = await getFedExToken();
-
-    const ratePayload = {
-      accountNumber: { value: accountNumber },
-      requestedShipment: {
-        shipper: { address: ORIGIN },
-        recipient: {
-          address: {
-            streetLines: recipient.streetLines,
-            city: recipient.city,
-            stateOrProvinceCode: stateCode,
-            postalCode: recipient.postalCode,
-            countryCode: "US",
-            residential: true,
-          },
-        },
-        shipDateStamp,
-        pickupType: "USE_SCHEDULED_PICKUP",
-        rateRequestType: ["ACCOUNT", "LIST"],
-        rateRequestControlParameters: { returnTransitTimes: true },
-        requestedPackageLineItems: [
-          {
-            weight: { units: "LB", value: box.weight },
-            dimensions: {
-              length: box.length,
-              width: box.width,
-              height: box.height,
-              units: "IN",
-            },
-          },
-        ],
-      },
-    };
-
-    const rateRes = await fetch(`${FEDEX_BASE}/rate/v1/rates/quotes`, {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "application/json",
-        "X-locale": "en_US",
-      },
-      body: JSON.stringify(ratePayload),
-    });
-    const rateJson = await rateRes.json();
-    if (!rateRes.ok) {
-      console.error("FedEx rate error:", JSON.stringify(rateJson));
-      return json({ error: "Error procesando la solicitud" }, 502);
-    }
-
-    const reply = rateJson?.output?.rateReplyDetails ?? [];
 
     type FedExRate = {
       serviceType?: string;
@@ -223,8 +195,127 @@ serve(async (req) => {
       deliveryDate?: string;
     };
 
-    const options = (reply as FedExRate[])
-      .map((r) => {
+    async function fetchRates(shipDateStamp: string): Promise<FedExRate[]> {
+      const ratePayload = {
+        accountNumber: { value: accountNumber },
+        requestedShipment: {
+          shipper: { address: ORIGIN },
+          recipient: {
+            address: {
+              streetLines: recipient.streetLines,
+              city: recipient.city,
+              stateOrProvinceCode: stateCode,
+              postalCode: recipient.postalCode,
+              countryCode: "US",
+              residential: true,
+            },
+          },
+          shipDateStamp,
+          pickupType: "USE_SCHEDULED_PICKUP",
+          rateRequestType: ["ACCOUNT", "LIST"],
+          rateRequestControlParameters: { returnTransitTimes: true },
+          requestedPackageLineItems: [
+            {
+              weight: { units: "LB", value: box.weight },
+              dimensions: {
+                length: box.length,
+                width: box.width,
+                height: box.height,
+                units: "IN",
+              },
+            },
+          ],
+        },
+      };
+      const res = await fetch(`${FEDEX_BASE}/rate/v1/rates/quotes`, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+          "X-locale": "en_US",
+        },
+        body: JSON.stringify(ratePayload),
+      });
+      const j = await res.json();
+      if (!res.ok) {
+        console.error("FedEx rate error:", JSON.stringify(j));
+        throw new Error("fedex_rate_error");
+      }
+      return (j?.output?.rateReplyDetails ?? []) as FedExRate[];
+    }
+
+    function estimatedDeliveryOf(r: FedExRate): string {
+      const raw =
+        r.operationalDetail?.deliveryDate ||
+        r.commit?.dateDetail?.dayFormat ||
+        r.deliveryDate ||
+        "";
+      return raw ? raw.slice(0, 10) : "";
+    }
+
+    // Collect (rate, shipDate) pairs to consider.
+    const candidates: Array<{ rate: FedExRate; shipDate: string }> = [];
+
+    // ---- Call A: overnight ship date ----
+    // Only worth calling if overnightShip is not before the earliest possible
+    // ship day.
+    let overnightRates: FedExRate[] = [];
+    if (overnightShip >= earliestShip) {
+      try {
+        overnightRates = await fetchRates(overnightShip);
+      } catch {
+        return json({ error: "Error procesando la solicitud" }, 502);
+      }
+      for (const r of overnightRates) {
+        if (r.serviceType === "STANDARD_OVERNIGHT" || r.serviceType === "PRIORITY_OVERNIGHT") {
+          candidates.push({ rate: r, shipDate: overnightShip });
+        }
+      }
+    }
+
+    // ---- Home Delivery: derive proper ship date from transit ----
+    // Use overnight response if available to read Home Delivery's transit,
+    // otherwise probe with earliestShip.
+    let homeProbe: FedExRate | undefined = overnightRates.find(
+      (r) => r.serviceType === "GROUND_HOME_DELIVERY",
+    );
+    let homeProbeShip = overnightShip;
+    if (!homeProbe) {
+      try {
+        const probeRates = await fetchRates(earliestShip);
+        homeProbe = probeRates.find((r) => r.serviceType === "GROUND_HOME_DELIVERY");
+        homeProbeShip = earliestShip;
+      } catch {
+        // ignore, home delivery just won't be offered
+      }
+    }
+
+    if (homeProbe) {
+      const probeDelivery = estimatedDeliveryOf(homeProbe);
+      let transitDays = probeDelivery
+        ? businessDaysBetween(homeProbeShip, probeDelivery)
+        : SERVICE_MIN_BUSINESS_DAYS.GROUND_HOME_DELIVERY;
+      if (transitDays < 1) transitDays = SERVICE_MIN_BUSINESS_DAYS.GROUND_HOME_DELIVERY;
+      const homeShip = subtractBusinessDays(deliveryDate, transitDays);
+      if (homeShip >= earliestShip) {
+        if (homeShip === homeProbeShip) {
+          candidates.push({ rate: homeProbe, shipDate: homeShip });
+        } else {
+          try {
+            const homeRates = await fetchRates(homeShip);
+            const homeRate = homeRates.find((r) => r.serviceType === "GROUND_HOME_DELIVERY");
+            if (homeRate) candidates.push({ rate: homeRate, shipDate: homeShip });
+          } catch {
+            // skip home delivery on error
+          }
+        }
+      }
+    }
+
+    const options = candidates
+      .map(({ rate: r, shipDate }) => {
+        const code = r.serviceType || "";
+        if (!ALLOWED_SERVICES.has(code)) return null;
         // Always prefer the ACCOUNT (negotiated) rate. LIST is requested only
         // so FedEx returns both, but we must never charge LIST to the client.
         const rated =
@@ -232,28 +323,20 @@ serve(async (req) => {
           r.ratedShipmentDetails?.[0];
         const amount = rated?.totalNetCharge;
         if (typeof amount !== "number") return null;
-        const code = r.serviceType || "";
-        // Transit source per service:
-        //  - Prefer FedEx-returned estimated delivery date (operationalDetail
-        //    or commit). Show the service ONLY if that date === deliveryDate.
-        //  - If FedEx does not return a date, fall back to minimum business
-        //    days per service definition.
-        const rawEstimated =
-          r.operationalDetail?.deliveryDate ||
-          r.commit?.dateDetail?.dayFormat ||
-          r.deliveryDate ||
-          "";
-        const estimatedDate = rawEstimated ? rawEstimated.slice(0, 10) : "";
+        // Show the service ONLY if FedEx's estimated delivery === deliveryDate
+        // and the ship day is not before the earliest allowed ship day.
+        const estimatedDate = estimatedDeliveryOf(r);
         let matches = false;
         if (estimatedDate) {
           matches = estimatedDate === deliveryDate;
         } else {
           const minDays = SERVICE_MIN_BUSINESS_DAYS[code];
           if (typeof minDays === "number") {
-            matches = businessDaysBetween(shipDateStamp, deliveryDate) >= minDays;
+            matches = businessDaysBetween(shipDate, deliveryDate) >= minDays;
           }
         }
         if (!matches) return null;
+        if (shipDate < earliestShip) return null;
         const fedexAmount = Math.round(amount * 100) / 100;
         const surcharge = box.boxPrice + box.serviceFee;
         const total = Math.round((fedexAmount + surcharge) * 100) / 100;
@@ -274,7 +357,7 @@ serve(async (req) => {
 
     return json({
       options,
-      shipDateStamp,
+      shipDateStamp: overnightShip,
       boxTier: box.tier,
       boxDimensions: { height: box.length, width: box.width, depth: box.height, weightLb: box.weight },
       boxPrice: box.boxPrice,
