@@ -20,14 +20,25 @@ export default function BouquetCardImage({
   fallback2,
   enableHoverSwap = true,
 }: Props) {
+  // Las tarjetas se ven pequeñas (~300px). Pedimos a Shopify una versión de 600px (nítida en retina)
+  // en vez de la imagen a resolución completa. Solo afecta a tarjetas; la página de producto usa el
+  // hook directamente y sigue a resolución completa.
+  const sized = (u?: string, w = 600) =>
+    u && u.includes("cdn.shopify.com")
+      ? u.includes("?")
+        ? `${u}&width=${w}`
+        : `${u}?width=${w}`
+      : u;
+
   const live = useShopifyProductImages(handle);
-  const primary = live.primary || fallback;
+  const primary = sized(live.primary || fallback);
   // Hover-swap image = LAST photo available on Shopify (photo 6 if 6+, else photo 5, etc.).
   // Falls back to second image / hardcoded fallback while loading.
   const all = live.all ?? [];
   const hoverIdx = all.length >= 6 ? 5 : all.length - 1;
-  const secondary =
-    (hoverIdx > 0 ? all[hoverIdx] : undefined) || live.secondary || fallback2;
+  const secondary = sized(
+    (hoverIdx > 0 ? all[hoverIdx] : undefined) || live.secondary || fallback2
+  );
 
   if (!primary) {
     return (

@@ -19,8 +19,8 @@ import cestasImg from "@/assets/cestas.webp";
 import jarronesImg from "@/assets/jarrones.webp";
 import fedexLogo from "@/assets/fedex-logo.webp.asset.json";
 import { useShopifyProductImages } from "@/hooks/useShopifyProductImages";
-const bicolorPassionImgFallback = 'https://cdn.shopify.com/s/files/1/0979/1671/5140/files/16.png?v=1774610789';
-const deluxeLoveImg = 'https://cdn.shopify.com/s/files/1/0979/1671/5140/files/3_adaa192a-8c9b-41b5-8586-cb7e13640829.png?v=1774615718';
+const bicolorPassionImgFallback = 'https://cdn.shopify.com/s/files/1/0979/1671/5140/files/16.png?v=1774610789&width=602';
+const deluxeLoveImg = 'https://cdn.shopify.com/s/files/1/0979/1671/5140/files/3_adaa192a-8c9b-41b5-8586-cb7e13640829.png?v=1774615718&width=602';
 
 const comingSoonSlugs = ["arreglos", "cajas", "cestas", "jarrones"];
 
