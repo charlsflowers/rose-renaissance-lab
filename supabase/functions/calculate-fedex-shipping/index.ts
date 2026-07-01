@@ -37,10 +37,7 @@ function pickBox(roses: number) {
   if (roses <= 50) {
     return { length: 28, width: 13, height: 13, weight: 11, tier: "medium", boxPrice: 12, serviceFee: 25 };
   }
-  if (roses <= 100) {
-    return { length: 30, width: 18, height: 18, weight: 18, tier: "large", boxPrice: 18, serviceFee: 40 };
-  }
-  return null; // > 100 not supported via FedEx
+  return { length: 30, width: 18, height: 18, weight: 18, tier: "large", boxPrice: 18, serviceFee: 40 };
 }
 
 // Human-readable FedEx service labels.
@@ -66,21 +63,8 @@ const SERVICE_MIN_BUSINESS_DAYS: Record<string, number> = {
   FEDEX_2_DAY_AM: 2,
   FEDEX_2_DAY: 2,
   FEDEX_EXPRESS_SAVER: 3,
+  GROUND_HOME_DELIVERY: 3,
 };
-
-// FedEx Ground transit days by rateZone from Miami (FL) origin. FedEx returns
-// the real rateZone for each shipment in the Rate response, so this maps the
-// authoritative routing data to standard published Ground transit days.
-const GROUND_ZONE_TRANSIT_DAYS: Record<string, number> = {
-  "2": 1,
-  "3": 1,
-  "4": 2,
-  "5": 3,
-  "6": 4,
-  "7": 5,
-  "8": 6,
-};
-const GROUND_SERVICE_CODES = new Set(["FEDEX_GROUND", "GROUND_HOME_DELIVERY"]);
 
 // shipDateStamp = delivery date − 1 day, in UTC YYYY-MM-DD. No time-of-day bump.
 function computeShipDateStamp(deliveryDateISO: string): string {
@@ -163,12 +147,6 @@ serve(async (req) => {
     }
 
     const box = pickBox(roses);
-    if (!box) {
-      return json(
-        { error: "FedEx shipping is not available for bouquets over 100 roses." },
-        200,
-      );
-    }
 
     const accountNumber = Deno.env.get("FEDEX_ACCOUNT_NUMBER");
     if (!accountNumber) return json({ error: "FedEx account not configured" }, 500);
@@ -188,12 +166,13 @@ serve(async (req) => {
             stateOrProvinceCode: stateCode,
             postalCode: recipient.postalCode,
             countryCode: "US",
-            residential: recipient.residential ?? true,
+            residential: true,
           },
         },
         shipDateStamp,
         pickupType: "USE_SCHEDULED_PICKUP",
         rateRequestType: ["ACCOUNT", "LIST"],
+        rateRequestControlParameters: { returnTransitTimes: true },
         requestedPackageLineItems: [
           {
             weight: { units: "LB", value: box.weight },
@@ -235,6 +214,8 @@ serve(async (req) => {
         shipmentRateDetail?: { rateZone?: string };
       }>;
       commit?: { dateDetail?: { dayFormat?: string } };
+      operationalDetail?: { deliveryDate?: string };
+      deliveryDate?: string;
     };
 
     const options = (reply as FedExRate[])
@@ -248,24 +229,21 @@ serve(async (req) => {
         if (typeof amount !== "number") return null;
         const code = r.serviceType || "";
         // Transit source per service:
-        //  - If FedEx returns commit (rare in this account), use it as truth.
-        //  - Ground services: use FedEx-returned rateZone → published transit.
-        //  - Express services: use guaranteed service transit (1/2/3 days).
-        const rateCommitRaw = r.commit?.dateDetail?.dayFormat || "";
-        const rateCommitDate = rateCommitRaw ? rateCommitRaw.slice(0, 10) : "";
+        //  - Prefer FedEx-returned estimated delivery date (operationalDetail
+        //    or commit). Show the service ONLY if that date === deliveryDate.
+        //  - If FedEx does not return a date, fall back to minimum business
+        //    days per service definition.
+        const rawEstimated =
+          r.operationalDetail?.deliveryDate ||
+          r.commit?.dateDetail?.dayFormat ||
+          r.deliveryDate ||
+          "";
+        const estimatedDate = rawEstimated ? rawEstimated.slice(0, 10) : "";
         let matches = false;
-        if (rateCommitDate) {
-          matches = rateCommitDate <= deliveryDate;
+        if (estimatedDate) {
+          matches = estimatedDate === deliveryDate;
         } else {
-          let minDays: number | undefined;
-          if (GROUND_SERVICE_CODES.has(code)) {
-            const zone = rated?.shipmentRateDetail?.rateZone;
-            if (zone && GROUND_ZONE_TRANSIT_DAYS[zone] != null) {
-              minDays = GROUND_ZONE_TRANSIT_DAYS[zone];
-            }
-          } else {
-            minDays = SERVICE_MIN_BUSINESS_DAYS[code];
-          }
+          const minDays = SERVICE_MIN_BUSINESS_DAYS[code];
           if (typeof minDays === "number") {
             matches = businessDaysBetween(shipDateStamp, deliveryDate) >= minDays;
           }
@@ -282,7 +260,7 @@ serve(async (req) => {
           boxPrice: box.boxPrice,
           serviceFee: box.serviceFee,
           currency: rated?.currency || "USD",
-          commit: rateCommitDate || null,
+          commit: estimatedDate || null,
         };
       })
       .filter(Boolean)
