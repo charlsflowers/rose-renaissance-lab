@@ -34,12 +34,8 @@ export default defineConfig(({ mode }) => ({
         // (home / collection / product) don't ship Sanity Studio's ~4MB.
         manualChunks(id) {
           if (!id.includes("node_modules")) return;
-          // Cliente ligero de Sanity (lo usa el blog para leer posts/imágenes) — se deja en el
-          // chunk por defecto para que NO arrastre el editor pesado.
-          if (id.includes("@sanity/client") || id.includes("@sanity/image-url")) return "sanity-client";
-          // Sanity Studio (editor de blog) — SOLO se usa en /studio. Aislado para que no pese
-          // ~1,8 MB en cada página de la web del cliente.
-          if (id.match(/[\\/]node_modules[\\/]sanity[\\/]/) || id.includes("@sanity/")) return "sanity-studio";
+          // Sanity (cliente + Studio) se deja al splitting automático de Rollup, que lo mantiene
+          // fuera del entry si solo lo usan rutas lazy (/studio, /blog).
           if (id.includes("react-dom") || id.match(/[\\/]react[\\/]/)) return "react-vendor";
           if (id.includes("@tanstack/react-query")) return "react-query";
           if (id.includes("lucide-react")) return "icons";
