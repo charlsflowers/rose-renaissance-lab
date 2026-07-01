@@ -402,6 +402,49 @@ export const occasionPages: OccasionPage[] = [
     ],
   },
   {
+    slug: "romance-flowers",
+    slugEs: "flores-romanticas",
+    tier: 2,
+    keyword: { en: "romantic flowers", es: "flores románticas" },
+    keyword2: { en: "love flowers", es: "flores de amor" },
+    h1: { en: "Romantic Flowers in Miami", es: "Flores Románticas en Miami" },
+    title: {
+      en: "Romantic Flowers Miami | Love Roses Delivered Same-Day | Charls Flowers",
+      es: "Flores Románticas Miami | Rosas de Amor el Mismo Día | Charls Flowers",
+    },
+    description: {
+      en: "Romantic flowers delivered same-day in Miami — no occasion needed. Long-stem red roses and love bouquets, hand-tied, 50–200 stems. Order before 3PM.",
+      es: "Flores románticas a domicilio el mismo día en Miami — sin necesidad de ocasión. Rosa roja tallo largo y bouquets de amor, hechos a mano, 50–200 tallos. Pide antes de las 3PM.",
+    },
+    intro: {
+      en: "Romantic flowers don't need a date on the calendar. Charls Flowers hand-ties love bouquets of premium Ecuadorian red roses and delivers them same-day across Miami — the classic 100-rose statement, or a custom-color romantic bouquet in her exact palette. When it isn't Valentine's Day and isn't an anniversary, that's exactly when it lands hardest.",
+      es: "Las flores románticas no necesitan una fecha en el calendario. Charls Flowers monta a mano bouquets de amor con rosa roja premium ecuatoriana y los entrega el mismo día por Miami — el statement clásico de 100 rosas, o un bouquet romántico a color en su paleta exacta. Cuando no es San Valentín ni un aniversario es justo cuando más pega.",
+    },
+    sections: [
+      {
+        h2: { en: "Red roses: the romantic default that always works", es: "Rosa roja: el clásico romántico que nunca falla" },
+        body: {
+          en: "Red long-stem roses are the universal romantic signal — no explanation needed. We use 60–70cm Ecuadorian premium roses, hydrated overnight so the heads open over 24–48 hours instead of collapsing. 50 stems for a warm gesture, 100 for a statement, 200 when you want to stop her in her tracks.",
+          es: "La rosa roja de tallo largo es la señal romántica universal — no hay que explicar nada. Usamos rosa premium ecuatoriana de 60–70cm, hidratada toda la noche para que los botones abran en 24–48 horas en vez de caerse. 50 tallos para un gesto cálido, 100 para un statement, 200 cuando quieres dejarla sin palabras.",
+        },
+      },
+      {
+        h2: { en: "Beyond red: custom-color love bouquets", es: "Más allá del rojo: bouquets de amor a color" },
+        body: {
+          en: "If red isn't her, we build the exact palette — blush pinks, all-white elegance, a red-and-white bicolor, or her single favorite color. Use our custom builder to preview the romantic bouquet with AI before you pay, then we hand-finish it in the workshop.",
+          es: "Si el rojo no es lo suyo, montamos la paleta exacta — rosas blush, elegancia todo blanco, bicolor rojo-blanco, o su color favorito. Usa nuestro builder a medida para previsualizar el bouquet romántico con IA antes de pagar, luego lo terminamos a mano en el taller.",
+        },
+      },
+      {
+        h2: { en: "Same-day romantic delivery across Miami", es: "Entrega romántica el mismo día por Miami" },
+        body: {
+          en: "Order before 3PM Miami time and we deliver that day to her home or office across Miami-Dade and Broward. Add a handwritten card, pick the AM or PM window, and we text you the delivery confirmation. For the full experience, our Love Bomb and Deluxe Love packages add balloons, candles and room setup.",
+          es: "Pide antes de las 3PM hora de Miami y entregamos ese día a su casa u oficina por Miami-Dade y Broward. Añade una tarjeta escrita a mano, elige ventana AM o PM y te mandamos la confirmación de entrega. Para la experiencia completa, nuestros paquetes Love Bomb y Deluxe Love suman globos, velas y montaje.",
+        },
+      },
+    ],
+  },
+  {
     slug: "thank-you-flowers",
     slugEs: "flores-de-agradecimiento",
     tier: 2,
@@ -693,6 +736,35 @@ export const occasionPages: OccasionPage[] = [
         body: {
           en: "Pick her favorite color (not red by default), 50 stems, write a one-line card. Delivered to the office or home — the unexpected timing is the whole point.",
           es: "Elige su color favorito (no rojo por defecto), 50 tallos, escribe una tarjeta de una línea. A la oficina o a casa — la sorpresa es el punto.",
+        },
+      },
+    ],
+  },
+  {
+    slug: "im-sorry-flowers",
+    slugEs: "flores-para-pedir-perdon",
+    tier: 3,
+    keyword: { en: "i'm sorry flowers", es: "flores para pedir perdón" },
+    keyword2: { en: "apology flowers", es: "flores de disculpa" },
+    h1: { en: "I'm Sorry Flowers in Miami", es: "Flores para Pedir Perdón en Miami" },
+    title: {
+      en: "I'm Sorry Flowers Miami | Apology Bouquets Delivered Same-Day | Charls Flowers",
+      es: "Flores para Pedir Perdón Miami | Bouquets de Disculpa el Mismo Día | Charls Flowers",
+    },
+    description: {
+      en: "I'm sorry flowers and apology bouquets delivered same-day in Miami. Send it fast — hand-tied roses that say it before you can. Order before 3PM.",
+      es: "Flores para pedir perdón y bouquets de disculpa a domicilio el mismo día en Miami. Envíalas rápido — rosas hechas a mano que lo dicen antes que tú. Pide antes de las 3PM.",
+    },
+    intro: {
+      en: "I'm sorry flowers work when they arrive fast — an apology that shows up two days late lands worse than none. Charls Flowers delivers same-day across Miami: hand-tied apology bouquets of premium roses, with a handwritten card in your own words. The gesture does half the work before you say anything.",
+      es: "Las flores para pedir perdón funcionan cuando llegan rápido — una disculpa que aparece dos días tarde pega peor que ninguna. Charls Flowers entrega el mismo día por Miami: bouquets de disculpa hechos a mano con rosa premium y una tarjeta escrita a mano con tus palabras. El gesto hace la mitad del trabajo antes de que digas nada.",
+    },
+    sections: [
+      {
+        h2: { en: "Which color says sorry (and which doesn't)", es: "Qué color pide perdón (y cuál no)" },
+        body: {
+          en: "White roses read as sincere and humble — the safest apology choice. Red works if it's a partner and the relationship is romantic. Avoid loud, celebratory mixes — this isn't the moment for glitter. When in doubt, all-white with a plain handwritten card.",
+          es: "La rosa blanca se lee sincera y humilde — la apuesta más segura para disculparse. El rojo funciona si es tu pareja y la relación es romántica. Evita mezclas ruidosas y festivas — no es el momento del glitter. En la duda, todo blanco con tarjeta escrita a mano y sencilla.",
         },
       },
     ],
