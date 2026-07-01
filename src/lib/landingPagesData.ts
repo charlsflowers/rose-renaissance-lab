@@ -717,6 +717,68 @@ export const landingPages: LandingPageData[] = [
     seoDescription: 'Order a stunning 100 roses bouquet in Miami. Choose your color, finish and paper. Same-day delivery up to 87 miles. Custom AI preview.',
     intro: "A 100-rose bouquet makes a powerful statement. At Charls Flowers, our 100-rose arrangements are handcrafted with the freshest roses and available in every color — white, red, pink, hot pink, yellow, orange, purple, and painted options like black, blue, and green. Choose your finish (natural, glitter, or painted), paper color, and add accessories like crowns, ribbons, or butterflies. Preview your bouquet with AI before ordering. Same-day delivery across Miami up to 87 miles.",
     type: 'niche',
+    // SEO long-tail expansion — every keyword taken from the REAL Keyword Planner
+    // (geo 2840 US). Verified volumes: "100 roses bouquet" 5,400 · "rose bouquet 100"
+    // 5,400 · "100 roses" 5,400 · "100 rose bouquet" 1,600 · "50 roses bouquet" 4,400 ·
+    // "200 roses bouquet" 720 · "150 roses bouquet" 320 · "100 red roses bouquet" 390 ·
+    // "100 roses bouquet near me" 480 · "100 roses bouquet price" 720 · "100 long stem
+    // roses" 390 · "100 roses delivery" 320 · "100 roses same day delivery" 70 ·
+    // "100 pink roses" 260 · "100 white roses" 210.
+    seo: {
+      whyTitle: 'Why order a 100 roses bouquet from us',
+      whyParagraph: "A 100 roses bouquet is not an everyday order — it's the grand gesture: an engagement, a landmark anniversary, a proposal, an unforgettable birthday. Because a 100 rose bouquet lives or dies on the quality of every single stem, we hand-build each one to order the morning it ships, using 100 long stem roses sorted for uniform head size and color. Nothing is pre-packed and nothing sits in a cooler for days. And because we run our own builder, the same 100 roses bouquet is available in any single color or as a custom mix — with natural, glitter or painted finishes.",
+      zonesTitle: 'Build your 100 roses bouquet — sizes and colors',
+      zonesIntro: 'The most-requested ways our Miami clients order a rose bouquet of 100:',
+      zones: [
+        '100 roses bouquet in classic red — the #1 request for proposals and anniversaries',
+        '100 red roses bouquet with long-stem, uniform heads',
+        '100 pink roses or 100 white roses for softer, elegant statements',
+        'Step down to a 50 roses bouquet for a slightly smaller grand gesture',
+        'Step up to a 150 roses bouquet or a 200 roses bouquet for maximum impact',
+        'Any color from the builder: white, red, pink, hot pink, yellow, orange, purple, black, blue, green',
+        'Natural, glitter or painted finish, with a custom paper color and accessories',
+      ],
+      occasionsTitle: 'When people send a 100 rose bouquet',
+      occasionsIntro: 'The occasions our clients most often choose 100 roses for:',
+      occasions: [
+        'Marriage proposals and engagements',
+        'Milestone wedding anniversaries (10th, 25th, 50th)',
+        'Big-birthday surprises and once-a-year grand gestures',
+        'Valentine\'s Day statement deliveries',
+        'Apologies and reconciliations that need to say it loudly',
+        'Stage, red-carpet and VIP welcome arrangements',
+      ],
+      deliveryTitle: '100 roses bouquet delivery in Miami',
+      deliveryParagraph: "We offer 100 roses delivery and same-day service across Miami: place your order before 3PM Miami time and we deliver the same day, up to 87 miles from our atelier. Our delivery rate is $20 for the first 0–5 miles and $1.60 per additional mile. Every order needs a minimum of 2 hours of preparation. A 100 roses bouquet is a large build, so for a guaranteed time window on a specific date we recommend ordering a day ahead. Delivery hours are Monday to Friday 8AM–7PM, Saturday 8AM–6PM and Sunday 8AM–5PM. Free pickup is also available at 7261 NW 12th Street, Miami FL 33126. Full details on our shipping policy page.",
+      faqTitle: '100 roses bouquet FAQs',
+      faqs: [
+        {
+          question: 'How much does a 100 roses bouquet cost in Miami?',
+          answer: "The price of a 100 roses bouquet depends on the color, finish (natural, glitter or painted) and any accessories you add. You can see the exact 100 roses bouquet price live in our builder as you customize it — pick your color and finish and the total updates before you order.",
+        },
+        {
+          question: 'Can I get 100 roses delivered same day?',
+          answer: 'Yes — we offer 100 roses same day delivery across Miami for orders placed before 3PM Miami time, up to 87 miles from our atelier. A 100-rose arrangement is a large build, so if you need it for a specific date and time window we recommend ordering a day in advance to guarantee it.',
+        },
+        {
+          question: 'Does the 100 roses bouquet come in colors other than red?',
+          answer: 'Absolutely. The 100 red roses bouquet is our most popular, but the same 100 rose bouquet is available in white, pink, hot pink, yellow, orange, purple, and painted options like black, blue and green — or as a custom multi-color mix. Choose natural, glitter or painted finish in the builder.',
+        },
+        {
+          question: 'Can I order more or fewer than 100 roses?',
+          answer: 'Yes. Our builder goes from 50 to 200 roses, so you can send a 50 roses bouquet for a smaller grand gesture or scale up to a 150 roses bouquet or a 200 roses bouquet for maximum impact. Same customization, same freshness, same-day delivery in Miami.',
+        },
+      ],
+      internalLinksTitle: 'Popular rose bouquets and collections:',
+      internalLinks: [
+        { label: 'Red Roses Bouquet', slug: 'bouquets/red-roses' },
+        { label: "Valentine's Day Flowers Miami", slug: 'valentines-day-flowers-miami' },
+        { label: 'Quinceanera Bouquets Miami', slug: 'quinceanera-bouquets-miami' },
+        { label: 'Main Miami Flower Shop', slug: 'flower-shop-miami' },
+      ],
+      ctaLabel: 'Build your 100 roses bouquet',
+      areaServed: 'Miami, Florida',
+    },
   },
 ];
 

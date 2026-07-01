@@ -62,6 +62,10 @@ export const LONG_TAIL_SEO: Record<string, LongTailEntry> = {
           h2: "Red roses for anniversary, birthdays and last-minute gifts",
           body: 'A dozen red roses is still the most-requested anniversary gift in Miami — and the easiest "red roses near me" answer when the date sneaks up on you. Order before 3 PM and we deliver the same day across Miami-Dade.',
         },
+        {
+          h2: "How many roses? From a dozen red roses to two dozen roses and 100 red roses",
+          body: "The size makes the message. A dozen red roses (or a full red roses dozen) is the classic anniversary and Valentine's choice; step up to two dozen roses when you want more impact; and for a milestone — an engagement, a big anniversary, a grand gesture — a 100 red roses bouquet with 50 red roses and 100 long stem roses options turns heads. Every quantity is available with long stem red roses, hand-arranged the morning it ships.",
+        },
       ],
       closing: "Prefer a softer palette? Try our {{0}}, browse the full {{1}} catalog or explore every variety of {{2}}.",
       links: [
@@ -82,6 +86,13 @@ export const LONG_TAIL_SEO: Record<string, LongTailEntry> = {
         {
           h2: "Arreglo de rosas rojas para aniversario y fechas especiales",
           body: "Un arreglo de rosas rojas sigue siendo el regalo de aniversario más pedido en Miami, y también funciona como detalle de última hora. Para combinaciones románticas en dos tonos, también preparamos el ramo de rosas blancas y rojas con la misma rapidez.",
+        },
+        {
+          // HUECO ES: no hay volumen ES verificado del Planner para las variantes de
+          // cantidad (docena / 100 rosas rojas) — copy en cantidad genérica, sin
+          // afirmar keyword ES. La raíz "rosas rojas" (5.400) sí está verificada.
+          h2: "Rosas rojas por docena o en formato grande",
+          body: "Desde una docena clásica de rosas rojas hasta formatos grandes de tallo largo para momentos importantes, montamos cada ramo de rosas rojas a mano el mismo día del envío en Miami.",
         },
       ],
       closing: "Si prefieres un tono más suave, mira nuestras {{0}}, todo el {{1}} disponible o el catálogo completo de {{2}}.",
@@ -508,9 +519,10 @@ export const LONG_TAIL_SEO: Record<string, LongTailEntry> = {
           body: "When customers search for single roses near me they expect a delivery slot today, not next week. Order before 3 PM and we cut, arrange and dispatch the same morning.",
         },
       ],
-      closing: "Want more colors at once? Mix with our {{0}}, see the full {{1}} or every variety of {{2}}.",
+      closing: "Want more colors at once? Mix with our {{0}}, send a classic {{1}}, see the full {{2}} or every variety of {{3}}.",
       links: [
         { anchor: "single roses near me", to: "/bouquets/mixed-color" },
+        { anchor: "red roses bouquet", to: "/bouquets/red-roses" },
         { anchor: "rose bouquet", to: "/bouquets" },
         { anchor: "roses", to: "/bouquets" },
       ],
@@ -681,9 +693,10 @@ export const LONG_TAIL_SEO: Record<string, LongTailEntry> = {
           body: "The classic red and white roses bouquet is our most-requested two color roses combo for anniversaries and romantic dinners. We also build bicolor pairings with pink, yellow and purple cultivars when the brief is less traditional.",
         },
       ],
-      closing: "Prefer a single tone? Try our {{0}}, browse the full {{1}} or every variety of {{2}}.",
+      closing: "Prefer a single tone? Try our {{0}}, our classic {{1}}, browse the full {{2}} or every variety of {{3}}.",
       links: [
         { anchor: "red and white roses", to: "/bouquets/white-roses" },
+        { anchor: "red roses bouquet", to: "/bouquets/red-roses" },
         { anchor: "rose bouquet", to: "/bouquets" },
         { anchor: "roses", to: "/bouquets" },
       ],
