@@ -30,7 +30,8 @@ When you need flowers *today*, the question is always the same: can it actually 
 ## Same-day delivery, hand-arranged the same morning
 Every bouquet is built to order and hand-arranged the same day it ships — never pulled from a fridge. Order early in the day and we deliver across Miami the same day.
 
-> [PENDIENTE DE DATO: confirmar el corte horario exacto. El research / copy del sitio menciona "Order before 3 PM" (longTailSeo.ts), pero el horario operativo real (la web usa una hora de corte por margen de preparación) debe confirmarlo Carlos antes de afirmar una hora fija aquí.]
+## When's the cutoff?
+For nationwide **FedEx** orders, place your order before **11:00 AM Miami time** to ship the same day — anything after that ships the next business day (maximum 100 roses per FedEx shipment). For **local Miami delivery and store pickup**, we operate **Monday–Friday 8:00 AM–7:00 PM and Saturday 8:00 AM–5:00 PM (closed Sundays)** — order early in the day so we have time to hand-arrange and deliver. Store pickup is ready about **2 hours after you order**.
 
 ## How far do you deliver? Up to 87 miles
 Local delivery covers up to **87 miles** from our Miami store. The delivery fee is calculated by distance at checkout, so you always see the real cost before you pay.

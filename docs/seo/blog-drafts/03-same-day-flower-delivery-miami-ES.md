@@ -29,7 +29,8 @@ Cuando necesitas flores *hoy*, la pregunta siempre es la misma: ¿llegan a tiemp
 ## Entrega el mismo día, montadas a mano esa misma mañana
 Cada ramo se monta a pedido y a mano el mismo día del envío — nunca sacado de una nevera. Pide temprano y lo entregamos en Miami el mismo día.
 
-> [PENDIENTE DE DATO: confirmar el horario de corte exacto. El copy del sitio menciona "antes de las 3 PM" (longTailSeo.ts), pero la hora operativa real (la web calcula un margen de preparación) debe confirmarla Carlos antes de fijar una hora aquí.]
+## ¿Cuál es la hora de corte?
+Para envíos nacionales por **FedEx**, haz tu pedido **antes de las 11:00 AM (hora de Miami)** para que salga el mismo día — después de esa hora se envía al siguiente día hábil (máximo 100 rosas por envío FedEx). Para **entrega local en Miami y recogida en tienda**, abrimos **lunes a viernes de 8:00 AM a 7:00 PM y sábados de 8:00 AM a 5:00 PM (cerramos los domingos)** — pide temprano para que nos dé tiempo a montar el ramo a mano y entregarlo. La recogida en tienda está lista unas **2 horas después de pedir**.
 
 ## ¿Hasta dónde entregan? Hasta 87 millas
 La entrega local cubre hasta **87 millas** desde nuestra tienda en Miami. El coste de envío se calcula por distancia en el checkout, así que siempre ves el precio real antes de pagar.
