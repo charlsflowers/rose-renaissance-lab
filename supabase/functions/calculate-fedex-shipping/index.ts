@@ -148,6 +148,11 @@ serve(async (req) => {
 
     const box = pickBox(roses);
 
+    if (roses > 100) {
+      return json({ error: "FedEx no disponible para ramos de más de 100 rosas" }, 200);
+    }
+
+
     const accountNumber = Deno.env.get("FEDEX_ACCOUNT_NUMBER");
     if (!accountNumber) return json({ error: "FedEx account not configured" }, 500);
 
