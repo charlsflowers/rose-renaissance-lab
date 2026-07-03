@@ -8,4 +8,4 @@ Disallow: /account
 Disallow: /es/account
 Disallow: /studio/
 
-Sitemap: https://www.charlsflowers.com/sitemap.xml
+Sitemap: https://charlsflowers.com/sitemap.xml
