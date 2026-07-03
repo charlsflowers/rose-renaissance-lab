@@ -292,9 +292,5 @@
 /bouquets/pisces-bouquet          /bouquets/pisces-zodiac-bouquet            301
 /es/bouquets/pisces-bouquet       /es/bouquets/ramo-zodiaco-piscis       301
 
-# --- Normalize trailing slash → strip it (avoid duplicate content) ---
-# /pagina/  ->  /pagina  (301). Evita que Google indexe la misma página dos veces.
-/*/           /:splat           301!
-
 # --- SPA fallback (must be last) ---
 /*    /index.html   200

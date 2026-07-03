@@ -65,10 +65,6 @@ for (const { handle, slug, slugEs } of entries) {
 }
 
 lines.push("");
-lines.push("# --- Normalize trailing slash → strip it (avoid duplicate content) ---");
-lines.push("# /pagina/  ->  /pagina  (301). Evita que Google indexe la misma página dos veces.");
-lines.push("/*/           /:splat           301!");
-lines.push("");
 lines.push("# --- SPA fallback (must be last) ---");
 lines.push("/*    /index.html   200");
 lines.push("");
