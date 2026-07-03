@@ -68,7 +68,7 @@ describe("linkDirection — directional guard (easy -> hard only)", () => {
 
   it("normalizes ES native slugs and absolute URLs to the same node", () => {
     expect(pageDifficulty("/es/bouquets/rosas-rojas")).toBe(60500);
-    expect(pageDifficulty("https://www.charlsflowers.com/bouquets/red-roses")).toBe(60500);
+    expect(pageDifficulty("https://charlsflowers.com/bouquets/red-roses")).toBe(60500);
   });
 
   it("filterDirectionalLinks strips reverse links and orders survivors low -> high", () => {

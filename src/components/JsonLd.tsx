@@ -24,9 +24,9 @@ export default JsonLd;
 export const localBusinessSchema = () => ({
   "@context": "https://schema.org",
   "@type": ["LocalBusiness", "Florist"],
-  "@id": "https://www.charlsflowers.com/#localbusiness",
+  "@id": "https://charlsflowers.com/#localbusiness",
   name: "Charls Flowers",
-  url: "https://www.charlsflowers.com",
+  url: "https://charlsflowers.com",
   telephone: "+19044424042",
   email: "charls@charlsflowers.com",
   image: "https://storage.googleapis.com/gpt-engineer-file-uploads/pPT3n7ZwBuTW9aMFgpnKH957a2Y2/social-images/social-1773180724629-LOGO_charls.webp",
@@ -56,7 +56,7 @@ export const serviceSchema = () => ({
   "@context": "https://schema.org",
   "@type": "Service",
   name: "Same-Day Flower Delivery Miami",
-  provider: { "@id": "https://www.charlsflowers.com/#localbusiness" },
+  provider: { "@id": "https://charlsflowers.com/#localbusiness" },
   areaServed: { "@type": "City", name: "Miami" },
   description: "Same-day flower delivery across Miami up to 87 miles. Order before 3PM. $20 flat rate for 0-5 miles, $1.60/mile after.",
   offers: { "@type": "Offer", price: "20.00", priceCurrency: "USD" },
@@ -66,14 +66,14 @@ export const websiteSchema = () => ({
   "@context": "https://schema.org",
   "@type": "WebSite",
   name: "Charls Flowers",
-  url: "https://www.charlsflowers.com",
+  url: "https://charlsflowers.com",
 });
 
 export const organizationSchema = () => ({
   "@context": "https://schema.org",
   "@type": "Organization",
   name: "Charls Flowers",
-  url: "https://www.charlsflowers.com",
+  url: "https://charlsflowers.com",
   logo: "https://storage.googleapis.com/gpt-engineer-file-uploads/pPT3n7ZwBuTW9aMFgpnKH957a2Y2/social-images/social-1773180724629-LOGO_charls.webp",
   image: "https://storage.googleapis.com/gpt-engineer-file-uploads/pPT3n7ZwBuTW9aMFgpnKH957a2Y2/social-images/social-1773180724629-LOGO_charls.webp",
   telephone: "+19044424042",
@@ -196,7 +196,7 @@ export const articleSchema = (headline: string, slug: string, datePublished: str
   datePublished,
   dateModified: datePublished,
   ...(image ? { image } : {}),
-  url: `https://www.charlsflowers.com/blog/${slug}`,
+  url: `https://charlsflowers.com/blog/${slug}`,
 });
 
 export const blogPostingSchema = (args: {
@@ -209,7 +209,7 @@ export const blogPostingSchema = (args: {
   author?: string;
   inLanguage?: string;
 }) => {
-  const url = `https://www.charlsflowers.com/blog/${args.slug}`;
+  const url = `https://charlsflowers.com/blog/${args.slug}`;
   return {
     "@context": "https://schema.org",
     "@type": "BlogPosting",

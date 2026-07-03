@@ -38,15 +38,15 @@ const CityShippingPage = () => {
 
   const path = `/flower-delivery/${city.slug}`;
   const pathEs = `/envio-de-flores/${city.slugEs}`;
-  const enUrl = `https://www.charlsflowers.com${path}`;
-  const esUrl = `https://www.charlsflowers.com/es${pathEs}`;
+  const enUrl = `https://charlsflowers.com${path}`;
+  const esUrl = `https://charlsflowers.com/es${pathEs}`;
 
   const serviceSchema = {
     "@context": "https://schema.org",
     "@type": "Service",
     name: isEs ? `Envío de flores a ${city.name}` : `Flower delivery to ${city.name}`,
     serviceType: isEs ? "Envío nacional de flores por FedEx" : "Nationwide flower delivery via FedEx",
-    provider: { "@id": "https://www.charlsflowers.com/#localbusiness" },
+    provider: { "@id": "https://charlsflowers.com/#localbusiness" },
     areaServed: {
       "@type": "City",
       name: city.name,
@@ -57,8 +57,8 @@ const CityShippingPage = () => {
   };
 
   const breadcrumbs = breadcrumbSchema([
-    { name: isEs ? "Inicio" : "Home", url: isEs ? "https://www.charlsflowers.com/es" : "https://www.charlsflowers.com" },
-    { name: isEs ? "Envío de Flores" : "Flower Delivery", url: isEs ? `https://www.charlsflowers.com/es/envio-de-flores` : `https://www.charlsflowers.com/flower-delivery` },
+    { name: isEs ? "Inicio" : "Home", url: isEs ? "https://charlsflowers.com/es" : "https://charlsflowers.com" },
+    { name: isEs ? "Envío de Flores" : "Flower Delivery", url: isEs ? `https://charlsflowers.com/es/envio-de-flores` : `https://charlsflowers.com/flower-delivery` },
     { name: city.name, url: isEs ? esUrl : enUrl },
   ]);
 

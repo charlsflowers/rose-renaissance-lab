@@ -1,7 +1,7 @@
 import { Helmet } from "react-helmet-async";
 import { useTranslation, stripLangPrefix } from "@/i18n/LanguageContext";
 
-const BASE_URL = "https://www.charlsflowers.com";
+const BASE_URL = "https://charlsflowers.com";
 const DEFAULT_IMAGE = "https://storage.googleapis.com/gpt-engineer-file-uploads/pPT3n7ZwBuTW9aMFgpnKH957a2Y2/social-images/social-1773180724629-LOGO_charls.webp";
 
 interface SeoHeadProps {

@@ -14,7 +14,7 @@ import { landingPages } from "@/lib/landingPagesData";
 import { resolveBlogInterlinks } from "@/lib/blogInterlinks";
 import { useTranslation } from "@/i18n/LanguageContext";
 
-const BASE_URL = "https://www.charlsflowers.com";
+const BASE_URL = "https://charlsflowers.com";
 
 const portableTextComponents: PortableTextComponents = {
   types: {

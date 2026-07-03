@@ -46,8 +46,8 @@ const LandingPage = () => {
           localBusiness,
           faqSchema(seo.faqs.map(f => ({ question: f.question, answer: f.answer }))),
           breadcrumbSchema([
-            { name: "Home", url: "https://www.charlsflowers.com" },
-            { name: breadcrumbLabel, url: `https://www.charlsflowers.com/${page.slug}` },
+            { name: "Home", url: "https://charlsflowers.com" },
+            { name: breadcrumbLabel, url: `https://charlsflowers.com/${page.slug}` },
           ]),
         ]} />
         <Navbar />

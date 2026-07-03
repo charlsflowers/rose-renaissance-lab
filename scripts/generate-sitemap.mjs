@@ -25,7 +25,7 @@ import { fileURLToPath } from "node:url";
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const ROOT = resolve(__dirname, "..");
 
-const BASE_URL = "https://www.charlsflowers.com";
+const BASE_URL = "https://charlsflowers.com";
 const TODAY = new Date().toISOString().slice(0, 10); // YYYY-MM-DD
 
 // ───────────────────────── helpers ─────────────────────────
