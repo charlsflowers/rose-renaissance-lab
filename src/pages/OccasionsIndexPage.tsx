@@ -47,17 +47,17 @@ const OccasionsIndexPage = () => {
     occasionPages.map((o) => ({
       name: isEs ? o.h1.es : o.h1.en,
       url: isEs
-        ? `https://www.charlsflowers.com/es/collections/${o.slugEs}`
-        : `https://www.charlsflowers.com/collections/${o.slug}`,
+        ? `https://charlsflowers.com/es/collections/${o.slugEs}`
+        : `https://charlsflowers.com/collections/${o.slug}`,
     })),
     isEs ? "Ocasiones" : "Occasions",
   );
 
   const breadcrumbs = breadcrumbSchema([
-    { name: isEs ? "Inicio" : "Home", url: isEs ? "https://www.charlsflowers.com/es" : "https://www.charlsflowers.com" },
+    { name: isEs ? "Inicio" : "Home", url: isEs ? "https://charlsflowers.com/es" : "https://charlsflowers.com" },
     {
       name: isEs ? "Ocasiones" : "Occasions",
-      url: isEs ? "https://www.charlsflowers.com/es/collections/ocasiones" : "https://www.charlsflowers.com/collections/occasions",
+      url: isEs ? "https://charlsflowers.com/es/collections/ocasiones" : "https://charlsflowers.com/collections/occasions",
     },
   ]);
 

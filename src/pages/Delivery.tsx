@@ -18,7 +18,7 @@ const Delivery = () => {
         description={t("seo.delivery.description")}
         path="/delivery"
       />
-      <JsonLd data={[breadcrumbSchema([{ name: "Home", url: "https://www.charlsflowers.com" }, { name: "Delivery", url: "https://www.charlsflowers.com/delivery" }]), serviceSchema()]} />
+      <JsonLd data={[breadcrumbSchema([{ name: "Home", url: "https://charlsflowers.com" }, { name: "Delivery", url: "https://charlsflowers.com/delivery" }]), serviceSchema()]} />
       <Navbar />
       <div className="pt-24 pb-16">
         <div className="container mx-auto px-6 max-w-4xl">

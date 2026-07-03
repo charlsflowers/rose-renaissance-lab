@@ -37,8 +37,8 @@ const MothersDayCollection = () => {
       />
       <JsonLd
         data={breadcrumbSchema([
-          { name: "Home", url: "https://www.charlsflowers.com" },
-          { name: "Mother's Day", url: "https://www.charlsflowers.com/mothers-day" },
+          { name: "Home", url: "https://charlsflowers.com" },
+          { name: "Mother's Day", url: "https://charlsflowers.com/mothers-day" },
         ])}
       />
       <Navbar />

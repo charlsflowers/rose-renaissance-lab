@@ -26,7 +26,7 @@ const About = () => {
         description={t("seo.about.description")}
         path="/about"
       />
-      <JsonLd data={breadcrumbSchema([{ name: "Home", url: "https://www.charlsflowers.com" }, { name: "About", url: "https://www.charlsflowers.com/about" }])} />
+      <JsonLd data={breadcrumbSchema([{ name: "Home", url: "https://charlsflowers.com" }, { name: "About", url: "https://charlsflowers.com/about" }])} />
       <Navbar />
       <div className="pt-24 pb-16">
         <div className="container mx-auto px-6 max-w-3xl">

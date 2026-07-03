@@ -50,8 +50,8 @@ const OccasionPage = () => {
   const isEs = language === "es";
   const path = `/collections/${occ.slug}`;
   const pathEs = `/collections/${occ.slugEs}`;
-  const enUrl = `https://www.charlsflowers.com${path}`;
-  const esUrl = `https://www.charlsflowers.com/es${pathEs}`;
+  const enUrl = `https://charlsflowers.com${path}`;
+  const esUrl = `https://charlsflowers.com/es${pathEs}`;
   const selfUrl = isEs ? esUrl : enUrl;
 
   const h1 = isEs ? occ.h1.es : occ.h1.en;
@@ -64,15 +64,15 @@ const OccasionPage = () => {
     ? {
         path: isEs ? "/collections/flores" : "/collections/flowers",
         url: isEs
-          ? "https://www.charlsflowers.com/es/collections/flores"
-          : "https://www.charlsflowers.com/collections/flowers",
+          ? "https://charlsflowers.com/es/collections/flores"
+          : "https://charlsflowers.com/collections/flowers",
         label: isEs ? "Tipos de Flor" : "Flowers",
       }
     : {
         path: isEs ? "/collections/ocasiones" : "/collections/occasions",
         url: isEs
-          ? "https://www.charlsflowers.com/es/collections/ocasiones"
-          : "https://www.charlsflowers.com/collections/occasions",
+          ? "https://charlsflowers.com/es/collections/ocasiones"
+          : "https://charlsflowers.com/collections/occasions",
         label: isEs ? "Ocasiones" : "Occasions",
       };
 
@@ -96,20 +96,20 @@ const OccasionPage = () => {
     description,
     url: selfUrl,
     inLanguage: isEs ? "es-US" : "en-US",
-    isPartOf: { "@type": "WebSite", name: "Charls Flowers", url: "https://www.charlsflowers.com" },
+    isPartOf: { "@type": "WebSite", name: "Charls Flowers", url: "https://charlsflowers.com" },
     about: isEs ? occ.keyword.es : occ.keyword.en,
   };
 
   const itemList = itemListSchema(
     cluster.map((c) => ({
       name: c.label,
-      url: `https://www.charlsflowers.com${language === "es" && !c.to.startsWith("/es") ? `/es${c.to}` : c.to}`,
+      url: `https://charlsflowers.com${language === "es" && !c.to.startsWith("/es") ? `/es${c.to}` : c.to}`,
     })),
     isEs ? `Recomendaciones para ${occ.keyword.es}` : `Recommendations for ${occ.keyword.en}`,
   );
 
   const breadcrumbs = breadcrumbSchema([
-    { name: isEs ? "Inicio" : "Home", url: isEs ? "https://www.charlsflowers.com/es" : "https://www.charlsflowers.com" },
+    { name: isEs ? "Inicio" : "Home", url: isEs ? "https://charlsflowers.com/es" : "https://charlsflowers.com" },
     { name: parentIndex.label, url: parentIndex.url },
     { name: h1, url: selfUrl },
   ]);

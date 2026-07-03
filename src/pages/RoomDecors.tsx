@@ -26,7 +26,7 @@ const RoomDecors = () => {
   return (
     <div className="min-h-screen bg-background">
       <SeoHead title={t("seo.roomDecors.title")} description={t("seo.roomDecors.description")} path="/room-decors" />
-      <JsonLd data={breadcrumbSchema([{ name: "Home", url: "https://www.charlsflowers.com" }, { name: "Room Decors", url: "https://www.charlsflowers.com/room-decors" }])} />
+      <JsonLd data={breadcrumbSchema([{ name: "Home", url: "https://charlsflowers.com" }, { name: "Room Decors", url: "https://charlsflowers.com/room-decors" }])} />
       <Navbar />
       <div className="pt-24 pb-16">
         <div className="container mx-auto px-6">

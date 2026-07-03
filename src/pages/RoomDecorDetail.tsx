@@ -275,7 +275,7 @@ const RoomDecorDetail = () => {
   return (
     <div className="min-h-screen bg-background">
       <SeoHead title={resolvedSeoTitle} description={resolvedSeoDescription} path={`/room-decors/${pkg.id}`} image={pkg.image} />
-      <JsonLd data={[productSchema(pkg.name, resolvedSeoDescription, pkg.price, pkg.image), breadcrumbSchema([{ name: "Home", url: "https://www.charlsflowers.com" }, { name: "Room Decors", url: "https://www.charlsflowers.com/room-decors" }, { name: pkg.name, url: `https://www.charlsflowers.com/room-decors/${pkg.id}` }])]} />
+      <JsonLd data={[productSchema(pkg.name, resolvedSeoDescription, pkg.price, pkg.image), breadcrumbSchema([{ name: "Home", url: "https://charlsflowers.com" }, { name: "Room Decors", url: "https://charlsflowers.com/room-decors" }, { name: pkg.name, url: `https://charlsflowers.com/room-decors/${pkg.id}` }])]} />
       <Navbar />
       <div className="pt-16 md:pt-24 pb-16">
         <div className="container mx-auto px-6">

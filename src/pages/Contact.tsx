@@ -53,7 +53,7 @@ const Contact = () => {
         noindex
       />
       <JsonLd data={localBusinessSchema()} />
-      <JsonLd data={breadcrumbSchema([{ name: "Home", url: "https://www.charlsflowers.com" }, { name: "Contact", url: "https://www.charlsflowers.com/contact" }])} />
+      <JsonLd data={breadcrumbSchema([{ name: "Home", url: "https://charlsflowers.com" }, { name: "Contact", url: "https://charlsflowers.com/contact" }])} />
       <Navbar />
       <div className="pt-24 pb-16">
         <div className="container mx-auto px-6 max-w-4xl">

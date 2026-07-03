@@ -10,7 +10,7 @@ import { fetchBlogPosts, urlFor } from "@/lib/sanity";
 import { ArrowRight } from "lucide-react";
 import { useTranslation } from "@/i18n/LanguageContext";
 
-const BASE_URL = "https://www.charlsflowers.com";
+const BASE_URL = "https://charlsflowers.com";
 
 const blogCollectionSchema = {
   "@context": "https://schema.org",

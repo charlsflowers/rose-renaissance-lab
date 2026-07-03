@@ -210,13 +210,13 @@ const BouquetProducts = ({ initialFilter: propFilter, colorCollection }: Bouquet
     : [{ label: t("nav.home"), to: "/" }, { label: t("nav.bouquets") }];
   const schemaCrumbs = subBreadcrumbLabel
     ? [
-        { name: "Home", url: "https://www.charlsflowers.com" },
-        { name: "Bouquets", url: "https://www.charlsflowers.com/bouquets" },
-        { name: subBreadcrumbLabel, url: `https://www.charlsflowers.com${seoPath}` },
+        { name: "Home", url: "https://charlsflowers.com" },
+        { name: "Bouquets", url: "https://charlsflowers.com/bouquets" },
+        { name: subBreadcrumbLabel, url: `https://charlsflowers.com${seoPath}` },
       ]
     : [
-        { name: "Home", url: "https://www.charlsflowers.com" },
-        { name: "Bouquets", url: "https://www.charlsflowers.com/bouquets" },
+        { name: "Home", url: "https://charlsflowers.com" },
+        { name: "Bouquets", url: "https://charlsflowers.com/bouquets" },
       ];
 
   return (
@@ -227,7 +227,7 @@ const BouquetProducts = ({ initialFilter: propFilter, colorCollection }: Bouquet
         itemListSchema(
           filteredProducts.map(p => ({
             name: p.name,
-            url: `https://www.charlsflowers.com/bouquets/${slugForHandle(p.shopifyHandle)}`,
+            url: `https://charlsflowers.com/bouquets/${slugForHandle(p.shopifyHandle)}`,
             image: p.image || undefined,
             // Real catalog price (same fallback the visible price uses) so each
             // Product in the ItemList carries a valid Offer for Google.

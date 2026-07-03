@@ -28,8 +28,8 @@ const CategoryProducts = () => {
         noindex
       />
       <JsonLd data={breadcrumbSchema([
-        { name: "Home", url: "https://www.charlsflowers.com" },
-        { name: category.title, url: `https://www.charlsflowers.com/categoria/${slug}` },
+        { name: "Home", url: "https://charlsflowers.com" },
+        { name: category.title, url: `https://charlsflowers.com/categoria/${slug}` },
       ])} />
       <Navbar />
       <div className="pt-24 pb-16">

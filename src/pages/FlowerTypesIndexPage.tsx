@@ -40,17 +40,17 @@ const FlowerTypesIndexPage = () => {
     flowerTypePages.map((f) => ({
       name: isEs ? f.h1.es : f.h1.en,
       url: isEs
-        ? `https://www.charlsflowers.com/es/collections/${f.slugEs}`
-        : `https://www.charlsflowers.com/collections/${f.slug}`,
+        ? `https://charlsflowers.com/es/collections/${f.slugEs}`
+        : `https://charlsflowers.com/collections/${f.slug}`,
     })),
     isEs ? "Tipos de flor" : "Flower types",
   );
 
   const breadcrumbs = breadcrumbSchema([
-    { name: isEs ? "Inicio" : "Home", url: isEs ? "https://www.charlsflowers.com/es" : "https://www.charlsflowers.com" },
+    { name: isEs ? "Inicio" : "Home", url: isEs ? "https://charlsflowers.com/es" : "https://charlsflowers.com" },
     {
       name: isEs ? "Tipos de Flor" : "Flowers",
-      url: isEs ? "https://www.charlsflowers.com/es/collections/flores" : "https://www.charlsflowers.com/collections/flowers",
+      url: isEs ? "https://charlsflowers.com/es/collections/flores" : "https://charlsflowers.com/collections/flowers",
     },
   ]);
 

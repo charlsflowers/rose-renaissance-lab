@@ -586,9 +586,9 @@ const BouquetBuilder = () => {
     <div className="min-h-screen bg-background">
       <SeoHead title={t("seo.bouquetBuilder.title")} description={t("seo.bouquetBuilder.description")} path="/bouquets/personalizar" />
       <JsonLd data={breadcrumbSchema([
-        { name: "Home", url: "https://www.charlsflowers.com" },
-        { name: "Bouquets", url: "https://www.charlsflowers.com/bouquets" },
-        { name: "Custom Bouquet Builder", url: "https://www.charlsflowers.com/bouquets/personalizar" },
+        { name: "Home", url: "https://charlsflowers.com" },
+        { name: "Bouquets", url: "https://charlsflowers.com/bouquets" },
+        { name: "Custom Bouquet Builder", url: "https://charlsflowers.com/bouquets/personalizar" },
       ])} />
       <Navbar />
       <div className="pt-24 pb-16">

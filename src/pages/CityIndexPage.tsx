@@ -28,17 +28,17 @@ const CityIndexPage = () => {
     sorted.map((c) => ({
       name: isEs ? `Envío de flores a ${c.name}` : `Flower delivery to ${c.name}`,
       url: isEs
-        ? `https://www.charlsflowers.com/es/envio-de-flores/${c.slugEs}`
-        : `https://www.charlsflowers.com/flower-delivery/${c.slug}`,
+        ? `https://charlsflowers.com/es/envio-de-flores/${c.slugEs}`
+        : `https://charlsflowers.com/flower-delivery/${c.slug}`,
     })),
     isEs ? "Ciudades de envío" : "Shipping cities",
   );
 
   const breadcrumbs = breadcrumbSchema([
-    { name: isEs ? "Inicio" : "Home", url: isEs ? "https://www.charlsflowers.com/es" : "https://www.charlsflowers.com" },
+    { name: isEs ? "Inicio" : "Home", url: isEs ? "https://charlsflowers.com/es" : "https://charlsflowers.com" },
     {
       name: isEs ? "Envío de Flores" : "Flower Delivery",
-      url: isEs ? "https://www.charlsflowers.com/es/envio-de-flores" : "https://www.charlsflowers.com/flower-delivery",
+      url: isEs ? "https://charlsflowers.com/es/envio-de-flores" : "https://charlsflowers.com/flower-delivery",
     },
   ]);
 
