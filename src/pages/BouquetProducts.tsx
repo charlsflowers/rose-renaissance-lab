@@ -241,9 +241,9 @@ const BouquetProducts = ({ initialFilter: propFilter, colorCollection }: Bouquet
         <div className="container mx-auto px-6">
           <Breadcrumbs items={crumbItems} />
 
-          <div className="text-center mb-8">
-             <p className="font-subtitle-script text-primary text-lg md:text-2xl mb-2">{t("bouquetProducts.subtitle")}</p>
-            <h1 className="font-title-retro text-4xl md:text-5xl text-foreground">{heading}</h1>
+          <div className="text-center mb-5 md:mb-8">
+             <p className="font-subtitle-script text-primary text-base md:text-2xl mb-2">{t("bouquetProducts.subtitle")}</p>
+            <h1 className="font-title-retro text-2xl sm:text-3xl md:text-5xl text-foreground">{heading}</h1>
             {/* Mirror-effect long-tail intro under the existing H1. */}
             <LongTailIntro seoKey={longTailKey} />
             <p className="text-muted-foreground font-body text-sm mt-3 max-w-2xl mx-auto">

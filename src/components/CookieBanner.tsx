@@ -51,7 +51,7 @@ const CookieBanner = () => {
         <div
           role="dialog"
           aria-label={t("cookies.title")}
-          className={`fixed inset-x-0 bottom-0 z-[60] border-t border-border bg-background shadow-lg transition-all duration-300 ${
+          className={`fixed inset-x-0 bottom-20 md:bottom-0 z-[60] border-t border-border bg-background shadow-lg transition-all duration-300 ${
             visible ? "translate-y-0 opacity-100" : "translate-y-4 opacity-0"
           }`}
         >

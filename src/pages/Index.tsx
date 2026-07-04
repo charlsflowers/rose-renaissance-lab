@@ -169,7 +169,7 @@ const Index = ({ noindex = false }: { noindex?: boolean } = {}) => {
               <div className="w-7 h-7 md:w-9 md:h-9 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
                 <Plane className="w-3 h-3 md:w-4 md:h-4 text-primary" />
               </div>
-              <span className="font-body text-[9px] md:text-xs tracking-wider text-foreground uppercase whitespace-nowrap flex items-center gap-1">
+              <span className="font-body text-[9px] md:text-xs tracking-wider text-foreground uppercase flex flex-wrap items-center justify-center gap-1">
                 {t("home.nationwideShipping")}
                 <span className="normal-case tracking-normal text-muted-foreground">·</span>
                 <span className="inline-flex items-center gap-1 normal-case tracking-normal text-muted-foreground">
