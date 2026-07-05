@@ -17,7 +17,6 @@ import arreglosImg from "@/assets/arreglos.webp";
 import cajasImg from "@/assets/cajas.webp";
 import cestasImg from "@/assets/cestas.webp";
 import jarronesImg from "@/assets/jarrones.webp";
-import fedexLogo from "@/assets/fedex-logo.webp.asset.json";
 import { useShopifyProductImages } from "@/hooks/useShopifyProductImages";
 const bicolorPassionImgFallback = 'https://cdn.shopify.com/s/files/1/0979/1671/5140/files/16.png?v=1774610789&width=602';
 const deluxeLoveImg = 'https://cdn.shopify.com/s/files/1/0979/1671/5140/files/3_adaa192a-8c9b-41b5-8586-cb7e13640829.png?v=1774615718&width=602';
@@ -174,7 +173,7 @@ const Index = ({ noindex = false }: { noindex?: boolean } = {}) => {
                 <span className="normal-case tracking-normal text-muted-foreground">·</span>
                 <span className="inline-flex items-center gap-1 normal-case tracking-normal text-muted-foreground">
                   {t("home.poweredBy")}
-                  <img src={fedexLogo.url} alt="FedEx" loading="lazy" className="h-3 md:h-3.5 w-auto inline-block" />
+                  <img src="/fedex-logo.png" alt="FedEx" loading="lazy" className="h-3 md:h-3.5 w-auto inline-block" />
                 </span>
               </span>
             </div>

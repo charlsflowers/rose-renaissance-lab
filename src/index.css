@@ -92,6 +92,15 @@
   h1, h2, h3, h4, h5, h6 {
     @apply font-display;
   }
+
+  /* Escala global de escritorio: la web se muestra de fábrica al 90%
+     (equivalente a pulsar Cmd− una vez) para verse más compacta.
+     Solo en pantallas de ordenador; el móvil se deja tal cual. */
+  @media (min-width: 1024px) {
+    html {
+      zoom: 0.9;
+    }
+  }
 }
 
 @layer utilities {
