@@ -246,15 +246,19 @@ const BouquetProducts = ({ initialFilter: propFilter, colorCollection }: Bouquet
             <h1 className="font-title-retro text-2xl sm:text-3xl md:text-5xl text-foreground">{heading}</h1>
             {/* Mirror-effect long-tail intro under the existing H1. */}
             <LongTailIntro seoKey={longTailKey} />
-            <p className="text-muted-foreground font-body text-sm mt-3 max-w-2xl mx-auto">
-              {t("bouquetProducts.description")}{' '}
-              {/* Internal links → indexable color collections (anchor = color keyword). */}
-              <Link to={colorLinkTo("white")} className="text-primary hover:underline">{t("nav.whiteRoses").toLowerCase()}</Link>,{' '}
-              <Link to={colorLinkTo("red")} className="text-primary hover:underline">{t("nav.redRoses").toLowerCase()}</Link>,{' '}
-              <Link to={colorLinkTo("pink")} className="text-primary hover:underline">{t("nav.pinkRoses").toLowerCase()}</Link>,{' '}
-              <Link to={colorLinkTo("blue")} className="text-primary hover:underline">{t("nav.blueRoses").toLowerCase()}</Link>.
-            </p>
-            <p className="text-primary font-body text-xs font-semibold mt-2">{t("common.orderBefore3PM")}</p>
+            {/* Desktop: full intro up top. On mobile this moves below the grid so
+                filters + products are visible first (SEO-safe, TSG order). */}
+            <div className="hidden md:block">
+              <p className="text-muted-foreground font-body text-sm mt-3 max-w-2xl mx-auto">
+                {t("bouquetProducts.description")}{' '}
+                {/* Internal links → indexable color collections (anchor = color keyword). */}
+                <Link to={colorLinkTo("white")} className="text-primary hover:underline">{t("nav.whiteRoses").toLowerCase()}</Link>,{' '}
+                <Link to={colorLinkTo("red")} className="text-primary hover:underline">{t("nav.redRoses").toLowerCase()}</Link>,{' '}
+                <Link to={colorLinkTo("pink")} className="text-primary hover:underline">{t("nav.pinkRoses").toLowerCase()}</Link>,{' '}
+                <Link to={colorLinkTo("blue")} className="text-primary hover:underline">{t("nav.blueRoses").toLowerCase()}</Link>.
+              </p>
+              <p className="text-primary font-body text-xs font-semibold mt-2">{t("common.orderBefore3PM")}</p>
+            </div>
           </div>
 
           {/* Collections block */}
@@ -349,6 +353,18 @@ const BouquetProducts = ({ initialFilter: propFilter, colorCollection }: Bouquet
                 </Link>
               </div>
             ))}
+          </div>
+          {/* Mobile only: descriptive copy + internal links below the grid so
+              filters/products show first at the top (SEO-safe, TSG order). */}
+          <div className="md:hidden text-center mt-10">
+            <p className="text-muted-foreground font-body text-sm max-w-2xl mx-auto">
+              {t("bouquetProducts.description")}{' '}
+              <Link to={colorLinkTo("white")} className="text-primary hover:underline">{t("nav.whiteRoses").toLowerCase()}</Link>,{' '}
+              <Link to={colorLinkTo("red")} className="text-primary hover:underline">{t("nav.redRoses").toLowerCase()}</Link>,{' '}
+              <Link to={colorLinkTo("pink")} className="text-primary hover:underline">{t("nav.pinkRoses").toLowerCase()}</Link>,{' '}
+              <Link to={colorLinkTo("blue")} className="text-primary hover:underline">{t("nav.blueRoses").toLowerCase()}</Link>.
+            </p>
+            <p className="text-primary font-body text-xs font-semibold mt-2">{t("common.orderBefore3PM")}</p>
           </div>
         </div>
       </div>
