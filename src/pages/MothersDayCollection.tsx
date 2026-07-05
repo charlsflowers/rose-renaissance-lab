@@ -34,18 +34,6 @@ const MothersDayCollection = () => {
     globalThis.scrollTo?.(0, 0);
   }, []);
 
-  // While locked, gate the page: block scroll so the visitor sees the
-  // countdown + opening dates (SEO content stays in the DOM underneath).
-  useEffect(() => {
-    if (purchasable) return;
-    const body = document.body;
-    const prev = body.style.overflow;
-    body.style.overflow = "hidden";
-    return () => {
-      body.style.overflow = prev;
-    };
-  }, [purchasable]);
-
   const fmt = (d: Date, withYear = true) =>
     d.toLocaleDateString(isEs ? "es-ES" : "en-US", {
       day: "numeric",
@@ -103,39 +91,6 @@ const MothersDayCollection = () => {
       />
       <JsonLd data={faqSchema(faqs)} />
       <Navbar />
-
-      {/* ===== Coming-soon gate (locked window) ===== */}
-      {!purchasable && (
-        <div className="fixed inset-0 z-40 flex items-center justify-center bg-background/70 backdrop-blur-md px-6">
-          <motion.div
-            initial={{ opacity: 0, scale: 0.96 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.5 }}
-            className="w-full max-w-lg text-center bg-background/95 border border-border rounded-3xl shadow-xl px-7 py-9 md:px-10 md:py-11"
-          >
-            <p className="font-subtitle-script text-primary text-lg md:text-xl mb-1 flex items-center justify-center gap-2">
-              <Flower2 className="w-4 h-4" />
-              {isEs ? "Edición Limitada" : "Limited Edition"}
-            </p>
-            <h2 className="font-title-retro text-3xl md:text-4xl text-foreground mb-3">
-              {isEs ? "Flores para el Día de la Madre" : "Mother's Day Flowers"}
-            </h2>
-            <p className="text-muted-foreground font-body text-sm md:text-base mb-6">
-              {isEs
-                ? "Nuestra colección se abre muy pronto. Vuelve para pedir el ramo perfecto para mamá."
-                : "Our collection opens soon. Come back to order the perfect bouquet for mom."}
-            </p>
-            <MothersDayCountdown />
-            <Link
-              to="/bouquets"
-              className="inline-flex items-center gap-2 mt-7 text-primary hover:underline font-body text-sm tracking-wider uppercase"
-            >
-              {isEs ? "Ver ramos disponibles" : "Browse available bouquets"}
-              <ArrowRight className="w-3.5 h-3.5" />
-            </Link>
-          </motion.div>
-        </div>
-      )}
 
       <div className="pt-24 pb-16">
         <div className="container mx-auto px-6">
