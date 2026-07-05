@@ -169,6 +169,8 @@ const AppContent = () => {
       {/* Legacy two-segment fichas (/bouquets/all/<handle>, /bouquets/mothers-day/<handle>, etc.)
           → resolved/301'd by BouquetSlugResolver (kept indefinitely for backlinks + ads). */}
       <Route path="bouquets/:type/:productId" element={<BouquetSlugResolver />} />
+      {/* Menu/legacy link → the Mother's Day collection lives at /mothers-day. */}
+      <Route path="bouquets/mothers-day" element={<Navigate to="/mothers-day" replace />} />
       {/* Clean keyword-first ficha URL: /bouquets/<slug> (EN) and /es/bouquets/<slugEs> (ES). */}
       <Route path="bouquets/:slug" element={<BouquetSlugResolver />} />
       <Route path="bouquets" element={<BouquetProducts />} />

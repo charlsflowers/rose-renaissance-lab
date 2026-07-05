@@ -108,7 +108,7 @@ const Navbar = () => {
       titleTo: occasionsIndexPath,
       items: [
         // Mother's Day is the only occasion with a live product collection — keep it first.
-        { to: "/bouquets/mothers-day", label: t("nav.mothersDayBouquets") },
+        { to: "/mothers-day", label: t("nav.mothersDayBouquets") },
         // Tier-1 occasion landing pages (indexable, content-rich, no products yet).
         ...occasionsByTier(1).map((o) => ({
           to: occasionLinkTo(o.slug, o.slugEs),

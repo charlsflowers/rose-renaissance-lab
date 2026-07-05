@@ -27,14 +27,14 @@ interface Unit {
 }
 
 /**
- * Countdown to the Mother's Day purchase window opening. Shown while the
+ * Countdown to the Mother's Day purchase mdWindow opening. Shown while the
  * collection is "locked" (coming soon). Pure UX/conversion — the SEO weight
  * lives in the page content, not the timer.
  */
 const MothersDayCountdown = () => {
   const { language } = useTranslation();
   const isEs = language === "es";
-  const window = getMothersDayWindow();
+  const mdWindow = getMothersDayWindow();
   const purchasable = isMothersDayPurchasable();
 
   const [now, setNow] = useState<number>(() => Date.now());
@@ -51,14 +51,14 @@ const MothersDayCountdown = () => {
         </span>
         <span className="font-body text-xs md:text-sm text-foreground/80">
           {isEs
-            ? `Puedes comprar hasta el ${fmtDate(window.close, language)}`
-            : `Order until ${fmtDate(window.close, language)}`}
+            ? `Puedes comprar hasta el ${fmtDate(mdWindow.close, language)}`
+            : `Order until ${fmtDate(mdWindow.close, language)}`}
         </span>
       </div>
     );
   }
 
-  const diff = Math.max(0, window.open.getTime() - now);
+  const diff = Math.max(0, mdWindow.open.getTime() - now);
   const totalSeconds = Math.floor(diff / 1000);
   const units: Unit[] = [
     { value: Math.floor(totalSeconds / 86400), labelEn: "Days", labelEs: "Días" },
@@ -73,8 +73,8 @@ const MothersDayCountdown = () => {
         <Lock className="w-3.5 h-3.5" />
         <span className="font-body text-[11px] md:text-xs tracking-widest uppercase font-semibold">
           {isEs
-            ? `Se abre del ${fmtShort(window.open, language)} al ${fmtDate(window.close, language)}`
-            : `Opens ${fmtShort(window.open, language)} – ${fmtDate(window.close, language)}`}
+            ? `Se abre del ${fmtShort(mdWindow.open, language)} al ${fmtDate(mdWindow.close, language)}`
+            : `Opens ${fmtShort(mdWindow.open, language)} – ${fmtDate(mdWindow.close, language)}`}
         </span>
       </div>
 

@@ -28,7 +28,7 @@ const MothersDayCollection = () => {
   const isEs = language === "es";
   const { products, raw } = useMothersDayBouquets();
   const purchasable = isMothersDayPurchasable();
-  const window = getMothersDayWindow();
+  const mdWindow = getMothersDayWindow();
 
   useEffect(() => {
     globalThis.scrollTo?.(0, 0);
@@ -41,9 +41,9 @@ const MothersDayCollection = () => {
       ...(withYear ? { year: "numeric" } : {}),
     });
 
-  const mdDate = fmt(window.mothersDay);
-  const openDate = fmt(window.open);
-  const closeDate = fmt(window.close);
+  const mdDate = fmt(mdWindow.mothersDay);
+  const openDate = fmt(mdWindow.open);
+  const closeDate = fmt(mdWindow.close);
 
   const faqs = isEs
     ? [
