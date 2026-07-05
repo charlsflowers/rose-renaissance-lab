@@ -173,7 +173,7 @@ const Index = ({ noindex = false }: { noindex?: boolean } = {}) => {
                 <span className="normal-case tracking-normal text-muted-foreground">·</span>
                 <span className="inline-flex items-center gap-1 normal-case tracking-normal text-muted-foreground">
                   {t("home.poweredBy")}
-                  <img src="/fedex-logo.png" alt="FedEx" loading="lazy" className="h-3 md:h-3.5 w-auto inline-block" />
+                  <img src="/fedex-logo.webp" alt="FedEx" loading="lazy" className="h-3 md:h-3.5 w-auto inline-block" />
                 </span>
               </span>
             </div>
