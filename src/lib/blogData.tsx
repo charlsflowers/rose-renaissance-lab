@@ -20,7 +20,6 @@ export const retiredBlogSlugs: string[] = [
   "best-flowers-quinceaneras-miami",
   "glitter-vs-natural-bouquets",
   "how-to-choose-roses-quantity",
-  "same-day-flower-delivery-miami",
 ];
 
 export const blogArticles: BlogArticleData[] = [];
