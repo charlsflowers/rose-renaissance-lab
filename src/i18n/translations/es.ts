@@ -3,7 +3,7 @@ export const es = {
     home: "Inicio",
     bouquets: "Ramos",
     customBouquets: "Ramos Personalizados",
-    roomDecors: "Decoración",
+    roomDecors: "Decoración Romántica",
     delivery: "Envío",
     about: "Nosotros",
     contact: "Contacto",
@@ -452,7 +452,7 @@ export const es = {
   },
 
   roomDecors: {
-    title: "Decoración de Habitación en Miami",
+    title: "Decoración Romántica de Habitaciones en Miami",
     subtitle: "Transforma cualquier espacio",
     description: "Crea momentos inolvidables con nuestros paquetes de decoración romántica. Elige entre",
     orThe: "o el",
@@ -687,8 +687,8 @@ export const es = {
       h1: "Ramo de Rosas Verdes en Miami",
     },
     roomDecors: {
-      title: "Decoración con Flores en Miami | Charls Flowers",
-      description: "Decoración romántica de habitaciones con flores en Miami. Servicio de montaje completo. Reserva tu Love Bomb, Overly Romantic o Deluxe Love Package.",
+      title: "Decoración Romántica de Habitaciones en Miami | Charls Flowers",
+      description: "Decoración romántica de habitaciones en Miami para sorprender a tu pareja. Flores, velas y pétalos — servicio de montaje completo. Reserva el mismo día, consulta gratis.",
     },
     about: {
       title: "La Mejor Floristería de Miami | Charls Flowers",

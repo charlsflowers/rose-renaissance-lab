@@ -5,7 +5,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import SeoHead from "@/components/SeoHead";
 import Breadcrumbs from "@/components/Breadcrumbs";
-import JsonLd, { breadcrumbSchema } from "@/components/JsonLd";
+import JsonLd, { breadcrumbSchema, itemListSchema } from "@/components/JsonLd";
 import CollectionFAQ from "@/components/CollectionFAQ";
 import { roomDecorPackages } from "@/lib/roomDecorData";
 import { useTranslation } from "@/i18n/LanguageContext";
@@ -26,7 +26,18 @@ const RoomDecors = () => {
   return (
     <div className="min-h-screen bg-background">
       <SeoHead title={t("seo.roomDecors.title")} description={t("seo.roomDecors.description")} path="/room-decors" />
-      <JsonLd data={breadcrumbSchema([{ name: "Home", url: "https://charlsflowers.com" }, { name: "Room Decors", url: "https://charlsflowers.com/room-decors" }])} />
+      <JsonLd data={breadcrumbSchema([{ name: "Home", url: "https://charlsflowers.com" }, { name: "Romantic Room Decoration", url: "https://charlsflowers.com/room-decors" }])} />
+      <JsonLd
+        data={itemListSchema(
+          roomDecorPackages.map((pkg) => ({
+            name: `${pkg.name} Miami`,
+            url: `https://charlsflowers.com/room-decors/${pkg.id}`,
+            image: pkg.image,
+            price: Number(pkg.price),
+          })),
+          "Romantic Room Decoration Miami",
+        )}
+      />
       <Navbar />
       <div className="pt-24 pb-16">
         <div className="container mx-auto px-6">

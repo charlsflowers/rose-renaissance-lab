@@ -4,7 +4,7 @@ export const en = {
     home: "Home",
     bouquets: "Bouquets",
     customBouquets: "Custom Bouquets",
-    roomDecors: "Room Decors",
+    roomDecors: "Romantic Room Decor",
     delivery: "Delivery",
     about: "About",
     contact: "Contact",
@@ -468,7 +468,7 @@ export const en = {
 
   // Room Decors
   roomDecors: {
-    title: "Room Decoration Miami",
+    title: "Romantic Room Decoration in Miami",
     subtitle: "Transform any space",
     description: "Create unforgettable moments with our romantic room decoration packages. Choose from",
     orThe: "or the",
@@ -712,8 +712,8 @@ export const en = {
       h1: "Green Roses Bouquet Miami",
     },
     roomDecors: {
-      title: "Room Decoration Miami | Romantic Floral Setup",
-      description: "Premium romantic room decoration with flowers in Miami. Full setup service. Book your Love Bomb, Overly Romantic or Deluxe Love Package today.",
+      title: "Romantic Room Decoration in Miami | Charls Flowers",
+      description: "Luxury romantic room decoration in Miami to surprise your partner. Flowers, candles & rose petals — full setup service. Same-day booking, free consultation.",
     },
     about: {
       title: "Miami's Premier Flower Shop – Charls Flowers",
