@@ -85,7 +85,7 @@ const portableTextComponents: PortableTextComponents = {
 const BlogArticle = () => {
   const { slug } = useParams<{ slug: string }>();
   const location = useLocation();
-  const { t } = useTranslation();
+  const { t, language } = useTranslation();
   useEffect(() => { window.scrollTo(0, 0); }, [slug]);
 
   // 301-equivalent redirect for retired AI-generated posts
