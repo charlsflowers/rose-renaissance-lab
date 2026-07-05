@@ -386,10 +386,10 @@ const Index = ({ noindex = false }: { noindex?: boolean } = {}) => {
             <p className="text-muted-foreground font-body max-w-lg md:mx-auto mt-1">{t("home.deliverySubtitleLine2")}</p>
             <p className="text-primary font-body text-sm font-semibold mt-3">{t("home.deliveryAddress")}</p>
           </motion.div>
-          <div className="max-w-2xl mx-auto rounded-lg overflow-hidden border border-border">
+          <div className="relative max-w-2xl mx-auto rounded-lg overflow-hidden border border-border h-[300px] sm:h-[380px] md:h-[440px]">
             <iframe
               src="https://www.google.com/maps?q=7261+NW+12th+St,+Miami,+FL+33126&z=12&output=embed"
-              className="w-full h-[300px] sm:h-[380px] md:h-[440px]"
+              className="absolute inset-0 w-full h-full"
               style={{ border: 0, display: "block" }}
               loading="lazy"
               referrerPolicy="no-referrer-when-downgrade"
