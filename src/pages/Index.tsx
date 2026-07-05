@@ -12,7 +12,6 @@ import MothersDayHero from "@/components/MothersDayHero";
 import MothersDayBanner from "@/components/MothersDayBanner";
 import MothersDayCollectionSection from "@/components/MothersDayCollectionSection";
 import DynamicClusters from "@/components/DynamicClusters";
-import { useTsgExperiment } from "@/hooks/useTsgExperiment";
 import arreglosImg from "@/assets/arreglos.webp";
 import cajasImg from "@/assets/cajas.webp";
 import cestasImg from "@/assets/cestas.webp";
@@ -26,12 +25,8 @@ const comingSoonSlugs = ["arreglos", "cajas", "cestas", "jarrones"];
 const Index = ({ noindex = false }: { noindex?: boolean } = {}) => {
   const { t } = useTranslation();
   const promoActive = isMothersDayPromoActive();
-  // TSG morphology A/B test (Romuald, Armada SEO 2025, Módulo 15 clase 08):
-  // 50/50 split iterating the FRANJA ORDER of the home. Variant "A" keeps the
-  // product-first order (Categories first, Occasions later); variant "B" leads
-  // with the informational "Occasions" franja before Categories. GA4 measures
-  // which morphology segments/converts better.
-  const tsgVariant = useTsgExperiment("home-franja-order");
+  // Home franja order (Romuald): products/categories first, occasions after
+  // ("arriba lo que convierte" + morfología TSG). A/B retired — fixed order.
   // Live Bicolor Passion image (current first photo from Shopify)
   const bicolorImgs = useShopifyProductImages("bicolor-passion");
   const bicolorPassionImg = bicolorImgs.primary || bicolorPassionImgFallback;
@@ -180,9 +175,6 @@ const Index = ({ noindex = false }: { noindex?: boolean } = {}) => {
           </div>
         </div>
       </section>
-
-      {/* TSG variant B: lead with the informational Occasions franja before Categories. */}
-      {tsgVariant === "B" && occasionsSection}
 
       {/* Categories */}
       <section className="py-16 md:py-20 bg-background">
@@ -374,8 +366,8 @@ const Index = ({ noindex = false }: { noindex?: boolean } = {}) => {
         </div>
       </div>
 
-      {/* Occasions — SEO H3 section. TSG variant A: keep it here (after Categories). */}
-      {tsgVariant === "A" && occasionsSection}
+      {/* Occasions — SEO H3 section, after Categories (products first, then occasions). */}
+      {occasionsSection}
 
       {/* Same-Day Delivery + Google Maps */}
       <section className="py-16 md:py-20">
