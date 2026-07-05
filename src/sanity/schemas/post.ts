@@ -40,6 +40,13 @@ export const post = defineType({
       validation: (Rule) => Rule.required(),
     }),
     defineField({
+      name: "translationSlug",
+      title: "Translated post slug (other language)",
+      description:
+        "Slug of the SAME article in the other language, so the language toggle jumps to it. E.g. the EN post points to the ES slug and vice-versa.",
+      type: "string",
+    }),
+    defineField({
       name: "updatedAt",
       title: "Updated at",
       type: "datetime",

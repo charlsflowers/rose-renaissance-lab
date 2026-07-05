@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { useParams, Navigate as RRNavigate } from "react-router-dom";
+import { useParams, useLocation, Navigate as RRNavigate } from "react-router-dom";
 import { Link, Navigate } from "@/i18n/LocalizedRouter";
 import { useQuery } from "@tanstack/react-query";
 import { PortableText, type PortableTextComponents } from "@portabletext/react";
@@ -84,6 +84,7 @@ const portableTextComponents: PortableTextComponents = {
 
 const BlogArticle = () => {
   const { slug } = useParams<{ slug: string }>();
+  const location = useLocation();
   const { t, language } = useTranslation();
   useEffect(() => { window.scrollTo(0, 0); }, [slug]);
 
@@ -122,10 +123,22 @@ const BlogArticle = () => {
     );
   }
 
-  // If user is browsing ES but the post only exists in EN (no ES translation in Sanity),
-  // redirect to the EN URL. Use raw Navigate (not localized) to avoid the /es prefix.
-  if (language === "es" && article.language !== "es") {
-    return <RRNavigate to={`/blog/${article.slug.current}`} replace />;
+  // Language toggle on a post: EN and ES versions have DIFFERENT slugs. If the
+  // URL language doesn't match the fetched post's language, jump to the TRANSLATED
+  // post (if it exists); otherwise normalize to this post's own-language URL.
+  if (article.language !== language) {
+    if (article.translationSlug) {
+      const to =
+        language === "es"
+          ? `/es/blog/${article.translationSlug}`
+          : `/blog/${article.translationSlug}`;
+      return <RRNavigate to={to} replace />;
+    }
+    const own =
+      article.language === "es"
+        ? `/es/blog/${article.slug.current}`
+        : `/blog/${article.slug.current}`;
+    if (location.pathname !== own) return <RRNavigate to={own} replace />;
   }
 
   const imageUrl = urlFor(article.mainImage).width(1200).height(675).fit("crop").auto("format").url();

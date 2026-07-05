@@ -51,6 +51,8 @@ export interface BlogPostFull extends BlogPostListItem {
   seoDescription?: string;
   author?: string;
   relatedLandings?: string[];
+  /** Slug of the same article in the other language (for the language toggle). */
+  translationSlug?: string;
 }
 
 // ── Queries ────────────────────────────────────────────────────────────
@@ -73,7 +75,8 @@ const POST_FULL_PROJECTION = `
   seoTitle,
   seoDescription,
   author,
-  relatedLandings
+  relatedLandings,
+  translationSlug
 `;
 
 export async function fetchBlogPosts(language: "en" | "es" = "en"): Promise<BlogPostListItem[]> {
