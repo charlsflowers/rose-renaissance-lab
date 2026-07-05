@@ -85,7 +85,7 @@ const portableTextComponents: PortableTextComponents = {
 const BlogArticle = () => {
   const { slug } = useParams<{ slug: string }>();
   const location = useLocation();
-  const { t, language } = useTranslation();
+  const { t } = useTranslation();
   useEffect(() => { window.scrollTo(0, 0); }, [slug]);
 
   // 301-equivalent redirect for retired AI-generated posts
@@ -123,13 +123,18 @@ const BlogArticle = () => {
     );
   }
 
-  // Language toggle on a post: EN and ES versions have DIFFERENT slugs. If the
-  // URL language doesn't match the fetched post's language, jump to the TRANSLATED
-  // post (if it exists); otherwise normalize to this post's own-language URL.
-  if (article.language !== language) {
+  // Language toggle on a post: EN and ES versions have DIFFERENT slugs. Read the
+  // intended language from the URL itself (source of truth — the `language`
+  // context state lags a render behind on back/forward navigation, which caused
+  // a phantom redirect → blank page when going Back). If the URL language doesn't
+  // match the post's language, jump to the TRANSLATED post (if it exists);
+  // otherwise normalize to this post's own-language URL.
+  const urlLang: "en" | "es" =
+    location.pathname === "/es" || location.pathname.startsWith("/es/") ? "es" : "en";
+  if (article.language !== urlLang) {
     if (article.translationSlug) {
       const to =
-        language === "es"
+        urlLang === "es"
           ? `/es/blog/${article.translationSlug}`
           : `/blog/${article.translationSlug}`;
       return <RRNavigate to={to} replace />;
