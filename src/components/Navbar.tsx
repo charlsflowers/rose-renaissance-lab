@@ -126,9 +126,14 @@ const Navbar = () => {
         // group already, no need to duplicate here.
         ...flowerTypesByTier(1).map((f) => ({
           to: flowerTypeLinkTo(f.slug, f.slugEs),
-          label: language === "es"
-            ? f.h1.es.replace(/ en Miami$/, "")
-            : f.h1.en.replace(/( —)? Miami( Delivery)?$/, "").replace(/ Miami$/, ""),
+          // "Ramo Buchón" is a Spanish-market keyword with no English search
+          // equivalent — keep it in the ES menu, but show an English descriptor
+          // in the EN menu (the landing page keeps its "Ramo Buchón" keyword).
+          label: f.slug === "ramo-buchon"
+            ? (language === "es" ? "Ramo Buchón" : "Oversized Rose Bouquet")
+            : language === "es"
+              ? f.h1.es.replace(/ en Miami$/, "")
+              : f.h1.en.replace(/( —)? Miami( Delivery)?$/, "").replace(/ Miami$/, ""),
         })),
         { to: flowerTypesIndexPath, label: t("nav.allFlowers") },
       ],

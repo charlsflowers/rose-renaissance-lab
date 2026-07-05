@@ -736,8 +736,8 @@ export const en = {
       description: "Expert guides on flower delivery, weddings, events and floral care in Miami. Insider tips from Charls Flowers, Miami's luxury florist.",
     },
     mothersDay: {
-      title: "Mother's Day Flowers Miami | Special Edition Bouquets",
-      description: "Limited edition Mother's Day rose bouquets in Miami. 7 designs, 50 to 200 roses, same-day delivery. Available May 1 – May 12.",
+      title: "Mother's Day Flowers Miami | Same-Day Delivery | Charls Flowers",
+      description: "Send Mother's Day flowers in Miami with same-day delivery. Fresh rose bouquets for mom — 7 limited-edition designs, 50 to 200 roses. Order online at Charls Flowers.",
     },
     bouquetBuilder: {
       title: "Custom Bouquet Builder Miami | Charls Flowers",

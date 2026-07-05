@@ -134,6 +134,10 @@ export const productSchema = (name: string, description: string, price: number, 
 export const itemListSchema = (
   items: { name: string; url: string; image?: string; price?: number }[],
   listName?: string,
+  // Availability for the emitted Offers. Defaults to InStock; seasonal/locked
+  // collections pass "https://schema.org/OutOfStock" so we never tell Google a
+  // blocked product is buyable.
+  availability = "https://schema.org/InStock",
 ) => ({
   "@context": "https://schema.org",
   "@type": "ItemList",
@@ -162,7 +166,7 @@ export const itemListSchema = (
                 "@type": "Offer",
                 priceCurrency: "USD",
                 price: item.price!.toFixed(2),
-                availability: "https://schema.org/InStock",
+                availability,
                 seller: { "@type": "Organization", name: "Charls Flowers" },
               },
             },

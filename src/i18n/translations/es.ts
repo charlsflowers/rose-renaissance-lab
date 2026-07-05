@@ -712,7 +712,7 @@ export const es = {
     },
     mothersDay: {
       title: "Flores para el Día de la Madre en Miami | Charls Flowers",
-      description: "Ramos de rosas de edición limitada para el Día de la Madre en Miami. 7 diseños, de 50 a 200 rosas, envío el mismo día. Disponibles del 1 al 12 de mayo.",
+      description: "Envía flores para el Día de la Madre en Miami con entrega el mismo día. Ramos y rosas frescas para mamá — 7 diseños de edición limitada. Pide online en Charls Flowers.",
     },
     bouquetBuilder: {
       title: "Crea tu Ramo Personalizado en Miami | Charls Flowers",

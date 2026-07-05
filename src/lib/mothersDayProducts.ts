@@ -52,6 +52,24 @@ const COLLECTION_QUERY = `
   }
 `;
 
+/**
+ * Static fallback of the 7 Mother's Day products (real data mirrored from
+ * Shopify). Guarantees the collection page is NEVER empty — even when the
+ * products are unpublished from the Storefront outside the promo window, so
+ * the "coming soon / locked" page always shows the full line-up.
+ * If the live Storefront returns products, those take precedence.
+ */
+const CDN = "https://cdn.shopify.com/s/files/1/0979/1671/5140/files";
+export const MOTHERS_DAY_STATIC: MothersDayProductRaw[] = [
+  { id: "pure-white-mothers-day-edition", handle: "pure-white-mothers-day-edition", title: "Pure White - Mother's Day Edition", description: "White roses wrapped in white paper. Special Mother's Day Edition.", descriptionHtml: "", tags: ["white", "mothers-day"], primaryImage: `${CDN}/WHITE.png?v=1777753148`, minPrice: 163, currencyCode: "USD" },
+  { id: "hot-pink-blush-mothers-day-edition", handle: "hot-pink-blush-mothers-day-edition", title: "Hot Pink Blush - Mother's Day Edition", description: "Hot pink roses wrapped in pink paper. Special Mother's Day Edition.", descriptionHtml: "", tags: ["hot-pink", "mothers-day"], primaryImage: `${CDN}/HOT_PINK.png?v=1777753251`, minPrice: 163, currencyCode: "USD" },
+  { id: "soft-pink-mothers-day-edition", handle: "soft-pink-mothers-day-edition", title: "Soft Pink - Mother's Day Edition", description: "Pink roses wrapped in white paper. Special Mother's Day Edition.", descriptionHtml: "", tags: ["pink", "mothers-day"], primaryImage: `${CDN}/PINK.png?v=1777753140`, minPrice: 163, currencyCode: "USD" },
+  { id: "purple-charm-mothers-day-edition", handle: "purple-charm-mothers-day-edition", title: "Purple Charm - Mother's Day Edition", description: "Purple roses wrapped in black paper. Special Mother's Day Edition.", descriptionHtml: "", tags: ["purple", "mothers-day"], primaryImage: `${CDN}/PURPLE.png?v=1777635187`, minPrice: 163, currencyCode: "USD" },
+  { id: "orange-sunset-mothers-day-edition", handle: "orange-sunset-mothers-day-edition", title: "Orange Sunset - Mother's Day Edition", description: "Orange roses wrapped in black paper. Special Mother's Day Edition.", descriptionHtml: "", tags: ["orange", "mothers-day"], primaryImage: `${CDN}/NARANJA.png?v=1777635182`, minPrice: 163, currencyCode: "USD" },
+  { id: "radiant-sun-mothers-day-edition", handle: "radiant-sun-mothers-day-edition", title: "Radiant Sun - Mother's Day Edition", description: "Yellow roses wrapped in beige paper. Special Mother's Day Edition.", descriptionHtml: "", tags: ["yellow", "mothers-day"], primaryImage: `${CDN}/YELOW.png?v=1777753148`, minPrice: 163, currencyCode: "USD" },
+  { id: "total-passion-mothers-day-edition", handle: "total-passion-mothers-day-edition", title: "Total Passion - Mother's Day Edition", description: "Red roses wrapped in pink paper. Special Mother's Day Edition.", descriptionHtml: "", tags: ["red", "mothers-day"], primaryImage: `${CDN}/ROJO.png?v=1777635188`, minPrice: 163, currencyCode: "USD" },
+];
+
 let cache: MothersDayProductRaw[] | null = null;
 let inflight: Promise<MothersDayProductRaw[]> | null = null;
 
@@ -81,11 +99,14 @@ export async function fetchMothersDayProducts(): Promise<MothersDayProductRaw[]>
           currencyCode: n.priceRange?.minVariantPrice?.currencyCode ?? "USD",
         };
       });
-      cache = items;
-      return items;
+      // Never render empty: if the products are unpublished from the Storefront
+      // (typical outside the promo window), fall back to the static line-up.
+      const resolved = items.length > 0 ? items : MOTHERS_DAY_STATIC;
+      cache = resolved;
+      return resolved;
     } catch (err) {
       console.error("[mothersDayProducts] fetch failed", err);
-      return [];
+      return MOTHERS_DAY_STATIC;
     } finally {
       inflight = null;
     }
@@ -132,8 +153,10 @@ export function useMothersDayBouquets(): {
   raw: MothersDayProductRaw[];
   loading: boolean;
 } {
-  const [raw, setRaw] = useState<MothersDayProductRaw[]>(cache ?? []);
-  const [loading, setLoading] = useState<boolean>(!cache);
+  // Seed with the static line-up so the page (and the prerendered HTML for SEO)
+  // always shows the 7 products immediately; the live fetch enriches after.
+  const [raw, setRaw] = useState<MothersDayProductRaw[]>(cache ?? MOTHERS_DAY_STATIC);
+  const [loading, setLoading] = useState<boolean>(false);
 
   useEffect(() => {
     let active = true;
