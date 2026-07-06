@@ -35,7 +35,7 @@ export const localBusinessSchema = () => ({
   availableLanguage: ["English", "Spanish"],
   address: {
     "@type": "PostalAddress",
-    streetAddress: "7261 Northwest 12th Street",
+    streetAddress: "7261 NW 12th St",
     addressLocality: "Miami",
     addressRegion: "FL",
     postalCode: "33126",
@@ -80,7 +80,7 @@ export const organizationSchema = () => ({
   email: "charls@charlsflowers.com",
   address: {
     "@type": "PostalAddress",
-    streetAddress: "7261 Northwest 12th Street",
+    streetAddress: "7261 NW 12th St",
     addressLocality: "Miami",
     addressRegion: "FL",
     postalCode: "33126",
@@ -239,7 +239,7 @@ export const blogPostingSchema = (args: {
 
 export const homepageFaqs = [
   { question: "Do you offer same-day flower delivery in Miami?", answer: "Yes! We offer same-day delivery across Miami up to 87 miles. Order before 3PM and your bouquet will be delivered today. Minimum 2 hours preparation time." },
-  { question: "How much does flower delivery cost in Miami?", answer: "$20 flat rate for 0-5 miles. $1.60 per mile from 5 to 87 miles. Free in-store pickup available at 7261 NW 12th Street, Miami FL 33126." },
+  { question: "How much does flower delivery cost in Miami?", answer: "$20 flat rate for 0-5 miles. $1.60 per mile from 5 to 87 miles. Free in-store pickup available at 7261 NW 12th St, Miami FL 33126." },
   { question: "Can I customize my bouquet?", answer: "Yes! Use our custom bouquet builder to choose color, paper, quantity (50-200 roses), finish (natural, glitter, painted) and accessories. AI preview shows exactly what you'll receive." },
   { question: "What is the difference between glitter and natural bouquets?", answer: "Natural bouquets use fresh roses in their original color. Glitter bouquets have a premium glitter coating applied to the petals for a glamorous, long-lasting effect." },
   { question: "How does the AI bouquet preview work?", answer: "Our custom bouquet builder uses AI (powered by Gemini) to generate a realistic preview of your bouquet before you order, based on your color, quantity and finish selections." },

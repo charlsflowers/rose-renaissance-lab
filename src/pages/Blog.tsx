@@ -73,7 +73,7 @@ const Blog = () => {
                 <p>
                   Bienvenido al blog de Charls Flowers — un cuaderno de trabajo desde dentro
                   del mundo floral de lujo de Miami. Somos una floristería familiar ubicada en
-                  7261 NW 12th Street, y entregamos ramos de rosas personalizados, decoración de
+                  7261 NW 12th St, y entregamos ramos de rosas personalizados, decoración de
                   espacios y arreglos para eventos por todo Miami-Dade, hasta 87 millas desde
                   nuestra tienda. En este blog compartimos todo lo que aprendemos día a día: qué
                   flores están de temporada, qué tamaños de ramo funcionan para cada ocasión,
@@ -116,7 +116,7 @@ const Blog = () => {
               <>
                 <p>
                   Welcome to the Charls Flowers blog — a working notebook from inside Miami's
-                  luxury floral scene. We're a family-run florist based at 7261 NW 12th Street,
+                  luxury floral scene. We're a family-run florist based at 7261 NW 12th St,
                   delivering custom rose bouquets, room decorations and event arrangements across
                   all of Miami-Dade up to 87 miles from our shop. This blog is where we share
                   everything we learn day to day: what's actually in season, which bouquet sizes

@@ -204,7 +204,7 @@ export const es = {
     title: "Envío de Flores en Miami — Preguntas Frecuentes",
     faqs: [
       { q: "¿Ofrecen envío el mismo día en Miami?", a: "¡Sí! Ofrecemos envío el mismo día en todo Miami hasta 87 millas. Pide antes de las 3PM y tu ramo será entregado hoy. Tiempo mínimo de preparación: 2 horas." },
-      { q: "¿Cuánto cuesta el envío de flores en Miami?", a: "$25 tarifa fija para 0-5 millas. $1.60 por milla de 5 a 87 millas. Recogida gratis disponible en 7261 NW 12th Street, Miami FL 33126." },
+      { q: "¿Cuánto cuesta el envío de flores en Miami?", a: "$25 tarifa fija para 0-5 millas. $1.60 por milla de 5 a 87 millas. Recogida gratis disponible en 7261 NW 12th St, Miami FL 33126." },
       { q: "¿Puedo personalizar mi ramo?", a: "¡Sí! Usa nuestro creador de ramos personalizados para elegir color, papel, cantidad (50-200 rosas), acabado (natural, glitter, pintado) y accesorios. La vista previa de IA te muestra exactamente lo que recibirás." },
       { q: "¿Cuál es la diferencia entre ramos con glitter y naturales?", a: "Los ramos naturales usan rosas frescas en su color original. Los ramos con glitter tienen un revestimiento premium de glitter aplicado a los pétalos para un efecto glamoroso y duradero." },
       { q: "¿Cómo funciona la vista previa de IA del ramo?", a: "Nuestro creador de ramos personalizados usa IA para generar una vista previa realista de tu ramo antes de pedirlo, basándose en tu selección de color, cantidad y acabado." },
@@ -796,7 +796,7 @@ export const es = {
   legal: {
     lastUpdated: "Última actualización: 21 de marzo de 2026",
     contactHeading: "Contáctanos",
-    address: "Charls Flowers\n7261 NW 12th Street, Miami FL 33126, Estados Unidos",
+    address: "Charls Flowers\n7261 NW 12th St, Miami FL 33126, Estados Unidos",
     disclaimer: "Aviso: Esta es una traducción de referencia. La versión oficial y legalmente vinculante de esta política está disponible en inglés.",
 
     privacy: {

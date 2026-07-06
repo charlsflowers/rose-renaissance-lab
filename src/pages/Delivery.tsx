@@ -62,7 +62,7 @@ const Delivery = () => {
                 <div className="flex items-start gap-3">
                   <MapPin className="w-4 h-4 text-primary mt-0.5 shrink-0" />
                   <div>
-                    <p className="font-semibold text-foreground">7261 NW 12th Street</p>
+                    <p className="font-semibold text-foreground">7261 NW 12th St</p>
                     <p>Miami, FL 33126</p>
                   </div>
                 </div>
@@ -81,7 +81,7 @@ const Delivery = () => {
           <div className="rounded-lg overflow-hidden border border-border mb-12" style={{ minHeight: 300 }}>
             <iframe
               title="Charls Flowers Miami delivery area"
-              src="https://www.google.com/maps?q=7261+NW+12th+St,+Miami,+FL+33126&z=12&output=embed"
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d4603.046257535852!2d-80.3160576236964!3d25.783063677338557!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x88d9b9b32f0991f1%3A0x492b0c41e05b5dff!2sCharls%20Flowers!5e1!3m2!1ses!2ses!4v1783354285230!5m2!1ses!2ses"
               width="100%"
               height="300"
               style={{ border: 0 }}
