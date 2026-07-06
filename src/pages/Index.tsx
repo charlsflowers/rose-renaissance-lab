@@ -378,16 +378,15 @@ const Index = ({ noindex = false }: { noindex?: boolean } = {}) => {
             <p className="text-muted-foreground font-body max-w-lg md:mx-auto mt-1">{t("home.deliverySubtitleLine2")}</p>
             <p className="text-primary font-body text-sm font-semibold mt-3">{t("home.deliveryAddress")}</p>
           </motion.div>
-          <div className="relative mx-auto h-[300px] w-full max-w-xl overflow-hidden rounded-lg bg-background">
+          <div className="mx-auto w-full max-w-xl overflow-hidden rounded-lg">
             <iframe
               src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d4603.046257535852!2d-80.3160576236964!3d25.783063677338557!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x88d9b9b32f0991f1%3A0x492b0c41e05b5dff!2sCharls%20Flowers!5e1!3m2!1ses!2ses!4v1783354285230!5m2!1ses!2ses"
-              className="absolute -inset-px block h-[calc(100%+2px)] w-[calc(100%+2px)] max-w-none"
+              className="block h-[300px] w-full rounded-lg align-top"
               style={{ border: 0 }}
               loading="lazy"
               referrerPolicy="no-referrer-when-downgrade"
               title="Charls Flowers Miami Location"
             />
-            <div className="pointer-events-none absolute inset-0 rounded-lg ring-1 ring-inset ring-border" />
           </div>
           <div className="text-center mt-4 font-body text-sm text-muted-foreground space-y-1">
             <p><a href="tel:9044424042" className="text-primary hover:underline font-semibold">904-442-4042</a></p>
