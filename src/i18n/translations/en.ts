@@ -140,7 +140,7 @@ export const en = {
     deliveryTitle: "Same-Day Flower Delivery Across Miami",
     deliverySubtitleLine1: "$25 flat rate for 0-5 miles. $1.60/mile from 5 to 87 miles.",
     deliverySubtitleLine2: "Free in-store pickup.",
-    deliveryAddress: "📍 7261 NW 12th Street, Miami, FL 33126",
+    deliveryAddress: "📍 7261 NW 12th St, Miami, FL 33126",
      hoursLine1: "Monday – Friday: 8AM – 7PM",
     hoursLine2: "Saturday: 8AM – 5PM",
     hoursLine3: "Sunday: Closed",

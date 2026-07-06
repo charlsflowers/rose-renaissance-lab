@@ -136,7 +136,7 @@ export const es = {
     deliveryTitle: "Envío de Flores el Mismo Día en Todo Miami",
     deliverySubtitleLine1: "$25 tarifa fija para 0-5 millas. $1.60/milla de 5 a 87 millas.",
     deliverySubtitleLine2: "Recogida gratis en tienda.",
-    deliveryAddress: "📍 7261 NW 12th Street, Miami, FL 33126",
+    deliveryAddress: "📍 7261 NW 12th St, Miami, FL 33126",
     hoursLine1: "Lunes – Viernes: 8AM – 7PM",
     hoursLine2: "Sábado: 8AM – 5PM",
     hoursLine3: "Domingo: Cerrado",
