@@ -378,11 +378,11 @@ const Index = ({ noindex = false }: { noindex?: boolean } = {}) => {
             <p className="text-muted-foreground font-body max-w-lg md:mx-auto mt-1">{t("home.deliverySubtitleLine2")}</p>
             <p className="text-primary font-body text-sm font-semibold mt-3">{t("home.deliveryAddress")}</p>
           </motion.div>
-          <div className="relative w-full max-w-2xl mx-auto rounded-lg overflow-hidden border border-border aspect-[4/3] sm:aspect-[16/10] md:aspect-[16/9]">
+          <div className="relative w-full max-w-xl mx-auto rounded-lg overflow-hidden border border-border bg-muted h-[220px] sm:h-[260px] md:h-[300px]">
             <iframe
               src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d4603.046257535852!2d-80.3160576236964!3d25.783063677338557!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x88d9b9b32f0991f1%3A0x492b0c41e05b5dff!2sCharls%20Flowers!5e1!3m2!1ses!2ses!4v1783354285230!5m2!1ses!2ses"
-              className="absolute inset-0 h-full w-full"
-              style={{ border: 0, display: "block" }}
+              className="absolute inset-0 block h-full w-full"
+              style={{ border: 0 }}
               loading="lazy"
               referrerPolicy="no-referrer-when-downgrade"
               title="Charls Flowers Miami Location"
