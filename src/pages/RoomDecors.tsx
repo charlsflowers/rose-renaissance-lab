@@ -12,9 +12,17 @@ import { useTranslation } from "@/i18n/LanguageContext";
 import { isMothersDayPromoActive } from "@/lib/mothersDayPromo";
 
 const RoomDecors = () => {
-  const { t } = useTranslation();
+  const { t, language } = useTranslation();
+  const isEs = language === "es";
   const promoActive = isMothersDayPromoActive();
   useEffect(() => { window.scrollTo(0, 0); }, []);
+
+  // Per-image ALT — a distinct keyword per package, no brand (SEO, Romuald).
+  const PKG_ALT: Record<string, { en: string; es: string }> = {
+    "love-bomb": { en: "Love Bomb romantic room decoration with rose petals and candles in Miami", es: "Decoración romántica Love Bomb con pétalos de rosa y velas en Miami" },
+    "overly-romantic": { en: "Overly Romantic room surprise setup with fresh florals and candles in Miami", es: "Sorpresa romántica Overly Romantic con flores y velas en Miami" },
+    "deluxe-love-package": { en: "Deluxe Love Package romantic room decor with LED lights and premium décor in Miami", es: "Decoración romántica Deluxe con luces LED y detalles premium en Miami" },
+  };
 
   const roomDecorFAQs = [
     { question: t("roomDecorFaq.q1"), answer: t("roomDecorFaq.a1") },
@@ -59,7 +67,7 @@ const RoomDecors = () => {
               <motion.div key={pkg.id} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: idx * 0.15 }}>
                 <Link to={`/room-decors/${pkg.id}`} className="group block">
                   <div className="relative overflow-hidden rounded-lg mb-4 aspect-square bg-muted">
-                    <img src={pkg.image} alt={`${pkg.name} — Romantic Room Decoration in Miami | Charls Flowers`} loading="lazy" width={400} height={400} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
+                    <img src={pkg.image} alt={(PKG_ALT[pkg.id] && PKG_ALT[pkg.id][isEs ? "es" : "en"]) || `${pkg.name} romantic room decoration in Miami`} loading="lazy" width={400} height={400} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
                     <div className="absolute inset-0 bg-foreground/5 group-hover:bg-foreground/15 transition-colors" />
                     {pkg.id === 'deluxe-love-package' && (
                       <div className="absolute -top-1 -right-1 z-10">
@@ -82,7 +90,40 @@ const RoomDecors = () => {
           </div>
         </div>
       </div>
+      {/* SEO body — extra sections (H2) + internal links (menor→mayor). */}
       <div className="container mx-auto px-6">
+        <div className="max-w-3xl mx-auto mb-10 space-y-6">
+          <div>
+            <h2 className="font-display text-xl md:text-2xl font-semibold text-foreground mb-2">
+              {isEs ? "Perfecto para cualquier sorpresa romántica" : "Perfect for any romantic surprise"}
+            </h2>
+            <p className="font-body text-sm md:text-base text-muted-foreground leading-relaxed">
+              {isEs
+                ? "Aniversarios, San Valentín, una cita en casa o simplemente porque sí: una decoración romántica convierte una noche normal en un momento inolvidable."
+                : "Anniversaries, Valentine's Day, a date night in, or just because — a romantic room decoration turns an ordinary evening into a moment she'll remember."}
+            </p>
+          </div>
+          <div>
+            <h2 className="font-display text-xl md:text-2xl font-semibold text-foreground mb-2">
+              {isEs ? "Hazlo a tu manera" : "Make it yours"}
+            </h2>
+            <p className="font-body text-sm md:text-base text-muted-foreground leading-relaxed">
+              {isEs
+                ? "Elige el color del ramo y añade extras para personalizar el montaje. Reserva con al menos 24 horas; el mismo día suele ser posible."
+                : "Choose your bouquet color and add extras to personalize the setup. Book at least 24 hours ahead; same-day is often possible."}
+            </p>
+          </div>
+          <p className="font-body text-sm md:text-base text-muted-foreground leading-relaxed">
+            {isEs ? "Sigue explorando: envía " : "Keep exploring: send "}
+            <Link to={isEs ? "/es/bouquets/rosas-rojas" : "/bouquets/red-roses"} className="text-primary hover:underline">
+              {isEs ? "rosas rojas en Miami" : "red roses in Miami"}
+            </Link>
+            {isEs ? " o mira nuestros " : " or browse our "}
+            <Link to="/bouquets" className="text-primary hover:underline">
+              {isEs ? "ramos de rosas" : "rose bouquets"}
+            </Link>.
+          </p>
+        </div>
         <CollectionFAQ faqs={roomDecorFAQs} />
       </div>
       <Footer />

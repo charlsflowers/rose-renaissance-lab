@@ -34,6 +34,17 @@ const MothersDayCollection = () => {
     globalThis.scrollTo?.(0, 0);
   }, []);
 
+  // Per-image ALT — a distinct keyword per product, no brand (SEO, Romuald).
+  const MD_ALT: Record<string, { en: string; es: string }> = {
+    "pure-white-mothers-day-edition": { en: "Pure White roses bouquet for Mother's Day in Miami", es: "Ramo de rosas blancas Pure White para el Día de la Madre en Miami" },
+    "hot-pink-blush-mothers-day-edition": { en: "Hot Pink Blush mother's day roses with same-day delivery in Miami", es: "Rosas Hot Pink Blush para mamá en Miami" },
+    "soft-pink-mothers-day-edition": { en: "Soft Pink flowers for mom, handcrafted Mother's Day bouquet in Miami", es: "Flores para mamá Soft Pink hechas a mano en Miami" },
+    "purple-charm-mothers-day-edition": { en: "Purple Charm mother's day flower bouquet delivered in Miami", es: "Ramo Purple Charm para el Día de la Madre en Miami" },
+    "orange-sunset-mothers-day-edition": { en: "Orange Sunset roses for Mother's Day, flower delivery in Miami", es: "Rosas Orange Sunset para mamá en Miami" },
+    "radiant-sun-mothers-day-edition": { en: "Radiant Sun yellow roses gift for mom in Miami", es: "Rosas amarillas Radiant Sun para el Día de la Madre en Miami" },
+    "total-passion-mothers-day-edition": { en: "Total Passion red roses bouquet for Mother's Day in Miami", es: "Ramo de rosas rojas Total Passion para mamá en Miami" },
+  };
+
   const fmt = (d: Date, withYear = true) =>
     d.toLocaleDateString(isEs ? "es-ES" : "en-US", {
       day: "numeric",
@@ -112,7 +123,7 @@ const MothersDayCollection = () => {
               {isEs ? "Edición Limitada" : "Limited Edition"}
             </p>
             <h1 className="font-title-retro text-4xl md:text-5xl text-foreground mb-3">
-              {isEs ? "Flores para el Día de la Madre" : "Mother's Day Flowers"}
+              {isEs ? "Flores para el Día de la Madre en Miami" : "Mother's Day Flowers in Miami"}
             </h1>
             {/* Mirror-effect long-tail intro under the existing H1. */}
             <LongTailIntro seoKey="mothers-day" />
@@ -135,7 +146,7 @@ const MothersDayCollection = () => {
                     {product.image ? (
                       <img
                         src={product.image}
-                        alt={`${product.name} Miami – Charls Flowers`}
+                        alt={(MD_ALT[product.shopifyHandle] && MD_ALT[product.shopifyHandle][isEs ? "es" : "en"]) || `${product.name} roses bouquet for Mother's Day in Miami`}
                         loading="lazy"
                         width={400}
                         height={400}
@@ -185,6 +196,37 @@ const MothersDayCollection = () => {
               {isEs ? "Ver todos los bouquets" : "View all bouquets"}
               <ArrowRight className="w-3.5 h-3.5" />
             </Link>
+          </div>
+
+          {/* SEO body — H2 sections + internal link (menor→mayor to Roses 823k). */}
+          <div className="max-w-3xl mx-auto mt-14 space-y-6">
+            <div>
+              <h2 className="font-display text-xl md:text-2xl font-semibold text-foreground mb-2">
+                {isEs ? "Elige de 50 a 200 rosas" : "Choose 50 to 200 roses"}
+              </h2>
+              <p className="font-body text-sm md:text-base text-muted-foreground leading-relaxed">
+                {isEs
+                  ? "Cada ramo está disponible en 50, 75, 100, 125, 150, 175 o 200 rosas — desde $163 las 50 rosas. Cuantas más rosas, mayor el gesto."
+                  : "Every bouquet is available in 50, 75, 100, 125, 150, 175 or 200 roses — from $163 for 50 roses. The more roses, the bigger the statement."}
+              </p>
+            </div>
+            <div>
+              <h2 className="font-display text-xl md:text-2xl font-semibold text-foreground mb-2">
+                {isEs ? "Entrega el mismo día en Miami" : "Same-day delivery in Miami"}
+              </h2>
+              <p className="font-body text-sm md:text-base text-muted-foreground leading-relaxed">
+                {isEs
+                  ? "Pide antes de las 3 PM para la entrega el mismo día durante la ventana del Día de la Madre en mayo. Entregamos hasta 87 millas desde nuestra tienda en Miami: $25 de 0 a 5 millas más $1.60 por milla. La recogida en tienda es gratis."
+                  : "Order before 3 PM for same-day delivery during the May Mother's Day window. We deliver up to 87 miles from our Miami shop: $25 for 0–5 miles plus $1.60 per mile. Store pickup is free."}
+              </p>
+            </div>
+            <p className="font-body text-sm md:text-base text-muted-foreground leading-relaxed">
+              {isEs ? "Sigue explorando: descubre nuestras " : "Keep exploring: browse our "}
+              <Link to="/bouquets" className="text-primary hover:underline">
+                {isEs ? "rosas en Miami" : "roses in Miami"}
+              </Link>
+              {isEs ? " para cada ocasión." : " for every occasion."}
+            </p>
           </div>
 
           {/* FAQ — real content so the page is never "thin" while locked. */}

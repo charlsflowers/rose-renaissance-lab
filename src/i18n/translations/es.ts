@@ -688,7 +688,7 @@ export const es = {
     },
     roomDecors: {
       title: "Decoración Romántica de Habitaciones en Miami | Charls Flowers",
-      description: "Decoración romántica de habitaciones en Miami para sorprender a tu pareja. Flores, velas y pétalos — servicio de montaje completo. Reserva el mismo día, consulta gratis.",
+      description: "Decoración romántica de habitaciones en Miami para sorprender a tu pareja: flores, velas y pétalos, con montaje incluido. Reserva el mismo día, consulta gratis.",
     },
     about: {
       title: "La Mejor Floristería de Miami | Charls Flowers",
@@ -712,7 +712,7 @@ export const es = {
     },
     mothersDay: {
       title: "Flores para el Día de la Madre en Miami | Charls Flowers",
-      description: "Envía flores para el Día de la Madre en Miami con entrega el mismo día. Ramos y rosas frescas para mamá — 7 diseños de edición limitada. Pide online en Charls Flowers.",
+      description: "Ramos de flores para mamá, edición limitada hechos a mano en Miami desde $163. De 50 a 200 rosas. Entrega el mismo día en Miami, pide antes de las 3 PM.",
     },
     bouquetBuilder: {
       title: "Crea tu Ramo Personalizado en Miami | Charls Flowers",

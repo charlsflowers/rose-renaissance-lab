@@ -713,7 +713,7 @@ export const en = {
     },
     roomDecors: {
       title: "Romantic Room Decoration in Miami | Charls Flowers",
-      description: "Luxury romantic room decoration in Miami to surprise your partner. Flowers, candles & rose petals — full setup service. Same-day booking, free consultation.",
+      description: "Luxury romantic room decoration in Miami to surprise your partner. Premium florals, candles & rose petals, delivered and set up by our team. Same-day booking.",
     },
     about: {
       title: "Miami's Premier Flower Shop – Charls Flowers",
@@ -736,8 +736,8 @@ export const en = {
       description: "Expert guides on flower delivery, weddings, events and floral care in Miami. Insider tips from Charls Flowers, Miami's luxury florist.",
     },
     mothersDay: {
-      title: "Mother's Day Flowers Miami | Same-Day Delivery | Charls Flowers",
-      description: "Send Mother's Day flowers in Miami with same-day delivery. Fresh rose bouquets for mom — 7 limited-edition designs, 50 to 200 roses. Order online at Charls Flowers.",
+      title: "Mother's Day Flowers in Miami | Charls Flowers",
+      description: "Limited-edition Mother's Day rose bouquets, handcrafted in Miami from $163. Choose 50 to 200 roses. Same-day delivery in Miami — order before 3 PM.",
     },
     bouquetBuilder: {
       title: "Custom Bouquet Builder Miami | Charls Flowers",
