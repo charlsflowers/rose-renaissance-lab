@@ -112,15 +112,16 @@ const Contact = () => {
           </div>
 
           {/* Google Maps */}
-          <div className="mt-16 md:mt-24 relative rounded-lg overflow-hidden border border-border h-[320px] md:h-[420px]">
+          <div className="relative mt-16 h-[320px] overflow-hidden rounded-lg bg-background md:mt-24 md:h-[420px]">
             <iframe
               src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d4603.046257535852!2d-80.3160576236964!3d25.783063677338557!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x88d9b9b32f0991f1%3A0x492b0c41e05b5dff!2sCharls%20Flowers!5e1!3m2!1ses!2ses!4v1783354285230!5m2!1ses!2ses"
-              className="absolute inset-0 w-full h-full"
-              style={{ border: 0, display: "block" }}
+              className="absolute -inset-px block h-[calc(100%+2px)] w-[calc(100%+2px)] max-w-none"
+              style={{ border: 0 }}
               loading="lazy"
               referrerPolicy="no-referrer-when-downgrade"
               title="Charls Flowers Miami location"
             />
+            <div className="pointer-events-none absolute inset-0 rounded-lg ring-1 ring-inset ring-border" />
           </div>
         </div>
       </div>
