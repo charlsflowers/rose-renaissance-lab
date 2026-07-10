@@ -131,7 +131,10 @@
           inject('https://connect.facebook.net/en_US/fbevents.js');
           inject('https://www.googletagmanager.com/gtag/js?id=G-4DD0E2HR1R');
           inject('https://www.googletagmanager.com/gtag/js?id=AW-18006610907');
-          inject('https://www.clarity.ms/tag/vznlwcl0x0');
+          // Microsoft Clarity (heatmaps) removed for PageSpeed: ~160ms main-thread
+          // + 25 KiB, and it's UX analytics only — zero impact on ads/attribution
+          // (Meta, GA4, Google Ads stay). Re-add this line to restore heatmaps:
+          // inject('https://www.clarity.ms/tag/vznlwcl0x0');
           inject('https://static.klaviyo.com/onsite/js/UJWHt8/klaviyo.js');
         }
         evts.forEach(function(evt){ window.addEventListener(evt, loadLibs, opts); });
