@@ -141,14 +141,18 @@ const locMatches = [...xml.matchAll(/<loc>([^<]+)<\/loc>/g)].map((m) => m[1]);
 // BASE "https://www.charlsflowers.com" no longer matched → every route stayed
 // an absolute URL → "Cannot navigate to invalid URL" → prerender produced
 // nothing.)
-const routes = [...new Set(locMatches.map((u) => {
+let routes = [...new Set(locMatches.map((u) => {
   try {
     return new URL(u).pathname || "/";
   } catch {
     return u.replace(/^https?:\/\/[^/]+/, "") || "/";
   }
 }))];
-console.log(`[prerender] ${routes.length} routes from sitemap`);
+// PRERENDER_ONLY=substr[,substr] re-snapshots just the matching routes against
+// an existing dist (fast targeted re-runs, e.g. only /blog/*). Empty = all.
+const ONLY = (process.env.PRERENDER_ONLY || "").split(",").map((s) => s.trim()).filter(Boolean);
+if (ONLY.length) routes = routes.filter((r) => ONLY.some((o) => r.includes(o)));
+console.log(`[prerender] ${routes.length} routes from sitemap${ONLY.length ? ` (filtered: ${ONLY.join(",")})` : ""}`);
 
 // ─────────────────── static server with SPA fallback ───────────────────
 const MIME = {
@@ -215,7 +219,7 @@ async function snapshot(route) {
   // Block heavy 3rd-party (Shopify CDN images, GA/Meta) so the snapshot is fast
   // and doesn't depend on external uptime. We still let our own JS run.
   await page.setRequestInterception(true);
-  page.on("request", (req) => {
+  page.on("request", async (req) => {
     const url = req.url();
     const type = req.resourceType();
     if (type === "image" || type === "media" || type === "font") return req.abort();
@@ -227,6 +231,40 @@ async function snapshot(route) {
       url.includes("klaviyo.com") ||
       url.includes("doubleclick.net")
     ) return req.abort();
+
+    // Sanity's API is CORS-locked to the production origin, so an in-page fetch
+    // from localhost gets a 403 and blog articles never receive their content
+    // (no H1/title/JSON-LD in the snapshot). Proxy the API call through Node
+    // (server-side fetch has no CORS) and hand the body back with a permissive
+    // ACAO header so the blog's react-query resolves during prerender.
+    let host = "";
+    try { host = new URL(url).hostname; } catch { /* non-URL */ }
+    if (host.endsWith(".sanity.io")) {
+      if (req.method() === "OPTIONS") {
+        return req.respond({
+          status: 204,
+          headers: {
+            "Access-Control-Allow-Origin": "*",
+            "Access-Control-Allow-Methods": "GET,OPTIONS",
+            "Access-Control-Allow-Headers": "*",
+          },
+        });
+      }
+      try {
+        const upstream = await fetch(url, { headers: { Accept: "application/json" } });
+        const body = await upstream.text();
+        return req.respond({
+          status: upstream.status,
+          headers: {
+            "Content-Type": upstream.headers.get("content-type") || "application/json",
+            "Access-Control-Allow-Origin": "*",
+          },
+          body,
+        });
+      } catch {
+        return req.continue();
+      }
+    }
     req.continue();
   });
   // Surface in-page errors without failing the build.
@@ -246,6 +284,18 @@ async function snapshot(route) {
       waitUntil: "networkidle2",
       timeout: 45_000,
     });
+    // Data-dependent pages (blog articles) fetch their content from Sanity only
+    // AFTER React mounts, so networkidle2 can resolve while the page still shows
+    // the loading spinner — which has no <h1>, no article title and no JSON-LD.
+    // Wait for the real post <h1> to replace the spinner before snapshotting so
+    // Google receives the article (title/H1/BlogPosting schema), not an empty
+    // shell that duplicates the home title. Falls back to the current behavior
+    // (snapshot as-is) if the fetch genuinely fails within the timeout.
+    if (/^\/(es\/)?blog\/[^/]+$/.test(route)) {
+      await page
+        .waitForFunction(() => !!document.querySelector("article h1"), { timeout: 12_000 })
+        .catch(() => {});
+    }
     // Give Helmet + lazy components time to mount, then wait two animation
     // frames — react-helmet-async batches head mutations via requestAnimationFrame,
     // so without this the snapshot misses canonical/hreflang/JSON-LD.
@@ -281,7 +331,10 @@ async function snapshot(route) {
   } catch (err) {
     failed.push({ route, error: err.message });
   } finally {
-    await page.close();
+    // A crashed/closed page makes page.close() reject ("Protocol error:
+    // Connection closed"); swallow it so one bad tab can't abort the whole
+    // 344-route run (the route just lands in `failed` and gets retried).
+    await page.close().catch(() => {});
   }
 }
 

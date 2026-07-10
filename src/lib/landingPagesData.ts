@@ -561,7 +561,7 @@ export const landingPages: LandingPageData[] = [
   // Seasonal pages
   {
     slug: 'valentines-day-flowers-miami',
-    h1: "Valentine's Day Flowers Miami | Charls Flowers",
+    h1: "Valentine's Day Flower Delivery in Miami",
     seoTitle: "Valentine's Day Flowers Miami | Charls Flowers",
     seoDescription: "Order Valentine's Day flowers in Miami with same-day delivery. Handcrafted rose bouquets from 50 to 200 roses. Glitter or natural finish. Order before 3PM.",
     intro: "Make this Valentine's Day unforgettable with a premium handcrafted bouquet from Charls Flowers. We offer the largest selection of rose bouquets in Miami — from classic red roses to custom mixed arrangements. Choose from 50 to 200 roses with natural, glitter, or painted finish. Same-day delivery available across Miami when you order before 3PM. Don't wait until the last minute — order your Valentine's Day flowers today.",
@@ -632,7 +632,7 @@ export const landingPages: LandingPageData[] = [
   // Niche pages
   {
     slug: 'flower-shop-miami',
-    h1: "Charls Flowers — Miami's Luxury Flower Shop",
+    h1: "Miami's Luxury Flower Shop — Charls Flowers",
     seoTitle: "Flower Shop Miami | Luxury Florist | Charls Flowers",
     seoDescription: "Charls Flowers is Miami's luxury florist. Delivery to Brickell, Miami Beach, Coral Gables, Wynwood, Doral, Kendall and Hialeah. Premium arrangements made fresh daily.",
     intro: "Charls Flowers is a Miami-based luxury florist delivering premium fresh arrangements across all of Miami-Dade. We're not a wire service or a marketplace — every bouquet is designed and arranged in our Miami atelier, using flowers sourced fresh each week. Citywide delivery to Brickell, Miami Beach, Coral Gables, Wynwood, Doral, Kendall, Hialeah and the surrounding neighborhoods.",

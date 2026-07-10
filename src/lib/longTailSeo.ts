@@ -170,7 +170,7 @@ export const LONG_TAIL_SEO: Record<string, LongTailEntry> = {
       ],
       closing: "If you want something bolder check our {{0}}, browse every {{1}} or our full collection of {{2}}.",
       links: [
-        { anchor: "pink roses near me", to: "/bouquets/red-roses" },
+        { anchor: "red roses bouquet", to: "/bouquets/red-roses" },
         { anchor: "flower bouquet pink roses", to: "/bouquets" },
         { anchor: "roses", to: "/bouquets" },
       ],
@@ -215,7 +215,7 @@ export const LONG_TAIL_SEO: Record<string, LongTailEntry> = {
       ],
       closing: "Looking for warmer tones? Try {{0}}, browse the full {{1}} or our complete {{2}} catalog.",
       links: [
-        { anchor: "yellow roses for birthday", to: "/bouquets/orange-roses" },
+        { anchor: "orange roses bouquet", to: "/bouquets/orange-roses" },
         { anchor: "yellow roses bouquet", to: "/bouquets" },
         { anchor: "roses", to: "/bouquets" },
       ],
@@ -260,7 +260,7 @@ export const LONG_TAIL_SEO: Record<string, LongTailEntry> = {
       ],
       closing: "If you want another rare tone, see our {{0}}, the full {{1}} or our complete catalog of {{2}}.",
       links: [
-        { anchor: "black roses delivery", to: "/bouquets/purple-roses" },
+        { anchor: "purple roses bouquet", to: "/bouquets/purple-roses" },
         { anchor: "black rose bouquet", to: "/bouquets" },
         { anchor: "roses", to: "/bouquets" },
       ],
@@ -305,7 +305,7 @@ export const LONG_TAIL_SEO: Record<string, LongTailEntry> = {
       ],
       closing: "Want something equally distinctive? Try {{0}}, browse the full {{1}} or all our {{2}}.",
       links: [
-        { anchor: "blue roses near me", to: "/bouquets/green-roses" },
+        { anchor: "green roses bouquet", to: "/bouquets/green-roses" },
         { anchor: "blue roses bouquet", to: "/bouquets" },
         { anchor: "roses", to: "/bouquets" },
       ],
@@ -350,7 +350,7 @@ export const LONG_TAIL_SEO: Record<string, LongTailEntry> = {
       ],
       closing: "Prefer something with more warmth? See our {{0}}, the full {{1}} or every variety of {{2}}.",
       links: [
-        { anchor: "bunch of purple roses", to: "/bouquets/blue-roses" },
+        { anchor: "blue roses bouquet", to: "/bouquets/blue-roses" },
         { anchor: "purple roses bouquet", to: "/bouquets" },
         { anchor: "roses", to: "/bouquets" },
       ],
@@ -395,7 +395,7 @@ export const LONG_TAIL_SEO: Record<string, LongTailEntry> = {
       ],
       closing: "Want pure brightness instead? See our {{0}}, the full {{1}} or all our {{2}}.",
       links: [
-        { anchor: "orange roses bouquet", to: "/bouquets/yellow-roses" },
+        { anchor: "yellow roses bouquet", to: "/bouquets/yellow-roses" },
         { anchor: "bouquet orange roses", to: "/bouquets" },
         { anchor: "roses", to: "/bouquets" },
       ],
@@ -437,7 +437,7 @@ export const LONG_TAIL_SEO: Record<string, LongTailEntry> = {
       ],
       closing: "Browse other unusual tones with our {{0}}, the full {{1}} or every variety of {{2}}.",
       links: [
-        { anchor: "green roses", to: "/bouquets/orange-roses" },
+        { anchor: "orange roses bouquet", to: "/bouquets/orange-roses" },
         { anchor: "rose bouquet", to: "/bouquets" },
         { anchor: "roses", to: "/bouquets" },
       ],
