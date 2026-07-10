@@ -27,7 +27,8 @@ import { readFileSync, writeFileSync, mkdirSync, existsSync, statSync, readdirSy
 import { resolve, dirname, join, extname } from "node:path";
 import { fileURLToPath } from "node:url";
 import { createServer } from "node:http";
-import puppeteer from "puppeteer";
+import { homedir } from "node:os";
+import puppeteer from "puppeteer-core";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const ROOT = resolve(__dirname, "..");
@@ -36,17 +37,81 @@ const SITEMAP = resolve(DIST, "sitemap.xml");
 const PORT = 4179;
 
 // ─────────────────── Chromium discovery ───────────────────
-function findChromium() {
+//
+// Two worlds:
+//   • Netlify / any Linux CI build → @sparticuz/chromium ships a self-contained
+//     Chromium that runs WITHOUT system libraries (this is what was missing: the
+//     old code looked for /usr/bin/chromium, never found it, launch threw, and
+//     the build silently shipped a single empty index.html).
+//   • Local dev (macOS / Windows / Linux-with-Chrome) → use a real installed
+//     Chrome or the one Puppeteer cached under ~/.cache/puppeteer.
+//
+// PUPPETEER_EXECUTABLE_PATH overrides everything (escape hatch).
+
+// Look up a Chrome/Chromium already present on the machine (local dev).
+function findLocalChrome() {
   if (process.env.PUPPETEER_EXECUTABLE_PATH) return process.env.PUPPETEER_EXECUTABLE_PATH;
   const candidates = [
-    "/bin/chromium",
+    "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome",
+    "/Applications/Chromium.app/Contents/MacOS/Chromium",
+    "/Applications/Google Chrome for Testing.app/Contents/MacOS/Google Chrome for Testing",
+    "/usr/bin/google-chrome-stable",
+    "/usr/bin/google-chrome",
     "/usr/bin/chromium",
     "/usr/bin/chromium-browser",
-    "/usr/bin/google-chrome",
-    "/usr/bin/google-chrome-stable",
+    "/bin/chromium",
   ];
   for (const p of candidates) if (existsSync(p)) return p;
-  return undefined; // puppeteer will fall back to its bundled download (may be absent)
+  return findPuppeteerCacheChrome();
+}
+
+// Puppeteer downloads Chrome for Testing into ~/.cache/puppeteer/chrome/<rev>/…
+// Since we no longer depend on the full `puppeteer` package, reuse whatever it
+// cached previously so local prerender still works out of the box.
+function findPuppeteerCacheChrome() {
+  const base = process.env.PUPPETEER_CACHE_DIR || join(homedir(), ".cache", "puppeteer", "chrome");
+  if (!existsSync(base)) return undefined;
+  for (const rev of readdirSync(base)) {
+    const dir = join(base, rev);
+    const macArm = join(dir, "chrome-mac-arm64", "Google Chrome for Testing.app", "Contents", "MacOS", "Google Chrome for Testing");
+    if (existsSync(macArm)) return macArm;
+    const macX64 = join(dir, "chrome-mac-x64", "Google Chrome for Testing.app", "Contents", "MacOS", "Google Chrome for Testing");
+    if (existsSync(macX64)) return macX64;
+    for (const sub of ["chrome-linux64", "chrome-linux"]) {
+      const linBin = join(dir, sub, "chrome");
+      if (existsSync(linBin)) return linBin;
+    }
+  }
+  return undefined;
+}
+
+// Launch a browser that actually works in the current environment.
+async function launchBrowser() {
+  const BASE_ARGS = ["--no-sandbox", "--disable-setuid-sandbox", "--disable-dev-shm-usage"];
+
+  // (1) Linux build (Netlify) → @sparticuz/chromium, unless a Chrome is forced.
+  if (process.platform === "linux" && !process.env.PUPPETEER_EXECUTABLE_PATH) {
+    const { default: chromium } = await import("@sparticuz/chromium");
+    const executablePath = await chromium.executablePath();
+    console.log(`[prerender] chromium: @sparticuz/chromium (${executablePath})`);
+    return puppeteer.launch({
+      executablePath,
+      args: [...chromium.args, "--disable-dev-shm-usage"],
+      headless: chromium.headless,
+      defaultViewport: { width: 1280, height: 800 },
+    });
+  }
+
+  // (2) Local dev → real installed / cached Chrome.
+  const execPath = findLocalChrome();
+  if (!execPath) {
+    throw new Error(
+      "No Chrome/Chromium found. Set PUPPETEER_EXECUTABLE_PATH to a Chrome binary, " +
+        "or run `npx @puppeteer/browsers install chrome` once.",
+    );
+  }
+  console.log(`[prerender] chromium: ${execPath}`);
+  return puppeteer.launch({ executablePath: execPath, args: BASE_ARGS, headless: "new" });
 }
 
 // ─────────────────── route list ───────────────────
@@ -55,9 +120,19 @@ if (!existsSync(SITEMAP)) {
   process.exit(0);
 }
 const xml = readFileSync(SITEMAP, "utf8");
-const BASE = "https://www.charlsflowers.com";
 const locMatches = [...xml.matchAll(/<loc>([^<]+)<\/loc>/g)].map((m) => m[1]);
-const routes = [...new Set(locMatches.map((u) => u.replace(BASE, "") || "/"))];
+// Domain-agnostic: take the pathname of each <loc> so it works whether the
+// sitemap is www or apex. (The sitemap migrated to sin-www; the old hardcoded
+// BASE "https://www.charlsflowers.com" no longer matched → every route stayed
+// an absolute URL → "Cannot navigate to invalid URL" → prerender produced
+// nothing.)
+const routes = [...new Set(locMatches.map((u) => {
+  try {
+    return new URL(u).pathname || "/";
+  } catch {
+    return u.replace(/^https?:\/\/[^/]+/, "") || "/";
+  }
+}))];
 console.log(`[prerender] ${routes.length} routes from sitemap`);
 
 // ─────────────────── static server with SPA fallback ───────────────────
@@ -100,16 +175,9 @@ const server = createServer((req, res) => {
 await new Promise((r) => server.listen(PORT, r));
 
 // ─────────────────── puppeteer ───────────────────
-const execPath = findChromium();
-console.log(`[prerender] chromium: ${execPath ?? "(puppeteer bundled)"}`);
-
 let browser;
 try {
-  browser = await puppeteer.launch({
-    headless: "new",
-    executablePath: execPath,
-    args: ["--no-sandbox", "--disable-setuid-sandbox", "--disable-dev-shm-usage"],
-  });
+  browser = await launchBrowser();
 } catch (err) {
   console.error("[prerender] Failed to launch Chromium:", err.message);
   console.error("[prerender] Skipping prerender — falling back to SPA-only HTML.");
@@ -177,8 +245,10 @@ async function snapshot(route) {
   }
 }
 
-// Concurrency-limited loop (4 parallel).
-const CONCURRENCY = 4;
+// Concurrency-limited loop. 344 routes at 4 parallel took ~10 min and risked
+// blowing Netlify's build-time limit; 8 halves the wall time (images/media/
+// fonts are blocked so each tab is light). Override with PRERENDER_CONCURRENCY.
+const CONCURRENCY = Number(process.env.PRERENDER_CONCURRENCY) || 8;
 let cursor = 0;
 await Promise.all(
   Array.from({ length: CONCURRENCY }, async () => {

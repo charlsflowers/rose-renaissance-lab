@@ -1,0 +1,24 @@
+# Charls Flowers — Netlify build config
+#
+# WHY THIS FILE EXISTS:
+# The site is a React/Vite SPA. `npm run build` runs `vite build` AND THEN
+# `node scripts/prerender.mjs`, which snapshots each route to a static
+# dist/<route>/index.html so Googlebot receives real per-route HTML (H1,
+# JSON-LD, canonical, hreflang) instead of one empty SPA shell.
+#
+# Pinning the command here GUARANTEES the prerender step runs on every deploy,
+# regardless of whatever build command is set in the Netlify UI (a UI command
+# like `vite build` would skip the `&& node scripts/prerender.mjs` half and
+# ship the empty shell — the exact bug this fixes).
+#
+# The prerender uses @sparticuz/chromium + puppeteer-core (now in
+# `dependencies`, not devDependencies) so Chromium launches inside the Netlify
+# Linux build even if NODE_ENV=production strips devDependencies.
+
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+[build.environment]
+  # Node 20 LTS — supported by @sparticuz/chromium v131 and Vite 5.
+  NODE_VERSION = "20"
