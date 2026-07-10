@@ -169,21 +169,26 @@ const MIME = {
 };
 
 const server = createServer((req, res) => {
-  const urlPath = decodeURIComponent((req.url || "/").split("?")[0]);
-  let filePath = join(DIST, urlPath);
   try {
-    if (existsSync(filePath) && statSync(filePath).isFile()) {
-      // serve as-is
-    } else {
+    const urlPath = decodeURIComponent((req.url || "/").split("?")[0]);
+    let filePath = join(DIST, urlPath);
+    if (!(existsSync(filePath) && statSync(filePath).isFile())) {
       // SPA fallback for unknown routes — serve dist/index.html
       filePath = join(DIST, "index.html");
     }
+    // Read the body BEFORE writing any headers: if the read throws (transient
+    // race), we can still send a clean 500 without a half-sent response — this
+    // kills the intermittent ERR_HTTP_HEADERS_SENT that crashed the build.
+    const body = readFileSync(filePath);
     const ext = extname(filePath).toLowerCase();
+    if (res.headersSent || res.writableEnded) return;
     res.writeHead(200, { "Content-Type": MIME[ext] || "application/octet-stream" });
-    res.end(readFileSync(filePath));
+    res.end(body);
   } catch (err) {
-    res.writeHead(500);
-    res.end(String(err));
+    if (!res.headersSent && !res.writableEnded) {
+      try { res.writeHead(500); } catch { /* raced */ }
+    }
+    try { res.end(); } catch { /* already closed */ }
   }
 });
 
@@ -227,6 +232,15 @@ async function snapshot(route) {
   // Surface in-page errors without failing the build.
   page.on("pageerror", (err) => console.warn(`  [pageerror ${route}] ${err.message}`));
 
+  // Flag the prerender environment BEFORE any app code runs. Components whose
+  // output depends on the visitor's wall-clock (e.g. the same-day/next-day
+  // AnnouncementBar) read this to emit their deterministic default into the
+  // static HTML, so the client's first (hydration) render matches and React
+  // doesn't throw a #418/#423 mismatch. The real value is applied post-mount.
+  await page.evaluateOnNewDocument(() => {
+    window.__CF_PRERENDER__ = true;
+  });
+
   try {
     await page.goto(`http://localhost:${PORT}${route}`, {
       waitUntil: "networkidle2",
@@ -244,6 +258,17 @@ async function snapshot(route) {
     await page.evaluate(() => {
       const r = document.getElementById("root");
       if (r) r.setAttribute("data-prerendered", "true");
+    });
+
+    // The Google Fonts <link> loads non-blocking via `media="print" onload=…`.
+    // During prerender its onload already fired and flipped media→"all", which
+    // would ship a render-BLOCKING font stylesheet in the static HTML. Reset it
+    // to media="print" so the served page stays non-blocking (the inline onload
+    // swap re-runs on the real load and re-applies media="all").
+    await page.evaluate(() => {
+      document
+        .querySelectorAll('link[rel="stylesheet"][href*="fonts.googleapis.com"][onload]')
+        .forEach((l) => l.setAttribute("media", "print"));
     });
 
     const html = "<!doctype html>\n" + (await page.content()).replace(/^<!doctype[^>]*>\s*/i, "");

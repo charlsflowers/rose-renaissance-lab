@@ -8,6 +8,8 @@ export const FOTO_DE_PORTADA_BASE =
 export const FOTO_DE_PORTADA_VERSION = "1778713959";
 
 export const FOTO_DE_PORTADA = `${FOTO_DE_PORTADA_BASE}?width=1280&v=${FOTO_DE_PORTADA_VERSION}`;
-export const FOTO_DE_PORTADA_SRCSET = [640, 1280, 1920]
+// 828w added so mobile (100vw ≈ 720 device px) picks a ~100KB image instead of
+// the 1280w (~196KB); desktop still gets 1280/1920 for full sharpness.
+export const FOTO_DE_PORTADA_SRCSET = [640, 828, 1280, 1920]
   .map((w) => `${FOTO_DE_PORTADA_BASE}?width=${w}&v=${FOTO_DE_PORTADA_VERSION} ${w}w`)
   .join(", ");

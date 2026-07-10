@@ -17,7 +17,7 @@ import arreglosImg from "@/assets/arreglos.webp";
 import cajasImg from "@/assets/cajas.webp";
 import cestasImg from "@/assets/cestas.webp";
 import jarronesImg from "@/assets/jarrones.webp";
-import { useShopifyProductImages } from "@/hooks/useShopifyProductImages";
+import { useShopifyProductImages, shopifyImageWidth } from "@/hooks/useShopifyProductImages";
 // Home category tiles render in ~400px squares — request a display-sized image
 // (not 602px) and a 2x variant via srcSet.
 const bicolorPassionImgFallback = 'https://cdn.shopify.com/s/files/1/0979/1671/5140/files/hf_20260521_142009_858d33d4-2436-4735-892f-feb3bc3a5cf8.png?v=1779392518&width=400';
@@ -34,10 +34,16 @@ const Index = ({ noindex = false }: { noindex?: boolean } = {}) => {
   // ("arriba lo que convierte" + morfología TSG). A/B retired — fixed order.
   // Live Bicolor Passion image (current first photo from Shopify)
   const bicolorImgs = useShopifyProductImages("bicolor-passion");
-  const bicolorPassionImg = bicolorImgs.primary || bicolorPassionImgFallback;
-  // Only attach the display-sized srcSet when we serve our own fallback CDN URL
-  // (the live Shopify featured image has no matching width variants prepared).
-  const bicolorSrcSet = bicolorImgs.primary ? undefined : bicolorPassionImgSrcSet;
+  // The live Shopify featured image comes as a full-res master (~2048px). The
+  // tile only shows ~300px, so pin the src to width=400 and provide a 2x
+  // srcSet instead of shipping the master.
+  const bicolorLivePrimary = bicolorImgs.primary;
+  const bicolorPassionImg = bicolorLivePrimary
+    ? shopifyImageWidth(bicolorLivePrimary, 400)
+    : bicolorPassionImgFallback;
+  const bicolorSrcSet = bicolorLivePrimary
+    ? `${shopifyImageWidth(bicolorLivePrimary, 400)} 400w, ${shopifyImageWidth(bicolorLivePrimary, 800)} 800w`
+    : bicolorPassionImgSrcSet;
   const categories: { img: string; srcSet?: string; title: string; slug: string; isRoute?: boolean }[] = [
     { img: bicolorPassionImg, srcSet: bicolorSrcSet, title: t("categories.bouquets"), slug: "bouquets", isRoute: true },
     { img: arreglosImg, title: t("categories.arrangements"), slug: "arreglos" },
@@ -176,7 +182,7 @@ const Index = ({ noindex = false }: { noindex?: boolean } = {}) => {
                 <span className="normal-case tracking-normal text-muted-foreground">·</span>
                 <span className="inline-flex items-center gap-1 normal-case tracking-normal text-muted-foreground">
                   {t("home.poweredBy")}
-                  <img src="/fedex-logo.webp" alt="FedEx" loading="lazy" className="h-3 md:h-3.5 w-auto inline-block" />
+                  <img src="/fedex-logo.webp" alt="FedEx" width={150} height={42} loading="lazy" className="h-3 md:h-3.5 w-auto inline-block" />
                 </span>
               </span>
             </div>

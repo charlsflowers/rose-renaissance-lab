@@ -21,6 +21,21 @@ const QUERY = `
 
 type ImageSet = { primary?: string; secondary?: string; review?: string; all?: string[] };
 
+/**
+ * Force a display width on a Shopify CDN image URL so we don't download the
+ * full-resolution master (often 2048px) for a small tile. Sets/replaces the
+ * `width` query param; returns the URL untouched if it can't be parsed.
+ */
+export function shopifyImageWidth(url: string, width: number): string {
+  try {
+    const u = new URL(url);
+    u.searchParams.set("width", String(width));
+    return u.toString();
+  } catch {
+    return url;
+  }
+}
+
 const cache = new Map<string, ImageSet>();
 const inflight = new Map<string, Promise<ImageSet>>();
 

@@ -1,10 +1,12 @@
+// Intrinsic dimensions match the resized webp files (see public/payment-icons).
+// Explicit width/height keep the browser from reflowing (CLS) before decode.
 const icons = [
-  { src: "/payment-icons/visa.webp", alt: "Visa" },
-  { src: "/payment-icons/mastercard.webp", alt: "Mastercard" },
-  { src: "/payment-icons/amex.webp", alt: "American Express" },
-  { src: "/payment-icons/shop-pay.webp", alt: "Shop Pay" },
-  { src: "/payment-icons/apple-pay.webp?v=3", alt: "Apple Pay" },
-  { src: "/payment-icons/google-pay.webp", alt: "Google Pay" },
+  { src: "/payment-icons/visa.webp", alt: "Visa", w: 112, h: 36 },
+  { src: "/payment-icons/mastercard.webp", alt: "Mastercard", w: 112, h: 67 },
+  { src: "/payment-icons/amex.webp", alt: "American Express", w: 112, h: 92 },
+  { src: "/payment-icons/shop-pay.webp", alt: "Shop Pay", w: 112, h: 27 },
+  { src: "/payment-icons/apple-pay.webp?v=3", alt: "Apple Pay", w: 112, h: 75 },
+  { src: "/payment-icons/google-pay.webp", alt: "Google Pay", w: 112, h: 53 },
 ];
 
 interface Props {
@@ -26,6 +28,8 @@ const PaymentIcons = ({ className = "", size = 24 }: Props) => (
         <img
           src={icon.src}
           alt={icon.alt}
+          width={icon.w}
+          height={icon.h}
           loading="lazy"
           className="max-h-full max-w-full object-contain opacity-90"
         />
