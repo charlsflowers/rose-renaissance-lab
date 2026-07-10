@@ -1,6 +1,11 @@
 import { useEffect, useState } from "react";
 import { storefrontApiRequest } from "@/lib/shopify";
 
+/** True while the page is being prerendered (flag set by scripts/prerender.mjs). */
+const isPrerenderEnv = (): boolean =>
+  typeof window !== "undefined" &&
+  !!(window as Window & { __CF_PRERENDER__?: boolean }).__CF_PRERENDER__;
+
 /**
  * Fetches product images live from Shopify Storefront API by handle.
  * Order returned: [primary, secondary, review]. The third image is reserved
@@ -72,6 +77,12 @@ export function useShopifyProductImages(handle: string | undefined): ImageSet {
 
   useEffect(() => {
     if (!handle) return;
+    // Skip the live fetch during prerender: otherwise the prerender resolves the
+    // Shopify image while the client's first (hydration) render still shows the
+    // catalog fallback (product.image) → React #418 image mismatch. Leaving the
+    // prerender on the fallback makes server === client at hydration; the client
+    // then upgrades to the live Shopify image after mount.
+    if (isPrerenderEnv()) return;
     let active = true;
     fetchImages(handle).then((res) => {
       if (active) setImages(res);
@@ -97,6 +108,7 @@ export function useShopifyProductImagesBatch(handles: string[]): Map<string, Ima
   });
 
   useEffect(() => {
+    if (isPrerenderEnv()) return; // same hydration-safety gate as the single hook
     let active = true;
     Promise.all(
       handles.map(async (h) => [h, await fetchImages(h)] as const)

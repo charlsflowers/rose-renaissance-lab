@@ -64,7 +64,7 @@ const RoomDecors = () => {
 
           <div className="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-8 max-w-5xl mx-auto">
             {roomDecorPackages.map((pkg, idx) => (
-              <motion.div key={pkg.id} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: idx * 0.15 }}>
+              <motion.div key={pkg.id} initial={false} animate={{ opacity: 1, y: 0 }} transition={{ delay: idx * 0.15 }}>
                 <Link to={`/room-decors/${pkg.id}`} className="group block">
                   <div className="relative overflow-hidden rounded-lg mb-4 aspect-square bg-muted">
                     <img src={pkg.image} alt={(PKG_ALT[pkg.id] && PKG_ALT[pkg.id][isEs ? "es" : "en"]) || `${pkg.name} romantic room decoration in Miami`} loading="lazy" width={400} height={400} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />

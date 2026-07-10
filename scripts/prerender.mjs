@@ -349,7 +349,21 @@ async function snapshot(route) {
         .forEach((l) => l.setAttribute("media", "print"));
     });
 
-    const html = "<!doctype html>\n" + (await page.content()).replace(/^<!doctype[^>]*>\s*/i, "");
+    // page.content() serializes inline styles in the BROWSER's canonical form
+    // ("pointer-events: none;" — space after ':' + trailing ';'), but React
+    // renders them compact ("pointer-events:none"). React 18 compares the raw
+    // style string during hydration, so EVERY element with an inline style (e.g.
+    // Radix's Toast viewport, present on every page) mismatched → #418/#423 and
+    // React re-rendered the whole root. Normalize style-attribute VALUES to
+    // React's format so hydration matches. Scoped to inside style="…" only, so
+    // text content / JSON-LD are untouched; data-URIs (no spaces around :/;) are
+    // preserved.
+    const normalizeInlineStyles = (h) =>
+      h.replace(/ style="([^"]*)"/g, (_m, css) => {
+        const norm = css.replace(/:\s+/g, ":").replace(/\s*;\s*/g, ";").replace(/;+$/g, "").trim();
+        return ` style="${norm}"`;
+      });
+    const html = "<!doctype html>\n" + normalizeInlineStyles((await page.content()).replace(/^<!doctype[^>]*>\s*/i, ""));
 
     // Write to dist/<route>/index.html — `/` overwrites the root index.
     const outDir = route === "/" ? DIST : join(DIST, route);

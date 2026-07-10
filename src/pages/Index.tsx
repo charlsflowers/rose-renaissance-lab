@@ -127,8 +127,13 @@ const Index = ({ noindex = false }: { noindex?: boolean } = {}) => {
           <div className="absolute inset-0 bg-gradient-to-t md:bg-gradient-to-r from-foreground/85 via-foreground/50 to-transparent" />
         </div>
         <div className="container relative z-10 mx-auto px-4 md:px-6 pb-10 md:pb-0">
+          {/* initial={false}: render the hero at its final state immediately.
+              The old initial={{opacity:0,y:40}} + animate made framer inject an
+              inline transform/opacity that the prerender froze mid-animation →
+              hydration mismatch (#418) on the home. Rendering final-state also
+              means the LCP <h1> is visible on first paint (better LCP). */}
           <motion.div
-            initial={{ opacity: 0, y: 40 }}
+            initial={false}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1, ease: "easeOut" }}
             className="max-w-xl"
