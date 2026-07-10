@@ -89,17 +89,32 @@ function findPuppeteerCacheChrome() {
 async function launchBrowser() {
   const BASE_ARGS = ["--no-sandbox", "--disable-setuid-sandbox", "--disable-dev-shm-usage"];
 
-  // (1) Linux build (Netlify) → @sparticuz/chromium, unless a Chrome is forced.
+  // (1) Linux build (Netlify) → full puppeteer's downloaded Chrome-for-Testing.
+  //     Netlify's build image is Ubuntu (NOT AWS Lambda), where @sparticuz/chromium
+  //     does not launch. Full `puppeteer` ships a Chrome built for this OS and is the
+  //     reliable path here; @sparticuz is kept only as a last-resort fallback.
   if (process.platform === "linux" && !process.env.PUPPETEER_EXECUTABLE_PATH) {
-    const { default: chromium } = await import("@sparticuz/chromium");
-    const executablePath = await chromium.executablePath();
-    console.log(`[prerender] chromium: @sparticuz/chromium (${executablePath})`);
-    return puppeteer.launch({
-      executablePath,
-      args: [...chromium.args, "--disable-dev-shm-usage"],
-      headless: chromium.headless,
-      defaultViewport: { width: 1280, height: 800 },
-    });
+    try {
+      const pptr = (await import("puppeteer")).default;
+      const execPath = pptr.executablePath();
+      if (execPath && existsSync(execPath)) {
+        console.log(`[prerender] chromium: puppeteer (${execPath})`);
+        return puppeteer.launch({ executablePath: execPath, args: BASE_ARGS, headless: "new" });
+      }
+      console.warn("[prerender] puppeteer Chrome path missing; launching via full puppeteer directly");
+      return pptr.launch({ args: BASE_ARGS, headless: "new" });
+    } catch (err) {
+      console.error("[prerender] full puppeteer failed, trying @sparticuz/chromium:", err.message);
+      const { default: chromium } = await import("@sparticuz/chromium");
+      const executablePath = await chromium.executablePath();
+      console.log(`[prerender] chromium: @sparticuz/chromium (${executablePath})`);
+      return puppeteer.launch({
+        executablePath,
+        args: [...chromium.args, "--disable-dev-shm-usage"],
+        headless: chromium.headless,
+        defaultViewport: { width: 1280, height: 800 },
+      });
+    }
   }
 
   // (2) Local dev → real installed / cached Chrome.
@@ -180,9 +195,9 @@ try {
   browser = await launchBrowser();
 } catch (err) {
   console.error("[prerender] Failed to launch Chromium:", err.message);
-  console.error("[prerender] Skipping prerender — falling back to SPA-only HTML.");
+  console.error("[prerender] FAILING the build on purpose — never ship an empty SPA shell that Googlebot can't read.");
   server.close();
-  process.exit(0);
+  process.exit(1);
 }
 
 let ok = 0;
@@ -278,5 +293,11 @@ if (failed.length) {
   failed.slice(0, 10).forEach((f) => console.log(`  ${f.route} → ${f.error}`));
 }
 
-// Never fail the build because of prerender errors.
+// Fail the build if NOTHING prerendered — this is the exact bug we're killing:
+// a green build that silently ships one empty SPA shell Googlebot can't read.
+if (ok === 0) {
+  console.error("[prerender] 0 pages prerendered — FAILING build so we never ship an empty shell.");
+  process.exit(1);
+}
+
 process.exit(0);
