@@ -76,7 +76,7 @@ const Index = ({ noindex = false }: { noindex?: boolean } = {}) => {
   const occasionsSection = (
     <section className="py-16 md:py-20 bg-background">
       <div className="container mx-auto px-6">
-        <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.8 }} className="text-center mb-10">
+        <motion.div initial={false} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.8 }} className="text-center mb-10">
           <h2 className="font-title-retro text-4xl md:text-5xl text-primary">{t("home.occasionsTitle")}</h2>
         </motion.div>
         <div className="grid grid-cols-2 md:grid-cols-3 gap-6 max-w-3xl mx-auto text-center">
@@ -198,7 +198,7 @@ const Index = ({ noindex = false }: { noindex?: boolean } = {}) => {
       {/* Categories */}
       <section className="py-16 md:py-20 bg-background">
         <div className="container mx-auto px-6">
-          <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.8 }} className="text-center mb-10">
+          <motion.div initial={false} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.8 }} className="text-center mb-10">
             <h2 className="font-title-retro text-4xl md:text-5xl text-primary">{t("home.categoriesTitle")}</h2>
           </motion.div>
 
@@ -207,7 +207,7 @@ const Index = ({ noindex = false }: { noindex?: boolean } = {}) => {
               const isComingSoon = comingSoonSlugs.includes(item.slug);
               const isBlockedByPromo = promoActive && (item.slug === "bouquets" || item.slug === "room-decors");
               return (
-                <motion.div key={item.slug} initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5, delay: i * 0.1 }}>
+                <motion.div key={item.slug} initial={false} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5, delay: i * 0.1 }}>
                   {isComingSoon ? (
                     <div className="block opacity-50 cursor-not-allowed">
                       <div className="relative overflow-hidden rounded-lg mb-4 aspect-square">
@@ -290,7 +290,7 @@ const Index = ({ noindex = false }: { noindex?: boolean } = {}) => {
       {/* Customize your Bouquet */}
       <section className="py-16 md:py-20 bg-background">
         <div className="container mx-auto px-6 text-left md:text-center">
-          <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.8 }}>
+          <motion.div initial={false} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.8 }}>
             <h2 className="font-title-retro text-4xl md:text-5xl text-primary mb-6">
               {t("home.customizeTitle")}
             </h2>
@@ -318,7 +318,7 @@ const Index = ({ noindex = false }: { noindex?: boolean } = {}) => {
       {/* Why Charls Flowers */}
       <section className="py-16 md:py-20 bg-background">
         <div className="container mx-auto px-6">
-          <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.8 }} className="text-center mb-10">
+          <motion.div initial={false} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.8 }} className="text-center mb-10">
             <h2 className="font-title-retro text-4xl md:text-5xl text-primary mb-4">{t("home.whyUs.title")}</h2>
             <p className="text-muted-foreground font-body max-w-lg mx-auto">{t("home.whyUs.subtitle")}</p>
           </motion.div>
@@ -357,7 +357,7 @@ const Index = ({ noindex = false }: { noindex?: boolean } = {}) => {
         </div>
         <section className="bg-primary py-20 overflow-hidden">
           <div className="container mx-auto px-6 text-center relative z-20">
-            <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
+            <motion.div initial={false} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
               <h2 className="font-display text-3xl md:text-4xl font-semibold text-primary-foreground mb-4">{t("home.ctaPrice")}</h2>
               <p className="text-primary-foreground/80 font-body mb-8 max-w-md mx-auto">{t("home.ctaDescription")}</p>
               {promoActive ? (
@@ -392,7 +392,7 @@ const Index = ({ noindex = false }: { noindex?: boolean } = {}) => {
       {/* Same-Day Delivery + Google Maps */}
       <section className="py-16 md:py-20">
         <div className="container mx-auto px-6">
-          <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.8 }} className="text-left md:text-center mb-8">
+          <motion.div initial={false} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.8 }} className="text-left md:text-center mb-8">
             <h2 className="font-title-retro text-4xl md:text-5xl text-primary mb-4">{t("home.deliveryTitle")}</h2>
             <p className="text-muted-foreground font-body max-w-lg md:mx-auto">{t("home.deliverySubtitleLine1")}</p>
             <p className="text-muted-foreground font-body max-w-lg md:mx-auto mt-1">{t("home.deliverySubtitleLine2")}</p>

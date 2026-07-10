@@ -366,7 +366,21 @@ async function snapshot(route) {
         const norm = css.replace(/:\s+/g, ":").replace(/\s*;\s*/g, ";").replace(/;+$/g, "").trim();
         return ` style="${norm}"`;
       });
-    const html = "<!doctype html>\n" + normalizeInlineStyles((await page.content()).replace(/^<!doctype[^>]*>\s*/i, ""));
+    // Inline the app CSS into the HTML: the external <link rel="stylesheet"> is a
+    // render-blocking request (~150ms on the LCP/FCP path per PageSpeed). Inlining
+    // it removes that request entirely and avoids FOUC (styles are present on
+    // first paint). Any /assets/*.css <link> is replaced by an inline <style>.
+    const inlineCss = (h) =>
+      h.replace(/<link\b[^>]*href="(\/assets\/[^"]+\.css)"[^>]*>/gi, (m, href) => {
+        try {
+          return `<style>${readFileSync(join(DIST, href.slice(1)), "utf8")}</style>`;
+        } catch {
+          return m;
+        }
+      });
+    const html =
+      "<!doctype html>\n" +
+      inlineCss(normalizeInlineStyles((await page.content()).replace(/^<!doctype[^>]*>\s*/i, "")));
 
     // Write to dist/<route>/index.html — `/` overwrites the root index.
     const outDir = route === "/" ? DIST : join(DIST, route);
