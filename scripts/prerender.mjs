@@ -99,10 +99,13 @@ async function launchBrowser() {
       const execPath = pptr.executablePath();
       if (execPath && existsSync(execPath)) {
         console.log(`[prerender] chromium: puppeteer (${execPath})`);
-        return puppeteer.launch({ executablePath: execPath, args: BASE_ARGS, headless: "new" });
+        return await puppeteer.launch({ executablePath: execPath, args: BASE_ARGS, headless: "new" });
       }
       console.warn("[prerender] puppeteer Chrome path missing; launching via full puppeteer directly");
-      return pptr.launch({ args: BASE_ARGS, headless: "new" });
+      // MUST await here: a bare `return pptr.launch(...)` escapes this try/catch,
+      // so a launch failure would skip the @sparticuz/chromium fallback below and
+      // fail the build outright.
+      return await pptr.launch({ args: BASE_ARGS, headless: "new" });
     } catch (err) {
       console.error("[prerender] full puppeteer failed, trying @sparticuz/chromium:", err.message);
       const { default: chromium } = await import("@sparticuz/chromium");

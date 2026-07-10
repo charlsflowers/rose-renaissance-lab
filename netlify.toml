@@ -16,7 +16,12 @@
 # Linux build even if NODE_ENV=production strips devDependencies.
 
 [build]
-  command = "npm run build"
+  # Install the exact Chrome that puppeteer expects BEFORE building. Netlify
+  # caches node_modules (so puppeteer's post-install Chrome download is skipped
+  # on a cache hit) but the ~/.cache/puppeteer Chrome can be evicted separately
+  # → prerender fails with "Could not find Chrome". This step is idempotent
+  # (skips if already cached) and guarantees Chrome is present for the prerender.
+  command = "npx puppeteer browsers install chrome && npm run build"
   publish = "dist"
 
 [build.environment]
