@@ -213,8 +213,36 @@ let ok = 0;
 let skipped = 0;
 const failed = [];
 
+// Under memory pressure the Chromium process can die mid-run ("Protocol error:
+// Connection closed"), which would abort the whole prerender (and the build).
+// Relaunch it once on demand — guarded by a shared promise so concurrent workers
+// don't spawn several browsers — and retry the page. Keeps 344/344 resilient
+// locally and on Netlify.
+let relaunching = null;
+async function newPageResilient() {
+  try {
+    return await browser.newPage();
+  } catch (err) {
+    if (!relaunching) {
+      relaunching = (async () => {
+        console.warn(`[prerender] browser connection lost (${err.message}) — relaunching Chromium...`);
+        try { await browser.close().catch(() => {}); } catch { /* already gone */ }
+        browser = await launchBrowser();
+      })().finally(() => { relaunching = null; });
+    }
+    await relaunching;
+    return await browser.newPage();
+  }
+}
+
 async function snapshot(route) {
-  const page = await browser.newPage();
+  let page;
+  try {
+    page = await newPageResilient();
+  } catch (err) {
+    failed.push({ route, error: `newPage: ${err.message}` });
+    return;
+  }
   await page.setViewport({ width: 1280, height: 800 });
   // Block heavy 3rd-party (Shopify CDN images, GA/Meta) so the snapshot is fast
   // and doesn't depend on external uptime. We still let our own JS run.

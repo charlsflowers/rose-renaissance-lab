@@ -603,7 +603,7 @@ const BouquetProductDetail = () => {
 
   // Shared rendering functions
   const renderGlitterSection = (isMobile = false) => (
-    <Section title={t("product.glitterFinish")} step={step++} subtitle={`+$${Math.ceil(selectedSize.roses / 25) * 8}`}>
+    <Section title={t("product.glitterFinish")} step={step++} asHeading={!isMobile} subtitle={`+$${Math.ceil(selectedSize.roses / 25) * 8}`}>
       <div className={`flex ${isMobile ? "flex-col" : ""} gap-3 mb-3`}>
         <div className={`${isMobile ? "w-20 h-20 mx-auto" : "w-14 h-14"} flex-shrink-0`}>
           <img src={glitterRoseImg} alt="Glitter finish rose" width={64} height={64} className="w-full h-full object-contain" />
@@ -626,7 +626,7 @@ const BouquetProductDetail = () => {
   );
 
   const renderAccessoriesSection = (isMobile = false) => (
-    <Section title={t("product.accessories")} step={step++}>
+    <Section title={t("product.accessories")} step={step++} asHeading={!isMobile}>
       <div className="grid grid-cols-2 gap-2">
         <button onClick={() => setAddNote((v) => !v)}
           className={`flex flex-col items-center gap-1 py-2 px-2 rounded-lg border-2 transition-all font-body text-sm ${addNote ? "border-primary bg-primary/5 text-primary" : "border-border text-muted-foreground hover:border-primary/30"}`}>
@@ -761,7 +761,7 @@ const BouquetProductDetail = () => {
     const setCalendarOpen = isMobile ? setMobileCalendarOpen : setDesktopCalendarOpen;
 
     return (
-    <Section title={t("product.shipping")} step={step++}>
+    <Section title={t("product.shipping")} step={step++} asHeading={!isMobile}>
       <div className="grid grid-cols-2 gap-2 mb-4">
         <button onClick={() => setDeliveryMethod("delivery")}
           className={`flex items-center justify-center gap-2 px-4 py-3 rounded-full border transition-all font-body text-sm ${deliveryMethod === "delivery" ? "border-primary bg-primary/15 text-foreground" : "border-primary/30 text-foreground hover:bg-primary/5"}`}>
@@ -1062,7 +1062,7 @@ const BouquetProductDetail = () => {
             </div>
 
             {/* Size */}
-            <Section title={t("product.numberOfRoses")} step={1}>
+            <Section title={t("product.numberOfRoses")} step={1} asHeading={false}>
               <div className="grid grid-cols-2 gap-2">
                 {sizeOptions.map((size, idx) => {
                   const disabled = idx < minSizeIdx;
@@ -1173,10 +1173,18 @@ const BouquetProductDetail = () => {
   );
 };
 
-const Section = ({ title, step, subtitle, children }: { title: string; step: number; subtitle?: string; children: React.ReactNode }) => (
+const Section = ({ title, step, subtitle, children, asHeading = true }: { title: string; step: number; subtitle?: string; children: React.ReactNode; asHeading?: boolean }) => (
   <div>
     <div className="flex items-center gap-2 mb-3">
-      <h2 className="font-body text-xs font-semibold text-muted-foreground uppercase tracking-[0.2em]">{title}</h2>
+      {asHeading ? (
+        <h2 className="font-body text-xs font-semibold text-muted-foreground uppercase tracking-[0.2em]">{title}</h2>
+      ) : (
+        // The page ships BOTH a desktop and a mobile layout in the DOM (responsive
+        // dual-render), so every configurator step would emit a duplicate <h2>.
+        // The mobile copy keeps the visual + accessibility heading (role/aria-level)
+        // but is NOT a literal <h2>, so each step yields exactly one <h2> in the HTML.
+        <div role="heading" aria-level={2} className="font-body text-xs font-semibold text-muted-foreground uppercase tracking-[0.2em]">{title}</div>
+      )}
       {subtitle && <span className="bg-secondary text-secondary-foreground text-[10px] px-1.5 py-0.5 rounded-full font-body">{subtitle}</span>}
     </div>
     {children}

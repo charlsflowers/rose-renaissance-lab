@@ -254,12 +254,13 @@ const Index = ({ noindex = false }: { noindex?: boolean } = {}) => {
           </svg>
         </div>
         <div className="bg-primary py-4 overflow-hidden">
-          <motion.div
-            className="flex whitespace-nowrap will-change-transform"
-            animate={{ x: ["0%", "-50%"] }}
-            transition={{ duration: 30, ease: "linear", repeat: Infinity }}
-            style={{ width: "max-content" }}
-          >
+          {/* CSS-only marquee (was framer-motion): framer injected an inline
+              transform that the prerender froze mid-animation, so the static HTML
+              never matched the client's first render → React #418/#423 hydration
+              error on every page. A pure CSS animation applies the transform via
+              the browser (not React), so there is no inline style to hydrate and
+              no mismatch — and it runs off the main thread. */}
+          <div className="flex whitespace-nowrap w-max will-change-transform animate-marquee motion-reduce:animate-none">
             {[...Array(2)].map((_, loop) => (
               <div key={loop} className="flex items-center gap-8 md:gap-12 px-4 md:px-6 shrink-0">
                 {tickerTexts.map((text, i) => (
@@ -270,7 +271,7 @@ const Index = ({ noindex = false }: { noindex?: boolean } = {}) => {
                 ))}
               </div>
             ))}
-          </motion.div>
+          </div>
         </div>
         <div className="absolute -bottom-[50px] left-0 w-full h-[55px] z-10 overflow-hidden">
           <svg className="h-full animate-wave-reverse" style={{ width: "200%", minWidth: "3840px" }} viewBox="0 0 2880 60" preserveAspectRatio="none">

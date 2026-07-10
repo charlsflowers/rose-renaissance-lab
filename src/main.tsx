@@ -1,6 +1,6 @@
 import { createRoot, hydrateRoot } from "react-dom/client";
 import { HelmetProvider } from "react-helmet-async";
-import App from "./App.tsx";
+import App, { preloadForPath } from "./App.tsx";
 import "./index.css";
 import { initMetaPixel } from "@/lib/metaPixel";
 import { isProductionDomain } from "@/lib/isProductionDomain";
@@ -37,7 +37,17 @@ const tree = (
   </HelmetProvider>
 );
 if (rootEl.dataset.prerendered === "true") {
-  hydrateRoot(rootEl, tree);
+  // The route components are code-split (preloadableLazy). If we hydrate before
+  // the current route's chunk is loaded, its <Suspense> fallback (spinner)
+  // renders on the client's first pass and does NOT match the prerendered HTML →
+  // React #418/#423, and React discards the server markup and re-renders the
+  // whole root (spinner flash + worse LCP). So preload the current route's
+  // module first, THEN hydrate → clean, flash-free hydration. A 3s cap + catch
+  // guarantee we hydrate even if a chunk is slow or fails (degrades to the old
+  // behavior, never blocks first paint).
+  const cap = new Promise<void>((resolve) => setTimeout(resolve, 3000));
+  Promise.race([preloadForPath(window.location.pathname).catch(() => {}), cap])
+    .finally(() => hydrateRoot(rootEl, tree));
 } else {
   createRoot(rootEl).render(tree);
 }

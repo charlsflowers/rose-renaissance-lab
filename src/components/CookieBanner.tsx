@@ -13,6 +13,18 @@ const CookieBanner = () => {
   const [analyticsOn, setAnalyticsOn] = useState(false);
   const [marketingOn, setMarketingOn] = useState(false);
   const [visible, setVisible] = useState(false);
+  // The banner's visibility depends on client-only state (localStorage consent),
+  // which resolves AFTER mount. The prerender waits long enough for that effect
+  // to fire, so the static HTML would include the banner — but the client's first
+  // (hydration) render does NOT (state not resolved yet) → React #418/#423
+  // mismatch on every page. Gate on `mounted` + the prerender flag so the banner
+  // is NEVER in the prerendered HTML nor the client's first render; it appears
+  // after mount. (Crawlers don't need a cookie banner.)
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
+  const isPrerender =
+    typeof window !== "undefined" &&
+    (window as Window & { __CF_PRERENDER__?: boolean }).__CF_PRERENDER__;
 
   // Trigger fade-in once we know there's no stored consent
   useEffect(() => {
@@ -43,7 +55,7 @@ const CookieBanner = () => {
     setCustomizeOpen(false);
   };
 
-  const showBanner = ready && !hasResponded;
+  const showBanner = mounted && !isPrerender && ready && !hasResponded;
 
   return (
     <>

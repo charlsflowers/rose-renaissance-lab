@@ -1,4 +1,5 @@
-import { lazy, Suspense, useEffect } from "react";
+import { Suspense, useEffect } from "react";
+import { preloadableLazy } from "@/lib/preloadableLazy";
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -25,35 +26,76 @@ import NotFound from "./pages/NotFound";
 import ShortLink from "./pages/ShortLink";
 import { SHORT_LINKS } from "@/lib/shortLinks";
 
-// Lazy-loaded route components (code-split)
-const BouquetBuilder = lazy(() => import("./pages/BouquetBuilder"));
-const Checkout = lazy(() => import("./pages/Checkout"));
-const CategoryProducts = lazy(() => import("./pages/CategoryProducts"));
-const CategoryProductDetail = lazy(() => import("./pages/CategoryProductDetail"));
-const BouquetProducts = lazy(() => import("./pages/BouquetProducts"));
-const BouquetProductDetail = lazy(() => import("./pages/BouquetProductDetail"));
-const RoomDecors = lazy(() => import("./pages/RoomDecors"));
-const RoomDecorDetail = lazy(() => import("./pages/RoomDecorDetail"));
-const About = lazy(() => import("./pages/About"));
-const Contact = lazy(() => import("./pages/Contact"));
-const Delivery = lazy(() => import("./pages/Delivery"));
-const FAQ = lazy(() => import("./pages/FAQ"));
-const PrivacyPolicy = lazy(() => import("./pages/PrivacyPolicy"));
-const TermsOfService = lazy(() => import("./pages/TermsOfService"));
-const RefundPolicy = lazy(() => import("./pages/RefundPolicy"));
-const ShippingPolicy = lazy(() => import("./pages/ShippingPolicy"));
-const CookiePolicy = lazy(() => import("./pages/CookiePolicy"));
-const SitemapPage = lazy(() => import("./pages/SitemapPage"));
-const Blog = lazy(() => import("./pages/Blog"));
-const BlogArticle = lazy(() => import("./pages/BlogArticle"));
-const LandingPage = lazy(() => import("./pages/LandingPage"));
-const StudioPage = lazy(() => import("./pages/StudioPage"));
-const MothersDayCollection = lazy(() => import("./pages/MothersDayCollection"));
-const CityShippingPage = lazy(() => import("./pages/CityShippingPage"));
-const CityIndexPage = lazy(() => import("./pages/CityIndexPage"));
-const OccasionPage = lazy(() => import("./pages/OccasionPage"));
-const OccasionsIndexPage = lazy(() => import("./pages/OccasionsIndexPage"));
-const FlowerTypesIndexPage = lazy(() => import("./pages/FlowerTypesIndexPage"));
+// Lazy-loaded route components (code-split). preloadableLazy (not React.lazy) so
+// the current route's chunk can be preloaded BEFORE hydrateRoot → clean
+// hydration of the prerendered HTML (no #418/#423, no spinner flash). See
+// preloadForPath below + main.tsx.
+const BouquetBuilder = preloadableLazy(() => import("./pages/BouquetBuilder"));
+const Checkout = preloadableLazy(() => import("./pages/Checkout"));
+const CategoryProducts = preloadableLazy(() => import("./pages/CategoryProducts"));
+const CategoryProductDetail = preloadableLazy(() => import("./pages/CategoryProductDetail"));
+const BouquetProducts = preloadableLazy(() => import("./pages/BouquetProducts"));
+const BouquetProductDetail = preloadableLazy(() => import("./pages/BouquetProductDetail"));
+const RoomDecors = preloadableLazy(() => import("./pages/RoomDecors"));
+const RoomDecorDetail = preloadableLazy(() => import("./pages/RoomDecorDetail"));
+const About = preloadableLazy(() => import("./pages/About"));
+const Contact = preloadableLazy(() => import("./pages/Contact"));
+const Delivery = preloadableLazy(() => import("./pages/Delivery"));
+const FAQ = preloadableLazy(() => import("./pages/FAQ"));
+const PrivacyPolicy = preloadableLazy(() => import("./pages/PrivacyPolicy"));
+const TermsOfService = preloadableLazy(() => import("./pages/TermsOfService"));
+const RefundPolicy = preloadableLazy(() => import("./pages/RefundPolicy"));
+const ShippingPolicy = preloadableLazy(() => import("./pages/ShippingPolicy"));
+const CookiePolicy = preloadableLazy(() => import("./pages/CookiePolicy"));
+const SitemapPage = preloadableLazy(() => import("./pages/SitemapPage"));
+const Blog = preloadableLazy(() => import("./pages/Blog"));
+const BlogArticle = preloadableLazy(() => import("./pages/BlogArticle"));
+const LandingPage = preloadableLazy(() => import("./pages/LandingPage"));
+const StudioPage = preloadableLazy(() => import("./pages/StudioPage"));
+const MothersDayCollection = preloadableLazy(() => import("./pages/MothersDayCollection"));
+const CityShippingPage = preloadableLazy(() => import("./pages/CityShippingPage"));
+const CityIndexPage = preloadableLazy(() => import("./pages/CityIndexPage"));
+const OccasionPage = preloadableLazy(() => import("./pages/OccasionPage"));
+const OccasionsIndexPage = preloadableLazy(() => import("./pages/OccasionsIndexPage"));
+const FlowerTypesIndexPage = preloadableLazy(() => import("./pages/FlowerTypesIndexPage"));
+
+/**
+ * Preload the module(s) that the current path will render, BEFORE hydrateRoot,
+ * so preloadableLazy renders synchronously and hydration matches the prerender.
+ * Segment-based (over-preloading within a segment is fine + bounded); an unknown
+ * single-segment path preloads LandingPage, which itself renders NotFound for
+ * unknown slugs. Anything unmapped simply isn't preloaded → today's behavior.
+ */
+export function preloadForPath(pathname: string): Promise<unknown> {
+  const clean = pathname.replace(/^\/(es\/?)?/, "").replace(/\/+$/, "");
+  const seg = clean.split("/")[0] || "";
+  const g = (...c: Preloadableish[]) => Promise.all(c.map((x) => x.preload()));
+  switch (seg) {
+    case "": return Promise.resolve(); // home (Index) is eager
+    case "bouquets": return g(BouquetProducts, BouquetProductDetail, BouquetBuilder);
+    case "collections": return g(OccasionPage, OccasionsIndexPage, FlowerTypesIndexPage);
+    case "categoria": return g(CategoryProducts, CategoryProductDetail);
+    case "room-decors": return g(RoomDecors, RoomDecorDetail);
+    case "mothers-day": return g(MothersDayCollection);
+    case "blog": return g(Blog, BlogArticle);
+    case "flower-delivery":
+    case "envio-de-flores": return g(CityIndexPage, CityShippingPage);
+    case "about": return g(About);
+    case "contact": return g(Contact);
+    case "delivery": return g(Delivery);
+    case "faq": return g(FAQ);
+    case "privacy-policy": return g(PrivacyPolicy);
+    case "terms-of-service": return g(TermsOfService);
+    case "refund-policy": return g(RefundPolicy);
+    case "shipping-policy": return g(ShippingPolicy);
+    case "cookie-policy": return g(CookiePolicy);
+    case "sitemap": return g(SitemapPage);
+    case "checkout": return g(Checkout);
+    case "studio": return g(StudioPage);
+    default: return g(LandingPage); // single-segment landing slug (or NotFound via LandingPage)
+  }
+}
+type Preloadableish = { preload: () => Promise<void> };
 
 const queryClient = new QueryClient();
 
