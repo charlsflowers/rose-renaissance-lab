@@ -666,6 +666,11 @@ export const en = {
       description: "Zodiac rose bouquets in Miami, one design per sign, 50 to 200 roses. A unique gift with same-day delivery Miami. Order now.",
       h1: "Zodiac Rose Bouquets",
     },
+    bouquetsBicolor: {
+      title: "Bicolor Roses Bouquet Miami | Two-Tone Roses – Charls Flowers",
+      description: "Bicolor rose bouquets in Miami — two-tone arrangements from 50 to 200 roses with same-day delivery. Red and white and other pairings. Order now.",
+      h1: "Bicolor Roses Bouquet Miami",
+    },
     bouquetsRedRoses: {
       title: "Red Roses Bouquet Miami | Same-Day Delivery – Charls Flowers",
       description: "Red roses bouquets in Miami, from 50 to 200 roses. The classic symbol of love, handcrafted with same-day delivery up to 87 miles. Order before 3PM.",
@@ -725,7 +730,7 @@ export const en = {
     },
     delivery: {
       title: "Flower Delivery Miami | Same-Day & Free Pickup",
-      description: "Same-day flower delivery in Miami up to 87 miles. $20 flat rate for 0-5 miles, $1.60/mile after. Free in-store pickup. Order before 3PM.",
+      description: "Same-day flower delivery in Miami up to 87 miles. $25 flat rate for 0-5 miles, $1.60/mile after. Free in-store pickup. Order before 3PM.",
     },
     faq: {
       title: "Frequently Asked Questions – Charls Flowers Miami",
@@ -797,7 +802,7 @@ export const en = {
     customBouquetsDesc: "Design your own bouquet with AI preview. 50-200 roses, any color.",
     deliveryRatesTitle: "Delivery Rates",
     rateClose: "0–5 miles",
-    rateCloseDetail: "$20 flat rate",
+    rateCloseDetail: "$25 flat rate",
     rateFar: "5–87 miles",
     rateFarDetail: "$1.60 per mile",
     minPreparation: "Minimum 2 hours preparation time",
@@ -924,10 +929,10 @@ export const en = {
       intro: "At Charls Flowers, we take pride in delivering fresh, beautiful flowers right to your door or ready for pickup at our store.",
       ratesHeading: "Delivery Rates",
       ratesItems: [
-        { label: "0 to 5 miles:", text: " $20 per delivery." },
-        { label: "More than 5 miles, up to 87 miles:", text: " $20 for the first 5 miles + $1.60 for each additional mile." },
+        { label: "0 to 5 miles:", text: " $25 per delivery." },
+        { label: "More than 5 miles, up to 87 miles:", text: " $25 for the first 5 miles + $1.60 for each additional mile." },
       ],
-      ratesExample: "Example: For a 10-mile delivery, the cost would be: $20 (first 5 miles) + (10-5) × $1.60 = $28.",
+      ratesExample: "Example: For a 10-mile delivery, the cost would be: $25 (first 5 miles) + (10-5) × $1.60 = $33.",
       taxes: "Taxes: All orders are subject to a 7% sales tax (6% Florida State + 1% Miami-Dade County), calculated and shown at checkout.",
       prepHeading: "Order Preparation",
       prepItems: [

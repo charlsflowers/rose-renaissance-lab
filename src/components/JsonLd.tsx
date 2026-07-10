@@ -58,8 +58,8 @@ export const serviceSchema = () => ({
   name: "Same-Day Flower Delivery Miami",
   provider: { "@id": "https://charlsflowers.com/#localbusiness" },
   areaServed: { "@type": "City", name: "Miami" },
-  description: "Same-day flower delivery across Miami up to 87 miles. Order before 3PM. $20 flat rate for 0-5 miles, $1.60/mile after.",
-  offers: { "@type": "Offer", price: "20.00", priceCurrency: "USD" },
+  description: "Same-day flower delivery across Miami up to 87 miles. Order before 3PM. $25 flat rate for 0-5 miles, $1.60/mile after.",
+  offers: { "@type": "Offer", price: "25.00", priceCurrency: "USD" },
 });
 
 export const websiteSchema = () => ({
@@ -239,7 +239,7 @@ export const blogPostingSchema = (args: {
 
 export const homepageFaqs = [
   { question: "Do you offer same-day flower delivery in Miami?", answer: "Yes! We offer same-day delivery across Miami up to 87 miles. Order before 3PM and your bouquet will be delivered today. Minimum 2 hours preparation time." },
-  { question: "How much does flower delivery cost in Miami?", answer: "$20 flat rate for 0-5 miles. $1.60 per mile from 5 to 87 miles. Free in-store pickup available at 7261 NW 12th St, Miami FL 33126." },
+  { question: "How much does flower delivery cost in Miami?", answer: "$25 flat rate for 0-5 miles. $1.60 per mile from 5 to 87 miles. Free in-store pickup available at 7261 NW 12th St, Miami FL 33126." },
   { question: "Can I customize my bouquet?", answer: "Yes! Use our custom bouquet builder to choose color, paper, quantity (50-200 roses), finish (natural, glitter, painted) and accessories. AI preview shows exactly what you'll receive." },
   { question: "What is the difference between glitter and natural bouquets?", answer: "Natural bouquets use fresh roses in their original color. Glitter bouquets have a premium glitter coating applied to the petals for a glamorous, long-lasting effect." },
   { question: "How does the AI bouquet preview work?", answer: "Our custom bouquet builder uses AI (powered by Gemini) to generate a realistic preview of your bouquet before you order, based on your color, quantity and finish selections." },

@@ -86,7 +86,7 @@ const Blog = () => {
                   <Link to="/delivery" className="text-primary hover:underline">
                     envío de flores en Miami
                   </Link>{" "}
-                  — incluyendo cómo funciona nuestra tarifa plana de $20 (0–5 mi) + $1.60/milla,
+                  — incluyendo cómo funciona nuestra tarifa plana de $25 (0–5 mi) + $1.60/milla,
                   qué barrios cubrimos el mismo día, y cómo gestionamos Fisher Island,
                   hospitales, hoteles y edificios de gran altura en Brickell o Miami Beach.
                   También cubrimos la organización de bodas y eventos: formas de ramo para la
@@ -128,7 +128,7 @@ const Blog = () => {
                   <Link to="/delivery" className="text-primary hover:underline">
                     flower delivery in Miami
                   </Link>{" "}
-                  — including how our flat $20 (0–5 mi) + $1.60/mile pricing works, which
+                  — including how our flat $25 (0–5 mi) + $1.60/mile pricing works, which
                   neighborhoods we cover same-day, and how we handle Fisher Island, hospitals,
                   hotels and high-rise buildings in Brickell or Miami Beach. We also cover
                   wedding and event planning: bouquet shapes for the bride, centerpieces, arches,

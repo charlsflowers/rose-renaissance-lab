@@ -90,9 +90,9 @@ const SEO_BY_FILTER: Record<Exclude<FilterType, "all">, { ns: string; path: stri
   "un-color": { ns: "seo.bouquetsSingleColor", path: "/bouquets/single-color" },
   "mezclas":  { ns: "seo.bouquetsMixed",       path: "/bouquets/mixed-color" },
   "zodiac":   { ns: "seo.bouquetsZodiac",      path: "/bouquets/zodiac" },
-  // Bicolor reuses the Mixed copy/SEO (it's a subset of mixes) — kept simple,
-  // no new translations needed and it stays canonical-friendly.
-  "bicolor":  { ns: "seo.bouquetsMixed",       path: "/bouquets/bicolor" },
+  // Bicolor has its own H1/title/meta (attacks "bicolor roses bouquet") so it
+  // does NOT cannibalize the Mixed collection.
+  "bicolor":  { ns: "seo.bouquetsBicolor",     path: "/bouquets/bicolor" },
 };
 
 interface BouquetProductsProps {

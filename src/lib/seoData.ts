@@ -8,8 +8,8 @@ export interface SeoEntry {
 export const seoData: Record<string, SeoEntry> = {
   // ── Part 1: Single-color & early mixes ──
   'pure-white': {
-    seoTitle: 'White Roses Bouquet Miami | Same-Day Delivery – Charls Flowers',
-    seoDescription: 'Buy a white roses bouquet in Miami with same-day delivery. Choose quantity and finish. Same-day delivery or free pickup. From $76. Order now.',
+    seoTitle: 'White Roses Bouquet — 50 to 200 Roses in Miami | Same-Day Delivery – Charls Flowers',
+    seoDescription: 'Buy a white roses bouquet in Miami — choose 50, 100, 150 or 200 roses with natural, glitter or painted finish. Same-day delivery or free pickup. From $76. Order now.',
     bodyHtml: '<p>Colors: white roses wrapped in white paper. The bouquet shown contains 100 roses. Available in 50, 100, 150, and 200 roses. Choose your finish: natural, glitter, or painted. Same-day delivery up to 87 miles. Free pickup in Miami, FL. From $76. <a href="https://charlsflowers.com/bouquets/single-color">Shop all single-color rose bouquets in Miami</a>.</p>',
   },
   'hot-pink-blush': {
@@ -18,43 +18,43 @@ export const seoData: Record<string, SeoEntry> = {
     bodyHtml: '<p>Colors: hot pink roses wrapped in pink paper. The bouquet shown contains 100 roses. Available in 50, 100, 150, and 200 roses. Choose your finish: natural, glitter, or painted. Same-day delivery up to 87 miles. Free pickup in Miami, FL. From $76. <a href="https://charlsflowers.com/bouquets/single-color">Browse our full single-color bouquet collection – Miami &amp; South Florida</a>.</p>',
   },
   'soft-pink': {
-    seoTitle: 'Pink Roses Bouquet Miami | Same-Day Delivery – Charls Flowers',
-    seoDescription: 'Buy a pink roses bouquet in Miami with same-day delivery. Choose quantity and finish. Same-day delivery or free pickup. From $76. Order now.',
+    seoTitle: 'Pink Roses Bouquet — 50 to 200 Roses in Miami | Same-Day Delivery – Charls Flowers',
+    seoDescription: 'Buy a pink roses bouquet in Miami — choose 50, 100, 150 or 200 roses with natural, glitter or painted finish. Same-day delivery or free pickup. From $76. Order now.',
     bodyHtml: '<p>Colors: pink roses wrapped in white paper. The bouquet shown contains 100 roses. Available in 50, 100, 150, and 200 roses. Choose your finish: natural, glitter, or painted. Same-day delivery up to 87 miles. Free pickup in Miami, FL. From $76. <a href="https://charlsflowers.com/bouquets/single-color">Order fresh single-color rose bouquets with same-day delivery in Miami</a>.</p>',
   },
   'purple-charm': {
-    seoTitle: 'Purple Roses Bouquet Miami | Same-Day Delivery – Charls Flowers',
-    seoDescription: 'Buy a purple roses bouquet in Miami with same-day delivery. Choose quantity and finish. Same-day delivery or free pickup. From $76. Order now.',
+    seoTitle: 'Purple Roses Bouquet — 50 to 200 Roses in Miami | Same-Day Delivery – Charls Flowers',
+    seoDescription: 'Buy a purple roses bouquet in Miami — choose 50, 100, 150 or 200 roses with natural, glitter or painted finish. Same-day delivery or free pickup. From $76. Order now.',
     bodyHtml: '<p>Colors: purple roses wrapped in black paper. The bouquet shown contains 100 roses. Available in 50, 100, 150, and 200 roses. Choose your finish: natural, glitter, or painted. Same-day delivery up to 87 miles. Free pickup in Miami, FL. From $76. <a href="https://charlsflowers.com/bouquets/single-color">See all handcrafted single-color bouquets available for pickup in Miami, FL</a>.</p>',
   },
   'orange-sunset': {
-    seoTitle: 'Orange Roses Bouquet Miami | Same-Day Delivery – Charls Flowers',
-    seoDescription: 'Buy an orange roses bouquet in Miami with same-day delivery. Choose quantity and finish. Same-day delivery or free pickup. From $76. Order now.',
+    seoTitle: 'Orange Roses Bouquet — 50 to 200 Roses in Miami | Same-Day Delivery – Charls Flowers',
+    seoDescription: 'Buy an orange roses bouquet in Miami — choose 50, 100, 150 or 200 roses with natural, glitter or painted finish. Same-day delivery or free pickup. From $76. Order now.',
     bodyHtml: '<p>Colors: orange roses wrapped in black paper. The bouquet shown contains 100 roses. Available in 50, 100, 150, and 200 roses. Choose your finish: natural, glitter, or painted. Same-day delivery up to 87 miles. Free pickup in Miami, FL. From $76. <a href="https://charlsflowers.com/bouquets/single-color">Shop all single-color rose bouquets in Miami</a>.</p>',
   },
   'radiant-sun': {
-    seoTitle: 'Yellow Roses Bouquet Miami | Same-Day Delivery – Charls Flowers',
-    seoDescription: 'Buy a yellow roses bouquet in Miami with same-day delivery. Choose quantity and finish. Same-day delivery or free pickup. From $76. Order now.',
+    seoTitle: 'Yellow Roses Bouquet — 50 to 200 Roses in Miami | Same-Day Delivery – Charls Flowers',
+    seoDescription: 'Buy a yellow roses bouquet in Miami — choose 50, 100, 150 or 200 roses with natural, glitter or painted finish. Same-day delivery or free pickup. From $76. Order now.',
     bodyHtml: '<p>Colors: yellow roses wrapped in beige paper. The bouquet shown contains 100 roses. Available in 50, 100, 150, and 200 roses. Choose your finish: natural, glitter, or painted. Same-day delivery up to 87 miles. Free pickup in Miami, FL. From $76. <a href="https://charlsflowers.com/bouquets/single-color">Browse our full single-color bouquet collection – Miami &amp; South Florida</a>.</p>',
   },
   'total-passion': {
-    seoTitle: 'Red Roses Bouquet Miami | Same-Day Delivery – Charls Flowers',
-    seoDescription: 'Buy a red roses bouquet in Miami with same-day delivery. Choose quantity and finish. Same-day delivery or free pickup. From $106. Order now.',
+    seoTitle: 'Red Roses Bouquet — 50 to 200 Roses in Miami | Same-Day Delivery – Charls Flowers',
+    seoDescription: 'Buy a red roses bouquet in Miami — choose 50, 100, 150 or 200 roses with natural, glitter or painted finish. Same-day delivery or free pickup. From $106. Order now.',
     bodyHtml: '<p>Colors: red roses wrapped in pink paper. The bouquet shown contains 100 roses. Available in 50, 100, 150, and 200 roses. Choose your finish: natural, glitter, or painted. Same-day delivery up to 87 miles. Free pickup in Miami, FL. From $106. <a href="https://charlsflowers.com/bouquets/single-color">Order fresh single-color rose bouquets with same-day delivery in Miami</a>.</p>',
   },
   'blue-sky': {
-    seoTitle: 'Blue Roses Bouquet Miami | Same-Day Delivery – Charls Flowers',
-    seoDescription: 'Buy a blue roses bouquet in Miami with same-day delivery. Choose quantity and finish. Same-day delivery or free pickup. From $136. Order now.',
+    seoTitle: 'Blue Roses Bouquet — 50 to 200 Roses in Miami | Same-Day Delivery – Charls Flowers',
+    seoDescription: 'Buy a blue roses bouquet in Miami — choose 50, 100, 150 or 200 roses with natural, glitter or painted finish. Same-day delivery or free pickup. From $136. Order now.',
     bodyHtml: '<p>Colors: blue painted roses wrapped in black paper. The bouquet shown contains 100 roses. Available in 50, 100, 150, and 200 roses. Choose your finish: natural, glitter, or painted. Same-day delivery up to 87 miles. Free pickup in Miami, FL. From $136. <a href="https://charlsflowers.com/bouquets/single-color">See all handcrafted single-color bouquets available for pickup in Miami, FL</a>.</p>',
   },
   'deep-night': {
-    seoTitle: 'Black Roses Bouquet Miami | Same-Day Delivery – Charls Flowers',
-    seoDescription: 'Buy a black roses bouquet in Miami with same-day delivery. Choose quantity and finish. Same-day delivery or free pickup. From $136. Order now.',
+    seoTitle: 'Black Roses Bouquet — 50 to 200 Roses in Miami | Same-Day Delivery – Charls Flowers',
+    seoDescription: 'Buy a black roses bouquet in Miami — choose 50, 100, 150 or 200 roses with natural, glitter or painted finish. Same-day delivery or free pickup. From $136. Order now.',
     bodyHtml: '<p>Colors: black painted roses wrapped in white paper. The bouquet shown contains 100 roses. Available in 50, 100, 150, and 200 roses. Choose your finish: natural, glitter, or painted. Same-day delivery up to 87 miles. Free pickup in Miami, FL. From $136. <a href="https://charlsflowers.com/bouquets/single-color">Shop all single-color rose bouquets in Miami</a>.</p>',
   },
   'green-fresh': {
-    seoTitle: 'Green Roses Bouquet Miami | Same-Day Delivery – Charls Flowers',
-    seoDescription: 'Buy a green roses bouquet in Miami with same-day delivery. Choose quantity and finish. Same-day delivery or free pickup. From $136. Order now.',
+    seoTitle: 'Green Roses Bouquet — 50 to 200 Roses in Miami | Same-Day Delivery – Charls Flowers',
+    seoDescription: 'Buy a green roses bouquet in Miami — choose 50, 100, 150 or 200 roses with natural, glitter or painted finish. Same-day delivery or free pickup. From $136. Order now.',
     bodyHtml: '<p>Colors: green painted roses wrapped in black paper. The bouquet shown contains 100 roses. Available in 50, 100, 150, and 200 roses. Choose your finish: natural, glitter, or painted. Same-day delivery up to 87 miles. Free pickup in Miami, FL. From $136. <a href="https://charlsflowers.com/bouquets/single-color">Browse our full single-color bouquet collection – Miami &amp; South Florida</a>.</p>',
   },
   'pink-white-dawn': {

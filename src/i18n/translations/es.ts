@@ -641,6 +641,11 @@ export const es = {
       description: "Ramos de rosas del zodiaco en Miami, un diseño por signo, de 50 a 200 rosas. Un regalo único con envío el mismo día en Miami. Pide ahora.",
       h1: "Ramos del Zodiaco",
     },
+    bouquetsBicolor: {
+      title: "Ramo de Rosas Bicolor en Miami | Dos Colores – Charls Flowers",
+      description: "Ramos de rosas bicolor en Miami — de dos colores, de 50 a 200 rosas, con envío el mismo día. Rojas y blancas y otras combinaciones. Pídelo hoy.",
+      h1: "Ramo de Rosas Bicolor en Miami",
+    },
     bouquetsRedRoses: {
       title: "Ramo de Rosas Rojas en Miami | Envío el Mismo Día – Charls Flowers",
       description: "Ramos de rosas rojas en Miami, de 50 a 200 rosas. El símbolo clásico del amor, hechos a mano con envío el mismo día hasta 87 millas. Pide antes de las 3PM.",
@@ -700,7 +705,7 @@ export const es = {
     },
     delivery: {
       title: "Envío de Flores en Miami | Mismo Día y Recogida Gratis",
-      description: "Flores a domicilio el mismo día en Miami hasta 87 millas. Tarifa de $20 para 0-5 millas y $1.60/milla después. Recogida gratis en tienda. Pide antes de las 3PM.",
+      description: "Flores a domicilio el mismo día en Miami hasta 87 millas. Tarifa de $25 para 0-5 millas y $1.60/milla después. Recogida gratis en tienda. Pide antes de las 3PM.",
     },
     faq: {
       title: "Preguntas Frecuentes | Charls Flowers Miami",
@@ -772,7 +777,7 @@ export const es = {
     customBouquetsDesc: "Diseña tu propio ramo con vista previa por IA. De 50 a 200 rosas, en cualquier color.",
     deliveryRatesTitle: "Tarifas de envío",
     rateClose: "0–5 millas",
-    rateCloseDetail: "20 USD tarifa fija",
+    rateCloseDetail: "25 USD tarifa fija",
     rateFar: "5–87 millas",
     rateFarDetail: "1,60 USD por milla",
     minPreparation: "Tiempo mínimo de preparación: 2 horas",
@@ -900,10 +905,10 @@ export const es = {
       intro: "En Charls Flowers nos enorgullece entregar flores frescas y bonitas directamente en tu puerta o tenerlas listas para recogerlas en nuestra tienda.",
       ratesHeading: "Tarifas de envío",
       ratesItems: [
-        { label: "De 0 a 5 millas:", text: " 20 USD por entrega." },
-        { label: "Más de 5 millas, hasta 87 millas:", text: " 20 USD por las primeras 5 millas + 1,60 USD por cada milla adicional." },
+        { label: "De 0 a 5 millas:", text: " 25 USD por entrega." },
+        { label: "Más de 5 millas, hasta 87 millas:", text: " 25 USD por las primeras 5 millas + 1,60 USD por cada milla adicional." },
       ],
-      ratesExample: "Ejemplo: para una entrega de 10 millas, el coste sería: 20 USD (primeras 5 millas) + (10-5) × 1,60 USD = 28 USD.",
+      ratesExample: "Ejemplo: para una entrega de 10 millas, el coste sería: 25 USD (primeras 5 millas) + (10-5) × 1,60 USD = 33 USD.",
       taxes: "Impuestos: todos los pedidos están sujetos a un impuesto sobre las ventas del 7 % (6 % del estado de Florida + 1 % del condado de Miami-Dade), calculado y mostrado en el momento del pago.",
       prepHeading: "Preparación del pedido",
       prepItems: [

@@ -146,7 +146,7 @@ export const LONG_TAIL_SEO: Record<string, LongTailEntry> = {
       ],
       closing: "Para un tono más intenso prueba con {{0}}, mira todo nuestro {{1}} o el catálogo completo de {{2}}.",
       links: [
-        { anchor: "rosas blancas", to: "/es/bouquets/rosas-rojas" },
+        { anchor: "rosas rojas", to: "/es/bouquets/rosas-rojas" },
         { anchor: "ramo de rosas", to: "/es/bouquets" },
         { anchor: "rosas", to: "/es/bouquets" },
       ],
@@ -191,7 +191,7 @@ export const LONG_TAIL_SEO: Record<string, LongTailEntry> = {
       ],
       closing: "También puedes ver nuestras {{0}}, todo el {{1}} disponible o el catálogo completo de {{2}}.",
       links: [
-        { anchor: "rosas rosadas naturales", to: "/es/bouquets/rosas-amarillas" },
+        { anchor: "rosas amarillas", to: "/es/bouquets/rosas-amarillas" },
         { anchor: "ramo de rosas", to: "/es/bouquets" },
         { anchor: "rosas", to: "/es/bouquets" },
       ],
@@ -236,7 +236,7 @@ export const LONG_TAIL_SEO: Record<string, LongTailEntry> = {
       ],
       closing: "Para tonos más cálidos prueba {{0}}, mira todo el {{1}} o el catálogo completo de {{2}}.",
       links: [
-        { anchor: "ramo de rosas amarillas", to: "/es/bouquets/rosas-rojas" },
+        { anchor: "rosas rojas", to: "/es/bouquets/rosas-rojas" },
         { anchor: "ramo de rosas", to: "/es/bouquets" },
         { anchor: "rosas", to: "/es/bouquets" },
       ],
@@ -281,7 +281,7 @@ export const LONG_TAIL_SEO: Record<string, LongTailEntry> = {
       ],
       closing: "Para otro tono raro mira {{0}}, todo el {{1}} o el catálogo completo de {{2}}.",
       links: [
-        { anchor: "ramo de rosas negras", to: "/es/bouquets/rosas-azules" },
+        { anchor: "rosas azules", to: "/es/bouquets/rosas-azules" },
         { anchor: "ramo de rosas", to: "/es/bouquets" },
         { anchor: "rosas", to: "/es/bouquets" },
       ],
@@ -326,7 +326,7 @@ export const LONG_TAIL_SEO: Record<string, LongTailEntry> = {
       ],
       closing: "Si quieres otro tono raro mira {{0}}, todo el {{1}} o el catálogo completo de {{2}}.",
       links: [
-        { anchor: "rosas azules naturales", to: "/es/bouquets/rosas-moradas" },
+        { anchor: "rosas moradas", to: "/es/bouquets/rosas-moradas" },
         { anchor: "ramo de rosas", to: "/es/bouquets" },
         { anchor: "rosas", to: "/es/bouquets" },
       ],
@@ -371,7 +371,7 @@ export const LONG_TAIL_SEO: Record<string, LongTailEntry> = {
       ],
       closing: "Si quieres un tono más cálido mira {{0}}, todo el {{1}} o el catálogo completo de {{2}}.",
       links: [
-        { anchor: "rosas moradas naturales", to: "/es/bouquets/rosas-naranjas" },
+        { anchor: "rosas naranjas", to: "/es/bouquets/rosas-naranjas" },
         { anchor: "ramo de rosas", to: "/es/bouquets" },
         { anchor: "rosas", to: "/es/bouquets" },
       ],
@@ -416,7 +416,7 @@ export const LONG_TAIL_SEO: Record<string, LongTailEntry> = {
       ],
       closing: "Si prefieres un tono más raro mira {{0}}, todo el {{1}} o el catálogo completo de {{2}}.",
       links: [
-        { anchor: "rosas naranjas", to: "/es/bouquets/rosas-verdes" },
+        { anchor: "rosas verdes", to: "/es/bouquets/rosas-verdes" },
         { anchor: "ramo de rosas", to: "/es/bouquets" },
         { anchor: "rosas", to: "/es/bouquets" },
       ],
@@ -454,7 +454,7 @@ export const LONG_TAIL_SEO: Record<string, LongTailEntry> = {
       ],
       closing: "Para otros tonos poco comunes mira {{0}}, todo el {{1}} o el catálogo completo de {{2}}.",
       links: [
-        { anchor: "rosas verdes", to: "/es/bouquets/rosas-amarillas" },
+        { anchor: "rosas amarillas", to: "/es/bouquets/rosas-amarillas" },
         { anchor: "ramo de rosas", to: "/es/bouquets" },
         { anchor: "rosas", to: "/es/bouquets" },
       ],

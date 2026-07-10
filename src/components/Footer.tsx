@@ -49,7 +49,7 @@ const Footer = () => {
             <img src={charlsLogo} alt="Charls Flowers" className="h-10 w-auto mb-3 brightness-0 invert" width={90} height={40} />
             <div className="space-y-2 font-body text-xs text-primary-foreground">
               <p className="flex items-start gap-2"><MapPin className="w-3.5 h-3.5 mt-0.5 shrink-0" /> 7261 NW 12th St, Miami, FL 33126</p>
-              <p className="flex items-center gap-2"><Phone className="w-3.5 h-3.5 shrink-0" /> <a href="tel:9044424042" className="hover:text-primary transition-colors">904-442-4042</a></p>
+              <p className="flex items-center gap-2"><Phone className="w-3.5 h-3.5 shrink-0" /> <a href="tel:9044424042" className="inline-block py-1 hover:text-primary transition-colors">904-442-4042</a></p>
               <div className="flex items-start gap-2"><Clock className="w-3.5 h-3.5 mt-0.5 shrink-0" />
                 <ul className="space-y-0.5">
                   <li>{t("footer.hoursLine1")}</li>
@@ -78,7 +78,7 @@ const Footer = () => {
                 { to: nationwidePath, label: t("footer.nationwideDelivery"), noLocalize: true },
                 { to: "/sitemap", label: t("nav.sitemap") },
               ].map(link => (
-                <Link key={link.to} to={link.to} noLocalize={link.noLocalize} className="hover:text-primary transition-colors">{link.label}</Link>
+                <Link key={link.to} to={link.to} noLocalize={link.noLocalize} className="inline-block py-1 hover:text-primary transition-colors">{link.label}</Link>
               ))}
             </div>
           </div>
@@ -94,12 +94,12 @@ const Footer = () => {
                 { to: "/shipping-policy", label: t("footer.shippingPolicy") },
                 { to: "/cookie-policy", label: t("footer.cookiePolicy") },
               ].map(link => (
-                <Link key={link.to} to={link.to} className="hover:text-primary transition-colors">{link.label}</Link>
+                <Link key={link.to} to={link.to} className="inline-block py-1 hover:text-primary transition-colors">{link.label}</Link>
               ))}
               <button
                 type="button"
                 onClick={openCookiePreferences}
-                className="text-left hover:text-primary transition-colors"
+                className="text-left inline-block py-1 hover:text-primary transition-colors"
               >
                 {t("footer.cookiePreferences")}
               </button>
@@ -110,9 +110,9 @@ const Footer = () => {
           <div>
             <p className="font-body text-xs tracking-widest uppercase text-primary-foreground mb-4">{t("footer.followUs")}</p>
             <div className="flex flex-col gap-2 font-body text-xs text-primary-foreground mb-6">
-              <a href="https://www.instagram.com/charlsflowers_?igsh=MzAzc3l1dGdkZWV2" target="_blank" rel="noopener noreferrer" className="hover:text-primary transition-colors">Instagram</a>
-              <a href="https://www.facebook.com/charlsflowersmiami" target="_blank" rel="noopener noreferrer" className="hover:text-primary transition-colors">Facebook</a>
-              <a href="https://www.tiktok.com/@charlsflowers_?_r=1&_t=ZN-96sa6qDFByA" target="_blank" rel="noopener noreferrer" className="hover:text-primary transition-colors">TikTok</a>
+              <a href="https://www.instagram.com/charlsflowers_?igsh=MzAzc3l1dGdkZWV2" target="_blank" rel="noopener noreferrer" className="inline-block py-1 hover:text-primary transition-colors">Instagram</a>
+              <a href="https://www.facebook.com/charlsflowersmiami" target="_blank" rel="noopener noreferrer" className="inline-block py-1 hover:text-primary transition-colors">Facebook</a>
+              <a href="https://www.tiktok.com/@charlsflowers_?_r=1&_t=ZN-96sa6qDFByA" target="_blank" rel="noopener noreferrer" className="inline-block py-1 hover:text-primary transition-colors">TikTok</a>
             </div>
             <PaymentIcons size={20} />
           </div>
@@ -139,7 +139,7 @@ const Footer = () => {
                   key={o.slug}
                   to={occasionPath(o.slug, o.slugEs)}
                   noLocalize
-                  className="hover:text-primary transition-colors"
+                  className="inline-block py-1 hover:text-primary transition-colors"
                 >
                   {stripCity(language === "es" ? o.h1.es : o.h1.en)}
                 </Link>
@@ -167,7 +167,7 @@ const Footer = () => {
                   key={f.slug}
                   to={flowerTypePath(f.slug, f.slugEs)}
                   noLocalize
-                  className="hover:text-primary transition-colors"
+                  className="inline-block py-1 hover:text-primary transition-colors"
                 >
                   {stripCity(language === "es" ? f.h1.es : f.h1.en)}
                 </Link>

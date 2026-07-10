@@ -10,6 +10,7 @@ import LandingZonesList from "@/components/landing/LandingZonesList";
 import LandingOccasions from "@/components/landing/LandingOccasions";
 import LandingFAQ from "@/components/landing/LandingFAQ";
 import LandingInternalLinks from "@/components/landing/LandingInternalLinks";
+import LazyMap from "@/components/LazyMap";
 import { getLandingPage } from "@/lib/landingPagesData";
 import { ArrowRight, MapPin, Truck, Store, Clock, Sparkles } from "lucide-react";
 import { useTranslation, stripLangPrefix } from "@/i18n/LanguageContext";
@@ -41,7 +42,7 @@ const LandingPage = () => {
     };
     return (
       <div className="min-h-screen bg-background">
-        <SeoHead title={page.seoTitle} description={page.seoDescription} path={`/${page.slug}`} />
+        <SeoHead title={page.seoTitle} description={page.seoDescription} path={`/${page.slug}`} enOnly />
         <JsonLd data={[
           localBusiness,
           faqSchema(seo.faqs.map(f => ({ question: f.question, answer: f.answer }))),
@@ -80,7 +81,7 @@ const LandingPage = () => {
                   <div className="flex items-center gap-2 p-3 bg-primary/5 rounded-lg">
                     <MapPin className="w-4 h-4 text-primary shrink-0" />
                     <div>
-                      <p className="font-body text-xs font-semibold text-foreground">$20</p>
+                      <p className="font-body text-xs font-semibold text-foreground">$25</p>
                       <p className="font-body text-xs text-muted-foreground">{t("landing.seoFirstMiles")}</p>
                     </div>
                   </div>
@@ -112,15 +113,13 @@ const LandingPage = () => {
               {/* Internal links */}
               <LandingInternalLinks title={seo.internalLinksTitle} links={seo.internalLinks} />
 
-              {/* Map */}
-              <div className="rounded-lg overflow-hidden mb-12" style={{ minHeight: 300 }}>
-                <iframe
+              {/* Map — only requested once it scrolls into view */}
+              <div className="rounded-lg overflow-hidden mb-12">
+                <LazyMap
                   title={`Charls Flowers Miami — ${seo.areaServed} delivery area`}
                   src="https://storage.googleapis.com/maps-solutions-0p9mp01my4/locator-plus/twwi/locator-plus.html"
-                  width="100%"
-                  height="300"
-                  style={{ border: 0 }}
-                  loading="lazy"
+                  className="block h-[300px] w-full rounded-lg align-top"
+                  style={{ minHeight: 300 }}
                 />
               </div>
 
@@ -143,7 +142,7 @@ const LandingPage = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      <SeoHead title={page.seoTitle} description={page.seoDescription} path={`/${page.slug}`} />
+      <SeoHead title={page.seoTitle} description={page.seoDescription} path={`/${page.slug}`} enOnly />
       <Navbar />
       <div className="pt-24 pb-16">
         <div className="container mx-auto px-6">

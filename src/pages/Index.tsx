@@ -12,13 +12,18 @@ import MothersDayHero from "@/components/MothersDayHero";
 import MothersDayBanner from "@/components/MothersDayBanner";
 import MothersDayCollectionSection from "@/components/MothersDayCollectionSection";
 import DynamicClusters from "@/components/DynamicClusters";
+import LazyMap from "@/components/LazyMap";
 import arreglosImg from "@/assets/arreglos.webp";
 import cajasImg from "@/assets/cajas.webp";
 import cestasImg from "@/assets/cestas.webp";
 import jarronesImg from "@/assets/jarrones.webp";
 import { useShopifyProductImages } from "@/hooks/useShopifyProductImages";
-const bicolorPassionImgFallback = 'https://cdn.shopify.com/s/files/1/0979/1671/5140/files/16.png?v=1774610789&width=602';
-const deluxeLoveImg = 'https://cdn.shopify.com/s/files/1/0979/1671/5140/files/3_adaa192a-8c9b-41b5-8586-cb7e13640829.png?v=1774615718&width=602';
+// Home category tiles render in ~400px squares — request a display-sized image
+// (not 602px) and a 2x variant via srcSet.
+const bicolorPassionImgFallback = 'https://cdn.shopify.com/s/files/1/0979/1671/5140/files/hf_20260521_142009_858d33d4-2436-4735-892f-feb3bc3a5cf8.png?v=1779392518&width=400';
+const bicolorPassionImgSrcSet = 'https://cdn.shopify.com/s/files/1/0979/1671/5140/files/hf_20260521_142009_858d33d4-2436-4735-892f-feb3bc3a5cf8.png?v=1779392518&width=400 400w, https://cdn.shopify.com/s/files/1/0979/1671/5140/files/hf_20260521_142009_858d33d4-2436-4735-892f-feb3bc3a5cf8.png?v=1779392518&width=800 800w';
+const deluxeLoveImg = 'https://cdn.shopify.com/s/files/1/0979/1671/5140/files/3_adaa192a-8c9b-41b5-8586-cb7e13640829.png?v=1774615718&width=400';
+const deluxeLoveImgSrcSet = 'https://cdn.shopify.com/s/files/1/0979/1671/5140/files/3_adaa192a-8c9b-41b5-8586-cb7e13640829.png?v=1774615718&width=400 400w, https://cdn.shopify.com/s/files/1/0979/1671/5140/files/3_adaa192a-8c9b-41b5-8586-cb7e13640829.png?v=1774615718&width=800 800w';
 
 const comingSoonSlugs = ["arreglos", "cajas", "cestas", "jarrones"];
 
@@ -30,13 +35,16 @@ const Index = ({ noindex = false }: { noindex?: boolean } = {}) => {
   // Live Bicolor Passion image (current first photo from Shopify)
   const bicolorImgs = useShopifyProductImages("bicolor-passion");
   const bicolorPassionImg = bicolorImgs.primary || bicolorPassionImgFallback;
-  const categories = [
-    { img: bicolorPassionImg, title: t("categories.bouquets"), slug: "bouquets", isRoute: true },
+  // Only attach the display-sized srcSet when we serve our own fallback CDN URL
+  // (the live Shopify featured image has no matching width variants prepared).
+  const bicolorSrcSet = bicolorImgs.primary ? undefined : bicolorPassionImgSrcSet;
+  const categories: { img: string; srcSet?: string; title: string; slug: string; isRoute?: boolean }[] = [
+    { img: bicolorPassionImg, srcSet: bicolorSrcSet, title: t("categories.bouquets"), slug: "bouquets", isRoute: true },
     { img: arreglosImg, title: t("categories.arrangements"), slug: "arreglos" },
     { img: cajasImg, title: t("categories.boxes"), slug: "cajas" },
     { img: cestasImg, title: t("categories.baskets"), slug: "cestas" },
     { img: jarronesImg, title: t("categories.vases"), slug: "jarrones" },
-    { img: deluxeLoveImg, title: t("categories.roomDecors"), slug: "room-decors", isRoute: true },
+    { img: deluxeLoveImg, srcSet: deluxeLoveImgSrcSet, title: t("categories.roomDecors"), slug: "room-decors", isRoute: true },
   ];
 
   const tickerTexts = [
@@ -192,7 +200,7 @@ const Index = ({ noindex = false }: { noindex?: boolean } = {}) => {
                   {isComingSoon ? (
                     <div className="block opacity-50 cursor-not-allowed">
                       <div className="relative overflow-hidden rounded-lg mb-4 aspect-square">
-                         <img src={item.img} alt={`${item.title} Miami – Charls Flowers`} loading="lazy" width={400} height={400} className="w-full h-full object-cover grayscale" />
+                         <img src={item.img} srcSet={item.srcSet} sizes="(min-width:1024px) 16vw, (min-width:768px) 33vw, 50vw" alt={`${item.title} Miami – Charls Flowers`} loading="lazy" width={400} height={400} className="w-full h-full object-cover grayscale" />
                         <div className="absolute inset-0 bg-foreground/30 flex items-center justify-center">
                           <div className="bg-foreground/70 px-3 py-1.5 rounded-lg flex items-center gap-1.5">
                             <Lock className="w-3.5 h-3.5 text-primary-foreground" />
@@ -205,7 +213,7 @@ const Index = ({ noindex = false }: { noindex?: boolean } = {}) => {
                   ) : isBlockedByPromo ? (
                     <div className="block opacity-50 cursor-not-allowed pointer-events-none" aria-disabled="true">
                       <div className="relative overflow-hidden rounded-lg mb-4 aspect-square">
-                        <img src={item.img} alt={`${item.title} Miami – Charls Flowers`} loading="lazy" width={400} height={400} className="w-full h-full object-cover" />
+                        <img src={item.img} srcSet={item.srcSet} sizes="(min-width:1024px) 16vw, (min-width:768px) 33vw, 50vw" alt={`${item.title} Miami – Charls Flowers`} loading="lazy" width={400} height={400} className="w-full h-full object-cover" />
                         <div className="absolute inset-0 bg-foreground/30 flex items-center justify-center">
                           <div className="bg-foreground/70 px-3 py-1.5 rounded-lg">
                             <span className="font-body text-[10px] text-primary-foreground tracking-widest uppercase">Available May 13</span>
@@ -217,7 +225,7 @@ const Index = ({ noindex = false }: { noindex?: boolean } = {}) => {
                   ) : (
                     <Link to={item.isRoute ? `/${item.slug}` : `/categoria/${item.slug}`} className="group block">
                        <div className="relative overflow-hidden rounded-lg mb-4 aspect-square">
-                        <img src={item.img} alt={`${item.title} Miami – Charls Flowers`} loading="lazy" width={400} height={400} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
+                        <img src={item.img} srcSet={item.srcSet} sizes="(min-width:1024px) 16vw, (min-width:768px) 33vw, 50vw" alt={`${item.title} Miami – Charls Flowers`} loading="lazy" width={400} height={400} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
                         <div className="absolute inset-0 bg-foreground/10 group-hover:bg-foreground/25 transition-colors" />
                       </div>
                       <h3 className="font-display text-lg font-semibold text-foreground text-center uppercase tracking-wide">{item.title}</h3>
@@ -379,12 +387,9 @@ const Index = ({ noindex = false }: { noindex?: boolean } = {}) => {
             <p className="text-primary font-body text-sm font-semibold mt-3">{t("home.deliveryAddress")}</p>
           </motion.div>
           <div className="mx-auto w-full max-w-4xl overflow-hidden rounded-lg">
-            <iframe
+            <LazyMap
               src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d4603.046257535852!2d-80.3160576236964!3d25.783063677338557!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x88d9b9b32f0991f1%3A0x492b0c41e05b5dff!2sCharls%20Flowers!5e1!3m2!1ses!2ses!4v1783354285230!5m2!1ses!2ses"
               className="block h-[320px] w-full rounded-lg align-top md:h-[420px]"
-              style={{ border: 0 }}
-              loading="lazy"
-              referrerPolicy="no-referrer-when-downgrade"
               title="Charls Flowers Miami Location"
             />
           </div>

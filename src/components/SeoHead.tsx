@@ -24,6 +24,16 @@ interface SeoHeadProps {
    * the self-referencing EN alternate.
    */
   noAlternateEs?: boolean;
+  /**
+   * English-only pages that are ALSO reachable under `/es` but have NO Spanish
+   * translation (e.g. the local landing pages, whose copy is EN-only and must
+   * NOT be machine-translated — it's validated marketing copy). When true the
+   * page always declares English (`<html lang="en">`), canonicals to the EN URL
+   * even when served at `/es/...`, and emits no ES `hreflang`. This consolidates
+   * the `/es` duplicate onto the EN original instead of shipping a page marked
+   * Spanish while its body is English.
+   */
+  enOnly?: boolean;
   article?: {
     datePublished: string;
     dateModified?: string;
@@ -31,7 +41,7 @@ interface SeoHeadProps {
   };
 }
 
-const SeoHead = ({ title, description, path = "", pathEs, image, type = "website", noindex = false, noAlternateEs = false, article }: SeoHeadProps) => {
+const SeoHead = ({ title, description, path = "", pathEs, image, type = "website", noindex = false, noAlternateEs = false, enOnly = false, article }: SeoHeadProps) => {
   const { language } = useTranslation();
   const ogImage = image || DEFAULT_IMAGE;
 
@@ -42,13 +52,16 @@ const SeoHead = ({ title, description, path = "", pathEs, image, type = "website
   const enUrl = `${BASE_URL}${cleanPath === "/" ? "" : cleanPath}`;
   const esUrl = `${BASE_URL}${cleanPathEs === "/" ? "/es" : `/es${cleanPathEs}`}`;
 
-  // Canonical: self-referencing per language.
-  const canonical = language === "es" ? esUrl : enUrl;
-  const ogLocale = language === "es" ? "es_US" : "en_US";
+  // enOnly pages always behave as English regardless of the active /es route.
+  const effLang = enOnly ? "en" : language;
+  const suppressEs = noAlternateEs || enOnly;
+  // Canonical: self-referencing per language (EN for enOnly pages).
+  const canonical = effLang === "es" ? esUrl : enUrl;
+  const ogLocale = effLang === "es" ? "es_US" : "en_US";
 
   return (
     <Helmet>
-      <html lang={language === "es" ? "es" : "en"} />
+      <html lang={effLang === "es" ? "es" : "en"} />
       <title>{title}</title>
       <meta name="description" content={description} />
       <link rel="canonical" href={canonical} />
@@ -56,8 +69,8 @@ const SeoHead = ({ title, description, path = "", pathEs, image, type = "website
 
       {/* hreflang — declares both EN and ES versions of this page */}
       <link rel="alternate" hrefLang="en" href={enUrl} />
-      {!noAlternateEs && <link rel="alternate" hrefLang="es" href={esUrl} />}
-      {!noAlternateEs && <link rel="alternate" hrefLang="x-default" href={enUrl} />}
+      {!suppressEs && <link rel="alternate" hrefLang="es" href={esUrl} />}
+      {!suppressEs && <link rel="alternate" hrefLang="x-default" href={enUrl} />}
 
       {/* Open Graph */}
       <meta property="og:title" content={title} />
@@ -66,8 +79,8 @@ const SeoHead = ({ title, description, path = "", pathEs, image, type = "website
       <meta property="og:url" content={canonical} />
       <meta property="og:type" content={type} />
       <meta property="og:locale" content={ogLocale} />
-      {!noAlternateEs && language === "es" && <meta property="og:locale:alternate" content="en_US" />}
-      {!noAlternateEs && language === "en" && <meta property="og:locale:alternate" content="es_US" />}
+      {!suppressEs && effLang === "es" && <meta property="og:locale:alternate" content="en_US" />}
+      {!suppressEs && effLang === "en" && <meta property="og:locale:alternate" content="es_US" />}
       <meta property="og:site_name" content="Charls Flowers" />
 
       {/* Twitter */}

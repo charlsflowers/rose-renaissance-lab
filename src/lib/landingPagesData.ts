@@ -78,7 +78,7 @@ export const landingPages: LandingPageData[] = [
         'University of Miami graduations, performances and faculty gifts',
       ],
       deliveryTitle: 'Delivery information for Coral Gables',
-      deliveryParagraph: "Coral Gables sits close to our Miami atelier — most addresses fall right around our 0–5 mile flat zone, so delivery to The Gables typically costs $20. Beyond 5 miles, the rate is $1.60 per additional mile, up to 87 miles total. Every order needs a minimum of 2 hours of preparation. For same-day delivery, place your order before 3PM Miami time; orders placed after the cutoff are scheduled for the next available window. Delivery hours are Monday to Friday 8AM–7PM, Saturday 8AM–5PM (closed Sundays). Free pickup is also available at 7261 NW 12th St, Miami FL 33126. Full details on our shipping policy page.",
+      deliveryParagraph: "Coral Gables sits close to our Miami atelier — most addresses fall right around our 0–5 mile flat zone, so delivery to The Gables typically costs $25. Beyond 5 miles, the rate is $1.60 per additional mile, up to 87 miles total. Every order needs a minimum of 2 hours of preparation. For same-day delivery, place your order before 3PM Miami time; orders placed after the cutoff are scheduled for the next available window. Delivery hours are Monday to Friday 8AM–7PM, Saturday 8AM–5PM (closed Sundays). Free pickup is also available at 7261 NW 12th St, Miami FL 33126. Full details on our shipping policy page.",
       faqTitle: 'Coral Gables delivery FAQs',
       faqs: [
         {
@@ -95,7 +95,7 @@ export const landingPages: LandingPageData[] = [
         },
         {
           question: 'How does office delivery work on Ponce de Leon Boulevard?',
-          answer: 'We deliver to office buildings along Ponce de Leon during business hours and coordinate with reception so the recipient gets the arrangement personally. Most Ponce de Leon addresses fall within our $20 flat-rate zone (0–5 miles from our NW 12th St atelier); beyond 5 miles the rate adds $1.60 per additional mile. Every order needs a minimum of 2 hours preparation, with same-day delivery available for orders placed before 3PM Miami time.',
+          answer: 'We deliver to office buildings along Ponce de Leon during business hours and coordinate with reception so the recipient gets the arrangement personally. Most Ponce de Leon addresses fall within our $25 flat-rate zone (0–5 miles from our NW 12th St atelier); beyond 5 miles the rate adds $1.60 per additional mile. Every order needs a minimum of 2 hours preparation, with same-day delivery available for orders placed before 3PM Miami time.',
         },
       ],
       internalLinksTitle: 'Looking for flower delivery in surrounding areas? We also serve:',
@@ -142,7 +142,7 @@ export const landingPages: LandingPageData[] = [
         'Office reception and lobby weekly flower programs',
       ],
       deliveryTitle: 'Delivery information for Doral',
-      deliveryParagraph: "Doral is one of the closest neighborhoods to our Miami atelier on NW 12th St — most Doral addresses fall comfortably within our 0–5 mile flat zone, so delivery typically costs $20. Beyond 5 miles, the rate is $1.60 per additional mile, up to 87 miles total. Every order needs a minimum of 2 hours of preparation. For same-day delivery, place your order before 3PM Miami time; orders placed after the cutoff are scheduled for the next available window. Delivery hours are Monday to Friday 8AM–7PM, Saturday 8AM–5PM (closed Sundays). Free pickup is also available at 7261 NW 12th St, Miami FL 33126. Full details on our shipping policy page.",
+      deliveryParagraph: "Doral is one of the closest neighborhoods to our Miami atelier on NW 12th St — most Doral addresses fall comfortably within our 0–5 mile flat zone, so delivery typically costs $25. Beyond 5 miles, the rate is $1.60 per additional mile, up to 87 miles total. Every order needs a minimum of 2 hours of preparation. For same-day delivery, place your order before 3PM Miami time; orders placed after the cutoff are scheduled for the next available window. Delivery hours are Monday to Friday 8AM–7PM, Saturday 8AM–5PM (closed Sundays). Free pickup is also available at 7261 NW 12th St, Miami FL 33126. Full details on our shipping policy page.",
       faqTitle: 'Doral delivery FAQs',
       faqs: [
         {
@@ -206,7 +206,7 @@ export const landingPages: LandingPageData[] = [
         'Hospital deliveries to Palm Springs and Hialeah Hospital',
       ],
       deliveryTitle: 'Delivery information for Hialeah',
-      deliveryParagraph: "Our Miami atelier on NW 12th St is right on the Hialeah border, so most Hialeah addresses fall within our 0–5 mile flat zone — delivery typically costs $20. Beyond 5 miles (deeper Hialeah Gardens or West Hialeah), the rate is $1.60 per additional mile, up to 87 miles total. Every order needs a minimum of 2 hours of preparation. For same-day delivery, place your order before 3PM Miami time; orders placed after the cutoff are scheduled for the next available window. Delivery hours are Monday to Friday 8AM–7PM, Saturday 8AM–5PM (closed Sundays). Free pickup is also available at 7261 NW 12th St, Miami FL 33126. Full details on our shipping policy page.",
+      deliveryParagraph: "Our Miami atelier on NW 12th St is right on the Hialeah border, so most Hialeah addresses fall within our 0–5 mile flat zone — delivery typically costs $25. Beyond 5 miles (deeper Hialeah Gardens or West Hialeah), the rate is $1.60 per additional mile, up to 87 miles total. Every order needs a minimum of 2 hours of preparation. For same-day delivery, place your order before 3PM Miami time; orders placed after the cutoff are scheduled for the next available window. Delivery hours are Monday to Friday 8AM–7PM, Saturday 8AM–5PM (closed Sundays). Free pickup is also available at 7261 NW 12th St, Miami FL 33126. Full details on our shipping policy page.",
       faqTitle: 'Hialeah delivery FAQs',
       faqs: [
         {
@@ -270,7 +270,7 @@ export const landingPages: LandingPageData[] = [
         'Sympathy arrangements to local funeral homes and family residences',
       ],
       deliveryTitle: 'Delivery information for Kendall',
-      deliveryParagraph: "Kendall sits roughly 8–15 miles from our Miami atelier depending on the address, so a typical Kendall delivery costs $20 for the first 5 miles plus $1.60 per additional mile — most addresses land in the $25–$35 range. Maximum delivery distance is 87 miles. Every order needs a minimum of 2 hours of preparation. For same-day delivery, place your order before 3PM Miami time; orders placed after the cutoff are scheduled for the next available window. Delivery hours are Monday to Friday 8AM–7PM, Saturday 8AM–5PM (closed Sundays). Free pickup is also available at 7261 NW 12th St, Miami FL 33126. Full details on our shipping policy page.",
+      deliveryParagraph: "Kendall sits roughly 8–15 miles from our Miami atelier depending on the address, so a typical Kendall delivery costs $25 for the first 5 miles plus $1.60 per additional mile — most addresses land in the $25–$35 range. Maximum delivery distance is 87 miles. Every order needs a minimum of 2 hours of preparation. For same-day delivery, place your order before 3PM Miami time; orders placed after the cutoff are scheduled for the next available window. Delivery hours are Monday to Friday 8AM–7PM, Saturday 8AM–5PM (closed Sundays). Free pickup is also available at 7261 NW 12th St, Miami FL 33126. Full details on our shipping policy page.",
       faqTitle: 'Kendall delivery FAQs',
       faqs: [
         {
@@ -287,7 +287,7 @@ export const landingPages: LandingPageData[] = [
         },
         {
           question: 'Do you cover West Kendall and Kendall Lakes?',
-          answer: 'Yes — we cover West Kendall, Kendall Lakes and the SW 137th Avenue corridor. These addresses sit farther from our atelier, so the per-mile rate applies ($20 flat for the first 5 miles plus $1.60 per additional mile), but the rest of our policy is the same: 2-hour minimum preparation and same-day delivery for orders placed before 3PM Miami time.',
+          answer: 'Yes — we cover West Kendall, Kendall Lakes and the SW 137th Avenue corridor. These addresses sit farther from our atelier, so the per-mile rate applies ($25 flat for the first 5 miles plus $1.60 per additional mile), but the rest of our policy is the same: 2-hour minimum preparation and same-day delivery for orders placed before 3PM Miami time.',
         },
       ],
       internalLinksTitle: 'Need flowers in nearby areas? We also serve:',
@@ -335,7 +335,7 @@ export const landingPages: LandingPageData[] = [
         'Executive assistant orders for partners, VIP clients and board members',
       ],
       deliveryTitle: 'Delivery information for Brickell',
-      deliveryParagraph: "Brickell sits within our core delivery radius from our Miami atelier, so most addresses fall close to our flat-rate zone. Our delivery rate is $20 for the first 0–5 miles and $1.60 per additional mile, up to 87 miles total. Every order needs a minimum of 2 hours of preparation. For same-day delivery, place your order before 3PM Miami time — orders placed after the cutoff are scheduled for the next available window. Our delivery hours are Monday to Friday 8AM–7PM, Saturday 8AM–5PM (closed Sundays). Free pickup is also available at 7261 NW 12th St, Miami FL 33126. Full details are on our shipping policy page.",
+      deliveryParagraph: "Brickell sits within our core delivery radius from our Miami atelier, so most addresses fall close to our flat-rate zone. Our delivery rate is $25 for the first 0–5 miles and $1.60 per additional mile, up to 87 miles total. Every order needs a minimum of 2 hours of preparation. For same-day delivery, place your order before 3PM Miami time — orders placed after the cutoff are scheduled for the next available window. Our delivery hours are Monday to Friday 8AM–7PM, Saturday 8AM–5PM (closed Sundays). Free pickup is also available at 7261 NW 12th St, Miami FL 33126. Full details are on our shipping policy page.",
       faqTitle: 'Brickell delivery FAQs',
       faqs: [
         {
@@ -352,7 +352,7 @@ export const landingPages: LandingPageData[] = [
         },
         {
           question: 'What is your delivery timing policy for Brickell?',
-          answer: 'Brickell orders follow our standard policy: a minimum of 2 hours preparation time, with same-day delivery available for orders placed before 3PM Miami time. Delivery rate is $20 for the first 0–5 miles and $1.60 per additional mile. Brickell typically falls within or close to our flat-rate zone from our NW 12th St atelier. Delivery hours: Mon–Fri 8AM–7PM, Sat 8AM–5PM, closed Sundays.',
+          answer: 'Brickell orders follow our standard policy: a minimum of 2 hours preparation time, with same-day delivery available for orders placed before 3PM Miami time. Delivery rate is $25 for the first 0–5 miles and $1.60 per additional mile. Brickell typically falls within or close to our flat-rate zone from our NW 12th St atelier. Delivery hours: Mon–Fri 8AM–7PM, Sat 8AM–5PM, closed Sundays.',
         },
       ],
       internalLinksTitle: "If you're looking for flower delivery in nearby areas, we also serve:",
@@ -399,7 +399,7 @@ export const landingPages: LandingPageData[] = [
         'Birthday surprises and gifts to creative professionals',
       ],
       deliveryTitle: 'Delivery information for Wynwood',
-      deliveryParagraph: "Wynwood sits within easy range of our Miami atelier — typical deliveries fall just inside or near our 0–5 mile flat zone, so most Wynwood addresses cost $20. For zones slightly farther into Edgewater or the Design District beyond 5 miles, the rate adds $1.60 per additional mile, up to 87 miles total. Every order needs a minimum of 2 hours of preparation. For same-day delivery, place your order before 3PM Miami time; orders placed after the cutoff are scheduled for the next available window. Delivery hours are Monday to Friday 8AM–7PM, Saturday 8AM–5PM (closed Sundays). Free pickup is also available at 7261 NW 12th St, Miami FL 33126. Full details on our shipping policy page.",
+      deliveryParagraph: "Wynwood sits within easy range of our Miami atelier — typical deliveries fall just inside or near our 0–5 mile flat zone, so most Wynwood addresses cost $25. For zones slightly farther into Edgewater or the Design District beyond 5 miles, the rate adds $1.60 per additional mile, up to 87 miles total. Every order needs a minimum of 2 hours of preparation. For same-day delivery, place your order before 3PM Miami time; orders placed after the cutoff are scheduled for the next available window. Delivery hours are Monday to Friday 8AM–7PM, Saturday 8AM–5PM (closed Sundays). Free pickup is also available at 7261 NW 12th St, Miami FL 33126. Full details on our shipping policy page.",
       faqTitle: 'Wynwood delivery FAQs',
       faqs: [
         {
@@ -416,7 +416,7 @@ export const landingPages: LandingPageData[] = [
         },
         {
           question: 'Do you deliver to the Design District?',
-          answer: 'Yes — the Design District is part of our Wynwood delivery zone. We deliver to retail boutiques, the residential towers and to Palm Court events. Most Design District addresses fall within our $20 flat-rate zone (0–5 miles from our NW 12th St atelier); addresses beyond 5 miles add $1.60 per additional mile. Standard policy applies: 2-hour minimum prep and 3PM Miami time cutoff for same-day.',
+          answer: 'Yes — the Design District is part of our Wynwood delivery zone. We deliver to retail boutiques, the residential towers and to Palm Court events. Most Design District addresses fall within our $25 flat-rate zone (0–5 miles from our NW 12th St atelier); addresses beyond 5 miles add $1.60 per additional mile. Standard policy applies: 2-hour minimum prep and 3PM Miami time cutoff for same-day.',
         },
       ],
       internalLinksTitle: 'Need flowers in nearby areas? We also serve:',
@@ -463,7 +463,7 @@ export const landingPages: LandingPageData[] = [
         'Yacht and superyacht deliveries at Miami Beach Marina',
       ],
       deliveryTitle: 'Delivery information for Miami Beach',
-      deliveryParagraph: "Miami Beach addresses sit roughly 8–12 miles from our atelier across the causeways, so most deliveries cost $20 (for the first 5 miles) plus $1.60 per additional mile — typically landing in the $25–$32 range. Maximum delivery distance is 87 miles. Every order needs a minimum of 2 hours of preparation. For same-day delivery, place your order before 3PM Miami time — orders placed after the cutoff are scheduled for the next available window. Delivery hours are Monday to Friday 8AM–7PM, Saturday 8AM–5PM (closed Sundays). Free pickup is also available at 7261 NW 12th St, Miami FL 33126. Fisher Island deliveries are charged at the standard rate — our driver handles the ferry coordination at no extra cost. Full details on our shipping policy page.",
+      deliveryParagraph: "Miami Beach addresses sit roughly 8–12 miles from our atelier across the causeways, so most deliveries cost $25 (for the first 5 miles) plus $1.60 per additional mile — typically landing in the $25–$32 range. Maximum delivery distance is 87 miles. Every order needs a minimum of 2 hours of preparation. For same-day delivery, place your order before 3PM Miami time — orders placed after the cutoff are scheduled for the next available window. Delivery hours are Monday to Friday 8AM–7PM, Saturday 8AM–5PM (closed Sundays). Free pickup is also available at 7261 NW 12th St, Miami FL 33126. Fisher Island deliveries are charged at the standard rate — our driver handles the ferry coordination at no extra cost. Full details on our shipping policy page.",
       faqTitle: 'Miami Beach delivery FAQs',
       faqs: [
         {
@@ -472,7 +472,7 @@ export const landingPages: LandingPageData[] = [
         },
         {
           question: 'Can you deliver to Fisher Island?',
-          answer: "Yes. Fisher Island is only accessible by ferry, but our driver handles the ferry coordination directly with the island's security — there is no additional charge. The standard delivery rate applies ($20 for the first 5 miles plus $1.60 per additional mile), calculated from our atelier to the island.",
+          answer: "Yes. Fisher Island is only accessible by ferry, but our driver handles the ferry coordination directly with the island's security — there is no additional charge. The standard delivery rate applies ($25 for the first 5 miles plus $1.60 per additional mile), calculated from our atelier to the island.",
         },
         {
           question: 'Do you deliver to yachts at Miami Beach Marina?',
@@ -480,7 +480,7 @@ export const landingPages: LandingPageData[] = [
         },
         {
           question: 'How does delivery work for Miami Beach addresses?',
-          answer: 'Miami Beach addresses are typically 8–12 miles from our atelier across the causeways, so most deliveries land in the $25–$32 range ($20 for the first 5 miles plus $1.60 per additional mile). The exact cost is calculated at checkout. Every order needs a minimum of 2 hours preparation, and same-day delivery requires placing your order before 3PM Miami time. Delivery hours: Mon–Fri 8AM–7PM, Sat 8AM–5PM, closed Sundays.',
+          answer: 'Miami Beach addresses are typically 8–12 miles from our atelier across the causeways, so most deliveries land in the $25–$32 range ($25 for the first 5 miles plus $1.60 per additional mile). The exact cost is calculated at checkout. Every order needs a minimum of 2 hours preparation, and same-day delivery requires placing your order before 3PM Miami time. Delivery hours: Mon–Fri 8AM–7PM, Sat 8AM–5PM, closed Sundays.',
         },
       ],
       internalLinksTitle: 'Need flowers in nearby areas? We also serve:',
@@ -527,7 +527,7 @@ export const landingPages: LandingPageData[] = [
         'Sympathy and get-well arrangements across North Miami-Dade',
       ],
       deliveryTitle: 'Delivery information for Aventura',
-      deliveryParagraph: "Aventura sits in North Miami-Dade, roughly 12–18 miles from our atelier depending on the address, so a typical Aventura delivery costs $20 for the first 5 miles plus $1.60 per additional mile — most addresses land in the $30–$40 range. Maximum delivery distance is 87 miles, so Aventura, Sunny Isles Beach and Bal Harbour are all well within range. Every order needs a minimum of 2 hours of preparation. For same-day delivery, place your order before 3PM Miami time; orders placed after the cutoff are scheduled for the next available window. Delivery hours are Monday to Friday 8AM–7PM, Saturday 8AM–5PM (closed Sundays). Free pickup is also available at 7261 NW 12th St, Miami FL 33126. Full details on our shipping policy page.",
+      deliveryParagraph: "Aventura sits in North Miami-Dade, roughly 12–18 miles from our atelier depending on the address, so a typical Aventura delivery costs $25 for the first 5 miles plus $1.60 per additional mile — most addresses land in the $30–$40 range. Maximum delivery distance is 87 miles, so Aventura, Sunny Isles Beach and Bal Harbour are all well within range. Every order needs a minimum of 2 hours of preparation. For same-day delivery, place your order before 3PM Miami time; orders placed after the cutoff are scheduled for the next available window. Delivery hours are Monday to Friday 8AM–7PM, Saturday 8AM–5PM (closed Sundays). Free pickup is also available at 7261 NW 12th St, Miami FL 33126. Full details on our shipping policy page.",
       faqTitle: 'Aventura delivery FAQs',
       faqs: [
         {
@@ -540,11 +540,11 @@ export const landingPages: LandingPageData[] = [
         },
         {
           question: 'Do you also deliver to Sunny Isles Beach and Bal Harbour?',
-          answer: 'Yes. Sunny Isles Beach and Bal Harbour are part of our Aventura delivery zone. We deliver to the condo towers along Collins Avenue and to the Bal Harbour Shops area. These addresses sit farther from our atelier, so the per-mile rate applies ($20 for the first 5 miles plus $1.60 per additional mile), but the rest of our policy is the same.',
+          answer: 'Yes. Sunny Isles Beach and Bal Harbour are part of our Aventura delivery zone. We deliver to the condo towers along Collins Avenue and to the Bal Harbour Shops area. These addresses sit farther from our atelier, so the per-mile rate applies ($25 for the first 5 miles plus $1.60 per additional mile), but the rest of our policy is the same.',
         },
         {
           question: 'What is your delivery timing policy for Aventura?',
-          answer: 'Aventura orders follow our standard policy: a minimum of 2 hours preparation time, with same-day delivery available for orders placed before 3PM Miami time. Delivery rate is $20 for the first 5 miles plus $1.60 per additional mile, so most Aventura addresses land in the $30–$40 range. Delivery hours: Mon–Fri 8AM–7PM, Sat 8AM–5PM, closed Sundays.',
+          answer: 'Aventura orders follow our standard policy: a minimum of 2 hours preparation time, with same-day delivery available for orders placed before 3PM Miami time. Delivery rate is $25 for the first 5 miles plus $1.60 per additional mile, so most Aventura addresses land in the $30–$40 range. Delivery hours: Mon–Fri 8AM–7PM, Sat 8AM–5PM, closed Sundays.',
         },
       ],
       internalLinksTitle: 'Need flowers in nearby areas? We also serve:',
@@ -598,7 +598,7 @@ export const landingPages: LandingPageData[] = [
         'Bilingual cards in English and Spanish for Día de las Madres',
       ],
       deliveryTitle: "Mother's Day delivery information",
-      deliveryParagraph: "We deliver across Miami-Dade up to 87 miles from our atelier. Delivery rate is $20 for the first 0–5 miles and $1.60 per additional mile. Every order needs a minimum of 2 hours of preparation. For same-day delivery on Mother's Day weekend, place your order before 3PM Miami time — but we strongly recommend pre-ordering at least 2–3 days in advance, since Mother's Day is our busiest delivery day and same-day windows fill up fast. Delivery hours are Monday to Friday 8AM–7PM and Saturday 8AM–5PM. We're normally closed on Sundays, but we do deliver on Mother's Day Sunday. Free pickup is also available at 7261 NW 12th St, Miami FL 33126. Full details on our shipping policy page.",
+      deliveryParagraph: "We deliver across Miami-Dade up to 87 miles from our atelier. Delivery rate is $25 for the first 0–5 miles and $1.60 per additional mile. Every order needs a minimum of 2 hours of preparation. For same-day delivery on Mother's Day weekend, place your order before 3PM Miami time — but we strongly recommend pre-ordering at least 2–3 days in advance, since Mother's Day is our busiest delivery day and same-day windows fill up fast. Delivery hours are Monday to Friday 8AM–7PM and Saturday 8AM–5PM. We're normally closed on Sundays, but we do deliver on Mother's Day Sunday. Free pickup is also available at 7261 NW 12th St, Miami FL 33126. Full details on our shipping policy page.",
       faqTitle: "Mother's Day flower FAQs",
       faqs: [
         {
@@ -615,7 +615,7 @@ export const landingPages: LandingPageData[] = [
         },
         {
           question: "Can I send Mother's Day flowers to my mom in the hospital?",
-          answer: 'Yes. We deliver to Baptist Hospital, Mercy Hospital, Mount Sinai, Jackson Memorial and other Miami hospitals — and Mother\'s Day is no exception. Just provide the patient name and room number. Standard delivery rates apply ($20 for the first 5 miles plus $1.60 per additional mile).',
+          answer: 'Yes. We deliver to Baptist Hospital, Mercy Hospital, Mount Sinai, Jackson Memorial and other Miami hospitals — and Mother\'s Day is no exception. Just provide the patient name and room number. Standard delivery rates apply ($25 for the first 5 miles plus $1.60 per additional mile).',
         },
       ],
       internalLinksTitle: 'Other categories you might be interested in:',
@@ -663,7 +663,7 @@ export const landingPages: LandingPageData[] = [
         'Photoshoot and content creation florals',
       ],
       deliveryTitle: 'Delivery information across Miami',
-      deliveryParagraph: "We deliver across Miami-Dade up to 87 miles from our atelier. Our delivery rate is $20 for the first 0–5 miles and $1.60 per additional mile. Every order needs a minimum of 2 hours of preparation. Same-day delivery is available for orders placed before 3PM Miami time; orders placed after the cutoff are scheduled for the next available window. Delivery hours are Monday to Friday 8AM–7PM, Saturday 8AM–5PM (closed Sundays). Free in-store pickup is available at 7261 NW 12th St, Miami FL 33126. Full details on our shipping policy page.",
+      deliveryParagraph: "We deliver across Miami-Dade up to 87 miles from our atelier. Our delivery rate is $25 for the first 0–5 miles and $1.60 per additional mile. Every order needs a minimum of 2 hours of preparation. Same-day delivery is available for orders placed before 3PM Miami time; orders placed after the cutoff are scheduled for the next available window. Delivery hours are Monday to Friday 8AM–7PM, Saturday 8AM–5PM (closed Sundays). Free in-store pickup is available at 7261 NW 12th St, Miami FL 33126. Full details on our shipping policy page.",
       faqTitle: 'Miami flower shop FAQs',
       faqs: [
         {
@@ -676,7 +676,7 @@ export const landingPages: LandingPageData[] = [
         },
         {
           question: 'What are your delivery times and costs?',
-          answer: 'Our delivery rate is $20 for the first 0–5 miles and $1.60 per additional mile, up to 87 miles total. Every order requires a minimum of 2 hours preparation. Same-day delivery is available for orders placed before 3PM Miami time. Delivery hours: Monday to Friday 8AM–7PM, Saturday 8AM–5PM (closed Sundays). Free pickup is available at 7261 NW 12th St, Miami FL 33126.',
+          answer: 'Our delivery rate is $25 for the first 0–5 miles and $1.60 per additional mile, up to 87 miles total. Every order requires a minimum of 2 hours preparation. Same-day delivery is available for orders placed before 3PM Miami time. Delivery hours: Monday to Friday 8AM–7PM, Saturday 8AM–5PM (closed Sundays). Free pickup is available at 7261 NW 12th St, Miami FL 33126.',
         },
         {
           question: 'Do you offer corporate or weekly subscription programs?',
@@ -735,7 +735,7 @@ export const landingPages: LandingPageData[] = [
         'Take-home mini bouquets for guests as party favors',
       ],
       deliveryTitle: 'Gender reveal delivery information',
-      deliveryParagraph: "We deliver across Miami-Dade up to 87 miles from our atelier. Delivery rate is $20 for the first 0–5 miles and $1.60 per additional mile. Every order needs a minimum of 2 hours of preparation. For same-day delivery on a single reveal bouquet, place your order before 3PM Miami time — orders placed after the cutoff are scheduled for the next available window. For full event setups (arches, centerpieces and installations), we recommend booking at least 1–2 weeks in advance so we can coordinate design, sourcing and on-site setup. Delivery hours are Monday to Friday 8AM–7PM, Saturday 8AM–5PM (closed Sundays). Free pickup is also available at 7261 NW 12th St, Miami FL 33126. Full details on our shipping policy page.",
+      deliveryParagraph: "We deliver across Miami-Dade up to 87 miles from our atelier. Delivery rate is $25 for the first 0–5 miles and $1.60 per additional mile. Every order needs a minimum of 2 hours of preparation. For same-day delivery on a single reveal bouquet, place your order before 3PM Miami time — orders placed after the cutoff are scheduled for the next available window. For full event setups (arches, centerpieces and installations), we recommend booking at least 1–2 weeks in advance so we can coordinate design, sourcing and on-site setup. Delivery hours are Monday to Friday 8AM–7PM, Saturday 8AM–5PM (closed Sundays). Free pickup is also available at 7261 NW 12th St, Miami FL 33126. Full details on our shipping policy page.",
       faqTitle: 'Gender reveal flower FAQs',
       faqs: [
         {
@@ -805,7 +805,7 @@ export const landingPages: LandingPageData[] = [
         'Stage, red-carpet and VIP welcome arrangements',
       ],
       deliveryTitle: '100 roses bouquet delivery in Miami',
-      deliveryParagraph: "We offer 100 roses delivery and same-day service across Miami: place your order before 3PM Miami time and we deliver the same day, up to 87 miles from our atelier. Our delivery rate is $20 for the first 0–5 miles and $1.60 per additional mile. Every order needs a minimum of 2 hours of preparation. A 100 roses bouquet is a large build, so for a guaranteed time window on a specific date we recommend ordering a day ahead. Delivery hours are Monday to Friday 8AM–7PM, Saturday 8AM–5PM (closed Sundays). Free pickup is also available at 7261 NW 12th St, Miami FL 33126. Full details on our shipping policy page.",
+      deliveryParagraph: "We offer 100 roses delivery and same-day service across Miami: place your order before 3PM Miami time and we deliver the same day, up to 87 miles from our atelier. Our delivery rate is $25 for the first 0–5 miles and $1.60 per additional mile. Every order needs a minimum of 2 hours of preparation. A 100 roses bouquet is a large build, so for a guaranteed time window on a specific date we recommend ordering a day ahead. Delivery hours are Monday to Friday 8AM–7PM, Saturday 8AM–5PM (closed Sundays). Free pickup is also available at 7261 NW 12th St, Miami FL 33126. Full details on our shipping policy page.",
       faqTitle: '100 roses bouquet FAQs',
       faqs: [
         {

@@ -71,7 +71,7 @@ const DynamicClusters = ({ excludeId, limit = 8 }: Props) => {
                 className="px-3 md:px-4 py-1.5 rounded-full bg-muted text-muted-foreground hover:bg-accent font-body text-xs md:text-sm transition-all"
               >
                 {t(c.ns)}{" "}
-                <span className="text-foreground/50">({c.count})</span>
+                <span className="text-muted-foreground">({c.count})</span>
               </Link>
             ))}
           </div>

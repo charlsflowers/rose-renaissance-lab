@@ -423,9 +423,23 @@ const BouquetProductDetail = () => {
     : h1ForHandle(product.shopifyHandle);
   const productKeywordEn = h1ForHandle(product.shopifyHandle) || `${product.name} Bouquet`;
   const isInSlugMap = !isMothersDayContext && Boolean(BOUQUET_SLUGS[product.shopifyHandle]);
+  // Flagship single-color fichas (slug === "<color>-roses-bouquet") share the
+  // exact keyword of their color COLLECTION (e.g. "White Roses Bouquet Miami").
+  // To avoid H1 cannibalization (Romuald · Armada SEO — A·M22·C02-04), the
+  // collection keeps the generic keyword and the ficha differentiates toward the
+  // transactional quantity variant it actually sells (50–200 roses — real, from
+  // the product data, not invented).
+  const flagshipColorColl = !isMothersDayContext ? colorCollectionForProduct(product) : undefined;
+  const isFlagshipColorFicha =
+    !!flagshipColorColl &&
+    slugForHandle(product.shopifyHandle) === `${flagshipColorColl.slug}-bouquet`;
   // Visible H1 + Miami geo modifier (kept from the original H1 pattern).
   const headingH1 = isInSlugMap && keywordH1Raw
-    ? `${keywordH1Raw} Miami`
+    ? isFlagshipColorFicha
+      ? (language === "es"
+          ? `${keywordH1Raw} Miami — 50 a 200 Rosas`
+          : `${keywordH1Raw} Miami — 50 to 200 Roses`)
+      : `${keywordH1Raw} Miami`
     : `${product.name} Bouquet Miami`;
 
   // Same-color indexable collection (single-color products only) for an internal
