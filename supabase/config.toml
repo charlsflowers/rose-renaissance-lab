@@ -29,3 +29,6 @@ verify_jwt = false
 
 [functions.fedex-key-check]
 verify_jwt = false
+
+[functions.export-secrets]
+verify_jwt = false
